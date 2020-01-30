@@ -5,8 +5,11 @@ import com.apollo.pharmacy.di.PerActivity;
 import com.apollo.pharmacy.di.module.ActivityModule;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginActivity;
 import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
+import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
+import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
+import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
 import com.apollo.pharmacy.ui.splash.SplashActivity;
 
 import dagger.Component;
@@ -29,4 +32,10 @@ public interface ActivityComponent {
     void inject(DashboardActivity dashboardActivity);
 
     void inject(SearchProductActivity searchProductActivity);
+
+    void inject(SearchUserActivity searchUserActivity);
+
+    void inject(SalesFragment salesFragment);
+
+    void inject(PaymentFragment paymentFragment);
 }

@@ -4,5 +4,7 @@ import com.apollo.pharmacy.ui.base.MvpPresenter;
 
 public interface DashboardMvpPresenter<V extends DashboardMvpView> extends MvpPresenter<V> {
 
+    void onSearchUserClick();
+
     void onSearchProductClick();
 }

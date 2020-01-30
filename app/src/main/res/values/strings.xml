@@ -48,4 +48,9 @@
     <string name="label_span_mrp">MRP: %1$s</string>
     <string name="label_span_tax">TAX: %1$s</string>
     <string name="label_span_reqQty">ReqQty: %1$s</string>
+
+    <string name="label_generic_name"> Name: %s</string>
+    <string name="label_generic_gender"> Gender: %s</string>
+    <string name="label_generic_phone_number"> Phone number: %s</string>
+    <string name="label_generic_dob"> DOB: %s</string>
 </resources>
