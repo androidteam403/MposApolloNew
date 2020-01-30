@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="productInfo"
+            type="com.apollo.pharmacy.ui.searchproduct.model.ProductInfoPojo" />
+    </data>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/ten_dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Art Code:"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            app:full_text="@{@string/label_span_artcode(productInfo.artCode)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.artCode}"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/eighty_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Description:"
+            app:full_text="@{@string/label_span_description(productInfo.desCription)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.desCription}"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:text="Category:"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            app:full_text="@{@string/label_span_category(productInfo.category)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.category}"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/one_hundred_dp"
+            android:text="SubCategory:"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            app:full_text="@{@string/label_span_sub(productInfo.subCategory)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.subCategory}"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:text="Manufacture:"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            app:full_text="@{@string/label_span_manifacture(productInfo.manufacture)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.manufacture}"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Generic Name:"
+            android:layout_marginStart="@dimen/fifty_dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            app:full_text="@{@string/label_span_generic(productInfo.generic)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.generic}"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RackId:"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginStart="@dimen/fifty_dp"
+            app:full_text="@{@string/label_span_rack(productInfo.rackId)}"
+            app:span_color="@{@color/black}"
+            app:span_font="@{`robotoMedium`}"
+            app:span_size="@{@dimen/span_text_size}"
+            app:span_text="@{productInfo.rackId}"
+            />
+    </LinearLayout>
+</LinearLayout>
+</layout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_activity_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/image_black_transperent"
+    android:orientation="vertical">
+
+    <com.apollo.mpos.utils.TouchImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/close_prescription"
+        android:layout_width="@dimen/thirty_five_dp"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_marginEnd="@dimen/five_dp"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/icon_close" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:text="Login" />
+</RelativeLayout>

@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="callback"
+            type="com.apollo.pharmacy.ui.dashboard.DashboardMvpPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/customerSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:background="@drawable/rectangular_red_shape"
+            android:orientation="horizontal"
+            android:padding="@dimen/five_dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Customer No:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="CUST-o123dj9"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <ImageView
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:backgroundTint="@color/light_blue"
+                        android:src="@drawable/icon_search_product" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Tracking Ref:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="1067-MIND TREE"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Telephone:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="8976655676"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Date Of Birth:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="06/01/1997"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Customer Name:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="Anupama"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Gender:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="Male"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Doctor:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="14-sb-f"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <ImageView
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:backgroundTint="@color/light_blue"
+                        android:src="@drawable/icon_search_product" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:orientation="horizontal"
+                    android:textColor="@color/black">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sales Origin:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="Regular Sales"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="PRG.Tracking:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="2013568713"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="TXN Id:"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangular_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/five_dp"
+                        android:text="200000104"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_above="@id/footer"
+            android:layout_below="@id/customerSet"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:onClick="@{()-> callback.onSearchProductClick()}">
+
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Search"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="@dimen/three_hundred_fifty_dp"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_marginStart="@dimen/sixty_dp"
+                    android:background="@drawable/rectangular_shape"
+                    android:text="" />
+
+                <TextView
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:background="@color/nav_header_color"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="@dimen/two_dp"
+                    android:text="ClearAll"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_16" />
+            </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/address_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/nav_header_color"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Disc Type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Pharma"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="0.95"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="FMCG"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="0.00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="PL"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="9.70"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Net Total"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="10.65"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Rounded Amt"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="0.00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="MRP Total:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="11.00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Taxable Amt:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="0.95"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Tax Amt:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="0.00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Disc Amount:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="9.70"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Savings%:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_background_white"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingStart="@dimen/five_dp"
+                    android:text="10.65"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

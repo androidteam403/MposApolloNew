@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="spinnerpojo"
+            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerPojo" />
+
+        <variable
+            name="storeId"
+            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerIdPojo" />
+
+        <variable
+            name="loginpojo"
+            type="com.apollo.pharmacy.ui.adminlogin.model.LoginPojo" />
+
+        <variable
+            name="handlers"
+            type="com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_hundred_eighty_dp"
+            android:background="@drawable/curve_toolbar_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/twenty_five_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/label_setup_process"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_please_login_to_complete_theprocess"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_15"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/eighty_dp"
+            android:layout_marginEnd="@dimen/eighty_dp"
+            android:layout_marginStart="@dimen/eighty_dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d_230"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_marginEnd="@dimen/twenty_dp"
+                    android:background="@color/cardview_shadow_color"
+                    app:cardCornerRadius="@dimen/five_dp"
+                    app:cardElevation="@dimen/fifteen_dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/five_dp">
+
+                        <com.tiper.MaterialSpinner
+                            android:id="@+id/spinner"
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_select_login_type"
+                            app:spinnerMode="bottomsheet" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/userName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_login_user"
+                                android:drawablePadding="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_username"
+                                android:inputType="textPersonName"
+                                android:singleLine="true"
+                                android:text="@{loginpojo.username}"
+                                android:textSize="@dimen/text_dimen_15" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_login_password"
+                                android:drawablePadding="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_password"
+                                android:inputType="textPassword"
+                                android:singleLine="true"
+                                android:text="@{loginpojo.passWord}"
+                                android:textSize="@dimen/text_dimen_15" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/text_dimen_20"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:background="@drawable/rounded_corners"
+                    android:onClick="@{()-> handlers.onLoginClick()}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/loginButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="@dimen/five_dp"
+                        android:text="@string/label_next"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_15"
+                        card_view:ignore="RtlSymmetry" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_two_dp"
+                        android:layout_height="@dimen/text_dimen_30"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/arrow" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
