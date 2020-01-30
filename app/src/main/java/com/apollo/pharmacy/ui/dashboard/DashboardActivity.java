@@ -3,7 +3,6 @@ package com.apollo.pharmacy.ui.dashboard;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -15,8 +14,8 @@ import com.apollo.pharmacy.databinding.ActivityDashboardBinding;
 import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.ui.dashboard.adapter.SelectedPharmacyListAdapter;
 import com.apollo.pharmacy.ui.dashboard.model.PharmaPojo;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
+import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
 
 import java.util.ArrayList;
 
@@ -75,6 +74,12 @@ public class DashboardActivity extends BaseActivity implements DashboardMvpView 
         pharmaPojo = new PharmaPojo("An0106", "Pa1997", "6567", "FMCG", "12/20/2016");
         pharmaPojoArrayList.add(pharmaPojo);
 
+    }
+
+    @Override
+    public void onSearchUserClick() {
+        startActivity(SearchUserActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override

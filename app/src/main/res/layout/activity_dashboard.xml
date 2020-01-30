@@ -53,6 +53,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:padding="@dimen/five_dp"
                         android:text="CUST-o123dj9"
+                        android:onClick="@{()-> callback.onSearchUserClick()}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
 

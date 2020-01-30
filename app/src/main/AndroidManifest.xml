@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.searchproduct.SearchProductActivity" />
+        <activity android:name=".ui.searchuser.SearchUserActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

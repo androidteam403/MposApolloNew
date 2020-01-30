@@ -12,12 +12,21 @@ import com.apollo.pharmacy.ui.adminlogin.AdminLoginPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpView;
 import com.apollo.pharmacy.ui.dashboard.DashboardPresenter;
+import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentMvpPresenter;
+import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentMvpView;
+import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentPresenter;
+import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpPresenter;
+import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpView;
+import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpView;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyPresenter;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpPresenter;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpView;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductPresenter;
+import com.apollo.pharmacy.ui.searchuser.SearchUserMvpPresenter;
+import com.apollo.pharmacy.ui.searchuser.SearchUserMvpView;
+import com.apollo.pharmacy.ui.searchuser.SearchUserPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpView;
 import com.apollo.pharmacy.ui.splash.SplashPresenter;
@@ -90,6 +99,22 @@ public class ActivityModule {
     @Provides
     @PerActivity
     SearchProductMvpPresenter<SearchProductMvpView> provideSearchProductActivity(SearchProductPresenter<SearchProductMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SearchUserMvpPresenter<SearchUserMvpView> provideSearchUserActivity(SearchUserPresenter<SearchUserMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    PaymentMvpPresenter<PaymentMvpView> providePaymentFragment(PaymentPresenter<PaymentMvpView> presenter) {
         return presenter;
     }
 }

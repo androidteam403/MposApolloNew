@@ -17,6 +17,11 @@ public class DashboardPresenter<V extends DashboardMvpView> extends BasePresente
     }
 
     @Override
+    public void onSearchUserClick() {
+        getMvpView().onSearchUserClick();
+    }
+
+    @Override
     public void onSearchProductClick() {
         getMvpView().onSearchProductClick();
     }
