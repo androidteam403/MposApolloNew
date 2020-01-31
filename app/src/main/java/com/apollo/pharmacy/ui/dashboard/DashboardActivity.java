@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.apollo.pharmacy.R;
@@ -16,9 +13,7 @@ import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.ui.dashboard.adapter.SelectedPharmacyListAdapter;
 import com.apollo.pharmacy.ui.dashboard.model.PharmaPojo;
 import com.apollo.pharmacy.ui.dashboard.tabview.ViewPagerAdapter;
-import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -38,6 +33,7 @@ public class DashboardActivity extends BaseActivity implements DashboardMvpView 
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, DashboardActivity.class);
     }
