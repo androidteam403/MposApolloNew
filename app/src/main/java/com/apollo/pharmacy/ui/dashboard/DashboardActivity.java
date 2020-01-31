@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.apollo.pharmacy.R;
@@ -18,9 +15,7 @@ import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.ui.dashboard.adapter.SelectedPharmacyListAdapter;
 import com.apollo.pharmacy.ui.dashboard.model.PharmaPojo;
 import com.apollo.pharmacy.ui.dashboard.tabview.ViewPagerAdapter;
-import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
