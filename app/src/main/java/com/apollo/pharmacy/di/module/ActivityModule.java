@@ -21,6 +21,9 @@ import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpView;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesPresenter;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpView;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpView;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyPresenter;
@@ -124,6 +127,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     AddUserMvpPresenter<AddUserMvpView> provideAddUserActivity(AddUserPresenter<AddUserMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PharmacistLoginMvpPresenter<PharmacistLoginMvpView> providePharmacistLoginActivity(PharmacistLoginPresenter<PharmacistLoginMvpView> presenter) {
         return presenter;
     }
 }
