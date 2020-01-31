@@ -10,7 +10,6 @@ import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -19,15 +18,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
-        if (position == 0)
-        {
+        if (position == 0) {
             fragment = new SalesFragment();
-        }
-        else if (position == 1)
-        {
+        } else if (position == 1) {
             fragment = new PaymentFragment();
         }
-
         return fragment;
     }
 
@@ -40,12 +35,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         String title = null;
-        if (position == 0)
-        {
+        if (position == 0) {
             title = "Sales";
-        }
-        else if (position == 1)
-        {
+        } else if (position == 1) {
             title = "Payments";
         }
         return title;

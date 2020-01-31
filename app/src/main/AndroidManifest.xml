@@ -39,7 +39,9 @@
         </activity>
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity" />
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
+
+        </activity>
     </application>
 
 </manifest>
