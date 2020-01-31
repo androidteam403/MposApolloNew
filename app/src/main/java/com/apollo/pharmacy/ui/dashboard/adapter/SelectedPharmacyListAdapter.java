@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollo.pharmacy.R;
 import com.apollo.pharmacy.databinding.PharmacyItemBinding;
+import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
 import com.apollo.pharmacy.ui.dashboard.model.PharmaPojo;
 
 import java.util.ArrayList;
 
 public class SelectedPharmacyListAdapter extends RecyclerView.Adapter<SelectedPharmacyListAdapter.MyViewHolder> {
-    private Context context;
+    private SalesFragment context;
     private ArrayList<PharmaPojo> pharmacyList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -27,7 +28,7 @@ public class SelectedPharmacyListAdapter extends RecyclerView.Adapter<SelectedPh
         }
     }
 
-    public SelectedPharmacyListAdapter(Context context, ArrayList<PharmaPojo> pharmacyList) {
+    public SelectedPharmacyListAdapter(SalesFragment context, ArrayList<PharmaPojo> pharmacyList) {
         this.context = context;
         this.pharmacyList = pharmacyList;
     }

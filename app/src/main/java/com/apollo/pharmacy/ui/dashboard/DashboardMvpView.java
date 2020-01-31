@@ -6,5 +6,4 @@ public interface DashboardMvpView extends MvpView {
 
     void onSearchUserClick();
 
-    void onSearchProductClick();
 }
