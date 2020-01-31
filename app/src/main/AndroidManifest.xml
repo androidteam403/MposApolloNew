@@ -33,6 +33,7 @@
         <activity android:name=".ui.searchproduct.SearchProductActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
