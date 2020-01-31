@@ -2,23 +2,35 @@ package com.apollo.pharmacy.ui.searchproduct.model;
 
 public class ProductInfoPojo {
 
+    private String productSno;
     private String artCode;
-    private String desCription;
-    private String category;
+    private String productDescription;
+    private String prodCategory;
     private String subCategory;
-    private String Manufacture;
-    private String generic;
+    private String schCatg;
+    private String prodManufacture;
     private String rackId;
+    private String genericName;
 
-    public ProductInfoPojo(String artCode, String desCription, String category, String subCategory,
-                           String manufacture, String generic, String rackId) {
+    public ProductInfoPojo(String productSno, String artCode, String productDescription,
+                           String prodCategory, String subCategory, String schCatg, String prodManufacture, String rackId, String genericName) {
+        this.productSno = productSno;
         this.artCode = artCode;
-        this.desCription = desCription;
-        this.category = category;
+        this.productDescription = productDescription;
+        this.prodCategory = prodCategory;
         this.subCategory = subCategory;
-        Manufacture = manufacture;
-        this.generic = generic;
+        this.schCatg = schCatg;
+        this.prodManufacture = prodManufacture;
         this.rackId = rackId;
+        this.genericName = genericName;
+    }
+
+    public String getProductSno() {
+        return productSno;
+    }
+
+    public void setProductSno(String productSno) {
+        this.productSno = productSno;
     }
 
     public String getArtCode() {
@@ -29,20 +41,20 @@ public class ProductInfoPojo {
         this.artCode = artCode;
     }
 
-    public String getDesCription() {
-        return desCription;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setDesCription(String desCription) {
-        this.desCription = desCription;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
-    public String getCategory() {
-        return category;
+    public String getProdCategory() {
+        return prodCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setProdCategory(String prodCategory) {
+        this.prodCategory = prodCategory;
     }
 
     public String getSubCategory() {
@@ -53,20 +65,20 @@ public class ProductInfoPojo {
         this.subCategory = subCategory;
     }
 
-    public String getManufacture() {
-        return Manufacture;
+    public String getSchCatg() {
+        return schCatg;
     }
 
-    public void setManufacture(String manufacture) {
-        Manufacture = manufacture;
+    public void setSchCatg(String schCatg) {
+        this.schCatg = schCatg;
     }
 
-    public String getGeneric() {
-        return generic;
+    public String getProdManufacture() {
+        return prodManufacture;
     }
 
-    public void setGeneric(String generic) {
-        this.generic = generic;
+    public void setProdManufacture(String prodManufacture) {
+        this.prodManufacture = prodManufacture;
     }
 
     public String getRackId() {
@@ -75,5 +87,13 @@ public class ProductInfoPojo {
 
     public void setRackId(String rackId) {
         this.rackId = rackId;
+    }
+
+    public String getGenericName() {
+        return genericName;
+    }
+
+    public void setGenericName(String genericName) {
+        this.genericName = genericName;
     }
 }
