@@ -145,14 +145,26 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:padding="@dimen/twelve_dp"
+                    android:textColor="@color/white"
+                    android:onClick="@{()-> handlers.onLoginClick()}"
+                    android:layout_gravity="end"
+                    android:background="@color/cpb_yellow"
+                    android:text="Login" />
+
                 <LinearLayout
                     android:layout_width="@dimen/eighty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/text_dimen_20"
                     android:layout_marginEnd="@dimen/fifteen_dp"
                     android:background="@drawable/rounded_corners"
-                    android:onClick="@{()-> handlers.onLoginClick()}"
                     android:orientation="horizontal">
 
                     <TextView

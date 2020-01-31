@@ -68,7 +68,7 @@
             android:visibility="visible">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/five_hundred_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:descendantFocusability="beforeDescendants"
@@ -78,9 +78,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/d_230"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_marginEnd="@dimen/twenty_dp"
+                    android:layout_height="@dimen/two_hundred_thirty_five_dp"
+                    android:layout_gravity="center"
                     android:background="@color/cardview_shadow_color"
                     app:cardCornerRadius="@dimen/five_dp"
                     app:cardElevation="@dimen/fifteen_dp">
@@ -147,14 +146,26 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:padding="@dimen/twelve_dp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    android:background="@color/cpb_yellow"
+                    android:text="Login" />
+
                 <LinearLayout
                     android:layout_width="@dimen/eighty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:onClick="@{()-> handlers.onLoginClick()}"
                     android:layout_marginTop="@dimen/text_dimen_20"
                     android:layout_marginEnd="@dimen/fifteen_dp"
                     android:background="@drawable/rounded_corners"
-                    android:onClick="@{()-> handlers.onLoginClick()}"
                     android:orientation="horizontal">
 
                     <TextView
@@ -166,7 +177,7 @@
                         android:fontFamily="@font/roboto_bold"
                         android:paddingStart="@dimen/five_dp"
                         android:text="@string/label_next"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_15"
                         card_view:ignore="RtlSymmetry" />
 
@@ -174,7 +185,8 @@
                         android:layout_width="@dimen/twenty_two_dp"
                         android:layout_height="@dimen/text_dimen_30"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/arrow" />
+                        android:src="@drawable/arrow"
+                        android:tint="@color/white"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

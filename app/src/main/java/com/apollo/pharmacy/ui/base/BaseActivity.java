@@ -51,6 +51,12 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
                 .applicationComponent(((ApolloMposApp) getApplication()).getComponent())
                 .build();
 
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
     }
 
     public ActivityComponent getActivityComponent() {

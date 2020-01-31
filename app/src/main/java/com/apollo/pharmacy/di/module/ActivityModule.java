@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollo.pharmacy.di.ActivityContext;
 import com.apollo.pharmacy.di.PerActivity;
+import com.apollo.pharmacy.ui.adduser.AddUserMvpPresenter;
+import com.apollo.pharmacy.ui.adduser.AddUserMvpView;
+import com.apollo.pharmacy.ui.adduser.AddUserPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpView;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginPresenter;
@@ -18,6 +21,9 @@ import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpView;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesPresenter;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpView;
+import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpPresenter;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpView;
 import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyPresenter;
@@ -91,6 +97,16 @@ public class ActivityModule {
     }
 
     @Provides
+    SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    PaymentMvpPresenter<PaymentMvpView> providePaymentFragment(PaymentPresenter<PaymentMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
     @PerActivity
     DashboardMvpPresenter<DashboardMvpView> provideDashboardActivityPresenter(DashboardPresenter<DashboardMvpView> presenter) {
         return presenter;
@@ -109,12 +125,14 @@ public class ActivityModule {
     }
 
     @Provides
-    SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
+    @PerActivity
+    AddUserMvpPresenter<AddUserMvpView> provideAddUserActivity(AddUserPresenter<AddUserMvpView> presenter) {
         return presenter;
     }
 
     @Provides
-    PaymentMvpPresenter<PaymentMvpView> providePaymentFragment(PaymentPresenter<PaymentMvpView> presenter) {
+    @PerActivity
+    PharmacistLoginMvpPresenter<PharmacistLoginMvpView> providePharmacistLoginActivity(PharmacistLoginPresenter<PharmacistLoginMvpView> presenter) {
         return presenter;
     }
 }
