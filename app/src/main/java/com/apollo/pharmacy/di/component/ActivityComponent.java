@@ -3,6 +3,7 @@ package com.apollo.pharmacy.di.component;
 
 import com.apollo.pharmacy.di.PerActivity;
 import com.apollo.pharmacy.di.module.ActivityModule;
+import com.apollo.pharmacy.ui.adduser.AddUserActivity;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginActivity;
 import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
 import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
@@ -31,11 +32,14 @@ public interface ActivityComponent {
 
     void inject(DashboardActivity dashboardActivity);
 
+    void inject(SalesFragment salesFragment);
+
+    void inject(PaymentFragment paymentFragment);
+
     void inject(SearchProductActivity searchProductActivity);
 
     void inject(SearchUserActivity searchUserActivity);
 
-    void inject(SalesFragment salesFragment);
+    void inject(AddUserActivity addUserActivity);
 
-    void inject(PaymentFragment paymentFragment);
 }

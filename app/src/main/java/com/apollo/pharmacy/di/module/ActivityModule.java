@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollo.pharmacy.di.ActivityContext;
 import com.apollo.pharmacy.di.PerActivity;
+import com.apollo.pharmacy.ui.adduser.AddUserMvpPresenter;
+import com.apollo.pharmacy.ui.adduser.AddUserMvpView;
+import com.apollo.pharmacy.ui.adduser.AddUserPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpView;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginPresenter;
@@ -91,6 +94,16 @@ public class ActivityModule {
     }
 
     @Provides
+    SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    PaymentMvpPresenter<PaymentMvpView> providePaymentFragment(PaymentPresenter<PaymentMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
     @PerActivity
     DashboardMvpPresenter<DashboardMvpView> provideDashboardActivityPresenter(DashboardPresenter<DashboardMvpView> presenter) {
         return presenter;
@@ -109,12 +122,8 @@ public class ActivityModule {
     }
 
     @Provides
-    SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
-        return presenter;
-    }
-
-    @Provides
-    PaymentMvpPresenter<PaymentMvpView> providePaymentFragment(PaymentPresenter<PaymentMvpView> presenter) {
+    @PerActivity
+    AddUserMvpPresenter<AddUserMvpView> provideAddUserActivity(AddUserPresenter<AddUserMvpView> presenter) {
         return presenter;
     }
 }

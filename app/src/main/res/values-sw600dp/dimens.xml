@@ -80,6 +80,7 @@
     <dimen name="four_hundred_twenty_dp">420dp</dimen>
     <dimen name="four_hundred_fifty_dp">450dp</dimen>
     <dimen name="four_hundred_seventy_dp">470dp</dimen>
+    <dimen name="five_hundred_dp">500dp</dimen>
 
     <dimen name="text_dimen_6">6sp</dimen>
     <dimen name="text_dimen_7">7sp</dimen>

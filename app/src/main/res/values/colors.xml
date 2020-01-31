@@ -26,6 +26,7 @@
     <color name="theme_start_color">#0b9494</color>
     <color name="theme_center_color">#02b8b9</color>
     <color name="theme_end_color">#00c2c3</color>
+    <color name="apollo_btn_color">#fead15</color>
     <color name="btn_color">#fdb813</color>
     <color name="btn_hover_color">#f7941d</color>
     <color name="nav_header_color">#28baba</color>
