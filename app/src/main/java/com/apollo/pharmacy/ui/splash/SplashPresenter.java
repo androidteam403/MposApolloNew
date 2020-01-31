@@ -27,11 +27,10 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
     }
 
     private void decideNextActivity() {
-//        if (getDataManager().isAdminSetUpFinish()) {
-//            getMvpView().openLoginActivity();
-//        } else {
-//            getMvpView().openAdminSetupActivity();
-//        }
-        getMvpView().openAdminSetupActivity();
+        if (getDataManager().isAdminSetUpFinish()) {
+            getMvpView().openLoginActivity();
+        } else {
+            getMvpView().openAdminSetupActivity();
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollo.pharmacy.R;
 import com.apollo.pharmacy.databinding.ActivitySearchProductBinding;
 import com.apollo.pharmacy.databinding.ActivitySearchUserBinding;
+import com.apollo.pharmacy.ui.adduser.AddUserActivity;
 import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpPresenter;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpView;
@@ -57,6 +59,7 @@ public class SearchUserActivity extends BaseActivity implements SearchUserMvpVie
 
     @Override
     protected void setUp() {
+        searchUserBinding.setCallBack(mPresenter);
         getAddressList();
         if (arrSearchCustomerAdapterModel.size() > 0) {
             searchCustomerAdapter = new SearchCustomerAdapter(this, arrSearchCustomerAdapterModel, mPresenter);
@@ -77,7 +80,8 @@ public class SearchUserActivity extends BaseActivity implements SearchUserMvpVie
 
     @Override
     public void onClickAdd() {
-
+        startActivity(AddUserActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     private void getAddressList() {
