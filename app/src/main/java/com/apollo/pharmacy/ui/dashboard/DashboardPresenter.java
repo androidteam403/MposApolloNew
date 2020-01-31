@@ -21,8 +21,5 @@ public class DashboardPresenter<V extends DashboardMvpView> extends BasePresente
         getMvpView().onSearchUserClick();
     }
 
-    @Override
-    public void onSearchProductClick() {
-        getMvpView().onSearchProductClick();
-    }
+
 }

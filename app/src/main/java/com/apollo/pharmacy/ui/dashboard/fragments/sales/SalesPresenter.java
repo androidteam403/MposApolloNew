@@ -22,4 +22,8 @@ public class SalesPresenter<V extends SalesMvpView> extends BasePresenter<V> imp
     public void onAttach(V mvpView) {
         super.onAttach(mvpView);
     }
+    @Override
+    public void onSearchProductClick() {
+        getMvpView().onProductSearchClick();
+    }
 }

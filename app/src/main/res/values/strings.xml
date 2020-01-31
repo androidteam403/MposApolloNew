@@ -87,4 +87,23 @@
     <string name="label_searchproduct">SearchProduct</string>
     <string name="label_todo">TODO</string>
 
+
+    <string name="label_span_disc_type">Disc Type\n%1$s</string>
+    <string name="label_span_pharma">Pharma\n%1$s</string>
+    <string name="label_span_fmcg">FMCG\n%1$s</string>
+    <string name="label_span_pl">PL\n%1$s</string>
+    <string name="label_span_net_total">Net Total\n%1$s</string>
+    <string name="label_span_rounded_amount">Rounded Amt\n%1$s</string>
+    <string name="label_span_mrp_total">MRP Total\n%1$s</string>
+    <string name="label_span_taxable_amount">Taxable Amt\n%1$s</string>
+    <string name="label_span_tax_amount">Tax Amount\n%1$s</string>
+    <string name="label_span_disc_amount">Disc. Amount\n%1$s</string>
+    <string name="label_span_savings">Savings\%%\n%1$s</string>
+    <string name="label_span_customer_no">Customer No.\n%1$s</string>
+    <string name="label_span_customer_name">Customer Name\n%1$s</string>
+    <string name="label_span_tracking_ref">Tracking Ref.\n%1$s</string>
+    <string name="label_span_mobile_no">Mobile No.\n%1$s</string>
+    <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
+    <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
+    <string name="label_transaction_id">Transaction ID\n%1$s</string>
 </resources>
