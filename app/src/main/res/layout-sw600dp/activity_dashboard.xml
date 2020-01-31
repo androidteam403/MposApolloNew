@@ -10,322 +10,206 @@
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/customerSet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/five_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginEnd="@dimen/five_dp"
-            android:background="@drawable/rectangular_red_shape"
-            android:orientation="horizontal"
-            android:padding="@dimen/five_dp">
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_margin="@dimen/five_dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.01"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="0.4"
+                android:background="@drawable/rectangular_shape">
 
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_address_close"
+                    android:tint="@color/black"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Customer No:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_forty_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:onClick="@{()-> callback.onSearchUserClick()}"
-                        android:padding="@dimen/five_dp"
-                        android:text="CUST-o123dj9"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <ImageView
-                        android:layout_width="@dimen/fifty_five_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:backgroundTint="@color/light_blue"
-                        android:src="@drawable/icon_search_product" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Tracking Ref:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="1067-MIND TREE"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Telephone:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="8976655676"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Date Of Birth:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="06/01/1997"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Customer Name:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="Anupama"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Gender:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="Male"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/five_dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Doctor:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_forty_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="14-sb-f"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <ImageView
-                        android:layout_width="@dimen/fifty_five_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:background="@drawable/rectangular_shape"
-                        android:backgroundTint="@color/light_blue"
-                        android:src="@drawable/icon_search_product" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:orientation="horizontal"
-                    android:textColor="@color/black">
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_customer_no(`54375433`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`54375433`}" />
 
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Sales Origin:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="Regular Sales"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_customer_name(`Raghavendra`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`Raghavendra`}" />
 
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="PRG.Tracking:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_tracking_ref(`6709043`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`6709043`}" />
 
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="2013568713"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_mobile_no(`9440012212`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`9440012212`}" />
 
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_search_product"
+                    android:tint="@color/black"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="0.35"
+                android:background="@drawable/rectangular_shape">
 
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_address_close"
+                    android:tint="@color/black"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_doctor_no(`15-OTHERS`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`15-OTHERS`}" />
 
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="TXN Id:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/grey"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_span_slaes_origin(`Regular Slaes`)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`Regular Slaes`}" />
 
-                    <TextView
-                        android:layout_width="@dimen/two_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_shape"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/five_dp"
-                        android:text="200000104"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_search_product"
+                    android:tint="@color/black"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="0.15"
+                android:background="@color/grey">
+
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_address_close"
+                    android:tint="@color/black"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_dimen_9"
+                    app:full_text="@{@string/label_transaction_id(`10001934`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`10001934`}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.01"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_tabview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/footer"
+            android:layout_above="@id/footer_layout"
             android:layout_below="@id/customerSet"
             android:layout_marginStart="@dimen/five_dp"
             android:layout_marginEnd="@dimen/five_dp"
@@ -389,266 +273,176 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/footer"
+            android:id="@+id/footer_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/ten_dp"
             android:background="@color/nav_header_color"
-            android:orientation="vertical"
-            android:padding="@dimen/ten_dp">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_weight="0.94"
+                android:padding="@dimen/ten_dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Disc Type"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_disc_type(`64565`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`64565`}" />
 
                 <TextView
-                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_pharma(`0.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`0.0`}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Pharma"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_fmcg(`0.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`0.0`}" />
 
                 <TextView
-                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="0.95"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_pl(`50.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`50.0`}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="FMCG"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_net_total(`50.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`50.0`}" />
 
                 <TextView
-                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="0.00"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_rounded_amount(`0.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`0.0`}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="PL"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_mrp_total(`50.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`50.0`}" />
 
                 <TextView
-                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="9.70"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_taxable_amount(`44.64`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`44.64`}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Net Total"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_tax_amount(`5.36`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`5.36`}" />
 
                 <TextView
-                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="10.65"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_disc_amount(`0.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`0.0`}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Rounded Amt"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/sixty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="0.00"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_11"
+                    app:full_text="@{@string/label_span_savings(`0.0`)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/span_regular_size}"
+                    app:span_text="@{`0.0`}" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="MRP Total:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/ninety_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="11.00"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Taxable Amt:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/sixty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="0.95"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Tax Amt:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/ninety_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="0.00"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Disc Amount:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/eighty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="9.70"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Savings%:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <TextView
-                    android:layout_width="@dimen/ninety_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rectangular_background_white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingStart="@dimen/five_dp"
-                    android:text="10.65"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.06"
+                android:text="PAY"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/cpb_yellow"
+                android:textSize="@dimen/text_dimen_15"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>
