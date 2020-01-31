@@ -31,13 +31,11 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
     SalesMvpPresenter<SalesMvpView> mPresenter;
     private ArrayList<PharmaPojo> pharmaPojoArrayList = null;
     private SelectedPharmacyListAdapter pharmacyListAdapter;
-
     private FragmentSalesBinding salesBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -50,16 +48,14 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,  @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
     protected void setUp(View view) {
-            salesBinding.setCallback(mPresenter);
+        salesBinding.setCallback(mPresenter);
         getPharmaList();
-
         if (pharmaPojoArrayList.size() > 0) {
             pharmacyListAdapter = new SelectedPharmacyListAdapter(this, pharmaPojoArrayList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -79,13 +75,11 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
         pharmaPojoArrayList.add(pharmaPojo);
         pharmaPojo = new PharmaPojo("An0106", "Pa1997", "6567", "FMCG", "12/20/2016");
         pharmaPojoArrayList.add(pharmaPojo);
-
     }
 
     @Override
     public void onProductSearchClick() {
         startActivity(SearchProductActivity.getStartIntent(getContext()));
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
     }
 }

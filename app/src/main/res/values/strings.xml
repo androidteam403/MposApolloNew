@@ -6,9 +6,10 @@
     <string name="label_please_login_to_complete_theprocess">Please login to complete the process</string>
     <string name="label_search_pharmacy">Search pharmacy by location or pincode</string>
     <string name="label_setup">Setup</string>
-    <string name="label_login">Login</string>
+    <string name="label_login">LOGIN</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
+    <string name="label_mobile">Mobile Number</string>
     <string name="label_next">Next</string>
     <string name="label_select_login_type">Select Login Type</string>
 
@@ -53,4 +54,12 @@
     <string name="label_generic_gender"> Gender: %s</string>
     <string name="label_generic_phone_number"> Phone number: %s</string>
     <string name="label_generic_dob"> DOB: %s</string>
+    <string name="label_forgot_password">Forgot Password?</string>
+    <string name="label_contact_us">CONTACT US</string>
+    <string name="label_e_mail_support_apollo_in">E-mail: support@apollo.in</string>
+    <string name="label_call_9855566633">Call:9855566633</string>
+    <string name="label_clearall">ClearAll</string>
+    <string name="label_search">Search</string>
+
+
 </resources>
