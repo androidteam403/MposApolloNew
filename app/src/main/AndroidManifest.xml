@@ -16,10 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.leftnav.LeftNavigationActivity">
-
-
-        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
@@ -42,6 +38,10 @@
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
         <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
+
+        </activity>
+        <activity android:name=".ui.leftnav.LeftNavigationActivity">
+
 
         </activity>
     </application>
