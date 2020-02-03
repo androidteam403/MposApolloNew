@@ -14,6 +14,9 @@ import com.apollo.pharmacy.R;
  * Email    : info@androidwave.com
  */
 public class CommonUtils {
+
+//    public String pattern = "[A-Za-z]";
+
     private CommonUtils() {
         // This utility class is not publicly instantiable
     }
@@ -29,5 +32,19 @@ public class CommonUtils {
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
+    }
+
+    public static boolean nameVallidate(String name) {
+        String pattern = "^[A-Za-z]*$";
+        if (name.matches(pattern)) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean mobileValidate(String mobile){
+        if (mobile.length() < 10){
+            return false;
+        }
+        return true;
     }
 }

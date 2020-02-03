@@ -13,25 +13,8 @@
     <string name="label_next">Next</string>
     <string name="label_select_login_type">Select Login Type</string>
 
-
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">Sign in</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="input_invalid">Email or password cannot be empty</string>
-    <string name="empty_screen">We do not have anything\nhere right now. Please Retry</string>
-    <string name="btn_retry">Retry</string>
-    <string name="title_home">Home</string>
+
 
     <string name="label_span_desc">Desc: %1$s</string>
     <string name="label_span_artcode">Art Code: %1$s</string>
@@ -88,7 +71,6 @@
     <string name="label_searchproduct">SearchProduct</string>
     <string name="label_todo">TODO</string>
 
-
     <string name="label_span_disc_type">Disc Type\n%1$s</string>
     <string name="label_span_pharma">Pharma\n%1$s</string>
     <string name="label_span_fmcg">FMCG\n%1$s</string>
@@ -107,6 +89,7 @@
     <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
     <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
     <string name="label_transaction_id">Transaction ID\n%1$s</string>
+    <string name="requied_qty">Requied Qty.</string>
     <string name="label_forgot_password">Forgot Password?</string>
     <string name="label_contact_us">CONTACT US</string>
     <string name="label_e_mail_support_apollo_in">E-mail: support@apollo.in</string>
@@ -114,7 +97,7 @@
     <string name="label_clearall">ClearAll</string>
     <string name="label_search">Search</string>
     <string name="label_register">Register</string>
-    <string name="label_first_name">First Name</string>
+    <string name="label_first_name">First Name*</string>
     <string name="label_middle_name">Middle Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_age">Age</string>
@@ -127,11 +110,11 @@
     <string name="label_zip_code">Zip Code</string>
     <string name="label_email">Email</string>
     <string name="label_telephone">Telephone</string>
-    <string name="label_mobile1">Mobile *</string>
+    <string name="label_mobile1">Mobile*</string>
     <string name="label_anniversary">Anniversary</string>
     <string name="label_marital_status">Marital Status</string>
     <string name="label_number_of_dependents">Number of Dependents</string>
-    <string name="label_card_number">Card Number</string>
+    <string name="label_card_number">Card Number*</string>
     <string name="label_date_of_registration">Date of Registration</string>
     <string name="label_submit">Submit</string>
     <string name="label_cancel">Cancel</string>
