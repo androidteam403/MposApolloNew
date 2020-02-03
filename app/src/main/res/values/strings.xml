@@ -9,6 +9,7 @@
     <string name="label_login">Login</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
+    <string name="label_mobile">Mobile Number</string>
     <string name="label_next">Next</string>
     <string name="label_select_login_type">Select Login Type</string>
 
@@ -54,6 +55,40 @@
     <string name="label_generic_phone_number"> Phone number: %s</string>
     <string name="label_generic_dob"> DOB: %s</string>
 
+    <string name="label_cashier">Cashier: %s</string>
+    <string name="label_storeCode">StoreCode: %s</string>
+    <string name="label_storeName">StoreCode: %s</string>
+    <string name="label_storeLocation">StoreLocation: %s</string>
+    <string name="label_terminalId">TerminalId %s</string>
+    <string name="lebel_item_batch_details_search">ITEM/BATCH DETAILS SEARCH</string>
+    <string name="label_intial">INTIAL</string>
+    <string name="label_img">img</string>
+    <string name="label_generic">GENERIC</string>
+    <string name="label_clear_all">Clear All</string>
+    <string name="label_s_no">S.No.</string>
+    <string name="label_artcode">ARTCODE</string>
+    <string name="label_description">DESCRIPTION</string>
+    <string name="label_category">CATEGORY</string>
+    <string name="label_sub_category">SUB CATEGORY</string>
+    <string name="label_sch_catg">SCH_CATG</string>
+    <string name="label_manufacture">MANUFACTURE</string>
+    <string name="label_rack_id">RACK ID</string>
+    <string name="labl_generic_name">GENERIC NAME</string>
+    <string name="label_batch_no">BATCH NO.</string>
+    <string name="label_substitute">SUBSTITUTE</string>
+    <string name="label_expiry_change">EXPIRY CHANGE</string>
+    <string name="labl_s_no">S.No.</string>
+    <string name="label_exp_date">EXP.DATE</string>
+    <string name="label_mrp">MRP</string>
+    <string name="label_tax">TAX</string>
+    <string name="label_q_o_h">Q O H</string>
+    <string name="label_req">REQ.QTY</string>
+    <string name="label_add_to_cart">ADD TO CART</string>
+    <string name="label_batchno">BATCHNO.</string>
+    <string name="label_searchproduct">SearchProduct</string>
+    <string name="label_todo">TODO</string>
+
+
     <string name="label_span_disc_type">Disc Type\n%1$s</string>
     <string name="label_span_pharma">Pharma\n%1$s</string>
     <string name="label_span_fmcg">FMCG\n%1$s</string>
@@ -72,4 +107,13 @@
     <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
     <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
     <string name="label_transaction_id">Transaction ID\n%1$s</string>
+    <string name="requied_qty">Requied Qty.</string>
+    <string name="label_forgot_password">Forgot Password?</string>
+    <string name="label_contact_us">CONTACT US</string>
+    <string name="label_e_mail_support_apollo_in">E-mail: support@apollo.in</string>
+    <string name="label_call_9855566633">Call:9855566633</string>
+    <string name="label_clearall">ClearAll</string>
+    <string name="label_search">Search</string>
+
+
 </resources>

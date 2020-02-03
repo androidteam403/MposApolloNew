@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apollo.pharmacy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
-        android:name="com.apollo.pharmacy.root.ApolloMposApp"
+        android:name=".root.ApolloMposApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.apollo.pharmacy.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -22,22 +26,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.adminlogin.AdminLoginActivity" />
         <activity
             android:name=".ui.searchpharmacy.SearchPharmacyActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ui.dashboard.DashboardActivity">
+                  </activity>
+        <activity android:name=".ui.searchproduct.SearchProductActivity" >
 
         </activity>
-        <activity android:name=".ui.searchproduct.SearchProductActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity"/>
-    </application>
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </activity>
+        <activity android:name=".ui.leftnav.LeftNavigationActivity">
+
+
+        </activity>
+    </application>
 
 </manifest>
