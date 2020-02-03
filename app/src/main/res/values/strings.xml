@@ -96,4 +96,9 @@
     <string name="label_call_9855566633">Call:9855566633</string>
     <string name="label_clearall">ClearAll</string>
     <string name="label_search">Search</string>
+    <string name="label_select_store_id">Select Store Id</string>
+    <string name="label_sitename">Sitename</string>
+    <string name="label_siteaddress">SiteAddress</string>
+    <string name="label_dcid">DcId</string>
+    <string name="label_dcname">DcName</string>
 </resources>

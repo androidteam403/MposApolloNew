@@ -20,13 +20,16 @@
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
+
+        </activity>
+
+        <activity android:name=".ui.adminlogin.AdminLoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.adminlogin.AdminLoginActivity" />
         <activity android:name=".ui.dashboard.DashboardActivity">
                   </activity>
         <activity android:name=".ui.searchproduct.SearchProductActivity" >
