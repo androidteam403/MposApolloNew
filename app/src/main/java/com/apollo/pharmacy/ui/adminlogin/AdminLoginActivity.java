@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.databinding.DataBindingUtil;
@@ -19,7 +17,6 @@ import com.apollo.pharmacy.databinding.ActivityAdminLoginBinding;
 import com.apollo.pharmacy.ui.adminlogin.model.SpinnerIdPojo;
 import com.apollo.pharmacy.ui.adminlogin.model.SpinnerPojo;
 import com.apollo.pharmacy.ui.base.BaseActivity;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyActivity;
 import com.apollo.pharmacy.utils.CommonUtils;
 import com.tiper.MaterialSpinner;
 

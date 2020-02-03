@@ -1,7 +1,5 @@
 package com.apollo.pharmacy.data.network;
 
-import com.apollo.pharmacy.ui.searchpharmacy.model.Pharmacy;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -32,6 +30,6 @@ public interface ApiInterface {
 //    @GET("780a4b58-2bca-11ea-8649-0d2b23060fa9")
 //    Call<List<Recipe>> getProducts();
 
-    @GET("381352b5-3e69-11ea-be6c-f9dd68604caf")
-    Call<Pharmacy> getPharmacyList();
+//    @GET("381352b5-3e69-11ea-be6c-f9dd68604caf")
+//    Call<Pharmacy> getPharmacyList();
 }
