@@ -213,6 +213,6 @@ public class SearchProductActivity extends BaseActivity implements SearchProduct
 
     @Override
     public void onItemClick(ProductInfoPojo productInfoPojo) {
-        searchProductBinding.batchInfoRecycler.setVisibility(View.VISIBLE);
+        searchProductBinding.fulllayout.setVisibility(View.VISIBLE);
     }
 }

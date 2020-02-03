@@ -91,6 +91,7 @@
 
                 <EditText
                     android:id="@+id/editSearch"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="@dimen/five_hundred_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:background="@null"
@@ -115,7 +116,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="@dimen/thirty_dp"
-                android:layout_marginStart="@dimen/twenty_dp"
+                android:layout_marginStart="@dimen/fifteen_dp"
                 android:layout_weight="0.1"
                 android:background="@color/red"
                 android:fontFamily="@font/roboto_regular"
@@ -127,36 +128,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/thirty_dp"
-            android:layout_marginStart="@dimen/five_dp"
             android:layout_marginTop="@dimen/three_dp"
-            android:layout_marginEnd="@dimen/five_dp"
+            android:weightSum="5"
             android:background="@drawable/rectangular_grey"
             android:orientation="horizontal"
             android:paddingTop="@dimen/five_dp">
 
             <TextView
-                android:layout_width="@dimen/forty_dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/five_dp"
                 android:paddingBottom="@dimen/ten_dp"
                 android:text="@string/label_s_no"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/eighty_dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
                 android:text="@string/label_artcode"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_12" />
 
-            <TextView
-                android:layout_width="@dimen/one_hundred_forty_dp"
+            <TextView android:layout_width="0dp"
+                android:layout_weight="0.8"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
                 android:text="@string/label_description"
@@ -164,7 +164,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/ninety_dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -173,7 +174,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/d_115dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -182,7 +184,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/ninety_dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -191,7 +194,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/d_120dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.65"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -200,7 +204,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="@dimen/seventy_dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.55"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -209,7 +214,8 @@
                 android:textSize="@dimen/text_dimen_12" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/ten_dp"
@@ -233,9 +239,14 @@
                 android:visibility="visible" />
 
             <LinearLayout
+                android:id="@+id/fulllayout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/thirty_five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
                 android:background="@color/black_transperent"
                 android:orientation="horizontal">
 
@@ -243,7 +254,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/five_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingTop="@dimen/five_dp"
                     android:text="@string/label_batch_no"
@@ -253,7 +263,7 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Requied Qty."
+                    android:hint="@string/requied_qty"
                     android:inputType="number"
                     android:textSize="@dimen/text_dimen_15"
                     android:textColor="@color/white"
@@ -287,25 +297,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/three_dp"
-                android:layout_marginEnd="@dimen/five_dp"
+                android:weightSum="3"
                 android:background="@drawable/rectangular_grey"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/five_dp">
 
                 <TextView
-                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/labl_s_no"
+                    android:layout_marginStart="@dimen/five_dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_thirty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_batchno"
@@ -313,9 +323,8 @@
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_seventy_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_exp_date"
@@ -323,8 +332,8 @@
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_thirty_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_mrp"
@@ -332,8 +341,8 @@
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_twenty_five_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_tax"
@@ -341,8 +350,8 @@
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_thirty_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_q_o_h"
@@ -350,8 +359,8 @@
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
-                    android:layout_width="@dimen/one_hundred_twenty_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingBottom="@dimen/ten_dp"
                     android:text="@string/label_req"
@@ -370,7 +379,7 @@
                     android:layout_height="@dimen/one_hundred_seventy_dp"
                     android:layout_marginBottom="@dimen/five_dp"
                     android:layoutAnimation="@anim/layout_animation"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -380,6 +389,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_add_to_cart"
                     android:textColor="@color/white" />
+            </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

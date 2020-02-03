@@ -107,6 +107,7 @@
     <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
     <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
     <string name="label_transaction_id">Transaction ID\n%1$s</string>
+    <string name="requied_qty">Requied Qty.</string>
     <string name="label_forgot_password">Forgot Password?</string>
     <string name="label_contact_us">CONTACT US</string>
     <string name="label_e_mail_support_apollo_in">E-mail: support@apollo.in</string>
