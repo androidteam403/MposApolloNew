@@ -46,12 +46,140 @@
                 android:textSize="@dimen/text_dimen_16" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/grey"
+            android:weightSum="5"
+            android:padding="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="S.No."
+                android:textAllCaps="true"
+                android:layout_weight="0.5"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Art Code"
+                android:layout_weight="1.0"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:layout_weight="0.8"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qty."
+                android:layout_weight="0.3"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cat."
+                android:layout_weight="0.35"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manuf."
+                android:layout_weight="0.4"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Batch No."
+                android:layout_weight="0.3"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expiry Dt."
+                android:layout_weight="0.2"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MRP REMI."
+                android:layout_weight="0.3"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tax%"
+                android:layout_weight="0.2"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tax Value"
+                android:layout_weight="0.4"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:layout_weight="0.08"
+                android:textAllCaps="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_13"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/address_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/five_dp" />
-
     </LinearLayout>
 </layout>
