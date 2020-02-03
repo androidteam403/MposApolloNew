@@ -15,9 +15,6 @@ import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class PharmacistLoginActivity extends BaseActivity implements PharmacistLoginMvpView {
     @Inject
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
@@ -28,7 +25,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         return new Intent(context, PharmacistLoginActivity.class);
     }
 
-    // UI references.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,32 +55,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         finish();
     }
 
-
-    @Override
-    public String getMobile() {
-        return null;
-    }
-
-    @Override
-    public String getOtp() {
-        return null;
-    }
-
-    @Override
-    public void showInputMobileError(String errorMessage) {
-
-    }
-
-    @Override
-    public void showInputOtpError(String errorMessage) {
-
-    }
-
-    @Override
-    public void onSuccessSendOtp() {
-
-    }
-
     @Override
     public void onSuccessLogin() {
         Intent intent = getIntent();
@@ -103,20 +73,18 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     private boolean validations() {
-        String name = pharmacistLoginBinding.name.getText().toString();
+        String name = pharmacistLoginBinding.callNumber.getText().toString();
         String password = pharmacistLoginBinding.password.getText().toString();
         if (name.isEmpty()) {
-            pharmacistLoginBinding.name.setError("Name should not empty");
-            pharmacistLoginBinding.name.requestFocus();
+            pharmacistLoginBinding.callNumber.setError("Name should not empty");
+            pharmacistLoginBinding.callNumber.requestFocus();
             return false;
         } else if (password.isEmpty()) {
             pharmacistLoginBinding.password.setError("password should not empty");
             pharmacistLoginBinding.password.requestFocus();
             return false;
-
         }
         return true;
     }
-
 }
 
