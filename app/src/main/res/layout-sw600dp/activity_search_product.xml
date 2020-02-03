@@ -60,7 +60,7 @@
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/d_58dp"
+                    android:layout_height="@dimen/fifty_eight_dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/label_img"
                     android:src="@drawable/tick_mark" />
