@@ -10,9 +10,9 @@
     <application
         android:name=".root.ApolloMposApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_apollo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round_apollo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -27,9 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.adminlogin.AdminLoginActivity" />
-        <activity
-            android:name=".ui.searchpharmacy.SearchPharmacyActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ui.dashboard.DashboardActivity">
                   </activity>
         <activity android:name=".ui.searchproduct.SearchProductActivity" >
@@ -44,6 +41,7 @@
 
 
         </activity>
+        <activity android:name=".ui.adddoctor.AddDoctorActivity"/>
     </application>
 
 </manifest>

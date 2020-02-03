@@ -27,6 +27,7 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
         super.onCreate(savedInstanceState);
         splashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         getActivityComponent().inject(this);
+        setUp();
         mPresenter.onAttach(SplashActivity.this);
     }
 

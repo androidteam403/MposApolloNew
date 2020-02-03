@@ -15,7 +15,7 @@ import com.apollo.pharmacy.databinding.ActivityAdminLoginBinding;
 import com.apollo.pharmacy.ui.adminlogin.model.SpinnerIdPojo;
 import com.apollo.pharmacy.ui.adminlogin.model.SpinnerPojo;
 import com.apollo.pharmacy.ui.base.BaseActivity;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyActivity;
+import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
 
 import java.util.ArrayList;
 
@@ -72,7 +72,7 @@ public class AdminLoginActivity extends BaseActivity implements AdminLoginMvpVie
     @Override
     public void onLoginClick() {
         if (validations()) {
-            startActivity(SearchPharmacyActivity.getStartIntent(this));
+            startActivity(DashboardActivity.getStartIntent(this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }
@@ -80,7 +80,7 @@ public class AdminLoginActivity extends BaseActivity implements AdminLoginMvpVie
     @Override
     public void onSetUpClick() {
         if (validations()) {
-            startActivity(SearchPharmacyActivity.getStartIntent(this));
+            startActivity(DashboardActivity.getStartIntent(this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }

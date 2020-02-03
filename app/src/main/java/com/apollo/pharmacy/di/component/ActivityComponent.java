@@ -3,13 +3,13 @@ package com.apollo.pharmacy.di.component;
 
 import com.apollo.pharmacy.di.PerActivity;
 import com.apollo.pharmacy.di.module.ActivityModule;
+import com.apollo.pharmacy.ui.adddoctor.AddDoctorActivity;
 import com.apollo.pharmacy.ui.adduser.AddUserActivity;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginActivity;
 import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
 import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginActivity;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
 import com.apollo.pharmacy.ui.splash.SplashActivity;
@@ -29,8 +29,6 @@ public interface ActivityComponent {
 
     void inject(AdminLoginActivity adminLoginActivity);
 
-    void inject(SearchPharmacyActivity searchPharmacyActivity);
-
     void inject(DashboardActivity dashboardActivity);
 
     void inject(SalesFragment salesFragment);
@@ -44,4 +42,6 @@ public interface ActivityComponent {
     void inject(AddUserActivity addUserActivity);
 
     void inject(PharmacistLoginActivity pharmacistLoginActivity);
+
+    void inject(AddDoctorActivity addDoctorActivity);
 }
