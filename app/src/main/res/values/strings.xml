@@ -106,4 +106,5 @@
     <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
     <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
     <string name="label_transaction_id">Transaction ID\n%1$s</string>
+    <string name="requied_qty">Requied Qty.</string>
 </resources>

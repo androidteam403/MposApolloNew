@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_marginStart="@dimen/five_dp"
+        android:layout_marginTop="@dimen/three_dp"
+        android:layout_marginEnd="@dimen/five_dp"
+        android:background="@drawable/rectangular_grey"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:paddingTop="@dimen/five_dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_s_no"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_artcode"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_description"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_category"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_sub_category"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_sch_catg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_manufacture"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/label_rack_id"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="@string/labl_generic_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_12" />
+    </LinearLayout>
+</LinearLayout>
