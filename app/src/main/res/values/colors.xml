@@ -156,4 +156,5 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#777</color>
     <color name="yello_outlet">#FFB319</color>
     <color name="green_outlet">#7F9900</color>
+    <color name="orange">#FFA500</color>
 </resources>
