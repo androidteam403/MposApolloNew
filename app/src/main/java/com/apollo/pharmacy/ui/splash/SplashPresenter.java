@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> implements SplashMvpPresenter<V> {
-    private static final long SPLASH_DISPLAY_LENGTH = 2500;
+    private static final long SPLASH_DISPLAY_LENGTH = 2000;
 
     @Inject
     public SplashPresenter(DataManager dataManager, SchedulerProvider schedulerProvider,
