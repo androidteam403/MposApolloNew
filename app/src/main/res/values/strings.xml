@@ -113,6 +113,28 @@
     <string name="label_call_9855566633">Call:9855566633</string>
     <string name="label_clearall">ClearAll</string>
     <string name="label_search">Search</string>
+    <string name="label_register">Register</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_middle_name">Middle Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_age">Age</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_date_of_birth">Date of Birth</string>
+    <string name="label_postal_address">Postal Address</string>
+    <string name="label_city">City</string>
+    <string name="label_state">State</string>
+    <string name="label_district">District</string>
+    <string name="label_zip_code">Zip Code</string>
+    <string name="label_email">Email</string>
+    <string name="label_telephone">Telephone</string>
+    <string name="label_mobile1">Mobile *</string>
+    <string name="label_anniversary">Anniversary</string>
+    <string name="label_marital_status">Marital Status</string>
+    <string name="label_number_of_dependents">Number of Dependents</string>
+    <string name="label_card_number">Card Number</string>
+    <string name="label_date_of_registration">Date of Registration</string>
+    <string name="label_submit">Submit</string>
+    <string name="label_cancel">Cancel</string>
 
 
 </resources>

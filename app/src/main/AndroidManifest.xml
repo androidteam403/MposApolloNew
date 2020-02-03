@@ -31,14 +31,16 @@
         <activity android:name=".ui.dashboard.DashboardActivity">
                   </activity>
         <activity android:name=".ui.searchproduct.SearchProductActivity" >
+
+        </activity>
+        <activity android:name=".ui.searchuser.SearchUserActivity" />
+        <activity android:name=".ui.adduser.AddUserActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.searchuser.SearchUserActivity" />
-        <activity android:name=".ui.adduser.AddUserActivity" />
         <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
 
         </activity>

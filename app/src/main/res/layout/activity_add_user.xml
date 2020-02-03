@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="callback"
             type="com.apollo.pharmacy.ui.adduser.AddUserMvpPresenter" />
+
         <variable
             name="model"
             type="com.apollo.pharmacy.ui.adduser.model.AddCustomerModel" />
     </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/new_customer"
         android:layout_width="match_parent"
@@ -24,178 +30,341 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/ten_dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Register"
-            android:textSize="@dimen/twenty_dp" />
-
-        <LinearLayout
+            android:text="@string/label_register"
+            android:textSize="@dimen/text_dimen_20" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="First Name"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:text="@{model.firstName}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Last Name"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:text="@{model.lastName}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Phone Number"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:text="@{model.phoneNumber}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.tiper.MaterialSpinner
-                android:id="@+id/spinner"
-                style="@style/EditTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="Select Gender"
-                android:textSize="6sp"
-                app:spinnerMode="bottomsheet" />
-
-        </LinearLayout>
-
-        <LinearLayout
+                android:hint="@string/label_first_name"
+                android:inputType="textPersonName"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/date_of_birth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="DOB"
-                    android:focusable="false"
-                    android:onClick="@{()-> callback.onDateClick()}"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:text="@{model.dob}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Age"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:text="@{model.age}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <LinearLayout
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_middle_name"
+                android:inputType="textPersonName"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EditTextInputLayoutStyle"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Address"
-                    android:inputType="textMultiLine"
-                    android:singleLine="true"
-                    android:text="@{model.address}"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_last_name"
+                android:inputType="textPersonName"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Submit" />
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_age"
+                android:inputType="number"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.tiper.MaterialSpinner
+            android:id="@+id/spinner"
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_gender"
+            app:spinnerMode="bottomsheet" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_date_of_birth"
+                android:inputType="date"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_postal_address"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.tiper.MaterialSpinner
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_city"
+            app:spinnerMode="bottomsheet" />
+        <com.tiper.MaterialSpinner
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_state"
+            app:spinnerMode="bottomsheet" />
+        <com.tiper.MaterialSpinner
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_district"
+            app:spinnerMode="bottomsheet" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_zip_code"
+                android:inputType="number"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_telephone"
+                android:inputType="phone"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_telephone"
+                android:inputType="phone"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_mobile1"
+                android:inputType="phone"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_anniversary"
+                android:inputType="date"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.tiper.MaterialSpinner
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_marital_status"
+            app:spinnerMode="bottomsheet" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_number_of_dependents"
+                android:inputType="number"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_card_number"
+                android:inputType="number"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_date_of_registration"
+                android:inputType="date"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.firstName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/ten_dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_submit"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_cancel"
+                android:layout_alignParentEnd="true"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+
     </LinearLayout>
+
+</ScrollView>
 </layout>
+
+
