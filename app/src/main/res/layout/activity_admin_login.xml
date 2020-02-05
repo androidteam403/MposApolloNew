@@ -7,19 +7,19 @@
 
         <variable
             name="spinnerpojo"
-            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.SpinnerPojo" />
 
         <variable
             name="storeId"
-            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerIdPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.SpinnerIdPojo" />
 
         <variable
             name="loginpojo"
-            type="com.apollo.pharmacy.ui.adminlogin.model.LoginPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.LoginPojo" />
 
         <variable
             name="handlers"
-            type="com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter" />
     </data>
 
     <RelativeLayout

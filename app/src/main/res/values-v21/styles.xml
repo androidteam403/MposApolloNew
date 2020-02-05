@@ -45,6 +45,15 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+    <style name="NewEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#4A4A46</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">#4A4A46</item>
+        <item name="colorControlNormal">#4A4A46</item>
+        <item name="colorControlActivated">#4A4A46</item>
+    </style>
 
     <style name="ErrorText" parent="TextAppearance.Design.Error">
         <item name="android:textSize">11sp</item>

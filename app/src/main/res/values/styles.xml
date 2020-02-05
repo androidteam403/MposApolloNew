@@ -42,13 +42,13 @@
     </style>
 
     <style name="EditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeColor">@color/black_transperent</item>
         <item name="boxStrokeWidth">0.2dp</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>
         <item name="errorTextAppearance">@style/ErrorText</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorAccent">@color/black_transperent</item>
+        <item name="colorControlNormal">@color/black_transperent</item>
+        <item name="colorControlActivated">@color/black_transperent</item>
     </style>
 
     <style name="ErrorText" parent="TextAppearance.Design.Error">

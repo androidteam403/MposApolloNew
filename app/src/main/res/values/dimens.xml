@@ -126,4 +126,5 @@
     <dimen name="span_regular_size">0.8dp</dimen>
     <dimen name="span_normal_size">0.9dp</dimen>
     <dimen name="span_bold_size">1dp</dimen>
+    <dimen name="one_hundred_sixty_dp">160dp</dimen>
 </resources>
