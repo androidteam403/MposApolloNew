@@ -14,4 +14,9 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
     public AddDoctorPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onClickSubmit() {
+        getMvpView().onSubmitClick();
+    }
 }

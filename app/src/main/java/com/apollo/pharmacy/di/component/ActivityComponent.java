@@ -14,6 +14,7 @@ import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
 import com.apollo.pharmacy.ui.splash.SplashActivity;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupActivity;
 
 import dagger.Component;
 
@@ -46,5 +47,7 @@ public interface ActivityComponent {
 
     void inject(AddDoctorActivity addDoctorActivity);
 
-    void inject (NewAdminLoginSetUp newAdminLoginSetUp);
+    void inject(StoreSetupActivity storeSetupActivity);
+
+    void inject(NewAdminLoginSetUp newAdminLoginSetUp);
 }

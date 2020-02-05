@@ -35,6 +35,22 @@ public class CommonUtils {
         return progressDialog;
     }
 
+
+    public static boolean nameVallidate(String name) {
+        String pattern = "^[A-Za-z]*$";
+        if (name.matches(pattern)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean mobileValidate(String mobile) {
+        if (mobile.length() < 10) {
+            return false;
+        }
+        return true;
+    }
+
     public static boolean isValidPhoneNumber(String target) {
         {
             Pattern p = Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
@@ -45,6 +61,5 @@ public class CommonUtils {
             Matcher m = p.matcher(target);
             return (m.find() && m.group().equals(target));
         }
-
     }
 }

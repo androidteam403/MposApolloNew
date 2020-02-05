@@ -39,6 +39,9 @@ import com.apollo.pharmacy.ui.searchuser.SearchUserPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpView;
 import com.apollo.pharmacy.ui.splash.SplashPresenter;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupMvpPresenter;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupMvpView;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupPresenter;
 import com.apollo.pharmacy.utils.rx.AppSchedulerProvider;
 import com.apollo.pharmacy.utils.rx.SchedulerProvider;
 
@@ -94,6 +97,7 @@ public class ActivityModule {
         return presenter;
     }
 
+
     @Provides
     SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
         return presenter;
@@ -139,6 +143,13 @@ public class ActivityModule {
     AddDoctorMvpPresenter<AddDoctorMvpView> provideAddDoctorActivity(AddDoctorPresenter<AddDoctorMvpView> presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    StoreSetupMvpPresenter<StoreSetupMvpView> StoreSetupActivity(StoreSetupPresenter<StoreSetupMvpView> presenter) {
+        return presenter;
+    }
+
 
     @Provides
     @PerActivity
