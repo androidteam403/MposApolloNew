@@ -5,11 +5,11 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.storesetup.StoreSetupMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupMvpPresenter" />
 
         <variable
             name="storemodel"
-            type="com.apollo.pharmacy.ui.storesetup.model.StoreSetupModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreSetupModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

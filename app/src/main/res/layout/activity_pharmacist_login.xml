@@ -6,11 +6,11 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter" />
 
         <variable
             name="model"
-            type="com.apollo.pharmacy.ui.pharmacistlogin.model.PharmacistLoginModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.PharmacistLoginModel" />
     </data>
 
     <LinearLayout

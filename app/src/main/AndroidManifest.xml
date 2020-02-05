@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.apollo.pharmacy">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    package="com.apollopharmacy.mpospharmacist">
 
     <application
-        android:name=".root.ApolloMposApp"
+        android:name="com.apollopharmacy.mpospharmacist.root.ApolloMposApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_apollo"
         android:label="@string/app_name"
@@ -18,32 +14,31 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
 
         </activity>
 
-        <activity android:name=".ui.adminlogin.AdminLoginActivity" >
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
 
         </activity>
-        <activity android:name=".ui.dashboard.DashboardActivity">
-                  </activity>
-        <activity android:name=".ui.searchproduct.SearchProductActivity" />
-        <activity android:name=".ui.newadminloginsetup.NewAdminLoginSetUp">
-        </activity>
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp" />
 
 
-        <activity android:name=".ui.searchuser.SearchUserActivity" />
-        <activity android:name=".ui.adduser.AddUserActivity" >
-
-        </activity>
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
 
         </activity>
-        <activity android:name=".ui.leftnav.LeftNavigationActivity"/>
-        <activity android:name=".ui.adddoctor.AddDoctorActivity"/>
-        <activity android:name=".ui.storesetup.StoreSetupActivity">
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.leftnav.LeftNavigationActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity">
+
+        </activity>
+        <activity android:name=".ui.additem.AddItemActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,5 +46,13 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.permission.gsf.permission" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

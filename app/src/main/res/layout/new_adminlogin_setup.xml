@@ -4,7 +4,7 @@
     <data>
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"

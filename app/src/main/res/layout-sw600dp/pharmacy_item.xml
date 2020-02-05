@@ -5,7 +5,7 @@
 
         <variable
             name="pharmamodel"
-            type="com.apollo.pharmacy.ui.dashboard.model.PharmaPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.dashboard.model.PharmaPojo" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

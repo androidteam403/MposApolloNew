@@ -8,11 +8,11 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.adduser.AddUserMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserMvpPresenter" />
 
         <variable
             name="model"
-            type="com.apollo.pharmacy.ui.adduser.model.AddCustomerModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.adduser.model.AddCustomerModel" />
     </data>
 
     <ScrollView

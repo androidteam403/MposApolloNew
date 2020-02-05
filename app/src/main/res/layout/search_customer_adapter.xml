@@ -7,11 +7,11 @@
 
         <variable
             name="model"
-            type="com.apollo.pharmacy.ui.searchuser.model.SearchCustomerAdapterModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.searchuser.model.SearchCustomerAdapterModel" />
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.searchuser.SearchUserMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpPresenter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

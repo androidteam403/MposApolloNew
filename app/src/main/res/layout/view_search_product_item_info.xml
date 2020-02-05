@@ -5,7 +5,7 @@
     <data>
         <variable
             name="productInfo"
-            type="com.apollo.pharmacy.ui.searchproduct.model.ProductInfoPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductInfoPojo" />
     </data>
 
     <LinearLayout
