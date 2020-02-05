@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,252 +14,206 @@
             type="com.apollo.pharmacy.ui.pharmacistlogin.model.PharmacistLoginModel" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@drawable/radient_color">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
-            <LinearLayout
+            <ImageView
+                android:layout_width="@dimen/one_hundred_dp"
+                android:layout_height="@dimen/one_hundred_dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/app_shadow_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:text="@string/label_user_login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <com.tiper.MaterialSpinner
+                android:id="@+id/selectUser"
+                style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_selectuser"
+                app:spinnerMode="bottomsheet" />
 
-                <ImageView
-                    android:id="@+id/apollo_logo"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/NewEditTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sixty_dp"
+                android:fontFamily="@font/roboto_regular">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:drawableStart="@drawable/ic_login_password"
+                    android:drawablePadding="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_password"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_dimen_15" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <RadioButton
+                    android:id="@+id/inStore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/apollo_circle_logo" />
+                    android:checked="true"
+                    android:onClick="@{()-> callback.onInstoreCLick()}"
+                    android:text="@string/label_instore" />
 
-                <TextView
-                    android:id="@+id/contact_us"
+                <RadioButton
+                    android:id="@+id/selectCampaign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:text="@string/label_contact_us" />
-            </LinearLayout>
+                    android:layout_marginStart="@dimen/fifty_dp"
+                    android:onClick="@{()-> callback.onSelectCampaign()}"
+                    android:text="@string/label_select_campaign" />
+            </RadioGroup>
 
-            <LinearLayout
+            <com.tiper.MaterialSpinner
+                android:id="@+id/loginOption"
+                style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_select_campaign"
+                android:visibility="gone"
+                app:spinnerMode="bottomsheet" />
 
-                <TextView
-                    android:id="@+id/call_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/contact_us"
-                    android:text="@string/label_call_9855566633" />
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="@dimen/two_dp"
-                    android:layout_height="@dimen/twenty_dp"
-                    android:layout_below="@+id/contact_us"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_toEndOf="@+id/call_number" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/contact_us"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_toEndOf="@+id/view"
-                    android:text="@string/label_e_mail_support_apollo_in" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.6"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
+            <LinearLayout
+                android:id="@+id/relativeInfo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/thirty_dp"
-                android:layout_marginEnd="@dimen/thirty_dp"
-                android:layout_marginBottom="@dimen/thirty_dp">
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/two_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@color/thick_blue"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_marginEnd="@dimen/ten_dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginTop="@dimen/seven_dp"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/campid"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_campaign_id"
+                        android:textColor="@color/colorPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/label_login"
-                        android:textSize="@dimen/text_dimen_30" />
+                        android:layout_toEndOf="@id/campid"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_6255487"
+                        android:textColor="@color/white"
+                        tools:ignore="RelativeOverlap" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EditTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/userName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_login_user"
-                            android:drawablePadding="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:hint="@string/label_mobile"
-                            android:inputType="textPersonName"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_dimen_15" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EditTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_login_password"
-                            android:drawablePadding="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:hint="@string/label_password"
-                            android:inputType="textPassword"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_dimen_15" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:contentDescription="@string/label_img"
+                        android:src="@drawable/icon_close" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/addres"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/fifteen_dp"
-                        android:padding="@dimen/five_dp"
-                        android:text="@string/label_forgot_password" />
-
-                    <View
-                        android:layout_width="@dimen/one_hundred_twenty_dp"
-                        android:layout_height="@dimen/one_dp" />
+                        android:layout_below="@id/campid"
+                        android:layout_marginTop="@dimen/seven_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_address"
+                        android:textColor="@color/colorPrimary" />
 
                     <TextView
+                        android:id="@+id/addDes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/fifteen_dp"
-                        android:background="@drawable/bg_login_button"
-                        android:paddingLeft="@dimen/twenty_dp"
-                        android:paddingTop="@dimen/five_dp"
-                        android:paddingRight="@dimen/twenty_dp"
-                        android:paddingBottom="@dimen/five_dp"
-                        android:text="@string/label_login"
+                        android:layout_below="@id/campid"
+                        android:layout_marginTop="@dimen/seven_dp"
+                        android:layout_toEndOf="@id/addres"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_opp_more_jubillehills_n_hyderabad"
                         android:textColor="@color/white" />
-                </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/reqDate"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/addDes"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_date"
+                        android:textColor="@color/colorPrimary" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/addDes"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_toEndOf="@id/reqDate"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label__03_feb_2020_10_30"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="160dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:background="@drawable/rounded_corners"
+                android:onClick="@{()-> callback.onClickLogin()}"
+                android:text="@string/label_login"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>
-
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@drawable/app_theme_bg">-->
-
-    <!--<ImageView-->
-    <!--    android:layout_width="@dimen/one_hundred_dp"-->
-    <!--    android:layout_height="@dimen/one_hundred_dp"-->
-    <!--    android:layout_centerHorizontal="true"-->
-    <!--    android:layout_marginTop="@dimen/eighty_dp"-->
-    <!--    android:background="@drawable/app_shadow_logo"-->
-    <!--    android:contentDescription="@string/app_name" />-->
-
-    <!--<LinearLayout-->
-    <!--    android:id="@+id/login_view_layout"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_centerInParent="true"-->
-    <!--    android:layout_gravity="center"-->
-    <!--    android:layout_marginStart="@dimen/thirty_dp"-->
-    <!--    android:layout_marginEnd="@dimen/thirty_dp"-->
-    <!--    android:orientation="vertical">-->
-
-    <!--    <com.google.android.material.textfield.TextInputLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="@dimen/eighty_dp"-->
-    <!--        android:fontFamily="@font/roboto_regular"-->
-    <!--        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">-->
-
-    <!--        <com.rengwuxian.materialedittext.MaterialEditText-->
-    <!--            android:id="@+id/name"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:drawableStart="@drawable/ic_login_user"-->
-    <!--            android:drawablePadding="@dimen/ten_dp"-->
-    <!--            android:fontFamily="@font/roboto_regular"-->
-    <!--            android:hint="@string/label_username"-->
-    <!--            style="@style/TextLabel"-->
-    <!--            android:text="@{model.name}"-->
-    <!--            android:inputType="text"-->
-    <!--            android:singleLine="true"-->
-    <!--            android:textCursorDrawable="@color/white"-->
-    <!--            android:textSize="@dimen/text_dimen_15" />-->
-    <!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-
-    <!--    <com.google.android.material.textfield.TextInputLayout-->
-    <!--        android:id="@+id/password_text"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:fontFamily="@font/roboto_regular"-->
-    <!--        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">-->
-
-    <!--        <com.rengwuxian.materialedittext.MaterialEditText-->
-    <!--            android:id="@+id/password"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:drawableStart="@drawable/ic_login_password"-->
-    <!--            android:drawablePadding="@dimen/ten_dp"-->
-    <!--            android:fontFamily="@font/roboto_regular"-->
-    <!--            android:hint="Password"-->
-    <!--            style="@style/TextLabel"-->
-    <!--            android:text="@{model.password}"-->
-    <!--            android:inputType="textPassword"-->
-    <!--            android:singleLine="true"-->
-    <!--            android:textCursorDrawable="@color/white"-->
-    <!--            android:textSize="@dimen/text_dimen_15" />-->
-    <!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/login_btn"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="@dimen/forty_five_dp"-->
-    <!--        android:layout_marginTop="@dimen/forty_dp"-->
-    <!--        android:fontFamily="@font/roboto_regular"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:onClick="@{()-> callback.onClickLogin()}"-->
-    <!--        android:background="@drawable/btn_signin_ripple"-->
-    <!--        android:text="@string/label_login" />-->
-    <!--</LinearLayout>-->
-    <!--</RelativeLayout>-->

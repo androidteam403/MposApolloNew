@@ -35,24 +35,16 @@ public class CommonUtils {
         return progressDialog;
     }
 
-        public  static boolean isValidPhoneNumber (String target){
-            {
-                Pattern p = Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
-                if (target.length()<0 && target.length()>10){
-                    return true;
-                }
-
-                Matcher m = p.matcher(target);
-                return (m.find() && m.group().equals(target));
+    public static boolean isValidPhoneNumber(String target) {
+        {
+            Pattern p = Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
+            if (target.length() < 0 && target.length() > 10) {
+                return true;
             }
 
-//        target="^\\+?\\(?[0-9]{1,3}\\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?";
-//            if ( target.length() < 9 || target.length() > 11) {
-//                return false;
-//            } else {
-////                return android.util.Patterns.PHONE.matcher(target).matches();
-//            }
-          //  return android.util.Patterns.PHONE.matcher(target).matches();
-
+            Matcher m = p.matcher(target);
+            return (m.find() && m.group().equals(target));
         }
+
+    }
 }

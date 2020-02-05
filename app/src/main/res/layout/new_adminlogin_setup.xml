@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable
+            name="callback"
+            type="com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginMvpPresenter" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="@drawable/radient_color"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/one_hundred_twenty_dp"
+        android:layout_height="@dimen/one_hundred_twenty_dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/app_shadow_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_dimen_16"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/five_dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:textColor="@color/white"
+        android:text="@string/label_admin_login"/>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/NewEditTextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/five_dp"
+        android:fontFamily="@font/roboto_regular">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_login_user"
+            android:drawablePadding="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_enter_user_id"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textSize="@dimen/text_dimen_15" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/NewEditTextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/five_dp"
+        android:layout_marginEnd="@dimen/five_dp"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:fontFamily="@font/roboto_regular">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_login_password"
+            android:drawablePadding="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/label_password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="@dimen/text_dimen_15" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="@string/login"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_dimen_16"
+        android:onClick="@{()-> callback.onLoginClick()}"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_corners"
+        android:layout_marginTop="@dimen/thirty_dp"
+        />
+
+</LinearLayout>
+</layout>
