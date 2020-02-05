@@ -38,6 +38,8 @@
     <string name="label_generic_phone_number"> Phone number: %s</string>
     <string name="label_generic_dob"> DOB: %s</string>
 
+    <string name="label_site_id"> Site Id:</string>
+
     <string name="label_cashier">Cashier: %s</string>
     <string name="label_storeCode">StoreCode: %s</string>
     <string name="label_storeName">StoreCode: %s</string>
@@ -96,6 +98,11 @@
     <string name="label_call_9855566633">Call:9855566633</string>
     <string name="label_clearall">ClearAll</string>
     <string name="label_search">Search</string>
+    <string name="label_select_store_id">Select Store Id</string>
+    <string name="label_sitename">Sitename</string>
+    <string name="label_siteaddress">SiteAddress</string>
+    <string name="label_dcid">DcId</string>
+    <string name="label_dcname">DcName</string>
     <string name="label_register">Register</string>
     <string name="label_first_name">First Name*</string>
     <string name="label_middle_name">Middle Name</string>
@@ -118,6 +125,19 @@
     <string name="label_date_of_registration">Date of Registration</string>
     <string name="label_submit">Submit</string>
     <string name="label_cancel">Cancel</string>
-
-
+    <string name="label_doctor_reg_no">Doctor Reg.No*</string>
+    <string name="label_doctor_name">Doctor Name*</string>
+    <string name="label_speciality">Speciality*</string>
+    <string name="label_place_of_practice">Place of Practice*</string>
+    <string name="label_address">Address*</string>
+    <string name="label_phone_no">Phone No*</string>
+    <string name="label_doctor_registration">Doctor Registration</string>
+    <string name="label_customer_registration">Customer Registration</string>
+    <string name="label_device_registration">Device Registration</string>
+    <string name="label_store_setup">Store Setup</string>
+    <string name="label_mac_id">Mac id</string>
+    <string name="label_pos123">pos123</string>
+    <string name="label_sight_registration">Sight Registration</string>
+    <string name="label_terminal_id">Terminal Id</string>
+    <string name="label_select_store">Select Store</string>
 </resources>

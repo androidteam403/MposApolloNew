@@ -7,6 +7,9 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.apollo.pharmacy.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * Created on : Jan 19, 2019
@@ -14,9 +17,6 @@ import com.apollo.pharmacy.R;
  * Email    : info@androidwave.com
  */
 public class CommonUtils {
-
-//    public String pattern = "[A-Za-z]";
-
     private CommonUtils() {
         // This utility class is not publicly instantiable
     }
@@ -41,10 +41,23 @@ public class CommonUtils {
         }
         return false;
     }
-    public static boolean mobileValidate(String mobile){
-        if (mobile.length() < 10){
+
+    public static boolean mobileValidate(String mobile) {
+        if (mobile.length() < 10) {
             return false;
         }
         return true;
+    }
+
+    public static boolean isValidPhoneNumber(String target) {
+        {
+            Pattern p = Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
+            if (target.length() < 0 && target.length() > 10) {
+                return true;
+            }
+
+            Matcher m = p.matcher(target);
+            return (m.find() && m.group().equals(target));
+        }
     }
 }

@@ -78,7 +78,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/two_hundred_thirty_five_dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@color/cardview_shadow_color"
                     app:cardCornerRadius="@dimen/five_dp"
@@ -97,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:hint="@string/label_select_login_type"
+                            android:hint="@string/label_select_store_id"
                             app:spinnerMode="bottomsheet" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -105,43 +105,82 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/five_dp"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_regular">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/userName"
+                                android:id="@+id/siteName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableStart="@drawable/ic_login_user"
                                 android:drawablePadding="@dimen/ten_dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="@string/label_username"
+                                android:hint="@string/label_sitename"
                                 android:inputType="textPersonName"
                                 android:singleLine="true"
-                                android:text="@{loginpojo.username}"
+                                android:text="@{loginpojo.siteName}"
                                 android:textSize="@dimen/text_dimen_15" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/EditTextInputLayoutStyle"
                             android:layout_width="match_parent"
+                            android:focusable="false"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/password"
+                                android:id="@+id/siteAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableStart="@drawable/ic_login_password"
                                 android:drawablePadding="@dimen/ten_dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="@string/label_password"
+                                android:hint="@string/label_siteaddress"
                                 android:inputType="textPassword"
                                 android:singleLine="true"
-                                android:text="@{loginpojo.passWord}"
+                                android:text="@{loginpojo.siteAddress}"
                                 android:textSize="@dimen/text_dimen_15" />
                         </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular">
 
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/dcId"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_dcid"
+                                android:text="@{loginpojo.dcId}"
+                                android:inputType="textPassword"
+                                android:singleLine="true"
+                                android:textSize="@dimen/text_dimen_15" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/dcName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_dcname"
+                                android:text="@{loginpojo.dcName}"
+                                android:singleLine="true"
+                                android:textSize="@dimen/text_dimen_15" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

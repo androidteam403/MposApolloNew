@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollo.pharmacy.di.ActivityContext;
 import com.apollo.pharmacy.di.PerActivity;
+import com.apollo.pharmacy.ui.adddoctor.AddDoctorMvpPresenter;
+import com.apollo.pharmacy.ui.adddoctor.AddDoctorMvpView;
+import com.apollo.pharmacy.ui.adddoctor.AddDoctorPresenter;
 import com.apollo.pharmacy.ui.adduser.AddUserMvpPresenter;
 import com.apollo.pharmacy.ui.adduser.AddUserMvpView;
 import com.apollo.pharmacy.ui.adduser.AddUserPresenter;
@@ -24,9 +27,6 @@ import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesPresenter;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginPresenter;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpPresenter;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyMvpView;
-import com.apollo.pharmacy.ui.searchpharmacy.SearchPharmacyPresenter;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpPresenter;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductMvpView;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductPresenter;
@@ -36,6 +36,9 @@ import com.apollo.pharmacy.ui.searchuser.SearchUserPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpPresenter;
 import com.apollo.pharmacy.ui.splash.SplashMvpView;
 import com.apollo.pharmacy.ui.splash.SplashPresenter;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupMvpPresenter;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupMvpView;
+import com.apollo.pharmacy.ui.storesetup.StoreSetupPresenter;
 import com.apollo.pharmacy.utils.rx.AppSchedulerProvider;
 import com.apollo.pharmacy.utils.rx.SchedulerProvider;
 
@@ -92,11 +95,6 @@ public class ActivityModule {
     }
 
     @Provides
-    SearchPharmacyMvpPresenter<SearchPharmacyMvpView> provideSearchPharmacyActivityPresenter(SearchPharmacyPresenter<SearchPharmacyMvpView> presenter) {
-        return presenter;
-    }
-
-    @Provides
     SalesMvpPresenter<SalesMvpView> provideSalesFragment(SalesPresenter<SalesMvpView> presenter) {
         return presenter;
     }
@@ -133,6 +131,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> providePharmacistLoginActivity(PharmacistLoginPresenter<PharmacistLoginMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AddDoctorMvpPresenter<AddDoctorMvpView> provideAddDoctorActivity(AddDoctorPresenter<AddDoctorMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    StoreSetupMvpPresenter<StoreSetupMvpView> StoreSetupActivity(StoreSetupPresenter<StoreSetupMvpView> presenter) {
         return presenter;
     }
 }

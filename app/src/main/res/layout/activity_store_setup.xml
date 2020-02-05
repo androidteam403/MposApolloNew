@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollo.pharmacy.ui.storesetup.StoreSetupMvpPresenter" />
+
+        <variable
+            name="storemodel"
+            type="com.apollo.pharmacy.ui.storesetup.model.StoreSetupModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F0F1FB"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/ten_dp">
+
+            <ImageView
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:src="@drawable/apollo_circle_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/eighty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/label_store_setup"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_20" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:src="@drawable/ic_login_user" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/label_device_registration"
+            android:textSize="@dimen/text_dimen_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingEnd="@dimen/ten_dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAC ID\nPOS1234" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="Device Name\nPOS1234" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="Lotitude\nPOS1234" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IMEI No.\nPOS1234" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="Date\nPOS1234" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:text="Longitude\nPOS1234" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/label_sight_registration"
+            android:textSize="@dimen/text_dimen_20" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="top"
+                android:hint="@string/label_terminal_id"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/places_ic_search"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="top"
+                android:hint="@string/label_select_store"
+                android:inputType="text"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:onClick="@{()-> callback.onClickSelectStore()}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/ten_dp"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/adderss_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#4281A7"
+                android:orientation="vertical"
+                android:padding="@dimen/ten_dp">
+
+                <ImageView
+                    android:id="@+id/close_icon"
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:src="@drawable/icon_close" />
+
+                <TextView
+                    android:id="@+id/site_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/close_icon"
+                    android:text="@string/label_site_id"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/close_icon"
+                    android:layout_marginStart="@dimen/eighty_dp"
+                    android:text="6255487"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/store_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/site_id"
+                    android:text="Store Id:"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/site_id"
+                    android:layout_marginStart="@dimen/eighty_dp"
+                    android:text="apjub3992"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/store_id"
+                    android:text="Address:"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/store_id"
+                    android:layout_marginStart="@dimen/eighty_dp"
+                    android:text="OPP.MORE,JUBLEE HILLS,\nHYDERABAD"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/adderss_layout"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center"
+                android:padding="@dimen/five_dp">
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_cancel_btn"
+                    android:text="Cancel"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_toEndOf="@+id/cancel"
+                    android:background="@drawable/bg_save_btn"
+                    android:text="save"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

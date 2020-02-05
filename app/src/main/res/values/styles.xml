@@ -8,7 +8,7 @@
         <item name="android:windowBackground">@drawable/splash_bg_img</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <!--        <item name="android:windowAnimationStyle">@style/animationName</item>-->
+<!--        <item name="android:windowAnimationStyle">@style/animationName</item>-->
     </style>
 
     <style name="animationName" parent="android:Animation">

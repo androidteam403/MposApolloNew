@@ -16,6 +16,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.4"
+            android:layout_marginStart="@dimen/five_dp"
             android:layout_height="wrap_content"
             android:text="@{pharmamodel.dashboardSno}"
             android:fontFamily="@font/roboto_regular"
@@ -103,7 +104,6 @@
             android:layout_height="25dp"
             android:src="@drawable/delete"
             />
-
 
     </LinearLayout>
 </layout>

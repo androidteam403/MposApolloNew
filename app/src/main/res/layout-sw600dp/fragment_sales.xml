@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/cpb_yellow"
             android:padding="@dimen/five_dp">
 
             <TextView
@@ -29,22 +30,41 @@
                 android:text="@string/label_search"
                 android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/search_product"
-                android:layout_width="@dimen/three_hundred_fifty_dp"
-                android:layout_height="@dimen/thirty_five_dp"
-                android:layout_marginStart="@dimen/sixty_dp"
-                android:layout_marginTop="@dimen/three_dp"
+
+            <LinearLayout
+                android:layout_marginStart="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thirty_dp"
                 android:background="@drawable/rectangular_shape"
-                android:onClick="@{()-> callback.onSearchProductClick()}"
-                android:text="" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editSearch"
+                    android:layout_width="750dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:hint="@string/label_searchproduct"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:textSize="@dimen/text_dimen_12"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/label_todo"
+                    android:paddingTop="@dimen/five_dp"
+                    android:src="@drawable/places_ic_search" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="@dimen/eighty_dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:background="@color/nav_header_color"
+                android:background="@color/red"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/two_dp"
                 android:text="@string/label_clearall"
@@ -186,7 +206,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:padding="@dimen/five_dp" />
+            android:layout_marginBottom="@dimen/five_dp" />
     </LinearLayout>
 </layout>

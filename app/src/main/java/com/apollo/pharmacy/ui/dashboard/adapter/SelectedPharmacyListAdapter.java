@@ -44,7 +44,7 @@ public class SelectedPharmacyListAdapter extends RecyclerView.Adapter<SelectedPh
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         final PharmaPojo item = pharmacyList.get(position);
-        holder.PharmacyItemBinding.setModel(item);
+        holder.PharmacyItemBinding.setPharmamodel(item);
     }
 
     @Override

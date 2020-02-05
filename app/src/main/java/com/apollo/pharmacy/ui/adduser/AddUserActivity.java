@@ -5,16 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.apollo.pharmacy.R;
 import com.apollo.pharmacy.databinding.ActivityAddUserBinding;
+import com.apollo.pharmacy.ui.adddoctor.AddDoctorActivity;
 import com.apollo.pharmacy.ui.adduser.model.SpinnerPojo;
 import com.apollo.pharmacy.ui.base.BaseActivity;
-import com.apollo.pharmacy.ui.searchuser.adapter.SearchCustomerAdapter;
-import com.apollo.pharmacy.ui.searchuser.model.SearchCustomerAdapterModel;
 import com.apollo.pharmacy.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
@@ -31,14 +29,12 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
     @Inject
     AddUserMvpPresenter<AddUserMvpView> mPresenter;
     private ActivityAddUserBinding addUserBinding;
+
     private ArrayList<SpinnerPojo> arrGenderSpinner;
     private ArrayList<SpinnerPojo.City> arrCitySpinner;
     private ArrayList<SpinnerPojo.State> arrStateSpinner;
     private ArrayList<SpinnerPojo.District> arrDistrictSpinner;
     private ArrayList<SpinnerPojo.MaritalStatus> arrMaritalSpinner;
-
-    private ArrayList<SearchCustomerAdapterModel> arrSearchCustomerAdapterModel = null;
-    private SearchCustomerAdapter searchCustomerAdapter;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddUserActivity.class);
@@ -56,11 +52,8 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
     @Override
     protected void setUp() {
         addUserBinding.setCallback(mPresenter);
+
         ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_dropdown_item, getGender());
-//        strFont = this.getString(R.font.roboto_regular);
-//        Typeface tt = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-//       Typeface tt = Typeface.createFromAsset(getAssets(),"strFont");
-//        newCustomerBinding.spinner.setTypeface(tt);
         addUserBinding.gender.setAdapter(genderSpinnerPojo);
 
         ArrayAdapter<SpinnerPojo.City> citySpinnerPojo = new ArrayAdapter<SpinnerPojo.City>(getContext(), android.R.layout.simple_spinner_dropdown_item, getCity());
@@ -109,14 +102,14 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
             selectedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(c.getTime());
             addUserBinding.dateOfBirth.setText(selectedDate);
         }, mYear, mMonth, mDay);
-        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 365.25 * 18)));
         dialog.show();
     }
 
     @Override
     public void onSubmitClick() {
         if (validate()) {
-            Toast.makeText(this, "You Submitted", Toast.LENGTH_SHORT).show();
+            startActivity(AddDoctorActivity.getStartIntent(this));
         }
     }
 
@@ -177,11 +170,9 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         SpinnerPojo genderSpinnerPojo = new SpinnerPojo();
         genderSpinnerPojo.setGender("Male");
         arrGenderSpinner.add(genderSpinnerPojo);
-
         genderSpinnerPojo = new SpinnerPojo();
         genderSpinnerPojo.setGender("Female");
         arrGenderSpinner.add(genderSpinnerPojo);
-
         return arrGenderSpinner;
     }
 
@@ -190,19 +181,15 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         SpinnerPojo.City cityName = new SpinnerPojo.City();
         cityName.setCity("Hyderbad");
         arrCitySpinner.add(cityName);
-
         cityName = new SpinnerPojo.City();
         cityName.setCity("Siddipet");
         arrCitySpinner.add(cityName);
-
         cityName = new SpinnerPojo.City();
         cityName.setCity("Warangal");
         arrCitySpinner.add(cityName);
-
         cityName = new SpinnerPojo.City();
         cityName.setCity("Karimnagar");
         arrCitySpinner.add(cityName);
-
         return arrCitySpinner;
     }
 
@@ -211,19 +198,15 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         SpinnerPojo.State stateName = new SpinnerPojo.State();
         stateName.setState("Telangana");
         arrStateSpinner.add(stateName);
-
         stateName = new SpinnerPojo.State();
         stateName.setState("Andhra Pradhesh");
         arrStateSpinner.add(stateName);
-
         stateName = new SpinnerPojo.State();
         stateName.setState("Tamilanadu");
         arrStateSpinner.add(stateName);
-
         stateName = new SpinnerPojo.State();
         stateName.setState("Karnataka");
         arrStateSpinner.add(stateName);
-
         return arrStateSpinner;
     }
 
@@ -232,16 +215,12 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         SpinnerPojo.MaritalStatus maritalStatus = new SpinnerPojo.MaritalStatus();
         maritalStatus.setMaritalStatus("Married");
         arrMaritalSpinner.add(maritalStatus);
-
         maritalStatus = new SpinnerPojo.MaritalStatus();
         maritalStatus.setMaritalStatus("UnMarried");
         arrMaritalSpinner.add(maritalStatus);
-
-
         maritalStatus = new SpinnerPojo.MaritalStatus();
         maritalStatus.setMaritalStatus("Single");
         arrMaritalSpinner.add(maritalStatus);
-
         return arrMaritalSpinner;
     }
 
@@ -250,19 +229,15 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         SpinnerPojo.District districtName = new SpinnerPojo.District();
         districtName.setDistrict("Siddipet");
         arrDistrictSpinner.add(districtName);
-
         districtName = new SpinnerPojo.District();
         districtName.setDistrict("Ameerpet");
         arrDistrictSpinner.add(districtName);
-
         districtName = new SpinnerPojo.District();
         districtName.setDistrict("Kukatpally");
         arrDistrictSpinner.add(districtName);
-
         districtName = new SpinnerPojo.District();
         districtName.setDistrict("Miyapur");
         arrDistrictSpinner.add(districtName);
-
         return arrDistrictSpinner;
     }
 
@@ -270,11 +245,12 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
         String firstName = addUserBinding.firstName.getText().toString();
         String mobile = addUserBinding.mobile.getText().toString();
         String cardNumber = addUserBinding.cardNumber.getText().toString();
+
         if (firstName.isEmpty()) {
             addUserBinding.firstName.setError("First Name should not be empty");
             addUserBinding.firstName.requestFocus();
             return false;
-        } else if (!CommonUtils.nameVallidate(addUserBinding.firstName.getText().toString())) {
+        } else if (!CommonUtils.nameVallidate(firstName)) {
             addUserBinding.firstName.setError("Invalid First Name");
             addUserBinding.firstName.requestFocus();
             return false;
@@ -282,7 +258,7 @@ public class AddUserActivity extends BaseActivity implements AddUserMvpView {
             addUserBinding.mobile.setError("Mobile Number should not be empty");
             addUserBinding.mobile.requestFocus();
             return false;
-        } else if (!CommonUtils.mobileValidate(addUserBinding.mobile.getText().toString())) {
+        } else if (!CommonUtils.mobileValidate(mobile)) {
             addUserBinding.mobile.setError("Invalid Mobile Number");
             addUserBinding.mobile.requestFocus();
             return false;
