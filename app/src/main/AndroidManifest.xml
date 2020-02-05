@@ -20,31 +20,31 @@
 
         </activity>
 
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity" >
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
 
         </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity">
-                  </activity>
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp">
-        </activity>
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp" />
 
 
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity" />
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity" >
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
 
         </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.leftnav.LeftNavigationActivity"/>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity"/>
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.leftnav.LeftNavigationActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity" />
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity">
+
+        </activity>
+        <activity android:name=".ui.additem.AddItemActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

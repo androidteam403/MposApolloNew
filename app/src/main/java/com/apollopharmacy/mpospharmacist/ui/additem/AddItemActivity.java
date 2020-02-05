@@ -6,8 +6,8 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.apollo.pharmacy.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
     @Inject
-    AddItemPresenter<AddItemMvpView> mPresenter;
+    AddItemMvpPresenter<AddItemMvpView> mPresenter;
     private ActivityAddItemBinding addItemBinding;
 
     public static Intent getStartIntent(Context context) {
@@ -33,6 +33,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
     @Override
     protected void setUp() {
+
     }
 
     @Override

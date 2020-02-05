@@ -160,7 +160,7 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    AddItemMvpPresenter<AddItemMvpView> provideAddItemActivity(AddItemPresenter<AddItemMvpView> presenter){
+    AddItemMvpPresenter<AddItemMvpView> provideAddItemActivity(AddItemPresenter<AddItemMvpView> presenter) {
         return presenter;
     }
 }
