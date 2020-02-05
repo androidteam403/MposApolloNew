@@ -9,6 +9,7 @@ import com.apollo.pharmacy.ui.adminlogin.AdminLoginActivity;
 import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
 import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
+import com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
@@ -47,4 +48,6 @@ public interface ActivityComponent {
     void inject(AddDoctorActivity addDoctorActivity);
 
     void inject(StoreSetupActivity storeSetupActivity);
+
+    void inject(NewAdminLoginSetUp newAdminLoginSetUp);
 }

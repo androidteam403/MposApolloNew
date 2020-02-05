@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.widget.Toast;
 
 import com.apollo.pharmacy.R;
 
@@ -33,6 +34,7 @@ public class CommonUtils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
+
 
     public static boolean nameVallidate(String name) {
         String pattern = "^[A-Za-z]*$";

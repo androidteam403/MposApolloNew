@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#01bdbe</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#00a552</color>
+    <color name="colorAccent">#F9F8EC</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
@@ -23,6 +23,8 @@
 
     <color name="yello_outlet">#FFB319</color>
     <color name="green_outlet">#7F9900</color>
+
+    <color name="thick_blue">#4281A7</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#777</color>
 </resources>

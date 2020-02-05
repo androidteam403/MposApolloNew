@@ -17,6 +17,16 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 
     @Override
     public void onClickLogin() {
-        getMvpView().onIntentCall();
+        getMvpView().onClickLogin();
+    }
+
+    @Override
+    public void onInstoreCLick() {
+        getMvpView().onClickInstore();
+    }
+
+    @Override
+    public void onSelectCampaign() {
+        getMvpView().onCampaignSelect();
     }
 }

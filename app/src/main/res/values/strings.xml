@@ -6,7 +6,6 @@
     <string name="label_please_login_to_complete_theprocess">Please login to complete the process</string>
     <string name="label_search_pharmacy">Search pharmacy by location or pincode</string>
     <string name="label_setup">Setup</string>
-    <string name="label_login">Login</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
     <string name="label_mobile">Mobile Number</string>
@@ -98,11 +97,6 @@
     <string name="label_call_9855566633">Call:9855566633</string>
     <string name="label_clearall">ClearAll</string>
     <string name="label_search">Search</string>
-    <string name="label_select_store_id">Select Store Id</string>
-    <string name="label_sitename">Sitename</string>
-    <string name="label_siteaddress">SiteAddress</string>
-    <string name="label_dcid">DcId</string>
-    <string name="label_dcname">DcName</string>
     <string name="label_register">Register</string>
     <string name="label_first_name">First Name*</string>
     <string name="label_middle_name">Middle Name</string>
@@ -129,7 +123,6 @@
     <string name="label_doctor_name">Doctor Name*</string>
     <string name="label_speciality">Speciality*</string>
     <string name="label_place_of_practice">Place of Practice*</string>
-    <string name="label_address">Address*</string>
     <string name="label_phone_no">Phone No*</string>
     <string name="label_doctor_registration">Doctor Registration</string>
     <string name="label_customer_registration">Customer Registration</string>
@@ -140,4 +133,25 @@
     <string name="label_sight_registration">Sight Registration</string>
     <string name="label_terminal_id">Terminal Id</string>
     <string name="label_select_store">Select Store</string>
+    <string name="label_select_store_id">Select Store Id</string>
+    <string name="label_sitename">Sitename</string>
+    <string name="label_siteaddress">SiteAddress</string>
+    <string name="label_dcid">DcId</string>
+    <string name="label_dcname">DcName</string>
+    <string name="label_selectuser">SelectUser</string>
+    <string name="todo">TODO</string>
+    <string name="label_loginoptions">LoginOptions:</string>
+    <string name="label_instore">InStore</string>
+    <string name="label_select_campaign">Select Campaign</string>
+    <string name="label_login">Login</string>
+    <string name="label_enter_user_id">Enter User ID</string>
+    <string name="label_admin_login">ADMIN LOGIN</string>
+    <string name="login">LOGIN</string>
+    <string name="label_user_login">USER LOGIN</string>
+    <string name="label_campaign_id">Campaign Id:</string>
+    <string name="label_6255487">6255487</string>
+    <string name="label_address">Address:</string>
+    <string name="label_opp_more_jubillehills_n_hyderabad">OPP.MORE.JUBILLEHILLS,  HYDERABAD.</string>
+    <string name="label_date">Date:</string>
+    <string name="label__03_feb_2020_10_30">03 Feb 2020-10:30</string>
 </resources>

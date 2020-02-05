@@ -10,5 +10,11 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     void onSuccessLogin();
 
+    void onClickLogin();
+
     void onIntentCall();
+
+    void onClickInstore();
+
+    void onCampaignSelect();
 }

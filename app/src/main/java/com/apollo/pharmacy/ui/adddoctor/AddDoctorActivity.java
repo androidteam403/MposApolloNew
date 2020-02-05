@@ -13,7 +13,6 @@ import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.utils.CommonUtils;
 
 import javax.inject.Inject;
-
 public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView {
 
     @Inject
@@ -36,6 +35,7 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     protected void setUp() {
         addDoctorBinding.setCallback(mPresenter);
+
     }
 
     @Override
