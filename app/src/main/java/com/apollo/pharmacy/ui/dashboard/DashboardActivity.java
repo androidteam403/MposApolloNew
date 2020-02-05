@@ -2,12 +2,11 @@ package com.apollo.pharmacy.ui.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.apollo.pharmacy.R;
@@ -16,12 +15,11 @@ import com.apollo.pharmacy.ui.base.BaseActivity;
 import com.apollo.pharmacy.ui.dashboard.adapter.SelectedPharmacyListAdapter;
 import com.apollo.pharmacy.ui.dashboard.model.PharmaPojo;
 import com.apollo.pharmacy.ui.dashboard.tabview.ViewPagerAdapter;
-import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
 import com.apollo.pharmacy.ui.searchuser.SearchUserActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -35,9 +33,8 @@ public class DashboardActivity extends BaseActivity implements DashboardMvpView 
     private SelectedPharmacyListAdapter pharmacyListAdapter;
     private ArrayList<PharmaPojo> pojoArrayList;
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, DashboardActivity.class);
     }
@@ -59,6 +56,17 @@ public class DashboardActivity extends BaseActivity implements DashboardMvpView 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         dashboardBinding.viewPager.setAdapter(viewPagerAdapter);
         dashboardBinding.tabLayout.setupWithViewPager(dashboardBinding.viewPager);
+
+        LinearLayout tabsContainer = (LinearLayout) dashboardBinding.tabLayout.getChildAt(0);
+        LinearLayout childLayout1 = (LinearLayout) tabsContainer.getChildAt(0);
+        LinearLayout childLayout2 = (LinearLayout) tabsContainer.getChildAt(1);
+
+        LinearLayout tabView = (LinearLayout) childLayout1.getChildAt(0).getParent();
+        tabView.setBackgroundColor(Color.parseColor("#FFB319"));
+
+        tabView = (LinearLayout) childLayout2.getChildAt(1).getParent();
+        tabView.setBackgroundColor(Color.parseColor("#7F9900"));
+
 //        getPharmaList();
 //        if (pharmaPojoArrayList.size() > 0) {
 //            pharmacyListAdapter = new SelectedPharmacyListAdapter(this, pharmaPojoArrayList);
@@ -93,6 +101,4 @@ public class DashboardActivity extends BaseActivity implements DashboardMvpView 
         startActivity(SearchUserActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
-
-
 }

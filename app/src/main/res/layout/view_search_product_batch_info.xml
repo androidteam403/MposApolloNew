@@ -1,103 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+
         <variable
             name="batchInfo"
             type="com.apollo.pharmacy.ui.searchproduct.model.ProductBatchPojo" />
     </data>
 
-<LinearLayout
-    android:visibility="visible"
-    android:id="@+id/batch"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/text_dimen_10">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/five_dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Batch No:"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto_regular"
-            app:full_text="@{@string/label_span_batchno(batchInfo.batchNo)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{batchInfo.batchNo}"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/thirty_dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Expiry Date:"
-            app:full_text="@{@string/label_span_expirydate(batchInfo.expiryDate)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{batchInfo.expiryDate}"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/five_dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MRP:"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto_regular"
-            app:full_text="@{@string/label_span_mrp(batchInfo.productMrp)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{batchInfo.productMrp}" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/thirty_dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="TAX:"
-            app:full_text="@{@string/label_span_tax(batchInfo.productTax)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{batchInfo.productTax}"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Req Qty:"
-            app:full_text="@{@string/label_span_reqQty(batchInfo.reqQty)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{batchInfo.reqQty}"/>
-        <EditText
-            android:layout_width="@dimen/eighty_dp"
             android:layout_marginStart="@dimen/five_dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:layout_marginBottom="@dimen/two_dp"
-            android:background="@drawable/rectangular_shape"/>
+            android:weightSum="3"
+            android:paddingTop="@dimen/five_dp"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="@{batchInfo.prodSno}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_12" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"                   android:textSize="@dimen/text_dimen_12"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{batchInfo.prodBatchNo}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/text_dimen_12"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{batchInfo.expDate}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:textSize="@dimen/text_dimen_12"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black"
+                android:text="@{batchInfo.prodMrp}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:textSize="@dimen/text_dimen_12"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black"
+                android:text="@{batchInfo.prodTax}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_dimen_12"
+                android:paddingBottom="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black"
+                android:text="@{batchInfo.prodQoh}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/text_dimen_12"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black"
+                android:text="@{batchInfo.prodReqQty}"/>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 </layout>

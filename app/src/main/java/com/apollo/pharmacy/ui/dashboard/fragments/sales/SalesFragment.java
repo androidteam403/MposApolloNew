@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,18 +27,18 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import static com.apollo.pharmacy.root.ApolloMposApp.getContext;
+
 public class SalesFragment extends BaseFragment implements SalesMvpView {
     @Inject
     SalesMvpPresenter<SalesMvpView> mPresenter;
     private ArrayList<PharmaPojo> pharmaPojoArrayList = null;
     private SelectedPharmacyListAdapter pharmacyListAdapter;
-
     private FragmentSalesBinding salesBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -50,20 +51,21 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,  @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
     protected void setUp(View view) {
-            salesBinding.setCallback(mPresenter);
+        salesBinding.setCallback(mPresenter);
         getPharmaList();
-
         if (pharmaPojoArrayList.size() > 0) {
             pharmacyListAdapter = new SelectedPharmacyListAdapter(this, pharmaPojoArrayList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             salesBinding.addressRecyclerView.setLayoutManager(mLayoutManager);
+
+            salesBinding.addressRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
             salesBinding.addressRecyclerView.setItemAnimator(new DefaultItemAnimator());
             salesBinding.addressRecyclerView.setAdapter(pharmacyListAdapter);
         }
@@ -71,13 +73,65 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
 
     private void getPharmaList() {
         pharmaPojoArrayList = new ArrayList<>();
-        PharmaPojo pharmaPojo = new PharmaPojo("AP-534005", "APC0111", "1234", "Pharma", "12/12/1020");
+        PharmaPojo pharmaPojo = new PharmaPojo("1","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+        ,"1520.50");
         pharmaPojoArrayList.add(pharmaPojo);
-        pharmaPojo = new PharmaPojo("AP03435", "5C002d", "3456", "FMCG", "20/20/1010");
+        pharmaPojo = new PharmaPojo("2","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
         pharmaPojoArrayList.add(pharmaPojo);
-        pharmaPojo = new PharmaPojo("CN01234", "Ac444", "8784", "H&B", "20/12/2012");
+        pharmaPojo = new PharmaPojo("3","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
         pharmaPojoArrayList.add(pharmaPojo);
-        pharmaPojo = new PharmaPojo("An0106", "Pa1997", "6567", "FMCG", "12/20/2016");
+        pharmaPojo = new PharmaPojo("4","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("5","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("6","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("7","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("8","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("9","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("10","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("11","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("12","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("13","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("14","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
+        pharmaPojoArrayList.add(pharmaPojo);
+        pharmaPojo = new PharmaPojo("15","AP03435","5c002d","10",
+                "2345","Systo","40203802","20/2/2021","","",""
+                ,"1520.50");
         pharmaPojoArrayList.add(pharmaPojo);
 
     }
@@ -86,6 +140,5 @@ public class SalesFragment extends BaseFragment implements SalesMvpView {
     public void onProductSearchClick() {
         startActivity(SearchProductActivity.getStartIntent(getContext()));
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
     }
 }

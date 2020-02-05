@@ -19,4 +19,19 @@ public class AddUserPresenter<V extends AddUserMvpView> extends BasePresenter<V>
     public void onDateClick() {
         getMvpView().onDateClick();
     }
+
+    @Override
+    public void onClickSubmit() {
+        getMvpView().onSubmitClick();
+    }
+
+    @Override
+    public void onClickAnniversary() {
+        getMvpView().onAnniversaryClick();
+    }
+
+    @Override
+    public void onClickRegistration() {
+        getMvpView().onRegistrationClick();
+    }
 }

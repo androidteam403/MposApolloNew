@@ -2,121 +2,108 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="model"
+            name="pharmamodel"
             type="com.apollo.pharmacy.ui.dashboard.model.PharmaPojo" />
     </data>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/five_dp"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:layout_marginEnd="@dimen/five_dp">
-
+        android:weightSum="8.5"
+        android:orientation="horizontal">
         <TextView
-            android:id="@+id/desc"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_dimen_12"
+            android:text="@{pharmamodel.dashboardSno}"
             android:fontFamily="@font/roboto_regular"
-            android:text="Desc:"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
             android:textColor="@color/black"
-            app:full_text="@{@string/label_span_desc(model.desc)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{model.desc}"/>
-
-        <TextView
-            android:id="@+id/artcode"
-            android:textSize="@dimen/text_dimen_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="Art Code:"
+            android:text="@{pharmamodel.artCode}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.0"
+            android:layout_height="wrap_content"
+            android:text="@{pharmamodel.dashboardDescription}"
             android:textColor="@color/black"
-            app:full_text="@{@string/label_span_artcode(model.artCode)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{model.artCode}"/>
-
-        <TextView
-            android:id="@+id/batchno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/forty_five_dp"
-            android:textSize="@dimen/text_dimen_12"
             android:fontFamily="@font/roboto_regular"
-            android:text="BatchNo:"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:text="@{pharmamodel.dashboardQty}"
             android:textColor="@color/black"
-            app:full_text="@{@string/label_span_batchno(model.batchNo)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{model.batchNo}"/>
-
+            android:fontFamily="@font/roboto_regular"/>
         <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:textSize="@dimen/text_dimen_12"
-            android:layout_toRightOf="@id/artcode"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Category:"
             android:textColor="@color/black"
-            app:full_text="@{@string/label_span_category(model.category)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{model.category}"/>
-
-        <TextView
-            android:id="@+id/expiry"
-            android:layout_width="wrap_content"
-            android:textSize="@dimen/text_dimen_12"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="@dimen/forty_five_dp"
-            android:layout_toRightOf="@id/batchno"
             android:fontFamily="@font/roboto_regular"
-            android:text="Expiry:"
+            android:text="@{pharmamodel.dashboardCat}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.65"
+            android:layout_height="wrap_content"
             android:textColor="@color/black"
-            app:full_text="@{@string/label_span_expiry(model.expiry)}"
-            app:span_color="@{@color/black}"
-            app:span_font="@{`robotoMedium`}"
-            app:span_size="@{@dimen/span_text_size}"
-            app:span_text="@{model.expiry}"/>
-
-        <TextView
-            android:id="@+id/price_pharma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_dimen_12"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/eighty_dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="Price"
-            android:textColor="@color/black" />
-
+            android:text="@{pharmamodel.dashboardManuf}"/>
         <TextView
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.85"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/forty_dp"
-            android:layout_marginEnd="@dimen/fifty_dp"
-            android:background="@drawable/rounded_corners_light"
-            android:text="CANCEL"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-</LinearLayout>
+            android:text="@{pharmamodel.batchNo}"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.85"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:text="@{pharmamodel.expiryDate}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.85"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{pharmamodel.mrpRemi}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.45"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{pharmamodel.dashboardTax}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.0"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{pharmamodel.taxValue}"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.65"
+            android:layout_height="wrap_content"
+            android:text="@{pharmamodel.dashboardTotal}"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/delete"
+            />
+
+
+    </LinearLayout>
 </layout>

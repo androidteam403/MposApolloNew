@@ -2,57 +2,77 @@ package com.apollo.pharmacy.ui.searchproduct.model;
 
 public class ProductBatchPojo {
 
-    private String batchNo;
-    private String expiryDate;
-    private String productMrp;
-    private String productTax;
-    private String reqQty;
+   private String prodSno;
+   private String prodBatchNo;
+   private String expDate;
+   private String prodMrp;
+   private String prodTax;
+   private String prodQoh;
+   private String prodReqQty;
 
-    public ProductBatchPojo(String batchNo, String expiryDate, String productMrp, String productTax, String reqQty) {
-        this.batchNo = batchNo;
-        this.expiryDate = expiryDate;
-        this.productMrp = productMrp;
-        this.productTax = productTax;
-        this.reqQty = reqQty;
+    public ProductBatchPojo(String prodSno, String prodBatchNo, String expDate, String prodMrp, String prodTax, String prodQoh, String prodReqQty) {
+        this.prodSno = prodSno;
+        this.prodBatchNo = prodBatchNo;
+        this.expDate = expDate;
+        this.prodMrp = prodMrp;
+        this.prodTax = prodTax;
+        this.prodQoh = prodQoh;
+        this.prodReqQty = prodReqQty;
     }
 
-    public String getBatchNo() {
-        return batchNo;
+    public String getProdSno() {
+        return prodSno;
     }
 
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo;
+    public void setProdSno(String prodSno) {
+        this.prodSno = prodSno;
     }
 
-    public String getExpiryDate() {
-        return expiryDate;
+    public String getProdBatchNo() {
+        return prodBatchNo;
     }
 
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setProdBatchNo(String prodBatchNo) {
+        this.prodBatchNo = prodBatchNo;
     }
 
-    public String getProductMrp() {
-        return productMrp;
+    public String getExpDate() {
+        return expDate;
     }
 
-    public void setProductMrp(String productMrp) {
-        this.productMrp = productMrp;
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
     }
 
-    public String getProductTax() {
-        return productTax;
+    public String getProdMrp() {
+        return prodMrp;
     }
 
-    public void setProductTax(String productTax) {
-        this.productTax = productTax;
+    public void setProdMrp(String prodMrp) {
+        this.prodMrp = prodMrp;
     }
 
-    public String getReqQty() {
-        return reqQty;
+    public String getProdTax() {
+        return prodTax;
     }
 
-    public void setReqQty(String reqQty) {
-        this.reqQty = reqQty;
+    public void setProdTax(String prodTax) {
+        this.prodTax = prodTax;
+    }
+
+    public String getProdQoh() {
+        return prodQoh;
+    }
+
+    public void setProdQoh(String prodQoh) {
+        this.prodQoh = prodQoh;
+    }
+
+    public String getProdReqQty() {
+        return prodReqQty;
+    }
+
+    public void setProdReqQty(String prodReqQty) {
+        this.prodReqQty = prodReqQty;
     }
 }

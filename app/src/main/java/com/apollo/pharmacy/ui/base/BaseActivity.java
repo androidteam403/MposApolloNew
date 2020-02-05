@@ -146,15 +146,12 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     @Override
     public void onFragmentAttached() {
-
     }
 
     @Override
     public void onFragmentDetached(String tag) {
 
     }
-
-
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -174,4 +171,3 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     protected abstract void setUp();
 }
-

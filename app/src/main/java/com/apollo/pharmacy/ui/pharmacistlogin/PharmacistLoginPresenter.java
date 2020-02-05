@@ -17,26 +17,16 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 
     @Override
     public void onClickLogin() {
-        getMvpView().onIntentCall();
+        getMvpView().onClickLogin();
     }
 
     @Override
-    public void onClickSendOtp() {
-        if (getMvpView().getMobile().length() < 10) {
-            getMvpView().showInputMobileError("Enter mobile number");
-        } else {
-            getMvpView().onSuccessSendOtp();
-        }
+    public void onInstoreCLick() {
+        getMvpView().onClickInstore();
     }
 
     @Override
-    public void onClickVerifyOtp() {
-        if (getMvpView().getOtp().length() < 6) {
-            getMvpView().showMessage("Enter OTP");
-        } else {
-            getDataManager().setUserMobile(getMvpView().getMobile());
-            getDataManager().setUserLogin(true);
-            getMvpView().onSuccessLogin();
-        }
+    public void onSelectCampaign() {
+        getMvpView().onCampaignSelect();
     }
 }
