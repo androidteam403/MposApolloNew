@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apollo.pharmacy">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name=".root.ApolloMposApp"
         android:allowBackup="true"
@@ -23,28 +19,29 @@
 
         </activity>
 
-        <activity android:name=".ui.adminlogin.AdminLoginActivity" >
+        <activity android:name=".ui.adminlogin.AdminLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.dashboard.DashboardActivity">
-                  </activity>
-        <activity android:name=".ui.searchproduct.SearchProductActivity" >
-
-        </activity>
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity" />
+        <activity android:name=".ui.dashboard.DashboardActivity" />
+        <activity android:name=".ui.searchproduct.SearchProductActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
-
-        </activity>
-        <activity android:name=".ui.leftnav.LeftNavigationActivity">
-
-
-        </activity>
-        <activity android:name=".ui.adddoctor.AddDoctorActivity"/>
+        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+        <activity android:name=".ui.leftnav.LeftNavigationActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.permission.gsf.permission" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
