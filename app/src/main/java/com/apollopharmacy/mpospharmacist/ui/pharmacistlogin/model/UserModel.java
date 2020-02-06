@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserModel {
@@ -20,7 +21,7 @@ public class UserModel {
     public static class GetLoginUserResultBean {
         @Expose
         @SerializedName("_DropdownValue")
-        private List<_DropdownValueBean> _DropdownValue;
+        private ArrayList<_DropdownValueBean> _DropdownValue;
         @Expose
         @SerializedName("ReturnMessage")
         private String ReturnMessage;
@@ -28,7 +29,7 @@ public class UserModel {
         @SerializedName("RequestStatus")
         private int RequestStatus;
 
-        public List<_DropdownValueBean> get_DropdownValue() {
+        public ArrayList<_DropdownValueBean> get_DropdownValue() {
             return _DropdownValue;
         }
 
@@ -56,6 +57,11 @@ public class UserModel {
         public String getCode() {
             return code;
         }
+
+        @Override
+        public String toString() {
+            return  displayText;
+        }
     }
 
     public String getUserType() {
@@ -65,11 +71,5 @@ public class UserModel {
     public void setUserType(String userType) {
         this.userType = userType;
     }
-
-    @Override
-    public String toString() {
-        return userType;
-    }
-
 
 }

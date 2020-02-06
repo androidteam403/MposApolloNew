@@ -2,8 +2,6 @@ package com.apollopharmacy.mpospharmacist.di.module;
 
 import android.content.Context;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.apollopharmacy.mpospharmacist.di.ActivityContext;
 import com.apollopharmacy.mpospharmacist.di.PerActivity;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter;
@@ -39,6 +37,24 @@ import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesPrese
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -63,6 +79,7 @@ import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupPresenter;
 import com.apollopharmacy.mpospharmacist.utils.rx.AppSchedulerProvider;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
+import androidx.appcompat.app.AppCompatActivity;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -205,7 +222,37 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    ProductListMvpPresenter<ProductListMvpView> provideProductListActivity(ProductListPresenter<ProductListMvpView> presenter){
+    ProductListMvpPresenter<ProductListMvpView> provideProductListActivity(ProductListPresenter<ProductListMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    BillingMvpPresenter<BillingMvpView> provideBillingMvpPresenter(BillingPresenter<BillingMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    CustomerMasterMvpPresenter<CustomerMasterMvpView> provideCustomerMasterMvpPresenter(CustomerMasterPresenter<CustomerMasterMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    DashBoardMvpPresenter<DashBoardMvpView> provideDashBoardMvpPresenter(DashBoardPresenter<DashBoardMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    DoctorMasterMvpPresenter<DoctorMasterMvpView> provideDoctorMasterMvpPresenter(DoctorMasterPresenter<DoctorMasterMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    ManualBillingMvpPresenter<ManualBillingMvpView> provideManualBillingMvpPresenter(ManualBillingPresenter<ManualBillingMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    OrdersMvpPresenter<OrdersMvpView> provideOrdersMvpPresenter(OrdersPresenter<OrdersMvpView> presenter) {
         return presenter;
     }
 }

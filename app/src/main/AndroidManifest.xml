@@ -8,11 +8,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_apollo"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_confing"
         android:roundIcon="@mipmap/ic_launcher_round_apollo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.home.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
@@ -29,32 +39,12 @@
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity"/>
 
-      <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
-
-        </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp" />
-
-
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
-
-        </activity>
-        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+             <activity android:name=".ui.adddoctor.AddDoctorActivity" />
       <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
 
         </activity>
-        <activity android:name=".ui.cusdocdetails.CustDocDetails">
 
-        </activity>
+
         <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
 
         </activity>
@@ -65,12 +55,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      <activity
-            android:name=".ui.customerdetails.CustomerDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".ui.doctordetails.DoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"/>
         <activity android:name=".ui.additem.AddItemActivity"/>
     </application>
