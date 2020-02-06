@@ -4,7 +4,7 @@
     package="com.apollopharmacy.mpospharmacist">
 
     <application
-        android:name="com.apollopharmacy.mpospharmacist.root.ApolloMposApp"
+        android:name=".root.ApolloMposApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_apollo"
         android:label="@string/app_name"
@@ -14,13 +14,22 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
 
         </activity>
+      
+      <activity android:name=".ui.adminlogin.AdminLoginActivity"/>
+        <activity android:name=".ui.storesetup.StoreSetupActivity"/>
+        <activity android:name=".ui.dashboard.DashboardActivity" />
+        <activity android:name=".ui.searchproduct.SearchProductActivity" />
+        <activity android:name=".ui.newadminloginsetup.NewAdminLoginSetUp" />
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity" />
+        <activity android:name=".ui.searchuser.SearchUserActivity" />
+        <activity android:name=".ui.adduser.AddUserActivity"/>
 
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
+      <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
 
         </activity>
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
@@ -39,13 +48,8 @@
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
 
         </activity>
-        <activity android:name=".ui.leftnav.LeftNavigationActivity"/>
         <activity android:name=".ui.adddoctor.AddDoctorActivity" />
-        <activity android:name=".ui.customerdoctordetails.SearchCustomerDetails"/>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity">
-
-        </activity>
-        <activity android:name=".ui.additem.AddItemActivity">
+      <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
 
         </activity>
         <activity android:name=".ui.cusdocdetails.CustDocDetails">
@@ -61,6 +65,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+      <activity
+            android:name=".ui.customerdetails.CustomerDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.doctordetails.DoctorDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"/>
+        <activity android:name=".ui.additem.AddItemActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -70,5 +82,4 @@
     <uses-permission android:name="com.google.android.permission.gsf.permission" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

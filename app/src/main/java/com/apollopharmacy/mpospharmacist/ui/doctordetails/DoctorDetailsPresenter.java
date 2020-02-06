@@ -17,7 +17,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     }
 
     @Override
-    public void onNewDoctor() {
-        getMvpView().onDoctorNew();
+    public void onAddDoctorClick() {
+        getMvpView().onAddDoctorClick();
     }
 }
