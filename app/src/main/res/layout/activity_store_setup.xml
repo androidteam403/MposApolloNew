@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E1E4F7"
+        android:background="@color/storesetupbackgroundcolor"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -155,7 +155,7 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="276dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/five_dp"
             android:fontFamily="@font/roboto_regular">
 
@@ -167,8 +167,8 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="top"
                 android:hint="@string/label_select_store"
-                android:inputType="text"
                 android:onClick="@{()-> callback.onClickSelectStore()}"
+                android:inputType="text"
                 android:padding="@dimen/ten_dp"
                 android:singleLine="true"
                 android:textSize="@dimen/text_dimen_15" />

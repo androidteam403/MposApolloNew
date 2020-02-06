@@ -11,13 +11,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E1E4F7"
+        android:layout_height="wrap_content"
+        android:background="@color/storesetupbackgroundcolor"
         android:orientation="vertical"
-        android:paddingStart="@dimen/ten_dp"
-        android:paddingEnd="@dimen/ten_dp">
+        android:paddingStart="@dimen/twenty_dp"
+        android:paddingEnd="@dimen/twenty_dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,7 +31,6 @@
                 style="@style/EditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -39,7 +39,7 @@
                     android:layout_marginEnd="@dimen/one_hundred_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
-                    android:hint="Phone Number / Id"
+                    android:hint="Phone Number / ID"
                     android:inputType="text"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
