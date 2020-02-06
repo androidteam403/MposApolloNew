@@ -40,15 +40,20 @@
 
         </activity>
         <activity android:name=".ui.additem.AddItemActivity">
+
+        </activity>
+        <activity android:name=".ui.cusdocdetails.CustDocDetails">
+
+        </activity>
+        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.cusdocdetails.CustDocDetails">
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
 
-        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

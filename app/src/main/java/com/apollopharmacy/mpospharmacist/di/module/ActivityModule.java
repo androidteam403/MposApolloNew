@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.di.module;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.apollopharmacy.mpospharmacist.di.ActivityContext;
 import com.apollopharmacy.mpospharmacist.di.PerActivity;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter;
@@ -20,6 +21,9 @@ import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginPresenter;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpView;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsPresenter;
@@ -32,6 +36,9 @@ import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.payment.PaymentP
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesMvpView;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -171,13 +178,25 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter){
+    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter) {
         return presenter;
     }
 
     @Provides
     @PerActivity
-    CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter){
+    CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DoctorDetailsMvpPresenter<DoctorDetailsMvpView> provideDoctorDetailsActivity(DoctorDetailsPresenter<DoctorDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
         return presenter;
     }
 }
