@@ -16,15 +16,15 @@ import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginPresenter;
-import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpView;
-import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoMvpView;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsPresenter;
-import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpView;
-import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardPresenter;
@@ -198,13 +198,13 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter) {
+    SearchCustomerDoctorDetailsMvpPresenter<SearchCustomerDoctorDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDoctorDetailsPresenter<SearchCustomerDoctorDetailsMvpView> presenter) {
         return presenter;
     }
 
     @Provides
     @PerActivity
-    CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter) {
+    CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> provideCustomerDocDetailsActivity(CustomerDoctorInfoPresenter<CustomerDoctorInfoMvpView> presenter) {
         return presenter;
     }
 
