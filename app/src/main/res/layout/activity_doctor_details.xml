@@ -6,7 +6,7 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.doctordetails.DoctorDetailsMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter" />
     </data>
 
         <LinearLayout

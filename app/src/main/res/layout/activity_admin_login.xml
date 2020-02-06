@@ -7,19 +7,19 @@
 
         <variable
             name="spinnerpojo"
-            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.SpinnerPojo" />
 
         <variable
             name="storeId"
-            type="com.apollo.pharmacy.ui.adminlogin.model.SpinnerIdPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.SpinnerIdPojo" />
 
         <variable
             name="loginpojo"
-            type="com.apollo.pharmacy.ui.adminlogin.model.LoginPojo" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.model.LoginPojo" />
 
         <variable
             name="handlers"
-            type="com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter" />
     </data>
 
     <RelativeLayout
@@ -30,7 +30,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/one_hundred_eighty_dp"
+            android:layout_height="@dimen/one_hundred_thirty_dp"
             android:background="@drawable/curve_toolbar_bg"
             android:orientation="vertical">
 
@@ -60,9 +60,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/eighty_dp"
-            android:layout_marginEnd="@dimen/eighty_dp"
-            android:layout_marginStart="@dimen/eighty_dp"
+            android:layout_marginTop="@dimen/seventy_dp"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/thirty_dp"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="visible">
@@ -212,7 +212,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/loginButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

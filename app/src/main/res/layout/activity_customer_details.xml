@@ -6,7 +6,7 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.customerdetails.CustomerDetailsMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter" />
     </data>
     <ScrollView
         android:layout_width="match_parent"
