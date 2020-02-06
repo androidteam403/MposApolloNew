@@ -3,7 +3,6 @@ package com.apollopharmacy.mpospharmacist.di.module;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.apollopharmacy.mpospharmacist.di.ActivityContext;
 import com.apollopharmacy.mpospharmacist.di.PerActivity;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter;
@@ -18,6 +17,12 @@ import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpView;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardPresenter;
@@ -161,6 +166,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     AddItemMvpPresenter<AddItemMvpView> provideAddItemActivity(AddItemPresenter<AddItemMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter){
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter){
         return presenter;
     }
 }
