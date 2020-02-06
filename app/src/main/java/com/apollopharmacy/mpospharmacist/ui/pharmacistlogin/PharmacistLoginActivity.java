@@ -141,6 +141,11 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     @Override
+    public void getUserIds(UserModel body) {
+
+    }
+
+    @Override
     public void onIntentCall() {
 //        if (validations()) {
 //            startActivity(DashboardActivity.getStartIntent(this));

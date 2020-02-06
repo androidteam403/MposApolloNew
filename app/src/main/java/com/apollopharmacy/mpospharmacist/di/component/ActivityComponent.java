@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
@@ -62,7 +63,10 @@ public interface ActivityComponent {
 
     void inject(SearchCustomerDoctorDetailsActivity searchCustomerDoctorDetailsActivity);
 
+    void inject(ProductListActivity productListActivity);
+
     void inject (DoctorDetailsActivity doctorDetailsActivity);
 
     void inject (CustomerDetailsActivity customerDetailsActivity);
+
 }

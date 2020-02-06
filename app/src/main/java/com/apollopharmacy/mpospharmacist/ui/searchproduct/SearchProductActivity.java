@@ -87,7 +87,7 @@ public class SearchProductActivity extends BaseActivity implements SearchProduct
     private void getProductInfo() {
         productInfoList = new ArrayList<>();
         ProductInfoPojo productInfoPojo = new ProductInfoPojo("1", "DOLO001", "DOLO TAB", "PHARMA", "TABLET",
-                "H_SHEDULED", "MICROLABS..", "TAB", "GABAPENTIN");
+                "H_SHEDULED", "Manufacturer\nMICROLABS..", "TAB", "GABAPENTIN");
         productInfoList.add(productInfoPojo);
         productInfoPojo = new ProductInfoPojo("2", "DOLO002", "DOLONEURON 300MG", "PHARMA", "TABLET",
                 "H_SHEDULED", "MICROLABS..", "TAB", "GABAPENTIN");

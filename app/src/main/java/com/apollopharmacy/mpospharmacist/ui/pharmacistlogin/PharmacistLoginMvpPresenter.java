@@ -8,4 +8,6 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
     void onClickLogin();
     void onInstoreCLick();
     void onSelectCampaign();
+
+    void getUserId();
 }
