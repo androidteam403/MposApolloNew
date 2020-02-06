@@ -6,7 +6,7 @@
 
         <variable
             name="callback"
-            type="com.apollo.pharmacy.ui.dashboard.DashboardMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpPresenter" />
     </data>
 
     <RelativeLayout
@@ -69,18 +69,18 @@
                     app:span_text="@{`Raghavendra`}" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/grey"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/text_dimen_9"
-                    app:full_text="@{@string/label_span_tracking_ref(`6709043`)}"
-                    app:span_color="@{@color/black}"
-                    app:span_font="@{`robotoBold`}"
-                    app:span_size="@{@dimen/span_regular_size}"
-                    app:span_text="@{`6709043`}" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text_dimen_9"
+                app:full_text="@{@string/label_span_tracking_ref(`6709043`)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoBold`}"
+                app:span_size="@{@dimen/span_regular_size}"
+                app:span_text="@{`6709043`}" />
 
                 <TextView
                     android:layout_width="0dp"
