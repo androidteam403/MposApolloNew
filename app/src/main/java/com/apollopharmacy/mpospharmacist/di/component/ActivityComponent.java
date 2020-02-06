@@ -65,6 +65,8 @@ public interface ActivityComponent {
 
     void inject(ProductListActivity productListActivity);
 
+    void inject(ProductListActivity productListActivity);
+
     void inject (DoctorDetailsActivity doctorDetailsActivity);
 
     void inject (CustomerDetailsActivity customerDetailsActivity);

@@ -19,8 +19,8 @@
             android:theme="@style/SplashTheme">
 
         </activity>
-
-        <activity android:name=".ui.adminlogin.AdminLoginActivity"/>
+      
+      <activity android:name=".ui.adminlogin.AdminLoginActivity"/>
         <activity android:name=".ui.storesetup.StoreSetupActivity"/>
         <activity android:name=".ui.dashboard.DashboardActivity" />
         <activity android:name=".ui.searchproduct.SearchProductActivity" />
@@ -28,16 +28,44 @@
         <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity" />
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity"/>
-        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
 
-        <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
+      <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
+
+        </activity>
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp" />
+
+
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity" />
+        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
+
+        </activity>
+        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+      <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.cusdocdetails.CustDocDetails">
+
+        </activity>
+        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
+        <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+      <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
