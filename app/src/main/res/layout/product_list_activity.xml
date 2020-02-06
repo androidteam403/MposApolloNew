@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="New Order #10001936"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search for Items"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginStart="@dimen/fifteen_dp"
+            android:fontFamily="@font/roboto_regular" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/fifteen_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangular_shape"
+                android:layout_marginTop="@dimen/ten_dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:background="@color/design_default_color_primary"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:src="@drawable/places_ic_search"
+                android:layout_marginStart="@dimen/five_dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:src="@drawable/mikes"
+                android:background="@color/cpb_yellow"
+                android:layout_marginStart="@dimen/five_dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:src="@drawable/barcode"
+                android:background="@color/Light_green"
+                android:layout_marginStart="@dimen/five_dp"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 Items Found"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/ten_dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+</layout>

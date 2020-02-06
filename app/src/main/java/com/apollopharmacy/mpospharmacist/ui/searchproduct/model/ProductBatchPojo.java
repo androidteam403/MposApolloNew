@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.searchproduct.model;
 
 public class ProductBatchPojo {
 
+
    private String prodSno;
    private String prodBatchNo;
    private String expDate;

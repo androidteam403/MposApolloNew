@@ -41,6 +41,9 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPrese
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserPresenter;
@@ -178,6 +181,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter){
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ProductListMvpPresenter<ProductListMvpView> provideProductListActivity(ProductListPresenter<ProductListMvpView> presenter){
         return presenter;
     }
 }
