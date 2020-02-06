@@ -15,6 +15,10 @@ import com.apollo.pharmacy.ui.adduser.AddUserPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpView;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginPresenter;
+import com.apollo.pharmacy.ui.customerdetails.CustomerDetailsActivity;
+import com.apollo.pharmacy.ui.customerdetails.CustomerDetailsMvpPresenter;
+import com.apollo.pharmacy.ui.customerdetails.CustomerDetailsMvpView;
+import com.apollo.pharmacy.ui.customerdetails.CustomerDetailsPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpView;
 import com.apollo.pharmacy.ui.dashboard.DashboardPresenter;
@@ -24,6 +28,9 @@ import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesMvpView;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesPresenter;
+import com.apollo.pharmacy.ui.doctordetails.DoctorDetailsMvpPresenter;
+import com.apollo.pharmacy.ui.doctordetails.DoctorDetailsMvpView;
+import com.apollo.pharmacy.ui.doctordetails.DoctorDetailsPresenter;
 import com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -154,6 +161,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     NewAdminLoginMvpPresenter<NewAdminLoginMvpView> provideNewAdminLoginActivity(NewAdminLoginPresenter<NewAdminLoginMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustomerDetailsMvpPresenter<CustomerDetailsMvpView> CustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DoctorDetailsMvpPresenter<DoctorDetailsMvpView> DoctorDetailsActivity(DoctorDetailsPresenter<DoctorDetailsMvpView> presenter) {
         return presenter;
     }
 }

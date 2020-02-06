@@ -6,9 +6,11 @@ import com.apollo.pharmacy.di.module.ActivityModule;
 import com.apollo.pharmacy.ui.adddoctor.AddDoctorActivity;
 import com.apollo.pharmacy.ui.adduser.AddUserActivity;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginActivity;
+import com.apollo.pharmacy.ui.customerdetails.CustomerDetailsActivity;
 import com.apollo.pharmacy.ui.dashboard.DashboardActivity;
 import com.apollo.pharmacy.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollo.pharmacy.ui.dashboard.fragments.sales.SalesFragment;
+import com.apollo.pharmacy.ui.doctordetails.DoctorDetailsActivity;
 import com.apollo.pharmacy.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollo.pharmacy.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollo.pharmacy.ui.searchproduct.SearchProductActivity;
@@ -50,4 +52,11 @@ public interface ActivityComponent {
     void inject(StoreSetupActivity storeSetupActivity);
 
     void inject(NewAdminLoginSetUp newAdminLoginSetUp);
+
+    void inject(CustomerDetailsActivity customerDetailsActivity);
+
+    void inject(DoctorDetailsActivity doctorDetailsActivity);
+
+
+
 }

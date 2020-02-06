@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,10 +13,10 @@
             type="com.apollo.pharmacy.ui.storesetup.model.StoreSetupModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F1FB"
+        android:background="#E1E4F7"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -154,7 +155,7 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="276dp"
             android:layout_margin="@dimen/five_dp"
             android:fontFamily="@font/roboto_regular">
 
@@ -162,13 +163,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/places_ic_search"
+                android:drawablePadding="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="top"
                 android:hint="@string/label_select_store"
                 android:inputType="text"
+                android:onClick="@{()-> callback.onClickSelectStore()}"
                 android:padding="@dimen/ten_dp"
                 android:singleLine="true"
-                android:onClick="@{()-> callback.onClickSelectStore()}"
                 android:textSize="@dimen/text_dimen_15" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/store_id"
                     android:layout_marginStart="@dimen/eighty_dp"
-                    android:text="OPP.MORE,JUBLEE HILLS,\nHYDERABAD"
+                    android:text="OPP.MORE,JUBILEE HILLS,\nHYDERABAD"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
