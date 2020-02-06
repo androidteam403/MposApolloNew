@@ -22,15 +22,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/forty_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
             <ImageView
-                android:layout_width="@dimen/one_hundred_dp"
-                android:layout_height="@dimen/one_hundred_dp"
+                android:layout_width="@dimen/one_hundred_eighty_dp"
+                android:layout_height="@dimen/one_hundred_fifty_dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/app_shadow_logo" />
@@ -39,20 +39,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginBottom="@dimen/ten_dp"
                 android:text="@string/label_user_login"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_16"
+                android:textSize="@dimen/text_dimen_22"
                 android:textStyle="bold" />
+
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/selectUser"
                 style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -71,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/five_dp"
-                    android:drawableStart="@drawable/ic_login_password"
                     android:drawablePadding="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_password"
@@ -85,7 +84,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                tools:ignore="UselessParent"
+                android:layout_marginTop="@dimen/ten_dp">
 
                 <RadioButton
                     android:id="@+id/inStore"
@@ -105,7 +105,7 @@
             </RadioGroup>
 
             <com.tiper.MaterialSpinner
-                android:id="@+id/loginOption"
+                android:id="@+id/select_campaign"
                 style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
                 android:layout_width="@dimen/one_hundred_sixty_dp"
                 android:layout_height="@dimen/forty_five_dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:background="@drawable/rounded_corners"
                 android:onClick="@{()-> callback.onClickLogin()}"
                 android:text="@string/label_login"
