@@ -7,7 +7,7 @@ android {
     }
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.apollo.pharmacy"
+        applicationId "com.apollopharmacy.mpospharmacist"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -88,5 +88,4 @@ dependencies {
 
     //EditText
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-
 }
