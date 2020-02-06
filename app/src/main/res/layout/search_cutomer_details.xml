@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+    <variable
+        name="callbacks"
+        type="com.apollo.pharmacy.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_customer_details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_20"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_phone_number_id" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:onClick="@{()-> callbacks.onPhoneClick()}"
+                android:background="@drawable/rectangular_shape"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/three_hundred_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:background="@null"
+                    android:hint="@string/label_search_by_phone_number"
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingTop="@dimen/seven_dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/five_dp"
+                    android:src="@drawable/icon_search_product"
+                    android:contentDescription="@string/label_img" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="@color/black"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:layout_height="@dimen/one_dp"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_doctor_details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_20"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_registration_number_id" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/forty_dp"
+                android:onClick="@{()-> callbacks.onRegisterClick()}"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:background="@drawable/rectangular_shape"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/three_hundred_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:background="@null"
+                    android:hint="@string/label_search_by_registration_number"
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingTop="@dimen/seven_dp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/five_dp"
+                    android:src="@drawable/icon_search_product"
+                    android:contentDescription="@string/label_img" />
+            </LinearLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/cpb_yellow"
+                android:text="Continue"
+                android:textSize="@dimen/text_dimen_18"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

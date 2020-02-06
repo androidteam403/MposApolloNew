@@ -15,6 +15,12 @@ import com.apollo.pharmacy.ui.adduser.AddUserPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginMvpView;
 import com.apollo.pharmacy.ui.adminlogin.AdminLoginPresenter;
+import com.apollo.pharmacy.ui.cusdocdetails.CustDocMvpPresenter;
+import com.apollo.pharmacy.ui.cusdocdetails.CustDocMvpView;
+import com.apollo.pharmacy.ui.cusdocdetails.CustDocPresenter;
+import com.apollo.pharmacy.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter;
+import com.apollo.pharmacy.ui.customerdoctordetails.SearchCustomerDetailsMvpView;
+import com.apollo.pharmacy.ui.customerdoctordetails.SearchCustomerDetailsPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpPresenter;
 import com.apollo.pharmacy.ui.dashboard.DashboardMvpView;
 import com.apollo.pharmacy.ui.dashboard.DashboardPresenter;
@@ -143,6 +149,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     NewAdminLoginMvpPresenter<NewAdminLoginMvpView> provideNewAdminLoginActivity(NewAdminLoginPresenter<NewAdminLoginMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustDocMvpPresenter<CustDocMvpView> provideCustDocActivity(CustDocPresenter<CustDocMvpView> presenter) {
         return presenter;
     }
 }

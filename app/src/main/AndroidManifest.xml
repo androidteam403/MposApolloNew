@@ -30,14 +30,20 @@
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.adduser.AddUserActivity" />
         <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
+
+        </activity>
+        <activity android:name=".ui.leftnav.LeftNavigationActivity"></activity>
+        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+        <activity android:name=".ui.customerdoctordetails.SearchCustomerDetails">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.leftnav.LeftNavigationActivity"></activity>
-        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+        <activity android:name=".ui.cusdocdetails.CustDocDetails">
+
+        </activity>
     </application>
 
 </manifest>
