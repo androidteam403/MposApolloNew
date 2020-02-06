@@ -39,13 +39,27 @@
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
 
         </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.leftnav.LeftNavigationActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity" />
+        <activity android:name=".ui.leftnav.LeftNavigationActivity"/>
+        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
+        <activity android:name=".ui.customerdoctordetails.SearchCustomerDetails"/>
         <activity android:name="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity">
 
         </activity>
         <activity android:name=".ui.additem.AddItemActivity">
 
+        </activity>
+        <activity android:name=".ui.cusdocdetails.CustDocDetails">
+
+        </activity>
+        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
+        <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

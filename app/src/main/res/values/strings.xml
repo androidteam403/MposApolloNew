@@ -154,4 +154,15 @@
     <string name="label_opp_more_jubillehills_n_hyderabad">OPP.MORE.JUBILLEHILLS,  HYDERABAD.</string>
     <string name="label_date">Date:</string>
     <string name="label__03_feb_2020_10_30">03 Feb 2020-10:30</string>
+    <string name="label_phone_number_id">Phone Number/ID</string>
+    <string name="label_search_by_phone_number">Search by phone number</string>
+    <string name="label_search_by_registration_number">Search by registration number</string>
+    <string name="label_registration_number_id">Registration Number/ID</string>
+    <string name="label_doctor_details">Doctor Details</string>
+    <string name="label_customer_details">Customer Details</string>
+    <string name="label_tracking_ref_no_n_0_ns_normalsale">Tracking Ref No:  0-NS NORMALSALE</string>
+    <string name="label_new_order">New Order</string>
+    <string name="label_10001936">#10001936</string>
+    <string name="label_search_for_items">Search for Items</string>
+    <string name="label_5_items_found">5 Items Found</string>
 </resources>

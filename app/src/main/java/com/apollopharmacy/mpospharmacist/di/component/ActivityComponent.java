@@ -7,12 +7,17 @@ import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocDetails;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetails;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesFragment;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
@@ -53,4 +58,15 @@ public interface ActivityComponent {
     void inject(NewAdminLoginSetUp newAdminLoginSetUp);
 
     void inject(AddItemActivity addItemActivity);
+
+    void inject(CustDocDetails custDocDetails);
+
+    void inject(SearchCustomerDetails searchCustomerDetails);
+
+    void inject(ProductListActivity productListActivity);
+
+    void inject (DoctorDetailsActivity doctorDetailsActivity);
+
+    void inject (CustomerDetailsActivity customerDetailsActivity);
+
 }

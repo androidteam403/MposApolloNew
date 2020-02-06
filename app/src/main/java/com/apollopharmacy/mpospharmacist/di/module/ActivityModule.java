@@ -18,6 +18,15 @@ import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpView;
+import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardPresenter;
@@ -27,6 +36,9 @@ import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.payment.PaymentP
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesMvpView;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -36,6 +48,9 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPrese
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserPresenter;
@@ -161,6 +176,36 @@ public class ActivityModule {
     @Provides
     @PerActivity
     AddItemMvpPresenter<AddItemMvpView> provideAddItemActivity(AddItemPresenter<AddItemMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SearchCustomerDetailsMvpPresenter<SearchCustomerDetailsMvpView> provideSearchCustomerDetailsActivity(SearchCustomerDetailsPresenter<SearchCustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustDocMvpPresenter<CustDocMvpView> provideCustomerDocDetailsActivity(CustDocPresenter<CustDocMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DoctorDetailsMvpPresenter<DoctorDetailsMvpView> provideDoctorDetailsActivity(DoctorDetailsPresenter<DoctorDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ProductListMvpPresenter<ProductListMvpView> provideProductListActivity(ProductListPresenter<ProductListMvpView> presenter){
         return presenter;
     }
 }
