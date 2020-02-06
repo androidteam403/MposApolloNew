@@ -161,4 +161,12 @@
     <string name="label_doctor_details">Doctor Details</string>
     <string name="label_customer_details">Customer Details</string>
     <string name="label_tracking_ref_no_n_0_ns_normalsale">Tracking Ref No:  0-NS NORMALSALE</string>
+
+    <string name="label_continue">Continue</string>
+    <string name="label_select">Select</string>
+    <string name="label_edit">Edit</string>
+    <string name="label_no_customer_found">No Customer Found</string>
+    <string name="label_add_new_customer">Add New Customer</string>
+    <string name="label_no_doctor_found">No Doctor Found</string>
+    <string name="label_add_new_doctor">Add New Doctor</string>
 </resources>
