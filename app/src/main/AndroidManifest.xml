@@ -40,17 +40,20 @@
 
         </activity>
         <activity android:name=".ui.additem.AddItemActivity">
-                 </activity>
+
+        </activity>
         <activity android:name=".ui.cusdocdetails.CustDocDetails">
 
         </activity>
+        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
