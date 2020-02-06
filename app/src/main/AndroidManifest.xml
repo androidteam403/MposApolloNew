@@ -46,14 +46,15 @@
 
         </activity>
         <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
+        <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
-
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
