@@ -50,6 +50,10 @@
         </activity>
         <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
+        </activity>
+        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity">
+        </activity>
+        <activity android:name=".ui.orderreturnactivity.OrderReturnActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

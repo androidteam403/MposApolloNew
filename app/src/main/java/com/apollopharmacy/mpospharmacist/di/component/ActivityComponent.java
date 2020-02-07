@@ -14,7 +14,9 @@ import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.payment.PaymentFragment;
 import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesFragment;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -65,8 +67,11 @@ public interface ActivityComponent {
 
     void inject(ProductListActivity productListActivity);
 
-    void inject (DoctorDetailsActivity doctorDetailsActivity);
+    void inject(DoctorDetailsActivity doctorDetailsActivity);
 
-    void inject (CustomerDetailsActivity customerDetailsActivity);
+    void inject(CustomerDetailsActivity customerDetailsActivity);
 
+    void inject(MedicinesDetailsActivity medicinesDetailsActivity);
+
+    void inject (OrderReturnActivity orderReturnActivity);
 }

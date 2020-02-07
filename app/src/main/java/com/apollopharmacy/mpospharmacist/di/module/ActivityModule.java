@@ -39,9 +39,15 @@ import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesPrese
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPresenter;
@@ -206,6 +212,17 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ProductListMvpPresenter<ProductListMvpView> provideProductListActivity(ProductListPresenter<ProductListMvpView> presenter){
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MedicineDetailsMvpPresenter<MedicineDetailsMvpView> provideMedicinesListActivity(MedicineDetailsPresenter<MedicineDetailsMvpView> presenter){
+        return presenter;
+    }
+    @Provides
+    @PerActivity
+    OrderReturnMvpPresenter<OrederReturnMvpView> provideOrderReturnActivity(OrderReturnPresenter<OrederReturnMvpView> presenter){
         return presenter;
     }
 }
