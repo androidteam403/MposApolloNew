@@ -28,7 +28,7 @@
         <activity android:name=".ui.storesetup.StoreSetupActivity" />
         <activity android:name=".ui.searchproduct.SearchProductActivity" />
         <activity android:name=".ui.newadminloginsetup.NewAdminLoginSetUp" />
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity" >
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
 
         </activity>
         <activity android:name=".ui.searchuser.SearchUserActivity" />
@@ -44,9 +44,16 @@
         <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
 
         </activity>
-        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"/>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
 
+        </activity>
+        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"></activity>
+        <activity android:name=".ui.orderreturnactivity.OrderReturnActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity" />
         <activity android:name=".ui.additem.AddItemActivity" />

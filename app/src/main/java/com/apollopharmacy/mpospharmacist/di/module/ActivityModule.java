@@ -45,9 +45,15 @@ import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingP
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersPresenter;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnPresenter;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPresenter;
@@ -229,6 +235,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     MainActivityMvpPresenter<MainActivityMvpView> provideMainActivityMvpPresenter(MainActivityPresenter<MainActivityMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MedicineDetailsMvpPresenter<MedicineDetailsMvpView> provideMedicinesListActivity(MedicineDetailsPresenter<MedicineDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OrderReturnMvpPresenter<OrederReturnMvpView> provideOrderReturnActivity(OrderReturnPresenter<OrederReturnMvpView> presenter) {
         return presenter;
     }
 }
