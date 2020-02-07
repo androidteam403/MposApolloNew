@@ -1,14 +1,19 @@
 package com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.SearchCutomerDetailsBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 
 import javax.inject.Inject;
 
@@ -17,11 +22,15 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     SearchCustomerDoctorDetailsMvpPresenter<SearchCustomerDoctorDetailsMvpView> customerDetailsMvpPresenter;
     SearchCutomerDetailsBinding searchCutomerDetailsBinding;
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, SearchCustomerDoctorDetailsActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getActionBar() != null)
-            getActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
         searchCutomerDetailsBinding = DataBindingUtil.setContentView(this, R.layout.search_cutomer_details);
         getActivityComponent().inject(this);
         customerDetailsMvpPresenter.onAttach(SearchCustomerDoctorDetailsActivity.this);
@@ -31,6 +40,11 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     @Override
     protected void setUp() {
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
+
+        searchCutomerDetailsBinding.continueBtn.setOnClickListener(view -> {
+            startActivity(CustomerDoctorInfoActivity.getStartIntent(this));
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        });
     }
 
     @Override

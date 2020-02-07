@@ -1,11 +1,14 @@
 package com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityCustomerDoctorInfoBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 
 import javax.inject.Inject;
@@ -14,6 +17,10 @@ public class CustomerDoctorInfoActivity extends BaseActivity implements Customer
     @Inject
     CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> customerDoctorInfoMvpPresenter;
     ActivityCustomerDoctorInfoBinding customerDoctorInfoBinding;
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, CustomerDoctorInfoActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,9 @@ public class CustomerDoctorInfoActivity extends BaseActivity implements Customer
 
     @Override
     protected void setUp() {
-
+        customerDoctorInfoBinding.continueBtn.setOnClickListener(view -> {
+            startActivity(AddItemActivity.getStartIntent(this));
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        });
     }
 }
