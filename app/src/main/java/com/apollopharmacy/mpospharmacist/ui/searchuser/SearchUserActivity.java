@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.databinding.ActivitySearchProductBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ActivitySearchUserBinding;
-import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity;
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.adapter.SearchCustomerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.model.SearchCustomerAdapterModel;
@@ -67,7 +66,7 @@ public class SearchUserActivity extends BaseActivity implements SearchUserMvpVie
 
     @Override
     public void onClickAdd() {
-        startActivity(AddUserActivity.getStartIntent(this));
+        startActivity(AddCustomerActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 

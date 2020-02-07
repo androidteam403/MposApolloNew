@@ -22,29 +22,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/forty_dp"
-            android:layout_marginEnd="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/sixty_dp"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
             <ImageView
-                android:layout_width="@dimen/one_hundred_eighty_dp"
-                android:layout_height="@dimen/one_hundred_fifty_dp"
+                android:layout_width="@dimen/one_hundred_dp"
+                android:layout_height="@dimen/one_hundred_dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/app_shadow_logo" />
+                android:src="@drawable/ic_apollo_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/ten_dp"
-                android:text="@string/label_user_login"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:textAllCaps="true"
+                android:text="@string/label_pharmacist_login"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_22"
-                android:textStyle="bold" />
-
+                android:textSize="@dimen/text_dimen_18"
+                android:fontFamily="@font/roboto_bold"/>
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/selectUser"
@@ -53,6 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/fifteen_dp"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -64,7 +65,9 @@
                 style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_dp"
-                android:fontFamily="@font/roboto_regular">
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/fifteen_dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
@@ -84,6 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/fifteen_dp"
                 tools:ignore="UselessParent"
                 android:layout_marginTop="@dimen/ten_dp">
 
@@ -92,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:fontFamily="@font/roboto_regular"
                     android:onClick="@{()-> callback.onInstoreCLick()}"
                     android:text="@string/label_instore" />
 
@@ -99,6 +105,7 @@
                     android:id="@+id/selectCampaign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
                     android:layout_marginStart="@dimen/fifty_dp"
                     android:onClick="@{()-> callback.onSelectCampaign()}"
                     android:text="@string/label_select_campaign" />
@@ -110,6 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/fifteen_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_select_campaign"
                 android:visibility="gone"
@@ -119,8 +128,9 @@
                 android:id="@+id/relativeInfo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_hundred_dp"
-                android:layout_marginStart="@dimen/two_dp"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/fifteen_dp"
                 android:background="@color/thick_blue"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -198,7 +208,6 @@
                         android:text="@string/label__03_feb_2020_10_30"
                         android:textColor="@color/white" />
                 </RelativeLayout>
-
             </LinearLayout>
 
             <Button
@@ -212,7 +221,7 @@
                 android:text="@string/label_login"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
+                android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
     </RelativeLayout>
 

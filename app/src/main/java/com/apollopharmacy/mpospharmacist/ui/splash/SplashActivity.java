@@ -8,9 +8,9 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivitySplashBinding;
-import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 
 import javax.inject.Inject;
 
@@ -32,14 +32,14 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
 
     @Override
     public void openLoginActivity() {
-        startActivity(DashboardActivity.getStartIntent(this));
+        startActivity(MainActivity.getStartIntent(this));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void openAdminSetupActivity() {
-        startActivity(AdminLoginActivity.getStartIntent(this));
+        startActivity(PharmacistLoginActivity.getStartIntent(this));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }

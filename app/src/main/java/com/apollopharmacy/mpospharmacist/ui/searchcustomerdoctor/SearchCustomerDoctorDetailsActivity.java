@@ -20,6 +20,8 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getActionBar() != null)
+            getActionBar().hide();
         searchCutomerDetailsBinding = DataBindingUtil.setContentView(this, R.layout.search_cutomer_details);
         getActivityComponent().inject(this);
         customerDetailsMvpPresenter.onAttach(SearchCustomerDoctorDetailsActivity.this);

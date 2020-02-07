@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.databinding.CustDocDetailsBinding;
+import com.apollopharmacy.mpospharmacist.databinding.ActivityCustomerDoctorInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public class CustomerDoctorInfoActivity extends BaseActivity implements CustomerDoctorInfoMvpView {
     @Inject
     CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> customerDoctorInfoMvpPresenter;
-    CustDocDetailsBinding custDocDetailsBinding;
+    ActivityCustomerDoctorInfoBinding customerDoctorInfoBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class CustomerDoctorInfoActivity extends BaseActivity implements Customer
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        custDocDetailsBinding = DataBindingUtil.setContentView(this, R.layout.cust_doc_details);
+        customerDoctorInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_customer_doctor_info);
         getActivityComponent().inject(this);
         customerDoctorInfoMvpPresenter.onAttach(CustomerDoctorInfoActivity.this);
         setUp();

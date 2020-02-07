@@ -14,9 +14,37 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/custom_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Search User"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/customer_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/custom_action_bar"
             android:layout_margin="@dimen/ten_dp"
             android:orientation="vertical">
 
@@ -54,12 +82,12 @@
                     android:textSize="@dimen/text_dimen_13" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/thirty_dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_search_product" />
+                    android:src="@drawable/ic_search" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -114,12 +142,12 @@
                     android:textSize="@dimen/text_dimen_13" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/thirty_dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_search_product" />
+                    android:src="@drawable/ic_search" />
             </RelativeLayout>
         </LinearLayout>
 

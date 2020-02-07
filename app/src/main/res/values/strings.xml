@@ -147,7 +147,7 @@
     <string name="label_enter_user_id">Enter User ID</string>
     <string name="label_admin_login">ADMIN LOGIN</string>
     <string name="login">LOGIN</string>
-    <string name="label_user_login">USER LOGIN</string>
+    <string name="label_pharmacist_login">Pharmacist Login</string>
     <string name="label_campaign_id">Campaign Id:</string>
     <string name="label_6255487">6255487</string>
     <string name="label_address">Address:</string>
@@ -158,8 +158,6 @@
     <string name="label_search_by_phone_number">Search by phone number</string>
     <string name="label_search_by_registration_number">Search by registration number</string>
     <string name="label_registration_number_id">Registration Number/ID</string>
-    <string name="label_doctor_details">Doctor Details</string>
-    <string name="label_customer_details">Customer Details</string>
     <string name="label_tracking_ref_no_n_0_ns_normalsale">Tracking Ref No:  0-NS NORMALSALE</string>
     <string name="label_new_order">New Order</string>
     <string name="label_10001936">#10001936</string>
@@ -186,4 +184,11 @@
     <string name="label_add_new_customer">Add New Customer</string>
     <string name="label_no_doctor_found">No Doctor Found</string>
     <string name="label_add_new_doctor">Add New Doctor</string>
+
+    <string name="label_customer_details">Customer Details</string>
+    <string name="label_doctor_details">Doctor Details</string>
+    <string name="label_span_tracking_ref_no">Tracking Ref. No.:\n%1$s</string>
+    <string name="label_name">Name:</string>
+    <string name="label_reg_no">Reg. No.:</string>
+    <string name="label_add_items">Add Items</string>
 </resources>

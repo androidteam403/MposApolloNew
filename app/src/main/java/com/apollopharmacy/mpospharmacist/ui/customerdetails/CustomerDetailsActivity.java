@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityCustomerDetailsBinding;
-import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity;
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 
 import javax.inject.Inject;
@@ -41,7 +41,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onAddCustomerClick() {
-        startActivity(AddUserActivity.getStartIntent(this));
+        startActivity(AddCustomerActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 

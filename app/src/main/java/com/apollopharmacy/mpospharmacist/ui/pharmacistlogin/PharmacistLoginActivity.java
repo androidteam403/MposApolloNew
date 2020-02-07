@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
