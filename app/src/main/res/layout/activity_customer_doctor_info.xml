@@ -8,9 +8,38 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/custom_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:alpha="0.8"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Search User"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/customer_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/custom_action_bar"
             android:layout_margin="@dimen/fifteen_dp"
             android:orientation="vertical">
 
@@ -28,12 +57,12 @@
                     android:textSize="@dimen/text_dimen_18" />
 
                 <ImageView
-                    android:layout_width="@dimen/twenty_five_dp"
-                    android:layout_height="@dimen/twenty_five_dp"
+                    android:layout_width="@dimen/thirty_two_dp"
+                    android:layout_height="@dimen/thirty_two_dp"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:contentDescription="@string/label_img"
                     android:paddingTop="@dimen/five_dp"
-                    android:src="@drawable/icon_search_product" />
+                    android:src="@drawable/ic_search_circle" />
             </LinearLayout>
 
             <RelativeLayout
@@ -96,10 +125,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_seven_dp"
+                    android:layout_height="@dimen/twenty_seven_dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_next_level"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -136,12 +165,12 @@
                     android:textSize="@dimen/text_dimen_18" />
 
                 <ImageView
-                    android:layout_width="@dimen/twenty_five_dp"
-                    android:layout_height="@dimen/twenty_five_dp"
+                    android:layout_width="@dimen/thirty_two_dp"
+                    android:layout_height="@dimen/thirty_two_dp"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:contentDescription="@string/label_img"
                     android:paddingTop="@dimen/five_dp"
-                    android:src="@drawable/icon_search_product" />
+                    android:src="@drawable/ic_search_circle" />
             </LinearLayout>
 
             <RelativeLayout
@@ -174,10 +203,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_seven_dp"
+                    android:layout_height="@dimen/twenty_seven_dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_next_level"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -193,6 +222,7 @@
             android:background="@color/black" />
 
         <Button
+            android:id="@+id/continue_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_alignParentBottom="true"

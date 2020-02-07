@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
         addItemBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_item);
         getActivityComponent().inject(this);
         mPresenter.onAttach(AddItemActivity.this);
@@ -33,7 +36,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
     @Override
     protected void setUp() {
-
+        addItemBinding.continueBtn.setOnClickListener(view -> {
+            startActivity(ProductListActivity.getStartIntent(this));
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        });
     }
 
     @Override
