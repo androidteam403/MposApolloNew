@@ -18,6 +18,9 @@ import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpView;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoPresenter;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocMvpView;
 import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocPresenter;
@@ -42,6 +45,9 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpView;
+import com.apollopharmacy.mpospharmacist.ui.pay.PayPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPresenter;
@@ -197,6 +203,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    BatchInfoMvpPresenter<BatchInfoMvpView> provideBatchInfoActivity(BatchInfoPresenter<BatchInfoMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PayMvpPresenter<PayMvpView> providePayActivity(PayPresenter<PayMvpView> presenter) {
         return presenter;
     }
 }

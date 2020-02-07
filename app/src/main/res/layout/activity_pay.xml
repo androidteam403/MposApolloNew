@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.PayMvpPresenter" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/fifteen_dp"
+            android:paddingEnd="@dimen/twenty_dp">
+
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="New Order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="#10001936"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_20" />
+        </LinearLayout>
+
+<ScrollView
+    android:layout_below="@+id/action_bar"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/storesetupbackgroundcolor"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/seven_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="items list(7)"
+                android:textAllCaps="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Disc Type\n6699985214"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Pharma\n0.00"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="FMCG\n0.00"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="PL\n50.00"
+                        android:textSize="@dimen/text_dimen_9" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="RoundedAmt\n0.00"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="MRP Total\n5.36"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Taxable Amt\n46.64"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Disc.Amt\n0.00"
+                        android:textSize="@dimen/text_dimen_9" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:text="129.70"
+                    android:textColor="@color/selectstorecolor"
+                    android:textSize="@dimen/text_dimen_18"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Savings:20.50(10%)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_10" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/seven_dp"
+            android:padding="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Additional Discount : " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/twenty_dp"
+                android:background="@drawable/bg_apply_btn"
+                android:paddingTop="@dimen/five_dp"
+                android:textColor="@color/white"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:text="Apply" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/five_dp"
+           android:padding="@dimen/ten_dp"
+            android:background="@color/selectstorecolor"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="amount payable: "
+                    android:textAllCaps="true"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_dimen_10"
+                    android:text="Additional Discount: 10:00(5%) "
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="119.70"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pay_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingEnd="@dimen/ten_dp" />
+        <RelativeLayout
+            android:layout_marginTop="@dimen/five_dp"
+            android:padding="@dimen/seven_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red">
+
+            <ImageView
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:id="@+id/image"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:src="@drawable/icon_address_close"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="balance amount: "
+                android:textAllCaps="true"
+                android:layout_toEndOf="@id/image"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.70"
+                android:layout_marginEnd="@dimen/three_dp"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_bold"/>
+
+        </RelativeLayout>
+
+<TextView
+    android:layout_marginTop="@dimen/twenty_dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="payment method"
+    android:textAllCaps="true"
+    android:layout_gravity="center_horizontal"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:src="@drawable/places_ic_search"/>
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginStart="@dimen/five_dp"
+                android:src="@drawable/places_ic_search"/>
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginStart="@dimen/five_dp"
+                android:src="@drawable/places_ic_search"/>
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginStart="@dimen/five_dp"
+                android:src="@drawable/places_ic_search"/>
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/ten_dp">
+            <TextView
+                android:id="@+id/cash_payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textAllCaps="true"
+                android:text="cash payment: "/>
+            <EditText
+                android:id="@+id/edit_payment"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:padding="@dimen/five_dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
+                android:background="@drawable/rounded_corners_store"
+                android:layout_toEndOf="@+id/cash_payment"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:layout_toEndOf="@+id/edit_payment"
+                android:background="@drawable/bg_apply_btn"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/ten_dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:background="@color/cpb_yellow"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Generate Bill"/>
+
+    </RelativeLayout>
+
+</layout>
