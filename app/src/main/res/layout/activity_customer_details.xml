@@ -1,277 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
 
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter" />
     </data>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/ten_dp"
-        android:paddingBottom="@dimen/ten_dp"
-        android:paddingStart="@dimen/twenty_dp"
-        android:paddingEnd="@dimen/twenty_dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
-            android:src="@drawable/icon_back"/>
+        android:layout_height="match_parent"
+        android:background="@color/storesetupbackgroundcolor">
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/storesetupbackgroundcolor"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/twenty_dp"
-        android:paddingEnd="@dimen/twenty_dp">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phone_number"
-                style="@style/EditTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/one_hundred_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="top"
-                    android:hint="Phone Number / ID"
-                    android:inputType="text"
-                    android:padding="@dimen/ten_dp"
-                    android:singleLine="true"
-                    android:textSize="@dimen/text_dimen_15" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:layout_width="@dimen/forty_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginEnd="@dimen/ten_dp"
-                android:layout_toStartOf="@+id/mike"
-                android:src="@drawable/places_ic_search" />
-
-            <ImageView
-                android:id="@+id/mike"
-                android:layout_width="@dimen/forty_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:src="@drawable/mike" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_white">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/customer_details1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_height="@dimen/fifty_dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="@dimen/thirty_five_dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:src="@drawable/icon_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical"
-                    android:padding="@dimen/ten_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="First Name" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Age" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Date of Birth" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="City" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="District" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Email" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Mobile" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Marital Status" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Card Number" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical"
-                    android:padding="@dimen/ten_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Last Name" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Gender" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Postal Address" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="State" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Zip Code" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Telephone" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Anniversary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Number of Dependents" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
-                        android:text="Date of Registration" />
-
-                </LinearLayout>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_customer_details"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_below="@+id/customer_details1">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/ten_dp">
 
-                <Button
-                    android:id="@+id/select_btn"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_select_btn"
-                    android:text="select" />
+                    android:layout_marginBottom="@dimen/ten_dp">
 
-                <Button
-                    android:id="@+id/edit_btn"
-                    android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phone_number"
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/one_hundred_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="top"
+                            android:hint="@string/label_phone_number_id"
+                            android:inputType="text"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/forty_dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:layout_toStartOf="@+id/mike"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/places_ic_search" />
+
+                    <ImageView
+                        android:id="@+id/mike"
+                        android:layout_width="@dimen/forty_dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/mike" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/customer_info_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_save_btn"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:textColor="@color/white"
-                    android:layout_toRightOf="@+id/select_btn"
-                    android:text="edit" />
-            </RelativeLayout>
-        </RelativeLayout>
+                    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:text="No Customer Found"
-            android:textColor="@color/red" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:background="@drawable/bg_white"
+                        android:baselineAligned="false"
+                        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add New Customer"
-            android:textColor="@color/white"
-            android:paddingStart="@dimen/ten_dp"
-            android:paddingEnd="@dimen/ten_dp"
-            android:paddingTop="@dimen/five_dp"
-            android:paddingBottom="@dimen/five_dp"
-            android:onClick="@{()-> callback.onNewCustomer()}"
-            android:fontFamily="@font/roboto_bold"
-            android:textSize="@dimen/text_dimen_20"
-            android:background="@drawable/bg_primarycolor_btn"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"/>
-    </LinearLayout>
-</LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/ten_dp"
+                                android:layout_weight="0.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="First Name"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Age"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Date of Birth"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="City"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="District"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Email"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Mobile"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Marital Status"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Card Number"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/ten_dp"
+                                android:layout_weight="0.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Last Name"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Gender"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Postal Address"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="State"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Zip Code"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Telephone"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Anniversary"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Number of Dependents"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Date of Registration"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/fifteen_dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/select_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_select_btn"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/label_select"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_16" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_toEndOf="@+id/select_btn"
+                                android:background="@drawable/bg_select_btn"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/label_edit"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_16" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/no_customer_found_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/thirty_dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_no_customer_found"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/fifteen_dp"
+                        android:background="@drawable/bg_select_btn"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{()-> callback.onAddCustomerClick()}"
+                        android:text="@string/label_add_new_customer"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_18" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </layout>

@@ -6,8 +6,7 @@
         android:right="@dimen/five_dp"
         android:top="@dimen/five_dp" />
 
-    <solid
-        android:color="@color/white"/>
+    <solid android:color="@color/white" />
     <stroke
         android:width="@dimen/one_dp"
         android:color="@color/grey" />

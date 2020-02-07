@@ -10,31 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import androidx.databinding.DataBindingUtil;
-
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
-import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.SelectCampaignModel;
+import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
-import com.tiper.MaterialSpinner;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-import okhttp3.ResponseBody;
+import androidx.databinding.DataBindingUtil;
 
 public class PharmacistLoginActivity extends BaseActivity implements PharmacistLoginMvpView {
     @Inject
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
-    private ArrayList<UserModel> userTypeArr;
-    private ArrayList<SelectCampaignModel> selectCampaignModelArr;
     String strFont = null;
     private ActivityPharmacistLoginBinding pharmacistLoginBinding;
 
@@ -59,36 +50,26 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
 
-        ArrayAdapter<UserModel> adapter = new ArrayAdapter<UserModel>(this,
-                android.R.layout.simple_spinner_dropdown_item, getUserTypes());
-        strFont = this.getString(R.font.roboto_regular);
-        Typeface tt = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-        pharmacistLoginBinding.selectUser.setTypeface(tt);
-        pharmacistLoginBinding.selectUser.setAdapter(adapter);
-        pharmacistLoginBinding.selectUser.setOnItemClickListener(new MaterialSpinner.OnItemClickListener() {
-            @Override
-            public void onItemClick(@NotNull MaterialSpinner materialSpinner, @Nullable View view, int i, long l) {
-                materialSpinner.focusSearch(View.FOCUS_DOWN);
-                pharmacistLoginBinding.selectUser.setError(null);
-            }
-        });
-        ArrayAdapter<SelectCampaignModel> adapter1 = new ArrayAdapter<SelectCampaignModel>(this,
-                android.R.layout.simple_spinner_dropdown_item, getSelectCampaignModelTypes());
-        strFont = this.getString(R.font.roboto_regular);
-        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-        pharmacistLoginBinding.loginOption.setTypeface(tt1);
-        pharmacistLoginBinding.loginOption.setAdapter(adapter1);
 
-        pharmacistLoginBinding.loginOption.setOnItemClickListener(new MaterialSpinner.OnItemClickListener() {
-            @Override
-            public void onItemClick(@NotNull MaterialSpinner materialSpinner, @Nullable View view, int i, long l) {
-                materialSpinner.focusSearch(View.FOCUS_DOWN);
-            }
-        });
+//        ArrayAdapter<SelectCampaignModel> adapter1 = new ArrayAdapter<SelectCampaignModel>(this,
+//                android.R.layout.simple_spinner_dropdown_item, getSelectCampaignModelTypes());
+//        strFont = this.getString(R.font.roboto_regular);
+//        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+//        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
+//        pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
+//
+//        pharmacistLoginBinding.selectCampaign.setOnItemClickListener(new MaterialSpinner.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(@NotNull MaterialSpinner materialSpinner, @Nullable View view, int i, long l) {
+//                materialSpinner.focusSearch(View.FOCUS_DOWN);
+//            }
+//        });
+
+        mPresenter.getUserId();
     }
 
     private boolean validations() {
-        String password = pharmacistLoginBinding.password.getText().toString();
+        String password = Objects.requireNonNull(pharmacistLoginBinding.password.getText()).toString();
         if (pharmacistLoginBinding.selectUser.getSelectedItem() == null) {
             pharmacistLoginBinding.selectUser.setError("Please Select User");
             pharmacistLoginBinding.selectUser.setErrorTextColor(ColorStateList.valueOf(Color.RED));
@@ -97,7 +78,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
             pharmacistLoginBinding.password.setError("Password should not empty");
             pharmacistLoginBinding.password.requestFocus();
             return false;
-        }return true;
+        }
+        return true;
     }
 
     @Override
@@ -106,94 +88,77 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         mPresenter.onDetach();
     }
 
-    @Override
-    public void onLoginSuccess(ResponseBody responseBody) {
-        startActivity(DashboardActivity.getStartIntent(this));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
-    }
-
-    @Override
-    public void onSuccessLogin() {
-        Intent intent = getIntent();
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 
     @Override
     public void onClickLogin() {
         if (validations()) {
-            // Intent i = new Intent(getApplicationContext(), AdminLoginActivity.class);
-            startActivity(AdminLoginActivity.getStartIntent(this));
+            mPresenter.userLoginApi();
         }
     }
 
     @Override
     public void onClickInstore() {
-        pharmacistLoginBinding.loginOption.setVisibility(View.GONE);
+        pharmacistLoginBinding.selectCampaign.setVisibility(View.GONE);
         pharmacistLoginBinding.relativeInfo.setVisibility(View.GONE);
     }
 
     @Override
     public void onCampaignSelect() {
-        pharmacistLoginBinding.loginOption.setVisibility(View.VISIBLE);
+        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
         pharmacistLoginBinding.relativeInfo.setVisibility(View.VISIBLE);
     }
 
+    @SuppressLint("ResourceType")
     @Override
-    public void onIntentCall() {
-//        if (validations()) {
-//            startActivity(DashboardActivity.getStartIntent(this));
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//            finish();
-//          //  CustomerLoginDialog.newInstance().show(getSupportFragmentManager(), "CustomerLogin");
-//        }
+    public void getUserIds(UserModel body) {
+        ArrayAdapter<UserModel._DropdownValueBean> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, body.getGetLoginUserResult().get_DropdownValue());
+        strFont = this.getString(R.font.roboto_regular);
+        Typeface tt = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+        pharmacistLoginBinding.selectUser.setTypeface(tt);
+        pharmacistLoginBinding.selectUser.setAdapter(adapter);
+        pharmacistLoginBinding.selectUser.setOnItemClickListener((materialSpinner, view, i, l) -> {
+            materialSpinner.focusSearch(View.FOCUS_DOWN);
+            pharmacistLoginBinding.selectUser.setError(null);
+        });
     }
 
-    //    private boolean validations() {
-//        String name = pharmacistLoginBinding.callNumber.getText().toString();
-//        String password = pharmacistLoginBinding.password.getText().toString();
-//        if (name.isEmpty()) {
-//            pharmacistLoginBinding.callNumber.setError("Name should not empty");
-//            pharmacistLoginBinding.callNumber.requestFocus();
-//            return false;
-//        } else if (password.isEmpty()) {
-//            pharmacistLoginBinding.password.setError("password should not empty");
-//            pharmacistLoginBinding.password.requestFocus();
-//            return false;
-//        }
-//        return true;
-//    }
-    private ArrayList<UserModel> getUserTypes() {
-        userTypeArr = new ArrayList<>();
-        UserModel item = new UserModel();
-        item.setUserType("pharmacist");
-        userTypeArr.add(item);
-
-        item = new UserModel();
-        item.setUserType("Doctor");
-        userTypeArr.add(item);
-
-        item = new UserModel();
-        item.setUserType("Customer");
-        userTypeArr.add(item);
-        return userTypeArr;
+    @Override
+    public void userLoginSuccess(LoginResModel loginResModel) {
+        startActivity(MainActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 
-    private ArrayList<SelectCampaignModel> getSelectCampaignModelTypes() {
-        selectCampaignModelArr = new ArrayList<>();
-        SelectCampaignModel item = new SelectCampaignModel();
-        item.setLoginType("User");
-        selectCampaignModelArr.add(item);
+    @Override
+    public void userLoginFailed() {
 
-        item = new SelectCampaignModel();
-        item.setLoginType("Admin");
-        selectCampaignModelArr.add(item);
-
-        item = new SelectCampaignModel();
-        item.setLoginType("Pharma");
-        selectCampaignModelArr.add(item);
-        return selectCampaignModelArr;
     }
+
+    @Override
+    public String getUserId() {
+        return pharmacistLoginBinding.selectUser.getSelectedItem() != null ? pharmacistLoginBinding.selectUser.getSelectedItem().toString() : null;
+    }
+
+    @Override
+    public String getCampaignId() {
+        return null;
+    }
+
+    @Override
+    public String getStoreId() {
+        return "16001";
+    }
+
+    @Override
+    public String getTerminalId() {
+        return "001";
+    }
+
+    @Override
+    public String getUserPassword() {
+        return Objects.requireNonNull(pharmacistLoginBinding.password.getText()).toString();
+    }
+
 }
 

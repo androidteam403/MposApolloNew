@@ -27,7 +27,9 @@
     <color name="thick_blue">#4281A7</color>
     <color name="light_grey">#ECF2F6</color>
 
+    <color name="Light_green">#72E5BE</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#777</color>
+
     <color name="storesetupbackgroundcolor">#E1E4F7</color>
     <color name="selectstorecolor">#4281A7</color>
 </resources>

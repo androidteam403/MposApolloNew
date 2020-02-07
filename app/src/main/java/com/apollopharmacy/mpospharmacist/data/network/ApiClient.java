@@ -12,7 +12,7 @@ public class ApiClient {
     /********
      * URLS
      *******/
-    private static final String ROOT_URL = "https://jsonblob.com/api/jsonBlob/";
+    private static final String ROOT_URL = "http://172.16.200.131:9880/";
 
     /**
      * Get Retrofit Instance

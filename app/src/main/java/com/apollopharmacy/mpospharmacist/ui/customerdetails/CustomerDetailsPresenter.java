@@ -16,7 +16,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     }
 
     @Override
-    public void onNewCustomer() {
-        getMvpView().onCustomerNew();
+    public void onAddCustomerClick() {
+        getMvpView().onAddCustomerClick();
     }
 }

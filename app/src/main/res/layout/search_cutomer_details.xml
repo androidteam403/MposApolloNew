@@ -3,87 +3,118 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-    <variable
-        name="callbacks"
-        type="com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetailsMvpPresenter" />
+
+        <variable
+            name="callbacks"
+            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpPresenter" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_grey"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/custom_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Search User"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customer_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_below="@+id/custom_action_bar"
+            android:layout_margin="@dimen/ten_dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_customer_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_20"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_dimen_18" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_phone_number_id" />
+                android:text="@string/label_phone_number_id"
+                android:textSize="@dimen/text_dimen_13" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_marginTop="@dimen/five_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:onClick="@{()-> callbacks.onPhoneClick()}"
                 android:background="@drawable/rectangular_shape"
+                android:onClick="@{()-> callbacks.onCustomerSearchClick()}"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/three_hundred_dp"
-                    android:layout_height="@dimen/thirty_dp"
-                    android:background="@null"
-                    android:hint="@string/label_search_by_phone_number"
-                    android:paddingStart="@dimen/five_dp"
-                    android:paddingTop="@dimen/seven_dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/five_dp"
-                    android:src="@drawable/icon_search_product"
-                    android:contentDescription="@string/label_img" />
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_search_by_phone_number"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <ImageView
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
         </LinearLayout>
 
         <View
-                android:layout_width="match_parent"
-                android:background="@color/black"
-                android:layout_marginTop="@dimen/thirty_dp"
-                android:layout_height="@dimen/one_dp"
-                />
+            android:id="@+id/details_divider_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:layout_below="@+id/customer_layout"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:background="@color/grey" />
+
         <LinearLayout
+            android:id="@+id/doctor_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_below="@+id/details_divider_view"
+            android:layout_margin="@dimen/ten_dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_doctor_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_20"
+                android:textSize="@dimen/text_dimen_18"
                 android:textStyle="bold" />
 
             <TextView
@@ -91,45 +122,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_registration_number_id" />
+                android:text="@string/label_registration_number_id"
+                android:textSize="@dimen/text_dimen_13" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_dp"
-                android:onClick="@{()-> callbacks.onRegisterClick()}"
                 android:layout_marginTop="@dimen/five_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
                 android:background="@drawable/rectangular_shape"
+                android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/three_hundred_dp"
-                    android:layout_height="@dimen/thirty_dp"
-                    android:background="@null"
-                    android:hint="@string/label_search_by_registration_number"
-                    android:paddingStart="@dimen/five_dp"
-                    android:paddingTop="@dimen/seven_dp" />
-                <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/five_dp"
-                    android:src="@drawable/icon_search_product"
-                    android:contentDescription="@string/label_img" />
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_search_by_registration_number"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <ImageView
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
         </LinearLayout>
-        <RelativeLayout
+
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/cpb_yellow"
-                android:text="Continue"
-                android:textSize="@dimen/text_dimen_18"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-    </LinearLayout>
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.3"
+            android:background="@color/cpb_yellow"
+            android:text="@string/label_continue"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_dimen_17"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </layout>
