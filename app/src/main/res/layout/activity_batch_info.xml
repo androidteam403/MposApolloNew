@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/storesetupbackgroundcolor"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/fifteen_dp"
+            android:paddingEnd="@dimen/twenty_dp">
+
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="New Order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="#10001936"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_20" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/items_name"
+            android:layout_below="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/selectstorecolor"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/twenty_dp">
+
+            <TextView
+                android:id="@+id/items_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:text="Items Name: "
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_toRightOf="@+id/items_name1"
+                android:text="Dolo neuron 300mg tab"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/batch_list"
+            android:layout_below="@+id/items_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/twenty_dp">
+
+            <TextView
+                android:id="@+id/batch_info_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="batch info list"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_dimen_15" />
+
+            <TextView
+                android:id="@+id/required_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/batch_info_list"
+                android:layout_centerHorizontal="true"
+                android:text="Required Quantity" />
+
+            <EditText
+                android:id="@+id/edit_num"
+                android:layout_width="@dimen/seventy_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_below="@+id/required_quantity"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rounded_corners_white"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/increment"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_below="@+id/required_quantity"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_toStartOf="@+id/edit_num"
+                android:background="@color/selectstorecolor"
+                android:onClick="@{()-> callback.onClickDecrement()}"
+                android:padding="@dimen/ten_dp"
+                android:src="@drawable/icon_close" />
+
+            <ImageView
+                android:id="@+id/decrement"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_below="@+id/required_quantity"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_toEndOf="@+id/edit_num"
+                android:background="@color/selectstorecolor"
+                android:onClick="@{()-> callback.onClickIncrement()}"
+                android:padding="@dimen/ten_dp"
+                android:src="@drawable/icon_back" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/batch_details"
+            android:layout_below="@+id/batch_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="#696969"
+           android:padding="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:weightSum="3"
+            tools:ignore="UselessParent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="Batch No."
+                android:layout_marginStart="@dimen/ten_dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_weight="0.7"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Exp.Date."
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/twenty_dp"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Mrp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Tax"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Q O H"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Req.Qty"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_12" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/batch_details"
+            android:id="@+id/batch_info_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingEnd="@dimen/ten_dp" />
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="continue"
+                android:fontFamily="@font/roboto_bold"
+                android:background="@color/cpb_yellow"
+                android:gravity="center"
+                android:textSize="@dimen/twenty_dp"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>
