@@ -4,61 +4,59 @@
     package="com.apollopharmacy.mpospharmacist">
 
     <application
-        android:name="com.apollopharmacy.mpospharmacist.root.ApolloMposApp"
+        android:name=".root.ApolloMposApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_apollo"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_confing"
         android:roundIcon="@mipmap/ic_launcher_round_apollo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
-            android:name="com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity"
+            android:name=".ui.home.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
 
         </activity>
-
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity">
-
-        </activity>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp" />
-
-
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity" />
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity">
+        <activity android:name=".ui.storesetup.StoreSetupActivity" />
+        <activity android:name=".ui.searchproduct.SearchProductActivity" />
+        <activity android:name=".ui.newadminloginsetup.NewAdminLoginSetUp" />
+        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity">
 
         </activity>
-        <activity android:name=".ui.leftnav.LeftNavigationActivity"/>
+        <activity android:name=".ui.searchuser.SearchUserActivity" />
+        <activity android:name=".ui.addcustomer.AddCustomerActivity" />
         <activity android:name=".ui.adddoctor.AddDoctorActivity" />
-        <activity android:name=".ui.customerdoctordetails.SearchCustomerDetails"/>
-        <activity android:name="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity">
+        <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        </activity>
-        <activity android:name=".ui.additem.AddItemActivity">
-
-        </activity>
-        <activity android:name=".ui.cusdocdetails.CustDocDetails">
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
 
         </activity>
-        <activity android:name=".ui.doctordetails.DoctorDetailsActivity"></activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
+
         </activity>
-        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity">
-        </activity>
+        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"></activity>
         <activity android:name=".ui.orderreturnactivity.OrderReturnActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity" />
+        <activity android:name=".ui.additem.AddItemActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -68,5 +66,4 @@
     <uses-permission android:name="com.google.android.permission.gsf.permission" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

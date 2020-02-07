@@ -3,21 +3,24 @@ package com.apollopharmacy.mpospharmacist.di.component;
 
 import com.apollopharmacy.mpospharmacist.di.PerActivity;
 import com.apollopharmacy.mpospharmacist.di.module.ActivityModule;
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
-import com.apollopharmacy.mpospharmacist.ui.adduser.AddUserActivity;
-import com.apollopharmacy.mpospharmacist.ui.adminlogin.AdminLoginActivity;
-import com.apollopharmacy.mpospharmacist.ui.cusdocdetails.CustDocDetails;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
-import com.apollopharmacy.mpospharmacist.ui.customerdoctordetails.SearchCustomerDetails;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.DashboardActivity;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.payment.PaymentFragment;
-import com.apollopharmacy.mpospharmacist.ui.dashboard.fragments.sales.SalesFragment;
+import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingFragment;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterFragment;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterFragment;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingFragment;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersFragment;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity;
@@ -37,19 +40,11 @@ public interface ActivityComponent {
 
     void inject(SplashActivity splashActivity);
 
-    void inject(AdminLoginActivity adminLoginActivity);
-
-    void inject(DashboardActivity dashboardActivity);
-
-    void inject(SalesFragment salesFragment);
-
-    void inject(PaymentFragment paymentFragment);
-
     void inject(SearchProductActivity searchProductActivity);
 
     void inject(SearchUserActivity searchUserActivity);
 
-    void inject(AddUserActivity addUserActivity);
+    void inject(AddCustomerActivity addCustomerActivity);
 
     void inject(PharmacistLoginActivity pharmacistLoginActivity);
 
@@ -61,9 +56,9 @@ public interface ActivityComponent {
 
     void inject(AddItemActivity addItemActivity);
 
-    void inject(CustDocDetails custDocDetails);
+    void inject(CustomerDoctorInfoActivity customerDoctorInfoActivity);
 
-    void inject(SearchCustomerDetails searchCustomerDetails);
+    void inject(SearchCustomerDoctorDetailsActivity searchCustomerDoctorDetailsActivity);
 
     void inject(ProductListActivity productListActivity);
 
@@ -71,7 +66,21 @@ public interface ActivityComponent {
 
     void inject(CustomerDetailsActivity customerDetailsActivity);
 
+    void inject(DashBoardFragment dashBoardFragment);
+
+    void inject(BillingFragment billingFragment);
+
+    void inject(CustomerMasterFragment customerMasterFragment);
+
+    void inject(DoctorMasterFragment doctorMasterFragment);
+
+    void inject(ManualBillingFragment manualBillingFragment);
+
+    void inject(OrdersFragment ordersFragment);
+
+    void inject(MainActivity mainActivity);
+
     void inject(MedicinesDetailsActivity medicinesDetailsActivity);
 
-    void inject (OrderReturnActivity orderReturnActivity);
+    void inject(OrderReturnActivity orderReturnActivity);
 }

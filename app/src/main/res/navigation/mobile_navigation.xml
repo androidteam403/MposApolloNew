@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_dash_board">
+
+    <fragment
+        android:id="@+id/nav_dash_board"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment"
+        android:label="@string/menu_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/nav_doc_master"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterFragment"
+        android:label="@string/menu_doc_master"
+        tools:layout="@layout/fragment_doc_master" />
+
+    <fragment
+        android:id="@+id/nav_cust_master"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterFragment"
+        android:label="@string/menu_customer_master"
+        tools:layout="@layout/fragment_cust_master" />
+
+    <fragment
+        android:id="@+id/nav_billing"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingFragment"
+        android:label="@string/menu_billing"
+        tools:layout="@layout/fragment_billing" />
+
+    <fragment
+        android:id="@+id/nav_order"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersFragment"
+        android:label="@string/menu_orders"
+        tools:layout="@layout/fragment_order" />
+
+    <fragment
+        android:id="@+id/nav_manual_billing"
+        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingFragment"
+        android:label="@string/menu_manual_billing"
+        tools:layout="@layout/fragment_manual_billing" />
+</navigation>

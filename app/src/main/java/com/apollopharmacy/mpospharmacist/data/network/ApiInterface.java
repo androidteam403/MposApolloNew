@@ -1,7 +1,12 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -26,6 +31,11 @@ public interface ApiInterface {
                                                  @Field("password") String password
     );
 
+    @POST("LoginService.svc/GetLoginUser/16001/AHEL")
+    Call<UserModel> getUserIds(@Body Object o);
+
+    @POST("LoginService.svc/GetLoginDetail")
+    Call<LoginResModel> LOGIN_RES_MODEL_CALL (@Body LoginReqModel loginReqModel);
 //    @GET("780a4b58-2bca-11ea-8649-0d2b23060fa9")
 //    Call<List<Recipe>> getProducts();
 

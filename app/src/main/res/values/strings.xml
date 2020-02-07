@@ -141,13 +141,13 @@
     <string name="label_selectuser">SelectUser</string>
     <string name="todo">TODO</string>
     <string name="label_loginoptions">LoginOptions:</string>
-    <string name="label_instore">InStore</string>
+    <string name="label_instore">In Store</string>
     <string name="label_select_campaign">Select Campaign</string>
     <string name="label_login">Login</string>
     <string name="label_enter_user_id">Enter User ID</string>
     <string name="label_admin_login">ADMIN LOGIN</string>
     <string name="login">LOGIN</string>
-    <string name="label_user_login">USER LOGIN</string>
+    <string name="label_pharmacist_login">Pharmacist Login</string>
     <string name="label_campaign_id">Campaign Id:</string>
     <string name="label_6255487">6255487</string>
     <string name="label_address">Address:</string>
@@ -158,11 +158,37 @@
     <string name="label_search_by_phone_number">Search by phone number</string>
     <string name="label_search_by_registration_number">Search by registration number</string>
     <string name="label_registration_number_id">Registration Number/ID</string>
-    <string name="label_doctor_details">Doctor Details</string>
-    <string name="label_customer_details">Customer Details</string>
     <string name="label_tracking_ref_no_n_0_ns_normalsale">Tracking Ref No:  0-NS NORMALSALE</string>
     <string name="label_new_order">New Order</string>
     <string name="label_10001936">#10001936</string>
     <string name="label_search_for_items">Search for Items</string>
     <string name="label_5_items_found">5 Items Found</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_doc_master">Doc.Master</string>
+    <string name="menu_customer_master">Customer Master</string>
+    <string name="menu_billing">Billing</string>
+    <string name="menu_orders">Orders</string>
+    <string name="menu_manual_billing">Manual Billing</string>
+
+   <string name="label_continue">Continue</string>
+    <string name="label_select">Select</string>
+    <string name="label_edit">Edit</string>
+    <string name="label_no_customer_found">No Customer Found</string>
+    <string name="label_add_new_customer">Add New Customer</string>
+    <string name="label_no_doctor_found">No Doctor Found</string>
+    <string name="label_add_new_doctor">Add New Doctor</string>
+
+    <string name="label_customer_details">Customer Details</string>
+    <string name="label_doctor_details">Doctor Details</string>
+    <string name="label_span_tracking_ref_no">Tracking Ref. No.:\n%1$s</string>
+    <string name="label_name">Name:</string>
+    <string name="label_reg_no">Reg. No.:</string>
+    <string name="label_add_items">Add Items</string>
 </resources>
