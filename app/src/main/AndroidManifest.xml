@@ -34,17 +34,25 @@
         <activity android:name=".ui.searchuser.SearchUserActivity" />
         <activity android:name=".ui.addcustomer.AddCustomerActivity" />
         <activity android:name=".ui.adddoctor.AddDoctorActivity" />
-        <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity">
+        <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity" />
+
+        <activity android:name=".ui.additem.AddItemActivity">
+
+        </activity>
+        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
+
+        </activity>
+        <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
+        <activity android:name=".ui.batchonfo.BatchInfoActivity">
+
+        </activity>
+        <activity android:name=".ui.pay.PayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
-
-        </activity>
-        <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
 
         </activity>
@@ -56,7 +64,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity" />
-        <activity android:name=".ui.additem.AddItemActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

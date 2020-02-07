@@ -186,7 +186,7 @@
                 android:id="@+id/adderss_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#4281A7"
+                android:background="@color/selectstorecolor"
                 android:orientation="vertical"
                 android:padding="@dimen/ten_dp">
 
