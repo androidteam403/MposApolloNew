@@ -34,7 +34,7 @@ public class DoctorDetailAdapter extends RecyclerView.Adapter<DoctorDetailAdapte
     @Override
     public void onBindViewHolder(@NonNull DoctorDetailAdapter.ViewHolder holder, int position) {
         DoctorSearchResModel.DropdownValueBean item = doctorSearchArrayList.get(position);
-        holder.viewDoctorSearchItemBinding.setModel(item);
+//        holder.viewDoctorSearchItemBinding.setModel(item);
 
     }
 
