@@ -9,6 +9,8 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
 
     void onDoctorSearchClick();
 
+    void onCorporateSearchClick();
+
     void onBackPressedClick();
 
     void customerEditClick(GetCustomerResponse.CustomerEntity customerEntity);

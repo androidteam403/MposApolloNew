@@ -97,6 +97,9 @@
         <activity
             android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.corporatedetails.CorporateDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

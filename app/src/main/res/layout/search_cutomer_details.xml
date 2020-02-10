@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_customer_details"
                 android:textColor="@color/black"
@@ -223,6 +223,67 @@
                 android:layout_marginTop="@dimen/five_dp"
                 android:background="@drawable/rectangular_shape"
                 android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_search_by_registration_number"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <ImageView
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/corporate_divider_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:layout_below="@+id/doctor_layout"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:background="@color/customer_doctor_divider" />
+
+        <LinearLayout
+            android:id="@+id/corporate_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/corporate_divider_view"
+            android:layout_margin="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_corporate_details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_18"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_registration_number_id"
+                android:textColor="@color/customer_header_text"
+                android:textSize="@dimen/text_dimen_13" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@drawable/rectangular_shape"
+                android:onClick="@{()-> callbacks.onCorporateSearchClick()}"
                 android:orientation="horizontal">
 
                 <TextView

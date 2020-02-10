@@ -1,5 +1,8 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
@@ -46,4 +49,11 @@ public interface ApiInterface {
 
 //    @GET("381352b5-3e69-11ea-be6c-f9dd68604caf")
 //    Call<Pharmacy> getPharmacyList();
+
+
+    @POST("SalesTransactionService.svc/GetTrackingRefence/16001/AHEL")
+    Call<CorporateModel> getCorporateList(@Body Object o);
+
+    @POST("SalesTransactionService.svc/GetDoctorList/16001/AHEL")
+    Call<DoctorSearchResModel> getDoctorsList(@Body DoctorSearchReqModel doctorSearchReqModel);
 }

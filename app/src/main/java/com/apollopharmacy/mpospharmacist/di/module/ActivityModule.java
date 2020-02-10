@@ -18,6 +18,9 @@ import com.apollopharmacy.mpospharmacist.ui.additem.AddItemPresenter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpView;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoPresenter;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpView;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsPresenter;
@@ -265,6 +268,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     OrderReturnMvpPresenter<OrederReturnMvpView> provideOrderReturnActivity(OrderReturnPresenter<OrederReturnMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CorporateDetailsMvpPresenter<CorporateDetailsMvpView> provideCorporateDetailsActivity(CorporateDetailsPresenter<CorporateDetailsMvpView> presenter) {
         return presenter;
     }
 }

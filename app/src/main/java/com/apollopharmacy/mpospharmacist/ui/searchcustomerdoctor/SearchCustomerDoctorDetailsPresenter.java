@@ -28,6 +28,11 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     }
 
     @Override
+    public void onCorporateSearchClick() {
+        getMvpView().onCorporateSearchClick();
+    }
+
+    @Override
     public void onActionBarBackPress() {
         getMvpView().onBackPressedClick();
     }
