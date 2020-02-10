@@ -30,7 +30,6 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         activityPayBinding = DataBindingUtil.setContentView(this, R.layout.activity_pay);
         getActivityComponent().inject(this);
         mPresenter.onAttach(PayActivity.this);
