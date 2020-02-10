@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_grey"
+        android:background="@color/search_customer_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -147,7 +147,7 @@
             android:layout_below="@+id/customer_info_layout"
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:background="@color/black" />
+            android:background="@color/customer_doctor_divider" />
 
         <LinearLayout
             android:id="@+id/doctor_info_layout"
@@ -225,7 +225,7 @@
             android:layout_below="@+id/doctor_info_layout"
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:background="@color/black" />
+            android:background="@color/customer_doctor_divider" />
 
         <Button
             android:id="@+id/continue_btn"

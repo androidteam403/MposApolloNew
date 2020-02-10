@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_grey"
+        android:background="@color/search_customer_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -61,6 +61,7 @@
             android:layout_marginEnd="@dimen/fifteen_dp"
             android:layout_marginTop="@dimen/fifteen_dp"
             android:layout_marginBottom="@dimen/five_dp"
+            android:textColor="@color/customer_info_header"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/label_search_for_items" />
 

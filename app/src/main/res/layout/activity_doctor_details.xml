@@ -12,7 +12,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/storesetupbackgroundcolor">
+        android:background="@color/search_customer_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -234,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/label_no_doctor_found"
-                        android:textColor="@color/red"
+                        android:textColor="@color/no_customer_found"
                         android:textSize="@dimen/text_dimen_14" />
 
                     <TextView

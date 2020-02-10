@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#01bdbe</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#027d9e</color>
+    <color name="colorPrimaryDark">#027d9e</color>
     <color name="colorAccent">#00a651</color>
 
     <color name="black">#000000</color>
@@ -32,4 +32,22 @@
 
     <color name="storesetupbackgroundcolor">#E1E4F7</color>
     <color name="store_bg_color">#4281A7</color>
+    <color name="search_customer_bg">#e8f3f5</color>
+    <color name="customer_header_text">#666867</color>
+    <color name="customer_search_border">#d5d6d8</color>
+    <color name="customer_doctor_divider">#ccccce</color>
+    <color name="customer_info_header">#666666</color>
+    <color name="no_customer_found">#fe0000</color>
+    <color name="add_item_header">#4d4d4d</color>
+    <color name="batch_info_header">#0d5667</color>
+    <color name="req_qty_bg">#f2f2f2</color>
+    <color name="req_qty_border">#b3b3b3</color>
+    <color name="batch_header_bg">#999999</color>
+    <color name="pay_btn_color">#fcb815</color>
+    <color name="in_line_discount">#027d9c</color>
+    <color name="cart_price_bg">#bbdadd</color>
+    <color name="cart_tax_bg">#e6e6e6</color>
+    <color name="payment_amount_text">#017e9c</color>
+    <color name="payment_pending_bg">#9fc7c9</color>
+    <color name="payment_type_header">#4e4c4d</color>
 </resources>
