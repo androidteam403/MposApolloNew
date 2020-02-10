@@ -35,6 +35,7 @@
     <string name="label_generic_name"> Name: %s</string>
     <string name="label_generic_gender"> Gender: %s</string>
     <string name="label_generic_phone_number"> Phone number: %s</string>
+    <string name="label_generic_phone_no"> Phone No.: %s</string>
     <string name="label_generic_dob"> DOB: %s</string>
 
     <string name="label_site_id"> Site Id:</string>
@@ -58,15 +59,15 @@
     <string name="label_manufacture">MANUFACTURE</string>
     <string name="label_rack_id">RACK ID</string>
     <string name="labl_generic_name">GENERIC NAME</string>
-    <string name="label_batch_no">BATCH NO.</string>
+    <string name="label_batch_no">Batch No.</string>
     <string name="label_substitute">SUBSTITUTE</string>
     <string name="label_expiry_change">EXPIRY CHANGE</string>
     <string name="labl_s_no">S.No.</string>
-    <string name="label_exp_date">EXP.DATE</string>
-    <string name="label_mrp">MRP</string>
-    <string name="label_tax">TAX</string>
+    <string name="label_exp_date">Exp.Date</string>
+    <string name="label_mrp">Mrp</string>
+    <string name="label_tax">Tax</string>
     <string name="label_q_o_h">Q O H</string>
-    <string name="label_req">REQ.QTY</string>
+    <string name="label_req">Req. Qty</string>
     <string name="label_add_to_cart">ADD TO CART</string>
     <string name="label_batchno">BATCHNO.</string>
     <string name="label_searchproduct">SearchProduct</string>
@@ -191,4 +192,8 @@
     <string name="label_name">Name:</string>
     <string name="label_reg_no">Reg. No.:</string>
     <string name="label_add_items">Add Items</string>
+    <string name="label_batch_info_list">Batch Info List</string>
+    <string name="label_required_qty">Required Quantity</string>
+    <string name="label_add_medicines">Add Medicines:</string>
+    <string name="label_clear_all_txt">Clear All:</string>
 </resources>

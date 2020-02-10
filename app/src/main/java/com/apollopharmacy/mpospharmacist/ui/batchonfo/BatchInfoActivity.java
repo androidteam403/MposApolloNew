@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityBatchInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.BatchInfoListAdapterBinding;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter.BatchInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductBatchPojo;
+import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -29,13 +29,15 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Inject
     BatchInfoMvpPresenter<BatchInfoMvpView> mPresenter;
     ActivityBatchInfoBinding batchInfoBinding;
+
     BatchInfoAdapter batchInfoAdapter;
     BatchInfoListAdapterBinding batchInfoListAdapterBinding;
-
     private ArrayList<BatchInfoAdapterPojo> arrBatchList = null;
-
-
     private int count = 0;
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, BatchInfoActivity.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     protected void setUp() {
         batchInfoBinding.setCallback(mPresenter);
-
         getBatchInfo();
         batchInfoAdapter = new BatchInfoAdapter(this, arrBatchList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -61,32 +62,36 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         batchInfoBinding.batchInfoRecycler.setAdapter(batchInfoAdapter);
     }
 
-
-
     @Override
     public void onIncrementClick() {
         count++;
         String string = Integer.toString(count);
-        batchInfoBinding.editNum.setText(string);
-
+        batchInfoBinding.inputQty.setText(string);
     }
 
     @Override
     public void onDecrementClick() {
         if (count == 1) {
             String string = Integer.toString(count);
-            batchInfoBinding.editNum.setText(string);
+            batchInfoBinding.inputQty.setText(string);
         } else {
             count--;
             String string = Integer.toString(count);
-            batchInfoBinding.editNum.setText(string);
+            batchInfoBinding.inputQty.setText(string);
         }
+    }
+
+    @Override
+    public void onNavigateNextActivity() {
+        startActivity(MedicinesDetailsActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void onItemClick(BatchInfoAdapterPojo batchInfoAdapterPojo) {
 
     }
+
     private void getBatchInfo() {
         arrBatchList = new ArrayList<>();
         BatchInfoAdapterPojo batchInfoAdapterPojo = new BatchInfoAdapterPojo("Docs0014", "12/12/2020", "45.50", "4.50",
@@ -102,5 +107,4 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 "50.00", "0");
         arrBatchList.add(batchInfoAdapterPojo);
     }
-
 }

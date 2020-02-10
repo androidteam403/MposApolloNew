@@ -17,11 +17,6 @@
             android:name=".ui.home.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
@@ -45,7 +40,8 @@
 
         </activity>
         <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
-        <activity android:name=".ui.batchonfo.BatchInfoActivity">
+        <activity android:name=".ui.batchonfo.BatchInfoActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity android:name=".ui.pay.PayActivity">
@@ -54,7 +50,13 @@
         <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
 
         </activity>
-        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"></activity>
+        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.orderreturnactivity.OrderReturnActivity">
 
         </activity>

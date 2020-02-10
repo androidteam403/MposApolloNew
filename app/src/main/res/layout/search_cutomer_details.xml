@@ -27,6 +27,7 @@
                 android:contentDescription="@string/app_name"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
+                android:alpha="0.8"
                 android:src="@drawable/ic_back_arrow" />
 
             <TextView
@@ -152,6 +153,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/continue_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_alignParentBottom="true"

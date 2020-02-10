@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/fifteen_dp"
-            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
             android:weightSum="3"
             tools:ignore="UselessParent">
 
@@ -71,7 +71,6 @@
                 android:layout_weight="0.4"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
-
                 android:text="@{batchInfo.qoh}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12" />
@@ -86,7 +85,6 @@
                 android:text="@{batchInfo.reqQty}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12" />
-
         </LinearLayout>
     </LinearLayout>
 </layout>
