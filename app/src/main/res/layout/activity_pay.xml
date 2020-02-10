@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,37 +16,42 @@
         <LinearLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/fifteen_dp"
-            android:paddingEnd="@dimen/twenty_dp">
+            tools:ignore="UselessParent">
 
             <ImageView
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/icon_back" />
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:alpha="0.8"
+                android:visibility="gone"
+                android:src="@drawable/ic_back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:text="@string/label_new_order"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/ten_dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="New Order"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_20" />
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="@dimen/text_dimen_18" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="#10001936"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_20" />
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_10001936"
+                android:textSize="@dimen/text_dimen_16"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <ScrollView

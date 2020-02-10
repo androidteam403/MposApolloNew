@@ -37,6 +37,6 @@
             android:gravity="center"
             android:text="Logout"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_20" />
+            android:textSize="@dimen/text_dimen_18" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

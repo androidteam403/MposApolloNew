@@ -13,39 +13,39 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/fifty_dp"
                 android:layout_gravity="center"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 tools:ignore="UselessParent">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_marginTop="@dimen/seventeen_dp"
-                    android:contentDescription="@string/label_img"
-                    android:src="@drawable/icon_back" />
+                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:alpha="0.8"
+                    android:src="@drawable/ic_back_arrow"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_marginTop="@dimen/seventeen_dp"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/label_order_return"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_dimen_18" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_marginTop="@dimen/seventeen_dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_gravity="center_vertical"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_10001936"
                     android:textColor="@color/white" />
-
             </LinearLayout>
 
             <ScrollView
@@ -57,6 +57,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/light_grey"
                     android:orientation="vertical">
+
+                    <include
+                        layout="@layout/view_customer_doctor_info"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -116,6 +119,7 @@
                         android:id="@+id/footer"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
+                        android:layout_marginTop="@dimen/five_dp"
                         android:orientation="horizontal">
 
                         <LinearLayout

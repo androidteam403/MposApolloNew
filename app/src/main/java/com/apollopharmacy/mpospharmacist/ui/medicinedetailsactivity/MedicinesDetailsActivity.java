@@ -16,6 +16,7 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
+import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.adapter.ProductInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductInfoPojo;
 
@@ -116,6 +117,12 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
     @Override
     public void onClickBackBtn() {
         onBackPressed();
+    }
+
+    @Override
+    public void onPayButtonClick() {
+        startActivity(PayActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
