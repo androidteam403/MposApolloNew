@@ -38,8 +38,5 @@
             android:text="Logout"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_20" />
-
-
     </com.google.android.material.navigation.NavigationView>
-
 </androidx.drawerlayout.widget.DrawerLayout>

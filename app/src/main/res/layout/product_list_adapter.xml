@@ -83,9 +83,6 @@
                 android:textSize="@dimen/text_dimen_12"
                 android:text="@{productlist.genericName}"
                 android:fontFamily="@font/roboto_regular"/>
-
         </LinearLayout>
-
     </LinearLayout>
-
 </layout>

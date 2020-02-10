@@ -6,6 +6,7 @@
         android:id="@+id/customer_doctor_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/search_customer_bg"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -31,7 +32,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/label_customer_details"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/add_item_header"
                     android:textSize="@dimen/text_dimen_14" />
 
                 <ImageView
@@ -54,7 +55,7 @@
                     android:layout_marginEnd="@dimen/five_dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:textColor="@color/customer_info_header"
                     android:textSize="@dimen/text_dimen_10"
                     app:full_text="@{@string/label_generic_name(`Raghavendra`)}"
                     app:span_color="@{@color/black}"
@@ -69,7 +70,7 @@
                     android:layout_marginEnd="@dimen/five_dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:textColor="@color/customer_info_header"
                     android:textSize="@dimen/text_dimen_10"
                     app:full_text="@{@string/label_generic_phone_no(`9440012212`)}"
                     app:span_color="@{@color/black}"
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/black"
+                android:textColor="@color/customer_info_header"
                 android:textSize="@dimen/text_dimen_10"
                 app:full_text="@{@string/label_span_tracking_ref_no(`TDG-21324`)}"
                 app:span_color="@{@color/black}"
@@ -117,7 +118,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/label_doctor_details"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/add_item_header"
                     android:textSize="@dimen/text_dimen_14" />
 
                 <ImageView
@@ -142,6 +143,7 @@
                     android:layout_weight="0.3"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_name"
+                    android:textColor="@color/customer_info_header"
                     android:textSize="@dimen/text_dimen_11" />
 
                 <TextView
@@ -167,6 +169,7 @@
                     android:layout_marginEnd="@dimen/five_dp"
                     android:layout_weight="0.3"
                     android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/customer_info_header"
                     android:text="@string/label_reg_no"
                     android:textSize="@dimen/text_dimen_11" />
 

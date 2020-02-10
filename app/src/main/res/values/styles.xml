@@ -76,6 +76,5 @@
 <!--      navigation iten theme-->
     <style name="NavigationTheme" parent="AppTheme">
         <item name="android:textSize">16sp</item>
-        <item name="android:paddingStart">@dimen/ten_dp</item>
     </style>
 </resources>
