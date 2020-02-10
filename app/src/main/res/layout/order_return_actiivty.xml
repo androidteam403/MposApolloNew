@@ -362,7 +362,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/twenty_dp"
+                            android:layout_marginTop="@dimen/forty_five_dp"
                             android:layout_alignParentBottom="true"
                             android:background="@color/cpb_yellow"
                             android:text="@string/label_return"
