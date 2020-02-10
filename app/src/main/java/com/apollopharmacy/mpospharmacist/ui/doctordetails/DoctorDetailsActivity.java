@@ -11,6 +11,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityDoctorDetailsBinding;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 
 import javax.inject.Inject;
 
@@ -26,8 +27,6 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
         doctorDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_details);
         getActivityComponent().inject(this);
         mPresenter.onAttach(DoctorDetailsActivity.this);
@@ -48,6 +47,11 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     @Override
     public void onClickBackPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public void getDoctorSearchList(DoctorSearchResModel model) {
+
     }
 
     @Override

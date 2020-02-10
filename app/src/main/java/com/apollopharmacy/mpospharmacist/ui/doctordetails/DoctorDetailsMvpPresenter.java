@@ -6,4 +6,6 @@ public interface DoctorDetailsMvpPresenter<V extends DoctorDetailsMvpView> exten
     void onAddDoctorClick();
 
     void onBackPressedClick();
+
+    void getDoctorsList();
 }

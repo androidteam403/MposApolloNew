@@ -8,12 +8,11 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.SearchCutomerDetailsBinding;
-import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 
 import javax.inject.Inject;
 
@@ -56,6 +55,12 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     @Override
     public void onDoctorSearchClick() {
         startActivity(DoctorDetailsActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void onCorporateSearchClick() {
+        startActivity(CorporateDetailsActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
