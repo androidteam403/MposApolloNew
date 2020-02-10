@@ -9,4 +9,6 @@ public interface AddItemMvpView extends MvpView {
     void onVoiceSearchClick();
 
     void onBarCodeSearchClick();
+
+    void onClickActionBarBack();
 }

@@ -34,4 +34,9 @@ public class AddCustomerPresenter<V extends AddCustomerMvpView> extends BasePres
     public void onClickRegistration() {
         getMvpView().onRegistrationClick();
     }
+
+    @Override
+    public void onActionBarBackPressed() {
+        getMvpView().onClickBackPressed();
+    }
 }

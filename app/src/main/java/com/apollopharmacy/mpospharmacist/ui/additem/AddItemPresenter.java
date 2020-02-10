@@ -29,4 +29,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onBarCodeSearchClick() {
         getMvpView().onBarCodeSearchClick();
     }
+
+    @Override
+    public void onClickBackPressed() {
+        getMvpView().onClickActionBarBack();
+    }
 }

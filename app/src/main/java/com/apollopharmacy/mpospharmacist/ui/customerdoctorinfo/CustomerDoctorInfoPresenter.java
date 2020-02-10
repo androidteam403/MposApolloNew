@@ -15,4 +15,9 @@ public class CustomerDoctorInfoPresenter<V extends CustomerDoctorInfoMvpView> ex
     public CustomerDoctorInfoPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onClickBackPress() {
+        getMvpView().onClickBackPressed();
+    }
 }

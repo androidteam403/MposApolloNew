@@ -49,6 +49,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     protected void setUp() {
+        productListActivityBinding.setCallback(productListMvpPresenter);
         getProductInfo();
         if (productLists.size() > 0) {
             productListAdapter = new ProductListAdapter(this, productLists);
@@ -101,5 +102,16 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         productLists.add(productListPojo);
 
 
+    }
+
+    @Override
+    public void onClickBackBtn() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

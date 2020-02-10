@@ -4,4 +4,5 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
 public interface ProductListMvpView extends MvpView {
 
+    void onClickBackBtn();
 }

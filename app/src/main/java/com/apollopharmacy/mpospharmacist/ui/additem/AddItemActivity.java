@@ -62,4 +62,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
         startActivity(ProductListActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
+
+    @Override
+    public void onClickActionBarBack() {
+        onBackPressed();
+    }
 }

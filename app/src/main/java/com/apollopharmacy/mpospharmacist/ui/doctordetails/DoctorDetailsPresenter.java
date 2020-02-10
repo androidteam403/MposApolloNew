@@ -20,4 +20,9 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     public void onAddDoctorClick() {
         getMvpView().onAddDoctorClick();
     }
+
+    @Override
+    public void onBackPressedClick() {
+        getMvpView().onClickBackPressed();
+    }
 }

@@ -36,9 +36,21 @@ public class CustomerDoctorInfoActivity extends BaseActivity implements Customer
 
     @Override
     protected void setUp() {
+        customerDoctorInfoBinding.setCallback(customerDoctorInfoMvpPresenter);
         customerDoctorInfoBinding.continueBtn.setOnClickListener(view -> {
             startActivity(AddItemActivity.getStartIntent(this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         });
+    }
+
+    @Override
+    public void onClickBackPressed() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

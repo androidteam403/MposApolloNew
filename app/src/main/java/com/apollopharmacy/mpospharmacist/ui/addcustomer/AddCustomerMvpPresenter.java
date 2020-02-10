@@ -11,4 +11,6 @@ public interface AddCustomerMvpPresenter<V extends AddCustomerMvpView> extends M
     void onClickAnniversary();
 
     void onClickRegistration();
+
+    void onActionBarBackPressed();
 }
