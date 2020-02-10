@@ -1,8 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 
 import com.apollopharmacy.mpospharmacist.data.DataManager;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpView;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
@@ -25,5 +23,10 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
     @Override
     public void onClickDecrement() {
         getMvpView().onDecrementClick();
+    }
+
+    @Override
+    public void onNavigateNextActivity() {
+        getMvpView().onNavigateNextActivity();
     }
 }

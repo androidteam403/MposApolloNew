@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <variable
-            name="medicineModel"
-            type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,61 +10,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="1">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/eighteen_dp"
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="0.05"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/pills" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="0.55"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Dolo Bak Tab"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_dimen_13" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
                     android:text="DOL001/AP0020/Tablet/MicroLab.."
                     android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/three_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Discount 0.3(3%)-Dis-003"
+                    android:layout_marginBottom="@dimen/five_dp"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_dimen_10" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/forty_dp"
                     android:orientation="horizontal"
                     android:weightSum="4">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1.3"
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
@@ -81,13 +81,13 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/one_dp"
+                        android:layout_height="match_parent"
                         android:background="@color/white" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1.2"
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
@@ -97,14 +97,14 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/one_dp"
+                        android:layout_height="match_parent"
                         android:background="@color/white" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1.6"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -113,25 +113,33 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white" />
-
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/twenty_dp"
+                    android:layout_height="match_parent"
                     android:background="@color/light_grey"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="@{medicineModel.medicineTax}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_12" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_dp"
+                    android:background="@color/white" />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+            android:layout_height="@dimen/one_dp"
+            android:background="@color/colorPrimary" />
     </LinearLayout>
+
+    <data>
+
+        <variable
+            name="medicineModel"
+            type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel" />
+    </data>
 </layout>

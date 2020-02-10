@@ -36,15 +36,30 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
     @Override
     protected void setUp() {
-        addItemBinding.continueBtn.setOnClickListener(view -> {
-            startActivity(ProductListActivity.getStartIntent(this));
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        });
+        addItemBinding.setCallback(mPresenter);
     }
 
     @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public void onManualSearchClick() {
+        startActivity(ProductListActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+        startActivity(ProductListActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void onBarCodeSearchClick() {
+        startActivity(ProductListActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 }

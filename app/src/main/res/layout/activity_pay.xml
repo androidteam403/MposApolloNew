@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/fifteen_dp"
                     android:text="129.70"
-                    android:textColor="@color/selectstorecolor"
+                    android:textColor="@color/store_bg_color"
                     android:textSize="@dimen/text_dimen_18"
                     android:textStyle="bold" />
 
@@ -237,7 +237,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/five_dp"
            android:padding="@dimen/ten_dp"
-            android:background="@color/selectstorecolor"
+            android:background="@color/store_bg_color"
             android:weightSum="1">
 
             <RelativeLayout
