@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_grey"
+        android:background="@color/search_customer_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,7 +25,7 @@
                 android:layout_width="@dimen/zero_dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/cpb_yellow"
+                android:background="@color/pay_btn_color"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:onClick="@{()-> callbacks.onReturnClick()}"
@@ -41,7 +41,7 @@
                 android:layout_width="@dimen/zero_dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/storesetupbackgroundcolor"
+                android:background="@color/cart_price_bg"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:onClick="@{()-> callbacks.onCancelCLick()}"
@@ -57,7 +57,7 @@
                 android:layout_width="@dimen/zero_dp"
                 android:layout_height="@dimen/fifty_dp"
                 android:layout_weight="1"
-                android:background="@color/storesetupbackgroundcolor"
+                android:background="@color/cart_price_bg"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:onClick="@{()-> callbacks.onReOrderClick()}"
@@ -77,6 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/customer_info_header"
                 android:text="@string/label_phonenumber_orderid"
                 android:textSize="@dimen/text_dimen_13" />
 
@@ -88,11 +89,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:paddingStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_search_by_phone_number"
+                    android:textColor="@color/search_order_hint_color"
                     android:textSize="@dimen/text_dimen_13" />
 
                 <ImageView
@@ -110,6 +113,8 @@
             android:layout_height="@dimen/twenty_dp"
             android:background="@color/light_grey"
             android:gravity="center"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:textColor="@color/black"
             android:text="@string/label_3_items_found"
             android:textSize="@dimen/text_dimen_12" />
 

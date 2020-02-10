@@ -67,39 +67,39 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     private void getProductInfo() {
         productLists = new ArrayList<>();
         ProductList productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
         productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs Pharma..",
+                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
                 "Generic Name\n-----");
         productLists.add(productListPojo);
 
