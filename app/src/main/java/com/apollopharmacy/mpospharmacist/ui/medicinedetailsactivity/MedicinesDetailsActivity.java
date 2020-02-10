@@ -2,11 +2,13 @@ package com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,8 @@ import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.Medi
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.adapter.ProductInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductInfoPojo;
+import com.apollopharmacy.mpospharmacist.utils.SwipeController;
+import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 
 import java.util.ArrayList;
 
@@ -57,10 +61,26 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
             medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             medicinesDetailsActivityBinding.medicineRecycle.setLayoutManager(mLayoutManager);
-            //medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
-            //medicinesDetailsActivityBinding.medicineRecycle.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-            //medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
             medicinesDetailsActivityBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
+
+            SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+                @Override
+                public void onRightClicked(int position) {
+                 //   medicinesDetailAdapter.remove(position);
+                    medicinesDetailAdapter.notifyItemRemoved(position);
+                    medicinesDetailAdapter.notifyItemRangeChanged(position, medicinesDetailAdapter.getItemCount());
+                }
+            });
+
+            ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+            itemTouchhelper.attachToRecyclerView(medicinesDetailsActivityBinding.medicineRecycle);
+
+            medicinesDetailsActivityBinding.medicineRecycle.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                    swipeController.onDraw(c);
+                }
+            });
         }
     }
 
