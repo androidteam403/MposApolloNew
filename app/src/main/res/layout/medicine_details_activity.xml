@@ -296,6 +296,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
+                    android:onClick="@{()-> callback.onPayButtonClick()}"
                     android:background="@color/pay_btn_color"
                     android:gravity="center"
                     android:orientation="vertical">
