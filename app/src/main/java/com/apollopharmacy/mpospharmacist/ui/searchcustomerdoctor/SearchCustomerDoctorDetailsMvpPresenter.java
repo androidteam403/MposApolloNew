@@ -7,4 +7,6 @@ public interface SearchCustomerDoctorDetailsMvpPresenter<V extends SearchCustome
     void onCustomerSearchClick();
 
     void onDoctorSearchClick();
+
+    void onActionBarBackPress();
 }

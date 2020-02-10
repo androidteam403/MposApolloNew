@@ -19,4 +19,9 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     public void onAddCustomerClick() {
         getMvpView().onAddCustomerClick();
     }
+
+    @Override
+    public void onActionBarBackPressed() {
+        getMvpView().onClickBackPressed();
+    }
 }

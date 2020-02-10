@@ -31,7 +31,8 @@
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
                 android:alpha="0.8"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_back_arrow"
+                android:onClick="@{()-> callback.onBackPressClick()}"/>
 
             <TextView
                 android:layout_width="wrap_content"

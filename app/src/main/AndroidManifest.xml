@@ -11,13 +11,18 @@
         android:networkSecurityConfig="@xml/network_security_confing"
         android:roundIcon="@mipmap/ic_launcher_round_apollo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.home.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -25,42 +30,71 @@
             android:theme="@style/SplashTheme">
 
         </activity>
-        <activity android:name=".ui.storesetup.StoreSetupActivity" />
-        <activity android:name=".ui.searchproduct.SearchProductActivity" />
-        <activity android:name=".ui.newadminloginsetup.NewAdminLoginSetUp" />
-        <activity android:name=".ui.pharmacistlogin.PharmacistLoginActivity"/>
-        <activity android:name=".ui.searchuser.SearchUserActivity" />
-        <activity android:name=".ui.addcustomer.AddCustomerActivity" />
-        <activity android:name=".ui.adddoctor.AddDoctorActivity" />
-        <activity android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity" />
-        <activity android:name=".ui.additem.AddItemActivity">
-
-        </activity>
-        <activity android:name=".ui.customerdetails.CustomerDetailsActivity">
-
-        </activity>
-        <activity android:name=".ui.doctordetails.DoctorDetailsActivity" />
-        <activity android:name=".ui.batchonfo.BatchInfoActivity"
+        <activity
+            android:name=".ui.storesetup.StoreSetupActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.searchproduct.SearchProductActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.searchuser.SearchUserActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.addcustomer.AddCustomerActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.adddoctor.AddDoctorActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.additem.AddItemActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
-        <activity android:name=".ui.pay.PayActivity">
+        <activity
+            android:name=".ui.customerdetails.CustomerDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
-        <activity android:name=".ui.searchproductlistactivity.ProductListActivity">
+        <activity
+            android:name=".ui.doctordetails.DoctorDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.batchonfo.BatchInfoActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
-        <activity android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.orderreturnactivity.OrderReturnActivity">
+        <activity
+            android:name=".ui.pay.PayActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
-        <activity android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity" />
+        <activity
+            android:name=".ui.searchproductlistactivity.ProductListActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.orderreturnactivity.OrderReturnActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

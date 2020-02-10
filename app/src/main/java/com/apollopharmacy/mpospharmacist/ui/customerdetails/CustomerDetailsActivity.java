@@ -46,6 +46,11 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     }
 
     @Override
+    public void onClickBackPressed() {
+        onBackPressed();
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);

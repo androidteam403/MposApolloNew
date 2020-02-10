@@ -9,4 +9,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onVoiceSearchClick();
 
     void onBarCodeSearchClick();
+
+    void onClickBackPressed();
 }

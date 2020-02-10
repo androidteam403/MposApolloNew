@@ -17,4 +17,9 @@ public class DashBoardPresenter<V extends DashBoardMvpView> extends BasePresente
     public DashBoardPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onClickNewOrder() {
+        getMvpView().onClickNewOrderBtn();
+    }
 }

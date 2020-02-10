@@ -60,6 +60,11 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     }
 
     @Override
+    public void onBackPressedClick() {
+        onBackPressed();
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);

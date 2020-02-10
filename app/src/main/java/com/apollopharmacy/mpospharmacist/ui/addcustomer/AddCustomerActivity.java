@@ -165,6 +165,11 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         dialog.show();
     }
 
+    @Override
+    public void onClickBackPressed() {
+        onBackPressed();
+    }
+
     private ArrayList<SpinnerPojo> getGender() {
         arrGenderSpinner = new ArrayList<>();
         SpinnerPojo genderSpinnerPojo = new SpinnerPojo();
