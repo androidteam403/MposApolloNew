@@ -19,4 +19,9 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
     public void onClickSubmit() {
         getMvpView().onSubmitClick();
     }
+
+    @Override
+    public void onActionBarBackPressed() {
+        getMvpView().onClickBackPressed();
+    }
 }

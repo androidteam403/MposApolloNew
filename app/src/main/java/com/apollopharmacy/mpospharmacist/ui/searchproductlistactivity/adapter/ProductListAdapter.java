@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private Activity activity;
     private ArrayList<ProductList> productListArrayList;
+    private ProductListMvpView productListMvpView;
 
     public ProductListAdapter(Activity activity, ArrayList<ProductList> productListArrayList) {
         this.activity = activity;
@@ -35,6 +38,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
         ProductList item = productListArrayList.get(position);
         holder.productListAdapterBinding.setProductlist(item);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(productListMvpView != null){
+                    productListMvpView.onClickProductItem(item);
+                }
+            }
+        });
 
     }
 
@@ -50,5 +61,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public int getItemCount() {
         return productListArrayList.size();
+    }
+
+    public void setClickListiner(ProductListMvpView clickListiner){
+        this.productListMvpView = clickListiner;
     }
 }

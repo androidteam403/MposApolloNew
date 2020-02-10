@@ -17,4 +17,9 @@ public class ProductListPresenter <V extends ProductListMvpView> extends BasePre
     public ProductListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onClickBackPress() {
+        getMvpView().onClickBackBtn();
+    }
 }

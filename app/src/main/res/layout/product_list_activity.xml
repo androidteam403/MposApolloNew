@@ -3,6 +3,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter" />
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +30,8 @@
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
                 android:alpha="0.8"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_back_arrow"
+                android:onClick="@{()-> callback.onClickBackPress()}"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
@@ -49,6 +50,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     protected void setUp() {
+        productListActivityBinding.setCallback(productListMvpPresenter);
         getProductInfo();
         if (productLists.size() > 0) {
             productListAdapter = new ProductListAdapter(this, productLists);
@@ -57,6 +59,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
             productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
             productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+            productListAdapter.setClickListiner(this);
             productListActivityBinding.productRecycler.setAdapter(productListAdapter);
         }
     }
@@ -101,5 +104,22 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         productLists.add(productListPojo);
 
 
+    }
+
+    @Override
+    public void onClickBackBtn() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onClickProductItem(ProductList item) {
+        startActivity(BatchInfoActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

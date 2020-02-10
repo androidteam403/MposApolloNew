@@ -7,4 +7,6 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
     void onCustomerSearchClick();
 
     void onDoctorSearchClick();
+
+    void onBackPressedClick();
 }

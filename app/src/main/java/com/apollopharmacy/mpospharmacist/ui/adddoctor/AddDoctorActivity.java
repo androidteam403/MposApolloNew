@@ -52,6 +52,11 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
         }
     }
 
+    @Override
+    public void onClickBackPressed() {
+        onBackPressed();
+    }
+
     private boolean validate() {
         if (addDoctorBinding.doctorRegNumber.getText().toString().isEmpty()) {
             addDoctorBinding.doctorRegNumber.setError("Doctor registration number should not be empty");

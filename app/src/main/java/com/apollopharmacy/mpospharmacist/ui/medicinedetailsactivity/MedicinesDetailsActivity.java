@@ -112,4 +112,15 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
     public void onBarCodeSearchClick() {
 
     }
+
+    @Override
+    public void onClickBackBtn() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
 }

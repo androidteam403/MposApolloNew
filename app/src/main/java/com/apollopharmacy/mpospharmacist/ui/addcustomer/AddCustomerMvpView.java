@@ -11,4 +11,6 @@ public interface AddCustomerMvpView extends MvpView {
     void onAnniversaryClick();
 
     void onRegistrationClick();
+
+    void onClickBackPressed();
 }
