@@ -30,4 +30,9 @@ public class MedicineDetailsPresenter<V extends MedicineDetailsMvpView> extends 
     public void onBarCodeSearchClick() {
         getMvpView().onBarCodeSearchClick();
     }
+
+    @Override
+    public void onBackPressClick() {
+        getMvpView().onClickBackBtn();
+    }
 }

@@ -8,4 +8,6 @@ public interface MedicineDetailsMvpPresenter<V extends MedicineDetailsMvpView> e
     void onVoiceSearchClick();
 
     void onBarCodeSearchClick();
+
+    void onBackPressClick();
 }
