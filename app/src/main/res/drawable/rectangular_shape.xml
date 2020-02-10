@@ -9,5 +9,5 @@
     <solid android:color="@color/white" />
     <stroke
         android:width="@dimen/one_dp"
-        android:color="@color/grey" />
+        android:color="@color/customer_search_border" />
 </shape>
