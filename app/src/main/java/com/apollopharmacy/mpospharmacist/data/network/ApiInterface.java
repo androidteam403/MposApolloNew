@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -36,6 +38,9 @@ public interface ApiInterface {
 
     @POST("LoginService.svc/GetLoginDetail")
     Call<LoginResModel> LOGIN_RES_MODEL_CALL (@Body LoginReqModel loginReqModel);
+
+    @POST("SalesTransactionService.svc/GetCustomer")
+    Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL (@Body GetCustomerRequest customerRequest);
 //    @GET("780a4b58-2bca-11ea-8649-0d2b23060fa9")
 //    Call<List<Recipe>> getProducts();
 
