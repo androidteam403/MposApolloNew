@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
 
         <LinearLayout
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
                 android:layout_marginTop="@dimen/seventeen_dp"
-                android:text="Order Return"
+                android:text="@string/label_order_return"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18"
                 android:textStyle="bold" />
@@ -62,7 +63,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:orientation="horizontal"
                     android:background="@color/light_grey"
                     android:layout_marginBottom="@dimen/three_dp"
@@ -75,7 +76,7 @@
                         android:layout_marginStart="@dimen/thirty_five_dp"
                         android:fontFamily="@font/roboto_regular"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:text="ITEMSLIST (7)"
+                        android:text="@string/label_itemslist_7"
                         android:textStyle="bold"
                         android:textColor="@color/black" />
 
@@ -87,7 +88,7 @@
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_weight="0.6"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="MRP()"
+                        android:text="@string/label_mrp"
                         android:textSize="@dimen/text_dimen_12"
                         android:textColor="@color/black" />
 
@@ -97,7 +98,7 @@
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="QTY."
+                        android:text="@string/label_qty"
                         android:textSize="@dimen/text_dimen_12"
                         android:textColor="@color/black" />
 
@@ -108,27 +109,25 @@
                         android:layout_weight="0.7"
                         android:textSize="@dimen/text_dimen_12"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="TOTAL()"
+                        android:text="@string/label_total"
                         android:textColor="@color/black" />
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_above="@id/footer"
-                    android:id="@+id/medicineRecycle"/>
+                    android:id="@+id/orderreturnrecycle"/>
                 <LinearLayout
                     android:id="@+id/footer"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_alignParentBottom="true"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="250dp"
                         android:layout_height="80dp"
                         android:background="@color/white"
-                        android:layout_alignParentBottom="true"
                         android:orientation="vertical"
                         android:weightSum="4">
 
@@ -144,7 +143,7 @@
                                 android:layout_marginStart="@dimen/ten_dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Disc Type\n6699985214"
+                                android:text="@string/label_disc_type_n6699985214"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -160,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="FMCG\n0.00"
+                                android:text="FMCG \n0.00"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -186,7 +185,7 @@
                                 android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="RoundedAmt\n0.00"
+                                android:text="@string/label_roundedamt_n0_00"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -195,7 +194,7 @@
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="MRP Total\n5.36"
+                                android:text="@string/label_mrp_total_n5_36"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -204,7 +203,7 @@
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Taxable Amt\n46.64"
+                                android:text="@string/label_taxable_amt_n46_64"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -213,12 +212,13 @@
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Disc.Amt\n0.00"
+                                android:text="DiscAmt\n0.00"
                                 android:textSize="@dimen/text_dimen_9" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/testclick"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -229,7 +229,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/fifteen_dp"
-                            android:text="129.70"
+                            android:text="@string/label__129_70"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/text_dimen_18"
                             android:textStyle="bold" />
@@ -237,7 +237,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Savings:20.50(10%)"
+                            android:text="@string/label_savings_20_50_10"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_10" />
 
@@ -251,7 +251,8 @@
                     android:layout_marginTop="@dimen/five_dp"
                     android:padding="@dimen/ten_dp"
                     android:background="@color/thick_blue"
-                    android:weightSum="1">
+                    android:weightSum="1"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -262,7 +263,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="amount payable: "
+                            android:text="@string/label_amount_payable"
                             android:textAllCaps="true"
                             android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/white" />
@@ -280,13 +281,13 @@
                             android:fontFamily="@font/roboto_regular"
                             android:layout_gravity="end"
                             android:textSize="@dimen/text_dimen_10"
-                            android:text="Additional Discount: 10:00(5%) "
+                            android:text="@string/label_additional_discount_10_00_5"
                             android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="119.70"
+                            android:text="@string/label__119_70"
                             android:layout_gravity="end"
                             android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/white" />
@@ -304,11 +305,12 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/cash_paid"/>
+                        android:src="@drawable/cash_paid"
+                        android:contentDescription="@string/label_img" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cash Paid:"
+                        android:text="@string/label_cash_paid"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginStart="@dimen/five_dp"
                         android:fontFamily="@font/roboto_regular"/>
@@ -320,7 +322,7 @@
                         android:textStyle="bold"
                         android:layout_marginEnd="@dimen/five_dp"
                         android:gravity="end"
-                        android:text="100.00"/>
+                        android:text="@string/label__100_00"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -332,11 +334,12 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/wallet_pay"/>
+                        android:src="@drawable/wallet_pay"
+                        android:contentDescription="@string/label_img" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Wallet Pay:"
+                        android:text="@string/labelwallet_pay"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginStart="@dimen/five_dp"
                         android:fontFamily="@font/roboto_regular"/>
@@ -349,12 +352,12 @@
                         android:layout_marginTop="@dimen/ten_dp"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
-                        android:text="9.70"/>
+                        android:text="@string/label__9_70"/>
                 </LinearLayout>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Return"
+                    android:text="@string/label_return"
                     android:layout_marginTop="@dimen/thirty_five_dp"
                     android:background="@color/cpb_yellow"
                     android:textAllCaps="false"
