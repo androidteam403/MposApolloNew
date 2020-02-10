@@ -4,4 +4,9 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
 public interface AddItemMvpView extends MvpView {
 
+    void onManualSearchClick();
+
+    void onVoiceSearchClick();
+
+    void onBarCodeSearchClick();
 }

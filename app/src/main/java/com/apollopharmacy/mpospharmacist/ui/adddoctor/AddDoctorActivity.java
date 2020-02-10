@@ -13,6 +13,7 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
 import javax.inject.Inject;
+
 public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView {
 
     @Inject

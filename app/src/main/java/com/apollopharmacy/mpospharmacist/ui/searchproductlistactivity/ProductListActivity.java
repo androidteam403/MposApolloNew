@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
@@ -21,14 +24,16 @@ import javax.inject.Inject;
 import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
 public class ProductListActivity extends BaseActivity implements ProductListMvpView {
-
-
     @Inject
     ProductListMvpPresenter<ProductListMvpView> productListMvpPresenter;
-
     ProductListActivityBinding productListActivityBinding;
+
     private ArrayList<ProductList> productLists = null;
     private ProductListAdapter productListAdapter;
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, ProductListActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

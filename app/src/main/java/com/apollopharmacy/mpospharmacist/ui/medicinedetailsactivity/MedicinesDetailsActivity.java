@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.MedicineDetailsActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.adapter.ProductInfoAdapter;
@@ -30,6 +33,10 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
     private ArrayList<MedicineDetailsModel> medicineDetailsModelsList = null;
     private MedicinesDetailAdapter medicinesDetailAdapter;
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MedicinesDetailsActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,49 +51,65 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
 
     @Override
     protected void setUp() {
+        medicinesDetailsActivityBinding.setCallback(mvpPresenter);
         getMedicinesInfo();
         if (medicineDetailsModelsList.size() > 0) {
             medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             medicinesDetailsActivityBinding.medicineRecycle.setLayoutManager(mLayoutManager);
-           // medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
+            //medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
             //medicinesDetailsActivityBinding.medicineRecycle.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-           // medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
+            //medicinesDetailsActivityBinding.medicineRecycle.setItemAnimator(new DefaultItemAnimator());
             medicinesDetailsActivityBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
         }
     }
 
     private void getMedicinesInfo() {
         medicineDetailsModelsList = new ArrayList<>();
-        MedicineDetailsModel medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        MedicineDetailsModel medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00","10","9.70",
+        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
                 "Tax:1.04(12%)");
         medicineDetailsModelsList.add(medicineDetailsModel);
+    }
+
+    @Override
+    public void onManualSearchClick() {
+
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+
+    }
+
+    @Override
+    public void onBarCodeSearchClick() {
+
     }
 }

@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.BatchInfoListAdapterBinding;
-import com.apollopharmacy.mpospharmacist.databinding.ViewSearchProductBatchInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductBatchPojo;
 
 import java.util.ArrayList;
 
-public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.ViewHolder>  {
+public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.ViewHolder> {
 
     private Activity activity;
     private ArrayList<BatchInfoAdapterPojo> arrBatchList;
@@ -31,7 +29,7 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
     @NonNull
     @Override
     public BatchInfoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         batchInfoListAdapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        batchInfoListAdapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.batch_info_list_adapter, parent, false);
         return new BatchInfoAdapter.ViewHolder(batchInfoListAdapterBinding);
     }
@@ -41,6 +39,7 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
         BatchInfoAdapterPojo item = arrBatchList.get(position);
         holder.batchInfoListAdapterBinding.setBatchInfo(item);
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public BatchInfoListAdapterBinding batchInfoListAdapterBinding;
 

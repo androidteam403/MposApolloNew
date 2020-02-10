@@ -14,4 +14,19 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public AddItemPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onManualSearchClick() {
+        getMvpView().onManualSearchClick();
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+        getMvpView().onVoiceSearchClick();
+    }
+
+    @Override
+    public void onBarCodeSearchClick() {
+        getMvpView().onBarCodeSearchClick();
+    }
 }
