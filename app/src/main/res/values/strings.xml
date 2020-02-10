@@ -37,6 +37,8 @@
     <string name="label_generic_phone_number"> Phone number: %s</string>
     <string name="label_generic_phone_no"> Phone No.: %s</string>
     <string name="label_generic_dob"> DOB: %s</string>
+    <string name="label_generic_card_no">Card Number : %s</string>
+    <string name="label_generic_tel">Telephone : %s</string>
 
     <string name="label_site_id"> Site Id:</string>
 

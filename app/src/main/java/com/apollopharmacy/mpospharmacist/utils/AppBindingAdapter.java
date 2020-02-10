@@ -36,18 +36,22 @@ public class AppBindingAdapter {
 
     @BindingAdapter({"app:full_text", "app:span_text", "app:span_color", "app:span_font", "app:span_size"})
     public static void formatTextWithFont(TextView textView, String full_text, String span_text, int span_color, String span_font, float spanSize) {
-        int firstMatchingIndex = full_text.indexOf(span_text);
-        int lastMatchingIndex = firstMatchingIndex + span_text.length();
-        SpannableString spannable = new SpannableString(full_text);
-        if(span_text.equalsIgnoreCase("Cancelled")){
-            span_color = textView.getContext().getColor(R.color.red);
-        }else if(span_text.equalsIgnoreCase("Completed")){
-            span_color = textView.getContext().getColor(R.color.order_success_color);
+        if(!TextUtils.isEmpty(span_text)) {
+            int firstMatchingIndex = full_text.indexOf(span_text);
+            int lastMatchingIndex = firstMatchingIndex + span_text.length();
+            SpannableString spannable = new SpannableString(full_text);
+            if (span_text.equalsIgnoreCase("Cancelled")) {
+                span_color = textView.getContext().getColor(R.color.red);
+            } else if (span_text.equalsIgnoreCase("Completed")) {
+                span_color = textView.getContext().getColor(R.color.order_success_color);
+            }
+            spannable.setSpan(new ForegroundColorSpan(span_color), firstMatchingIndex, lastMatchingIndex, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new RelativeSizeSpan(spanSize), firstMatchingIndex, lastMatchingIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new CustomTypefaceSpan(CustomFontFamily.getInstance().getFont(span_font)), firstMatchingIndex, lastMatchingIndex, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            textView.setText(spannable);
+        }else{
+            textView.setText(full_text);
         }
-        spannable.setSpan(new ForegroundColorSpan(span_color), firstMatchingIndex, lastMatchingIndex, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new RelativeSizeSpan(spanSize), firstMatchingIndex, lastMatchingIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new CustomTypefaceSpan(CustomFontFamily.getInstance().getFont(span_font)), firstMatchingIndex, lastMatchingIndex, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        textView.setText(spannable);
     }
 
     @BindingAdapter({"app:weight", "app:price"})
