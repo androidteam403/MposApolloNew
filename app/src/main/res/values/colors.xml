@@ -50,4 +50,5 @@
     <color name="payment_amount_text">#017e9c</color>
     <color name="payment_pending_bg">#9fc7c9</color>
     <color name="payment_type_header">#4e4c4d</color>
+    <color name="search_order_hint_color">#b2b2b2</color>
 </resources>

@@ -35,4 +35,9 @@ public class MedicineDetailsPresenter<V extends MedicineDetailsMvpView> extends 
     public void onBackPressClick() {
         getMvpView().onClickBackBtn();
     }
+
+    @Override
+    public void onPayButtonClick() {
+        getMvpView().onPayButtonClick();
+    }
 }

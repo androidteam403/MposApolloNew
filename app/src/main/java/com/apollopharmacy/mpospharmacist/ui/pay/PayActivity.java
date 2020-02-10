@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.pay;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,9 +10,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPayBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
@@ -27,10 +31,13 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
     PayActivityAdapter payActivityAdapter;
     private ArrayList<PayAdapterModel> arrPayAdapterModel;
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, PayActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         activityPayBinding = DataBindingUtil.setContentView(this, R.layout.activity_pay);
         getActivityComponent().inject(this);
         mPresenter.onAttach(PayActivity.this);
@@ -54,5 +61,11 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
         arrPayAdapterModel = new ArrayList<>();
         PayAdapterModel payAdapterModel = new PayAdapterModel("100.00");
         arrPayAdapterModel.add(payAdapterModel);
+    }
+
+    @Override
+    public void NavigateToHomeScreen() {
+        startActivity(MainActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 }

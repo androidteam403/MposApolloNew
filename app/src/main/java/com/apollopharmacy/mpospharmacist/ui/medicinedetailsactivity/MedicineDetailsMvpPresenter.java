@@ -10,4 +10,6 @@ public interface MedicineDetailsMvpPresenter<V extends MedicineDetailsMvpView> e
     void onBarCodeSearchClick();
 
     void onBackPressClick();
+
+    void onPayButtonClick();
 }

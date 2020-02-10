@@ -15,4 +15,9 @@ public class PayPresenter<V extends PayMvpView> extends BasePresenter<V>
     public PayPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void NavigateToHomeScreen() {
+        getMvpView().NavigateToHomeScreen();
+    }
 }
