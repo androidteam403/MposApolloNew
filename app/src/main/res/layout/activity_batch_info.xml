@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/storesetupbackgroundcolor"
+        android:background="@color/search_customer_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/action_bar"
-            android:background="@color/store_bg_color"
+            android:background="@color/batch_info_header"
             android:paddingStart="@dimen/twenty_dp"
             android:paddingEnd="@dimen/twenty_dp">
 
@@ -95,6 +95,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_batch_info_list"
                 android:textAllCaps="true"
+                android:textColor="@color/add_item_header"
                 android:textSize="@dimen/text_dimen_15" />
 
             <TextView
@@ -104,6 +105,7 @@
                 android:text="@string/label_required_qty"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="@dimen/text_dimen_11"
+                android:textColor="@color/black"
                 android:layout_gravity="center"/>
 
             <RelativeLayout
@@ -152,7 +154,7 @@
             android:layout_below="@+id/batch_list"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/fifteen_dp"
-            android:background="#696969"
+            android:background="@color/batch_header_bg"
             android:orientation="horizontal"
             android:padding="@dimen/ten_dp"
             android:weightSum="3"
