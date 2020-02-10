@@ -15,4 +15,19 @@ public class MedicineDetailsPresenter<V extends MedicineDetailsMvpView> extends 
     public MedicineDetailsPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onManualSearchClick() {
+        getMvpView().onManualSearchClick();
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+        getMvpView().onVoiceSearchClick();
+    }
+
+    @Override
+    public void onBarCodeSearchClick() {
+        getMvpView().onBarCodeSearchClick();
+    }
 }

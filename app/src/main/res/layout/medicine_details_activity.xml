@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpPresenter" />
     </data>
 
     <LinearLayout
@@ -12,116 +15,117 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/fifty_dp"
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:alpha="0.8"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/twenty_dp"
-                android:layout_marginTop="@dimen/seventeen_dp"
-                android:contentDescription="@string/label_img"
-                android:src="@drawable/icon_back" />
+                android:layout_marginStart="@dimen/five_dp"
+                android:text="@string/label_new_order"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="@dimen/text_dimen_18" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/seventeen_dp"
-                android:text="@string/label_new_order"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/twenty_dp"
-                android:layout_marginTop="@dimen/seventeen_dp"
+                android:layout_gravity="center_vertical"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_10001936"
+                android:textSize="@dimen/text_dimen_16"
                 android:textColor="@color/white" />
         </LinearLayout>
+
+        <include
+            layout="@layout/view_customer_doctor_info"/>
 
         <LinearLayout
             android:background="@color/light_grey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/fifteen_dp"
+            android:paddingEnd="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fifteen_dp"
-                android:layout_marginEnd="@dimen/five_dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fifteen_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Add Medicines:"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/label_add_medicines"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_16"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_dimen_15" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="@dimen/five_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:background="@color/design_default_color_primary"
-                    android:contentDescription="@string/label_img"
-                    android:src="@drawable/places_ic_search" />
+                    android:onClick="@{()->callback.onManualSearchClick()}"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_search_product"/>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:background="@color/cpb_yellow"
-                    android:contentDescription="@string/label_img"
-                    android:src="@drawable/mikes" />
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:onClick="@{()->callback.onVoiceSearchClick()}"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_voice_search"/>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:background="@color/Light_green"
-                    android:contentDescription="@string/label_img"
-                    android:src="@drawable/barcode" />
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->callback.onBarCodeSearchClick()}"
+                    android:src="@drawable/ic_barcode"/>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/fifteen_dp"
-                        android:layout_marginEnd="@dimen/thirty_five_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Clear All:"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:layout_toStartOf="@+id/clear_all_img"
+                        android:text="@string/label_clear_all_txt"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_16"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_dimen_15"/>
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="35dp"
+                        android:id="@+id/clear_all_img"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:contentDescription="@string/app_name"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginEnd="@dimen/two_dp"
-                        android:background="@color/red"
-                        android:contentDescription="@string/label_img"
-                        android:src="@drawable/delete_white" />
-
+                        android:src="@drawable/ic_clear_all"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -129,49 +133,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:layout_marginBottom="@dimen/three_dp"
-                android:weightSum="3">
+                android:weightSum="2">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1.3"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/thirty_five_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_weight="1.29"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/text_dimen_13"
                     android:text="ITEMSLIST (7)"
-                    android:textStyle="bold"
                     android:textColor="@color/black" />
 
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eighty_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.29"
                     android:fontFamily="@font/roboto_regular"
                     android:text="MRP()"
-                    android:textSize="@dimen/text_dimen_12"
+                    android:textSize="@dimen/text_dimen_10"
                     android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.22"
                     android:fontFamily="@font/roboto_regular"
                     android:text="QTY."
-                    android:textSize="@dimen/text_dimen_12"
+                    android:textSize="@dimen/text_dimen_10"
                     android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_weight="0.7"
-                    android:textSize="@dimen/text_dimen_12"
+                    android:layout_weight="0.24"
+                    android:textSize="@dimen/text_dimen_10"
                     android:fontFamily="@font/roboto_regular"
                     android:text="TOTAL()"
                     android:textColor="@color/black" />
@@ -181,142 +178,152 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/footer"
                 android:id="@+id/medicineRecycle"/>
+
             <LinearLayout
                 android:id="@+id/footer"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/eighty_dp"
                 android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="80dp"
-                android:layout_alignParentBottom="true"
-                android:weightSum="4"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_dimen_9"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_height="wrap_content"
-                    android:text="Disc Type\n5644544"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_dimen_9"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_height="wrap_content"
-                    android:text="Pharma\n0.00"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_dimen_9"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_height="wrap_content"
-                    android:text="FMCG\n0.00"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_dimen_9"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_height="wrap_content"
-                    android:text="PL\n50.00"/>
-            </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_9"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/roboto_regular"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:text="RoundedAmt\n564454564"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_9"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/roboto_regular"
-                        android:layout_height="wrap_content"
-                        android:text="MRP Total\n5.36"/>
+                        android:orientation="horizontal"
+                        android:weightSum="4">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_9"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/roboto_regular"
-                        android:layout_height="wrap_content"
-                        android:text="Taxable Amt\n46.64"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Disc Type\n5644544"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_9"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/roboto_regular"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Pharma\n0.00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="FMCG\n0.00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="PL\n50.00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Disc.Amt\n0.00"/>
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="RoundedAmt\n564454564"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="MRP Total\n5.36"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Taxable Amt\n46.64"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Disc.Amt\n0.00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_9" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:gravity="center"
-               android:background="@color/cpb_yellow"
-               android:orientation="vertical">
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="@dimen/text_dimen_18"
-                   android:textColor="@color/white"
-                   android:layout_marginStart="@dimen/fifteen_dp"
-                   android:textStyle="bold"
-                   android:text="129.70"/>
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="@dimen/text_dimen_10"
-                   android:textColor="@color/black"
-                   android:text="Savings:20.50(10%)"/>
 
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="@dimen/text_dimen_20"
-                   android:text="PAY"
-                   android:textColor="@color/black"
-                   android:textStyle="bold"/>
-           </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:background="@color/cpb_yellow"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="129.70"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Savings:20.50(10%)"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="PAY"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_20" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
