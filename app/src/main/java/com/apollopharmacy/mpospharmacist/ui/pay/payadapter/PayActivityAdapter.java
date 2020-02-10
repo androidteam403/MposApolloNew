@@ -8,15 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.PayActivityAdapterBinding;
-import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
 
 import java.util.ArrayList;
 
 
-public class PayActivityAdapter  extends RecyclerView.Adapter<PayActivityAdapter.ViewHolder> {
+public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.ViewHolder> {
 
     private Activity activity;
     private ArrayList<PayAdapterModel> arrPayAdapterModel;
@@ -45,6 +43,7 @@ public class PayActivityAdapter  extends RecyclerView.Adapter<PayActivityAdapter
     public int getItemCount() {
         return arrPayAdapterModel.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public PayActivityAdapterBinding payAdapterBinding;
 

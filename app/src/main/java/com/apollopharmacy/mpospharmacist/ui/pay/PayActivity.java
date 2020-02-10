@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPayBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
@@ -21,14 +19,13 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class PayActivity extends BaseActivity implements PayMvpView , PayAdapterListener {
+public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterListener {
 
     @Inject
     PayMvpPresenter<PayMvpView> mPresenter;
     ActivityPayBinding activityPayBinding;
     PayActivityAdapter payActivityAdapter;
     private ArrayList<PayAdapterModel> arrPayAdapterModel;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +49,7 @@ public class PayActivity extends BaseActivity implements PayMvpView , PayAdapter
         activityPayBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         activityPayBinding.payAmount.setAdapter(payActivityAdapter);
     }
+
     private void getAmount() {
         arrPayAdapterModel = new ArrayList<>();
         PayAdapterModel payAdapterModel = new PayAdapterModel("100.00");

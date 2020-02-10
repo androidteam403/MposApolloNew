@@ -7,11 +7,11 @@
         <item
             android:id="@+id/nav_dash_board"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_dashboard" />
+            android:title="@string/menu_dashboard"/>
         <item
             android:id="@+id/nav_doc_master"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_doc_master" />
+            android:title="@string/menu_doct_master" />
         <item
             android:id="@+id/nav_cust_master"
             android:icon="@drawable/ic_menu_slideshow"
