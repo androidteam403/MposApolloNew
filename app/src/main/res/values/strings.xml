@@ -158,6 +158,7 @@
     <string name="label_date">Date:</string>
     <string name="label__03_feb_2020_10_30">03 Feb 2020-10:30</string>
     <string name="label_phone_number_id">Phone Number/ID</string>
+    <string name="label_corporate_number_id">Corporate Number/ID</string>
     <string name="label_search_by_phone_number">Search by phone number</string>
     <string name="label_search_by_registration_number">Search by registration number</string>
     <string name="label_registration_number_id">Registration Number/ID</string>
@@ -187,9 +188,11 @@
     <string name="label_add_new_customer">Add New Customer</string>
     <string name="label_no_doctor_found">No Doctor Found</string>
     <string name="label_add_new_doctor">Add New Doctor</string>
+    <string name="label_no_corporate_found">No Corporate Found</string>
 
     <string name="label_customer_details">Customer Details</string>
     <string name="label_doctor_details">Doctor Details</string>
+    <string name="label_corporate_details">Corporate Details</string>
     <string name="label_span_tracking_ref_no">Tracking Ref. No.:\n%1$s</string>
     <string name="label_name">Name:</string>
     <string name="label_reg_no">Reg. No.:</string>
