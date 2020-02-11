@@ -221,4 +221,11 @@
     <string name="label_required_qty">Required Quantity</string>
     <string name="label_add_medicines">Add Medicines:</string>
     <string name="label_clear_all_txt">Clear All:</string>
+    <string name="label_additional_discount">Additional Discount :</string>
+    <string name="label_balance_amount">balance amount:</string>
+    <string name="label_cash_payment">cash payment:</string>
+    <string name="label_other">Other</string>
+    <string name="label_card">Card</string>
+    <string name="label_cash">Cash</string>
+    <string name="label_payment_method">payment method</string>
 </resources>

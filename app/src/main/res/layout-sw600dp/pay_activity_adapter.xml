@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/white"
+        android:padding="@dimen/three_dp">
+
+        <ImageView
+            android:id="@+id/close_icon"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_close_view" />
+
+        <ImageView
+            android:id="@+id/icon_cash"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_toEndOf="@+id/close_icon"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_cash_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_toEndOf="@+id/icon_cash"
+            android:fontFamily="@font/roboto_medium"
+            android:text="cash paid:"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/three_dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{model.amount}"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener" />
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel" />
+    </data>
+</layout>

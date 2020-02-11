@@ -53,7 +53,6 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
         activityPayBinding.payAmount.setLayoutManager(mLayoutManager);
         activityPayBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         activityPayBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
-        activityPayBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         activityPayBinding.payAmount.setAdapter(payActivityAdapter);
     }
 
