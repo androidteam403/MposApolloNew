@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialo
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -34,6 +36,13 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         return new Intent(context, DoctorDetailsActivity.class);
     }
 
+    public static Intent getStartIntent(Context context, DoctorSearchResModel.DropdownValueBean doctorEntity, SalesOriginResModel.DropdownValueBean salesEntity) {
+        Intent intent = new Intent(context, DoctorDetailsActivity.class);
+        intent.putExtra("doctor_info", doctorEntity);
+        intent.putExtra("sales_info", salesEntity);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +55,8 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     @Override
     protected void setUp() {
         doctorDetailsBinding.setCallback(mPresenter);
-        mPresenter.getDoctorsList();
         allDoctorsArrayList = new ArrayList<>();
+        mPresenter.getDoctorsList();
         mPresenter.getAllDoctorsList();
     }
 
@@ -76,6 +85,17 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             doctorDetailsBinding.selectDoctor.setError(null);
         });
+
+        if (getIntent() != null) {
+            DoctorSearchResModel.DropdownValueBean doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+            if (doctorEntity != null) {
+                for (int i = 0; i < model.get_DropdownValue().size(); i++) {
+                    if (model.get_DropdownValue().get(i).getCode().equals(doctorEntity.getCode())) {
+                        doctorDetailsBinding.selectDoctor.setSelection(i);
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -92,6 +112,16 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             doctorDetailsBinding.selectSalesOrigin.setError(null);
         });
+        if (getIntent() != null) {
+            SalesOriginResModel.DropdownValueBean salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
+            if (salesEntity != null) {
+                for (int i = 0; i < model.getGetSalesOriginResult().get_DropdownValue().size(); i++) {
+                    if (model.getGetSalesOriginResult().get_DropdownValue().get(i).getCode().equals(salesEntity.getCode())) {
+                        doctorDetailsBinding.selectSalesOrigin.setSelection(i);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -104,9 +134,26 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     public void onAllDoctorsClick() {
         if (allDoctorsArrayList.size() > 0) {
             AllDoctorsDialog dialog = AllDoctorsDialog.newInstance();
+            dialog.setDoctorDetailsMvpView(this);
             dialog.setDoctorsArray(allDoctorsArrayList);
             dialog.show(getSupportFragmentManager(), "");
         }
+    }
+
+    @Override
+    public void onSubmitClick() {
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doctor_info", (Serializable) doctorDetailsBinding.selectDoctor.getSelectedItem());
+        bundle.putSerializable("sales_info", (Serializable) doctorDetailsBinding.selectSalesOrigin.getSelectedItem());
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean) {
+
     }
 
     @Override
