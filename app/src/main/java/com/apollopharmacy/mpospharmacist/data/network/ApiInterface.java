@@ -1,10 +1,11 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
-import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -42,10 +43,10 @@ public interface ApiInterface {
     Call<UserModel> getUserIds(@Body Object o);
 
     @POST("LoginService.svc/GetLoginDetail")
-    Call<LoginResModel> LOGIN_RES_MODEL_CALL (@Body LoginReqModel loginReqModel);
+    Call<LoginResModel> LOGIN_RES_MODEL_CALL(@Body LoginReqModel loginReqModel);
 
     @POST("SalesTransactionService.svc/GetCustomer")
-    Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL (@Body GetCustomerRequest customerRequest);
+    Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL(@Body GetCustomerRequest customerRequest);
 
     @POST("SalesTransactionService.svc/GetItemDetails")
     Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL (@Body GetItemDetailsReq itemDetailsReq);
@@ -55,4 +56,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetDoctorList/16001/AHEL")
     Call<DoctorSearchResModel> getDoctorsList(@Body DoctorSearchReqModel doctorSearchReqModel);
+
+    @POST("SalesTransactionService.svc/GetSalesOrigin/AHEL")
+    Call<SalesOriginResModel> getSalesOriginList(@Body Object o);
 }

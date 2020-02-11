@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,6 +43,11 @@ public class DoctorSearchResModel {
         }
 
         public String getDisplayText() {
+            return displayText;
+        }
+
+        @Override
+        public String toString() {
             return displayText;
         }
     }

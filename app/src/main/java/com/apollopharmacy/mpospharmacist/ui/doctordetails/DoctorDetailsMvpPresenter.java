@@ -7,5 +7,11 @@ public interface DoctorDetailsMvpPresenter<V extends DoctorDetailsMvpView> exten
 
     void onBackPressedClick();
 
+    void onAllDoctorsClick();
+
     void getDoctorsList();
+
+    void getSalesOrigin();
+
+    void getAllDoctorsList();
 }
