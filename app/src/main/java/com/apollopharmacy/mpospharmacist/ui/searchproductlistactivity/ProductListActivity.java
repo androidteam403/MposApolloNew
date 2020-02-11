@@ -3,7 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -31,7 +33,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Inject
     ProductListMvpPresenter<ProductListMvpView> productListMvpPresenter;
     ProductListActivityBinding productListActivityBinding;
-
+    private ProductListAdapter productListAdapter;
+    private ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
+    private boolean isLoadApi = false;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, ProductListActivity.class);
     }
@@ -48,8 +52,41 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void setUp() {
         productListActivityBinding.setCallback(productListMvpPresenter);
+        productListAdapter = new ProductListAdapter(this, itemsArrayList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListAdapter.setClickListiner(this);
+        productListActivityBinding.productRecycler.setAdapter(productListAdapter);
+        productListActivityBinding.searchProductEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() == 3 && isLoadApi){
+                    productListMvpPresenter.getProductDetails();
+                }else if(s.length() >= 3){
+                    productListAdapter.getFilter().filter(s);
+                }else{
+                    if(s.length() == 0){
+                        updateProductsCount(0);
+                        itemsArrayList.clear();
+                        productListAdapter.notifyDataSetChanged();
+                    }
+                    isLoadApi = true;
+                }
+            }
+        });
     }
 
 
@@ -60,8 +97,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onClickProductItem(GetItemDetailsRes.Items item) {
-        startActivity(BatchInfoActivity.getStartIntent(this));
+        startActivity(BatchInfoActivity.getStartIntent(this,item));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 
     @Override
@@ -82,20 +120,20 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onSuccessGetItems(GetItemDetailsRes itemDetailsRes) {
-        productListActivityBinding.setProductCount(itemDetailsRes.getItemList().size());
-        ProductListAdapter productListAdapter = new ProductListAdapter(this, itemDetailsRes.getItemList());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
-        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-        productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-        productListAdapter.setClickListiner(this);
-        productListActivityBinding.productRecycler.setAdapter(productListAdapter);
+        isLoadApi = false;
+        updateProductsCount(itemDetailsRes.getItemList().size());
+        itemsArrayList.addAll(itemDetailsRes.getItemList()) ;
+        productListAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onFailedGetItems(GetItemDetailsRes itemDetailsRes) {
 
+    }
+
+    @Override
+    public void updateProductsCount(int count) {
+        productListActivityBinding.setProductCount(count);
     }
 
     @Override

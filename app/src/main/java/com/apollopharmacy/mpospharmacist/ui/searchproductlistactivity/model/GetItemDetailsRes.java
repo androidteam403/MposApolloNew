@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class GetItemDetailsRes {
         return ItemList;
     }
 
-    public static class Items {
+    public static class Items implements Serializable {
 
         @Expose
         @SerializedName("SubClassification")
