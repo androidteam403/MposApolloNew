@@ -42,6 +42,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         batchInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_batch_info);
         getActivityComponent().inject(this);
         mPresenter.onAttach(BatchInfoActivity.this);

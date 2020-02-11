@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter" />
+        <variable
+            name="customer"
+            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
     </data>
 
     <ScrollView
@@ -67,6 +71,7 @@
                         android:fontFamily="@font/roboto_regular">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_number_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/one_hundred_dp"
@@ -87,7 +92,8 @@
                         android:layout_marginEnd="@dimen/ten_dp"
                         android:layout_toStartOf="@+id/mike"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_search_product" />
+                        android:src="@drawable/ic_search_product"
+                        android:onClick="@{()-> callback.onCustomerSearchClick()}"/>
 
                     <ImageView
                         android:id="@+id/mike"
@@ -104,7 +110,8 @@
                     android:id="@+id/customer_info_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{customer == null ? View.GONE : View.VISIBLE}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,8 +138,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="First Name"
-                                    android:textColor="@color/black"
+                                    app:full_text="@{@string/label_generic_name(customer.cardName)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.cardName}"
                                     android:textSize="@dimen/text_dimen_12" />
 
                                 <TextView
@@ -185,8 +195,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Mobile"
-                                    android:textColor="@color/black"
+                                    app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.mobileNo}"
                                     android:textSize="@dimen/text_dimen_12" />
 
                                 <TextView
@@ -203,8 +216,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Card Number"
-                                    android:textColor="@color/black"
+                                    app:full_text="@{@string/label_generic_card_no(customer.cardNo)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.cardNo}"
                                     android:textSize="@dimen/text_dimen_12" />
                             </LinearLayout>
 
@@ -264,8 +280,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Telephone"
-                                    android:textColor="@color/black"
+                                    app:full_text="@{@string/label_generic_tel(customer.telephoneNo)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.telephoneNo}"
                                     android:textSize="@dimen/text_dimen_12" />
 
                                 <TextView
@@ -312,7 +331,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="@string/label_select"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_16" />
+                                android:textSize="@dimen/text_dimen_16"
+                                android:onClick="@{()-> callback.onClickSelectBtn(customer)}"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -335,7 +355,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/thirty_dp"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
