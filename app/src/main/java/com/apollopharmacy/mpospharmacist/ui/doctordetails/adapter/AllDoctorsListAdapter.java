@@ -14,27 +14,27 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 
 import java.util.ArrayList;
 
-public class DoctorDetailAdapter extends RecyclerView.Adapter<DoctorDetailAdapter.ViewHolder> {
+public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAdapter.ViewHolder> {
     private Activity activity;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList;
 
-    public DoctorDetailAdapter(Activity activity, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
+    public AllDoctorsListAdapter(Activity activity, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
         this.activity = activity;
         this.doctorSearchArrayList = doctorSearchArrayList;
     }
 
     @NonNull
     @Override
-    public DoctorDetailAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AllDoctorsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewDoctorSearchItemBinding doctorSearchItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.view_doctor_search_item, parent, false);
-        return new DoctorDetailAdapter.ViewHolder(doctorSearchItemBinding);
+        return new AllDoctorsListAdapter.ViewHolder(doctorSearchItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DoctorDetailAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AllDoctorsListAdapter.ViewHolder holder, int position) {
         DoctorSearchResModel.DropdownValueBean item = doctorSearchArrayList.get(position);
-//        holder.viewDoctorSearchItemBinding.setModel(item);
+        holder.viewDoctorSearchItemBinding.setModel(item);
 
     }
 
