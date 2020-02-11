@@ -5,6 +5,8 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -41,9 +43,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetCustomer")
     Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL (@Body GetCustomerRequest customerRequest);
-//    @GET("780a4b58-2bca-11ea-8649-0d2b23060fa9")
-//    Call<List<Recipe>> getProducts();
 
-//    @GET("381352b5-3e69-11ea-be6c-f9dd68604caf")
-//    Call<Pharmacy> getPharmacyList();
+    @POST("SalesTransactionService.svc/GetItemDetails")
+    Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL (@Body GetItemDetailsReq itemDetailsReq);
 }

@@ -83,13 +83,18 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     @Override
     public void onSuccessCustomerSearch(GetCustomerResponse body) {
         if(body.get_Customer().size() > 0){
-            customerDetailsBinding.setCustomer(body.get_Customer().get(0));
+            GetCustomerResponse.CustomerEntity customerEntity = body.get_Customer().get(0);
+            customerEntity.setSearchId(getCustomerNumber());
+            customerDetailsBinding.setCustomer(customerEntity);
+            customerDetailsBinding.setNoUser(false);
+        }else{
+            customerDetailsBinding.setNoUser(true);
         }
     }
 
     @Override
     public void onFailedCustomerSearch() {
-
+        customerDetailsBinding.setNoUser(true);
     }
 
     @Override
