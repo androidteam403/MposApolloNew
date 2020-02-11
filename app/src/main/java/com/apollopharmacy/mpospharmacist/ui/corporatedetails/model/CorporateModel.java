@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CorporateModel {
@@ -29,7 +30,7 @@ public class CorporateModel {
         return _DropdownValue;
     }
 
-    public static class DropdownValueBean {
+    public static class DropdownValueBean implements Serializable {
         @Expose
         @SerializedName("Code")
         private String code;

@@ -236,4 +236,9 @@
     <string name="label_product_sub_category">Sub Category\n%1$s</string>
     <string name="label_product_manufacturer">Manufacturer\n%1$s</string>
     <string name="label_product_Generic_name">Generic Name\n%1$s</string>
+    <string name="label_generic_doctor_reg_no">Doctor Reg.No\n%1$s</string>
+    <string name="label_generic_doctor_name">Doctor Name:\n%1$s</string>
+    <string name="label_generic_sales_origin">Sales Origin\n%1$s</string>
+    <string name="label_generic_corporate_no">Corporate No.\n%1$s</string>
+    <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
 </resources>

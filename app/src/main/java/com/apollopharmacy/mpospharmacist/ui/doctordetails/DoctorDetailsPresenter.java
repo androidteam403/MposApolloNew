@@ -125,4 +125,9 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public void onSubmitClick() {
+        getMvpView().onSubmitClick();
+    }
 }

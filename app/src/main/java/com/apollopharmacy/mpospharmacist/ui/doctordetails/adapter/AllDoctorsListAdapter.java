@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ViewDoctorSearchItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAdapter.ViewHolder> {
     private Activity activity;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList;
+    private AllDoctorsDialogMvpView doctorsMvpView;
 
     public AllDoctorsListAdapter(Activity activity, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
         this.activity = activity;
@@ -35,7 +37,11 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
     public void onBindViewHolder(@NonNull AllDoctorsListAdapter.ViewHolder holder, int position) {
         DoctorSearchResModel.DropdownValueBean item = doctorSearchArrayList.get(position);
         holder.viewDoctorSearchItemBinding.setModel(item);
-
+        holder.itemView.setOnClickListener(v -> {
+            if(doctorsMvpView != null){
+                doctorsMvpView.onClickListener(item);
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,5 +56,9 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
     @Override
     public int getItemCount() {
         return doctorSearchArrayList.size();
+    }
+
+    public void onClickListener(AllDoctorsDialogMvpView mvpView){
+        this.doctorsMvpView = mvpView;
     }
 }
