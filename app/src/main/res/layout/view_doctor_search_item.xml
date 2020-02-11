@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
     </data>
 
     <LinearLayout
@@ -23,8 +24,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
+                android:text="@{model.toString()}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_13" />
+                android:textSize="@dimen/text_dimen_13"
+                tools:ignore="RelativeOverlap" />
 
             <ImageView
                 android:layout_width="@dimen/twenty_dp"

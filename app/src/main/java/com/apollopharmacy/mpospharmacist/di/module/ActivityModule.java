@@ -30,6 +30,9 @@ import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInf
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialogMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialogPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivityMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivityMvpView;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivityPresenter;
@@ -274,6 +277,11 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CorporateDetailsMvpPresenter<CorporateDetailsMvpView> provideCorporateDetailsActivity(CorporateDetailsPresenter<CorporateDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    AllDoctorsDialogMvpPresenter<AllDoctorsDialogMvpView> provideAllDoctorsDialog(AllDoctorsDialogPresenter<AllDoctorsDialogMvpView> presenter) {
         return presenter;
     }
 }
