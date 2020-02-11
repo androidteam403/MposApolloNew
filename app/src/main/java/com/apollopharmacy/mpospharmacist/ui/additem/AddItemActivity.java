@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 
 import javax.inject.Inject;
@@ -23,11 +24,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
         return new Intent(context, AddItemActivity.class);
     }
 
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("customer_info",customerEntity);
+        return intent;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
         addItemBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_item);
         getActivityComponent().inject(this);
         mPresenter.onAttach(AddItemActivity.this);
@@ -37,6 +41,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
     @Override
     protected void setUp() {
         addItemBinding.setCallback(mPresenter);
+        if (getIntent() != null) {
+            GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+            if (customerEntity != null) {
+                addItemBinding.setCustomer(customerEntity);
+            }
+        }
     }
 
     @Override

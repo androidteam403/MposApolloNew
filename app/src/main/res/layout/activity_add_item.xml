@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpPresenter" />
+        <variable
+            name="customer"
+            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,7 +50,8 @@
                     android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
 
-            <include layout="@layout/view_customer_doctor_info"/>
+            <include layout="@layout/view_customer_doctor_info"
+                app:customer="@{customer}"/>
         </LinearLayout>
 
         <LinearLayout

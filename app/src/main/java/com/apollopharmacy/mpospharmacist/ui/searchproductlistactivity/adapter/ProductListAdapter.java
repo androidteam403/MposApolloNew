@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListAdapterBinding;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
 import java.util.ArrayList;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private Activity activity;
-    private ArrayList<ProductList> productListArrayList;
+    private ArrayList<GetItemDetailsRes.Items> productListArrayList;
     private ProductListMvpView productListMvpView;
 
-    public ProductListAdapter(Activity activity, ArrayList<ProductList> productListArrayList) {
+    public ProductListAdapter(Activity activity, ArrayList<GetItemDetailsRes.Items> productListArrayList) {
         this.activity = activity;
         this.productListArrayList = productListArrayList;
     }
@@ -36,7 +37,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
-        ProductList item = productListArrayList.get(position);
+        GetItemDetailsRes.Items item = productListArrayList.get(position);
         holder.productListAdapterBinding.setProductlist(item);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

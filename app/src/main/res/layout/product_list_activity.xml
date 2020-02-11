@@ -4,9 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter" />
+        <variable
+            name="product_count"
+            type="Integer" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,35 +58,36 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/fifteen_dp"
-            android:layout_marginEnd="@dimen/fifteen_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:textColor="@color/customer_info_header"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/label_search_for_items" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:layout_marginStart="@dimen/fifteen_dp"
             android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal"
-            android:weightSum="1">
-
-            <EditText
+            android:weightSum="1"
+            android:layout_gravity="center_vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_search"
+                style="@style/EditTextInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.66"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/rectangular_shape"
-                android:focusable="false"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                tools:ignore="LabelFor" />
+                android:fontFamily="@font/roboto_regular">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_product_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="top"
+                    android:hint="@string/label_search_for_items"
+                    android:inputType="text"
+                    android:padding="@dimen/ten_dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_dimen_15" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="0dp"
@@ -95,7 +100,8 @@
                 android:layout_weight="0.1"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_search_product"/>
+                android:src="@drawable/ic_search_product"
+                android:onClick="@{()-> callback.getProductDetails()}"/>
 
             <View
                 android:layout_width="0dp"
@@ -131,13 +137,14 @@
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/eight_dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/label_5_items_found"
-            android:textColor="@color/black" />
+            android:text="@{@string/label_5_items_found(product_count)}"
+            android:textColor="@color/black"
+            android:visibility="@{product_count == 0 ? View.INVISIBLE : View.VISIBLE}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:background="@color/search_customer_bg" />
     </LinearLayout>
 </layout>

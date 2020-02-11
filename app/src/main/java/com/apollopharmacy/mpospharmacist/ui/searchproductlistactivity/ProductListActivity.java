@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,9 +17,11 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -29,9 +32,6 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     ProductListMvpPresenter<ProductListMvpView> productListMvpPresenter;
     ProductListActivityBinding productListActivityBinding;
 
-    private ArrayList<ProductList> productLists = null;
-    private ProductListAdapter productListAdapter;
-
     public static Intent getStartIntent(Context context) {
         return new Intent(context, ProductListActivity.class);
     }
@@ -39,9 +39,6 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-              getSupportActionBar().hide();
-        }
         productListActivityBinding = DataBindingUtil.setContentView(this, R.layout.product_list_activity);
         getActivityComponent().inject(this);
         productListMvpPresenter.onAttach(ProductListActivity.this);
@@ -51,60 +48,10 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void setUp() {
         productListActivityBinding.setCallback(productListMvpPresenter);
-        getProductInfo();
-        if (productLists.size() > 0) {
-            productListAdapter = new ProductListAdapter(this, productLists);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-            productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
-            productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-            productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-            productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-            productListAdapter.setClickListiner(this);
-            productListActivityBinding.productRecycler.setAdapter(productListAdapter);
-        }
-    }
-
-    private void getProductInfo() {
-        productLists = new ArrayList<>();
-        ProductList productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
 
 
     }
+
 
     @Override
     public void onClickBackBtn() {
@@ -112,9 +59,43 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     }
 
     @Override
-    public void onClickProductItem(ProductList item) {
+    public void onClickProductItem(GetItemDetailsRes.Items item) {
         startActivity(BatchInfoActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public String getSearchProductKey() {
+        if (TextUtils.isEmpty(Objects.requireNonNull(productListActivityBinding.searchProductEditText.getText()).toString())) {
+            setEmptyErrorOnSearch("Enter product Name");
+            return null;
+        } else {
+            productListActivityBinding.inputLayoutSearch.setError(null);
+        }
+        return productListActivityBinding.searchProductEditText.getText().toString();
+    }
+
+    @Override
+    public void setEmptyErrorOnSearch(String message) {
+        productListActivityBinding.inputLayoutSearch.setError(message);
+    }
+
+    @Override
+    public void onSuccessGetItems(GetItemDetailsRes itemDetailsRes) {
+        productListActivityBinding.setProductCount(itemDetailsRes.getItemList().size());
+        ProductListAdapter productListAdapter = new ProductListAdapter(this, itemDetailsRes.getItemList());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListAdapter.setClickListiner(this);
+        productListActivityBinding.productRecycler.setAdapter(productListAdapter);
+    }
+
+    @Override
+    public void onFailedGetItems(GetItemDetailsRes itemDetailsRes) {
+
     }
 
     @Override
