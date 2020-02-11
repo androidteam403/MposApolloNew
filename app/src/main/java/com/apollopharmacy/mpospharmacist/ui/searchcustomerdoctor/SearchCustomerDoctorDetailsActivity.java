@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.SearchCutomerDetailsBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;

@@ -17,4 +17,6 @@ public interface ProductListMvpView extends MvpView {
     void onSuccessGetItems(GetItemDetailsRes itemDetailsRes);
 
     void onFailedGetItems(GetItemDetailsRes itemDetailsRes);
+
+    void updateProductsCount(int count);
 }
