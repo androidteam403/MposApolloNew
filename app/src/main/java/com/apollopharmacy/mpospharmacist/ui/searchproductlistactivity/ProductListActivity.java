@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -36,6 +37,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     private ProductListAdapter productListAdapter;
     private ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
     private boolean isLoadApi = false;
+    private int ACTIVITY_RESULT_FOR_BATCH_INFO = 103;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, ProductListActivity.class);
     }
@@ -97,9 +99,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onClickProductItem(GetItemDetailsRes.Items item) {
-        startActivity(BatchInfoActivity.getStartIntent(this,item));
+        startActivityForResult(BatchInfoActivity.getStartIntent(this,item),ACTIVITY_RESULT_FOR_BATCH_INFO);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+
     }
 
     @Override
@@ -140,5 +142,21 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == ACTIVITY_RESULT_FOR_BATCH_INFO){
+                if(data != null) {
+                    GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
+                    Intent intent = new Intent();
+                    intent.putExtra("selected_item", items);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        }
     }
 }

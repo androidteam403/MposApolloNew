@@ -241,4 +241,5 @@
     <string name="label_generic_sales_origin">Sales Origin\n%1$s</string>
     <string name="label_generic_corporate_no">Corporate No.\n%1$s</string>
     <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
+    <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
 </resources>

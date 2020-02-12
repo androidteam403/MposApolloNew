@@ -5,7 +5,9 @@
     <variable
         name="customer"
         type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
-
+    <variable
+        name="doctor"
+        type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
 </data>
     <LinearLayout
         android:id="@+id/customer_doctor_layout"
@@ -159,7 +161,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11"
-                    android:text="Dr. M Krishna"/>
+                    android:text="@{doctor.displayText}"/>
             </LinearLayout>
 
             <LinearLayout
@@ -186,7 +188,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11"
-                    android:text="265487"/>
+                    android:text="@{doctor.code}"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

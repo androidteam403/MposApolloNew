@@ -49,7 +49,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
 
         searchCutomerDetailsBinding.continueBtn.setOnClickListener(view -> {
-            startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer()));
+            startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(),searchCutomerDetailsBinding.getDoctor(),searchCutomerDetailsBinding.getCorporate()));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         });
     }
