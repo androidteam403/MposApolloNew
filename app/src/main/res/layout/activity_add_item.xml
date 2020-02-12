@@ -13,6 +13,9 @@
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
 
         <variable
+            name="doctor"
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+        <variable
             name="product_count"
             type="Integer" />
     </data>
@@ -55,7 +58,8 @@
             </LinearLayout>
 
             <include layout="@layout/view_customer_doctor_info"
-                app:customer="@{customer}"/>
+                app:customer="@{customer}"
+                app:doctor="@{doctor}"/>
 
             <LinearLayout
                 android:background="@color/light_grey"

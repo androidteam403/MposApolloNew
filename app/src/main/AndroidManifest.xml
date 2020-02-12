@@ -50,16 +50,16 @@
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
             android:windowSoftInputMode="stateAlwaysHidden" >
-
-        </activity>
-        <activity
-            android:name=".ui.additem.AddItemActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.additem.AddItemActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
@@ -82,6 +82,7 @@
         <activity
             android:name=".ui.searchproductlistactivity.ProductListActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
+
         </activity>
         <activity
             android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"

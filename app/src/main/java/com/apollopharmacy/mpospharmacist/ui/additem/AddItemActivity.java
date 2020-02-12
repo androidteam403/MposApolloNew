@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -39,9 +41,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
         return new Intent(context, AddItemActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity) {
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity,DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("customer_info",customerEntity);
+        intent.putExtra("doctor_info",doctor);
+        intent.putExtra("corporate_info",corporate);
         return intent;
     }
     @Override
@@ -60,6 +64,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
             GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
+            }
+            DoctorSearchResModel.DropdownValueBean doctorInfo = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+            if(doctorInfo != null){
+                addItemBinding.setDoctor(doctorInfo);
             }
         }
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
