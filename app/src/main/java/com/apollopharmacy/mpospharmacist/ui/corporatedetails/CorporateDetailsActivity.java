@@ -64,24 +64,24 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     protected void setUp() {
         corporateDetailsBinding.setCallback(mPresenter);
         mPresenter.getCorporateList();
-//        corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (count >= 3) {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (corporateDetailAdapter != null) {
+                    corporateDetailAdapter.getFilter().filter(s);
+                }
+            }
+        });
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
         tempCorporateList.clear();
         corporateList.addAll(corporateModel.get_DropdownValue());
         tempCorporateList.addAll(corporateModel.get_DropdownValue());
-        CorporateDetailAdapter corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
+        corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         corporateDetailsBinding.corporateRecyclerView.setLayoutManager(mLayoutManager);
         corporateDetailAdapter.setClickListener(this);

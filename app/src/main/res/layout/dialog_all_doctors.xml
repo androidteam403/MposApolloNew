@@ -47,13 +47,13 @@
             android:layout_margin="@dimen/ten_dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/doctor_name_search"
                 style="@style/EditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/doctor_name_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"

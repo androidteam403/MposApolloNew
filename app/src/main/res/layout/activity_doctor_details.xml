@@ -66,6 +66,7 @@
                     android:padding="@dimen/ten_dp">
 
                     <RelativeLayout
+                        android:id="@+id/custom_doctor_search_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
                         android:layout_marginTop="@dimen/five_dp"
@@ -95,18 +96,23 @@
                     </RelativeLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/custom_doctor_layout"
                         style="@style/EditTextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:visibility="@{doctor == null?View.GONE : View.VISIBLE}">
+                        android:visibility="gone">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/corporate_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="top"
+                            android:onClick="@{()->callback.onCustomDoctorLayoutClick()}"
                             android:hint="@string/label_search_by_doctor_name"
                             android:inputType="text"
                             android:padding="@dimen/ten_dp"

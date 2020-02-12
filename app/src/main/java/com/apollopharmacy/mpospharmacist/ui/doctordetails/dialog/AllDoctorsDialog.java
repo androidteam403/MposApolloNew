@@ -1,7 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog;
 
-import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import javax.inject.Inject;
 
 public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpView {
     private DialogAllDoctorsBinding allDoctorsBinding;
-    private AllDoctorsListAdapter doctorsListAdapter;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList = new ArrayList<>();
     private DoctorDetailsMvpView doctorDetailsMvpView;
 
@@ -39,13 +39,14 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
         return dialog;
     }
 
-    public void setDoctorsArray(ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList){
+    public void setDoctorsArray(ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
         this.doctorSearchArrayList = doctorSearchArrayList;
     }
 
-    public void setDoctorDetailsMvpView(DoctorDetailsMvpView detailsMvpView){
+    public void setDoctorDetailsMvpView(DoctorDetailsMvpView detailsMvpView) {
         this.doctorDetailsMvpView = detailsMvpView;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,22 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
         allDoctorsBinding.allDoctorsRecyclerView.setLayoutManager(mLayoutManager);
         doctorsListAdapter.onClickListener(this);
         allDoctorsBinding.allDoctorsRecyclerView.setAdapter(doctorsListAdapter);
+        allDoctorsBinding.doctorNameSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                doctorsListAdapter.getFilter().filter(s);
+            }
+        });
     }
 
     @Override
