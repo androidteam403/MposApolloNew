@@ -22,6 +22,7 @@
         <variable
             name="sales"
             type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel.DropdownValueBean" />
+
         <variable
             name="corporate"
             type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
@@ -117,6 +118,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
                         android:src="@drawable/ic_search" />
                 </RelativeLayout>
             </LinearLayout>
@@ -265,6 +268,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
                         android:src="@drawable/ic_search" />
                 </RelativeLayout>
             </LinearLayout>
@@ -331,8 +336,8 @@
                     android:layout_height="@dimen/twenty_seven_dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}"
                     android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
@@ -402,6 +407,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
                         android:src="@drawable/ic_search" />
                 </RelativeLayout>
             </LinearLayout>
@@ -435,6 +442,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
+                        android:paddingEnd="@dimen/thirty_dp"
                         android:textColor="@color/customer_header_text"
                         android:textSize="@dimen/text_dimen_12"
                         app:full_text="@{@string/label_generic_corporate_name(corporate.description)}"
@@ -463,6 +471,7 @@
             android:alpha="0.3"
             android:background="@color/cpb_yellow"
             android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()->callbacks.onContinueBtnClick()}"
             android:text="@string/label_continue"
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"

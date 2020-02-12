@@ -8,7 +8,7 @@
         <item name="android:windowBackground">@drawable/splash_bg_img</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-<!--        <item name="android:windowAnimationStyle">@style/animationName</item>-->
+        <!--        <item name="android:windowAnimationStyle">@style/animationName</item>-->
     </style>
 
     <style name="animationName" parent="android:Animation">
@@ -46,14 +46,15 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
     </style>
+
     <style name="NewEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">#4A4A46</item>
+        <item name="boxStrokeColor">@color/white</item>
         <item name="boxStrokeWidth">0.2dp</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>
         <item name="errorTextAppearance">@style/ErrorText</item>
-        <item name="colorAccent">#4A4A46</item>
-        <item name="colorControlNormal">#4A4A46</item>
-        <item name="colorControlActivated">#4A4A46</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
 
     <style name="ErrorText" parent="TextAppearance.Design.Error">
