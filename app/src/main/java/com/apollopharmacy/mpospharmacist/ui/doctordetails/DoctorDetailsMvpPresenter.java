@@ -18,4 +18,6 @@ public interface DoctorDetailsMvpPresenter<V extends DoctorDetailsMvpView> exten
     void getAllDoctorsList();
 
     void onSubmitClick();
+
+    void onCustomDoctorLayoutClick();
 }

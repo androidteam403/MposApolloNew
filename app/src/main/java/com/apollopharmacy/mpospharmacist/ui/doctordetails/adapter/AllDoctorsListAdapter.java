@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacist.ui.doctordetails.adapter;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -15,14 +17,16 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 
 import java.util.ArrayList;
 
-public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAdapter.ViewHolder> {
+public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAdapter.ViewHolder> implements Filterable {
     private Activity activity;
-    private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList;
+    private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorArrayList;
+    private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorFilteredArrayList;
     private AllDoctorsDialogMvpView doctorsMvpView;
 
     public AllDoctorsListAdapter(Activity activity, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
         this.activity = activity;
-        this.doctorSearchArrayList = doctorSearchArrayList;
+        this.doctorArrayList = doctorSearchArrayList;
+        this.doctorFilteredArrayList = doctorSearchArrayList;
     }
 
     @NonNull
@@ -35,10 +39,10 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
 
     @Override
     public void onBindViewHolder(@NonNull AllDoctorsListAdapter.ViewHolder holder, int position) {
-        DoctorSearchResModel.DropdownValueBean item = doctorSearchArrayList.get(position);
+        DoctorSearchResModel.DropdownValueBean item = doctorFilteredArrayList.get(position);
         holder.viewDoctorSearchItemBinding.setModel(item);
         holder.itemView.setOnClickListener(v -> {
-            if(doctorsMvpView != null){
+            if (doctorsMvpView != null) {
                 doctorsMvpView.onClickListener(item);
             }
         });
@@ -55,10 +59,40 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
 
     @Override
     public int getItemCount() {
-        return doctorSearchArrayList.size();
+        return doctorFilteredArrayList.size();
     }
 
-    public void onClickListener(AllDoctorsDialogMvpView mvpView){
+    public void onClickListener(AllDoctorsDialogMvpView mvpView) {
         this.doctorsMvpView = mvpView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    doctorFilteredArrayList = doctorArrayList;
+                } else {
+                    ArrayList<DoctorSearchResModel.DropdownValueBean> filteredList = new ArrayList<>();
+                    for (DoctorSearchResModel.DropdownValueBean row : doctorArrayList) {
+                        if (row.getDisplayText().contains(charString.toUpperCase()) || row.getCode().contains(charString.toUpperCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    doctorFilteredArrayList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = doctorFilteredArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                doctorFilteredArrayList = (ArrayList<DoctorSearchResModel.DropdownValueBean>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

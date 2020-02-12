@@ -130,4 +130,9 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     public void onSubmitClick() {
         getMvpView().onSubmitClick();
     }
+
+    @Override
+    public void onCustomDoctorLayoutClick() {
+        getMvpView().onCustomDoctorLayoutClick();
+    }
 }

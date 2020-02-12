@@ -30,6 +30,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     DoctorDetailsMvpPresenter<DoctorDetailsMvpView> mPresenter;
     ActivityDoctorDetailsBinding doctorDetailsBinding;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> allDoctorsArrayList;
+    private DoctorSearchResModel.DropdownValueBean customDoctorItem = null;
     String strFont = null;
 
     public static Intent getStartIntent(Context context) {
@@ -89,10 +90,18 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         if (getIntent() != null) {
             DoctorSearchResModel.DropdownValueBean doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
             if (doctorEntity != null) {
+                boolean isItemFound = false;
                 for (int i = 0; i < model.get_DropdownValue().size(); i++) {
                     if (model.get_DropdownValue().get(i).getCode().equals(doctorEntity.getCode())) {
                         doctorDetailsBinding.selectDoctor.setSelection(i);
+                        isItemFound = true;
                     }
+                }
+                if (!isItemFound) {
+                    doctorDetailsBinding.selectDoctor.setVisibility(View.GONE);
+                    doctorDetailsBinding.customDoctorSearchLayout.setVisibility(View.GONE);
+                    doctorDetailsBinding.customDoctorLayout.setVisibility(View.VISIBLE);
+                    doctorDetailsBinding.corporateNumber.setText(doctorEntity.getDisplayText());
                 }
             }
         }
@@ -144,7 +153,11 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     public void onSubmitClick() {
         Intent returnIntent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("doctor_info", (Serializable) doctorDetailsBinding.selectDoctor.getSelectedItem());
+        if (customDoctorItem == null) {
+            bundle.putSerializable("doctor_info", (Serializable) doctorDetailsBinding.selectDoctor.getSelectedItem());
+        } else {
+            bundle.putSerializable("doctor_info", customDoctorItem);
+        }
         bundle.putSerializable("sales_info", (Serializable) doctorDetailsBinding.selectSalesOrigin.getSelectedItem());
         returnIntent.putExtras(bundle);
         setResult(Activity.RESULT_OK, returnIntent);
@@ -153,7 +166,19 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
 
     @Override
     public void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean) {
+        customDoctorItem = dropdownValueBean;
+        doctorDetailsBinding.customDoctorSearchLayout.setVisibility(View.GONE);
+        doctorDetailsBinding.selectDoctor.setVisibility(View.GONE);
+        doctorDetailsBinding.customDoctorLayout.setVisibility(View.VISIBLE);
+        doctorDetailsBinding.corporateNumber.setText(dropdownValueBean.getDisplayText());
+    }
 
+    @Override
+    public void onCustomDoctorLayoutClick() {
+        AllDoctorsDialog dialog = AllDoctorsDialog.newInstance();
+        dialog.setDoctorDetailsMvpView(this);
+        dialog.setDoctorsArray(allDoctorsArrayList);
+        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override

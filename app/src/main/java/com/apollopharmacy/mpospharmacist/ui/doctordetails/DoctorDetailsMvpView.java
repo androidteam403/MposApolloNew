@@ -20,4 +20,6 @@ public interface DoctorDetailsMvpView extends MvpView {
     void onSubmitClick();
 
     void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean);
+
+    void onCustomDoctorLayoutClick();
 }
