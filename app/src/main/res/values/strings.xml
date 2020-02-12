@@ -236,4 +236,5 @@
     <string name="label_product_sub_category">Sub Category\n%1$s</string>
     <string name="label_product_manufacturer">Manufacturer\n%1$s</string>
     <string name="label_product_Generic_name">Generic Name\n%1$s</string>
+    <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
 </resources>

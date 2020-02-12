@@ -34,4 +34,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickBackPressed() {
         getMvpView().onClickActionBarBack();
     }
+
+    @Override
+    public void onClickClearAllBtn() {
+        getMvpView().onClearAll();
+    }
+
+    @Override
+    public void onPayButtonClick() {
+        getMvpView().onPayButtonClick();
+    }
 }
