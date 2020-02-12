@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.DialogAllDoctorsBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseDialog;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.adapter.AllDoctorsListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 
@@ -26,6 +27,7 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
     private DialogAllDoctorsBinding allDoctorsBinding;
     private AllDoctorsListAdapter doctorsListAdapter;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList = new ArrayList<>();
+    private DoctorDetailsMvpView doctorDetailsMvpView;
 
     @Inject
     AllDoctorsDialogMvpPresenter<AllDoctorsDialogMvpView> mPresenter;
@@ -39,6 +41,10 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
 
     public void setDoctorsArray(ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList){
         this.doctorSearchArrayList = doctorSearchArrayList;
+    }
+
+    public void setDoctorDetailsMvpView(DoctorDetailsMvpView detailsMvpView){
+        this.doctorDetailsMvpView = detailsMvpView;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +63,10 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
     @Override
     protected void setUp(View view) {
         allDoctorsBinding.setCallback(mPresenter);
-        doctorsListAdapter = new AllDoctorsListAdapter(getActivity(), doctorSearchArrayList);
+        AllDoctorsListAdapter doctorsListAdapter = new AllDoctorsListAdapter(getActivity(), doctorSearchArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         allDoctorsBinding.allDoctorsRecyclerView.setLayoutManager(mLayoutManager);
+        doctorsListAdapter.onClickListener(this);
         allDoctorsBinding.allDoctorsRecyclerView.setAdapter(doctorsListAdapter);
     }
 
@@ -70,6 +77,12 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
 
     @Override
     public void dismissDialog() {
+        dismissDialog("");
+    }
+
+    @Override
+    public void onClickListener(DoctorSearchResModel.DropdownValueBean item) {
+        doctorDetailsMvpView.onSelectDoctor(item);
         dismissDialog("");
     }
 }

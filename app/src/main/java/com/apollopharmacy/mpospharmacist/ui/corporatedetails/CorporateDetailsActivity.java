@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.corporatedetails;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -21,6 +22,8 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityCorporateDetailsBin
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.adapter.CorporateDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
@@ -40,6 +43,12 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, CorporateDetailsActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateEntity) {
+        Intent intent = new Intent(context, CorporateDetailsActivity.class);
+        intent.putExtra("corporate_info", corporateEntity);
+        return intent;
     }
 
     @Override
@@ -86,9 +95,10 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
         tempCorporateList.clear();
         corporateList.addAll(corporateModel.get_DropdownValue());
         tempCorporateList.addAll(corporateModel.get_DropdownValue());
-        corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
+        CorporateDetailAdapter corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         corporateDetailsBinding.corporateRecyclerView.setLayoutManager(mLayoutManager);
+        corporateDetailAdapter.setClickListener(this);
         corporateDetailsBinding.corporateRecyclerView.setAdapter(corporateDetailAdapter);
     }
 
@@ -96,6 +106,16 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     public void showNotFoundCorporate() {
         corporateDetailsBinding.corporateRecyclerView.setVisibility(View.GONE);
         corporateDetailsBinding.noCorporateFound.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClickCorporateItem(CorporateModel.DropdownValueBean item) {
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("corporate_info", item);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.doctordetails.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SalesOriginResModel {
@@ -38,7 +39,7 @@ public class SalesOriginResModel {
         }
     }
 
-    public static class DropdownValueBean {
+    public static class DropdownValueBean implements Serializable {
         @Expose
         @SerializedName("code")
         private String code;
