@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Dolo Bak Tab"
+                    android:text="@{product.description}"
                     android:textColor="@color/add_item_header"
                     android:textSize="@dimen/text_dimen_13" />
 

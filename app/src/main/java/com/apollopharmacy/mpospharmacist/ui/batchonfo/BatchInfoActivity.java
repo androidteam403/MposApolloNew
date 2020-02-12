@@ -89,9 +89,14 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     public void onNavigateNextActivity() {
         GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
-        startActivity(MedicinesDetailsActivity.getStartIntent(this,items));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        Intent intent = new Intent();
+        intent.putExtra("selected_item", items);
+        setResult(RESULT_OK, intent);
         finish();
+
+//        startActivity(MedicinesDetailsActivity.getStartIntent(this,items));
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//        finish();
     }
 
     @Override

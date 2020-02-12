@@ -11,4 +11,8 @@ public interface AddItemMvpView extends MvpView {
     void onBarCodeSearchClick();
 
     void onClickActionBarBack();
+
+    void onClearAll();
+
+    void onPayButtonClick();
 }
