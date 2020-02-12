@@ -54,4 +54,9 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     public void onCorporateEditClick(CorporateModel.DropdownValueBean corporateEntity) {
         getMvpView().onCorporateEditClick(corporateEntity);
     }
+
+    @Override
+    public void onContinueBtnClick() {
+        getMvpView().onContinueBtnClick();
+    }
 }

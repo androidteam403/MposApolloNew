@@ -21,4 +21,6 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
     void onDoctorEditClick(DoctorSearchResModel.DropdownValueBean doctorEntity, SalesOriginResModel.DropdownValueBean salesEntity);
 
     void onCorporateEditClick(CorporateModel.DropdownValueBean corporateEntity);
+
+    void onContinueBtnClick();
 }
