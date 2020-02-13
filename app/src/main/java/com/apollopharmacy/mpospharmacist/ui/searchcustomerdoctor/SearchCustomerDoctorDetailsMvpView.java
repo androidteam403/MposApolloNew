@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateMode
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
 
@@ -23,4 +24,6 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
     void onCorporateEditClick(CorporateModel.DropdownValueBean corporateEntity);
 
     void onContinueBtnClick();
+
+    void showTransactionID(TransactionIDResModel model);
 }

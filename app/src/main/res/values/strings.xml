@@ -141,7 +141,7 @@
     <string name="label_siteaddress">SiteAddress</string>
     <string name="label_dcid">DcId</string>
     <string name="label_dcname">DcName</string>
-    <string name="label_selectuser">SelectUser</string>
+    <string name="label_selectuser">Select User</string>
     <string name="todo">TODO</string>
     <string name="label_loginoptions">LoginOptions:</string>
     <string name="label_instore">In Store</string>
@@ -242,4 +242,5 @@
     <string name="label_generic_corporate_no">Corporate No.\n%1$s</string>
     <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
     <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
+    <string name="label_generic_new_order">New Order  %1$s</string>
 </resources>

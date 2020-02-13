@@ -23,6 +23,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResMo
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
@@ -49,16 +50,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private int CUSTOMER_SEARCH_ACTIVITY_CODE = 103;
     private int DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 105;
+    private TransactionIDResModel transactionIdModel = null;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddItemActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate) {
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("customer_info", customerEntity);
         intent.putExtra("doctor_info", doctor);
         intent.putExtra("corporate_info", corporate);
+        intent.putExtra("transaction_id", transactionID);
         return intent;
     }
 
@@ -85,6 +88,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 addItemBinding.setDoctor(doctorEntity);
             }
             corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+            transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+            if (transactionIdModel != null) {
+                addItemBinding.setTransaction(transactionIdModel);
+            }
         }
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
 

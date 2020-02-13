@@ -9,6 +9,8 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResMo
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDReqModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
@@ -59,4 +61,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetSalesOrigin/AHEL")
     Call<SalesOriginResModel> getSalesOriginList(@Body Object o);
+
+    @POST("SalesTransactionService.svc/GetTransactionId")
+    Call<TransactionIDResModel> GET_TRANSACTION_ID(@Body TransactionIDReqModel transactionIDReqModel);
 }

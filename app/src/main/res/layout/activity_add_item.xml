@@ -23,6 +23,10 @@
             type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
 
         <variable
+            name="transaction"
+            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+
+        <variable
             name="product_count"
             type="Integer" />
     </data>
@@ -58,18 +62,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Add Item"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
+                    android:textSize="@dimen/text_dimen_18"
+                    app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoRegular`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{transaction.transactionID}" />
             </LinearLayout>
 
             <include
                 layout="@layout/view_customer_doctor_info"
+                app:call="@{call}"
                 app:customer="@{customer}"
-                app:doctor="@{doctor}"
-                app:call="@{call}" />
+                app:doctor="@{doctor}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
