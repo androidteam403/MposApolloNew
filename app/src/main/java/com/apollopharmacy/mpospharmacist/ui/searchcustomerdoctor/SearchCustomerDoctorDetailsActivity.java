@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import javax.inject.Inject;
 
@@ -30,6 +31,8 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     private int CUSTOMER_SEARCH_ACTIVITY_CODE = 101;
     private int DOCTOR_SEARCH_ACTIVITY_CODE = 102;
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 103;
+    private GetCustomerResponse.CustomerEntity customerResult = null;
+    private TransactionIDResModel transactionIdItem = null;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SearchCustomerDoctorDetailsActivity.class);
@@ -46,12 +49,8 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     protected void setUp() {
+        customerDetailsMvpPresenter.getTransactionID();
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
-
-        searchCutomerDetailsBinding.continueBtn.setOnClickListener(view -> {
-            startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(),searchCutomerDetailsBinding.getDoctor(),searchCutomerDetailsBinding.getCorporate()));
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        });
     }
 
     @Override
@@ -96,6 +95,18 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     }
 
     @Override
+    public void onContinueBtnClick() {
+        startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(), searchCutomerDetailsBinding.getDoctor(), searchCutomerDetailsBinding.getCorporate(), transactionIdItem));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void showTransactionID(TransactionIDResModel model) {
+        searchCutomerDetailsBinding.setTransaction(model);
+        transactionIdItem = model;
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
@@ -107,8 +118,10 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CUSTOMER_SEARCH_ACTIVITY_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                GetCustomerResponse.CustomerEntity result = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
-                searchCutomerDetailsBinding.setCustomer(result);
+                searchCutomerDetailsBinding.continueBtn.setAlpha(1);
+                searchCutomerDetailsBinding.continueBtn.setClickable(true);
+                customerResult = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
+                searchCutomerDetailsBinding.setCustomer(customerResult);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

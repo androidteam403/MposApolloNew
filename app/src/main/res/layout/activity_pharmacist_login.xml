@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/radient_color">
+        android:background="@drawable/app_login_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,23 +37,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/ten_dp"
                 android:layout_marginTop="@dimen/fifteen_dp"
-                android:textAllCaps="true"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_pharmacist_login"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="@dimen/text_dimen_18" />
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/selectUser"
-                style="@style/NewEditTextInputLayoutStyle"
+                style="@style/LoginEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
                 android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -62,12 +62,12 @@
                 app:spinnerMode="bottomsheet" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/NewEditTextInputLayoutStyle"
+                style="@style/LoginEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sixty_dp"
-                android:fontFamily="@font/roboto_regular"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
-                android:layout_marginEnd="@dimen/fifteen_dp">
+                android:layout_marginEnd="@dimen/fifteen_dp"
+                android:fontFamily="@font/roboto_regular">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
@@ -78,37 +78,43 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_password"
                     android:inputType="textPassword"
-                    android:singleLine="true"
-                    android:textSize="@dimen/text_dimen_15" />
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
-                android:id="@+id/radioGroup1"
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="@dimen/fifteen_dp"
-                android:layout_marginEnd="@dimen/fifteen_dp"
-                tools:ignore="UselessParent"
-                android:layout_marginTop="@dimen/ten_dp">
+                android:layout_margin="@dimen/fifteen_dp"
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/inStore"
+                    android:id="@+id/inStoreRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_drawable"
                     android:checked="true"
                     android:fontFamily="@font/roboto_regular"
                     android:onClick="@{()-> callback.onInstoreCLick()}"
-                    android:text="@string/label_instore" />
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:text="@string/label_instore"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_15" />
 
                 <RadioButton
-                    android:id="@+id/selectCampaign"
+                    android:id="@+id/selectCampaignRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five_dp"
+                    android:button="@drawable/radio_button_drawable"
                     android:fontFamily="@font/roboto_regular"
-                    android:layout_marginStart="@dimen/fifty_dp"
                     android:onClick="@{()-> callback.onSelectCampaign()}"
-                    android:text="@string/label_select_campaign" />
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:text="@string/label_select_campaign"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_15" />
             </RadioGroup>
 
             <com.tiper.MaterialSpinner
@@ -116,8 +122,8 @@
                 style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_select_campaign"
@@ -128,8 +134,8 @@
                 android:id="@+id/relativeInfo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_hundred_dp"
-                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
                 android:background="@color/thick_blue"
                 android:orientation="vertical"
@@ -217,11 +223,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:background="@drawable/rounded_corners"
+                android:fontFamily="@font/roboto_bold"
                 android:onClick="@{()-> callback.onClickLogin()}"
                 android:text="@string/label_login"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="@dimen/text_dimen_16" />
         </LinearLayout>
     </RelativeLayout>
 

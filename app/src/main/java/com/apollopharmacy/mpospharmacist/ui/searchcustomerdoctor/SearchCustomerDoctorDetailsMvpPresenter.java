@@ -21,4 +21,8 @@ public interface SearchCustomerDoctorDetailsMvpPresenter<V extends SearchCustome
     void onDoctorEditClick(DoctorSearchResModel.DropdownValueBean doctorEntity, SalesOriginResModel.DropdownValueBean salesEntity);
 
     void onCorporateEditClick(CorporateModel.DropdownValueBean corporateEntity);
+
+    void onContinueBtnClick();
+
+    void getTransactionID();
 }

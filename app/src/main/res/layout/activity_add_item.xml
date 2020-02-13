@@ -3,11 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpPresenter" />
+
+        <variable
+            name="call"
+            type="com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView" />
+
         <variable
             name="customer"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
@@ -15,10 +21,16 @@
         <variable
             name="doctor"
             type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+
+        <variable
+            name="transaction"
+            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+
         <variable
             name="product_count"
             type="Integer" />
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,49 +51,54 @@
                     android:layout_width="@dimen/fifty_dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_gravity="center_vertical"
+                    android:alpha="0.8"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBackPressed()}"
                     android:paddingStart="@dimen/ten_dp"
                     android:paddingEnd="@dimen/ten_dp"
-                    android:alpha="0.8"
-                    android:src="@drawable/ic_back_arrow"
-                    android:onClick="@{()-> callback.onClickBackPressed()}"/>
+                    android:src="@drawable/ic_back_arrow" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Add Item"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
+                    android:textSize="@dimen/text_dimen_18"
+                    app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoRegular`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{transaction.transactionID}" />
             </LinearLayout>
 
-            <include layout="@layout/view_customer_doctor_info"
+            <include
+                layout="@layout/view_customer_doctor_info"
+                app:call="@{call}"
                 app:customer="@{customer}"
-                app:doctor="@{doctor}"/>
+                app:doctor="@{doctor}" />
 
             <LinearLayout
-                android:background="@color/light_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/fifteen_dp"
-                android:paddingEnd="@dimen/fifteen_dp"
-                android:paddingTop="@dimen/fifteen_dp"
+                android:background="@color/light_grey"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/fifteen_dp"
                 android:visibility="@{ product_count == 0 ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/fifteen_dp"
+                    android:paddingEnd="@dimen/fifteen_dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/label_add_medicines"
-                        android:layout_gravity="center_vertical"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_15" />
 
@@ -89,25 +106,25 @@
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_marginStart="@dimen/five_dp"
-                        android:onClick="@{()->callback.onManualSearchClick()}"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_search_product"/>
+                        android:onClick="@{()->callback.onManualSearchClick()}"
+                        android:src="@drawable/ic_search_product" />
 
                     <ImageView
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_marginStart="@dimen/ten_dp"
                         android:layout_marginEnd="@dimen/ten_dp"
-                        android:onClick="@{()->callback.onVoiceSearchClick()}"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_voice_search"/>
+                        android:onClick="@{()->callback.onVoiceSearchClick()}"
+                        android:src="@drawable/ic_voice_search" />
 
                     <ImageView
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->callback.onBarCodeSearchClick()}"
-                        android:src="@drawable/ic_barcode"/>
+                        android:src="@drawable/ic_barcode" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -116,68 +133,72 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/five_dp"
                             android:layout_toStartOf="@+id/clear_all_img"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="@string/label_clear_all_txt"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_15"/>
+                            android:textSize="@dimen/text_dimen_15" />
 
                         <ImageView
                             android:id="@+id/clear_all_img"
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/app_name"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_clear_all"
-                            android:onClick="@{()-> callback.onClickClearAllBtn()}"/>
+                            android:contentDescription="@string/app_name"
+                            android:onClick="@{()-> callback.onClickClearAllBtn()}"
+                            android:src="@drawable/ic_clear_all" />
                     </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="@dimen/twenty_dp"
                     android:layout_marginBottom="@dimen/three_dp"
+                    android:orientation="horizontal"
                     android:weightSum="2">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.29"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_weight="1.2"
                         android:fontFamily="@font/roboto_medium"
-                        android:textSize="@dimen/text_dimen_13"
                         android:text="@{@string/label_product_item_count(product_count)}"
-                        android:textColor="@color/add_item_header" />
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_13" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.29"
+                        android:layout_weight="0.26"
                         android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
                         android:text="MRP()"
-                        android:textSize="@dimen/text_dimen_10"
-                        android:textColor="@color/add_item_header" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.22"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="QTY."
-                        android:textSize="@dimen/text_dimen_10"
-                        android:textColor="@color/add_item_header" />
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_10" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.24"
-                        android:textSize="@dimen/text_dimen_10"
                         android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="QTY."
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_10" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
                         android:text="TOTAL()"
-                        android:textColor="@color/add_item_header" />
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_10" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -187,10 +208,10 @@
                 android:visibility="@{ product_count == 0 ? View.GONE : View.VISIBLE}">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/medicineRecycle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@id/footer"
-                    android:id="@+id/medicineRecycle"/>
+                    android:layout_above="@id/footer" />
 
                 <LinearLayout
                     android:id="@+id/footer"
@@ -346,11 +367,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_add_items"
                 android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_dimen_16"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="@dimen/text_dimen_16" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -361,25 +382,25 @@
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
-                    android:onClick="@{()->callback.onManualSearchClick()}"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search_product"/>
+                    android:onClick="@{()->callback.onManualSearchClick()}"
+                    android:src="@drawable/ic_search_product" />
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_marginEnd="@dimen/ten_dp"
-                    android:onClick="@{()->callback.onVoiceSearchClick()}"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_voice_search"/>
+                    android:onClick="@{()->callback.onVoiceSearchClick()}"
+                    android:src="@drawable/ic_voice_search" />
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()->callback.onBarCodeSearchClick()}"
-                    android:src="@drawable/ic_barcode"/>
+                    android:src="@drawable/ic_barcode" />
             </LinearLayout>
         </LinearLayout>
 
@@ -393,6 +414,6 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

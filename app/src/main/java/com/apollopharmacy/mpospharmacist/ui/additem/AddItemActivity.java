@@ -20,10 +20,15 @@ import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
+import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
@@ -33,26 +38,38 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class AddItemActivity extends BaseActivity implements AddItemMvpView {
+public class AddItemActivity extends BaseActivity implements AddItemMvpView, CustDocEditMvpView {
 
     @Inject
     AddItemMvpPresenter<AddItemMvpView> mPresenter;
     private ActivityAddItemBinding addItemBinding;
+    private CustDocEditMvpView custDocEditMvpView;
     private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
     private MedicinesDetailAdapter medicinesDetailAdapter;
     private int ACTIVITY_ADD_PRODUCT_CODE = 102;
+    private GetCustomerResponse.CustomerEntity customerEntity;
+    private DoctorSearchResModel.DropdownValueBean doctorEntity;
+    private SalesOriginResModel.DropdownValueBean salesEntity;
+    private CorporateModel.DropdownValueBean corporateEntity;
+
+    private int CUSTOMER_SEARCH_ACTIVITY_CODE = 103;
+    private int DOCTOR_SEARCH_ACTIVITY_CODE = 104;
+    private int CORPORATE_SEARCH_ACTIVITY_CODE = 105;
+    private TransactionIDResModel transactionIdModel = null;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddItemActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity,DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate) {
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID) {
         Intent intent = new Intent(context, AddItemActivity.class);
-        intent.putExtra("customer_info",customerEntity);
-        intent.putExtra("doctor_info",doctor);
-        intent.putExtra("corporate_info",corporate);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("corporate_info", corporate);
+        intent.putExtra("transaction_id", transactionID);
         return intent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +82,20 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
     @Override
     protected void setUp() {
         addItemBinding.setCallback(mPresenter);
+        addItemBinding.setCall(this);
         if (getIntent() != null) {
-            GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+            customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
             }
-            DoctorSearchResModel.DropdownValueBean doctorInfo = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
-            if(doctorInfo != null){
-                addItemBinding.setDoctor(doctorInfo);
+            doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+            if (doctorEntity != null) {
+                addItemBinding.setDoctor(doctorEntity);
+            }
+            corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+            transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+            if (transactionIdModel != null) {
+                addItemBinding.setTransaction(transactionIdModel);
             }
         }
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
@@ -141,7 +164,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this),ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -176,11 +199,27 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
     }
 
     @Override
+    public void onCustomerEditClick() {
+        if (customerEntity != null) {
+            startActivityForResult(CustomerDetailsActivity.getStartIntent(this, customerEntity), CUSTOMER_SEARCH_ACTIVITY_CODE);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
+    }
+
+    @Override
+    public void onDoctorEditClick() {
+        if (doctorEntity != null) {
+            startActivityForResult(DoctorDetailsActivity.getStartIntent(this, doctorEntity, salesEntity), DOCTOR_SEARCH_ACTIVITY_CODE);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == ACTIVITY_ADD_PRODUCT_CODE){
-                if(data!= null) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ACTIVITY_ADD_PRODUCT_CODE) {
+                if (data != null) {
                     GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
                     medicineDetailsModelsList.add(items);
                     medicinesDetailAdapter.notifyDataSetChanged();
@@ -246,6 +285,23 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView {
 
                     }
                 }
+            } else if (requestCode == CUSTOMER_SEARCH_ACTIVITY_CODE) {
+                customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+                if (customerEntity != null) {
+                    addItemBinding.setCustomer(customerEntity);
+                }
+            } else if (requestCode == DOCTOR_SEARCH_ACTIVITY_CODE) {
+                doctorEntity = (DoctorSearchResModel.DropdownValueBean) data.getSerializableExtra("doctor_info");
+                if (doctorEntity != null) {
+                    addItemBinding.setDoctor(doctorEntity);
+                }
+//                SalesOriginResModel.DropdownValueBean salesResult = (SalesOriginResModel.DropdownValueBean) data.getSerializableExtra("sales_info");
+//                if (salesResult != null) {
+//                    searchCutomerDetailsBinding.setSales(salesResult);
+//                }
+            } else if (requestCode == CORPORATE_SEARCH_ACTIVITY_CODE) {
+//                CorporateModel.DropdownValueBean result = (CorporateModel.DropdownValueBean) data.getSerializableExtra("corporate_info");
+//                searchCutomerDetailsBinding.setCorporate(result);
             }
         }
     }

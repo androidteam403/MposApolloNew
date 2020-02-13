@@ -52,7 +52,6 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.setCustomer(customerEntity);
             }
         }
-
     }
 
     @Override

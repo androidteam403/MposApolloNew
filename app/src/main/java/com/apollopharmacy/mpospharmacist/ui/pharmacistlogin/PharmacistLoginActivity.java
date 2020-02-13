@@ -36,9 +36,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
         pharmacistLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_pharmacist_login);
         getActivityComponent().inject(this);
         mPresenter.onAttach(PharmacistLoginActivity.this);
@@ -49,8 +46,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
-
-
 //        ArrayAdapter<SelectCampaignModel> adapter1 = new ArrayAdapter<SelectCampaignModel>(this,
 //                android.R.layout.simple_spinner_dropdown_item, getSelectCampaignModelTypes());
 //        strFont = this.getString(R.font.roboto_regular);
@@ -64,7 +59,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //                materialSpinner.focusSearch(View.FOCUS_DOWN);
 //            }
 //        });
-
         mPresenter.getUserId();
     }
 
