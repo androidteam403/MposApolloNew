@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import javax.inject.Inject;
 
@@ -31,6 +32,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     private int DOCTOR_SEARCH_ACTIVITY_CODE = 102;
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 103;
     private GetCustomerResponse.CustomerEntity customerResult = null;
+    private TransactionIDResModel transactionIdItem = null;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SearchCustomerDoctorDetailsActivity.class);
@@ -47,6 +49,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     protected void setUp() {
+        customerDetailsMvpPresenter.getTransactionID();
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
     }
 
@@ -93,10 +96,14 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     public void onContinueBtnClick() {
-//        if (customerResult != null) {
-            startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(), searchCutomerDetailsBinding.getDoctor(), searchCutomerDetailsBinding.getCorporate()));
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//        }
+        startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(), searchCutomerDetailsBinding.getDoctor(), searchCutomerDetailsBinding.getCorporate(), transactionIdItem));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void showTransactionID(TransactionIDResModel model) {
+        searchCutomerDetailsBinding.setTransaction(model);
+        transactionIdItem = model;
     }
 
     @Override
