@@ -100,7 +100,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
 
-        Cart savedCart =  RealmController.with(this).getCartTransaction("123456");
+        Cart savedCart =  RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
         if(savedCart != null && savedCart.getItemsArrayList().size() > 0){
             for(int i=0; i< savedCart.getItemsArrayList().size(); i++){
                 CartItems items = savedCart.getItemsArrayList().get(i);
@@ -226,7 +226,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     addItemBinding.setProductCount(medicineDetailsModelsList.size());
                     // Insert into cart table
                     if(items != null) {
-                      Cart savedCart =  RealmController.with(this).getCartTransaction("123456");
+                      Cart savedCart =  RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
                         CartItems cartItems = new CartItems();
                         cartItems.setArtCode(items.getArtCode());
                         cartItems.setCategory(items.getCategory());
@@ -273,14 +273,30 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             RealmList<CartItems> itemsRealmList = new RealmList<>();
                             itemsRealmList.add(cartItems);
                             Cart cart = new Cart();
-                            cart.setId(2);
-                            cart.setTransactionId("1234567");
+                            cart.setTransactionId(transactionIdModel.getTransactionID());
                             cart.setItemsArrayList(itemsRealmList);
                             Realm realm = RealmController.with(this).getRealm();
+                            realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
+                                @Override
+                                public void execute(Realm realm) {
+                                    // increment index
+                                    Number currentIdNum = realm.where(Cart.class).max("id");
+                                    int nextId;
+                                    if (currentIdNum == null) {
+                                        nextId = 1;
+                                    } else {
+                                        nextId = currentIdNum.intValue() + 1;
+                                    }
+                                    cart.setId(nextId);
+                                    //  realm.beginTransaction();
 
-                            realm.beginTransaction();
-                            realm.copyToRealm(cart);
-                            realm.commitTransaction();
+                                    realm.copyToRealmOrUpdate(cart);
+                                    // realm.commitTransaction();
+                                }
+                            });
+                            //realm.beginTransaction();
+                            //realm.copyToRealm(cart);
+                            //realm.commitTransaction();
                         }
 
                     }
