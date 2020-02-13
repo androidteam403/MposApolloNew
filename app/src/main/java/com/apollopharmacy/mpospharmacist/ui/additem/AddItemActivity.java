@@ -10,8 +10,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.realm.Realm;
+import io.realm.RealmList;
 
 import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
+import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
+import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -95,6 +100,36 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
 
+        Cart savedCart =  RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
+        if(savedCart != null && savedCart.getItemsArrayList().size() > 0){
+            for(int i=0; i< savedCart.getItemsArrayList().size(); i++){
+                CartItems items = savedCart.getItemsArrayList().get(i);
+                GetItemDetailsRes.Items cartItems = new GetItemDetailsRes.Items();
+                cartItems.setArtCode(items.getArtCode());
+                cartItems.setCategory(items.getCategory());
+                cartItems.setCategoryCode(items.getCategoryCode());
+                cartItems.setDescription(items.getDescription());
+                cartItems.setDiseaseType(items.getDiseaseType());
+                cartItems.setDPCO(items.isDPCO());
+                cartItems.setGenericName(items.getGenericName());
+                cartItems.setHsncode_In(items.getHsncode_In());
+                cartItems.setManufacture(items.getManufacture());
+                cartItems.setManufactureCode(items.getManufactureCode());
+                cartItems.setProductRecID(items.getProductRecID());
+                cartItems.setRackId(items.getRackId());
+                cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
+                cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
+                cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
+                cartItems.setSch_Catg(items.getSch_Catg());
+                cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
+                cartItems.setSI_NO(items.getSI_NO());
+                cartItems.setSubCategory(items.getSubCategory());
+                cartItems.setSubClassification(items.getSubClassification());
+                medicineDetailsModelsList.add(cartItems);
+            }
+
+        }
+
         medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
@@ -118,6 +153,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 swipeController.onDraw(c);
             }
         });
+        addItemBinding.setProductCount(medicineDetailsModelsList.size());
     }
 
     @Override
@@ -188,6 +224,82 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     medicineDetailsModelsList.add(items);
                     medicinesDetailAdapter.notifyDataSetChanged();
                     addItemBinding.setProductCount(medicineDetailsModelsList.size());
+                    // Insert into cart table
+                    if(items != null) {
+                      Cart savedCart =  RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
+                        CartItems cartItems = new CartItems();
+                        cartItems.setArtCode(items.getArtCode());
+                        cartItems.setCategory(items.getCategory());
+                        cartItems.setCategoryCode(items.getCategoryCode());
+                        cartItems.setDescription(items.getDescription());
+                        cartItems.setDiseaseType(items.getDiseaseType());
+                        cartItems.setDPCO(items.getDPCO());
+                        cartItems.setGenericName(items.getGenericName());
+                        cartItems.setHsncode_In(items.getHsncode_In());
+                        cartItems.setManufacture(items.getManufacture());
+                        cartItems.setManufactureCode(items.getManufactureCode());
+                        cartItems.setProductRecID(items.getProductRecID());
+                        cartItems.setRackId(items.getRackId());
+                        cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
+                        cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
+                        cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
+                        cartItems.setSch_Catg(items.getSch_Catg());
+                        cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
+                        cartItems.setSI_NO(items.getSI_NO());
+                        cartItems.setSubCategory(items.getSubCategory());
+                        cartItems.setSubClassification(items.getSubClassification());
+                        if(savedCart != null){
+                            Realm realm = RealmController.with(this).getRealm();
+                            realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
+                                @Override
+                                public void execute(Realm realm) {
+                                    // increment index
+                                    Number currentIdNum = realm.where(CartItems.class).max("id");
+                                    int nextId;
+                                    if (currentIdNum == null) {
+                                        nextId = 1;
+                                    } else {
+                                        nextId = currentIdNum.intValue() + 1;
+                                    }
+                                    cartItems.setId(nextId);
+                                  //  realm.beginTransaction();
+                                    savedCart.getItemsArrayList().add(cartItems);
+                                    realm.copyToRealmOrUpdate(savedCart);
+                                   // realm.commitTransaction();
+                                }
+                            });
+
+                        }else{
+                            RealmList<CartItems> itemsRealmList = new RealmList<>();
+                            itemsRealmList.add(cartItems);
+                            Cart cart = new Cart();
+                            cart.setTransactionId(transactionIdModel.getTransactionID());
+                            cart.setItemsArrayList(itemsRealmList);
+                            Realm realm = RealmController.with(this).getRealm();
+                            realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
+                                @Override
+                                public void execute(Realm realm) {
+                                    // increment index
+                                    Number currentIdNum = realm.where(Cart.class).max("id");
+                                    int nextId;
+                                    if (currentIdNum == null) {
+                                        nextId = 1;
+                                    } else {
+                                        nextId = currentIdNum.intValue() + 1;
+                                    }
+                                    cart.setId(nextId);
+                                    //  realm.beginTransaction();
+
+                                    realm.copyToRealmOrUpdate(cart);
+                                    // realm.commitTransaction();
+                                }
+                            });
+                            //realm.beginTransaction();
+                            //realm.copyToRealm(cart);
+                            //realm.commitTransaction();
+                        }
+
+                    }
                 }
             } else if (requestCode == CUSTOMER_SEARCH_ACTIVITY_CODE) {
                 customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");

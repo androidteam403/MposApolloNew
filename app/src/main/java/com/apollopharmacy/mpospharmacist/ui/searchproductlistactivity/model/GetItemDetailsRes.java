@@ -174,5 +174,85 @@ public class GetItemDetailsRes {
         public String getArtCode() {
             return ArtCode;
         }
+
+        public void setSubClassification(String subClassification) {
+            SubClassification = subClassification;
+        }
+
+        public void setSubCategory(String subCategory) {
+            SubCategory = subCategory;
+        }
+
+        public void setSch_Catg_Code(String sch_Catg_Code) {
+            Sch_Catg_Code = sch_Catg_Code;
+        }
+
+        public void setSch_Catg(String sch_Catg) {
+            Sch_Catg = sch_Catg;
+        }
+
+        public void setSI_NO(String SI_NO) {
+            this.SI_NO = SI_NO;
+        }
+
+        public void setRetailSubCategoryRecID(String retailSubCategoryRecID) {
+            RetailSubCategoryRecID = retailSubCategoryRecID;
+        }
+
+        public void setRetailMainCategoryRecID(String retailMainCategoryRecID) {
+            RetailMainCategoryRecID = retailMainCategoryRecID;
+        }
+
+        public void setRetailCategoryRecID(String retailCategoryRecID) {
+            RetailCategoryRecID = retailCategoryRecID;
+        }
+
+        public void setRackId(String rackId) {
+            RackId = rackId;
+        }
+
+        public void setProductRecID(String productRecID) {
+            ProductRecID = productRecID;
+        }
+
+        public void setManufactureCode(String manufactureCode) {
+            ManufactureCode = manufactureCode;
+        }
+
+        public void setManufacture(String manufacture) {
+            Manufacture = manufacture;
+        }
+
+        public void setHsncode_In(String hsncode_In) {
+            Hsncode_In = hsncode_In;
+        }
+
+        public void setGenericName(String genericName) {
+            GenericName = genericName;
+        }
+
+        public void setDiseaseType(String diseaseType) {
+            DiseaseType = diseaseType;
+        }
+
+        public void setDescription(String description) {
+            Description = description;
+        }
+
+        public void setDPCO(boolean DPCO) {
+            this.DPCO = DPCO;
+        }
+
+        public void setCategoryCode(String categoryCode) {
+            CategoryCode = categoryCode;
+        }
+
+        public void setCategory(String category) {
+            Category = category;
+        }
+
+        public void setArtCode(String artCode) {
+            ArtCode = artCode;
+        }
     }
 }
