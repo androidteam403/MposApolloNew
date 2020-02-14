@@ -53,7 +53,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
@@ -63,11 +63,13 @@
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
+            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
+            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.batchonfo.BatchInfoActivity"
@@ -99,6 +101,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
+            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 

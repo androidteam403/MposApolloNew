@@ -12,8 +12,6 @@ import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -46,8 +44,6 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     @Override
     public void getUserId() {
         if (getMvpView().isNetworkConnected()) {
-
-
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();
             Call<UserModel> call = api.getUserIds(new JsonObject());
@@ -70,7 +66,6 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             });
         } else {
             getMvpView().onError("Internet Connection Not Available");
-
         }
     }
 
@@ -118,10 +113,11 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if (response.isSuccessful())
+                        if (response.body().getRequestStatus() == 0) {
                             getMvpView().userLoginSuccess(response.body());
-                        else
-                            getMvpView().userLoginFailed();
+                        } else {
+                            getMvpView().userLoginFailed(response.body().getReturnMessage());
+                        }
                     }
                 }
 

@@ -5,8 +5,6 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 
-import okhttp3.ResponseBody;
-
 public interface PharmacistLoginMvpView extends MvpView {
 
     void onClickLogin();
@@ -19,7 +17,7 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     void userLoginSuccess(LoginResModel loginResModel);
 
-    void userLoginFailed();
+    void userLoginFailed(String errMsg);
 
     String getUserId();
 
