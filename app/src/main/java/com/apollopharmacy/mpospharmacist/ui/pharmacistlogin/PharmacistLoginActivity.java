@@ -9,6 +9,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
@@ -20,8 +23,6 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import androidx.databinding.DataBindingUtil;
 
 public class PharmacistLoginActivity extends BaseActivity implements PharmacistLoginMvpView {
     @Inject
@@ -82,7 +83,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         mPresenter.onDetach();
     }
 
-
     @Override
     public void onClickLogin() {
         if (validations()) {
@@ -125,8 +125,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     @Override
-    public void userLoginFailed() {
-
+    public void userLoginFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

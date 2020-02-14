@@ -29,8 +29,8 @@ public class MainActivity extends BaseActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public static Intent getStartIntent(Context context){
-        return  new Intent(context, MainActivity.class);
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MainActivity.class);
     }
 
     @Override

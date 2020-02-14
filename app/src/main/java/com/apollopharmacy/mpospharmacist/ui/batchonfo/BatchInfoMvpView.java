@@ -8,4 +8,6 @@ public interface BatchInfoMvpView extends MvpView {
     void onDecrementClick();
 
     void onNavigateNextActivity();
+
+    void onClickBackPressed();
 }

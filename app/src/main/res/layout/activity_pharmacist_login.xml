@@ -133,9 +133,10 @@
             <LinearLayout
                 android:id="@+id/relativeInfo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/one_hundred_dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:padding="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
                 android:background="@color/thick_blue"
                 android:orientation="vertical"
