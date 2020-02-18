@@ -103,6 +103,17 @@
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <!-- Ezetap provides -->
+        <provider
+            android:name="com.ezetap.sdk.EzetapFileProvider"
+            android:authorities="${applicationId}.EzetapFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -112,4 +123,6 @@
     <uses-permission android:name="com.google.android.permission.gsf.permission" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 </manifest>

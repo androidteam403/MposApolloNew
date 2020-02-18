@@ -151,6 +151,7 @@
     <string name="label_admin_login">ADMIN LOGIN</string>
     <string name="login">LOGIN</string>
     <string name="label_pharmacist_login">Pharmacist Login</string>
+    <string name="label_campaign_name">Campaign Name:</string>
     <string name="label_campaign_id">Campaign Id:</string>
     <string name="label_6255487">6255487</string>
     <string name="label_address">Address:</string>

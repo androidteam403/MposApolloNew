@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 
 
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 
@@ -14,6 +15,8 @@ public interface PharmacistLoginMvpView extends MvpView {
     void onCampaignSelect();
 
     void getUserIds(UserModel body);
+
+    void setCampaignDetails(CampaignDetailsRes campaignDetails);
 
     void userLoginSuccess(LoginResModel loginResModel);
 

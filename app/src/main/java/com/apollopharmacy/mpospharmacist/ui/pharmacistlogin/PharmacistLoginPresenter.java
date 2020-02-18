@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -38,7 +39,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 
     @Override
     public void onSelectCampaign() {
-        getMvpView().onCampaignSelect();
+        getCampaign();
     }
 
     @Override
@@ -72,21 +73,22 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     @Override
     public void getCampaign() {
         if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
             //Creating an object of our api interface
-            ApiInterface api = ApiClient.getApiService();
-            Call<UserModel> call = api.getUserIds(new JsonObject());
-            call.enqueue(new Callback<UserModel>() {
+            ApiInterface api = ApiClient.getApiService2();
+            Call<CampaignDetailsRes> call = api.CAMPAIGN_DETAILS_RES_CALL();
+            call.enqueue(new Callback<CampaignDetailsRes>() {
                 @Override
-                public void onResponse(@NotNull Call<UserModel> call, @NotNull Response<UserModel> response) {
+                public void onResponse(@NotNull Call<CampaignDetailsRes> call, @NotNull Response<CampaignDetailsRes> response) {
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        getMvpView().getUserIds(response.body());
+                        getMvpView().setCampaignDetails(response.body());
                     }
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<UserModel> call, @NotNull Throwable t) {
+                public void onFailure(@NotNull Call<CampaignDetailsRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
                 }
@@ -97,7 +99,43 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     }
 
     @Override
-    public void userLoginApi() {
+    public void userLoginInStoreApi() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            LoginReqModel loginReqModel = new LoginReqModel();
+            loginReqModel.setUserID(getMvpView().getUserId());
+            loginReqModel.setStoreID(getMvpView().getStoreId());
+            loginReqModel.setTerminalID(getMvpView().getTerminalId());
+            loginReqModel.setPassword(getMvpView().getUserPassword());
+            Call<LoginResModel> call = api.LOGIN_RES_MODEL_CALL(loginReqModel);
+            call.enqueue(new Callback<LoginResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<LoginResModel> call, @NotNull Response<LoginResModel> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        if (response.body().getRequestStatus() == 0) {
+                            getMvpView().userLoginSuccess(response.body());
+                        } else {
+                            getMvpView().userLoginFailed(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<LoginResModel> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void userLoginCampaignApi() {
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();

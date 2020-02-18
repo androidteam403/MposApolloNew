@@ -13,6 +13,7 @@ public class ApiClient {
      * URLS
      *******/
     private static final String ROOT_URL = "http://172.16.200.131:9880/";
+    private static final String ROOT_URL_2 = "http://172.16.2.251:98/";
 
     /**
      * Get Retrofit Instance
@@ -31,6 +32,20 @@ public class ApiClient {
                 .build();
     }
 
+    private static Retrofit getRetrofitInstance2() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(ROOT_URL_2)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+    }
+
     /**
      * Get API Service
      *
@@ -38,5 +53,9 @@ public class ApiClient {
      */
     public static ApiInterface getApiService() {
         return getRetrofitInstance().create(ApiInterface.class);
+    }
+
+    public static ApiInterface getApiService2(){
+        return getRetrofitInstance2().create(ApiInterface.class);
     }
 }

@@ -15,5 +15,7 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
 
     void getCampaign();
 
-    void userLoginApi();
+    void userLoginInStoreApi();
+
+    void userLoginCampaignApi();
 }

@@ -17,8 +17,13 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.tiper.MaterialSpinner;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -29,7 +34,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
     String strFont = null;
     private ActivityPharmacistLoginBinding pharmacistLoginBinding;
-
+    private boolean isSelectCampaign = false;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, PharmacistLoginActivity.class);
     }
@@ -47,19 +52,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
-//        ArrayAdapter<SelectCampaignModel> adapter1 = new ArrayAdapter<SelectCampaignModel>(this,
-//                android.R.layout.simple_spinner_dropdown_item, getSelectCampaignModelTypes());
-//        strFont = this.getString(R.font.roboto_regular);
-//        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-//        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
-//        pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
-//
-//        pharmacistLoginBinding.selectCampaign.setOnItemClickListener(new MaterialSpinner.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(@NotNull MaterialSpinner materialSpinner, @Nullable View view, int i, long l) {
-//                materialSpinner.focusSearch(View.FOCUS_DOWN);
-//            }
-//        });
         mPresenter.getUserId();
     }
 
@@ -86,7 +78,14 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     public void onClickLogin() {
         if (validations()) {
-            mPresenter.userLoginApi();
+            int radioButtonID = pharmacistLoginBinding.radioGroup.getCheckedRadioButtonId();
+            View radioButton = pharmacistLoginBinding.radioGroup.findViewById(radioButtonID);
+            int idx = pharmacistLoginBinding.radioGroup.indexOfChild(radioButton);
+            if(idx == 0) {
+                  mPresenter.userLoginInStoreApi();
+            }else{
+                mPresenter.userLoginCampaignApi();
+            }
         }
     }
 
@@ -98,8 +97,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void onCampaignSelect() {
-        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
-        pharmacistLoginBinding.relativeInfo.setVisibility(View.VISIBLE);
+
+
     }
 
     @SuppressLint("ResourceType")
@@ -115,6 +114,24 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             pharmacistLoginBinding.selectUser.setError(null);
         });
+    }
+    @SuppressLint("ResourceType")
+    @Override
+    public void setCampaignDetails(CampaignDetailsRes campaignDetails) {
+        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails());
+        strFont = this.getString(R.font.roboto_regular);
+        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
+        pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
+
+        pharmacistLoginBinding.selectCampaign.setOnItemClickListener((materialSpinner, view, i, l) -> {
+            pharmacistLoginBinding.relativeInfo.setVisibility(View.VISIBLE);
+            pharmacistLoginBinding.selectCampaign.setVisibility(View.GONE);
+            pharmacistLoginBinding.setCampaign((CampaignDetailsRes.CampDetailsEntity) materialSpinner.getSelectedItem());
+            materialSpinner.focusSearch(View.FOCUS_DOWN);
+        });
+        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
     }
 
     @Override
