@@ -12,6 +12,9 @@
         <variable
             name="model"
             type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.PharmacistLoginModel" />
+        <variable
+            name="campaign"
+            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes.CampDetailsEntity" />
     </data>
 
     <RelativeLayout
@@ -154,7 +157,7 @@
                         android:layout_width="@dimen/one_hundred_dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_campaign_id"
+                        android:text="@string/label_campaign_name"
                         android:textColor="@color/colorPrimary" />
 
                     <TextView
@@ -162,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/campid"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_6255487"
+                        android:text="@{campaign.name}"
                         android:textColor="@color/white"
                         tools:ignore="RelativeOverlap" />
 
@@ -192,7 +195,7 @@
                         android:layout_marginTop="@dimen/seven_dp"
                         android:layout_toEndOf="@id/addres"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_opp_more_jubillehills_n_hyderabad"
+                        android:text="@{campaign.address}"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -212,7 +215,7 @@
                         android:layout_marginTop="@dimen/five_dp"
                         android:layout_toEndOf="@id/reqDate"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label__03_feb_2020_10_30"
+                        android:text="@{campaign.start_time}"
                         android:textColor="@color/white" />
                 </RelativeLayout>
             </LinearLayout>

@@ -92,4 +92,7 @@ dependencies {
 
     //EditText
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    //Ezetap sdk
+    implementation(name: 'ezetapandroidsdk.2.9', ext: 'aar')
 }
