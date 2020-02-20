@@ -7,6 +7,9 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.apollopharmacy.mpospharmacist.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +20,7 @@ import java.util.regex.Pattern;
  * Email    : info@androidwave.com
  */
 public class CommonUtils {
+    public static final String DATE_FORMAT_DD_MMM_YYYY = "dd-MMM-YYYY";
     private CommonUtils() {
         // This utility class is not publicly instantiable
     }
@@ -60,5 +64,11 @@ public class CommonUtils {
             Matcher m = p.matcher(target);
             return (m.find() && m.group().equals(target));
         }
+    }
+
+
+    public static String getCurrentDate(String pattern){
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        return sdf.format(new Date());
     }
 }

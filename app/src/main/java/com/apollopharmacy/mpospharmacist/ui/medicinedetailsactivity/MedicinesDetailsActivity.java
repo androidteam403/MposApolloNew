@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,12 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.MedicineDetailsActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.adapter.ProductInfoAdapter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductInfoPojo;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
@@ -28,8 +22,6 @@ import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
 public class MedicinesDetailsActivity extends BaseActivity implements MedicineDetailsMvpView {
 
@@ -111,8 +103,8 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
 
     @Override
     public void onPayButtonClick() {
-        startActivity(PayActivity.getStartIntent(this));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//        startActivity(PayActivity.getStartIntent(this, medicineDetailsModelsList));
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override

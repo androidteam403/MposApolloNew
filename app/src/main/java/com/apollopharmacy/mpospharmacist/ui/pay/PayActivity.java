@@ -9,11 +9,18 @@ import android.widget.Toast;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPayBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.eze.api.EzeAPI;
 
 import org.json.JSONArray;
@@ -65,9 +72,20 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
 
 
     PaymentMethodModel paymentMethodModel;
+    private ArrayList<GetItemDetailsRes.Items> selectedProductsArray = new ArrayList<>();
+    private GetCustomerResponse.CustomerEntity customerEntity;
+    private DoctorSearchResModel.DropdownValueBean doctorEntity;
+    private TransactionIDResModel transactionIdModel = null;
+    private CorporateModel.DropdownValueBean corporateEntity;
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, PayActivity.class);
+    public static Intent getStartIntent(Context context, ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID) {
+        Intent intent=new Intent(context,PayActivity.class);
+        intent.putExtra("selected_products_array",medicineDetailsModelsList);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("corporate_info", corporate);
+        intent.putExtra("transaction_id", transactionID);
+        return  intent;
     }
 
     @Override
@@ -84,6 +102,21 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
         paymentMethodModel = new PaymentMethodModel();
         activityPayBinding.setPaymentMode(paymentMethodModel);
         activityPayBinding.setCallback(mPresenter);
+        if (getIntent() != null) {
+            customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+            if (customerEntity != null) {
+                activityPayBinding.setCustomer(customerEntity);
+            }
+            doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+            if (doctorEntity != null) {
+                activityPayBinding.setDoctor(doctorEntity);
+            }
+            corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+            transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+            if (transactionIdModel != null) {
+                activityPayBinding.setTransaction(transactionIdModel);
+            }
+        }
         getAmount();
         payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -92,6 +125,8 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
         activityPayBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         activityPayBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         activityPayBinding.payAmount.setAdapter(payActivityAdapter);
+        selectedProductsArray = (ArrayList<GetItemDetailsRes.Items>) getIntent().getSerializableExtra("selected_products_array");
+
     }
 
     private void getAmount() {
@@ -112,12 +147,47 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
     }
 
     @Override
+    public String getCashPaymentAmount() {
+        return activityPayBinding.cashPaymentAmountEdit.getText().toString();
+    }
+
+    @Override
     public String getCardPaymentAmount() {
         return activityPayBinding.cardPaymentAmountEditText.getText().toString();
     }
 
     @Override
+    public GetCustomerResponse.CustomerEntity getCustomerModule() {
+        return customerEntity;
+    }
+
+    @Override
+    public DoctorSearchResModel.DropdownValueBean getDoctorModule() {
+        return doctorEntity;
+    }
+
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateModule() {
+        return corporateEntity;
+    }
+
+    @Override
+    public TransactionIDResModel getTransactionModule() {
+        return transactionIdModel;
+    }
+
+    @Override
+    public ArrayList<GetItemDetailsRes.Items> getSelectedProducts() {
+        return selectedProductsArray;
+    }
+
+    @Override
     public void setErrorCardPaymentAmountEditText(String message) {
+        showMessage(message);
+    }
+
+    @Override
+    public void setErrorCashPaymentAmountEditText(String message) {
         showMessage(message);
     }
 
@@ -131,6 +201,26 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
     public void onClickCashPaymentBtn() {
         paymentMethodModel.setCashMode(true);
         paymentMethodModel.setCardMode(false);
+    }
+
+    @Override
+    public void onSuccessGenerateTenderLine(GenerateTenderLineRes body) {
+        showMessage("Generate TenderLine Success");
+    }
+
+    @Override
+    public void onFailedGenerateTenderLine(GenerateTenderLineRes body) {
+        showMessage("Generate TenderLine Failed");
+    }
+
+    @Override
+    public void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body) {
+        showMessage("Success SaveRetailTransaction");
+    }
+
+    @Override
+    public void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body) {
+        showMessage("Failed SaveRetailTransaction");
     }
 
 

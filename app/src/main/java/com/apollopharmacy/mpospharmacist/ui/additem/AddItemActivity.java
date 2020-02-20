@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -125,6 +126,27 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 cartItems.setSI_NO(items.getSI_NO());
                 cartItems.setSubCategory(items.getSubCategory());
                 cartItems.setSubClassification(items.getSubClassification());
+                GetBatchInfoRes.BatchListObj batchList = new GetBatchInfoRes.BatchListObj();
+                batchList.setTotalTax(items.getTotalTax());
+                batchList.setSNO(items.getSNO());
+                batchList.setSGSTTaxCode(items.getSGSTTaxCode());
+                batchList.setSGSTPerc(items.getSGSTPerc());
+                batchList.setREQQTY(items.getREQQTY());
+                batchList.setQ_O_H(items.getQ_O_H());
+                batchList.setPrice(items.getPrice());
+                batchList.setNearByExpiry(items.isNearByExpiry());
+                batchList.setMRP(items.getMRP());
+                batchList.setItemID(items.getItemID());
+                batchList.setISMRPChange(items.isISMRPChange());
+                batchList.setIGSTTaxCode(items.getIGSTTaxCode());
+                batchList.setIGSTPerc(items.getIGSTPerc());
+                batchList.setExpDate(items.getExpDate());
+                batchList.setCGSTTaxCode(items.getCGSTTaxCode());
+                batchList.setCGSTPerc(items.getCGSTPerc());
+                batchList.setCESSPerc(items.getCESSPerc());
+                batchList.setCESSTaxCode(items.getCESSTaxCode());
+                batchList.setBatchNo(items.getBatchNo());
+                cartItems.setBatchListObj(batchList);
                 medicineDetailsModelsList.add(cartItems);
             }
 
@@ -194,7 +216,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onPayButtonClick() {
-        startActivity(PayActivity.getStartIntent(this));
+        startActivity(PayActivity.getStartIntent(this,medicineDetailsModelsList,customerEntity,doctorEntity,corporateEntity,transactionIdModel));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -248,6 +270,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         cartItems.setSI_NO(items.getSI_NO());
                         cartItems.setSubCategory(items.getSubCategory());
                         cartItems.setSubClassification(items.getSubClassification());
+                        cartItems.setTotalTax(items.getBatchListObj().getTotalTax());
+                        cartItems.setSNO(items.getBatchListObj().getSNO());
+                        cartItems.setSGSTTaxCode(items.getBatchListObj().getSGSTTaxCode());
+                        cartItems.setSGSTPerc(items.getBatchListObj().getSGSTPerc());
+                        cartItems.setREQQTY(items.getBatchListObj().getREQQTY());
+                        cartItems.setQ_O_H(items.getBatchListObj().getQ_O_H());
+                        cartItems.setPrice(items.getBatchListObj().getPrice());
+                        cartItems.setNearByExpiry(items.getBatchListObj().getNearByExpiry());
+                        cartItems.setMRP(items.getBatchListObj().getMRP());
+                        cartItems.setItemID(items.getBatchListObj().getItemID());
+                        cartItems.setISMRPChange(items.getBatchListObj().getISMRPChange());
+                        cartItems.setIGSTTaxCode(items.getBatchListObj().getIGSTTaxCode());
+                        cartItems.setIGSTPerc(items.getBatchListObj().getIGSTPerc());
+                        cartItems.setExpDate(items.getBatchListObj().getExpDate());
+                        cartItems.setCGSTTaxCode(items.getBatchListObj().getCGSTTaxCode());
+                        cartItems.setCGSTPerc(items.getBatchListObj().getCGSTPerc());
+                        cartItems.setCESSPerc(items.getBatchListObj().getCESSPerc());
+                        cartItems.setCESSTaxCode(items.getBatchListObj().getCESSTaxCode());
+                        cartItems.setBatchNo(items.getBatchListObj().getBatchNo());
                         if(savedCart != null){
                             Realm realm = RealmController.with(this).getRealm();
                             realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work

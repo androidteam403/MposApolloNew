@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@{product.description}"
+                    android:text="@{product.artCode.concat(` - `+product.description)}"
                     android:textColor="@color/add_item_header"
                     android:textSize="@dimen/text_dimen_13" />
 
@@ -50,10 +50,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/two_dp"
-                    android:text="DOL001/AP0020/Tablet/MicroLab.."
+                    android:text="@{product.batchListObj.batchNo+`/`+product.category+`/`+product.batchListObj.expDate+`/`+product.manufacture}"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textSize="@dimen/text_dimen_12"
+                    android:singleLine="true"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -86,7 +88,7 @@
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{medicineModel.medicineMrp}"
+                        android:text="@{String.valueOf(product.batchListObj.mRP)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -102,7 +104,7 @@
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{medicineModel.medicineQty}"
+                        android:text="@{String.valueOf(product.batchListObj.enterReqQuantity)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -118,7 +120,7 @@
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{medicineModel.medicineTotal}"
+                        android:text="@{product.batchListObj.calculatedTotalPrice}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -130,7 +132,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:padding="@dimen/one_dp"
-                    android:text="@{medicineModel.medicineTax}"
+                    android:text="@{`Tax : `+ product.batchListObj.totalTax +`%`}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_12" />
 

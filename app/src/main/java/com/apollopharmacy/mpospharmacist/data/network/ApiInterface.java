@@ -1,11 +1,16 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
@@ -51,4 +56,13 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetTransactionId")
     Call<TransactionIDResModel> GET_TRANSACTION_ID(@Body TransactionIDReqModel transactionIDReqModel);
+
+    @POST("SalesTransactionService.svc/GetBatchDetails")
+    Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL (@Body GetBatchInfoReq getBatchInfoReq);
+
+    @POST("SalesTransactionService.svc/GenerateTenderLine/69")
+    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Body GenerateTenderLineReq tenderLineReq);
+
+    @POST("SalesTransactionService.svc/SaveRetailTransaction")
+    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineRes.GenerateTenderLineResultEntity tenderLineReq);
 }
