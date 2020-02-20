@@ -46,15 +46,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="@string/label_doctor_registration"-->
-        <!--            android:layout_gravity="center_horizontal"-->
-        <!--            android:layout_marginTop="@dimen/ten_dp"-->
-        <!--            android:textSize="@dimen/text_dimen_20"-->
-        <!--            android:fontFamily="@font/roboto_bold"/>-->
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"

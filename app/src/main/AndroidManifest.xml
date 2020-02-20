@@ -32,7 +32,9 @@
         </activity>
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.searchproduct.SearchProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -47,13 +49,17 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.additem.AddItemActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -61,12 +67,14 @@
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        android:windowSoftInputMode="stateAlwaysHidden">
 
-        </activity>
+    </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.batchonfo.BatchInfoActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -94,7 +102,14 @@
         </activity>
         <activity
             android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
+        <activity
+            android:name=".ui.corporatedetails.CorporateDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

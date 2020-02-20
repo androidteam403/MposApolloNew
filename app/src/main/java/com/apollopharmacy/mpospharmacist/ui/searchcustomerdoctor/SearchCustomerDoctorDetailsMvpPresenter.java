@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor;
 
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 
 public interface SearchCustomerDoctorDetailsMvpPresenter<V extends SearchCustomerDoctorDetailsMvpView> extends MvpPresenter<V> {
 
@@ -8,5 +9,9 @@ public interface SearchCustomerDoctorDetailsMvpPresenter<V extends SearchCustome
 
     void onDoctorSearchClick();
 
+    void onCorporateSearchClick();
+
     void onActionBarBackPress();
+
+    void onClickCustomerEdit(GetCustomerResponse.CustomerEntity customerEntity);
 }

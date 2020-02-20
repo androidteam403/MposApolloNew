@@ -58,8 +58,7 @@
                     android:background="@color/light_grey"
                     android:orientation="vertical">
 
-                    <include
-                        layout="@layout/view_customer_doctor_info"/>
+                    <include layout="@layout/view_customer_doctor_info" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -120,11 +119,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_marginTop="@dimen/five_dp"
+                        android:weightSum="2"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="250dp"
+                            android:layout_width="0dp"
                             android:layout_height="80dp"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
                             android:background="@color/white"
                             android:orientation="vertical"
                             android:weightSum="4">
@@ -132,6 +134,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:gravity="center"
                                 android:layout_marginTop="@dimen/ten_dp"
                                 android:orientation="horizontal">
 
@@ -217,16 +220,16 @@
 
                         <LinearLayout
                             android:id="@+id/testclick"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@color/white"
                             android:gravity="center"
+                            android:layout_weight="0.5"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/fifteen_dp"
                                 android:text="@string/label__129_70"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/text_dimen_18"
@@ -363,11 +366,12 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/forty_five_dp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginTop="@dimen/forty_five_dp"
                             android:background="@color/cpb_yellow"
                             android:text="@string/label_return"
                             android:textAllCaps="false" />

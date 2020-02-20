@@ -305,7 +305,7 @@
                     android:background="@color/white"
                     android:paddingStart="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:paddingEnd="@dimen/ten_dp" />
+                    android:paddingEnd="@dimen/ten_dp"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor;
 
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;
@@ -27,7 +28,17 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     }
 
     @Override
+    public void onCorporateSearchClick() {
+        getMvpView().onCorporateSearchClick();
+    }
+
+    @Override
     public void onActionBarBackPress() {
         getMvpView().onBackPressedClick();
+    }
+
+    @Override
+    public void onClickCustomerEdit(GetCustomerResponse.CustomerEntity customerEntity) {
+        getMvpView().customerEditClick(customerEntity);
     }
 }
