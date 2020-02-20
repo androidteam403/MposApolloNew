@@ -234,30 +234,37 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/store_list_layout"
-                    style="@style/EditTextInputLayoutStyle"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/forty_dp"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_marginEnd="@dimen/ten_dp"
                     android:layout_marginBottom="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_regular">
+                    android:background="@drawable/rectangular_shape"
+                    android:onClick="@{()-> callback.onSelectStoreSearch()}"
+                    android:orientation="horizontal"
+                    android:visibility="@{storeinfo == null ? View.VISIBLE : View.GONE}">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/places_ic_search"
-                        android:drawablePadding="@dimen/five_dp"
-                        android:focusable="false"
+                        android:layout_centerVertical="true"
                         android:fontFamily="@font/roboto_regular"
-                        android:gravity="top"
                         android:hint="@string/label_select_store"
-                        android:onClick="@{()-> callback.onSelectStoreSearch()}"
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:src="@drawable/ic_search" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/relative_details"
@@ -284,6 +291,7 @@
                             android:layout_gravity="end"
                             android:contentDescription="@string/app_name"
                             android:padding="@dimen/five_dp"
+                            android:onClick="@{()-> callback.onCancelBtnClick()}"
                             android:src="@drawable/icon_close" />
 
                         <LinearLayout

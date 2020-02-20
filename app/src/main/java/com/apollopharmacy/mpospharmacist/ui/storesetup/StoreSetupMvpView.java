@@ -20,6 +20,8 @@ public interface StoreSetupMvpView extends MvpView {
 
     String getDeviceId();
 
+    String getFcmKey();
+
     String getStoreId();
 
     String getTerminalId();
@@ -33,4 +35,6 @@ public interface StoreSetupMvpView extends MvpView {
     String getLatitude();
 
     String getLongitude();
+
+    void onNavigateHomeScreen();
 }

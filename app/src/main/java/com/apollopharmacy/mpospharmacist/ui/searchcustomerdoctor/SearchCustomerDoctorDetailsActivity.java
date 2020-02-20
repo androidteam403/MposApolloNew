@@ -21,6 +21,8 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements SearchCustomerDoctorDetailsMvpView {
@@ -33,6 +35,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 103;
     private GetCustomerResponse.CustomerEntity customerResult = null;
     private TransactionIDResModel transactionIdItem = null;
+    private ArrayList<CorporateModel.DropdownValueBean> corporateList;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SearchCustomerDoctorDetailsActivity.class);
@@ -51,6 +54,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     protected void setUp() {
         customerDetailsMvpPresenter.getTransactionID();
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
+        //customerDetailsMvpPresenter.getCorporateList();
     }
 
     @Override
@@ -104,6 +108,13 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     public void showTransactionID(TransactionIDResModel model) {
         searchCutomerDetailsBinding.setTransaction(model);
         transactionIdItem = model;
+    }
+
+    @Override
+    public void getCorporateList(CorporateModel corporateModel) {
+        corporateList = new ArrayList<>();
+        corporateList.addAll(corporateModel.get_DropdownValue());
+        searchCutomerDetailsBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
     }
 
     @Override
