@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "574187806207-e24bhu4p0usjta3i6uo1sunf6k9vfnrh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apollopharmacy.mpospharmacist",
+            "certificate_hash": "15d78a2fb1c96dc056d3ea4642292ed2784d6b06"
+          }
+        },
+        {
           "client_id": "574187806207-7nr5m76o2s7iadasqalhfk1h692nn2tr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

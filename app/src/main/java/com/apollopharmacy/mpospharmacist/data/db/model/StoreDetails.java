@@ -14,8 +14,6 @@ public class StoreDetails extends RealmObject {
     private String registrationDate;
     private String registeredBy;
     private String userId;
-    private String email;
-    private String phone;
 
     public int getId() {
         return id;
@@ -71,21 +69,5 @@ public class StoreDetails extends RealmObject {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 }

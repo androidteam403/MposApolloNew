@@ -18,7 +18,11 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -36,11 +40,7 @@
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
             android:windowSoftInputMode="stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
@@ -106,6 +106,13 @@
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+
+        <service android:name=".utils.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <!-- Ezetap provides -->
         <provider

@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.data.db.model.StoreDetails;
+import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityStoreSetupBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
@@ -26,6 +27,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import io.realm.Realm;
 
 public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpView {
 
@@ -64,6 +67,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         activityStoreSetupBinding.setCallback(mPresenter);
         mPresenter.getStoreList();
         deviceId = CommonUtils.getDeviceId(this);
+
         if (getIntent() != null) {
             latitude = (double) getIntent().getSerializableExtra("latitude");
             longitude = (double) getIntent().getSerializableExtra("longitude");
@@ -99,7 +103,6 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
 
     @Override
     public void onSaveBtnClick() {
-//        Toast.makeText(this, "Firebase Token : " + MyFirebaseMessagingService.getToken(this), Toast.LENGTH_SHORT).show();
         if (validations()) {
             mPresenter.handleStoreSetupService();
         }
@@ -117,14 +120,14 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
 
     @Override
     public void onCancelBtnClick() {
-
+        selectedStoreId = null;
+        activityStoreSetupBinding.setStoreinfo(selectedStoreId);
     }
 
     @Override
     public void storeSetupSuccess(DeviceSetupResModel storeResModel) {
-        startActivity(PharmacistLoginActivity.getStartIntent(this));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+        adminSetup();
+        mPresenter.insertAdminLoginDetails();
     }
 
     @Override
@@ -141,6 +144,11 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     public String getDeviceId() {
         return deviceId;
+    }
+
+    @Override
+    public String getFcmKey() {
+        return getSharedPreferences("ApolloMPOS", MODE_PRIVATE).getString("fcm_token", "empty");
     }
 
     @Override
@@ -176,5 +184,28 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     public String getLongitude() {
         return String.valueOf(longitude);
+    }
+
+    @Override
+    public void onNavigateHomeScreen() {
+        startActivity(PharmacistLoginActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
+    }
+
+    private void adminSetup() {
+        Realm realm = RealmController.with(this).getRealm();
+        StoreDetails book = new StoreDetails();
+        book.setId(1);
+        book.setStoreId(Integer.parseInt(getStoreId()));
+        book.setStoreLat(latitude);
+        book.setStoreLang(longitude);
+        book.setRegistrationDate(registerDate);
+        book.setRegisteredBy(getUserId());
+        book.setUserId(getUserId());
+        realm.beginTransaction();
+        realm.copyToRealm(book);
+        realm.commitTransaction();
+        mPresenter.insertAdminLoginDetails();
     }
 }

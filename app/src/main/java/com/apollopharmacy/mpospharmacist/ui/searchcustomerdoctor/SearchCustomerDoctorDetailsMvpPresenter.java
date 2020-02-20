@@ -25,4 +25,6 @@ public interface SearchCustomerDoctorDetailsMvpPresenter<V extends SearchCustome
     void onContinueBtnClick();
 
     void getTransactionID();
+
+    void getCorporateList();
 }
