@@ -24,21 +24,24 @@
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
+            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.searchproduct.SearchProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -109,7 +112,7 @@
             android:name="com.ezetap.sdk.EzetapFileProvider"
             android:authorities="${applicationId}.EzetapFileProvider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "574187806207",
+    "firebase_url": "https://mpos-pharmacist.firebaseio.com",
+    "project_id": "mpos-pharmacist",
+    "storage_bucket": "mpos-pharmacist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574187806207:android:2227c79064a114885f5bca",
+        "android_client_info": {
+          "package_name": "com.apollopharmacy.mpospharmacist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574187806207-7nr5m76o2s7iadasqalhfk1h692nn2tr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apollopharmacy.mpospharmacist",
+            "certificate_hash": "ee94ecb738fb6a76c7b15e02d541c439b58813ef"
+          }
+        },
+        {
+          "client_id": "574187806207-o6t12rgij4fpma0cfca1htvvo99qnd6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWnDwUhWzT5jwLHElcZK1y4XoDXDLiUtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574187806207-o6t12rgij4fpma0cfca1htvvo99qnd6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
