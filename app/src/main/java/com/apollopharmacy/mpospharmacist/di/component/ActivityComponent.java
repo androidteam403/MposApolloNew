@@ -30,6 +30,7 @@ import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductLis
 import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialog;
 
 import dagger.Component;
 
@@ -95,4 +96,6 @@ public interface ActivityComponent {
     void inject(CorporateDetailsActivity corporateDetailsActivity);
 
     void inject(AllDoctorsDialog allDoctorsDialog);
+
+    void inject(GetStoresDialog getStoresDialog);
 }

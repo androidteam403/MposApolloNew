@@ -3,11 +3,11 @@ package com.apollopharmacy.mpospharmacist.ui.storesetup.model;
 public class StoreSetupModel {
 
     private String macId;
-    private String imeiNo;
+    private String deviceType;
     private String deviceName;
     private String storeDate;
-    private String storeLattitude;
-    private String storeLongitude;
+    private double storeLatitude;
+    private double storeLongitude;
 
     public String getMacId() {
         return macId;
@@ -17,12 +17,12 @@ public class StoreSetupModel {
         this.macId = macId;
     }
 
-    public String getImeiNo() {
-        return imeiNo;
+    public String getDeviceType() {
+        return deviceType;
     }
 
-    public void setImeiNo(String imeiNo) {
-        this.imeiNo = imeiNo;
+    public void setDeviceType(String imeiNo) {
+        this.deviceType = imeiNo;
     }
 
     public String getDeviceName() {
@@ -41,19 +41,19 @@ public class StoreSetupModel {
         this.storeDate = storeDate;
     }
 
-    public String getStoreLattitude() {
-        return storeLattitude;
+    public double getStoreLatitude() {
+        return storeLatitude;
     }
 
-    public void setStoreLattitude(String storeLattitude) {
-        this.storeLattitude = storeLattitude;
+    public void setStoreLatitude(double storeLatitude) {
+        this.storeLatitude = storeLatitude;
     }
 
-    public String getStoreLongitude() {
+    public double getStoreLongitude() {
         return storeLongitude;
     }
 
-    public void setStoreLongitude(String storeLongitude) {
+    public void setStoreLongitude(double storeLongitude) {
         this.storeLongitude = storeLongitude;
     }
 }
