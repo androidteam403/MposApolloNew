@@ -274,7 +274,6 @@
                     android:layout_width="@dimen/one_hundred_forty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="260dp"
-                    android:background="@color/wallet_holo_blue_light"
                     android:paddingStart="@dimen/twenty_dp"
                     android:paddingTop="@dimen/five_dp"
                     android:text="@string/label_substitute"
@@ -385,7 +384,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginEnd="@dimen/five_dp"
-                    android:background="@color/wallet_holo_blue_light"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_add_to_cart"
                     android:textColor="@color/white" />

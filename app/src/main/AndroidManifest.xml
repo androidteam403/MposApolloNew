@@ -32,15 +32,16 @@
         </activity>
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-
-        </activity>
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.searchproduct.SearchProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" >
@@ -112,12 +113,19 @@
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+
+        <service android:name=".utils.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!-- Ezetap provides -->
         <provider
             android:name="com.ezetap.sdk.EzetapFileProvider"
             android:authorities="${applicationId}.EzetapFileProvider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />

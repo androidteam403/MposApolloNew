@@ -87,6 +87,9 @@ import com.apollopharmacy.mpospharmacist.ui.splash.SplashPresenter;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupMvpView;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupPresenter;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialogMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialogMvpView;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialogPresenter;
 import com.apollopharmacy.mpospharmacist.utils.rx.AppSchedulerProvider;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
@@ -282,6 +285,11 @@ public class ActivityModule {
 
     @Provides
     AllDoctorsDialogMvpPresenter<AllDoctorsDialogMvpView> provideAllDoctorsDialog(AllDoctorsDialogPresenter<AllDoctorsDialogMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    GetStoresDialogMvpPresenter<GetStoresDialogMvpView> provideStoresListDialog(GetStoresDialogPresenter<GetStoresDialogMvpView> presenter) {
         return presenter;
     }
 }
