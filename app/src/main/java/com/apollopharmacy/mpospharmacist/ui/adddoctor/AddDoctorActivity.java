@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.adddoctor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -64,6 +66,14 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
 //        DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
 //        doctorModel.setCode(addDoctorResModel.getDocRegID());
 //        doctorModel.setDisplayText(addDoctorResModel.getDocName());
+
+//        Intent returnIntent = new Intent();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("doctor_info", customDoctorItem);
+//        returnIntent.putExtras(bundle);
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
+
         //Pass this to Search Activity
         Toast.makeText(this, addDoctorResModel.getReturnMessage(), Toast.LENGTH_SHORT).show();
     }
