@@ -127,6 +127,7 @@
     <string name="label_doctor_name">Doctor Name*</string>
     <string name="label_speciality">Speciality*</string>
     <string name="label_place_of_practice">Place of Practice*</string>
+    <string name="label_add_address">Address*</string>
     <string name="label_phone_no">Phone No*</string>
     <string name="label_doctor_registration">Doctor Registration</string>
     <string name="label_customer_registration">Customer Registration</string>
@@ -254,4 +255,11 @@
     <string name="label_generic_latitude">Latitude\n%1$s</string>
     <string name="label_generic_longitude">Longitude\n%1$s</string>
     <string name="label_save">Save</string>
+    <string name="label_additional_discount">Additional Discount :</string>
+    <string name="label_balance_amount">balance amount:</string>
+    <string name="label_cash_payment">cash payment:</string>
+    <string name="label_other">Other</string>
+    <string name="label_card">Card</string>
+    <string name="label_cash">Cash</string>
+    <string name="label_payment_method">payment method</string>
 </resources>

@@ -7,4 +7,6 @@ public interface AddDoctorMvpPresenter<V extends AddDoctorMvpView> extends MvpPr
     void onSubmitBtnClick();
 
     void onActionBarBackPressed();
+
+    void handleAddDoctorService();
 }

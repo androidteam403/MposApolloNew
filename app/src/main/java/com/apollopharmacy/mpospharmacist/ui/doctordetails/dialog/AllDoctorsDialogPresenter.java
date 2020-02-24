@@ -20,4 +20,9 @@ public class AllDoctorsDialogPresenter<V extends AllDoctorsDialogMvpView> extend
     public void dismissDialog() {
         getMvpView().dismissDialog();
     }
+
+    @Override
+    public void onAddDoctorClick() {
+        getMvpView().onAddDoctorClick();
+    }
 }

@@ -33,6 +33,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     private int CUSTOMER_SEARCH_ACTIVITY_CODE = 101;
     private int DOCTOR_SEARCH_ACTIVITY_CODE = 102;
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 103;
+    private int NEW_DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     private GetCustomerResponse.CustomerEntity customerResult = null;
     private TransactionIDResModel transactionIdItem = null;
     private ArrayList<CorporateModel.DropdownValueBean> corporateList;

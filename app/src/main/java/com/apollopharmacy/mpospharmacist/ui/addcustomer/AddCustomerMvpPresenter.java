@@ -13,4 +13,7 @@ public interface AddCustomerMvpPresenter<V extends AddCustomerMvpView> extends M
     void onClickRegistration();
 
     void onActionBarBackPressed();
+
+    void userSubmit( );
+
 }

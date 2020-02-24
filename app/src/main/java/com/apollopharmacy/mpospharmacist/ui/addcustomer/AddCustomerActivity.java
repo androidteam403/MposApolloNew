@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -109,6 +110,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onSubmitClick() {
         if (validate()) {
+            mPresenter.userSubmit();
             startActivity(AddDoctorActivity.getStartIntent(this));
         }
     }
@@ -168,6 +170,21 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onClickBackPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public String getfirstName() {
+        return (Objects.requireNonNull(addCustomerBinding.firstName.getText())).toString();
+    }
+
+    @Override
+    public String getmobile() {
+        return (Objects.requireNonNull(addCustomerBinding.mobile.getText())).toString();
+    }
+
+    @Override
+    public String getcardNumber() {
+        return (Objects.requireNonNull(addCustomerBinding.cardNumber.getText())).toString();
     }
 
     private ArrayList<SpinnerPojo> getGender() {

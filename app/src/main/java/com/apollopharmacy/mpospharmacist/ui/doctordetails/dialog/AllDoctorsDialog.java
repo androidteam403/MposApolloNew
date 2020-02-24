@@ -102,4 +102,19 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
         doctorDetailsMvpView.onSelectDoctor(item);
         dismissDialog("");
     }
+
+    @Override
+    public void updateNoDoctorView(int arrayCnt) {
+        if(arrayCnt > 0){
+            allDoctorsBinding.setNoDoctor(false);
+        }else {
+            allDoctorsBinding.setNoDoctor(true);
+        }
+    }
+
+    @Override
+    public void onAddDoctorClick() {
+        doctorDetailsMvpView.onAddDoctorClick();
+        dismissDialog("");
+    }
 }

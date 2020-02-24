@@ -58,13 +58,13 @@
                     android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:padding="@dimen/ten_dp">
 
                 <RelativeLayout
+                    android:id="@+id/search_view_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/ten_dp">
@@ -118,6 +118,7 @@
                     android:id="@+id/customer_info_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_view_layout"
                     android:orientation="vertical"
                     android:visibility="@{customer == null ? View.GONE : View.VISIBLE}">
 
@@ -412,9 +413,9 @@
                     android:id="@+id/no_customer_found_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/thirty_dp"
-                    android:gravity="center"
                     android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
                     android:visibility="@{no_user ? View.VISIBLE : View.GONE}">
 
                     <TextView
@@ -438,7 +439,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_18" />
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </layout>

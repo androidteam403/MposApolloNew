@@ -13,10 +13,12 @@ import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView {
-
+    AddDoctorPresenter presenter;
     @Inject
     AddDoctorMvpPresenter<AddDoctorMvpView> mPresenter;
     private ActivityAddDoctorBinding addDoctorBinding;
@@ -37,7 +39,6 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     protected void setUp() {
         addDoctorBinding.setCallback(mPresenter);
-
     }
 
     @Override
@@ -49,7 +50,7 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     public void onSubmitBtnClick() {
         if (validate()) {
-            Toast.makeText(this, "You submitted", Toast.LENGTH_SHORT).show();
+            mPresenter.handleAddDoctorService();
         }
     }
 
@@ -60,44 +61,85 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
 
     @Override
     public void addDoctorSuccess(AddDoctorResModel addDoctorResModel) {
-
+//        DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
+//        doctorModel.setCode(addDoctorResModel.getDocRegID());
+//        doctorModel.setDisplayText(addDoctorResModel.getDocName());
+        //Pass this to Search Activity
+        Toast.makeText(this, addDoctorResModel.getReturnMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void addDoctorFailed(String errMsg) {
-
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public String getDoctorName() {
+        return (Objects.requireNonNull(addDoctorBinding.doctorName.getText())).toString();
+    }
+
+    @Override
+    public String getDoctorRegNo() {
+        return (Objects.requireNonNull(addDoctorBinding.doctorRegNumber.getText())).toString();
+    }
+
+    @Override
+    public String getSpeciality() {
+        return (Objects.requireNonNull(addDoctorBinding.speciality.getText())).toString();
+    }
+
+    @Override
+    public String getPlaceOfPractice() {
+        return (Objects.requireNonNull(addDoctorBinding.placeOfPractice.getText()).toString());
+    }
+
+    @Override
+    public String getAddress() {
+        return (Objects.requireNonNull(addDoctorBinding.address.getText()).toString());
+    }
+
+    @Override
+    public String getPhoneNo() {
+        return (Objects.requireNonNull(addDoctorBinding.phoneNumber.getText())).toString();
+    }
+
+
     private boolean validate() {
-        if (addDoctorBinding.doctorRegNumber.getText().toString().isEmpty()) {
+        String doctorRegNo = Objects.requireNonNull(addDoctorBinding.doctorRegNumber.getText()).toString();
+        String dctrName = Objects.requireNonNull(addDoctorBinding.doctorName.getText()).toString();
+        String spclty = Objects.requireNonNull(addDoctorBinding.speciality.getText()).toString();
+        String placeofPractice = Objects.requireNonNull(addDoctorBinding.placeOfPractice.getText()).toString();
+        String adrs = Objects.requireNonNull(addDoctorBinding.address.getText()).toString();
+        String pNumber = Objects.requireNonNull(addDoctorBinding.phoneNumber.getText()).toString();
+        if (doctorRegNo.isEmpty()) {
             addDoctorBinding.doctorRegNumber.setError("Doctor registration number should not be empty");
             addDoctorBinding.doctorRegNumber.requestFocus();
             return false;
-        } else if (addDoctorBinding.doctorName.getText().toString().isEmpty()) {
+        } else if (dctrName.isEmpty()) {
             addDoctorBinding.doctorName.setError("Doctor name should not be empty");
             addDoctorBinding.doctorName.requestFocus();
             return false;
-        } else if (!CommonUtils.nameVallidate(addDoctorBinding.doctorName.getText().toString())) {
+        } else if (!CommonUtils.nameVallidate(dctrName)) {
             addDoctorBinding.doctorName.setError("Invalid doctor name");
             addDoctorBinding.doctorName.requestFocus();
             return false;
-        } else if (addDoctorBinding.speciality.getText().toString().isEmpty()) {
+        } else if (spclty.isEmpty()) {
             addDoctorBinding.speciality.setError("Speciality should not be empty");
             addDoctorBinding.speciality.requestFocus();
             return false;
-        } else if (addDoctorBinding.placeOfPractice.getText().toString().isEmpty()) {
+        } else if (placeofPractice.isEmpty()) {
             addDoctorBinding.placeOfPractice.setError("Place of Practice should not be empty");
             addDoctorBinding.placeOfPractice.requestFocus();
             return false;
-        } else if (addDoctorBinding.address.getText().toString().isEmpty()) {
+        } else if (adrs.isEmpty()) {
             addDoctorBinding.address.setError("Address should not be empty");
             addDoctorBinding.address.requestFocus();
             return false;
-        } else if (addDoctorBinding.phoneNumber.getText().toString().isEmpty()) {
+        } else if (pNumber.isEmpty()) {
             addDoctorBinding.phoneNumber.setError("Phone number should not be empty");
             addDoctorBinding.phoneNumber.requestFocus();
             return false;
-        } else if (!CommonUtils.mobileValidate(addDoctorBinding.phoneNumber.getText().toString())) {
+        } else if (!CommonUtils.mobileValidate(pNumber)) {
             addDoctorBinding.phoneNumber.setError("Invalid Phone Number");
             addDoctorBinding.phoneNumber.requestFocus();
             return false;

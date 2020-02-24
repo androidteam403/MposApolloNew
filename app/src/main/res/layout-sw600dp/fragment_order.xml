@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="callbacks"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/search_customer_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/pay_btn_color"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callbacks.onReturnClick()}"
+                android:text="@string/label_return"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="2.5dp"
+                android:layout_height="@dimen/fifty_dp" />
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/cart_price_bg"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callbacks.onCancelCLick()}"
+                android:text="@string/label_cancel"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="2.5dp"
+                android:layout_height="@dimen/fifty_dp" />
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_weight="1"
+                android:background="@color/cart_price_bg"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callbacks.onReOrderClick()}"
+                android:text="@string/label_re_order"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/customer_info_header"
+                android:text="@string/label_phonenumber_orderid"
+                android:textSize="@dimen/text_dimen_13" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@drawable/rectangular_shape"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_search_by_phone_number"
+                    android:textColor="@color/search_order_hint_color"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <ImageView
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_dp"
+            android:background="@color/light_grey"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:textColor="@color/black"
+            android:text="@string/label_3_items_found"
+            android:textSize="@dimen/text_dimen_12" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderrecycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+
+    </LinearLayout>
+</layout>
