@@ -47,7 +47,7 @@ public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public PayActivityAdapterBinding payAdapterBinding;
 
-        public ViewHolder(@NonNull PayActivityAdapterBinding payAdapterBinding) {
+        public ViewHolder(@NonNull PayActivityAdapterBinding payAdapterBinding){
             super(payAdapterBinding.getRoot());
             this.payAdapterBinding = payAdapterBinding;
         }

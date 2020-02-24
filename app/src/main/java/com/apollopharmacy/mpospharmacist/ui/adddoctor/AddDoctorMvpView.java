@@ -6,4 +6,17 @@ public interface AddDoctorMvpView extends MvpView {
     void onSubmitClick();
 
     void onClickBackPressed();
+
+
+    String getDoctorName();
+
+    String getDoctorRegNo();
+
+    String getSpeciality();
+
+    String getPlaceOfPractice();
+
+    String getAddress();
+
+    String getPhoneNo();
 }

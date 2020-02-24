@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="callBack"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardMvpPresenter" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="New Order"
+            android:onClick="@{()-> callBack.onClickNewOrder()}"
+            android:background="@color/apollo_btn_color"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"/>
+    </RelativeLayout>
+</layout>
