@@ -11,6 +11,8 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResMo
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
+import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
@@ -19,16 +21,25 @@ import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.Transacti
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
+
+    @POST("apollompos/Self/LOGIN")
+    Call<AdminLoginResModel> LOGIN_SERVICE_CALL(@Body AdminLoginReqModel adminLoginReqModel);
+
+    @GET("apollompos/Self/STORELIST")
+    Call<StoreListResponseModel> GET_STORES_LIST();
+
+    @POST("apollompos/Self/Registration")
+    Call<DeviceSetupResModel> STORE_SETUP_CALL(@Body DeviceSetupReqModel setupReqModel);
 
     @GET("apollompos/Self/CampaignDetails/16001")
     Call<CampaignDetailsRes> CAMPAIGN_DETAILS_RES_CALL();

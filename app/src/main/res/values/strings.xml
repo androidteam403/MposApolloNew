@@ -40,7 +40,8 @@
     <string name="label_generic_card_no">Card Number : \n%1$s</string>
     <string name="label_generic_tel">Telephone : \n%1$s</string>
 
-    <string name="label_site_id"> Site Id:</string>
+    <string name="label_site_id">Site ID:</string>
+    <string name="label_store_address">Store Address:</string>
 
     <string name="label_cashier">Cashier: %s</string>
     <string name="label_storeCode">StoreCode: %s</string>
@@ -230,6 +231,7 @@
     <string name="label_select_doctor">Select Doctor</string>
     <string name="label_sales_origin">Select Sales Origin</string>
     <string name="label_search_by_doctor_name">Search by doctor name</string>
+    <string name="label_search_by_store_name">Search by store name</string>
 
     <string name="label_product_art_code">Art Code\n%1$s</string>
     <string name="label_product_description">Description\n%1$s</string>
@@ -244,4 +246,22 @@
     <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
     <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
     <string name="label_generic_new_order">New Order  %1$s</string>
+
+    <string name="label_generic_mac_id">MAC ID\n%1$s</string>
+    <string name="label_generic_device_type">Device Type\n%1$s</string>
+    <string name="label_generic_device_name">Device Name\n%1$s</string>
+    <string name="label_generic_date">Date\n%1$s</string>
+    <string name="label_generic_latitude">Latitude\n%1$s</string>
+    <string name="label_generic_longitude">Longitude\n%1$s</string>
+    <string name="label_save">Save</string>
+
+    <string name="label_disc_type">Disc Type\n%1$s</string>
+    <string name="label_pharma_price">Pharma\n%1$s</string>
+    <string name="label_FMCG_price">FMCG\n%1$s</string>
+    <string name="label_PL_price">PL\n%1$s</string>
+    <string name="label_RoundedAmt_price">RoundedAmt\n%1$s</string>
+    <string name="label_MRP_Total_price">MRP Total\n%1$s</string>
+    <string name="label_Taxable_Amt_price">Taxable Amt\n%1$s</string>
+    <string name="label_Disc_Amt_price">Disc.Amt\n%1$s</string>
+    <string name="label_savings_price">Savings: %1$s</string>
 </resources>

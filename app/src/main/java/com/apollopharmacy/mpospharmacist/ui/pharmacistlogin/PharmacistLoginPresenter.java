@@ -102,6 +102,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void userLoginInStoreApi() {
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
+            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());
@@ -138,6 +139,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void userLoginCampaignApi() {
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
+            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());

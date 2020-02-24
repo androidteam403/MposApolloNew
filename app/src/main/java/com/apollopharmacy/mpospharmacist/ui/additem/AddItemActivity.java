@@ -18,6 +18,7 @@ import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
 import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -57,6 +58,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private int DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 105;
     private TransactionIDResModel transactionIdModel = null;
+    private OrderPriceInfoModel orderPriceInfoModel = new OrderPriceInfoModel();
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddItemActivity.class);
@@ -246,6 +248,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     medicineDetailsModelsList.add(items);
                     medicinesDetailAdapter.notifyDataSetChanged();
                     addItemBinding.setProductCount(medicineDetailsModelsList.size());
+
+                    orderPriceInfoModel.setPharmaTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setFmcgTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setPlTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setRoundedAmount(12);
+                    orderPriceInfoModel.setMrpTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setTaxableTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setDiscTotalAmount(items.getBatchListObj().getMRP());
+                    orderPriceInfoModel.setOrderTotalAmount((orderPriceInfoModel.getOrderTotalAmount()+Double.parseDouble(items.getBatchListObj().getCalculatedTotalPrice())));
+                    orderPriceInfoModel.setOrderSavingsAmount((orderPriceInfoModel.getOrderSavingsAmount()+items.getBatchListObj().getPrice()));
+                    orderPriceInfoModel.setOrderSavingsPercentage((orderPriceInfoModel.getOrderSavingsPercentage()+items.getBatchListObj().getTotalTax()));
+                    addItemBinding.setOrderInfo(orderPriceInfoModel);
                     // Insert into cart table
                     if(items != null) {
                       Cart savedCart =  RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());

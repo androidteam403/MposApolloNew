@@ -1,9 +1,11 @@
 package com.apollopharmacy.mpospharmacist.utils;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.Settings;
 
 import com.apollopharmacy.mpospharmacist.R;
 
@@ -64,6 +66,11 @@ public class CommonUtils {
             Matcher m = p.matcher(target);
             return (m.find() && m.group().equals(target));
         }
+    }
+
+    @SuppressLint("HardwareIds")
+    public static String getDeviceId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
 

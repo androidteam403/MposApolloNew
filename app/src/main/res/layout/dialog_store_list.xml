@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialogMvpPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_select_store"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_14" />
+
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:tint="@color/white"
+                android:onClick="@{()-> callback.dismissDialog()}"
+                android:padding="@dimen/five_dp"
+                android:src="@drawable/ic_close_view" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_margin="@dimen/ten_dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/EditTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/doctor_name_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="top"
+                    android:hint="@string/label_search_by_store_name"
+                    android:inputType="text"
+                    android:padding="@dimen/ten_dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_dimen_15" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:layout_width="@dimen/twenty_seven_dp"
+                android:layout_height="@dimen/twenty_seven_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_search" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stores_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/five_dp" />
+    </LinearLayout>
+</layout>
