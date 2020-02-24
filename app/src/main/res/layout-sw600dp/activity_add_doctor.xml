@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorModel" />
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.8"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()-> callback.onActionBarBackPressed()}"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/label_doctor_registration"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/doctor_reg_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_doctor_reg_no"
+                android:inputType="number"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.doctorRegNo}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_doctor_name"
+                android:inputType="textPersonName"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.doctorName}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/speciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_speciality"
+                android:inputType="text"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.speciality}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/place_of_practice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_place_of_practice"
+                android:inputType="text"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.placeOfPractice}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_hundred_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="top"
+                android:hint="@string/label_address"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.address}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:fontFamily="@font/roboto_regular">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/label_phone_no"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:padding="@dimen/ten_dp"
+                android:singleLine="true"
+                android:text="@{model.phoneNumber}"
+                android:textSize="@dimen/text_dimen_15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <RelativeLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/five_dp"-->
+        <!--            android:layout_marginBottom="@dimen/ten_dp">-->
+
+        <!--            <Button-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/label_cancel" />-->
+
+        <!--            <Button-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_alignParentEnd="true"-->
+        <!--                android:onClick="@{()->callback.onClickSubmit() }"-->
+        <!--                android:text="@string/label_submit"-->
+        <!--                tools:ignore="RelativeOverlap" />-->
+        <!--        </RelativeLayout>-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Submit"
+            android:textColor="@color/black"
+            tools:ignore="MissingConstraints"
+            android:background="@color/apollo_btn_color"
+            android:onClick="@{()-> callback.onClickSubmit()}"/>
+    </LinearLayout>
+</layout>

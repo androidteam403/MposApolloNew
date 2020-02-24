@@ -48,7 +48,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
             ApiInterface api = ApiClient.getApiService2();
             DeviceSetupReqModel storeSetupReqModel = new DeviceSetupReqModel();
             storeSetupReqModel.setMACID(getMvpView().getDeviceId());
-            storeSetupReqModel.setFCMKEY("1243");
+            storeSetupReqModel.setFCMKEY(getMvpView().getFcmKey());
             storeSetupReqModel.setSTOREID(getMvpView().getStoreId());
             storeSetupReqModel.setTERMINALID(getMvpView().getTerminalId());
             storeSetupReqModel.setUSERID(getMvpView().getUserId());
@@ -102,5 +102,11 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void insertAdminLoginDetails() {
+        getDataManager().setAdminSetUpFinish(true);
+        getMvpView().onNavigateHomeScreen();
     }
 }

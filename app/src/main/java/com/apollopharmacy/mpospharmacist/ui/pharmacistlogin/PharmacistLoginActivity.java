@@ -98,7 +98,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     public void onCampaignSelect() {
 
-
     }
 
     @SuppressLint("ResourceType")

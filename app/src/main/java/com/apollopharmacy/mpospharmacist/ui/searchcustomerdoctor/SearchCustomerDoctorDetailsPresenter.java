@@ -11,6 +11,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResMo
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -95,6 +96,31 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
 
                 @Override
                 public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getCorporateList() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            Call<CorporateModel> call = api.getCorporateList(new JsonObject());
+            call.enqueue(new Callback<CorporateModel>() {
+                @Override
+                public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        getMvpView().getCorporateList(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                 }
             });

@@ -13,4 +13,10 @@ public interface AddCustomerMvpView extends MvpView {
     void onRegistrationClick();
 
     void onClickBackPressed();
+
+    String getfirstName();
+
+    String getmobile();
+
+    String getcardNumber();
 }

@@ -38,7 +38,6 @@ public class PayPresenter<V extends PayMvpView> extends BasePresenter<V>
     @Override
     public void NavigateToHomeScreen() {
         getMvpView().NavigateToHomeScreen();
-
     }
 
     @Override

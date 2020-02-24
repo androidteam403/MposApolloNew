@@ -26,4 +26,6 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
     void onContinueBtnClick();
 
     void showTransactionID(TransactionIDResModel model);
+
+    void getCorporateList(CorporateModel corporateModel);
 }

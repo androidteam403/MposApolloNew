@@ -40,24 +40,26 @@
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
             android:windowSoftInputMode="stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.searchuser.SearchUserActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -73,7 +75,7 @@
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
 
-        </activity>
+    </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
             android:theme="@style/CustomTheme"
@@ -110,6 +112,13 @@
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+
+        <service android:name=".utils.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <!-- Ezetap provides -->
         <provider

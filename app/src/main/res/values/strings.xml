@@ -264,4 +264,11 @@
     <string name="label_Taxable_Amt_price">Taxable Amt\n%1$s</string>
     <string name="label_Disc_Amt_price">Disc.Amt\n%1$s</string>
     <string name="label_savings_price">Savings: %1$s</string>
+    <string name="label_additional_discount">Additional Discount :</string>
+    <string name="label_balance_amount">balance amount:</string>
+    <string name="label_cash_payment">cash payment:</string>
+    <string name="label_other">Other</string>
+    <string name="label_card">Card</string>
+    <string name="label_cash">Cash</string>
+    <string name="label_payment_method">payment method</string>
 </resources>
