@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model;
 
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -253,6 +254,16 @@ public class GetItemDetailsRes {
 
         public void setArtCode(String artCode) {
             ArtCode = artCode;
+        }
+
+        private GetBatchInfoRes.BatchListObj batchListObj;
+
+        public GetBatchInfoRes.BatchListObj getBatchListObj() {
+            return batchListObj;
+        }
+
+        public void setBatchListObj(GetBatchInfoRes.BatchListObj batchListObj) {
+            this.batchListObj = batchListObj;
         }
     }
 }

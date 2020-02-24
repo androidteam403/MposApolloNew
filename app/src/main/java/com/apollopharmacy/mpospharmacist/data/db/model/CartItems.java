@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.data.db.model;
 
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -194,5 +196,178 @@ public class CartItems extends RealmObject {
 
     public void setArtCode(String artCode) {
         ArtCode = artCode;
+    }
+
+
+    private double TotalTax;
+    private String SNO;
+    private String SGSTTaxCode;
+    private double SGSTPerc;
+    private int REQQTY;
+    private String Q_O_H;
+    private double Price;
+    private boolean NearByExpiry;
+    private double MRP;
+    private String ItemID;
+    private boolean ISMRPChange;
+    private String IGSTTaxCode;
+    private double IGSTPerc;
+    private String ExpDate;
+    private String CGSTTaxCode;
+    private double CGSTPerc;
+    private String CESSTaxCode;
+    private double CESSPerc;
+    private String BatchNo;
+
+    public double getTotalTax() {
+        return TotalTax;
+    }
+
+    public void setTotalTax(double totalTax) {
+        TotalTax = totalTax;
+    }
+
+    public String getSNO() {
+        return SNO;
+    }
+
+    public void setSNO(String SNO) {
+        this.SNO = SNO;
+    }
+
+    public String getSGSTTaxCode() {
+        return SGSTTaxCode;
+    }
+
+    public void setSGSTTaxCode(String SGSTTaxCode) {
+        this.SGSTTaxCode = SGSTTaxCode;
+    }
+
+    public double getSGSTPerc() {
+        return SGSTPerc;
+    }
+
+    public void setSGSTPerc(double SGSTPerc) {
+        this.SGSTPerc = SGSTPerc;
+    }
+
+    public int getREQQTY() {
+        return REQQTY;
+    }
+
+    public void setREQQTY(int REQQTY) {
+        this.REQQTY = REQQTY;
+    }
+
+    public String getQ_O_H() {
+        return Q_O_H;
+    }
+
+    public void setQ_O_H(String q_O_H) {
+        Q_O_H = q_O_H;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
+    }
+
+    public boolean isNearByExpiry() {
+        return NearByExpiry;
+    }
+
+    public void setNearByExpiry(boolean nearByExpiry) {
+        NearByExpiry = nearByExpiry;
+    }
+
+    public double getMRP() {
+        return MRP;
+    }
+
+    public void setMRP(double MRP) {
+        this.MRP = MRP;
+    }
+
+    public String getItemID() {
+        return ItemID;
+    }
+
+    public void setItemID(String itemID) {
+        ItemID = itemID;
+    }
+
+    public boolean isISMRPChange() {
+        return ISMRPChange;
+    }
+
+    public void setISMRPChange(boolean ISMRPChange) {
+        this.ISMRPChange = ISMRPChange;
+    }
+
+    public String getIGSTTaxCode() {
+        return IGSTTaxCode;
+    }
+
+    public void setIGSTTaxCode(String IGSTTaxCode) {
+        this.IGSTTaxCode = IGSTTaxCode;
+    }
+
+    public double getIGSTPerc() {
+        return IGSTPerc;
+    }
+
+    public void setIGSTPerc(double IGSTPerc) {
+        this.IGSTPerc = IGSTPerc;
+    }
+
+    public String getExpDate() {
+        return ExpDate;
+    }
+
+    public void setExpDate(String expDate) {
+        ExpDate = expDate;
+    }
+
+    public String getCGSTTaxCode() {
+        return CGSTTaxCode;
+    }
+
+    public void setCGSTTaxCode(String CGSTTaxCode) {
+        this.CGSTTaxCode = CGSTTaxCode;
+    }
+
+    public double getCGSTPerc() {
+        return CGSTPerc;
+    }
+
+    public void setCGSTPerc(double CGSTPerc) {
+        this.CGSTPerc = CGSTPerc;
+    }
+
+    public String getCESSTaxCode() {
+        return CESSTaxCode;
+    }
+
+    public void setCESSTaxCode(String CESSTaxCode) {
+        this.CESSTaxCode = CESSTaxCode;
+    }
+
+    public double getCESSPerc() {
+        return CESSPerc;
+    }
+
+    public void setCESSPerc(double CESSPerc) {
+        this.CESSPerc = CESSPerc;
+    }
+
+    public String getBatchNo() {
+        return BatchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        BatchNo = batchNo;
     }
 }

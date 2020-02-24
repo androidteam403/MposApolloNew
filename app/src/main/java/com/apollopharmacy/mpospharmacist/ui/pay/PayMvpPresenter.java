@@ -11,4 +11,8 @@ public interface PayMvpPresenter<V extends PayMvpView> extends MvpPresenter<V> {
     void onClickCashPayment();
 
     void onClickCardPaymentPay();
+
+    void onClickCashPaymentPay();
+
+
 }

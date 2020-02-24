@@ -242,11 +242,15 @@
             android:text="@string/label_continue"
             android:onClick="@{()-> callback.onNavigateNextActivity()}"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_18" />
+            android:textSize="@dimen/text_dimen_18"
+            android:visibility="@{batch_selected ? View.VISIBLE : View.VISIBLE}"/>
     </RelativeLayout>
 
     <data>
-
+        <import type="android.view.View" />
+        <variable
+            name="batch_selected"
+            type="Boolean" />
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter" />

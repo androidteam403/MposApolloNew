@@ -52,6 +52,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.setCustomer(customerEntity);
             }
         }
+        //temp
+        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+        customerEntity.setSearchId("8056427651");
+        customerDetailsBinding.setCustomer(customerEntity);
     }
 
     @Override
