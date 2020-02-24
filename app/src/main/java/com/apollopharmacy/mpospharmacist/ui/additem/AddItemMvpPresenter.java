@@ -15,4 +15,14 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickClearAllBtn();
 
     void onPayButtonClick();
+
+    void onClickCardPayment();
+
+    void onClickCashPayment();
+
+    void onClickCardPaymentPay();
+
+    void onClickCashPaymentPay();
+
+    void onClickEditItemsList();
 }
