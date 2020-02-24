@@ -4,13 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="callbacks"
             type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpPresenter" />
+
         <variable
             name="customer"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+
+        <variable
+            name="doctor"
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+
+        <variable
+            name="sales"
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel.DropdownValueBean" />
+
+        <variable
+            name="corporate"
+            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+
+        <variable
+            name="transaction"
+            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
     </data>
 
     <RelativeLayout
@@ -40,11 +59,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/five_dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Search User"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:textSize="@dimen/text_dimen_18"
+                app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
+                app:span_color="@{@color/white}"
+                app:span_font="@{`robotoRegular`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{transaction.transactionID}" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,11 +80,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_customer_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_18" />
+                android:textSize="@dimen/text_dimen_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_phone_number_id"
                     android:textColor="@color/customer_header_text"
@@ -88,11 +110,13 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_search_by_phone_number"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
                         android:textSize="@dimen/text_dimen_13" />
 
                     <ImageView
@@ -101,6 +125,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
                         android:src="@drawable/ic_search" />
                 </RelativeLayout>
             </LinearLayout>
@@ -108,7 +134,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
                 android:visibility="@{customer == null ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
@@ -126,19 +152,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
                             app:full_text="@{@string/label_generic_name(customer.cardName)}"
                             app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoBold`}"
+                            app:span_font="@{`robotoMedium`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.cardName}"
-                            android:textSize="@dimen/text_dimen_12" />
+                            app:span_text="@{customer.cardName}" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Billing Code: \n POS1234"
+                            android:text="Billing Code: \nPOS1234"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_12" />
                     </LinearLayout>
@@ -153,19 +180,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
                             app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
                             app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoBold`}"
+                            app:span_font="@{`robotoMedium`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.mobileNo}"
-                            android:textSize="@dimen/text_dimen_12" />
+                            app:span_text="@{customer.mobileNo}" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Tracking Ref No: \n 0-NS NORMALSALE"
+                            android:text="Tracking Ref No: \n0-NS NORMALSALE"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_12" />
                     </LinearLayout>
@@ -177,8 +205,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_next_level"
-                    android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}"/>
+                    android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}"
+                    android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -187,8 +215,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_dp"
             android:layout_below="@+id/customer_layout"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/customer_doctor_divider" />
 
         <LinearLayout
@@ -202,44 +230,122 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_doctor_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_18"
+                android:textSize="@dimen/text_dimen_16"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_registration_number_id"
-                android:textColor="@color/customer_header_text"
-                android:textSize="@dimen/text_dimen_13" />
+                android:orientation="vertical"
+                android:visibility="@{doctor != null ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/label_registration_number_id"
+                    android:textColor="@color/customer_header_text"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="@drawable/rectangular_shape"
+                    android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_search_by_registration_number"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:src="@drawable/ic_search" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginTop="@dimen/five_dp"
-                android:background="@drawable/rectangular_shape"
-                android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:visibility="@{doctor == null ? View.GONE : View.VISIBLE}">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_search_by_registration_number"
-                    android:textSize="@dimen/text_dimen_13" />
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
+                            app:full_text="@{@string/label_generic_doctor_reg_no(doctor.code)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoMedium`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{doctor.code}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
+                            app:full_text="@{@string/label_generic_sales_origin(sales.displayText)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoMedium`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{sales.displayText}" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_12"
+                        app:full_text="@{@string/label_generic_doctor_name(doctor.displayText)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoMedium`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{doctor.displayText}" />
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_seven_dp"
+                    android:layout_height="@dimen/twenty_seven_dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search" />
+                    android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}"
+                    android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -248,8 +354,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_dp"
             android:layout_below="@+id/doctor_layout"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/customer_doctor_divider" />
 
         <LinearLayout
@@ -263,44 +369,104 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_corporate_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_18"
+                android:textSize="@dimen/text_dimen_16"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_registration_number_id"
-                android:textColor="@color/customer_header_text"
-                android:textSize="@dimen/text_dimen_13" />
+                android:orientation="vertical"
+                android:visibility="@{corporate != null ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/label_registration_number_id"
+                    android:textColor="@color/customer_header_text"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="@drawable/rectangular_shape"
+                    android:onClick="@{()-> callbacks.onCorporateSearchClick()}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_search_by_registration_number"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:paddingStart="@dimen/five_dp"
+                        android:paddingEnd="@dimen/five_dp"
+                        android:src="@drawable/ic_search" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginTop="@dimen/five_dp"
-                android:background="@drawable/rectangular_shape"
-                android:onClick="@{()-> callbacks.onCorporateSearchClick()}"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:visibility="@{corporate == null ? View.GONE : View.VISIBLE}">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_search_by_registration_number"
-                    android:textSize="@dimen/text_dimen_13" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_12"
+                        app:full_text="@{@string/label_generic_corporate_no(corporate.code)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoMedium`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{corporate.code}" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingEnd="@dimen/thirty_dp"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_12"
+                        app:full_text="@{@string/label_generic_corporate_name(corporate.description)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoMedium`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{corporate.description}" />
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_seven_dp"
+                    android:layout_height="@dimen/twenty_seven_dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search" />
+                    android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}"
+                    android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -311,6 +477,8 @@
             android:layout_alignParentBottom="true"
             android:alpha="0.3"
             android:background="@color/cpb_yellow"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()->callbacks.onContinueBtnClick()}"
             android:text="@string/label_continue"
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"

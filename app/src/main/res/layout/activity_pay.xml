@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.pay.PayMvpPresenter" />
+        <variable
+            name="paymentMode"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel" />
     </data>
 
     <RelativeLayout
@@ -57,11 +60,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/action_bar"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="-2dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="@dimen/forty_five_dp">
+            android:layout_marginBottom="@dimen/forty_five_dp"
+            android:layout_below="@+id/action_bar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +69,8 @@
                 android:background="@color/search_customer_bg"
                 android:orientation="vertical">
 
-                <include layout="@layout/view_customer_doctor_info" />
+                <include
+                    layout="@layout/view_customer_doctor_info"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -92,7 +93,7 @@
                         android:layout_height="@dimen/eighteen_dp"
                         android:layout_alignParentEnd="true"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_edit_view" />
+                        android:src="@drawable/ic_edit_view"/>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -231,9 +232,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_additional_discount"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_13" />
+                        android:textSize="@dimen/text_dimen_13"
+                        android:text="Additional Discount : "
+                        android:textColor="@color/black"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -248,14 +249,14 @@
                         android:textColor="@color/white" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:background="@color/colorPrimary"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/ten_dp"
-                    android:weightSum="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/five_dp"
+           android:padding="@dimen/ten_dp"
+            android:background="@color/colorPrimary"
+            android:weightSum="1">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -268,7 +269,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@string/label_amount_payable"
+                            android:text="amount payable: "
                             android:textAllCaps="true"
                             android:textColor="@color/white" />
                     </RelativeLayout>
@@ -298,6 +299,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/pay_amount"
                     android:layout_width="match_parent"
@@ -320,8 +322,8 @@
                         android:layout_width="@dimen/fifteen_dp"
                         android:layout_height="@dimen/fifteen_dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/fifteen_dp"
                         android:contentDescription="@string/app_name"
+                        android:layout_marginStart="@dimen/fifteen_dp"
                         android:src="@drawable/ic_alert_error" />
 
                     <TextView
@@ -331,7 +333,7 @@
                         android:layout_marginStart="@dimen/fifteen_dp"
                         android:layout_toEndOf="@id/image"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/label_balance_amount"
+                        android:text="balance amount: "
                         android:textAllCaps="true"
                         android:textColor="@color/white" />
 
@@ -343,8 +345,8 @@
                         android:layout_marginEnd="@dimen/three_dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="9.70"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
 
@@ -353,10 +355,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/twenty_dp"
+                    android:text="payment method"
                     android:layout_marginBottom="@dimen/five_dp"
-                    android:text="@string/label_payment_method"
-                    android:textAllCaps="true"
-                    android:textColor="@color/payment_type_header" />
+                    android:textColor="@color/payment_type_header"
+                    android:textAllCaps="true" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -367,96 +369,100 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_payment_progress"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:onClick="@{()-> callback.onClickCashPayment()}"
+                        android:background="@{paymentMode.isCashMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}">
 
                         <ImageView
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/thirty_dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_cash_black"
-                            android:tint="@color/white" />
+                            android:tint="@color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_cash"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
+                            android:text="Cash"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:textSize="@dimen/text_dimen_13"
+                            android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_marginStart="@dimen/eight_dp"
                         android:layout_marginEnd="@dimen/eight_dp"
-                        android:background="@drawable/bg_payment_pending"
-                        android:orientation="vertical">
+                        android:background="@{paymentMode.isCardMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                        android:onClick="@{()-> callback.onClickCardPayment()}">
 
                         <ImageView
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/thirty_dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_card_black"
-                            android:tint="@color/white" />
+                            android:tint="@color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_card"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
+                            android:text="Card"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:textSize="@dimen/text_dimen_13"
+                            android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:background="@drawable/bg_payment_pending"
-                        android:orientation="vertical">
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/thirty_dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_wallet_black"
-                            android:tint="@color/white" />
+                            android:tint="@color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Wallet"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
+                            android:text="Wallet"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:textSize="@dimen/text_dimen_13"
+                            android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_marginStart="@dimen/eight_dp"
                         android:background="@drawable/bg_payment_pending"
-                        android:orientation="vertical">
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/thirty_dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_other_black"
-                            android:tint="@color/white" />
+                            android:tint="@color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_other"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
+                            android:text="Other"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:textSize="@dimen/text_dimen_13"
+                            android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -464,20 +470,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_marginBottom="@dimen/ten_dp"
                     android:background="@color/white"
+                    android:layout_marginBottom="@dimen/ten_dp"
                     android:gravity="center_horizontal"
-                    android:padding="@dimen/ten_dp">
+                    android:padding="@dimen/ten_dp"
+                    android:visibility="@{paymentMode.isCashMode ? View.VISIBLE : View.GONE }">
 
                     <TextView
                         android:id="@+id/cash_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:text="cash payment: "
                         android:layout_marginEnd="@dimen/ten_dp"
-                        android:text="@string/label_cash_payment"
-                        android:textAllCaps="true"
-                        android:textColor="@color/add_item_header" />
+                        android:textColor="@color/add_item_header"
+                        android:textAllCaps="true" />
 
                     <EditText
                         android:id="@+id/edit_payment"
@@ -487,9 +494,9 @@
                         android:layout_toEndOf="@+id/cash_payment"
                         android:background="@drawable/rounded_corners_white"
                         android:fontFamily="@font/roboto_bold"
-                        android:gravity="end"
-                        android:padding="@dimen/five_dp"
-                        android:textColor="@color/black" />
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:inputType="number"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -506,6 +513,51 @@
                         android:text="Update"
                         android:textColor="@color/white" />
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:background="@color/white"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/ten_dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{paymentMode.isCardMode ? View.VISIBLE : View.GONE }">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="card payment: "
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:textColor="@color/add_item_header"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"/>
+
+                    <EditText
+                        android:id="@+id/card_payment_amount_edit_text"
+                        android:layout_width="@dimen/eighty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:background="@drawable/rounded_corners_white"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:inputType="number"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:background="@drawable/bg_apply_btn"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingStart="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingEnd="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:text="Pay"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{()-> callback.onClickCardPaymentPay()}"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
@@ -518,7 +570,8 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="Generate Bill"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

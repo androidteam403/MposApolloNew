@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacist.ui.corporatedetails.adapter;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -10,17 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ViewCorporateItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 
 import java.util.ArrayList;
 
-public class CorporateDetailAdapter extends RecyclerView.Adapter<CorporateDetailAdapter.ViewHolder> {
+public class CorporateDetailAdapter extends RecyclerView.Adapter<CorporateDetailAdapter.ViewHolder> implements Filterable {
     private Activity activity;
-    private ArrayList<CorporateModel.DropdownValueBean> corporateModelArrayList;
+    private ArrayList<CorporateModel.DropdownValueBean> corporateArrayList;
+    private ArrayList<CorporateModel.DropdownValueBean> filteredCorporateArrayList;
+    private CorporateDetailsMvpView corporateMvpView;
 
-    public CorporateDetailAdapter(Activity activity, ArrayList<CorporateModel.DropdownValueBean> corporateModelArrayList) {
+    public CorporateDetailAdapter(Activity activity, ArrayList<CorporateModel.DropdownValueBean> corporateArrayList) {
         this.activity = activity;
-        this.corporateModelArrayList = corporateModelArrayList;
+        this.corporateArrayList = corporateArrayList;
+        filteredCorporateArrayList = corporateArrayList;
     }
 
     @NonNull
@@ -33,9 +39,43 @@ public class CorporateDetailAdapter extends RecyclerView.Adapter<CorporateDetail
 
     @Override
     public void onBindViewHolder(@NonNull CorporateDetailAdapter.ViewHolder holder, int position) {
-        CorporateModel.DropdownValueBean item = corporateModelArrayList.get(position);
+        CorporateModel.DropdownValueBean item = filteredCorporateArrayList.get(position);
         holder.viewCorporateItemBinding.setModel(item);
+        holder.itemView.setOnClickListener(v -> {
+            if(corporateMvpView != null){
+                corporateMvpView.onClickCorporateItem(item);
+            }
+        });
+    }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredCorporateArrayList = corporateArrayList;
+                } else {
+                    ArrayList<CorporateModel.DropdownValueBean> filteredList = new ArrayList<>();
+                    for (CorporateModel.DropdownValueBean row : corporateArrayList) {
+                        if (row.getDescription().contains(charString.toUpperCase()) || row.getCode().contains(charString.toUpperCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    filteredCorporateArrayList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredCorporateArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredCorporateArrayList = (ArrayList<CorporateModel.DropdownValueBean>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,6 +89,10 @@ public class CorporateDetailAdapter extends RecyclerView.Adapter<CorporateDetail
 
     @Override
     public int getItemCount() {
-        return corporateModelArrayList.size();
+        return filteredCorporateArrayList.size();
+    }
+
+    public void setClickListener(CorporateDetailsMvpView listener){
+        this.corporateMvpView = listener;
     }
 }

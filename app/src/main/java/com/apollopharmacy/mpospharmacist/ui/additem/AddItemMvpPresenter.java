@@ -11,4 +11,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onBarCodeSearchClick();
 
     void onClickBackPressed();
+
+    void onClickClearAllBtn();
+
+    void onPayButtonClick();
 }

@@ -9,26 +9,32 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.tiper.MaterialSpinner;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import androidx.databinding.DataBindingUtil;
 
 public class PharmacistLoginActivity extends BaseActivity implements PharmacistLoginMvpView {
     @Inject
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
     String strFont = null;
     private ActivityPharmacistLoginBinding pharmacistLoginBinding;
-
+    private boolean isSelectCampaign = false;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, PharmacistLoginActivity.class);
     }
@@ -36,9 +42,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
         pharmacistLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_pharmacist_login);
         getActivityComponent().inject(this);
         mPresenter.onAttach(PharmacistLoginActivity.this);
@@ -49,22 +52,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
-
-
-//        ArrayAdapter<SelectCampaignModel> adapter1 = new ArrayAdapter<SelectCampaignModel>(this,
-//                android.R.layout.simple_spinner_dropdown_item, getSelectCampaignModelTypes());
-//        strFont = this.getString(R.font.roboto_regular);
-//        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-//        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
-//        pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
-//
-//        pharmacistLoginBinding.selectCampaign.setOnItemClickListener(new MaterialSpinner.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(@NotNull MaterialSpinner materialSpinner, @Nullable View view, int i, long l) {
-//                materialSpinner.focusSearch(View.FOCUS_DOWN);
-//            }
-//        });
-
         mPresenter.getUserId();
     }
 
@@ -88,11 +75,17 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         mPresenter.onDetach();
     }
 
-
     @Override
     public void onClickLogin() {
         if (validations()) {
-            mPresenter.userLoginApi();
+            int radioButtonID = pharmacistLoginBinding.radioGroup.getCheckedRadioButtonId();
+            View radioButton = pharmacistLoginBinding.radioGroup.findViewById(radioButtonID);
+            int idx = pharmacistLoginBinding.radioGroup.indexOfChild(radioButton);
+            if(idx == 0) {
+                  mPresenter.userLoginInStoreApi();
+            }else{
+                mPresenter.userLoginCampaignApi();
+            }
         }
     }
 
@@ -104,8 +97,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void onCampaignSelect() {
-        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
-        pharmacistLoginBinding.relativeInfo.setVisibility(View.VISIBLE);
+
     }
 
     @SuppressLint("ResourceType")
@@ -122,6 +114,24 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
             pharmacistLoginBinding.selectUser.setError(null);
         });
     }
+    @SuppressLint("ResourceType")
+    @Override
+    public void setCampaignDetails(CampaignDetailsRes campaignDetails) {
+        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails());
+        strFont = this.getString(R.font.roboto_regular);
+        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
+        pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
+
+        pharmacistLoginBinding.selectCampaign.setOnItemClickListener((materialSpinner, view, i, l) -> {
+            pharmacistLoginBinding.relativeInfo.setVisibility(View.VISIBLE);
+            pharmacistLoginBinding.selectCampaign.setVisibility(View.GONE);
+            pharmacistLoginBinding.setCampaign((CampaignDetailsRes.CampDetailsEntity) materialSpinner.getSelectedItem());
+            materialSpinner.focusSearch(View.FOCUS_DOWN);
+        });
+        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void userLoginSuccess(LoginResModel loginResModel) {
@@ -131,8 +141,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     @Override
-    public void userLoginFailed() {
-
+    public void userLoginFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

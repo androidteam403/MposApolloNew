@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.MedicineDetailsAdapterBinding;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
 
 public class MedicinesDetailAdapter extends RecyclerView.Adapter<MedicinesDetailAdapter.ViewHolder> {
     private Activity activity;
-    private ArrayList<MedicineDetailsModel> medicineDetailsModelArrayList;
+    private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList;
 
-    public MedicinesDetailAdapter(Activity activity, ArrayList<MedicineDetailsModel> medicineDetailsModelArrayList) {
+    public MedicinesDetailAdapter(Activity activity, ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList) {
         this.activity = activity;
         this.medicineDetailsModelArrayList = medicineDetailsModelArrayList;
     }
@@ -33,8 +34,8 @@ public class MedicinesDetailAdapter extends RecyclerView.Adapter<MedicinesDetail
 
     @Override
     public void onBindViewHolder(@NonNull MedicinesDetailAdapter.ViewHolder holder, int position) {
-        MedicineDetailsModel item = medicineDetailsModelArrayList.get(position);
-        holder.medicineDetailsAdapterBinding.setMedicineModel(item);
+        GetItemDetailsRes.Items item = medicineDetailsModelArrayList.get(position);
+        holder.medicineDetailsAdapterBinding.setProduct(item);
 
     }
 

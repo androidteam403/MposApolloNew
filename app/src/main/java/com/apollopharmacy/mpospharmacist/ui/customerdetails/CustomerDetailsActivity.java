@@ -27,11 +27,13 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     public static Intent getStartIntent(Context context) {
         return new Intent(context, CustomerDetailsActivity.class);
     }
-    public static Intent getStartIntent(Context context,GetCustomerResponse.CustomerEntity customerEntity) {
+
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity) {
         Intent intent = new Intent(context, CustomerDetailsActivity.class);
-        intent.putExtra("customer_info",customerEntity);
+        intent.putExtra("customer_info", customerEntity);
         return intent;
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,6 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.setCustomer(customerEntity);
             }
         }
-
     }
 
     @Override
@@ -66,10 +67,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public String getCustomerNumber() {
-        if(TextUtils.isEmpty(Objects.requireNonNull(customerDetailsBinding.customerNumberEdit.getText()).toString())){
+        if (TextUtils.isEmpty(Objects.requireNonNull(customerDetailsBinding.customerNumberEdit.getText()).toString())) {
             setCustomerErrorMessage();
             return null;
-        }else{
+        } else {
             customerDetailsBinding.phoneNumber.setError(null);
         }
         return customerDetailsBinding.customerNumberEdit.getText().toString();
@@ -82,23 +83,28 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onSuccessCustomerSearch(GetCustomerResponse body) {
-        if(body.get_Customer().size() > 0){
-            customerDetailsBinding.setCustomer(body.get_Customer().get(0));
+        if (body.get_Customer().size() > 0) {
+            GetCustomerResponse.CustomerEntity customerEntity = body.get_Customer().get(0);
+            customerEntity.setSearchId(getCustomerNumber());
+            customerDetailsBinding.setCustomer(customerEntity);
+            customerDetailsBinding.setNoUser(false);
+        } else {
+            customerDetailsBinding.setNoUser(true);
         }
     }
 
     @Override
     public void onFailedCustomerSearch() {
-
+        customerDetailsBinding.setNoUser(true);
     }
 
     @Override
     public void onSubmitBtnClick(GetCustomerResponse.CustomerEntity customerEntity) {
         Intent returnIntent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("customer_info",customerEntity);
+        bundle.putSerializable("customer_info", customerEntity);
         returnIntent.putExtras(bundle);
-        setResult(Activity.RESULT_OK,returnIntent);
+        setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 

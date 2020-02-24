@@ -5,8 +5,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-
         <item name="android:windowBackground">@drawable/splash_bg_img</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -52,6 +50,8 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
     </style>
 
     <style name="ErrorText" parent="TextAppearance.Design.Error">
@@ -74,8 +74,34 @@
         <item name="android:textSize">@dimen/text_dimen_14</item>
     </style>
 
-<!--      navigation iten theme-->
+    <!--      navigation iten theme-->
     <style name="NavigationTheme" parent="AppTheme">
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="NewEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+    <style name="LoginEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 </resources>

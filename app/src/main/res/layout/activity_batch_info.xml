@@ -24,6 +24,7 @@
                 android:contentDescription="@string/app_name"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
+                android:onClick="@{()-> callback.onActionBarBackPressed()}"
                 android:alpha="0.8"
                 android:src="@drawable/ic_back_arrow" />
 

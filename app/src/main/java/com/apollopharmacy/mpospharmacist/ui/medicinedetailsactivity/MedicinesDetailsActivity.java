@@ -21,6 +21,7 @@ import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.Medici
 import com.apollopharmacy.mpospharmacist.ui.pay.PayActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.adapter.ProductInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductInfoPojo;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 
@@ -35,19 +36,20 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
     @Inject
     MedicineDetailsMvpPresenter<MedicineDetailsMvpView> mvpPresenter;
     private MedicineDetailsActivityBinding medicinesDetailsActivityBinding;
-    private ArrayList<MedicineDetailsModel> medicineDetailsModelsList = null;
+    private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
     private MedicinesDetailAdapter medicinesDetailAdapter;
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, MedicinesDetailsActivity.class);
+    public static Intent getStartIntent(Context context, GetItemDetailsRes.Items items) {
+        Intent intent = new Intent(context, MedicinesDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("selected_item",items);
+        intent.putExtras(bundle);
+        return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
         medicinesDetailsActivityBinding = DataBindingUtil.setContentView(this, R.layout.medicine_details_activity);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(MedicinesDetailsActivity.this);
@@ -57,7 +59,8 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
     @Override
     protected void setUp() {
         medicinesDetailsActivityBinding.setCallback(mvpPresenter);
-        getMedicinesInfo();
+        GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
+        medicineDetailsModelsList.add(items);
         if (medicineDetailsModelsList.size() > 0) {
             medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -85,39 +88,6 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
         }
     }
 
-    private void getMedicinesInfo() {
-        medicineDetailsModelsList = new ArrayList<>();
-        MedicineDetailsModel medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-        medicineDetailsModel = new MedicineDetailsModel("1.00", "10", "9.70",
-                "Tax:1.04(12%)");
-        medicineDetailsModelsList.add(medicineDetailsModel);
-    }
 
     @Override
     public void onManualSearchClick() {

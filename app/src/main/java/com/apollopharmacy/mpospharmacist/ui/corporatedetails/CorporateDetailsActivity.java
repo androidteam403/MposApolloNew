@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.corporatedetails;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -21,6 +22,8 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityCorporateDetailsBin
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.adapter.CorporateDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
@@ -42,6 +45,12 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
         return new Intent(context, CorporateDetailsActivity.class);
     }
 
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateEntity) {
+        Intent intent = new Intent(context, CorporateDetailsActivity.class);
+        intent.putExtra("corporate_info", corporateEntity);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,24 +64,24 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     protected void setUp() {
         corporateDetailsBinding.setCallback(mPresenter);
         mPresenter.getCorporateList();
-//        corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (count >= 3) {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (corporateDetailAdapter != null) {
+                    corporateDetailAdapter.getFilter().filter(s);
+                }
+            }
+        });
     }
 
     @Override
@@ -89,6 +98,7 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
         corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         corporateDetailsBinding.corporateRecyclerView.setLayoutManager(mLayoutManager);
+        corporateDetailAdapter.setClickListener(this);
         corporateDetailsBinding.corporateRecyclerView.setAdapter(corporateDetailAdapter);
     }
 
@@ -96,6 +106,16 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     public void showNotFoundCorporate() {
         corporateDetailsBinding.corporateRecyclerView.setVisibility(View.GONE);
         corporateDetailsBinding.noCorporateFound.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClickCorporateItem(CorporateModel.DropdownValueBean item) {
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("corporate_info", item);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     @Override

@@ -43,7 +43,9 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.searchuser.SearchUserActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -54,10 +56,12 @@
         </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" >
+
+        </activity>
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
@@ -67,14 +71,14 @@
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
-        android:windowSoftInputMode="stateAlwaysHidden">
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
     </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-
-        </activity>
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.batchonfo.BatchInfoActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -102,14 +106,22 @@
         </activity>
         <activity
             android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
-        </activity>
+        <!-- Ezetap provides -->
+        <provider
+            android:name="com.ezetap.sdk.EzetapFileProvider"
+            android:authorities="${applicationId}.EzetapFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -119,4 +131,6 @@
     <uses-permission android:name="com.google.android.permission.gsf.permission" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 </manifest>

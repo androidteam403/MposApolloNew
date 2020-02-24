@@ -5,4 +5,10 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 public interface PayMvpPresenter<V extends PayMvpView> extends MvpPresenter<V> {
 
     void NavigateToHomeScreen();
+
+    void onClickCardPayment();
+
+    void onClickCashPayment();
+
+    void onClickCardPaymentPay();
 }

@@ -29,4 +29,9 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
     public void onNavigateNextActivity() {
         getMvpView().onNavigateNextActivity();
     }
+
+    @Override
+    public void onActionBarBackPressed() {
+        getMvpView().onClickBackPressed();
+    }
 }

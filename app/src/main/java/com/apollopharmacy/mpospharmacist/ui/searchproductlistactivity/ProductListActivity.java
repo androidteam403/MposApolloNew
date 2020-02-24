@@ -3,7 +3,11 @@ package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -16,9 +20,11 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -28,10 +34,10 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Inject
     ProductListMvpPresenter<ProductListMvpView> productListMvpPresenter;
     ProductListActivityBinding productListActivityBinding;
-
-    private ArrayList<ProductList> productLists = null;
     private ProductListAdapter productListAdapter;
-
+    private ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
+    private boolean isLoadApi = false;
+    private int ACTIVITY_RESULT_FOR_BATCH_INFO = 103;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, ProductListActivity.class);
     }
@@ -39,9 +45,6 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-              getSupportActionBar().hide();
-        }
         productListActivityBinding = DataBindingUtil.setContentView(this, R.layout.product_list_activity);
         getActivityComponent().inject(this);
         productListMvpPresenter.onAttach(ProductListActivity.this);
@@ -51,60 +54,43 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void setUp() {
         productListActivityBinding.setCallback(productListMvpPresenter);
-        getProductInfo();
-        if (productLists.size() > 0) {
-            productListAdapter = new ProductListAdapter(this, productLists);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-            productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
-            productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-            productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-            productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
-            productListAdapter.setClickListiner(this);
-            productListActivityBinding.productRecycler.setAdapter(productListAdapter);
-        }
+        productListAdapter = new ProductListAdapter(this, itemsArrayList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        productListAdapter.setClickListiner(this);
+        productListActivityBinding.productRecycler.setAdapter(productListAdapter);
+        productListActivityBinding.searchProductEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() == 3 && isLoadApi){
+                    productListMvpPresenter.getProductDetails();
+                }else if(s.length() >= 3){
+                    productListAdapter.getFilter().filter(s);
+                }else{
+                    if(s.length() == 0){
+                        updateProductsCount(0);
+                        itemsArrayList.clear();
+                        productListAdapter.notifyDataSetChanged();
+                    }
+                    isLoadApi = true;
+                }
+            }
+        });
     }
 
-    private void getProductInfo() {
-        productLists = new ArrayList<>();
-        ProductList productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-        productListPojo = new ProductList("Art Code\nDOL001", "Description\nDoloBank Tab",
-                "Category\nPharma", "Sub Category\nTablet", "Manufacture\nMicro Labs",
-                "Generic Name\n-----");
-        productLists.add(productListPojo);
-
-
-    }
 
     @Override
     public void onClickBackBtn() {
@@ -112,14 +98,65 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     }
 
     @Override
-    public void onClickProductItem(ProductList item) {
-        startActivity(BatchInfoActivity.getStartIntent(this));
+    public void onClickProductItem(GetItemDetailsRes.Items item) {
+        startActivityForResult(BatchInfoActivity.getStartIntent(this,item),ACTIVITY_RESULT_FOR_BATCH_INFO);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+    }
+
+    @Override
+    public String getSearchProductKey() {
+        if (TextUtils.isEmpty(Objects.requireNonNull(productListActivityBinding.searchProductEditText.getText()).toString())) {
+            setEmptyErrorOnSearch("Enter product Name");
+            return null;
+        } else {
+            productListActivityBinding.inputLayoutSearch.setError(null);
+        }
+        return productListActivityBinding.searchProductEditText.getText().toString();
+    }
+
+    @Override
+    public void setEmptyErrorOnSearch(String message) {
+        productListActivityBinding.inputLayoutSearch.setError(message);
+    }
+
+    @Override
+    public void onSuccessGetItems(GetItemDetailsRes itemDetailsRes) {
+        isLoadApi = false;
+        updateProductsCount(itemDetailsRes.getItemList().size());
+        itemsArrayList.addAll(itemDetailsRes.getItemList()) ;
+        productListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailedGetItems(GetItemDetailsRes itemDetailsRes) {
+
+    }
+
+    @Override
+    public void updateProductsCount(int count) {
+        productListActivityBinding.setProductCount(count);
     }
 
     @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == ACTIVITY_RESULT_FOR_BATCH_INFO){
+                if(data != null) {
+                    GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
+                    Intent intent = new Intent();
+                    intent.putExtra("selected_item", items);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        }
     }
 }

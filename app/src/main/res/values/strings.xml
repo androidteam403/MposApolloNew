@@ -32,13 +32,13 @@
     <string name="label_span_tax">TAX: %1$s</string>
     <string name="label_span_reqQty">ReqQty: %1$s</string>
 
-    <string name="label_generic_name"> Name: %s</string>
-    <string name="label_generic_gender"> Gender: %s</string>
-    <string name="label_generic_phone_number"> Phone number: %s</string>
-    <string name="label_generic_phone_no"> Phone No.: %s</string>
-    <string name="label_generic_dob"> DOB: %s</string>
-    <string name="label_generic_card_no">Card Number : %s</string>
-    <string name="label_generic_tel">Telephone : %s</string>
+    <string name="label_generic_name"> Name: \n%1$s</string>
+    <string name="label_generic_gender"> Gender: \n%1$s</string>
+    <string name="label_generic_phone_number"> Phone number: \n%1$s</string>
+    <string name="label_generic_phone_no"> Phone No.: \n%1$s</string>
+    <string name="label_generic_dob"> DOB: \n%1$s</string>
+    <string name="label_generic_card_no">Card Number : \n%1$s</string>
+    <string name="label_generic_tel">Telephone : \n%1$s</string>
 
     <string name="label_site_id"> Site Id:</string>
 
@@ -141,7 +141,7 @@
     <string name="label_siteaddress">SiteAddress</string>
     <string name="label_dcid">DcId</string>
     <string name="label_dcname">DcName</string>
-    <string name="label_selectuser">SelectUser</string>
+    <string name="label_selectuser">Select User</string>
     <string name="todo">TODO</string>
     <string name="label_loginoptions">LoginOptions:</string>
     <string name="label_instore">In Store</string>
@@ -151,6 +151,7 @@
     <string name="label_admin_login">ADMIN LOGIN</string>
     <string name="login">LOGIN</string>
     <string name="label_pharmacist_login">Pharmacist Login</string>
+    <string name="label_campaign_name">Campaign Name:</string>
     <string name="label_campaign_id">Campaign Id:</string>
     <string name="label_6255487">6255487</string>
     <string name="label_address">Address:</string>
@@ -166,7 +167,7 @@
     <string name="label_new_order">New Order</string>
     <string name="label_10001936">#10001936</string>
     <string name="label_search_for_items">Search for Items</string>
-    <string name="label_5_items_found">5 Items Found</string>
+    <string name="label_5_items_found">%1$s Items Found</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -226,6 +227,23 @@
     <string name="label_required_qty">Required Quantity</string>
     <string name="label_add_medicines">Add Medicines:</string>
     <string name="label_clear_all_txt">Clear All:</string>
+    <string name="label_select_doctor">Select Doctor</string>
+    <string name="label_sales_origin">Select Sales Origin</string>
+    <string name="label_search_by_doctor_name">Search by doctor name</string>
+
+    <string name="label_product_art_code">Art Code\n%1$s</string>
+    <string name="label_product_description">Description\n%1$s</string>
+    <string name="label_product_category">Category\n%1$s</string>
+    <string name="label_product_sub_category">Sub Category\n%1$s</string>
+    <string name="label_product_manufacturer">Manufacturer\n%1$s</string>
+    <string name="label_product_Generic_name">Generic Name\n%1$s</string>
+    <string name="label_generic_doctor_reg_no">Doctor Reg.No\n%1$s</string>
+    <string name="label_generic_doctor_name">Doctor Name:\n%1$s</string>
+    <string name="label_generic_sales_origin">Sales Origin\n%1$s</string>
+    <string name="label_generic_corporate_no">Corporate No.\n%1$s</string>
+    <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
+    <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
+    <string name="label_generic_new_order">New Order  %1$s</string>
     <string name="label_additional_discount">Additional Discount :</string>
     <string name="label_balance_amount">balance amount:</string>
     <string name="label_cash_payment">cash payment:</string>

@@ -5,6 +5,7 @@ import android.app.Application;
 
 import androidx.fragment.app.Fragment;
 
+import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
 import com.apollopharmacy.mpospharmacist.root.ApolloMposApp;
 
 import io.realm.Realm;
@@ -56,5 +57,11 @@ public class RealmController {
     public void refresh() {
 
         realm.refresh();
+    }
+
+    //query a single item with the given id
+    public Cart getCartTransaction(String id) {
+
+        return realm.where(Cart.class).equalTo("transactionId", id).findFirst();
     }
 }

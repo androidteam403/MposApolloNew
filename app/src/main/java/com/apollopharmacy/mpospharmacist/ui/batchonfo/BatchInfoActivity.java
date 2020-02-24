@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter.BatchInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
 
@@ -35,8 +36,12 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     private ArrayList<BatchInfoAdapterPojo> arrBatchList = null;
     private int count = 0;
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, BatchInfoActivity.class);
+    public static Intent getStartIntent(Context context, GetItemDetailsRes.Items items) {
+        Intent intent = new Intent(context, BatchInfoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("selected_item",items);
+        intent.putExtras(bundle);
+        return intent;
     }
 
     @Override
@@ -83,8 +88,26 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     @Override
     public void onNavigateNextActivity() {
-        startActivity(MedicinesDetailsActivity.getStartIntent(this));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
+        Intent intent = new Intent();
+        intent.putExtra("selected_item", items);
+        setResult(RESULT_OK, intent);
+        finish();
+
+//        startActivity(MedicinesDetailsActivity.getStartIntent(this,items));
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//        finish();
+    }
+
+    @Override
+    public void onClickBackPressed() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
     @Override

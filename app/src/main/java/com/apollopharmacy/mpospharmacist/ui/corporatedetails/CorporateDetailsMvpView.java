@@ -10,4 +10,6 @@ public interface CorporateDetailsMvpView extends MvpView {
     void getCorporateList(CorporateModel corporateModel);
 
     void showNotFoundCorporate();
+
+    void onClickCorporateItem(CorporateModel.DropdownValueBean item);
 }

@@ -21,27 +21,7 @@ public class AddCustomerModel {
     private String cardNumber;
     private String dateOfRegistration;
 
-    public AddCustomerModel(String firstName, String middleName, String lastName, String age, String gender, String dob, String postalAddress, String city, String state, String district, String zipCode, String email, String telephone, String mobile, String anniversary, String maritalStatus, String numberOfDependents, String cardNumber, String dateOfRegistration) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.age = age;
-        this.gender = gender;
-        this.dob = dob;
-        this.postalAddress = postalAddress;
-        this.city = city;
-        this.state = state;
-        this.district = district;
-        this.zipCode = zipCode;
-        this.email = email;
-        this.telephone = telephone;
-        this.mobile = mobile;
-        this.anniversary = anniversary;
-        this.maritalStatus = maritalStatus;
-        this.numberOfDependents = numberOfDependents;
-        this.cardNumber = cardNumber;
-        this.dateOfRegistration = dateOfRegistration;
-    }
+
 
     public String getFirstName() {
         return firstName;

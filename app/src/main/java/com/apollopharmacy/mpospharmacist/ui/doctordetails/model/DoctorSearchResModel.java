@@ -1,8 +1,11 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class DoctorSearchResModel {
@@ -28,7 +31,7 @@ public class DoctorSearchResModel {
         return _DropdownValue;
     }
 
-    public static class DropdownValueBean {
+    public static class DropdownValueBean implements Serializable {
         @Expose
         @SerializedName("code")
         private String code;
@@ -41,6 +44,11 @@ public class DoctorSearchResModel {
         }
 
         public String getDisplayText() {
+            return displayText;
+        }
+
+        @Override
+        public String toString() {
             return displayText;
         }
     }
