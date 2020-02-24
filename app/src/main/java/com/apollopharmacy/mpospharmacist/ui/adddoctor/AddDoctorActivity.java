@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddDoctorBinding;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
@@ -46,7 +47,7 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     }
 
     @Override
-    public void onSubmitClick() {
+    public void onSubmitBtnClick() {
         if (validate()) {
             Toast.makeText(this, "You submitted", Toast.LENGTH_SHORT).show();
         }
@@ -55,6 +56,16 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     public void onClickBackPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public void addDoctorSuccess(AddDoctorResModel addDoctorResModel) {
+
+    }
+
+    @Override
+    public void addDoctorFailed(String errMsg) {
+
     }
 
     private boolean validate() {

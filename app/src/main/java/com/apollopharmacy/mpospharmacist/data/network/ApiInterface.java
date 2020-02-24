@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -49,7 +51,7 @@ public interface ApiInterface {
     Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL(@Body GetCustomerRequest customerRequest);
 
     @POST("SalesTransactionService.svc/GetItemDetails")
-    Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL (@Body GetItemDetailsReq itemDetailsReq);
+    Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL(@Body GetItemDetailsReq itemDetailsReq);
 
     @POST("SalesTransactionService.svc/GetTrackingRefence/16001/AHEL")
     Call<CorporateModel> getCorporateList(@Body Object o);
@@ -62,5 +64,8 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetTransactionId")
     Call<TransactionIDResModel> GET_TRANSACTION_ID(@Body TransactionIDReqModel transactionIDReqModel);
+
+    @POST("SalesTransactionService.svc/DoctorCreation")
+    Call<AddDoctorResModel> ADD_DOCTOR_SERVICE(@Body AddDoctorReqModel addDoctorReqModel);
 
 }
