@@ -14,6 +14,7 @@ import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -29,6 +30,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -41,8 +44,8 @@ public interface ApiInterface {
     @POST("apollompos/Self/Registration")
     Call<DeviceSetupResModel> STORE_SETUP_CALL(@Body DeviceSetupReqModel setupReqModel);
 
-    @GET("apollompos/Self/CampaignDetails/16001")
-    Call<CampaignDetailsRes> CAMPAIGN_DETAILS_RES_CALL();
+    @GET("apollompos/Self/CampaignDetails/{storeId}")
+    Call<CampaignDetailsRes> CAMPAIGN_DETAILS_RES_CALL(@Path("storeId") String storeId);
 
     @POST("LoginService.svc/GetLoginUser/16001/AHEL")
     Call<UserModel> getUserIds(@Body Object o);
@@ -76,4 +79,8 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
     Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineRes.GenerateTenderLineResultEntity tenderLineReq);
+
+    @POST("SalesTransactionService.svc/GetGlobalConfigration/16001/ahel")
+    Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Body Object o);
+
 }

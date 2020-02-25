@@ -1,6 +1,10 @@
 package com.apollopharmacy.mpospharmacist.ui.storesetup.model;
 
-public class StoreSetupModel {
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
+
+public class StoreSetupModel extends BaseObservable {
 
     private String macId;
     private String deviceType;
@@ -41,19 +45,23 @@ public class StoreSetupModel {
         this.storeDate = storeDate;
     }
 
+    @Bindable
     public double getStoreLatitude() {
         return storeLatitude;
     }
 
     public void setStoreLatitude(double storeLatitude) {
         this.storeLatitude = storeLatitude;
+        notifyPropertyChanged(BR.storeLatitude);
     }
 
+    @Bindable
     public double getStoreLongitude() {
         return storeLongitude;
     }
 
     public void setStoreLongitude(double storeLongitude) {
         this.storeLongitude = storeLongitude;
+        notifyPropertyChanged(BR.storeLongitude);
     }
 }

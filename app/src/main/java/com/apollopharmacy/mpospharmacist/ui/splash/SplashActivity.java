@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.splash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -10,7 +11,9 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivitySplashBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
 
 import javax.inject.Inject;
 
@@ -32,23 +35,31 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
 
     @Override
     public void openLoginActivity() {
-        startActivity(MainActivity.getStartIntent(this));
-        finish();
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-    }
-
-    @Override
-    public void openAdminSetupActivity() {
         startActivity(PharmacistLoginActivity.getStartIntent(this));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
+    public void openAdminSetupActivity() {
+        startActivity(new Intent(this,NewAdminLoginSetUp.class));
+        finish();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
     public void openMainActivity() {
-//        Intent intent = MainActivity.getStartIntent(SplashActivity.this);
-//        startActivity(intent);
-//        finish();
+        Intent intent = MainActivity.getStartIntent(SplashActivity.this);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public void storeSetupActivity() {
+        startActivity(StoreSetupActivity.getStartIntent(this));
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 
     @Override

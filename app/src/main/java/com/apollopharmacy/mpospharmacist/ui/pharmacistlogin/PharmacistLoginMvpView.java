@@ -18,7 +18,7 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     void setCampaignDetails(CampaignDetailsRes campaignDetails);
 
-    void userLoginSuccess(LoginResModel loginResModel);
+    void userLoginSuccess();
 
     void userLoginFailed(String errMsg);
 

@@ -42,6 +42,8 @@ public class NewAdminLoginPresenter <V extends NewAdminLoginMvpView> extends Bas
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.body().isStatus()) {
+                            getDataManager().setAdminLoginId(getMvpView().getUserID());
+                            getDataManager().setAdminLoginFinish(true);
                             getMvpView().userLoginSuccess(response.body());
                         } else {
                             getMvpView().userLoginFailed(response.body().getMessage());
