@@ -1,23 +1,27 @@
 package com.apollopharmacy.mpospharmacist.ui.addcustomer;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddCustomerBinding;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -36,9 +40,12 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     private ArrayList<SpinnerPojo.State> arrStateSpinner;
     private ArrayList<SpinnerPojo.District> arrDistrictSpinner;
     private ArrayList<SpinnerPojo.MaritalStatus> arrMaritalSpinner;
+    private String requiredDOBFormat = "";
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, AddCustomerActivity.class);
+    public static Intent getStartIntent(Context context, String inputNumber) {
+        Intent intent = new Intent(context, AddCustomerActivity.class);
+        intent.putExtra("customer_number", inputNumber);
+        return intent;
     }
 
     @Override
@@ -53,6 +60,14 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     protected void setUp() {
         addCustomerBinding.setCallback(mPresenter);
+
+        if (getIntent() != null) {
+            String userInputNumber = (String) getIntent().getSerializableExtra("customer_number");
+            addCustomerBinding.mobile.setText(userInputNumber);
+        }
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        addCustomerBinding.dateOfRegistration.setText(df.format(c));
 
         ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_dropdown_item, getGender());
         addCustomerBinding.gender.setAdapter(genderSpinnerPojo);
@@ -101,6 +116,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             String selectedDate = "";
             c.set(year, monthOfYear, dayOfMonth);
             selectedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(c.getTime());
+            requiredDOBFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(c.getTime());
             addCustomerBinding.dateOfBirth.setText(selectedDate);
         }, mYear, mMonth, mDay);
         dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 365.25 * 18)));
@@ -110,8 +126,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onSubmitClick() {
         if (validate()) {
-            mPresenter.userSubmit();
-            startActivity(AddDoctorActivity.getStartIntent(this));
+            mPresenter.handleCustomerAddService();
         }
     }
 
@@ -173,18 +188,151 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     }
 
     @Override
-    public String getfirstName() {
+    public void addCustomerSuccess(AddCustomerResModel addCustomerResModel) {
+        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+        customerEntity.setSearchId(addCustomerResModel.getCustId());
+        customerEntity.setCardName(addCustomerResModel.getFirstName());
+        customerEntity.setCardNo(addCustomerResModel.getCardNumber());
+        customerEntity.setCorpId(addCustomerResModel.getCorpId());
+        customerEntity.setMobileNo(addCustomerResModel.getMobile());
+        customerEntity.setTelephoneNo(addCustomerResModel.getTelephone());
+
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("customer_info", customerEntity);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
+        Toast.makeText(this, addCustomerResModel.getReturnMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void addCustomerFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String getFirstName() {
         return (Objects.requireNonNull(addCustomerBinding.firstName.getText())).toString();
     }
 
     @Override
-    public String getmobile() {
+    public String getMiddleName() {
+        return (Objects.requireNonNull(addCustomerBinding.middleName.getText())).toString();
+    }
+
+    @Override
+    public String getLastName() {
+        return (Objects.requireNonNull(addCustomerBinding.lastName.getText())).toString();
+    }
+
+    @Override
+    public int getAge() {
+        if (addCustomerBinding.age.getText().toString().trim().isEmpty()) {
+            return 0;
+        } else {
+            return Integer.parseInt(addCustomerBinding.age.getText().toString());
+        }
+    }
+
+    @Override
+    public String getGenderOption() {
+        if (addCustomerBinding.gender.getSelectedItem() == null) {
+            return "";
+        } else {
+            return addCustomerBinding.gender.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public String getMobile() {
         return (Objects.requireNonNull(addCustomerBinding.mobile.getText())).toString();
     }
 
     @Override
-    public String getcardNumber() {
+    public String getAnniversary() {
+        return (Objects.requireNonNull(addCustomerBinding.anniversary.getText())).toString();
+    }
+
+    @Override
+    public String getMaritalStatus() {
+        if (addCustomerBinding.maritalStatusSpinner.getSelectedItem() == null) {
+            return "";
+        } else {
+            return addCustomerBinding.maritalStatusSpinner.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public int getNumberOfDependants() {
+        if (addCustomerBinding.numberOfDependents.getText().toString().trim().isEmpty()) {
+            return 0;
+        } else {
+            return Integer.parseInt(addCustomerBinding.numberOfDependents.getText().toString());
+        }
+    }
+
+    @Override
+    public String getCardNumber() {
         return (Objects.requireNonNull(addCustomerBinding.cardNumber.getText())).toString();
+    }
+
+    @Override
+    public String getDateOfReg() {
+        return Objects.requireNonNull(addCustomerBinding.dateOfRegistration.getText()).toString();
+    }
+
+    @Override
+    public String getDOB() {
+        return requiredDOBFormat;
+    }
+
+    @Override
+    public String getPostalAddress() {
+        return Objects.requireNonNull(addCustomerBinding.postalAddress.getText()).toString();
+    }
+
+    @Override
+    public String getCityOption() {
+        if (addCustomerBinding.citySpinner.getSelectedItem() == null) {
+            return "";
+        } else {
+            return addCustomerBinding.citySpinner.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public String getStateOption() {
+        if (addCustomerBinding.stateSpinner.getSelectedItem() == null) {
+            return "";
+        } else {
+            return addCustomerBinding.stateSpinner.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public String getDistrictOption() {
+        if (addCustomerBinding.districtSpinner.getSelectedItem() == null) {
+            return "";
+        } else {
+            return addCustomerBinding.districtSpinner.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public String getZipCode() {
+        return Objects.requireNonNull(addCustomerBinding.zipCode.getText()).toString();
+    }
+
+    @Override
+    public String getEmail() {
+        return Objects.requireNonNull(addCustomerBinding.email.getText()).toString();
+    }
+
+    @Override
+    public String getTelephone() {
+        return Objects.requireNonNull(addCustomerBinding.telephone.getText()).toString();
     }
 
     private ArrayList<SpinnerPojo> getGender() {
@@ -267,6 +415,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         String firstName = addCustomerBinding.firstName.getText().toString();
         String mobile = addCustomerBinding.mobile.getText().toString();
         String cardNumber = addCustomerBinding.cardNumber.getText().toString();
+        String dob = addCustomerBinding.dateOfBirth.getText().toString();
 
         if (firstName.isEmpty()) {
             addCustomerBinding.firstName.setError("First Name should not be empty");
@@ -276,7 +425,11 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             addCustomerBinding.firstName.setError("Invalid First Name");
             addCustomerBinding.firstName.requestFocus();
             return false;
-        } else if (mobile.isEmpty()) {
+        } else if (dob.isEmpty()) {
+            addCustomerBinding.dateOfBirth.setError("Select any Date");
+            addCustomerBinding.dateOfBirth.requestFocus();
+            return false;
+        }else if (mobile.isEmpty()) {
             addCustomerBinding.mobile.setError("Mobile Number should not be empty");
             addCustomerBinding.mobile.requestFocus();
             return false;

@@ -184,7 +184,7 @@
     <string name="menu_orders">Orders</string>
     <string name="menu_manual_billing">Manual Billing</string>
 
-   <string name="label_continue">Continue</string>
+    <string name="label_continue">Continue</string>
     <string name="label_select">Select</string>
     <string name="label_edit">Edit</string>
     <string name="label_no_customer_found">No Customer Found</string>
@@ -255,6 +255,16 @@
     <string name="label_generic_latitude">Latitude\n%1$s</string>
     <string name="label_generic_longitude">Longitude\n%1$s</string>
     <string name="label_save">Save</string>
+
+    <string name="label_disc_type">Disc Type\n%1$s</string>
+    <string name="label_pharma_price">Pharma\n%1$s</string>
+    <string name="label_FMCG_price">FMCG\n%1$s</string>
+    <string name="label_PL_price">PL\n%1$s</string>
+    <string name="label_RoundedAmt_price">RoundedAmt\n%1$s</string>
+    <string name="label_MRP_Total_price">MRP Total\n%1$s</string>
+    <string name="label_Taxable_Amt_price">Taxable Amt\n%1$s</string>
+    <string name="label_Disc_Amt_price">Disc.Amt\n%1$s</string>
+    <string name="label_savings_price">Savings: %1$s</string>
     <string name="label_additional_discount">Additional Discount :</string>
     <string name="label_balance_amount">balance amount:</string>
     <string name="label_cash_payment">cash payment:</string>
@@ -262,4 +272,11 @@
     <string name="label_card">Card</string>
     <string name="label_cash">Cash</string>
     <string name="label_payment_method">payment method</string>
+
+    <string name="message">Place a barcode inside the viewfinder rectangle to scan it.</string>
+    <string name="turn_off_flashlight">FlashLight On</string>
+    <string name="turn_on_flashlight">FlashLight Off</string>
+    <string name="label_scan_barcode">Fetch the Product information by using barcode, scan in the below box</string>
+    <string name="speech_prompt">Say something&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
 </resources>

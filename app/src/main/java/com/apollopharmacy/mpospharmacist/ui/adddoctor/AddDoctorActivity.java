@@ -12,6 +12,9 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddDoctorBinding;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
 import java.io.Serializable;
@@ -24,9 +27,18 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Inject
     AddDoctorMvpPresenter<AddDoctorMvpView> mPresenter;
     private ActivityAddDoctorBinding addDoctorBinding;
+    private DoctorSearchResModel.DropdownValueBean doctorEntity;
+    private SalesOriginResModel.DropdownValueBean salesEntity;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddDoctorActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, DoctorSearchResModel.DropdownValueBean doctorEntity, SalesOriginResModel.DropdownValueBean salesEntity) {
+        Intent intent = new Intent(context, AddDoctorActivity.class);
+        intent.putExtra("doctor_info", doctorEntity);
+        intent.putExtra("sales_info", salesEntity);
+        return intent;
     }
 
     @Override
@@ -41,6 +53,12 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     protected void setUp() {
         addDoctorBinding.setCallback(mPresenter);
+        if (getIntent() != null) {
+            doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+        }
+        if (getIntent() != null) {
+            salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
+        }
     }
 
     @Override
@@ -63,19 +81,16 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
 
     @Override
     public void addDoctorSuccess(AddDoctorResModel addDoctorResModel) {
-//        DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
-//        doctorModel.setCode(addDoctorResModel.getDocRegID());
-//        doctorModel.setDisplayText(addDoctorResModel.getDocName());
-
-//        Intent returnIntent = new Intent();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("doctor_info", customDoctorItem);
-//        returnIntent.putExtras(bundle);
-//        setResult(Activity.RESULT_OK, returnIntent);
-//        finish();
-
-        //Pass this to Search Activity
-        Toast.makeText(this, addDoctorResModel.getReturnMessage(), Toast.LENGTH_SHORT).show();
+        DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
+        doctorModel.setCode(addDoctorResModel.getDocRegID());
+        doctorModel.setDisplayText(addDoctorResModel.getDocName());
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doctor_info", doctorModel);
+        bundle.putSerializable("sales_info", salesEntity);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     @Override

@@ -66,7 +66,7 @@ public class SearchUserActivity extends BaseActivity implements SearchUserMvpVie
 
     @Override
     public void onClickAdd() {
-        startActivity(AddCustomerActivity.getStartIntent(this));
+        startActivity(AddCustomerActivity.getStartIntent(this, ""));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 

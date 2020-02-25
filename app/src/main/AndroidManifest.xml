@@ -44,7 +44,7 @@
         </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
@@ -52,12 +52,12 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
         <activity
@@ -75,7 +75,7 @@
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
 
-    </activity>
+        </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
             android:theme="@style/CustomTheme"
@@ -112,6 +112,9 @@
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.scanner.ScannerActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
 
         <service android:name=".utils.MyFirebaseMessagingService">
@@ -141,4 +144,5 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 </manifest>

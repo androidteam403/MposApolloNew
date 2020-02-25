@@ -9,6 +9,8 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean cashMode = true;
     private boolean cardMode = false;
     private boolean hellingCardMode = false;
+    private boolean isAdditionalDisc = false;
+    private boolean isBalanceAmount = false;
 
     @Bindable
     public boolean isCashMode() {
@@ -36,5 +38,23 @@ public class PaymentMethodModel extends BaseObservable {
     public void setHellingCardMode(boolean hellingCardMode) {
         this.hellingCardMode = hellingCardMode;
         notifyPropertyChanged(BR.hellingCardMode);
+    }
+    @Bindable
+    public boolean isAdditionalDisc() {
+        return isAdditionalDisc;
+    }
+
+    public void setAdditionalDisc(boolean additionalDisc) {
+        isAdditionalDisc = additionalDisc;
+        notifyPropertyChanged(BR.additionalDisc);
+    }
+    @Bindable
+    public boolean isBalanceAmount() {
+        return isBalanceAmount;
+    }
+
+    public void setBalanceAmount(boolean balanceAmount) {
+        isBalanceAmount = balanceAmount;
+        notifyPropertyChanged(BR.balanceAmount);
     }
 }

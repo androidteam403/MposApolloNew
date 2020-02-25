@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.addcustomer;
 
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
 public interface AddCustomerMvpView extends MvpView {
@@ -14,9 +15,45 @@ public interface AddCustomerMvpView extends MvpView {
 
     void onClickBackPressed();
 
-    String getfirstName();
+    void addCustomerSuccess(AddCustomerResModel addCustomerResModel);
 
-    String getmobile();
+    void addCustomerFailed(String errMsg);
 
-    String getcardNumber();
+    String getFirstName();
+
+    String getMiddleName();
+
+    String getLastName();
+
+    int getAge();
+
+    String getGenderOption();
+
+    String getDOB();
+
+    String getPostalAddress();
+
+    String getCityOption();
+
+    String getStateOption();
+
+    String getDistrictOption();
+
+    String getZipCode();
+
+    String getEmail();
+
+    String getTelephone();
+
+    String getMobile();
+
+    String getAnniversary();
+
+    String getMaritalStatus();
+
+    int getNumberOfDependants();
+
+    String getCardNumber();
+
+    String getDateOfReg();
 }

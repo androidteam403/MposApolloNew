@@ -23,6 +23,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     @Inject
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> mPresenter;
     ActivityCustomerDetailsBinding customerDetailsBinding;
+    private int NEW_CUSTOMER_SEARCH_ACTIVITY_CODE = 105;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, CustomerDetailsActivity.class);
@@ -52,11 +53,15 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.setCustomer(customerEntity);
             }
         }
+        //temp
+//        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+//        customerEntity.setSearchId("8056427651");
+//        customerDetailsBinding.setCustomer(customerEntity);
     }
 
     @Override
     public void onAddCustomerClick() {
-        startActivity(AddCustomerActivity.getStartIntent(this));
+        startActivityForResult(AddCustomerActivity.getStartIntent(this, customerDetailsBinding.customerNumberEdit.getText().toString()), NEW_CUSTOMER_SEARCH_ACTIVITY_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -89,12 +94,14 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             customerDetailsBinding.setCustomer(customerEntity);
             customerDetailsBinding.setNoUser(false);
         } else {
+            customerDetailsBinding.setCustomer(null);
             customerDetailsBinding.setNoUser(true);
         }
     }
 
     @Override
     public void onFailedCustomerSearch() {
+        customerDetailsBinding.setCustomer(null);
         customerDetailsBinding.setNoUser(true);
     }
 
@@ -112,5 +119,23 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == NEW_CUSTOMER_SEARCH_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
+                Intent returnIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("customer_info", customerEntity);
+                returnIntent.putExtras(bundle);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 }

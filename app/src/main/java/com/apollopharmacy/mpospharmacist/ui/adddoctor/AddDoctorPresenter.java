@@ -86,14 +86,5 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
-//        if (getMvpView().isNetworkConnected()){
-//            AddDoctorModel addDoctorModel = new AddDoctorModel();
-//            addDoctorModel.setDoctorRegNo(getMvpView().getDoctorRegNo());
-//            addDoctorModel.setDoctorName(getMvpView().getDoctorName());
-//            addDoctorModel.setSpeciality(getMvpView().getSpeciality());
-//            addDoctorModel.setPlaceOfPractice(getMvpView().getPlaceOfPractice());
-//            addDoctorModel.setAddress(getMvpView().getAddress());
-//            addDoctorModel.setPhoneNumber(getMvpView().getPhoneNo());
-//        }
     }
 }
