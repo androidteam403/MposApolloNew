@@ -18,10 +18,9 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.ProductList;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,8 +37,10 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     private ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
     private boolean isLoadApi = false;
     private int ACTIVITY_RESULT_FOR_BATCH_INFO = 103;
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, ProductListActivity.class);
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateModule) {
+        Intent intent = new Intent(context, ProductListActivity.class);
+        intent.putExtra("corporate_info", corporateModule);
+        return intent;
     }
 
     @Override
@@ -113,6 +114,11 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             productListActivityBinding.inputLayoutSearch.setError(null);
         }
         return productListActivityBinding.searchProductEditText.getText().toString();
+    }
+
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateValue() {
+        return (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
     }
 
     @Override

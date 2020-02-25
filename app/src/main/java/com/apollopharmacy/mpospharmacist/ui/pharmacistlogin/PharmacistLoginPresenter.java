@@ -5,10 +5,12 @@ import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
@@ -76,7 +78,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService2();
-            Call<CampaignDetailsRes> call = api.CAMPAIGN_DETAILS_RES_CALL();
+            Call<CampaignDetailsRes> call = api.CAMPAIGN_DETAILS_RES_CALL(getDataManager().getStoreId());
             call.enqueue(new Callback<CampaignDetailsRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CampaignDetailsRes> call, @NotNull Response<CampaignDetailsRes> response) {
@@ -117,7 +119,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
-                            getMvpView().userLoginSuccess(response.body());
+                            getDataManager().setUserLogin(true);
+                            userLoginCampaignApi();
                         } else {
                             getMvpView().userLoginFailed(response.body().getReturnMessage());
                         }
@@ -154,7 +157,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
-                            getMvpView().userLoginSuccess(response.body());
+                            userLoginCampaignApi();
                         } else {
                             getMvpView().userLoginFailed(response.body().getReturnMessage());
                         }
@@ -163,6 +166,41 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 
                 @Override
                 public void onFailure(@NotNull Call<LoginResModel> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getGlobalConfigration() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(new Object());
+            call.enqueue(new Callback<GetGlobalConfingRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        if (response.body().getRequestStatus() == 0) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            getDataManager().storeGlobalJson(json);
+                            getMvpView().userLoginSuccess();
+                        } else {
+                            getMvpView().userLoginFailed(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
                 }

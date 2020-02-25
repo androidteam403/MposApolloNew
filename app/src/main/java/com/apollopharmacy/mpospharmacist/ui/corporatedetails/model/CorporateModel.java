@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CorporateModel {
+public class CorporateModel implements Serializable{
     @Expose
     @SerializedName("ReturnMessage")
     private String ReturnMessage;
