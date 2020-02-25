@@ -14,6 +14,5 @@ public interface AddCustomerMvpPresenter<V extends AddCustomerMvpView> extends M
 
     void onActionBarBackPressed();
 
-    void userSubmit( );
-
+    void handleCustomerAddService( );
 }

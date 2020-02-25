@@ -2,6 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="android.view.View" />
+        <variable
+            name="no_doctor"
+            type="Boolean" />
 
         <variable
             name="callback"
@@ -11,8 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,10 +39,10 @@
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/app_name"
-                android:tint="@color/white"
                 android:onClick="@{()-> callback.dismissDialog()}"
                 android:padding="@dimen/five_dp"
-                android:src="@drawable/ic_close_view" />
+                android:src="@drawable/ic_close_view"
+                android:tint="@color/white" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -81,5 +85,36 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/five_dp"
             android:layout_marginEnd="@dimen/five_dp" />
+
+        <LinearLayout
+            android:id="@+id/no_customer_found_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{no_doctor ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_no_doctor_found"
+                android:textColor="@color/no_customer_found"
+                android:textSize="@dimen/text_dimen_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:background="@drawable/bg_select_btn"
+                android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()-> callback.onAddDoctorClick()}"
+                android:text="@string/label_add_new_doctor"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

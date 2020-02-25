@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -92,6 +93,7 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 doctorFilteredArrayList = (ArrayList<DoctorSearchResModel.DropdownValueBean>) filterResults.values;
                 notifyDataSetChanged();
+                doctorsMvpView.updateNoDoctorView(doctorFilteredArrayList.size());
             }
         };
     }

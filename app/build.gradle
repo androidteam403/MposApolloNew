@@ -95,5 +95,8 @@ dependencies {
 
     //Ezetap sdk
     implementation(name: 'ezetapandroidsdk.2.9', ext: 'aar')
+
+    //Add QR Library Here
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
 }
 apply plugin: 'com.google.gms.google-services'

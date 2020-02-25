@@ -69,6 +69,9 @@ import com.apollopharmacy.mpospharmacist.ui.pay.PayPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPresenter;
+import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerMvpView;
+import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsPresenter;
@@ -290,6 +293,11 @@ public class ActivityModule {
 
     @Provides
     GetStoresDialogMvpPresenter<GetStoresDialogMvpView> provideStoresListDialog(GetStoresDialogPresenter<GetStoresDialogMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    ScannerMvpPresenter<ScannerMvpView> provideScannerActivityPresenter(ScannerPresenter<ScannerMvpView> presenter) {
         return presenter;
     }
 }

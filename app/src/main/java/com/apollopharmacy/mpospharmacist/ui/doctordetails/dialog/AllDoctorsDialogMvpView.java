@@ -8,4 +8,8 @@ public interface AllDoctorsDialogMvpView extends MvpView {
     void dismissDialog();
 
     void onClickListener(DoctorSearchResModel.DropdownValueBean item);
+
+    void updateNoDoctorView(int arrayCnt);
+
+    void onAddDoctorClick();
 }

@@ -47,6 +47,14 @@ public class DoctorSearchResModel {
             return displayText;
         }
 
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public void setDisplayText(String displayText) {
+            this.displayText = displayText;
+        }
+
         @Override
         public String toString() {
             return displayText;

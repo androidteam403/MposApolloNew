@@ -113,5 +113,45 @@ public class GetCustomerResponse {
         public void setSearchId(String searchId) {
             this.searchId = searchId;
         }
+
+        public void setTier(String tier) {
+            Tier = tier;
+        }
+
+        public void setTelephoneNo(String telephoneNo) {
+            TelephoneNo = telephoneNo;
+        }
+
+        public void setMobileNo(String mobileNo) {
+            MobileNo = mobileNo;
+        }
+
+        public void setEmpNo(String empNo) {
+            EmpNo = empNo;
+        }
+
+        public void setCustId(String custId) {
+            CustId = custId;
+        }
+
+        public void setCustActiveStatus(String custActiveStatus) {
+            CustActiveStatus = custActiveStatus;
+        }
+
+        public void setCorpId(String corpId) {
+            CorpId = corpId;
+        }
+
+        public void setCardNo(String cardNo) {
+            CardNo = cardNo;
+        }
+
+        public void setCardName(String cardName) {
+            CardName = cardName;
+        }
+
+        public void setAvailablePoints(String availablePoints) {
+            AvailablePoints = availablePoints;
+        }
     }
 }

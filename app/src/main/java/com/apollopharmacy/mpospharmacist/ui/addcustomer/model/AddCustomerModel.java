@@ -22,7 +22,6 @@ public class AddCustomerModel {
     private String dateOfRegistration;
 
 
-
     public String getFirstName() {
         return firstName;
     }

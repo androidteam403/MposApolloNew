@@ -31,6 +31,9 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     ActivityDoctorDetailsBinding doctorDetailsBinding;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> allDoctorsArrayList;
     private DoctorSearchResModel.DropdownValueBean customDoctorItem = null;
+    private DoctorSearchResModel.DropdownValueBean doctorEntity;
+    private SalesOriginResModel.DropdownValueBean salesEntity;
+    private int NEW_DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     String strFont = null;
 
     public static Intent getStartIntent(Context context) {
@@ -63,7 +66,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
 
     @Override
     public void onAddDoctorClick() {
-        startActivity(AddDoctorActivity.getStartIntent(this));
+        startActivityForResult(AddDoctorActivity.getStartIntent(this, doctorEntity, salesEntity), NEW_DOCTOR_SEARCH_ACTIVITY_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -88,7 +91,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         });
 
         if (getIntent() != null) {
-            DoctorSearchResModel.DropdownValueBean doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+            doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
             if (doctorEntity != null) {
                 boolean isItemFound = false;
                 for (int i = 0; i < model.get_DropdownValue().size(); i++) {
@@ -122,7 +125,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
             doctorDetailsBinding.selectSalesOrigin.setError(null);
         });
         if (getIntent() != null) {
-            SalesOriginResModel.DropdownValueBean salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
+            salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
             if (salesEntity != null) {
                 for (int i = 0; i < model.getGetSalesOriginResult().get_DropdownValue().size(); i++) {
                     if (model.getGetSalesOriginResult().get_DropdownValue().get(i).getCode().equals(salesEntity.getCode())) {
@@ -185,5 +188,25 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == NEW_DOCTOR_SEARCH_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                DoctorSearchResModel.DropdownValueBean doctorResult = (DoctorSearchResModel.DropdownValueBean) data.getSerializableExtra("doctor_info");
+                SalesOriginResModel.DropdownValueBean salesResult = (SalesOriginResModel.DropdownValueBean) data.getSerializableExtra("sales_info");
+                Intent returnIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("doctor_info", doctorResult);
+                bundle.putSerializable("sales_info", salesResult);
+                returnIntent.putExtras(bundle);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 }

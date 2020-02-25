@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.adddoctor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +10,14 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddDoctorBinding;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -21,9 +27,18 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Inject
     AddDoctorMvpPresenter<AddDoctorMvpView> mPresenter;
     private ActivityAddDoctorBinding addDoctorBinding;
+    private DoctorSearchResModel.DropdownValueBean doctorEntity;
+    private SalesOriginResModel.DropdownValueBean salesEntity;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddDoctorActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, DoctorSearchResModel.DropdownValueBean doctorEntity, SalesOriginResModel.DropdownValueBean salesEntity) {
+        Intent intent = new Intent(context, AddDoctorActivity.class);
+        intent.putExtra("doctor_info", doctorEntity);
+        intent.putExtra("sales_info", salesEntity);
+        return intent;
     }
 
     @Override
@@ -38,7 +53,12 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     @Override
     protected void setUp() {
         addDoctorBinding.setCallback(mPresenter);
-
+        if (getIntent() != null) {
+            doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
+        }
+        if (getIntent() != null) {
+            salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
+        }
     }
 
     @Override
@@ -48,16 +68,34 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     }
 
     @Override
-    public void onSubmitClick() {
+    public void onSubmitBtnClick() {
         if (validate()) {
-            mPresenter.userSubmit();
-            Toast.makeText(this, "You submitted", Toast.LENGTH_SHORT).show();
+            mPresenter.handleAddDoctorService();
         }
     }
 
     @Override
     public void onClickBackPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public void addDoctorSuccess(AddDoctorResModel addDoctorResModel) {
+        DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
+        doctorModel.setCode(addDoctorResModel.getDocRegID());
+        doctorModel.setDisplayText(addDoctorResModel.getDocName());
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doctor_info", doctorModel);
+        bundle.putSerializable("sales_info", salesEntity);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public void addDoctorFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -98,7 +136,6 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
         String placeofPractice = Objects.requireNonNull(addDoctorBinding.placeOfPractice.getText()).toString();
         String adrs = Objects.requireNonNull(addDoctorBinding.address.getText()).toString();
         String pNumber = Objects.requireNonNull(addDoctorBinding.phoneNumber.getText()).toString();
-
         if (doctorRegNo.isEmpty()) {
             addDoctorBinding.doctorRegNumber.setError("Doctor registration number should not be empty");
             addDoctorBinding.doctorRegNumber.requestFocus();

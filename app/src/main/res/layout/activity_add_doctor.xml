@@ -16,9 +16,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/five_dp"
-        android:paddingRight="@dimen/five_dp">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
@@ -46,14 +45,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/label_doctor_registration"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginTop="@dimen/ten_dp"-->
-<!--            android:textSize="@dimen/text_dimen_20"-->
-<!--            android:fontFamily="@font/roboto_bold"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/EditTextInputLayoutStyle"
@@ -151,7 +142,7 @@
                 android:layout_height="@dimen/one_hundred_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="top"
-                android:hint="@string/label_address"
+                android:hint="@string/label_add_address"
                 android:inputType="textMultiLine"
                 android:padding="@dimen/ten_dp"
                 android:singleLine="true"
@@ -184,13 +175,13 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:text="Submit"
-            android:textColor="@color/black"
-            tools:ignore="MissingConstraints"
+            android:layout_marginTop="@dimen/twenty_five_dp"
+            android:layout_marginBottom="@dimen/twenty_five_dp"
             android:background="@color/apollo_btn_color"
-            android:onClick="@{()-> callback.onClickSubmit()}"/>
+            android:onClick="@{()-> callback.onSubmitBtnClick()}"
+            android:padding="@dimen/twelve_dp"
+            android:text="@string/label_submit"
+            android:textColor="@color/black"
+            tools:ignore="MissingConstraints" />
     </LinearLayout>
 </layout>

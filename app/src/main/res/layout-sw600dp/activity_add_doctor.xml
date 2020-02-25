@@ -46,6 +46,15 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="@string/label_doctor_registration"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_marginTop="@dimen/ten_dp"-->
+        <!--            android:textSize="@dimen/text_dimen_20"-->
+        <!--            android:fontFamily="@font/roboto_bold"/>-->
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/EditTextInputLayoutStyle"
             android:layout_width="match_parent"
@@ -142,7 +151,7 @@
                 android:layout_height="@dimen/one_hundred_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="top"
-                android:hint="@string/label_address"
+                android:hint="@string/label_add_address"
                 android:inputType="textMultiLine"
                 android:padding="@dimen/ten_dp"
                 android:singleLine="true"
@@ -172,25 +181,6 @@
                 android:textSize="@dimen/text_dimen_15" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--        <RelativeLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/five_dp"-->
-        <!--            android:layout_marginBottom="@dimen/ten_dp">-->
-
-        <!--            <Button-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="@string/label_cancel" />-->
-
-        <!--            <Button-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_alignParentEnd="true"-->
-        <!--                android:onClick="@{()->callback.onClickSubmit() }"-->
-        <!--                android:text="@string/label_submit"-->
-        <!--                tools:ignore="RelativeOverlap" />-->
-        <!--        </RelativeLayout>-->
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -201,6 +191,6 @@
             android:textColor="@color/black"
             tools:ignore="MissingConstraints"
             android:background="@color/apollo_btn_color"
-            android:onClick="@{()-> callback.onClickSubmit()}"/>
+            android:onClick="@{()-> callback.onSubmitBtnClick()}"/>
     </LinearLayout>
 </layout>

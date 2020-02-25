@@ -1,7 +1,11 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
+import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -57,7 +61,7 @@ public interface ApiInterface {
     Call<GetCustomerResponse> GET_CUSTOMER_REQUEST_CALL(@Body GetCustomerRequest customerRequest);
 
     @POST("SalesTransactionService.svc/GetItemDetails")
-    Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL (@Body GetItemDetailsReq itemDetailsReq);
+    Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL(@Body GetItemDetailsReq itemDetailsReq);
 
     @POST("SalesTransactionService.svc/GetTrackingRefence/16001/AHEL")
     Call<CorporateModel> getCorporateList(@Body Object o);
@@ -83,4 +87,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetGlobalConfigration/16001/ahel")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Body Object o);
 
+    @POST("SalesTransactionService.svc/DoctorCreation")
+    Call<AddDoctorResModel> ADD_DOCTOR_SERVICE(@Body AddDoctorReqModel addDoctorReqModel);
+
+    @POST("SalesTransactionService.svc/CustomerCreation")
+    Call<AddCustomerResModel> ADD_CUSTOMER_SERVICE(@Body AddCustomerReqModel addCustomerReqModel);
 }
