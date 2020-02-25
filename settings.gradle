@@ -1,1 +1,1 @@
-include ':app', ':library', ':gpslibrary'
+include ':app', ':library', ':gpslibrary', ':otpview'

@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.content.Context;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -51,6 +52,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onClickCashPaymentBtn();
 
+    void onClickOneApolloBtn();
+
     void onClickEditItemsList();
 
     void onSuccessGenerateTenderLine(GenerateTenderLineRes body);
@@ -60,4 +63,8 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body);
 
     void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body);
+
+    void onSuccessValidateOneApolloPoints(ValidatePointsResModel body);
+
+    void onFailedValidateOneApolloPoints(ValidatePointsResModel body);
 }

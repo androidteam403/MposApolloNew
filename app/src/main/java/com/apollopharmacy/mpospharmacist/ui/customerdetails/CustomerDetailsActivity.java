@@ -1,12 +1,19 @@
 package com.apollopharmacy.mpospharmacist.ui.customerdetails;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
@@ -15,6 +22,8 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -24,6 +33,8 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> mPresenter;
     ActivityCustomerDetailsBinding customerDetailsBinding;
     private int NEW_CUSTOMER_SEARCH_ACTIVITY_CODE = 105;
+    private final int MY_PERMISSIONS_RECORD_AUDIO = 106;
+    private final int REQ_CODE_SPEECH_INPUT = 107;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, CustomerDetailsActivity.class);
@@ -68,6 +79,11 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     @Override
     public void onClickBackPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+        requestAudioPermissions();
     }
 
     @Override
@@ -136,6 +152,43 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        } else if (requestCode == REQ_CODE_SPEECH_INPUT) {
+            if (data != null) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                String searchedProductName = result.get(0);
+                customerDetailsBinding.customerNumberEdit.setText(searchedProductName);
+                mPresenter.onCustomerSearchClick();
+            }
+        }
+    }
+
+    private void requestAudioPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            //When permission is not granted by user, show them message why this permission is needed.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                //Give user option to still opt-in the permissions
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+            } else {
+                // Show user dialog to grant permission to record audio
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+            }
+        }
+        //If permission is granted, then go ahead recording audio
+        else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            //Go ahead with recording audio now
+            promptSpeechInput();
+        }
+    }
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(this, getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
         }
     }
 }

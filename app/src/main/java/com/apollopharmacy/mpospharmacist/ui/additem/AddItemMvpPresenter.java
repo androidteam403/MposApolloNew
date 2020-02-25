@@ -20,9 +20,17 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickCashPayment();
 
+    void onClickOneApolloPayment();
+
     void onClickCardPaymentPay();
 
     void onClickCashPaymentPay();
 
+    void onClickOneApolloPaymentPay();
+
     void onClickEditItemsList();
+
+    void validateOneApolloPoints(String userMobileNumber, String transactionID);
+
+    void onClickRedeemPoints();
 }

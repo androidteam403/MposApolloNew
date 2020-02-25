@@ -279,4 +279,13 @@
     <string name="label_scan_barcode">Fetch the Product information by using barcode, scan in the below box</string>
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="label_one_apollo_points">One Apollo Points Redumption</string>
+    <string name="label_total_apollo_points">Total One Apollo Points</string>
+    <string name="label_having_in_account">Having in your Account</string>
+    <string name="label_value_for_points">Value for the Points</string>
+    <string name="label_redeem_points_calculator">Redeem Points Calculator</string>
+    <string name="label_points_selected">Points Selected</string>
+    <string name="label_accept">Accept</string>
+    <string name="label_reject">Reject</string>
+    <string name="label_balance_points">Balance Points</string>
 </resources>

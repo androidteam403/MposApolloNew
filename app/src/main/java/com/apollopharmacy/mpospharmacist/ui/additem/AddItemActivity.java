@@ -1,12 +1,16 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +22,7 @@ import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -66,6 +71,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private final int CUSTOMER_SEARCH_ACTIVITY_CODE = 103;
     private final int DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     private final int CORPORATE_SEARCH_ACTIVITY_CODE = 105;
+    private final int MY_PERMISSIONS_RECORD_AUDIO = 106;
     private TransactionIDResModel transactionIdModel = null;
     private OrderPriceInfoModel orderPriceInfoModel = new OrderPriceInfoModel();
     private PaymentMethodModel paymentMethodModel = new PaymentMethodModel();
@@ -230,8 +236,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onVoiceSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        requestAudioPermissions();
     }
 
     @Override
@@ -243,6 +248,24 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onClickActionBarBack() {
         onBackPressed();
+    }
+
+    private void requestAudioPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            //When permission is not granted by user, show them message why this permission is needed.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                //Give user option to still opt-in the permissions
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+            } else {
+                // Show user dialog to grant permission to record audio
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+            }
+        }
+        //If permission is granted, then go ahead recording audio
+        else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
     }
 
     @Override
@@ -329,12 +352,23 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onClickCardPaymentBtn() {
         paymentMethodModel.setCashMode(false);
         paymentMethodModel.setCardMode(true);
+        paymentMethodModel.setOneApolloMode(false);
     }
 
     @Override
     public void onClickCashPaymentBtn() {
         paymentMethodModel.setCashMode(true);
         paymentMethodModel.setCardMode(false);
+        paymentMethodModel.setOneApolloMode(false);
+    }
+
+    @Override
+    public void onClickOneApolloBtn() {
+        paymentMethodModel.setCashMode(false);
+        paymentMethodModel.setCardMode(false);
+        paymentMethodModel.setOneApolloMode(true);
+        if (customerEntity != null && transactionIdModel != null)
+            mPresenter.validateOneApolloPoints(customerEntity.getMobileNo(), transactionIdModel.getTransactionID());
     }
 
     @Override
@@ -360,6 +394,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body) {
         showMessage("Failed SaveRetailTransaction");
+    }
+
+    @Override
+    public void onSuccessValidateOneApolloPoints(ValidatePointsResModel body) {
+        addItemBinding.setValidatePoints(body.getOneApolloProcessResult());
+    }
+
+    @Override
+    public void onFailedValidateOneApolloPoints(ValidatePointsResModel body) {
+        showMessage("No Points are available to this number");
     }
 
     /**

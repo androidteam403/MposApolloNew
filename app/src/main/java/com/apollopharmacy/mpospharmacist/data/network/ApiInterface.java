@@ -2,6 +2,8 @@ package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -92,4 +94,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/CustomerCreation")
     Call<AddCustomerResModel> ADD_CUSTOMER_SERVICE(@Body AddCustomerReqModel addCustomerReqModel);
+
+    @POST("WalletService.svc/OneApolloAPITransaction")
+    Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);
 }

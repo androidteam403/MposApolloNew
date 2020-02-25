@@ -177,6 +177,17 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     }
 
     @Override
+    public void onVoiceSearchClick() {
+        requestAudioPermissions();
+    }
+
+    @Override
+    public void onBarCodeClick() {
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);

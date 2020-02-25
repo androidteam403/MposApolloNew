@@ -106,6 +106,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/ten_dp"
+                    android:onClick="@{() -> callback.onVoiceSearchClick()}"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_voice_search" />
             </RelativeLayout>

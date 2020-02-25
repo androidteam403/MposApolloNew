@@ -10,5 +10,7 @@ public interface CustomerDetailsMvpPresenter<V extends CustomerDetailsMvpView> e
 
     void onCustomerSearchClick();
 
+    void onVoiceSearchClick();
+
     void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity);
 }

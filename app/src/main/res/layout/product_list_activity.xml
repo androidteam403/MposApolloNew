@@ -114,7 +114,8 @@
                 android:layout_weight="0.1"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_voice_search"/>
+                android:src="@drawable/ic_voice_search"
+                android:onClick="@{() -> callback.onVoiceSearchClick()}"/>
 
             <View
                 android:layout_width="0dp"
@@ -127,7 +128,8 @@
                 android:layout_weight="0.1"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_barcode"/>
+                android:src="@drawable/ic_barcode"
+                android:onClick="@{() -> callback.onBarCodeClick()}"/>
         </LinearLayout>
 
         <TextView
