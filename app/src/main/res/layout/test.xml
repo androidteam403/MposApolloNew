@@ -1,147 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/eighty_dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/label_one_apollo_points"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_five_dp"
+            android:layout_marginTop="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/one_apollo_img"
+                android:layout_width="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_one_apollo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/one_apollo_img"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/label_total_apollo_points"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/label_having_in_account"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@{validatePoints.availablePoints}"
+                    android:textColor="@color/theme_end_color"
+                    android:textSize="@dimen/text_dimen_16" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:background="@color/medicine_divider_color" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:background="@color/colorPrimary"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="@dimen/ten_dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:gravity="center_vertical"
+                android:text="Points: "
+                android:textAllCaps="true"
+                android:textColor="@color/add_item_header" />
+
+            <EditText
+                android:id="@+id/one_apollo_amount_edit_text"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:background="@drawable/rounded_corners_white"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Disc Type\n5644544"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Pharma\n0.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="FMCG\n0.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="PL\n50.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="RoundedAmt\n564454564"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="MRP Total\n5.36"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Taxable Amt\n46.64"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Disc.Amt\n0.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_9" />
-            </LinearLayout>
+                android:background="@drawable/bg_apply_btn"
+                android:fontFamily="@font/roboto_regular"
+                android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="Redeem"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:background="@color/cpb_yellow"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fifteen_dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="129.70"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_16" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Savings:20.50(10%)"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_9" />
+                android:text="OTP"
+                android:textColor="@color/black" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.mukesh.OtpView
+                android:id="@+id/otp_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="PAY"
+                android:inputType="number"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_20" />
+                app:cursorColor="@color/colorPrimary"
+                app:hideLineWhenFilled="false"
+                app:itemCount="6"
+                app:itemSpacing="@dimen/ten_dp"
+                app:itemWidth="40dp"
+                app:lineColor="@color/colorPrimary"
+                app:maskingChar="*"
+                app:state_filled="true"
+                app:viewType="line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:background="@drawable/bg_apply_btn"
+                    android:fontFamily="@font/roboto_regular"
+                    android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:text="Verify"
+                    android:backgroundTint="@color/apollo_btn_color"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Resend OTP"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_dimen_14" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

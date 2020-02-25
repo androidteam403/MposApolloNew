@@ -8,6 +8,8 @@ public interface CustomerDetailsMvpView extends MvpView {
 
     void onClickBackPressed();
 
+    void onVoiceSearchClick();
+
     String getCustomerNumber();
 
     void setCustomerErrorMessage();

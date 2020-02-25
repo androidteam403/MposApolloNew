@@ -6,10 +6,6 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
-import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
@@ -23,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductListPresenter <V extends ProductListMvpView> extends BasePresenter<V>
+public class ProductListPresenter<V extends ProductListMvpView> extends BasePresenter<V>
         implements ProductListMvpPresenter<V> {
 
     @Inject
@@ -38,7 +34,7 @@ public class ProductListPresenter <V extends ProductListMvpView> extends BasePre
 
     @Override
     public void getProductDetails() {
-        if(!TextUtils.isEmpty(getMvpView().getSearchProductKey())){
+        if (!TextUtils.isEmpty(getMvpView().getSearchProductKey())) {
             if (getMvpView().isNetworkConnected()) {
                 //Creating an object of our api interface
                 ApiInterface api = ApiClient.getApiService();
@@ -73,4 +69,13 @@ public class ProductListPresenter <V extends ProductListMvpView> extends BasePre
         }
     }
 
+    @Override
+    public void onVoiceSearchClick() {
+        getMvpView().onVoiceSearchClick();
+    }
+
+    @Override
+    public void onBarCodeClick() {
+        getMvpView().onBarCodeClick();
+    }
 }

@@ -53,4 +53,8 @@
     <color name="search_order_hint_color">#b2b2b2</color>
 
     <color name="dashboard_pending_text_color">#ff0101</color>
+    <color name="theme_end_color">#00c2c3</color>
+    <color name="medicine_divider_color">#b7b8b8</color>
+    <color name="order_item_header_divider_color">#f1f1f1</color>
+    <color name="placeholder_bg">#dddddd</color>
 </resources>

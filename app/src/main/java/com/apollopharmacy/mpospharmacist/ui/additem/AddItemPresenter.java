@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
@@ -30,6 +32,7 @@ import retrofit2.Response;
 public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         implements AddItemMvpPresenter<V> {
     private final int REQUEST_CODE_INITIALIZE = 10001;
+
     @Inject
     public AddItemPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -76,19 +79,24 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void onClickOneApolloPayment() {
+        getMvpView().onClickOneApolloBtn();
+    }
+
+    @Override
     public void onClickCardPaymentPay() {
-        if(TextUtils.isEmpty(getMvpView().getCardPaymentAmount())){
+        if (TextUtils.isEmpty(getMvpView().getCardPaymentAmount())) {
             getMvpView().setErrorCardPaymentAmountEditText("Enter Amount");
-        }else{
+        } else {
             doInitializeEzeTap();
         }
     }
 
     @Override
     public void onClickCashPaymentPay() {
-        if(TextUtils.isEmpty(getMvpView().getCashPaymentAmount())){
+        if (TextUtils.isEmpty(getMvpView().getCashPaymentAmount())) {
             getMvpView().setErrorCashPaymentAmountEditText("Enter Amount");
-        }else {
+        } else {
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
                 //Creating an object of our api interface
@@ -100,7 +108,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
                         if (response.isSuccessful()) {
                             //Dismiss Dialog
-                            if ( response.body() != null )
+                            if (response.body() != null)
                                 saveRetailTransaction(response.body());
                             else {
                                 getMvpView().onFailedGenerateTenderLine(response.body());
@@ -122,12 +130,89 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void onClickOneApolloPaymentPay() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(generateTenderLineReq());
+            call.enqueue(new Callback<GenerateTenderLineRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        if (response.body() != null)
+                            saveRetailTransaction(response.body());
+                        else {
+                            getMvpView().onFailedGenerateTenderLine(response.body());
+                            getMvpView().hideLoading();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GenerateTenderLineRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
     public void onClickEditItemsList() {
         getMvpView().onClickEditItemsList();
     }
 
+    @Override
+    public void validateOneApolloPoints(String userMobileNumber, String transactionID) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            ValidatePointsReqModel pointsReqModel = new ValidatePointsReqModel();
+            ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
+            requestDataEntity.setStoreId("");
+            requestDataEntity.setDocNum(transactionID);
+            requestDataEntity.setMobileNum(userMobileNumber);
+            requestDataEntity.setReqBy("M");
+            requestDataEntity.setRRNO("");
+            requestDataEntity.setOTP("");
+            requestDataEntity.setAction("BALANCECHECK");
+            requestDataEntity.setCoupon("");
+            requestDataEntity.setType("");
+            requestDataEntity.setCustomerID("");
+            requestDataEntity.setUrl("http://10.4.14.4:8015/AXPOS/OneApolloService.svc/ONEAPOLLOTRANS"); //getDataManager().getGlobalJson().getOneApolloURL()
+            pointsReqModel.setRequestData(requestDataEntity);
+            Call<ValidatePointsResModel> call = api.VALIDATE_ONE_APOLLO_POINTS(pointsReqModel);
+            call.enqueue(new Callback<ValidatePointsResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessValidateOneApolloPoints(response.body());
+                        } else {
+                            getMvpView().onFailedValidateOneApolloPoints(response.body());
+                        }
+                    }
+                }
 
-    private void saveRetailTransaction(GenerateTenderLineRes body){
+                @Override
+                public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+
+    private void saveRetailTransaction(GenerateTenderLineRes body) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
@@ -140,7 +225,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body() != null )
+                        if (response.isSuccessful() && response.body() != null)
                             getMvpView().onSuccessSaveRetailTransaction(response.body());
                         else
                             getMvpView().onFailedSaveRetailsTransaction(response.body());
@@ -157,15 +242,16 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
     // Generate TenderLine Request Formation
-    private GenerateTenderLineReq generateTenderLineReq(){
+    private GenerateTenderLineReq generateTenderLineReq() {
         GenerateTenderLineReq tenderLineReq = new GenerateTenderLineReq();
         tenderLineReq.setType(typeEntity());
         tenderLineReq.setPOSTransaction(posTransactionEntity());
         return tenderLineReq;
     }
 
-    private GenerateTenderLineReq.TypeEntity typeEntity(){
+    private GenerateTenderLineReq.TypeEntity typeEntity() {
         GenerateTenderLineReq.TypeEntity typeEntity = new GenerateTenderLineReq.TypeEntity();
         typeEntity.setPosOpereration(0);
         typeEntity.setRoundingMethod(0);
@@ -177,7 +263,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         return typeEntity;
     }
 
-    private GenerateTenderLineReq.POSTransactionEntity posTransactionEntity(){
+    private GenerateTenderLineReq.POSTransactionEntity posTransactionEntity() {
         GenerateTenderLineReq.POSTransactionEntity posTransactionEntity = new GenerateTenderLineReq.POSTransactionEntity();
         posTransactionEntity.setAmounttoAccount(0);
         posTransactionEntity.setBatchTerminalid("");
@@ -240,7 +326,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setReturnTransactionId("");
         posTransactionEntity.setReturnType(0);
         posTransactionEntity.setRoundedAmount(0);
-        posTransactionEntity.setSalesLine( salesLineEntities());// sales line object
+        posTransactionEntity.setSalesLine(salesLineEntities());// sales line object
         posTransactionEntity.setSalesOrigin("");
         posTransactionEntity.setSEZ(0);
         posTransactionEntity.setShippingMethod("");
@@ -360,6 +446,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
         return salesLineEntities;
     }
+
     /**
      * invoke to initialize the SDK with the merchant key and the device (card
      * reader) with bank keys
@@ -396,7 +483,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             jsonRequest.put("demoAppKey", "bdb9b6b1-80ac-42a1-bc8a-3caf259c6023");
             jsonRequest.put("prodAppKey", "bdb9b6b1-80ac-42a1-bc8a-3caf259c6023");
             jsonRequest.put("merchantName", "9866666344");
-            jsonRequest.put("userName","9866666344");
+            jsonRequest.put("userName", "9866666344");
             jsonRequest.put("currencyCode", "INR");
             jsonRequest.put("appMode", "DEMO");
             jsonRequest.put("captureSignature", "true");
