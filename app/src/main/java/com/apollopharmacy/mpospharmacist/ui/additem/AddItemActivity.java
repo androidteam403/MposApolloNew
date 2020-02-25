@@ -38,8 +38,6 @@ import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetI
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 import com.eze.api.EzeAPI;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -226,19 +224,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, "1"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void onVoiceSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, "2"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void onBarCodeSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, "3"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "3"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 

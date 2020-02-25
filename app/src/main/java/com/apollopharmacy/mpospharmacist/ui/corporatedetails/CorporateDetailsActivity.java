@@ -41,13 +41,20 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     private ArrayList<CorporateModel.DropdownValueBean> corporateList;
     private ArrayList<CorporateModel.DropdownValueBean> tempCorporateList = new ArrayList<>();
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, CorporateDetailsActivity.class);
+    public static Intent getStartIntent(Context context,CorporateModel corporateModel) {
+        Intent intent = new Intent(context, CorporateDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("corporate_list", corporateModel);
+        intent.putExtras(bundle);
+        return intent;
     }
 
-    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateEntity) {
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateEntity,CorporateModel corporateModel) {
         Intent intent = new Intent(context, CorporateDetailsActivity.class);
-        intent.putExtra("corporate_info", corporateEntity);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("corporate_list", corporateModel);
+        bundle.putSerializable("corporate_info", corporateEntity);
+        intent.putExtras(bundle);
         return intent;
     }
 
@@ -63,7 +70,8 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     @Override
     protected void setUp() {
         corporateDetailsBinding.setCallback(mPresenter);
-        mPresenter.getCorporateList();
+        CorporateModel corporateModel  = (CorporateModel )getIntent().getSerializableExtra("corporate_list");
+        getCorporateList(corporateModel);
         corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

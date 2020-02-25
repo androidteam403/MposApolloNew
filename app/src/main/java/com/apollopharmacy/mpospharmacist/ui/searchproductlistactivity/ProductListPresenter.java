@@ -44,6 +44,8 @@ public class ProductListPresenter <V extends ProductListMvpView> extends BasePre
                 ApiInterface api = ApiClient.getApiService();
                 GetItemDetailsReq customerRequest = new GetItemDetailsReq();
                 customerRequest.setSearchString(getMvpView().getSearchProductKey());
+                customerRequest.setCorpCode(getMvpView().getCorporateValue().getCode());
+                customerRequest.setStoreID("16001");
 
                 Call<GetItemDetailsRes> call = api.GET_ITEM_DETAILS_RES_CALL(customerRequest);
                 call.enqueue(new Callback<GetItemDetailsRes>() {

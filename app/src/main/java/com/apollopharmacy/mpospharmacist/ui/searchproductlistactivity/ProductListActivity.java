@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +25,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ProductListActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
@@ -57,8 +56,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         return new Intent(context, ProductListActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, String searchType) {
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateModule, String searchType) {
         Intent intent = new Intent(context, ProductListActivity.class);
+        intent.putExtra("corporate_info", corporateModule);
         intent.putExtra("search_type", searchType);
         return intent;
     }
@@ -146,6 +146,11 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             productListActivityBinding.inputLayoutSearch.setError(null);
         }
         return productListActivityBinding.searchProductEditText.getText().toString();
+    }
+
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateValue() {
+        return (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
     }
 
     @Override

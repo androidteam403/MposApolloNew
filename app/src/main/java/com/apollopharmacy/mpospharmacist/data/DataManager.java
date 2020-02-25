@@ -16,4 +16,6 @@ public interface DataManager extends PreferencesHelper, RestApiHelper {
             String userName,
             String email,
             String profilePicPath);
+
+    void storeGlobalJson(String json);
 }

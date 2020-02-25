@@ -51,7 +51,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
             storeSetupReqModel.setFCMKEY(getMvpView().getFcmKey());
             storeSetupReqModel.setSTOREID(getMvpView().getStoreId());
             storeSetupReqModel.setTERMINALID(getMvpView().getTerminalId());
-            storeSetupReqModel.setUSERID(getMvpView().getUserId());
+            storeSetupReqModel.setUSERID(getDataManager().getAdminLoginId());
             storeSetupReqModel.setDEVICETYPE(getMvpView().getDeviceType());
             storeSetupReqModel.setDEVICEDATE(getMvpView().getRegisteredDate());
             storeSetupReqModel.setLATITUDE(getMvpView().getLatitude());
@@ -63,7 +63,12 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if(response.body().isStatus()){
+                            getDataManager().setStoreId(getMvpView().getStoreId());
+                            getDataManager().setTerminalId(getMvpView().getTerminalId());
+                            getDataManager().setAdminSetUpFinish(true);
                             getMvpView().storeSetupSuccess(response.body());
+                        }else{
+                            getMvpView().showMessage(response.body().getMessage());
                         }
                     }
                 }

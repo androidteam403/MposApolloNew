@@ -35,7 +35,8 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     private int CORPORATE_SEARCH_ACTIVITY_CODE = 103;
     private GetCustomerResponse.CustomerEntity customerResult = null;
     private TransactionIDResModel transactionIdItem = null;
-    private ArrayList<CorporateModel.DropdownValueBean> corporateList;
+    private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
+    private CorporateModel corporateModel;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SearchCustomerDoctorDetailsActivity.class);
@@ -54,7 +55,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     protected void setUp() {
         customerDetailsMvpPresenter.getTransactionID();
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
-        //customerDetailsMvpPresenter.getCorporateList();
+        customerDetailsMvpPresenter.getCorporateList();
     }
 
     @Override
@@ -71,7 +72,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     public void onCorporateSearchClick() {
-        startActivityForResult(CorporateDetailsActivity.getStartIntent(this), CORPORATE_SEARCH_ACTIVITY_CODE);
+        startActivityForResult(CorporateDetailsActivity.getStartIntent(this,corporateModel), CORPORATE_SEARCH_ACTIVITY_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -94,7 +95,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     public void onCorporateEditClick(CorporateModel.DropdownValueBean corporateEntity) {
-        startActivityForResult(CorporateDetailsActivity.getStartIntent(this, corporateEntity), CORPORATE_SEARCH_ACTIVITY_CODE);
+        startActivityForResult(CorporateDetailsActivity.getStartIntent(this, corporateEntity,corporateModel), CORPORATE_SEARCH_ACTIVITY_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -112,7 +113,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
 
     @Override
     public void getCorporateList(CorporateModel corporateModel) {
-        corporateList = new ArrayList<>();
+        this.corporateModel = corporateModel;
         corporateList.addAll(corporateModel.get_DropdownValue());
         searchCutomerDetailsBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
     }

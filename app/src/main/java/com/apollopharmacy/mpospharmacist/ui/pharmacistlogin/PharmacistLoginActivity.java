@@ -134,7 +134,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     @Override
-    public void userLoginSuccess(LoginResModel loginResModel) {
+    public void userLoginSuccess() {
         startActivity(MainActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();

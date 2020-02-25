@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.WrapperResponse;
 import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesHelper;
 import com.apollopharmacy.mpospharmacist.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -48,6 +49,16 @@ public class BaseDataManager implements DataManager {
     public void updateUserInfo(String accessToken, Long userId, LoggedInMode loggedInMode, String userName, String email, String profilePicPath) {
         mPreferencesHelper.setUserName(userName);
         mPreferencesHelper.setUserEmail(email);
+    }
+
+    @Override
+    public void storeGlobalJson(String json) {
+        mPreferencesHelper.storeGlobalJson(json);
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalJson() {
+        return mPreferencesHelper.getGlobalJson();
     }
 
     @Override
@@ -96,13 +107,53 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public boolean isAdminLoginFinish() {
+        return mPreferencesHelper.isAdminLoginFinish();
+    }
+
+    @Override
+    public void setAdminLoginFinish(boolean isLogin) {
+        mPreferencesHelper.setAdminLoginFinish(isLogin);
+    }
+
+    @Override
+    public String getAdminLoginId() {
+        return mPreferencesHelper.getAdminLoginId();
+    }
+
+    @Override
+    public void setAdminLoginId(String id) {
+            mPreferencesHelper.setAdminLoginId(id);
+    }
+
+    @Override
     public boolean isAdminSetUpFinish() {
-        return false;
+        return mPreferencesHelper.isAdminSetUpFinish();
     }
 
     @Override
     public void setAdminSetUpFinish(boolean isSetUp) {
+        mPreferencesHelper.setAdminLoginFinish(isSetUp);
+    }
 
+    @Override
+    public String getStoreId() {
+        return mPreferencesHelper.getStoreId();
+    }
+
+    @Override
+    public void setStoreId(String id) {
+        mPreferencesHelper.setStoreId(id);
+    }
+
+    @Override
+    public String getTerminalId() {
+        return mPreferencesHelper.getTerminalId();
+    }
+
+    @Override
+    public void setTerminalId(String id) {
+        mPreferencesHelper.setTerminalId(id);
     }
 
     @Override
