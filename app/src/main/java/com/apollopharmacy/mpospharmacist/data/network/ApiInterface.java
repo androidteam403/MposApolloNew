@@ -4,6 +4,8 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqMode
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -97,4 +99,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body GenerateTenderLineReq.POSTransactionEntity posTransactionReq);
+
+    @POST("WalletService.svc/OneApolloAPITransaction")
+    Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);
 }

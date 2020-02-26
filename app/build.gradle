@@ -98,5 +98,8 @@ dependencies {
 
     //Add QR Library Here
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+
+    //OTP View
+    implementation project(path: ':otpview')
 }
 apply plugin: 'com.google.gms.google-services'

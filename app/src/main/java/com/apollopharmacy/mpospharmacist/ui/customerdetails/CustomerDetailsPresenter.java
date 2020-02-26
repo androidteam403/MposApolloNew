@@ -72,6 +72,11 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     }
 
     @Override
+    public void onVoiceSearchClick() {
+        getMvpView().onVoiceSearchClick();
+    }
+
+    @Override
     public void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity) {
         getMvpView().onSubmitBtnClick(customerEntity);
     }
