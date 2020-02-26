@@ -25,4 +25,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickCashPaymentPay();
 
     void onClickEditItemsList();
+
+    void calculatePosTransaction();
 }

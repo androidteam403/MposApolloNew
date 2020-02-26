@@ -20,6 +20,10 @@ public interface PreferencesHelper {
 
     void setStoreId(String id);
 
+    String getDataAreaId();
+
+    void setDataAreaId(String dataAreaId);
+
     String getTerminalId();
 
     void setTerminalId(String id);

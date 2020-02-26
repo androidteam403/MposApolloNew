@@ -133,7 +133,7 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void setAdminSetUpFinish(boolean isSetUp) {
-        mPreferencesHelper.setAdminLoginFinish(isSetUp);
+        mPreferencesHelper.setAdminSetUpFinish(isSetUp);
     }
 
     @Override
@@ -144,6 +144,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public void setStoreId(String id) {
         mPreferencesHelper.setStoreId(id);
+    }
+
+    @Override
+    public String getDataAreaId() {
+        return mPreferencesHelper.getDataAreaId();
+    }
+
+    @Override
+    public void setDataAreaId(String dataAreaId) {
+        mPreferencesHelper.setDataAreaId(dataAreaId);
     }
 
     @Override
@@ -158,12 +168,12 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public boolean isUserLogin() {
-        return false;
+        return mPreferencesHelper.isUserLogin();
     }
 
     @Override
     public void setUserLogin(boolean firstTime) {
-
+        mPreferencesHelper.setUserLogin(firstTime);
     }
 
     @Override

@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 import io.realm.RealmObject;
 
 public class GetBatchInfoRes {
@@ -34,7 +37,7 @@ public class GetBatchInfoRes {
         return BatchList;
     }
 
-    public static class BatchListObj  implements Serializable {
+    public static class BatchListObj extends BaseObservable implements Serializable  {
 
 
         @Expose
@@ -270,10 +273,14 @@ public class GetBatchInfoRes {
         private String calculatedTotalPrice;
 
 
+        @Bindable
         public String getCalculatedTotalPrice() {
-            return calculatedTotalPrice = new DecimalFormat("##.##").format(getMRP()*getEnterReqQuantity()) ;
+            return  calculatedTotalPrice ;
         }
 
-
+        public void setCalculatedTotalPrice(String calculatedTotalPrice) {
+            this.calculatedTotalPrice = calculatedTotalPrice;
+            notifyPropertyChanged(BR.calculatedTotalPrice);
+        }
     }
 }

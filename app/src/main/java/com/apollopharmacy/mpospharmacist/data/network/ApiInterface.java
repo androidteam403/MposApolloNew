@@ -2,6 +2,8 @@ package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -51,8 +53,8 @@ public interface ApiInterface {
     @GET("apollompos/Self/CampaignDetails/{storeId}")
     Call<CampaignDetailsRes> CAMPAIGN_DETAILS_RES_CALL(@Path("storeId") String storeId);
 
-    @POST("LoginService.svc/GetLoginUser/16001/AHEL")
-    Call<UserModel> getUserIds(@Body Object o);
+    @POST("LoginService.svc/GetLoginUser/{storeId}/{DataAreaId}")
+    Call<UserModel> getUserIds(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
 
     @POST("LoginService.svc/GetLoginDetail")
     Call<LoginResModel> LOGIN_RES_MODEL_CALL(@Body LoginReqModel loginReqModel);
@@ -63,14 +65,14 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetItemDetails")
     Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL(@Body GetItemDetailsReq itemDetailsReq);
 
-    @POST("SalesTransactionService.svc/GetTrackingRefence/16001/AHEL")
-    Call<CorporateModel> getCorporateList(@Body Object o);
+    @POST("SalesTransactionService.svc/GetTrackingRefence/{storeId}/{DataAreaId}")
+    Call<CorporateModel> getCorporateList(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
 
-    @POST("SalesTransactionService.svc/GetDoctorList/16001/AHEL")
-    Call<DoctorSearchResModel> getDoctorsList(@Body DoctorSearchReqModel doctorSearchReqModel);
+    @POST("SalesTransactionService.svc/GetDoctorList/{storeId}/{DataAreaId}")
+    Call<DoctorSearchResModel> getDoctorsList(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body DoctorSearchReqModel doctorSearchReqModel);
 
-    @POST("SalesTransactionService.svc/GetSalesOrigin/AHEL")
-    Call<SalesOriginResModel> getSalesOriginList(@Body Object o);
+    @POST("SalesTransactionService.svc/GetSalesOrigin/{DataAreaId}")
+    Call<SalesOriginResModel> getSalesOriginList(@Path("DataAreaId") String dataAreaId,@Body Object o);
 
     @POST("SalesTransactionService.svc/GetTransactionId")
     Call<TransactionIDResModel> GET_TRANSACTION_ID(@Body TransactionIDReqModel transactionIDReqModel);
@@ -78,18 +80,21 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetBatchDetails")
     Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL (@Body GetBatchInfoReq getBatchInfoReq);
 
-    @POST("SalesTransactionService.svc/GenerateTenderLine/69")
-    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Body GenerateTenderLineReq tenderLineReq);
+    @POST("SalesTransactionService.svc/GenerateTenderLine/{totalAmount}")
+    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") String amount,@Body GenerateTenderLineReq tenderLineReq);
 
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
     Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineRes.GenerateTenderLineResultEntity tenderLineReq);
 
-    @POST("SalesTransactionService.svc/GetGlobalConfigration/16001/ahel")
-    Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Body Object o);
+    @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{DataAreaId}")
+    Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
 
     @POST("SalesTransactionService.svc/DoctorCreation")
     Call<AddDoctorResModel> ADD_DOCTOR_SERVICE(@Body AddDoctorReqModel addDoctorReqModel);
 
     @POST("SalesTransactionService.svc/CustomerCreation")
     Call<AddCustomerResModel> ADD_CUSTOMER_SERVICE(@Body AddCustomerReqModel addCustomerReqModel);
+
+    @POST("SalesTransactionService.svc/CalculatePosTransaction")
+    Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body GenerateTenderLineReq.POSTransactionEntity posTransactionReq);
 }

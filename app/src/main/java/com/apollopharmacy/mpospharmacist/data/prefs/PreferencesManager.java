@@ -27,6 +27,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_ADMIN_SET_UP = "PREF_KEY_ADMIN_SET_UP";
     private static final String PREF_KEY_STORE_ID = "PREF_KEY_STORE_ID";
     private static final String PREF_KEY_TERMINAL_ID ="PREF_KEY_TERMINAL_ID";
+    private static final String PREF_KEY_USER_LOGIN = "PREF_KEY_USER_LOGIN";
+    private static final String PREF_KEY_DATA_AREA_ID = "PREF_KEY_DATA_AREA_ID";
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -126,6 +128,16 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
+    public String getDataAreaId() {
+        return mPrefs.getString(PREF_KEY_DATA_AREA_ID,"");
+    }
+
+    @Override
+    public void setDataAreaId(String dataAreaId) {
+        mPrefs.edit().putString(PREF_KEY_DATA_AREA_ID,dataAreaId).apply();
+    }
+
+    @Override
     public String getTerminalId() {
         return mPrefs.getString(PREF_KEY_TERMINAL_ID,"");
     }
@@ -137,12 +149,12 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public boolean isUserLogin() {
-        return false;
+        return mPrefs.getBoolean(PREF_KEY_USER_LOGIN,false);
     }
 
     @Override
     public void setUserLogin(boolean firstTime) {
-
+        mPrefs.edit().putBoolean(PREF_KEY_USER_LOGIN,firstTime).apply();
     }
 
     @Override

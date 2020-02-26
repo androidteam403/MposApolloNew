@@ -112,7 +112,7 @@ public class GenerateTenderLineReq {
         private double TotalTaxAmount;
         @Expose
         @SerializedName("TotalMRP")
-        private int TotalMRP;
+        private double TotalMRP;
         @Expose
         @SerializedName("TotalManualDiscountPercentage")
         private int TotalManualDiscountPercentage;
@@ -160,13 +160,13 @@ public class GenerateTenderLineReq {
         private int NumberofItemLines;
         @Expose
         @SerializedName("NetAmountInclTax")
-        private int NetAmountInclTax;
+        private double NetAmountInclTax;
         @Expose
         @SerializedName("NetAmount")
         private double NetAmount;
         @Expose
         @SerializedName("GrossAmount")
-        private int GrossAmount;
+        private double GrossAmount;
         @Expose
         @SerializedName("EntryStatus")
         private int EntryStatus;
@@ -286,7 +286,7 @@ public class GenerateTenderLineReq {
         private boolean ISReserved;
         @Expose
         @SerializedName("Remainingamount")
-        private int Remainingamount;
+        private double Remainingamount;
 
         public void setTenderLine(List<String> tenderLine) {
             TenderLine = tenderLine;
@@ -392,7 +392,7 @@ public class GenerateTenderLineReq {
             TotalTaxAmount = totalTaxAmount;
         }
 
-        public void setTotalMRP(int totalMRP) {
+        public void setTotalMRP(double totalMRP) {
             TotalMRP = totalMRP;
         }
 
@@ -456,7 +456,7 @@ public class GenerateTenderLineReq {
             NumberofItemLines = numberofItemLines;
         }
 
-        public void setNetAmountInclTax(int netAmountInclTax) {
+        public void setNetAmountInclTax(double netAmountInclTax) {
             NetAmountInclTax = netAmountInclTax;
         }
 
@@ -464,7 +464,7 @@ public class GenerateTenderLineReq {
             NetAmount = netAmount;
         }
 
-        public void setGrossAmount(int grossAmount) {
+        public void setGrossAmount(double grossAmount) {
             GrossAmount = grossAmount;
         }
 
@@ -624,7 +624,7 @@ public class GenerateTenderLineReq {
             this.ISReserved = ISReserved;
         }
 
-        public void setRemainingamount(int remainingamount) {
+        public void setRemainingamount(double remainingamount) {
             Remainingamount = remainingamount;
         }
 
@@ -732,7 +732,7 @@ public class GenerateTenderLineReq {
             return TotalTaxAmount;
         }
 
-        public int getTotalMRP() {
+        public double getTotalMRP() {
             return TotalMRP;
         }
 
@@ -796,7 +796,7 @@ public class GenerateTenderLineReq {
             return NumberofItemLines;
         }
 
-        public int getNetAmountInclTax() {
+        public double getNetAmountInclTax() {
             return NetAmountInclTax;
         }
 
@@ -804,7 +804,7 @@ public class GenerateTenderLineReq {
             return NetAmount;
         }
 
-        public int getGrossAmount() {
+        public double getGrossAmount() {
             return GrossAmount;
         }
 
@@ -964,7 +964,7 @@ public class GenerateTenderLineReq {
             return ISReserved;
         }
 
-        public int getRemainingamount() {
+        public double getRemainingamount() {
             return Remainingamount;
         }
     }

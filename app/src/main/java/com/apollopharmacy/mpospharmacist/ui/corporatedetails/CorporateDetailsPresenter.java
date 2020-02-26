@@ -29,7 +29,7 @@ public class CorporateDetailsPresenter<V extends CorporateDetailsMvpView> extend
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
-            Call<CorporateModel> call = api.getCorporateList(new JsonObject());
+            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {

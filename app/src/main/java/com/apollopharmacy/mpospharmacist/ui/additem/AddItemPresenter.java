@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
@@ -94,7 +96,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 //Creating an object of our api interface
                 ApiInterface api = ApiClient.getApiService();
 
-                Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(generateTenderLineReq());
+                Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(getMvpView().getCashPaymentAmount(),generateTenderLineReq());
                 call.enqueue(new Callback<GenerateTenderLineRes>() {
                     @Override
                     public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
@@ -124,6 +126,35 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickEditItemsList() {
         getMvpView().onClickEditItemsList();
+    }
+
+    @Override
+    public void calculatePosTransaction() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            Call<CalculatePosTransactionRes> call = api.CALCULATE_POS_TRANSACTION_RES_CALL(posTransactionEntity());
+            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        getMvpView().onSuccessCalculatePosTransaction(response.body());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 
 
@@ -184,12 +215,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setBillingCity("");
         posTransactionEntity.setBusinessDate(CommonUtils.getCurrentDate(CommonUtils.DATE_FORMAT_DD_MMM_YYYY));
         posTransactionEntity.setCancelReasonCode("");
-        posTransactionEntity.setChannel("5637145327");
+        posTransactionEntity.setChannel(getDataManager().getGlobalJson().getChannel());
         posTransactionEntity.setComment("");
         posTransactionEntity.setCorpCode("0");
         posTransactionEntity.setCouponCode("");
         posTransactionEntity.setCreatedonPosTerminal(getMvpView().getTransactionModule().getTerminalID());// Terminal Id
-        posTransactionEntity.setCurrency("INR");
+        posTransactionEntity.setCurrency(getDataManager().getGlobalJson().getCurrency());
         posTransactionEntity.setCurrentSalesLine(0);
         posTransactionEntity.setCustAccount("");
         posTransactionEntity.setCustAddress("");
@@ -205,10 +236,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setDoctorName(getMvpView().getDoctorModule().getDisplayText());
         posTransactionEntity.setEntryStatus(0);
         posTransactionEntity.setGender(0);
-        posTransactionEntity.setGrossAmount(65);//gross Amount
+        posTransactionEntity.setGrossAmount(getMvpView().getOrderPriceInfoModel().getMrpTotalAmount());//gross Amount
         posTransactionEntity.setIPNO("");
         posTransactionEntity.setIPSerialNO("");
-        posTransactionEntity.setISAdvancePayment(false);
+        posTransactionEntity.setISAdvancePayment(getDataManager().getGlobalJson().isISAdvancePaymentAllowed());
         posTransactionEntity.setISBatchModifiedAllowed(false);
         posTransactionEntity.setISOMSOrder(false);
         posTransactionEntity.setISPosted(false);
@@ -217,8 +248,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setISReturnAllowed(false);
         posTransactionEntity.setManualBill(false);
         posTransactionEntity.setMobileNO(getMvpView().getCustomerModule().getMobileNo());// user mobile number
-        posTransactionEntity.setNetAmount(70);// net amount
-        posTransactionEntity.setNetAmountInclTax(75);// include tax total
+        posTransactionEntity.setNetAmount((getMvpView().getOrderPriceInfoModel().getMrpTotalAmount() - getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount()));// net amount
+        posTransactionEntity.setNetAmountInclTax(getMvpView().getOrderPriceInfoModel().getMrpTotalAmount());// include tax total
         posTransactionEntity.setNumberofItemLines(getMvpView().getSelectedProducts().size());// items count
         posTransactionEntity.setNumberofItems(getMvpView().getSelectedProducts().size());// items count
         posTransactionEntity.setOrderSource("");
@@ -229,7 +260,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setReciptId("");
         posTransactionEntity.setREFNO("");
         posTransactionEntity.setRegionCode("");
-        posTransactionEntity.setRemainingamount(85);// amount to paid
+        posTransactionEntity.setRemainingamount(getMvpView().getOrderPriceInfoModel().getRoundedAmount());// amount to paid
         posTransactionEntity.setReminderDays(0);
         posTransactionEntity.setRequestStatus(0);
         posTransactionEntity.setReturn(false);
@@ -245,7 +276,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setSEZ(0);
         posTransactionEntity.setShippingMethod("");
         posTransactionEntity.setStaff(getMvpView().getTransactionModule().getTerminalID());// terminal Id
-        posTransactionEntity.setState("AP");
+        posTransactionEntity.setState(getDataManager().getGlobalJson().getStateCode());
         posTransactionEntity.setStockCheck(true);
         posTransactionEntity.setStore(getMvpView().getTransactionModule().getStoreID());// store details
         posTransactionEntity.setStoreName("");
@@ -255,8 +286,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setTotalDiscAmount(0);
         posTransactionEntity.setTotalManualDiscountAmount(0);
         posTransactionEntity.setTotalManualDiscountPercentage(0);
-        posTransactionEntity.setTotalMRP(85);// total MRP Price
-        posTransactionEntity.setTotalTaxAmount(15);// total Tax amount
+        posTransactionEntity.setTotalMRP(getMvpView().getOrderPriceInfoModel().getMrpTotalAmount());// total MRP Price
+        posTransactionEntity.setTotalTaxAmount(getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount());// total Tax amount
         posTransactionEntity.setTrackingRef("");
         posTransactionEntity.setTransactionId(getMvpView().getTransactionModule().getTransactionID());// Trancaction id
         posTransactionEntity.setTransDate(CommonUtils.getCurrentDate("DD-MMM-YYYY hh:mm:ss"));// payment date time format `18-Feb-2020 03:01:20`
@@ -360,6 +391,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
         return salesLineEntities;
     }
+
+
     /**
      * invoke to initialize the SDK with the merchant key and the device (card
      * reader) with bank keys

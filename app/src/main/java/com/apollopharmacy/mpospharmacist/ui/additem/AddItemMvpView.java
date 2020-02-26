@@ -2,6 +2,8 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.content.Context;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -41,6 +43,8 @@ public interface AddItemMvpView extends MvpView {
 
     TransactionIDResModel getTransactionModule();
 
+    OrderPriceInfoModel getOrderPriceInfoModel();
+
     ArrayList<GetItemDetailsRes.Items> getSelectedProducts();
 
     void setErrorCardPaymentAmountEditText(String message);
@@ -60,4 +64,8 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body);
 
     void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body);
+
+    void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
+
+    void onFailedCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
 }
