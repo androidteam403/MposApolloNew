@@ -69,7 +69,7 @@ public class PayPresenter<V extends PayMvpView> extends BasePresenter<V>
                 //Creating an object of our api interface
                 ApiInterface api = ApiClient.getApiService();
 
-                Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(generateTenderLineReq());
+                Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(getMvpView().getCashPaymentAmount(),generateTenderLineReq());
                 call.enqueue(new Callback<GenerateTenderLineRes>() {
                     @Override
                     public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {

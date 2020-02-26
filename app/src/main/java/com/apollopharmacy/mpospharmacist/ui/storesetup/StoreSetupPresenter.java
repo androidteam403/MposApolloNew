@@ -65,6 +65,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                         if(response.body().isStatus()){
                             getDataManager().setStoreId(getMvpView().getStoreId());
                             getDataManager().setTerminalId(getMvpView().getTerminalId());
+                            getDataManager().setDataAreaId(getMvpView().getStoreDetails().getDataAreaId());
                             getDataManager().setAdminSetUpFinish(true);
                             getMvpView().storeSetupSuccess(response.body());
                         }else{

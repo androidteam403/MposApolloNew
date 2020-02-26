@@ -1,14 +1,18 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.Manifest;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -21,6 +25,7 @@ import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
 import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
@@ -47,6 +52,7 @@ import com.eze.api.EzeAPI;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -334,6 +340,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public OrderPriceInfoModel getOrderPriceInfoModel() {
+        return orderPriceInfoModel;
+    }
+
+    @Override
     public ArrayList<GetItemDetailsRes.Items> getSelectedProducts() {
         return medicineDetailsModelsList;
     }
@@ -397,6 +408,46 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
+//        txtSaving.Text = Convert.ToDecimal(Math.Round((POSSalesTransaction.DiscAmount / POSSalesTransaction.TotalMRP) * 100, 2)).ToString("#0.00");
+//        txtMRP.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.TotalMRP, 2)).ToString("#0.00");
+//        txtTaxableAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.NetAmount, 2)).ToString("#0.00");
+//        txtNetTotal.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.GrossAmount - POSSalesTransaction.DiscAmount, 2)).ToString("#0.00");
+//        txtTaxAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.TotalTaxAmount, 2)).ToString("#0.00");
+//        txtDiscAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.DiscAmount, 2)).ToString("#0.00");
+//        txtPharmaAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "P" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
+//        txtPLAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "A" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
+//        txtFMCGAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "F" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
+
+        orderPriceInfoModel.setOrderSavingsAmount(Math.round(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100));
+        orderPriceInfoModel.setMrpTotalAmount(Math.round(posTransactionRes.getTotalMRP()));
+        orderPriceInfoModel.setTaxableTotalAmount(Math.round(posTransactionRes.getNetAmount()));
+        orderPriceInfoModel.setOrderTotalAmount(Math.round(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount()));
+        orderPriceInfoModel.setDiscTotalAmount(Math.round(posTransactionRes.getDiscAmount()));
+        orderPriceInfoModel.setRoundedAmount(Math.round(posTransactionRes.getRoundedAmount()));
+        orderPriceInfoModel.setOrderSavingsPercentage(Math.round(posTransactionRes.getTotalManualDiscountPercentage()));
+        if(posTransactionRes.getSalesLine().size() > 0){
+            for(int i=0; i< posTransactionRes.getSalesLine().size(); i++){
+                if ( posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
+                    orderPriceInfoModel.setPharmaTotalAmount(Math.round(orderPriceInfoModel.getPharmaTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("F"))
+                    orderPriceInfoModel.setFmcgTotalAmount(Math.round(orderPriceInfoModel.getFmcgTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
+                    orderPriceInfoModel.setPlTotalAmount(Math.round(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+
+                medicineDetailsModelsList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmount()));
+            }
+        }
+
+        addItemBinding.setOrderInfo(orderPriceInfoModel);
+    }
+
+    @Override
+    public void onFailedCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
+
+    }
+
+    @Override
     public void onSuccessValidateOneApolloPoints(ValidatePointsResModel body) {
         addItemBinding.setValidatePoints(body.getOneApolloProcessResult());
     }
@@ -427,22 +478,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             medicineDetailsModelsList.add(items);
                             medicinesDetailAdapter.notifyDataSetChanged();
                             addItemBinding.setProductCount(medicineDetailsModelsList.size());
-
-                            if (items.getCategory().equalsIgnoreCase("pharma"))
-                                orderPriceInfoModel.setPharmaTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + Double.parseDouble(items.getBatchListObj().getCalculatedTotalPrice()));
-                            else if (items.getCategory().equalsIgnoreCase("FMCG"))
-                                orderPriceInfoModel.setFmcgTotalAmount(orderPriceInfoModel.getFmcgTotalAmount() + Double.parseDouble(items.getBatchListObj().getCalculatedTotalPrice()));
-                            else if (items.getCategory().equalsIgnoreCase("pl"))
-                                orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + Double.parseDouble(items.getBatchListObj().getCalculatedTotalPrice()));
-
-                            orderPriceInfoModel.setRoundedAmount((int) (orderPriceInfoModel.getPharmaTotalAmount() + orderPriceInfoModel.getFmcgTotalAmount() + orderPriceInfoModel.getPlTotalAmount()));
-                            orderPriceInfoModel.setMrpTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + orderPriceInfoModel.getFmcgTotalAmount() + orderPriceInfoModel.getPlTotalAmount());
-                            orderPriceInfoModel.setTaxableTotalAmount(orderPriceInfoModel.getTaxableTotalAmount() + items.getBatchListObj().getTotalTax());
-                            orderPriceInfoModel.setDiscTotalAmount(0);
-                            orderPriceInfoModel.setOrderTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + orderPriceInfoModel.getFmcgTotalAmount() + orderPriceInfoModel.getPlTotalAmount());
-                            orderPriceInfoModel.setOrderSavingsAmount((orderPriceInfoModel.getOrderSavingsAmount() + items.getBatchListObj().getPrice()));
-                            orderPriceInfoModel.setOrderSavingsPercentage((orderPriceInfoModel.getOrderSavingsPercentage() + items.getBatchListObj().getTotalTax()));
-                            addItemBinding.setOrderInfo(orderPriceInfoModel);
                             // Insert into cart table
                             if (items != null) {
                                 Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
@@ -538,6 +573,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                 }
 
                             }
+
+                            mPresenter.calculatePosTransaction();
                         }
                         break;
                     case CUSTOMER_SEARCH_ACTIVITY_CODE:

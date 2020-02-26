@@ -45,6 +45,9 @@ public class StoreListResponseModel {
         @Expose
         @SerializedName("City")
         private String city;
+        @Expose
+        @SerializedName("DataAreaId")
+        private String dataAreaId;
 
 
         public String getStoreId() {
@@ -65,6 +68,10 @@ public class StoreListResponseModel {
 
         public String getCity() {
             return city;
+        }
+
+        public String getDataAreaId() {
+            return dataAreaId;
         }
 
         @Override

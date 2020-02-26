@@ -6,7 +6,7 @@ public class OrderPriceInfoModel {
     public double PharmaTotalAmount;
     public double FmcgTotalAmount;
     public double PlTotalAmount;
-    public int RoundedAmount;
+    public double RoundedAmount;
     public double MrpTotalAmount;
     public double TaxableTotalAmount;
     public double DiscTotalAmount;
@@ -46,11 +46,11 @@ public class OrderPriceInfoModel {
         PlTotalAmount = plTotalAmount;
     }
 
-    public int getRoundedAmount() {
+    public double getRoundedAmount() {
         return RoundedAmount;
     }
 
-    public void setRoundedAmount(int roundedAmount) {
+    public void setRoundedAmount(double roundedAmount) {
         RoundedAmount = roundedAmount;
     }
 

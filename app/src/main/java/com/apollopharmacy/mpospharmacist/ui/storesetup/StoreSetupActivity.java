@@ -159,7 +159,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
 
     @Override
     public void storeSetupSuccess(DeviceSetupResModel storeResModel) {
-        adminSetup();
+       // adminSetup();
         mPresenter.insertAdminLoginDetails();
     }
 
@@ -187,6 +187,11 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     public String getStoreId() {
         return selectedStoreId.getStoreId();
+    }
+
+    @Override
+    public StoreListResponseModel.StoreListObj getStoreDetails() {
+        return activityStoreSetupBinding.getStoreinfo();
     }
 
     @Override

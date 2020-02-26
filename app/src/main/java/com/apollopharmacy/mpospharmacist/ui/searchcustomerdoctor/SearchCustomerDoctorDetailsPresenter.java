@@ -80,8 +80,8 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
             transactionIDModel.setReturnMessage("");
             transactionIDModel.setResultValue("");
             transactionIDModel.setTransactionID("");
-            transactionIDModel.setStoreID("16001");
-            transactionIDModel.setTerminalID("001");
+            transactionIDModel.setStoreID(getDataManager().getStoreId());
+            transactionIDModel.setTerminalID(getDataManager().getTerminalId());
             transactionIDModel.setDataAreaID("AHEL");
             transactionIDModel.setBillingMode(5);
             Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
@@ -109,7 +109,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
-            Call<CorporateModel> call = api.getCorporateList(new JsonObject());
+            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
