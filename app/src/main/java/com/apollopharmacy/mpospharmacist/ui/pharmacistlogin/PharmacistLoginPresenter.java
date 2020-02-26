@@ -49,7 +49,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();
-            Call<UserModel> call = api.getUserIds(new JsonObject());
+            Call<UserModel> call = api.getUserIds(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
 
             call.enqueue(new Callback<UserModel>() {
                 @Override
@@ -120,7 +120,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
                             getDataManager().setUserLogin(true);
-                            userLoginCampaignApi();
+                            getGlobalConfigration();
                         } else {
                             getMvpView().userLoginFailed(response.body().getReturnMessage());
                         }
@@ -157,7 +157,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
-                            userLoginCampaignApi();
+                            getDataManager().setUserLogin(true);
+                            getGlobalConfigration();
                         } else {
                             getMvpView().userLoginFailed(response.body().getReturnMessage());
                         }
@@ -181,7 +182,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             //Creating an object of our api interface
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
-            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(new Object());
+            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
             call.enqueue(new Callback<GetGlobalConfingRes>() {
                 @Override
                 public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {

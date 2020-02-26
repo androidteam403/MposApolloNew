@@ -33,4 +33,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void validateOneApolloPoints(String userMobileNumber, String transactionID);
 
     void onClickRedeemPoints();
+
+    void calculatePosTransaction();
 }

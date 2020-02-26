@@ -80,15 +80,15 @@ public class AddCustomerPresenter<V extends AddCustomerMvpView> extends BasePres
             addCustomerReqModel.setDependentsNo(getMvpView().getNumberOfDependants());
             addCustomerReqModel.setCardNumber(getMvpView().getCardNumber());
             addCustomerReqModel.setRegistrationDate(getMvpView().getDateOfReg());
-            addCustomerReqModel.setCorpId("102");
+            addCustomerReqModel.setCorpId("");
             addCustomerReqModel.setCustId("");
-            addCustomerReqModel.setStoreId("16001");
-            addCustomerReqModel.setAXDomain("apollopharmacy.org");
-            addCustomerReqModel.setAXUserId("ap36695");
-            addCustomerReqModel.setAXPassword("Pharmacyax@123");
-            addCustomerReqModel.setCustomerCreationURL("net.tcp://172.16.1.179:8201/DynamicsAx/Services/");
-            addCustomerReqModel.setRequestStatus(0);
-            addCustomerReqModel.setReturnMessage("");
+            addCustomerReqModel.setStoreId(getDataManager().getStoreId());
+            addCustomerReqModel.setAXDomain(getDataManager().getGlobalJson().getAXServiceDomain());
+            addCustomerReqModel.setAXUserId(getDataManager().getGlobalJson().getAXServiceUsername());
+            addCustomerReqModel.setAXPassword(getDataManager().getGlobalJson().getAXServicePassword());
+            addCustomerReqModel.setCustomerCreationURL(getDataManager().getGlobalJson().getAXServiceURL());
+            addCustomerReqModel.setRequestStatus(getDataManager().getGlobalJson().getRequestStatus());
+            addCustomerReqModel.setReturnMessage(getDataManager().getGlobalJson().getReturnMessage());
             Call<AddCustomerResModel> call = api.ADD_CUSTOMER_SERVICE(addCustomerReqModel);
             call.enqueue(new Callback<AddCustomerResModel>() {
                 @Override

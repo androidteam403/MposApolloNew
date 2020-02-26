@@ -53,16 +53,16 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
             doctorReqModel.setAddress(getMvpView().getAddress());
             doctorReqModel.setState("");
             doctorReqModel.setPhoneNo(getMvpView().getPhoneNo());
-            doctorReqModel.setStoreId("16001");
+            doctorReqModel.setStoreId(getDataManager().getStoreId());
             doctorReqModel.setRECID("");
             doctorReqModel.setDataAreaID("AHEL");
-            doctorReqModel.setAXDomain("apollopharmacy.org");
-            doctorReqModel.setAXUserId("ap36695");
-            doctorReqModel.setAXPassword("Pharmacyax@123");
-            doctorReqModel.setDoctorCreationURL("net.tcp://172.16.1.179:8201/DynamicsAx/Services/");
-            doctorReqModel.setClusterCode("14907");
-            doctorReqModel.setRequestStatus(1);
-            doctorReqModel.setReturnMessage("");
+            doctorReqModel.setAXDomain(getDataManager().getGlobalJson().getAXServiceDomain());
+            doctorReqModel.setAXUserId(getDataManager().getGlobalJson().getAXServiceUsername());
+            doctorReqModel.setAXPassword(getDataManager().getGlobalJson().getAXServicePassword());
+            doctorReqModel.setDoctorCreationURL(getDataManager().getGlobalJson().getAXServiceURL());
+            doctorReqModel.setClusterCode(getDataManager().getGlobalJson().getClusterCode());
+            doctorReqModel.setRequestStatus(getDataManager().getGlobalJson().getRequestStatus());
+            doctorReqModel.setReturnMessage(getDataManager().getGlobalJson().getReturnMessage());
             Call<AddDoctorResModel> call = api.ADD_DOCTOR_SERVICE(doctorReqModel);
             call.enqueue(new Callback<AddDoctorResModel>() {
                 @Override

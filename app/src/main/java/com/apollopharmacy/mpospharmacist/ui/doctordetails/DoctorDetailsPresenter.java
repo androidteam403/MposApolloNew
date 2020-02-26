@@ -52,9 +52,9 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
             doctorSearchModel.setISAX(false);
             doctorSearchModel.setDoctorID("");
             doctorSearchModel.setDoctorName("");
-            doctorSearchModel.setClusterId("14907");
-            doctorSearchModel.setDoctorBaseUrl("");
-            Call<DoctorSearchResModel> call = api.getDoctorsList(doctorSearchModel);
+            doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
+            doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),doctorSearchModel);
             call.enqueue(new Callback<DoctorSearchResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
@@ -78,7 +78,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     public void getSalesOrigin() {
         if (getMvpView().isNetworkConnected()) {
             ApiInterface api = ApiClient.getApiService();
-            Call<SalesOriginResModel> call = api.getSalesOriginList(new JsonObject());
+            Call<SalesOriginResModel> call = api.getSalesOriginList(getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<SalesOriginResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<SalesOriginResModel> call, @NotNull Response<SalesOriginResModel> response) {
@@ -106,9 +106,9 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
             doctorSearchModel.setISAX(false);
             doctorSearchModel.setDoctorID("0");
             doctorSearchModel.setDoctorName("");
-            doctorSearchModel.setClusterId("14907");
-            doctorSearchModel.setDoctorBaseUrl("http://10.4.14.4:85/AXPOS/CustService.svc/");
-            Call<DoctorSearchResModel> call = api.getDoctorsList(doctorSearchModel);
+            doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
+            doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),doctorSearchModel);
             call.enqueue(new Callback<DoctorSearchResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
