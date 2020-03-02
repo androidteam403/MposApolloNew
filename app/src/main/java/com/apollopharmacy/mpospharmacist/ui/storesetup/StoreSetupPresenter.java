@@ -4,6 +4,8 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingReq;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
@@ -114,5 +116,40 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
     public void insertAdminLoginDetails() {
         getDataManager().setAdminSetUpFinish(true);
         getMvpView().onNavigateHomeScreen();
+    }
+
+    @Override
+    public void checkConfingApi() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            ConfingReq confingReq = new ConfingReq();
+            confingReq.setDataAreaID(getMvpView().getStoreDetails().getDataAreaId());
+            confingReq.setRequestStatus(0);
+            confingReq.setStoreID(getMvpView().getStoreDetails().getStoreId());
+            confingReq.setTerminalID(getMvpView().getTerminalId());
+            Call<ConfingRes> call = api.CONFING_RES_CALL(confingReq);
+            call.enqueue(new Callback<ConfingRes>() {
+                @Override
+                public void onResponse(@NotNull Call<ConfingRes> call, @NotNull Response<ConfingRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if(response.body() != null && response.body().getRequestStatus() == 0){
+                            handleStoreSetupService();
+                        }else{
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ConfingRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }

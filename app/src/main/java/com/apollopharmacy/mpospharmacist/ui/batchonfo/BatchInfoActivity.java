@@ -22,6 +22,7 @@ import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListen
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
@@ -41,9 +42,10 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     private boolean isSelectedBatch = false;
     private GetItemDetailsRes.Items selectedItem;
 
-    public static Intent getStartIntent(Context context, GetItemDetailsRes.Items items) {
+    public static Intent getStartIntent(Context context, GetItemDetailsRes.Items items, TransactionIDResModel transactionID) {
         Intent intent = new Intent(context, BatchInfoActivity.class);
         Bundle bundle = new Bundle();
+        intent.putExtra("transaction_id", transactionID);
         bundle.putSerializable("selected_item",items);
         intent.putExtras(bundle);
         return intent;
@@ -62,11 +64,13 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     protected void setUp() {
         batchInfoBinding.setCallback(mPresenter);
+        TransactionIDResModel transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+        batchInfoBinding.setTransaction(transactionIdModel);
         selectedItem = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
         batchInfoAdapter = new BatchInfoAdapter( arrBatchList,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         batchInfoBinding.batchInfoRecycler.setLayoutManager(mLayoutManager);
-
+        batchInfoBinding.setProduct(selectedItem);
 //        ((SimpleItemAnimator) batchInfoBinding.batchInfoRecycler.getItemAnimator()).setSupportsChangeAnimations(false);
 //        batchInfoBinding.batchInfoRecycler.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         batchInfoBinding.batchInfoRecycler.setAdapter(batchInfoAdapter);

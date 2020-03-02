@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -46,7 +47,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     ProductListActivityBinding productListActivityBinding;
     private ProductListAdapter productListAdapter;
     private ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
-    private boolean isLoadApi = false;
+    private boolean isLoadApi = true;
     private int ACTIVITY_RESULT_FOR_BATCH_INFO = 103;
     private final int MY_PERMISSIONS_RECORD_AUDIO = 106;
     private final int REQ_CODE_SPEECH_INPUT = 107;
@@ -56,9 +57,10 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         return new Intent(context, ProductListActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateModule, String searchType) {
+    public static Intent getStartIntent(Context context, CorporateModel.DropdownValueBean corporateModule, TransactionIDResModel transactionID, String searchType) {
         Intent intent = new Intent(context, ProductListActivity.class);
         intent.putExtra("corporate_info", corporateModule);
+        intent.putExtra("transaction_id", transactionID);
         intent.putExtra("search_type", searchType);
         return intent;
     }
@@ -75,6 +77,8 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     @Override
     protected void setUp() {
         productListActivityBinding.setCallback(productListMvpPresenter);
+        TransactionIDResModel transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+        productListActivityBinding.setTransaction(transactionIdModel);
         if (getIntent() != null) {
             SEARCH_TYPE = (String) getIntent().getSerializableExtra("search_type");
             if (SEARCH_TYPE != null) {
@@ -109,17 +113,18 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 3 && isLoadApi) {
+                if (s.length() == 3 && isLoadApi && itemsArrayList.size() == 0) {
                     productListMvpPresenter.getProductDetails();
-                } else if (s.length() >= 3) {
+                } else if (s.length() >= 3 && !isLoadApi) {
                     productListAdapter.getFilter().filter(s);
                 } else {
                     if (s.length() == 0) {
                         updateProductsCount(0);
                         itemsArrayList.clear();
                         productListAdapter.notifyDataSetChanged();
+                        isLoadApi = true;
                     }
-                    isLoadApi = true;
+
                 }
             }
         });
@@ -133,7 +138,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onClickProductItem(GetItemDetailsRes.Items item) {
-        startActivityForResult(BatchInfoActivity.getStartIntent(this, item), ACTIVITY_RESULT_FOR_BATCH_INFO);
+        startActivityForResult(BatchInfoActivity.getStartIntent(this, item,productListActivityBinding.getTransaction()), ACTIVITY_RESULT_FOR_BATCH_INFO);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -164,6 +169,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         updateProductsCount(itemDetailsRes.getItemList().size());
         itemsArrayList.addAll(itemDetailsRes.getItemList());
         productListAdapter.notifyDataSetChanged();
+        productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
     }
 
     @Override

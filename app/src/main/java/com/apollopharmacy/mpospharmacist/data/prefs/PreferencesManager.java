@@ -46,6 +46,11 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
+    public String getUserId() {
+        return mPrefs.getString(PREF_KEY_USER_ID,"");
+    }
+
+    @Override
     public void storeGlobalJson(String json) {
         mPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
     }
@@ -60,6 +65,11 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setUserName(String userName) {
         mPrefs.edit().putString(PREF_KEY_USER_NAME, userName).apply();
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        mPrefs.edit().putString(PREF_KEY_USER_ID,userId).apply();
     }
 
     @Override

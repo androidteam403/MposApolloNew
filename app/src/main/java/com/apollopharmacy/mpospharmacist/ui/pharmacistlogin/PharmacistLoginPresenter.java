@@ -119,6 +119,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
+                            getDataManager().setUserId(response.body().getUserId());
+                            getDataManager().setUserName(response.body().getUserName());
                             getDataManager().setUserLogin(true);
                             getGlobalConfigration();
                         } else {
@@ -157,6 +159,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.body().getRequestStatus() == 0) {
+                            getDataManager().setUserId(response.body().getUserId());
+                            getDataManager().setUserName(response.body().getUserName());
                             getDataManager().setUserLogin(true);
                             getGlobalConfigration();
                         } else {

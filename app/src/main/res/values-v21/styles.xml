@@ -33,7 +33,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <!--        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>-->
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
     </style>
 
     <style name="EditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

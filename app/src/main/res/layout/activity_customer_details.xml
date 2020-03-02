@@ -21,6 +21,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/customer_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/search_customer_bg"
@@ -401,7 +402,8 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/label_edit"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_16" />
+                            android:textSize="@dimen/text_dimen_16"
+                            android:visibility="gone"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

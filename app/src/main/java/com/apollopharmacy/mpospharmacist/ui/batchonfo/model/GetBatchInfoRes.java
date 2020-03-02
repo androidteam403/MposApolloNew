@@ -282,5 +282,17 @@ public class GetBatchInfoRes {
             this.calculatedTotalPrice = calculatedTotalPrice;
             notifyPropertyChanged(BR.calculatedTotalPrice);
         }
+
+        private String previewText;
+
+        @Bindable
+        public String getPreviewText() {
+            return previewText;
+        }
+
+        public void setPreviewText(String previewText) {
+            this.previewText = previewText;
+            notifyPropertyChanged(BR.previewText);
+        }
     }
 }

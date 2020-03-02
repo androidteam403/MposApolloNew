@@ -43,13 +43,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/forty_five_dp"
-            android:layout_margin="@dimen/ten_dp">
-
+            android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/EditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_regular">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -59,18 +58,21 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
                     android:hint="@string/label_search_by_store_name"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
+
             <ImageView
                 android:layout_width="@dimen/twenty_seven_dp"
                 android:layout_height="@dimen/twenty_seven_dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_search" />
         </RelativeLayout>

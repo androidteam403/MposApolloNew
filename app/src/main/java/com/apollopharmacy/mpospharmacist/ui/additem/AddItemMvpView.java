@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateMode
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
@@ -36,6 +37,10 @@ public interface AddItemMvpView extends MvpView {
 
     String getCardPaymentAmount();
 
+    String getOneApolloPoints();
+
+    String getOneApolloOtp();
+
     GetCustomerResponse.CustomerEntity getCustomerModule();
 
     DoctorSearchResModel.DropdownValueBean getDoctorModule();
@@ -46,11 +51,19 @@ public interface AddItemMvpView extends MvpView {
 
     OrderPriceInfoModel getOrderPriceInfoModel();
 
+    PaymentMethodModel getPaymentMethod();
+
+    ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints();
+
     ArrayList<GetItemDetailsRes.Items> getSelectedProducts();
 
     void setErrorCardPaymentAmountEditText(String message);
 
     void setErrorCashPaymentAmountEditText(String message);
+
+    void setErrorOneApolloPointsEditText(String message);
+
+    void setErrorOneApolloOtpEditText(String message);
 
     void onClickCardPaymentBtn();
 
@@ -75,4 +88,12 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
 
     void onFailedCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
+
+    void onSuccessOneApolloSendOtp(ValidatePointsResModel.OneApolloProcessResultEntity resultEntity);
+
+    void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity);
+
+    void onItemDeleted();
+
+    void onItemAdded();
 }

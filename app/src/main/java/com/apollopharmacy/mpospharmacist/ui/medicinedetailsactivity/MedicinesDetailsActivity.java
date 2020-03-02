@@ -54,7 +54,7 @@ public class MedicinesDetailsActivity extends BaseActivity implements MedicineDe
         GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
         medicineDetailsModelsList.add(items);
         if (medicineDetailsModelsList.size() > 0) {
-            medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
+           // medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             medicinesDetailsActivityBinding.medicineRecycle.setLayoutManager(mLayoutManager);
             medicinesDetailsActivityBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);

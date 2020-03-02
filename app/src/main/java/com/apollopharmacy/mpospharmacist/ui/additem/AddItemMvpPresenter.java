@@ -35,4 +35,12 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickRedeemPoints();
 
     void calculatePosTransaction();
+
+    boolean validateOneApolloPoints();
+
+    void onClickOTPVerify();
+
+    void onClickReSendOTP();
+
+    void onSuccessCardPayment(String response);
 }
