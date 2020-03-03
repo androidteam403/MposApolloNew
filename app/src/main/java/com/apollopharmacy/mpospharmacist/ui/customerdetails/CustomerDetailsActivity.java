@@ -67,6 +67,8 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 customerDetailsBinding.setCustomer(customerEntity);
+                customerDetailsBinding.customerNumberEdit.setText(customerEntity.getSearchId());
+                customerDetailsBinding.customerNumberEdit.setSelection(customerEntity.getSearchId().length());
             }
         }
 
@@ -172,6 +174,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String searchedProductName = result.get(0);
                 customerDetailsBinding.customerNumberEdit.setText(searchedProductName);
+                customerDetailsBinding.customerNumberEdit.setSelection(searchedProductName.length());
                 mPresenter.onCustomerSearchClick();
             }
         }

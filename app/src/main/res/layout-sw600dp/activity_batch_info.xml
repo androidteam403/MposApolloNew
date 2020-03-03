@@ -65,7 +65,7 @@
             android:layout_below="@+id/action_bar"
             android:background="@color/batch_info_header"
             android:paddingStart="@dimen/twenty_dp"
-            android:paddingEnd="@dimen/twenty_dp">
+            android:paddingEnd="@dimen/five_dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,7 +85,9 @@
                 android:text="@{product.description}"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="@dimen/text_dimen_13"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:singleLine="true"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <LinearLayout
@@ -100,13 +102,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
                 android:layout_marginStart="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_batch_info_list"
                 android:textAllCaps="true"
                 android:textColor="@color/add_item_header"
-                android:textSize="@dimen/text_dimen_15" />
+                android:textSize="@dimen/text_dimen_14" />
 
             <TextView
                 android:id="@+id/required_quantity"
@@ -143,7 +144,8 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:inputType="number"
-                    android:background="@drawable/rounded_corners_white" />
+                    android:background="@drawable/rounded_corners_white"
+                    android:maxLength="3"/>
 
                 <ImageView
                     android:id="@+id/increment"
@@ -163,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/batch_list"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:background="@color/batch_header_bg"
             android:orientation="horizontal"
             android:padding="@dimen/ten_dp"
@@ -237,9 +239,7 @@
             android:layout_below="@+id/batch_details"
             android:layout_gravity="center_horizontal"
             android:background="@color/white"
-            android:paddingStart="@dimen/ten_dp"
-            android:paddingTop="@dimen/five_dp"
-            android:paddingEnd="@dimen/ten_dp" />
+            android:paddingTop="@dimen/five_dp"/>
 
         <TextView
             android:layout_width="match_parent"

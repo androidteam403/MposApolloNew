@@ -89,8 +89,8 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
                 @Override
                 public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
                         getMvpView().showTransactionID(response.body());
+                        getCorporateList();
                     }
                 }
 
@@ -107,7 +107,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     @Override
     public void getCorporateList() {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            //getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
             Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {

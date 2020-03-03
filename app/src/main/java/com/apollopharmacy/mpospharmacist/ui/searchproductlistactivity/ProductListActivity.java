@@ -118,7 +118,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
                 } else if (s.length() >= 3 && !isLoadApi) {
                     productListAdapter.getFilter().filter(s);
                 } else {
-                    if (s.length() == 0) {
+                    if (s.length() <= 2) {
                         updateProductsCount(0);
                         itemsArrayList.clear();
                         productListAdapter.notifyDataSetChanged();

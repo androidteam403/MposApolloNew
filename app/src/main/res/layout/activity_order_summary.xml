@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/fifteen_dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="@{customerInfo.name}"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_13" />
 
@@ -85,7 +85,7 @@
                         android:layout_marginEnd="@dimen/fifteen_dp"
                         android:layout_marginBottom="@dimen/fifteen_dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{customerInfo.address}"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
                 </LinearLayout>
@@ -233,7 +233,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
             android:fontFamily="@font/roboto_bold"
-            android:onClick="@{() -> callback.onNewOrderClick()}"
+
             android:text="@string/label_place_new_order"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_14" />

@@ -101,10 +101,12 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/product_list_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{isPaymentMode ? View.GONE : View.VISIBLE}">
+                    android:visibility="@{isPaymentMode ? View.GONE : View.VISIBLE}"
+                    android:animateLayoutChanges="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -204,7 +206,7 @@
                                 android:layout_weight="0.26"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="MRP()"
+                                android:text="MRP(₹)"
                                 android:textColor="@color/add_item_header"
                                 android:textSize="@dimen/text_dimen_10" />
 
@@ -224,7 +226,7 @@
                                 android:layout_weight="0.3"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="TOTAL()"
+                                android:text="TOTAL(₹)"
                                 android:textColor="@color/add_item_header"
                                 android:textSize="@dimen/text_dimen_10" />
                         </LinearLayout>
@@ -389,10 +391,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <LinearLayout
+                    android:id="@+id/payment_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{isPaymentMode ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{isPaymentMode ? View.VISIBLE : View.GONE}"
+                    android:animateLayoutChanges="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -1092,7 +1096,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">
+            android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}"
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1140,10 +1145,12 @@
             android:layout_alignParentBottom="true"
             android:alpha="0.3"
             android:background="@color/cpb_yellow"
-            android:text="@string/label_continue"
+            android:text="@string/label_generate_bill"
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:onClick="@{()-> callback.onClickGenerateBill()}"
+            android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}"
+            android:animateLayoutChanges="true"/>
     </RelativeLayout>
 </layout>

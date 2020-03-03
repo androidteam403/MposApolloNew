@@ -43,4 +43,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickReSendOTP();
 
     void onSuccessCardPayment(String response);
+
+    void onClickGenerateBill();
 }
