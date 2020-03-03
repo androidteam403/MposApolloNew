@@ -40,6 +40,7 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
 
         holder.itemView.setOnClickListener(v -> {
             if (batchInfoMvpView != null) {
+                if(!item.getNearByExpiry())
                 batchInfoMvpView.onItemClick(position);
             }
         });

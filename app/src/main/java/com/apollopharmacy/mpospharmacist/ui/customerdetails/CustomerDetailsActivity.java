@@ -11,6 +11,8 @@ import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -65,6 +67,8 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 customerDetailsBinding.setCustomer(customerEntity);
+                customerDetailsBinding.customerNumberEdit.setText(customerEntity.getSearchId());
+                customerDetailsBinding.customerNumberEdit.setSelection(customerEntity.getSearchId().length());
             }
         }
 
@@ -72,6 +76,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             CommonUtils.hideKeyboard(CustomerDetailsActivity.this);
             return false;
         });
+        customerDetailsBinding.customerNumberEdit.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         //temp
 //        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
 //        customerEntity.setSearchId("8056427651");
@@ -166,6 +174,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String searchedProductName = result.get(0);
                 customerDetailsBinding.customerNumberEdit.setText(searchedProductName);
+                customerDetailsBinding.customerNumberEdit.setSelection(searchedProductName.length());
                 mPresenter.onCustomerSearchClick();
             }
         }

@@ -304,6 +304,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void onClickGenerateBill() {
+        getMvpView().onClickGenerateBill();
+    }
+
+    @Override
     public void validateOneApolloPoints(String userMobileNumber, String transactionID) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();

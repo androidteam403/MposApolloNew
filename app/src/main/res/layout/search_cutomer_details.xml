@@ -135,7 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen_dp"
-                android:visibility="@{customer == null ? View.GONE : View.VISIBLE}">
+                android:visibility="@{customer == null ? View.GONE : View.VISIBLE}"
+                android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -167,7 +168,8 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="Billing Code: \nPOS1234"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12" />
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -195,7 +197,8 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="Tracking Ref No: \n0-NS NORMALSALE"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12" />
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -205,7 +208,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}"
                     android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
@@ -285,7 +287,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
-                android:visibility="@{doctor == null ? View.GONE : View.VISIBLE}">
+                android:visibility="@{doctor == null ? View.GONE : View.VISIBLE}"
+                android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -344,7 +347,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}"
                     android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>
@@ -424,7 +426,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
-                android:visibility="@{corporate == null ? View.GONE : View.VISIBLE}">
+                android:visibility="@{corporate == null ? View.GONE : View.VISIBLE}"
+                android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -465,7 +468,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}"
                     android:src="@drawable/ic_next_level" />
             </RelativeLayout>
         </LinearLayout>

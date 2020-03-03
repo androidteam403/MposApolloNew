@@ -101,10 +101,12 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/product_list_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{isPaymentMode ? View.GONE : View.VISIBLE}">
+                    android:visibility="@{isPaymentMode ? View.GONE : View.VISIBLE}"
+                    android:animateLayoutChanges="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -204,7 +206,7 @@
                                 android:layout_weight="0.26"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="MRP()"
+                                android:text="MRP(₹)"
                                 android:textColor="@color/add_item_header"
                                 android:textSize="@dimen/text_dimen_10" />
 
@@ -224,7 +226,7 @@
                                 android:layout_weight="0.3"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="TOTAL()"
+                                android:text="TOTAL(₹)"
                                 android:textColor="@color/add_item_header"
                                 android:textSize="@dimen/text_dimen_10" />
                         </LinearLayout>
@@ -369,7 +371,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="@{@string/label_savings_price(order_info.OrderSavingsAmount) + `(`+order_info.OrderSavingsPercentage+`%)`}"
+                                    android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.OrderSavingsAmount)) + `(`+order_info.OrderSavingsPercentage+`%)`}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_9" />
 
@@ -389,10 +391,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <LinearLayout
+                    android:id="@+id/payment_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{isPaymentMode ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{isPaymentMode ? View.VISIBLE : View.GONE}"
+                    android:animateLayoutChanges="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -535,7 +539,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{@string/label_savings_price(order_info.OrderSavingsAmount) + `(`+order_info.OrderSavingsPercentage+`%)`}"
+                                android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.OrderSavingsAmount)) + `(`+order_info.OrderSavingsPercentage+`%)`}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_9" />
                         </LinearLayout>
@@ -669,7 +673,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/three_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@{String.valueOf(paymentMode.balanceAmount)}"
+                            android:text="@{String.valueOf(String.format(`%.2f`,paymentMode.balanceAmount))}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_15" />
 
@@ -817,15 +821,16 @@
 
                         <EditText
                             android:id="@+id/cash_payment_amount_edit"
-                            android:layout_width="@dimen/eighty_dp"
-                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_width="@dimen/one_hundred_dp"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/cash_payment"
                             android:background="@drawable/rounded_corners_white"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_light"
                             android:gravity="center_vertical"
                             android:inputType="number"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:padding="@dimen/ten_dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -866,13 +871,14 @@
 
                         <EditText
                             android:id="@+id/card_payment_amount_edit_text"
-                            android:layout_width="@dimen/eighty_dp"
-                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_width="@dimen/one_hundred_dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/rounded_corners_white"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_light"
                             android:gravity="center_vertical"
                             android:inputType="number"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:padding="@dimen/ten_dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -983,13 +989,14 @@
 
                             <EditText
                                 android:id="@+id/one_apollo_amount_edit_text"
-                                android:layout_width="@dimen/eighty_dp"
-                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_width="@dimen/one_hundred_dp"
+                                android:layout_height="wrap_content"
                                 android:background="@drawable/rounded_corners_white"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_light"
                                 android:gravity="center_vertical"
                                 android:inputType="number"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:padding="@dimen/ten_dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1089,7 +1096,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">
+            android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}"
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1137,10 +1145,12 @@
             android:layout_alignParentBottom="true"
             android:alpha="0.3"
             android:background="@color/cpb_yellow"
-            android:text="@string/label_continue"
+            android:text="@string/label_generate_bill"
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:onClick="@{()-> callback.onClickGenerateBill()}"
+            android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}"
+            android:animateLayoutChanges="true"/>
     </RelativeLayout>
 </layout>

@@ -85,8 +85,11 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{customer.searchId}"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:text=""
+                        android:textSize="@dimen/text_dimen_15"
+                        android:focusable="true"
+                        android:cursorVisible="true"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView

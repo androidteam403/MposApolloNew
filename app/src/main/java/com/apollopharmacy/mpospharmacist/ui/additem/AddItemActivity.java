@@ -9,6 +9,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -41,6 +44,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
@@ -244,8 +248,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        alertDialog();
     }
 
     @Override
@@ -290,14 +293,39 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onClearAll() {
-        medicineDetailsModelsList.clear();
-        medicinesDetailAdapter.notifyDataSetChanged();
-        addItemBinding.setProductCount(medicineDetailsModelsList.size());
+        ExitInfoDialog  dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("Are you Sure?");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setSubtitle("Do you want to clear order Items");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                medicineDetailsModelsList.clear();
+                medicinesDetailAdapter.notifyDataSetChanged();
+                addItemBinding.setProductCount(medicineDetailsModelsList.size());
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+
     }
 
     @Override
     public void onPayButtonClick() {
         addItemBinding.setIsPaymentMode(true);
+//        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
+//        addItemBinding.paymentLayout.startAnimation(bottomUp);
+//        addItemBinding.paymentLayout.setVisibility(View.VISIBLE);
+//        Animation bottomDown = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
+//        addItemBinding.productListLayout.startAnimation(bottomDown);
+//        addItemBinding.productListLayout.setVisibility(View.VISIBLE);
 //        startActivity(PayActivity.getStartIntent(this,medicineDetailsModelsList,customerEntity,doctorEntity,corporateEntity,transactionIdModel));
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
@@ -462,6 +490,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if(priceInfoModel.getOrderTotalAmount() != paymentDoneAmount){
             paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
             paymentMethodModel.setBalanceAmount(true);
+        }else{
+            if(!TextUtils.isEmpty(body.getReciptId())) {
+                paymentMethodModel.setGenerateBill(true);
+                paymentMethodModel.setSaveRetailsTransactionRes(body);
+            }
         }
     }
 
@@ -534,6 +567,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onItemAdded() {
         mPresenter.calculatePosTransaction();
+    }
+
+    @Override
+    public void onClickGenerateBill() {
+        startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes()));
+        finish();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
@@ -626,7 +666,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cartItems.setId(nextId);
                                             //  realm.beginTransaction();
                                             savedCart.getItemsArrayList().add(cartItems);
-                                            realm.copyToRealmOrUpdate(savedCart);
+                                        //    realm.copyToRealmOrUpdate(savedCart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -652,7 +692,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cart.setId(nextId);
                                             //  realm.beginTransaction();
 
-                                            realm.copyToRealmOrUpdate(cart);
+                                         //   realm.copyToRealmOrUpdate(cart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -853,5 +893,35 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
          }
          ******************************************/
         EzeAPI.cardTransaction(this, REQUEST_CODE_SALE_TXN, jsonRequest);
+    }
+
+
+
+    private void alertDialog(){
+        ExitInfoDialog  dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("Are you Sure?");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setSubtitle("Do you want to cancel this order");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                closeOrder();
+
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    private void closeOrder(){
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

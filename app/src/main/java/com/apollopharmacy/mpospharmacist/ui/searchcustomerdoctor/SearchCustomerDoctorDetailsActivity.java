@@ -55,7 +55,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     protected void setUp() {
         customerDetailsMvpPresenter.getTransactionID();
         searchCutomerDetailsBinding.setCallbacks(customerDetailsMvpPresenter);
-        customerDetailsMvpPresenter.getCorporateList();
+       // customerDetailsMvpPresenter.getCorporateList();
     }
 
     @Override

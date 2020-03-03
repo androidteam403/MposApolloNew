@@ -14,6 +14,8 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean isBalanceAmount = false;
     private boolean isOTPView = false;
     private double balanceAmount;
+    private boolean generateBill = false;
+    private SaveRetailsTransactionRes saveRetailsTransactionRes;
 
     @Bindable
     public boolean isCashMode() {
@@ -92,5 +94,23 @@ public class PaymentMethodModel extends BaseObservable {
     public void setBalanceAmount(double balanceAmount) {
         this.balanceAmount = balanceAmount;
         notifyPropertyChanged(BR.balanceAmount);
+    }
+
+    @Bindable
+    public boolean isGenerateBill() {
+        return generateBill;
+    }
+
+    public void setGenerateBill(boolean generateBill) {
+        this.generateBill = generateBill;
+        notifyPropertyChanged(BR.generateBill);
+    }
+
+    public SaveRetailsTransactionRes getSaveRetailsTransactionRes() {
+        return saveRetailsTransactionRes;
+    }
+
+    public void setSaveRetailsTransactionRes(SaveRetailsTransactionRes saveRetailsTransactionRes) {
+        this.saveRetailsTransactionRes = saveRetailsTransactionRes;
     }
 }

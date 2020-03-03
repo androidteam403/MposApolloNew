@@ -96,4 +96,6 @@ public interface AddItemMvpView extends MvpView {
     void onItemDeleted();
 
     void onItemAdded();
+
+    void onClickGenerateBill();
 }

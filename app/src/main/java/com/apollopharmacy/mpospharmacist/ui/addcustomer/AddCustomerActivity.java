@@ -64,6 +64,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         if (getIntent() != null) {
             String userInputNumber = (String) getIntent().getSerializableExtra("customer_number");
             addCustomerBinding.mobile.setText(userInputNumber);
+            addCustomerBinding.mobile.setSelection(userInputNumber.length());
         }
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);

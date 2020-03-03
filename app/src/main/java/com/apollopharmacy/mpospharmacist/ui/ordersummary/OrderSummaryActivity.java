@@ -11,6 +11,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityOrderSummaryBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPayBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 
 import javax.inject.Inject;
 
@@ -20,8 +21,10 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     OrderSummaryMvpPresenter<OrderSummaryMvpView> mPresenter;
     ActivityOrderSummaryBinding orderSummaryBinding;
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, OrderSummaryActivity.class);
+    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes) {
+        Intent intent = new Intent(context, OrderSummaryActivity.class);
+        intent.putExtra("transaction_details", saveRetailsTransactionRes);
+        return intent;
     }
 
     @Override
@@ -35,6 +38,6 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     protected void setUp() {
-
+        SaveRetailsTransactionRes transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
     }
 }

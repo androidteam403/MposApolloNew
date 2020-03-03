@@ -50,7 +50,7 @@ public class AppBindingAdapter {
             spannable.setSpan(new CustomTypefaceSpan(CustomFontFamily.getInstance().getFont(span_font)), firstMatchingIndex, lastMatchingIndex, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             textView.setText(spannable);
         }else{
-            textView.setText(full_text);
+            textView.setText(full_text + "---");
         }
     }
 
