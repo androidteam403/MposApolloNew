@@ -63,6 +63,9 @@ import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPres
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnPresenter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrederReturnMvpView;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpView;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pay.PayPresenter;
@@ -298,6 +301,12 @@ public class ActivityModule {
 
     @Provides
     ScannerMvpPresenter<ScannerMvpView> provideScannerActivityPresenter(ScannerPresenter<ScannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OrderSummaryMvpPresenter<OrderSummaryMvpView> providesOrderSummaryActivityProvides(OrderSummaryPresenter<OrderSummaryMvpView> presenter) {
         return presenter;
     }
 }

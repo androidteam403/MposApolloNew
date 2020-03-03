@@ -116,10 +116,13 @@
             android:name=".ui.scanner.ScannerActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <service
-            android:name=".utils.MyFirebaseInstanceIDService">
+        <activity
+            android:name=".ui.ordersummary.OrderSummaryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <service android:name=".utils.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 

@@ -301,4 +301,18 @@
     <string name="label_campaign_report">Campign Report</string>
     <string name="label_device_name_">Name:\n %1$s</string>
     <string name="label_device_mac">MAC ID:\n %1$s</string>
+
+    <string name="label_your_order_details">Your Order Details</string>
+    <string name="label_payment_success">Payment is Successful</string>
+    <string name="label_delivery_to">Delivery to</string>
+    <string name="label_payment_details">Payment Details</string>
+    <string name="label_dot">.</string>
+    <string name="label_items">Items</string>
+    <string name="label_delivery">Delivery</string>
+    <string name="label_payment">Payment</string>
+    <string name="label_order_flow">Order</string>
+    <string name="label_place_new_order">Place New Order</string>
+    <string name="label_order_header">Order #</string>
+    <string name="label_mrp_header">MRP(\u20B9)</string>
+    <string name="label_total_header">TOTAL(\u20B9)</string>
 </resources>
