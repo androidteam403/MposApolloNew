@@ -16,4 +16,14 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
     public MainActivityPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public String getLoginUserName() {
+        return getDataManager().getUserName() +"\n"+ getDataManager().getUserId();
+    }
+
+    @Override
+    public String getLoinStoreLocation() {
+        return getDataManager().getGlobalJson().getStoreName() +"\n"+ getDataManager().getStoreId();
+    }
 }

@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,16 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.MedicineDetailsAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpView;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
 
 public class MedicinesDetailAdapter extends RecyclerView.Adapter<MedicinesDetailAdapter.ViewHolder> {
-    private Activity activity;
+    private AddItemMvpView activity;
     private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList;
 
-    public MedicinesDetailAdapter(Activity activity, ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList) {
+    public MedicinesDetailAdapter(AddItemMvpView activity, ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList) {
         this.activity = activity;
         this.medicineDetailsModelArrayList = medicineDetailsModelArrayList;
     }
@@ -36,7 +38,24 @@ public class MedicinesDetailAdapter extends RecyclerView.Adapter<MedicinesDetail
     public void onBindViewHolder(@NonNull MedicinesDetailAdapter.ViewHolder holder, int position) {
         GetItemDetailsRes.Items item = medicineDetailsModelArrayList.get(position);
         holder.medicineDetailsAdapterBinding.setProduct(item);
-
+        holder.medicineDetailsAdapterBinding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(activity != null) {
+                    item.setItemDelete(true);
+                    activity.onItemDeleted();
+                }
+            }
+        });
+        holder.medicineDetailsAdapterBinding.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(activity != null) {
+                    item.setItemDelete(false);
+                    activity.onItemAdded();
+                }
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

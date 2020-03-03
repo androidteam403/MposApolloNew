@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityCustomerDetailsBind
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -64,6 +67,11 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.setCustomer(customerEntity);
             }
         }
+
+        customerDetailsBinding.customerParentView.setOnTouchListener((v, event) -> {
+            CommonUtils.hideKeyboard(CustomerDetailsActivity.this);
+            return false;
+        });
         //temp
 //        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
 //        customerEntity.setSearchId("8056427651");
@@ -104,6 +112,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onSuccessCustomerSearch(GetCustomerResponse body) {
+        CommonUtils.hideKeyboard(CustomerDetailsActivity.this);
         if (body.get_Customer().size() > 0) {
             GetCustomerResponse.CustomerEntity customerEntity = body.get_Customer().get(0);
             customerEntity.setSearchId(getCustomerNumber());

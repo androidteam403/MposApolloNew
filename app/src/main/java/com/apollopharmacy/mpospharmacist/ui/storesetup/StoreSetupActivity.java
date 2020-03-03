@@ -137,7 +137,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     public void onSaveBtnClick() {
         if (validations()) {
-            mPresenter.handleStoreSetupService();
+            mPresenter.checkConfingApi();
         }
     }
 

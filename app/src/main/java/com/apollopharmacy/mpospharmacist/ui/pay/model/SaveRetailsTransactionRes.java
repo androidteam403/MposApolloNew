@@ -13,13 +13,13 @@ public  class SaveRetailsTransactionRes {
     private String VendorId;
     @Expose
     @SerializedName("Type")
-    private int Type;
+    private double Type;
     @Expose
     @SerializedName("TransactionId")
     private String TransactionId;
     @Expose
     @SerializedName("TransType")
-    private int TransType;
+    private double TransType;
     @Expose
     @SerializedName("TransDate")
     private String TransDate;
@@ -31,19 +31,19 @@ public  class SaveRetailsTransactionRes {
     private double TotalTaxAmount;
     @Expose
     @SerializedName("TotalManualDiscountPercentage")
-    private int TotalManualDiscountPercentage;
+    private double TotalManualDiscountPercentage;
     @Expose
     @SerializedName("TotalManualDiscountAmount")
-    private int TotalManualDiscountAmount;
+    private double TotalManualDiscountAmount;
     @Expose
     @SerializedName("TotalMRP")
-    private int TotalMRP;
+    private double TotalMRP;
     @Expose
     @SerializedName("TotalDiscAmount")
-    private int TotalDiscAmount;
+    private double TotalDiscAmount;
     @Expose
     @SerializedName("TimewhenTransClosed")
-    private int TimewhenTransClosed;
+    private double TimewhenTransClosed;
     @Expose
     @SerializedName("Terminal")
     private String Terminal;
@@ -73,13 +73,13 @@ public  class SaveRetailsTransactionRes {
     private List<SalesLineEntity> SalesLine;
     @Expose
     @SerializedName("SEZ")
-    private int SEZ;
+    private double SEZ;
     @Expose
     @SerializedName("RoundedAmount")
-    private int RoundedAmount;
+    private double RoundedAmount;
     @Expose
     @SerializedName("ReturnType")
-    private int ReturnType;
+    private double ReturnType;
     @Expose
     @SerializedName("ReturnTransactionId")
     private String ReturnTransactionId;
@@ -97,13 +97,13 @@ public  class SaveRetailsTransactionRes {
     private String ReturnMessage;
     @Expose
     @SerializedName("RequestStatus")
-    private int RequestStatus;
+    private double RequestStatus;
     @Expose
     @SerializedName("ReminderDays")
-    private int ReminderDays;
+    private double ReminderDays;
     @Expose
     @SerializedName("Remainingamount")
-    private int Remainingamount;
+    private double Remainingamount;
     @Expose
     @SerializedName("RegionCode")
     private String RegionCode;
@@ -115,7 +115,7 @@ public  class SaveRetailsTransactionRes {
     private String REFNO;
     @Expose
     @SerializedName("PosEvent")
-    private int PosEvent;
+    private double PosEvent;
     @Expose
     @SerializedName("Pincode")
     private String Pincode;
@@ -130,13 +130,13 @@ public  class SaveRetailsTransactionRes {
     private String OrderSource;
     @Expose
     @SerializedName("NumberofItems")
-    private int NumberofItems;
+    private double NumberofItems;
     @Expose
     @SerializedName("NumberofItemLines")
-    private int NumberofItemLines;
+    private double NumberofItemLines;
     @Expose
     @SerializedName("NetAmountInclTax")
-    private int NetAmountInclTax;
+    private double NetAmountInclTax;
     @Expose
     @SerializedName("NetAmount")
     private double NetAmount;
@@ -187,13 +187,13 @@ public  class SaveRetailsTransactionRes {
     private String IPNO;
     @Expose
     @SerializedName("GrossAmount")
-    private int GrossAmount;
+    private double GrossAmount;
     @Expose
     @SerializedName("Gender")
-    private int Gender;
+    private double Gender;
     @Expose
     @SerializedName("EntryStatus")
-    private int EntryStatus;
+    private double EntryStatus;
     @Expose
     @SerializedName("DoctorName")
     private String DoctorName;
@@ -202,7 +202,7 @@ public  class SaveRetailsTransactionRes {
     private String DoctorCode;
     @Expose
     @SerializedName("DiscAmount")
-    private int DiscAmount;
+    private double DiscAmount;
     @Expose
     @SerializedName("DeliveryDate")
     private String DeliveryDate;
@@ -223,7 +223,7 @@ public  class SaveRetailsTransactionRes {
     private String CustomerID;
     @Expose
     @SerializedName("CustDiscamount")
-    private int CustDiscamount;
+    private double CustDiscamount;
     @Expose
     @SerializedName("CustAddress")
     private String CustAddress;
@@ -262,13 +262,13 @@ public  class SaveRetailsTransactionRes {
     private String BatchTerminalid;
     @Expose
     @SerializedName("AmounttoAccount")
-    private int AmounttoAccount;
+    private double AmounttoAccount;
 
     public String getVendorId() {
         return VendorId;
     }
 
-    public int getType() {
+    public double getType() {
         return Type;
     }
 
@@ -276,7 +276,7 @@ public  class SaveRetailsTransactionRes {
         return TransactionId;
     }
 
-    public int getTransType() {
+    public double getTransType() {
         return TransType;
     }
 
@@ -292,23 +292,23 @@ public  class SaveRetailsTransactionRes {
         return TotalTaxAmount;
     }
 
-    public int getTotalManualDiscountPercentage() {
+    public double getTotalManualDiscountPercentage() {
         return TotalManualDiscountPercentage;
     }
 
-    public int getTotalManualDiscountAmount() {
+    public double getTotalManualDiscountAmount() {
         return TotalManualDiscountAmount;
     }
 
-    public int getTotalMRP() {
+    public double getTotalMRP() {
         return TotalMRP;
     }
 
-    public int getTotalDiscAmount() {
+    public double getTotalDiscAmount() {
         return TotalDiscAmount;
     }
 
-    public int getTimewhenTransClosed() {
+    public double getTimewhenTransClosed() {
         return TimewhenTransClosed;
     }
 
@@ -348,15 +348,15 @@ public  class SaveRetailsTransactionRes {
         return SalesLine;
     }
 
-    public int getSEZ() {
+    public double getSEZ() {
         return SEZ;
     }
 
-    public int getRoundedAmount() {
+    public double getRoundedAmount() {
         return RoundedAmount;
     }
 
-    public int getReturnType() {
+    public double getReturnType() {
         return ReturnType;
     }
 
@@ -380,15 +380,15 @@ public  class SaveRetailsTransactionRes {
         return ReturnMessage;
     }
 
-    public int getRequestStatus() {
+    public double getRequestStatus() {
         return RequestStatus;
     }
 
-    public int getReminderDays() {
+    public double getReminderDays() {
         return ReminderDays;
     }
 
-    public int getRemainingamount() {
+    public double getRemainingamount() {
         return Remainingamount;
     }
 
@@ -404,7 +404,7 @@ public  class SaveRetailsTransactionRes {
         return REFNO;
     }
 
-    public int getPosEvent() {
+    public double getPosEvent() {
         return PosEvent;
     }
 
@@ -424,15 +424,15 @@ public  class SaveRetailsTransactionRes {
         return OrderSource;
     }
 
-    public int getNumberofItems() {
+    public double getNumberofItems() {
         return NumberofItems;
     }
 
-    public int getNumberofItemLines() {
+    public double getNumberofItemLines() {
         return NumberofItemLines;
     }
 
-    public int getNetAmountInclTax() {
+    public double getNetAmountInclTax() {
         return NetAmountInclTax;
     }
 
@@ -500,15 +500,15 @@ public  class SaveRetailsTransactionRes {
         return IPNO;
     }
 
-    public int getGrossAmount() {
+    public double getGrossAmount() {
         return GrossAmount;
     }
 
-    public int getGender() {
+    public double getGender() {
         return Gender;
     }
 
-    public int getEntryStatus() {
+    public double getEntryStatus() {
         return EntryStatus;
     }
 
@@ -520,7 +520,7 @@ public  class SaveRetailsTransactionRes {
         return DoctorCode;
     }
 
-    public int getDiscAmount() {
+    public double getDiscAmount() {
         return DiscAmount;
     }
 
@@ -548,7 +548,7 @@ public  class SaveRetailsTransactionRes {
         return CustomerID;
     }
 
-    public int getCustDiscamount() {
+    public double getCustDiscamount() {
         return CustDiscamount;
     }
 
@@ -600,14 +600,14 @@ public  class SaveRetailsTransactionRes {
         return BatchTerminalid;
     }
 
-    public int getAmounttoAccount() {
+    public double getAmounttoAccount() {
         return AmounttoAccount;
     }
 
     public static class TenderLineEntity {
         @Expose
         @SerializedName("WalletType")
-        private int WalletType;
+        private double WalletType;
         @Expose
         @SerializedName("WalletTransactionID")
         private String WalletTransactionID;
@@ -616,7 +616,7 @@ public  class SaveRetailsTransactionRes {
         private String WalletOrderId;
         @Expose
         @SerializedName("TenderType")
-        private int TenderType;
+        private double TenderType;
         @Expose
         @SerializedName("TenderName")
         private String TenderName;
@@ -624,8 +624,8 @@ public  class SaveRetailsTransactionRes {
         @SerializedName("TenderId")
         private String TenderId;
         @Expose
-        @SerializedName("RewardsPoint")
-        private int RewardsPoint;
+        @SerializedName("RewardsPodouble")
+        private double RewardsPodouble;
         @Expose
         @SerializedName("PreviewText")
         private String PreviewText;
@@ -634,30 +634,30 @@ public  class SaveRetailsTransactionRes {
         private String MobileNo;
         @Expose
         @SerializedName("LineNo")
-        private int LineNo;
+        private double LineNo;
         @Expose
         @SerializedName("IsVoid")
         private boolean IsVoid;
         @Expose
         @SerializedName("ExchRateMst")
-        private int ExchRateMst;
+        private double ExchRateMst;
         @Expose
         @SerializedName("ExchRate")
-        private int ExchRate;
+        private double ExchRate;
         @Expose
         @SerializedName("BarCode")
         private String BarCode;
         @Expose
         @SerializedName("AmountTendered")
-        private int AmountTendered;
+        private double AmountTendered;
         @Expose
         @SerializedName("AmountMst")
-        private int AmountMst;
+        private double AmountMst;
         @Expose
         @SerializedName("AmountCur")
-        private int AmountCur;
+        private double AmountCur;
 
-        public int getWalletType() {
+        public double getWalletType() {
             return WalletType;
         }
 
@@ -669,7 +669,7 @@ public  class SaveRetailsTransactionRes {
             return WalletOrderId;
         }
 
-        public int getTenderType() {
+        public double getTenderType() {
             return TenderType;
         }
 
@@ -681,8 +681,8 @@ public  class SaveRetailsTransactionRes {
             return TenderId;
         }
 
-        public int getRewardsPoint() {
-            return RewardsPoint;
+        public double getRewardsPodouble() {
+            return RewardsPodouble;
         }
 
         public String getPreviewText() {
@@ -693,7 +693,7 @@ public  class SaveRetailsTransactionRes {
             return MobileNo;
         }
 
-        public int getLineNo() {
+        public double getLineNo() {
             return LineNo;
         }
 
@@ -701,11 +701,11 @@ public  class SaveRetailsTransactionRes {
             return IsVoid;
         }
 
-        public int getExchRateMst() {
+        public double getExchRateMst() {
             return ExchRateMst;
         }
 
-        public int getExchRate() {
+        public double getExchRate() {
             return ExchRate;
         }
 
@@ -713,15 +713,15 @@ public  class SaveRetailsTransactionRes {
             return BarCode;
         }
 
-        public int getAmountTendered() {
+        public double getAmountTendered() {
             return AmountTendered;
         }
 
-        public int getAmountMst() {
+        public double getAmountMst() {
             return AmountMst;
         }
 
-        public int getAmountCur() {
+        public double getAmountCur() {
             return AmountCur;
         }
     }
@@ -732,34 +732,34 @@ public  class SaveRetailsTransactionRes {
         private String VariantId;
         @Expose
         @SerializedName("UnitQty")
-        private int UnitQty;
+        private double UnitQty;
         @Expose
         @SerializedName("UnitPrice")
-        private int UnitPrice;
+        private double UnitPrice;
         @Expose
         @SerializedName("Unit")
         private String Unit;
         @Expose
         @SerializedName("TotalTax")
-        private int TotalTax;
+        private double TotalTax;
         @Expose
         @SerializedName("TotalRoundedAmount")
-        private int TotalRoundedAmount;
+        private double TotalRoundedAmount;
         @Expose
         @SerializedName("TotalDiscPct")
-        private int TotalDiscPct;
+        private double TotalDiscPct;
         @Expose
         @SerializedName("TotalDiscAmount")
-        private int TotalDiscAmount;
+        private double TotalDiscAmount;
         @Expose
         @SerializedName("Total")
-        private int Total;
+        private double Total;
         @Expose
         @SerializedName("TaxAmount")
         private double TaxAmount;
         @Expose
         @SerializedName("Tax")
-        private int Tax;
+        private double Tax;
         @Expose
         @SerializedName("SubstitudeItemId")
         private String SubstitudeItemId;
@@ -774,7 +774,7 @@ public  class SaveRetailsTransactionRes {
         private String SubCategory;
         @Expose
         @SerializedName("StockQty")
-        private int StockQty;
+        private double StockQty;
         @Expose
         @SerializedName("ScheduleCategoryCode")
         private String ScheduleCategoryCode;
@@ -786,10 +786,10 @@ public  class SaveRetailsTransactionRes {
         private String SGSTTaxCode;
         @Expose
         @SerializedName("SGSTPerc")
-        private int SGSTPerc;
+        private double SGSTPerc;
         @Expose
         @SerializedName("ReturnQty")
-        private int ReturnQty;
+        private double ReturnQty;
         @Expose
         @SerializedName("RetailSubCategoryRecID")
         private String RetailSubCategoryRecID;
@@ -801,55 +801,55 @@ public  class SaveRetailsTransactionRes {
         private String RetailCategoryRecID;
         @Expose
         @SerializedName("RemainingQty")
-        private int RemainingQty;
+        private double RemainingQty;
         @Expose
         @SerializedName("RemainderDays")
-        private int RemainderDays;
+        private double RemainderDays;
         @Expose
         @SerializedName("Qty")
-        private int Qty;
+        private double Qty;
         @Expose
         @SerializedName("ProductRecID")
         private String ProductRecID;
         @Expose
         @SerializedName("Price")
-        private int Price;
+        private double Price;
         @Expose
         @SerializedName("PreviewText")
         private String PreviewText;
         @Expose
         @SerializedName("PeriodicDiscAmount")
-        private int PeriodicDiscAmount;
+        private double PeriodicDiscAmount;
         @Expose
         @SerializedName("OriginalPrice")
-        private int OriginalPrice;
+        private double OriginalPrice;
         @Expose
         @SerializedName("OrderStatus")
-        private int OrderStatus;
+        private double OrderStatus;
         @Expose
         @SerializedName("OmsLineRECID")
-        private int OmsLineRECID;
+        private double OmsLineRECID;
         @Expose
         @SerializedName("OmsLineID")
-        private int OmsLineID;
+        private double OmsLineID;
         @Expose
         @SerializedName("OfferType")
-        private int OfferType;
+        private double OfferType;
         @Expose
         @SerializedName("OfferQty")
-        private int OfferQty;
+        private double OfferQty;
         @Expose
         @SerializedName("OfferDiscountValue")
-        private int OfferDiscountValue;
+        private double OfferDiscountValue;
         @Expose
         @SerializedName("OfferDiscountType")
-        private int OfferDiscountType;
+        private double OfferDiscountType;
         @Expose
         @SerializedName("OfferAmount")
-        private int OfferAmount;
+        private double OfferAmount;
         @Expose
         @SerializedName("NetAmountInclTax")
-        private int NetAmountInclTax;
+        private double NetAmountInclTax;
         @Expose
         @SerializedName("NetAmount")
         private double NetAmount;
@@ -867,25 +867,25 @@ public  class SaveRetailsTransactionRes {
         private String ManufacturerCode;
         @Expose
         @SerializedName("MRP")
-        private int MRP;
+        private double MRP;
         @Expose
         @SerializedName("MMGroupId")
         private String MMGroupId;
         @Expose
         @SerializedName("LinedscAmount")
-        private int LinedscAmount;
+        private double LinedscAmount;
         @Expose
         @SerializedName("LineNo")
-        private int LineNo;
+        private double LineNo;
         @Expose
         @SerializedName("LineManualDiscountPercentage")
-        private int LineManualDiscountPercentage;
+        private double LineManualDiscountPercentage;
         @Expose
         @SerializedName("LineManualDiscountAmount")
-        private int LineManualDiscountAmount;
+        private double LineManualDiscountAmount;
         @Expose
         @SerializedName("LineDiscPercentage")
-        private int LineDiscPercentage;
+        private double LineDiscPercentage;
         @Expose
         @SerializedName("ItemName")
         private String ItemName;
@@ -915,13 +915,13 @@ public  class SaveRetailsTransactionRes {
         private boolean ISReserved;
         @Expose
         @SerializedName("ISPrescribed")
-        private int ISPrescribed;
+        private double ISPrescribed;
         @Expose
         @SerializedName("IGSTTaxCode")
         private String IGSTTaxCode;
         @Expose
         @SerializedName("IGSTPerc")
-        private int IGSTPerc;
+        private double IGSTPerc;
         @Expose
         @SerializedName("Hsncode_In")
         private String Hsncode_In;
@@ -936,7 +936,7 @@ public  class SaveRetailsTransactionRes {
         private String DiscountType;
         @Expose
         @SerializedName("DiscountStructureType")
-        private int DiscountStructureType;
+        private double DiscountStructureType;
         @Expose
         @SerializedName("DiscOfferId")
         private String DiscOfferId;
@@ -945,7 +945,7 @@ public  class SaveRetailsTransactionRes {
         private String DiscId;
         @Expose
         @SerializedName("DiscAmount")
-        private int DiscAmount;
+        private double DiscAmount;
         @Expose
         @SerializedName("DPCO")
         private boolean DPCO;
@@ -966,16 +966,16 @@ public  class SaveRetailsTransactionRes {
         private String CGSTTaxCode;
         @Expose
         @SerializedName("CGSTPerc")
-        private int CGSTPerc;
+        private double CGSTPerc;
         @Expose
         @SerializedName("CESSTaxCode")
         private String CESSTaxCode;
         @Expose
         @SerializedName("CESSPerc")
-        private int CESSPerc;
+        private double CESSPerc;
         @Expose
         @SerializedName("BaseAmount")
-        private int BaseAmount;
+        private double BaseAmount;
         @Expose
         @SerializedName("Barcode")
         private String Barcode;
@@ -984,17 +984,17 @@ public  class SaveRetailsTransactionRes {
         private boolean ApplyDiscount;
         @Expose
         @SerializedName("Additionaltax")
-        private int Additionaltax;
+        private double Additionaltax;
 
         public String getVariantId() {
             return VariantId;
         }
 
-        public int getUnitQty() {
+        public double getUnitQty() {
             return UnitQty;
         }
 
-        public int getUnitPrice() {
+        public double getUnitPrice() {
             return UnitPrice;
         }
 
@@ -1002,23 +1002,23 @@ public  class SaveRetailsTransactionRes {
             return Unit;
         }
 
-        public int getTotalTax() {
+        public double getTotalTax() {
             return TotalTax;
         }
 
-        public int getTotalRoundedAmount() {
+        public double getTotalRoundedAmount() {
             return TotalRoundedAmount;
         }
 
-        public int getTotalDiscPct() {
+        public double getTotalDiscPct() {
             return TotalDiscPct;
         }
 
-        public int getTotalDiscAmount() {
+        public double getTotalDiscAmount() {
             return TotalDiscAmount;
         }
 
-        public int getTotal() {
+        public double getTotal() {
             return Total;
         }
 
@@ -1026,7 +1026,7 @@ public  class SaveRetailsTransactionRes {
             return TaxAmount;
         }
 
-        public int getTax() {
+        public double getTax() {
             return Tax;
         }
 
@@ -1046,7 +1046,7 @@ public  class SaveRetailsTransactionRes {
             return SubCategory;
         }
 
-        public int getStockQty() {
+        public double getStockQty() {
             return StockQty;
         }
 
@@ -1062,11 +1062,11 @@ public  class SaveRetailsTransactionRes {
             return SGSTTaxCode;
         }
 
-        public int getSGSTPerc() {
+        public double getSGSTPerc() {
             return SGSTPerc;
         }
 
-        public int getReturnQty() {
+        public double getReturnQty() {
             return ReturnQty;
         }
 
@@ -1082,15 +1082,15 @@ public  class SaveRetailsTransactionRes {
             return RetailCategoryRecID;
         }
 
-        public int getRemainingQty() {
+        public double getRemainingQty() {
             return RemainingQty;
         }
 
-        public int getRemainderDays() {
+        public double getRemainderDays() {
             return RemainderDays;
         }
 
-        public int getQty() {
+        public double getQty() {
             return Qty;
         }
 
@@ -1098,7 +1098,7 @@ public  class SaveRetailsTransactionRes {
             return ProductRecID;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return Price;
         }
 
@@ -1106,47 +1106,47 @@ public  class SaveRetailsTransactionRes {
             return PreviewText;
         }
 
-        public int getPeriodicDiscAmount() {
+        public double getPeriodicDiscAmount() {
             return PeriodicDiscAmount;
         }
 
-        public int getOriginalPrice() {
+        public double getOriginalPrice() {
             return OriginalPrice;
         }
 
-        public int getOrderStatus() {
+        public double getOrderStatus() {
             return OrderStatus;
         }
 
-        public int getOmsLineRECID() {
+        public double getOmsLineRECID() {
             return OmsLineRECID;
         }
 
-        public int getOmsLineID() {
+        public double getOmsLineID() {
             return OmsLineID;
         }
 
-        public int getOfferType() {
+        public double getOfferType() {
             return OfferType;
         }
 
-        public int getOfferQty() {
+        public double getOfferQty() {
             return OfferQty;
         }
 
-        public int getOfferDiscountValue() {
+        public double getOfferDiscountValue() {
             return OfferDiscountValue;
         }
 
-        public int getOfferDiscountType() {
+        public double getOfferDiscountType() {
             return OfferDiscountType;
         }
 
-        public int getOfferAmount() {
+        public double getOfferAmount() {
             return OfferAmount;
         }
 
-        public int getNetAmountInclTax() {
+        public double getNetAmountInclTax() {
             return NetAmountInclTax;
         }
 
@@ -1170,7 +1170,7 @@ public  class SaveRetailsTransactionRes {
             return ManufacturerCode;
         }
 
-        public int getMRP() {
+        public double getMRP() {
             return MRP;
         }
 
@@ -1178,23 +1178,23 @@ public  class SaveRetailsTransactionRes {
             return MMGroupId;
         }
 
-        public int getLinedscAmount() {
+        public double getLinedscAmount() {
             return LinedscAmount;
         }
 
-        public int getLineNo() {
+        public double getLineNo() {
             return LineNo;
         }
 
-        public int getLineManualDiscountPercentage() {
+        public double getLineManualDiscountPercentage() {
             return LineManualDiscountPercentage;
         }
 
-        public int getLineManualDiscountAmount() {
+        public double getLineManualDiscountAmount() {
             return LineManualDiscountAmount;
         }
 
-        public int getLineDiscPercentage() {
+        public double getLineDiscPercentage() {
             return LineDiscPercentage;
         }
 
@@ -1234,7 +1234,7 @@ public  class SaveRetailsTransactionRes {
             return ISReserved;
         }
 
-        public int getISPrescribed() {
+        public double getISPrescribed() {
             return ISPrescribed;
         }
 
@@ -1242,7 +1242,7 @@ public  class SaveRetailsTransactionRes {
             return IGSTTaxCode;
         }
 
-        public int getIGSTPerc() {
+        public double getIGSTPerc() {
             return IGSTPerc;
         }
 
@@ -1262,7 +1262,7 @@ public  class SaveRetailsTransactionRes {
             return DiscountType;
         }
 
-        public int getDiscountStructureType() {
+        public double getDiscountStructureType() {
             return DiscountStructureType;
         }
 
@@ -1274,7 +1274,7 @@ public  class SaveRetailsTransactionRes {
             return DiscId;
         }
 
-        public int getDiscAmount() {
+        public double getDiscAmount() {
             return DiscAmount;
         }
 
@@ -1302,7 +1302,7 @@ public  class SaveRetailsTransactionRes {
             return CGSTTaxCode;
         }
 
-        public int getCGSTPerc() {
+        public double getCGSTPerc() {
             return CGSTPerc;
         }
 
@@ -1310,11 +1310,11 @@ public  class SaveRetailsTransactionRes {
             return CESSTaxCode;
         }
 
-        public int getCESSPerc() {
+        public double getCESSPerc() {
             return CESSPerc;
         }
 
-        public int getBaseAmount() {
+        public double getBaseAmount() {
             return BaseAmount;
         }
 
@@ -1326,7 +1326,7 @@ public  class SaveRetailsTransactionRes {
             return ApplyDiscount;
         }
 
-        public int getAdditionaltax() {
+        public double getAdditionaltax() {
             return Additionaltax;
         }
     }

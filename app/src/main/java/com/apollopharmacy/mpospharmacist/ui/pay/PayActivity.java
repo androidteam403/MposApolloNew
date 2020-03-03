@@ -130,7 +130,7 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
 
     private void getAmount() {
         arrPayAdapterModel = new ArrayList<>();
-        PayAdapterModel payAdapterModel = new PayAdapterModel("100.00");
+        PayAdapterModel payAdapterModel = new PayAdapterModel("","100.00");
         arrPayAdapterModel.add(payAdapterModel);
     }
 

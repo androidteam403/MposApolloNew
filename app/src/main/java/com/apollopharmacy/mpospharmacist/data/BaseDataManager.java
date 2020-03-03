@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class BaseDataManager implements DataManager {
+public class BaseDataManager  implements DataManager {
     private static final String TAG = "BaseDataManager";
 
 
@@ -77,8 +77,18 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public String getUserId() {
+        return mPreferencesHelper.getUserId();
+    }
+
+    @Override
     public void setUserName(String userName) {
         mPreferencesHelper.setUserName(userName);
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        mPreferencesHelper.setUserId(userId);
     }
 
     @Override

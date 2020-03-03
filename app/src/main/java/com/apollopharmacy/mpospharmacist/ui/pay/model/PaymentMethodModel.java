@@ -12,6 +12,8 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean hellingCardMode = false;
     private boolean isAdditionalDisc = false;
     private boolean isBalanceAmount = false;
+    private boolean isOTPView = false;
+    private double balanceAmount;
 
     @Bindable
     public boolean isCashMode() {
@@ -70,6 +72,25 @@ public class PaymentMethodModel extends BaseObservable {
 
     public void setBalanceAmount(boolean balanceAmount) {
         isBalanceAmount = balanceAmount;
+        notifyPropertyChanged(BR.balanceAmount);
+    }
+
+    @Bindable
+    public boolean isOTPView() {
+        return isOTPView;
+    }
+
+    public void setOTPView(boolean oTPView) {
+        isOTPView = oTPView;
+        notifyPropertyChanged(BR.oTPView);
+    }
+    @Bindable
+    public double getBalanceAmount() {
+        return balanceAmount;
+    }
+
+    public void setBalanceAmount(double balanceAmount) {
+        this.balanceAmount = balanceAmount;
         notifyPropertyChanged(BR.balanceAmount);
     }
 }

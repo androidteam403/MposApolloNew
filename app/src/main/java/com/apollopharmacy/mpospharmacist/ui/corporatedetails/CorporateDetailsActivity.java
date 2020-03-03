@@ -25,6 +25,7 @@ import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateMode
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.SwipeController;
 import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 
@@ -89,6 +90,11 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
                     corporateDetailAdapter.getFilter().filter(s);
                 }
             }
+        });
+
+        corporateDetailsBinding.corporateParentView.setOnTouchListener((v, event) -> {
+            CommonUtils.hideKeyboard(CorporateDetailsActivity.this);
+            return false;
         });
     }
 

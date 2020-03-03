@@ -246,7 +246,7 @@
     <string name="label_generic_corporate_no">Corporate No.\n%1$s</string>
     <string name="label_generic_corporate_name">Corporate Name\n%1$s</string>
     <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
-    <string name="label_generic_new_order">New Order  %1$s</string>
+    <string name="label_generic_new_order">New Order # %1$s</string>
 
     <string name="label_generic_mac_id">MAC ID\n%1$s</string>
     <string name="label_generic_device_type">Device Type\n%1$s</string>
@@ -288,4 +288,17 @@
     <string name="label_accept">Accept</string>
     <string name="label_reject">Reject</string>
     <string name="label_balance_points">Balance Points</string>
+    <string name="label_total_price">₹ %1$s</string>
+
+    <string name="label_status">Status</string>
+    <string name="label_internet">Internet</string>
+    <string name="label_server">Server</string>
+    <string name="label_app_version">APP Version</string>
+    <string name="label_build_version">Build Version:\n %1$s</string>
+    <string name="label_device_details">Device Details</string>
+    <string name="label_reports">Reports</string>
+    <string name="label_sales_report">Sales Reports</string>
+    <string name="label_campaign_report">Campign Report</string>
+    <string name="label_device_name_">Name:\n %1$s</string>
+    <string name="label_device_mac">MAC ID:\n %1$s</string>
 </resources>

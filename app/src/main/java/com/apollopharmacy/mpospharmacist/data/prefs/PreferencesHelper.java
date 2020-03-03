@@ -40,6 +40,8 @@ public interface PreferencesHelper {
 
     void setUserName(String name);
 
+    void setUserId(String userId);
+
     void updateUserDetails(String name, String email, String mobile);
 
     String getUserMobile();
@@ -47,6 +49,8 @@ public interface PreferencesHelper {
     String getUserEmail();
 
     String getUserName();
+
+    String getUserId();
 
     void storeGlobalJson(String json);
 
