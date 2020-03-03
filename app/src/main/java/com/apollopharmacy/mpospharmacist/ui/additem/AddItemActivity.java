@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +44,8 @@ import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.Medi
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
+import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -73,6 +78,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private DoctorSearchResModel.DropdownValueBean doctorEntity;
     private SalesOriginResModel.DropdownValueBean salesEntity;
     private CorporateModel.DropdownValueBean corporateEntity;
+    private PayActivityAdapter payActivityAdapter;
+    private ArrayList<PayAdapterModel> arrPayAdapterModel = new ArrayList<>();
 
     private final int CUSTOMER_SEARCH_ACTIVITY_CODE = 103;
     private final int DOCTOR_SEARCH_ACTIVITY_CODE = 104;
@@ -207,25 +214,32 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
         addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
 
-        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                //   medicinesDetailAdapter.remove(position);
-                medicinesDetailAdapter.notifyItemRemoved(position);
-                medicinesDetailAdapter.notifyItemRangeChanged(position, medicinesDetailAdapter.getItemCount());
-            }
-        });
+//        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+//            @Override
+//            public void onRightClicked(int position) {
+//                //   medicinesDetailAdapter.remove(position);
+//                medicinesDetailAdapter.notifyItemRemoved(position);
+//                medicinesDetailAdapter.notifyItemRangeChanged(position, medicinesDetailAdapter.getItemCount());
+//            }
+//        });
 
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(addItemBinding.medicineRecycle);
-
-        addItemBinding.medicineRecycle.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
+//        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+//        itemTouchhelper.attachToRecyclerView(addItemBinding.medicineRecycle);
+//
+//        addItemBinding.medicineRecycle.addItemDecoration(new RecyclerView.ItemDecoration() {
+//            @Override
+//            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+//                swipeController.onDraw(c);
+//            }
+//        });
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
+
+        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel);
+        RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
+        addItemBinding.payAmount.setLayoutManager(mLayoutManagerOne);
+        addItemBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
+        addItemBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+        addItemBinding.payAmount.setAdapter(payActivityAdapter);
     }
 
     @Override
@@ -236,7 +250,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -247,7 +261,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBarCodeSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "3"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "3"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -269,7 +283,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         //If permission is granted, then go ahead recording audio
         else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
+            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }
@@ -298,10 +312,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onDoctorEditClick() {
-        if (doctorEntity != null) {
-            startActivityForResult(DoctorDetailsActivity.getStartIntent(this, doctorEntity, salesEntity), DOCTOR_SEARCH_ACTIVITY_CODE);
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        }
+        startActivityForResult(DoctorDetailsActivity.getStartIntent(this, doctorEntity, salesEntity), DOCTOR_SEARCH_ACTIVITY_CODE);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
@@ -317,6 +329,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public String getCardPaymentAmount() {
         return addItemBinding.cardPaymentAmountEditText.getText().toString();
+    }
+
+    @Override
+    public String getOneApolloPoints() {
+        return addItemBinding.oneApolloAmountEditText.getText().toString();
+    }
+
+    @Override
+    public String getOneApolloOtp() {
+        return addItemBinding.otpView.getText().toString();
     }
 
     @Override
@@ -345,6 +367,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public PaymentMethodModel getPaymentMethod() {
+        return paymentMethodModel;
+    }
+
+    @Override
+    public ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints() {
+        return addItemBinding.getValidatePoints();
+    }
+
+    @Override
     public ArrayList<GetItemDetailsRes.Items> getSelectedProducts() {
         return medicineDetailsModelsList;
     }
@@ -356,6 +388,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void setErrorCashPaymentAmountEditText(String message) {
+        showMessage(message);
+    }
+
+    @Override
+    public void setErrorOneApolloPointsEditText(String message) {
+        showMessage(message);
+    }
+
+    @Override
+    public void setErrorOneApolloOtpEditText(String message) {
         showMessage(message);
     }
 
@@ -397,9 +439,30 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         showMessage("Generate TenderLine Failed");
     }
 
+    double paymentDoneAmount = 0.0;
     @Override
     public void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body) {
         showMessage("Success SaveRetailTransaction");
+        if(paymentMethodModel.isCashMode()) {
+            paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID",getCashPaymentAmount());
+            arrPayAdapterModel.add(payAdapterModel);
+        }else if(paymentMethodModel.isCardMode()){
+            paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID",getCardPaymentAmount());
+            arrPayAdapterModel.add(payAdapterModel);
+        }else if(paymentMethodModel.isOneApolloMode()){
+            paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS",getOneApolloPoints());
+            arrPayAdapterModel.add(payAdapterModel);
+        }
+        payActivityAdapter.notifyDataSetChanged();
+
+       OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
+        if(priceInfoModel.getOrderTotalAmount() != paymentDoneAmount){
+            paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
+            paymentMethodModel.setBalanceAmount(true);
+        }
     }
 
     @Override
@@ -419,23 +482,26 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        txtPLAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "A" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
 //        txtFMCGAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "F" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
 
-        orderPriceInfoModel.setOrderSavingsAmount(Math.round(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100));
-        orderPriceInfoModel.setMrpTotalAmount(Math.round(posTransactionRes.getTotalMRP()));
-        orderPriceInfoModel.setTaxableTotalAmount(Math.round(posTransactionRes.getNetAmount()));
-        orderPriceInfoModel.setOrderTotalAmount(Math.round(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount()));
-        orderPriceInfoModel.setDiscTotalAmount(Math.round(posTransactionRes.getDiscAmount()));
-        orderPriceInfoModel.setRoundedAmount(Math.round(posTransactionRes.getRoundedAmount()));
-        orderPriceInfoModel.setOrderSavingsPercentage(Math.round(posTransactionRes.getTotalManualDiscountPercentage()));
+        orderPriceInfoModel.setOrderSavingsAmount(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
+        orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
+        orderPriceInfoModel.setTaxableTotalAmount(posTransactionRes.getNetAmount());
+        orderPriceInfoModel.setOrderTotalAmount(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
+        orderPriceInfoModel.setDiscTotalAmount(posTransactionRes.getDiscAmount());
+        orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
+        orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getTotalManualDiscountPercentage());
         if(posTransactionRes.getSalesLine().size() > 0){
             for(int i=0; i< posTransactionRes.getSalesLine().size(); i++){
                 if ( posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
-                    orderPriceInfoModel.setPharmaTotalAmount(Math.round(orderPriceInfoModel.getPharmaTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                    orderPriceInfoModel.setPharmaTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                 else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("F"))
-                    orderPriceInfoModel.setFmcgTotalAmount(Math.round(orderPriceInfoModel.getFmcgTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                    orderPriceInfoModel.setFmcgTotalAmount(orderPriceInfoModel.getFmcgTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                 else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
-                    orderPriceInfoModel.setPlTotalAmount(Math.round(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                    orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
-                medicineDetailsModelsList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmount()));
+                medicineDetailsModelsList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                if(!TextUtils.isEmpty(posTransactionRes.getSalesLine().get(i).getPreviewText())) {
+                    medicineDetailsModelsList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
+                }
             }
         }
 
@@ -445,6 +511,29 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onFailedCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
 
+    }
+
+    @Override
+    public void onSuccessOneApolloSendOtp(ValidatePointsResModel.OneApolloProcessResultEntity resultEntity) {
+        paymentMethodModel.setOTPView(true);
+        addItemBinding.setValidatePoints(resultEntity);
+    }
+
+    @Override
+    public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
+        addItemBinding.setValidatePoints(entity);
+        paymentMethodModel.setOTPView(false);
+
+    }
+
+    @Override
+    public void onItemDeleted() {
+        mPresenter.calculatePosTransaction();
+    }
+
+    @Override
+    public void onItemAdded() {
+        mPresenter.calculatePosTransaction();
     }
 
     @Override
@@ -611,11 +700,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             if (strTxnId.equals("") || strTxnId.equals(null)) {
                                 Toast.makeText(this, data.getStringExtra("response"), Toast.LENGTH_LONG).show();
                             } else {
-                                Intent intent1 = new Intent(AddItemActivity.this, MainActivity.class);
-                                intent1.putExtra("response", data.getStringExtra("response"));
-                                intent1.putExtra("LeadsId", LeadsId);
-                                startActivity(intent1);
-                                finish();
+                                mPresenter.onSuccessCardPayment(data.getStringExtra("response"));
                             }
 //
                         } else if (resultCode == RESULT_CANCELED) {

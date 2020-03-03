@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="medicineModel"
             type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel" />
@@ -9,15 +10,51 @@
             name="product"
             type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
     </data>
-    <LinearLayout
+    <com.apollopharmacy.mpospharmacist.utils.SwipeRevealLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        app:dragFromEdge="right">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/ten_dp">
+
+                <ImageView
+                    android:id="@+id/delete_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_clear_all"
+                    android:visibility="@{product.itemDelete ? View.GONE : View.VISIBLE}"/>
+                <ImageView
+                    android:id="@+id/add_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_add_product"
+                    android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}"/>
+            </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true">
+            <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -32,7 +69,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/five_dp"
                 android:layout_weight="0.55"
@@ -49,7 +86,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/two_dp"
                     android:text="@{product.batchListObj.batchNo+`/`+product.category+`/`+product.batchListObj.expDate+`/`+product.manufacture}"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
@@ -60,10 +96,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/three_dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Discount 0.3(3%)-Dis-003"
-                    android:layout_marginBottom="@dimen/five_dp"
+                    android:text="@{product.batchListObj.previewText}"
                     android:textColor="@color/in_line_discount"
                     android:textSize="@dimen/text_dimen_10" />
             </LinearLayout>
@@ -88,7 +122,7 @@
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{String.valueOf(product.batchListObj.mRP)}"
+                        android:text="@{String.format(`%.2f`,product.batchListObj.mRP)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -148,6 +182,13 @@
             android:layout_height="@dimen/two_dp"
             android:background="@color/search_customer_bg" />
     </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/black_transperent"
+                android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}"/>
+        </FrameLayout>
+    </com.apollopharmacy.mpospharmacist.utils.SwipeRevealLayout>
 
 
 </layout>

@@ -4,6 +4,8 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqMode
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
@@ -30,6 +32,8 @@ import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.Transacti
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingReq;
+import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
@@ -102,4 +106,10 @@ public interface ApiInterface {
 
     @POST("WalletService.svc/OneApolloAPITransaction")
     Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);
+
+    @POST("WalletService.svc/OneApolloAPITransaction")
+    Call<ValidatePointsResModel> ONE_APOLLO_SEND_OTP_RES_CALL (@Body ValidatePointsReqModel oneApolloSendOtpReq);
+
+    @POST("LoginService.svc/CheckUserConfig")
+    Call<ConfingRes> CONFING_RES_CALL (@Body ConfingReq confingReq);
 }

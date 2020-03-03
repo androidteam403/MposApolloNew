@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
+
 public class GetItemDetailsRes {
 
 
@@ -33,7 +37,7 @@ public class GetItemDetailsRes {
         return ItemList;
     }
 
-    public static class Items implements Serializable {
+    public static class Items extends BaseObservable implements Serializable {
 
         @Expose
         @SerializedName("SubClassification")
@@ -264,6 +268,19 @@ public class GetItemDetailsRes {
 
         public void setBatchListObj(GetBatchInfoRes.BatchListObj batchListObj) {
             this.batchListObj = batchListObj;
+        }
+
+
+        private boolean itemDelete;
+
+        @Bindable
+        public boolean isItemDelete() {
+            return itemDelete;
+        }
+
+        public void setItemDelete(boolean itemDelete) {
+            this.itemDelete = itemDelete;
+            notifyPropertyChanged(BR.itemDelete);
         }
     }
 }
