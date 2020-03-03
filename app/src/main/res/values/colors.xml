@@ -57,4 +57,9 @@
     <color name="medicine_divider_color">#b7b8b8</color>
     <color name="order_item_header_divider_color">#f1f1f1</color>
     <color name="placeholder_bg">#dddddd</color>
+
+    <color name="order_details_color">#b2b2b2</color>
+    <color name="transaction_id_color">#0dbd00</color>
+    <color name="order_success_divider_bg">#d1f1f1</color>
+    <color name="address_divider_color">#03b3b3</color>
 </resources>

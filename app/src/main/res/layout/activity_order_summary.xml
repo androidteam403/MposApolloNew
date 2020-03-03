@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/forty_five_dp"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:focusable="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/label_your_order_details"
+                    android:textAllCaps="true"
+                    android:textColor="@color/order_details_color"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/label_payment_success"
+                    android:textColor="@color/transaction_id_color"
+                    android:textSize="@dimen/text_dimen_18" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginTop="@dimen/twenty_five_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_delivery_to"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@{customerInfo.name}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{customerInfo.address}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_payment_details"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <LinearLayout
+                        android:id="@+id/paid_amount_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/order_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_order_header"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/eight_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textSize="@dimen/text_dimen_14"
+                        android:textAllCaps="true"
+                        android:layout_marginTop="@dimen/ten_dp"/>
+
+                    <TextView
+                        android:id="@+id/total_medicine_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <LinearLayout
+                        android:id="@+id/medicine_list_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_delivery"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/thirteen_dp">
+
+                        <TextView
+                            android:id="@+id/delivered_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Home Delivery"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+
+                        <TextView
+                            android:id="@+id/delivered_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="15, Oct 2019"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_14" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/anim_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:alpha="0.5"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/order_success_icon"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/place_new_order_btn"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/apollo_btn_color"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{() -> callback.onNewOrderClick()}"
+            android:text="@string/label_place_new_order"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_14" />
+    </RelativeLayout>
+</layout>
