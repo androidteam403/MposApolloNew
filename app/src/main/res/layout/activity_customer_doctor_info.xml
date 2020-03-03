@@ -99,10 +99,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Billing Code: \n POS1234"
+                            android:text="Billing Code: \n ---"
                             android:textColor="@color/black"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:textSize="@dimen/text_dimen_12" />
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -124,9 +125,10 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:text="Tracking Ref No: \n 0-NS NORMALSALE"
+                            android:text="Tracking Ref No: \n ---"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12" />
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </LinearLayout>
 

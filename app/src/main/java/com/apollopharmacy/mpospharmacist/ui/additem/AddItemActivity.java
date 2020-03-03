@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -244,8 +245,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        alertDialog();
     }
 
     @Override
@@ -626,7 +626,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cartItems.setId(nextId);
                                             //  realm.beginTransaction();
                                             savedCart.getItemsArrayList().add(cartItems);
-                                            realm.copyToRealmOrUpdate(savedCart);
+                                        //    realm.copyToRealmOrUpdate(savedCart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -652,7 +652,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cart.setId(nextId);
                                             //  realm.beginTransaction();
 
-                                            realm.copyToRealmOrUpdate(cart);
+                                         //   realm.copyToRealmOrUpdate(cart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -853,5 +853,35 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
          }
          ******************************************/
         EzeAPI.cardTransaction(this, REQUEST_CODE_SALE_TXN, jsonRequest);
+    }
+
+
+
+    private void alertDialog(){
+        ExitInfoDialog  dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("Are you Sure?");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setSubtitle("Do you want to cancel this order");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                closeOrder();
+
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    private void closeOrder(){
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

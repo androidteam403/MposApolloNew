@@ -10,8 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@color/white">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_weight="0.95">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,14 +62,7 @@
                 app:span_size="@{@dimen/small_size_text}"
                 app:span_text="@{productlist.category}"
                 android:fontFamily="@font/roboto_regular"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/back_icon"
-                android:rotation="180"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:layout_marginEnd="@dimen/twenty_dp"
-                android:contentDescription="@string/label_img" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,5 +109,15 @@
                 app:span_text="@{productlist.genericName}"
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
+    </LinearLayout>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/back_icon"
+            android:rotation="180"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:contentDescription="@string/label_img"
+            android:layout_weight="0.05"/>
     </LinearLayout>
 </layout>

@@ -26,6 +26,8 @@ import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.Transacti
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.inject.Inject;
 

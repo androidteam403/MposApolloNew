@@ -11,6 +11,8 @@ import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -72,6 +74,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             CommonUtils.hideKeyboard(CustomerDetailsActivity.this);
             return false;
         });
+        customerDetailsBinding.customerNumberEdit.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         //temp
 //        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
 //        customerEntity.setSearchId("8056427651");
