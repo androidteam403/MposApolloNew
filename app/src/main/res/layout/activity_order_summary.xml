@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpPresenter" />
+
+        <variable
+            name="orderDetails"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes" />
+
+        <variable
+            name="itemCount"
+            type="Integer" />
     </data>
 
     <RelativeLayout
@@ -27,11 +33,19 @@
                 android:focusable="true"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/order_success_bg" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/label_your_order_details"
                     android:textAllCaps="true"
@@ -42,8 +56,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/label_payment_success"
+                    android:text="@{@string/generic_order_number(orderDetails.transactionId)}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@{@string/generic_order_number(orderDetails.reciptId)}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/label_order_success"
                     android:textColor="@color/transaction_id_color"
                     android:textSize="@dimen/text_dimen_18" />
 
@@ -51,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/fifteen_dp"
-                    android:layout_marginTop="@dimen/twenty_five_dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:layout_marginEnd="@dimen/fifteen_dp"
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:background="@drawable/order_success_bg"
@@ -64,7 +102,7 @@
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginBottom="@dimen/five_dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_delivery_to"
+                        android:text="@string/label_customer_details"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_dimen_14" />
@@ -73,8 +111,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/fifteen_dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text=""
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_name_cust(orderDetails.customerName)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_13" />
 
@@ -82,12 +120,141 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/five_dp"
                         android:layout_marginEnd="@dimen/fifteen_dp"
-                        android:layout_marginBottom="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:text=""
+                        android:text="@{@string/label_phone(orderDetails.mobileNO)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_doctor_details"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_name_cust(orderDetails.doctorName)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_doctor_code(orderDetails.doctorCode)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:background="@drawable/order_success_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@{@string/label_product_item_count(String.valueOf(itemCount))}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/medicine_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.55"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_regular"
+                            android:singleLine="true"
+                            android:text="Item Name"
+                            android:textSize="@dimen/text_dimen_12" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.15"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="end"
+                            android:text="@string/label_product_price"
+                            android:textSize="@dimen/text_dimen_12" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.13"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
+                            android:text="Qty."
+                            android:textSize="@dimen/text_dimen_12" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.17"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="end"
+                            android:singleLine="true"
+                            android:text="@string/label_product_total_price"
+                            android:textSize="@dimen/text_dimen_12" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/medicine_list_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:orientation="vertical" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,98 +287,6 @@
                         android:layout_marginBottom="@dimen/ten_dp"
                         android:orientation="vertical" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/fifteen_dp"
-                    android:layout_marginEnd="@dimen/fifteen_dp"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:background="@drawable/order_success_bg"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/order_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_order_header"
-                        android:layout_marginStart="@dimen/fifteen_dp"
-                        android:layout_marginBottom="@dimen/eight_dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textSize="@dimen/text_dimen_14"
-                        android:textAllCaps="true"
-                        android:layout_marginTop="@dimen/ten_dp"/>
-
-                    <TextView
-                        android:id="@+id/total_medicine_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fifteen_dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textAllCaps="true"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_14" />
-
-                    <LinearLayout
-                        android:id="@+id/medicine_list_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fifteen_dp"
-                        android:layout_marginEnd="@dimen/fifteen_dp"
-                        android:layout_marginBottom="@dimen/ten_dp"
-                        android:orientation="vertical" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/fifteen_dp"
-                    android:layout_marginEnd="@dimen/fifteen_dp"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:background="@drawable/order_success_bg"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fifteen_dp"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_delivery"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_dimen_14" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fifteen_dp"
-                        android:layout_marginEnd="@dimen/fifteen_dp"
-                        android:layout_marginBottom="@dimen/thirteen_dp">
-
-                        <TextView
-                            android:id="@+id/delivered_location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Home Delivery"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_13" />
-
-                        <TextView
-                            android:id="@+id/delivered_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="15, Oct 2019"
-                            android:textAllCaps="true"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_14" />
-                    </RelativeLayout>
-                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -228,12 +303,11 @@
         <Button
             android:id="@+id/place_new_order_btn"
             android:layout_width="match_parent"
-            android:backgroundTint="@color/apollo_btn_color"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
+            android:backgroundTint="@color/apollo_btn_color"
             android:fontFamily="@font/roboto_bold"
-
             android:text="@string/label_place_new_order"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_14" />
