@@ -99,7 +99,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
     @Override
     public void onContinueBtnClick() {
         if (fragmentBillingBinding.getCustomer() != null) {
-            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem));
+            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }

@@ -7,4 +7,6 @@ public interface CustDocEditMvpView extends MvpView {
     void onCustomerEditClick();
 
     void onDoctorEditClick();
+
+    void onCorporateEditClick();
 }

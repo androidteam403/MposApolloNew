@@ -125,16 +125,21 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     @Override
     public void onSuccessBatchInfo(GetBatchInfoRes body) {
-        arrBatchList.addAll(body.getBatchList());
-        Collections.sort(arrBatchList, new Comparator<GetBatchInfoRes.BatchListObj>() {
-            @Override
-            public int compare(GetBatchInfoRes.BatchListObj o1, GetBatchInfoRes.BatchListObj o2) {
-                boolean b1 = o1.getNearByExpiry();
-                boolean b2 = o2.getNearByExpiry();
-                return Boolean.compare(b1, b2);
-            }
-        });
-        batchInfoAdapter.notifyDataSetChanged();
+        if(body.getBatchList().size() > 0) {
+            arrBatchList.addAll(body.getBatchList());
+            Collections.sort(arrBatchList, new Comparator<GetBatchInfoRes.BatchListObj>() {
+                @Override
+                public int compare(GetBatchInfoRes.BatchListObj o1, GetBatchInfoRes.BatchListObj o2) {
+                    boolean b1 = o1.getNearByExpiry();
+                    boolean b2 = o2.getNearByExpiry();
+                    return Boolean.compare(b1, b2);
+                }
+            });
+            isSelectedBatch = true;
+            arrBatchList.get(0).setSelected(true);
+            selectedItem.setBatchListObj(arrBatchList.get(0));
+            batchInfoAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

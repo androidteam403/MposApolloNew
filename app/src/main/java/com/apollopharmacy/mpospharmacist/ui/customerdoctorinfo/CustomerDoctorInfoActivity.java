@@ -38,7 +38,7 @@ public class CustomerDoctorInfoActivity extends BaseActivity implements Customer
     protected void setUp() {
         customerDoctorInfoBinding.setCallback(customerDoctorInfoMvpPresenter);
         customerDoctorInfoBinding.continueBtn.setOnClickListener(view -> {
-            startActivity(AddItemActivity.getStartIntent(this));
+           // startActivity(AddItemActivity.getStartIntent(this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         });
     }
