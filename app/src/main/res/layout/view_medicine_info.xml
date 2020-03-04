@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="medicinebean"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes.SalesLineEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/medicine_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/one_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/medicine_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.55"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:singleLine="true"
+            android:text="@{medicinebean.itemName}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{String.valueOf(medicinebean.originalPrice)}"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.13"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{String.valueOf(medicinebean.qty)}"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{String.valueOf(medicinebean.price)}"
+            android:gravity="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_13" />
+    </LinearLayout>
+</layout>

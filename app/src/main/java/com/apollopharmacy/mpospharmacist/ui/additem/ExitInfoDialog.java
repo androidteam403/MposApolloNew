@@ -25,7 +25,6 @@ public class ExitInfoDialog {
         dialog.setContentView(exitInfoDialogBinding.getRoot());
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
     }
 
 
