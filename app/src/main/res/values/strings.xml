@@ -316,4 +316,14 @@
     <string name="label_mrp_header">MRP(\u20B9)</string>
     <string name="label_total_header">TOTAL(\u20B9)</string>
     <string name="label_generate_bill">Generate Bill</string>
+    <string name="label_Rs_pay_amount">\u20B9 %s</string>
+    <string name="label_product_price">Price(\u20B9)</string>
+    <string name="label_product_total_price">Total(\u20B9)</string>
+    <string name="label_delivery_address">Delivery Address</string>
+    <string name="label_delivery_type">Delivery Type</string>
+    <string name="label_order_success">Order placed successfully</string>
+    <string name="label_phone">Mobile: %1$s</string>
+    <string name="label_name_cust">Name: %1$s</string>
+    <string name="label_doctor_code">Code: %1$s</string>
+    <string name="generic_order_number"># %s</string>
 </resources>
