@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.databinding.DataBindingUtil;
-
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddCustomerBinding;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
@@ -27,6 +25,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import androidx.databinding.DataBindingUtil;
+
 import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
 public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpView {
@@ -35,11 +35,6 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     AddCustomerMvpPresenter<AddCustomerMvpView> mPresenter;
     private ActivityAddCustomerBinding addCustomerBinding;
 
-    private ArrayList<SpinnerPojo> arrGenderSpinner;
-    private ArrayList<SpinnerPojo.City> arrCitySpinner;
-    private ArrayList<SpinnerPojo.State> arrStateSpinner;
-    private ArrayList<SpinnerPojo.District> arrDistrictSpinner;
-    private ArrayList<SpinnerPojo.MaritalStatus> arrMaritalSpinner;
     private String requiredDOBFormat = "";
 
     public static Intent getStartIntent(Context context, String inputNumber) {
@@ -64,28 +59,30 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         if (getIntent() != null) {
             String userInputNumber = (String) getIntent().getSerializableExtra("customer_number");
             addCustomerBinding.mobile.setText(userInputNumber);
-            addCustomerBinding.mobile.setSelection(userInputNumber.length());
+            if (userInputNumber != null) {
+                addCustomerBinding.mobile.setSelection(userInputNumber.length());
+            }
         }
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         addCustomerBinding.dateOfRegistration.setText(df.format(c));
 
-        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_dropdown_item, getGender());
+        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getGender());
         addCustomerBinding.gender.setAdapter(genderSpinnerPojo);
 
-        ArrayAdapter<SpinnerPojo.City> citySpinnerPojo = new ArrayAdapter<SpinnerPojo.City>(getContext(), android.R.layout.simple_spinner_dropdown_item, getCity());
-        addCustomerBinding.citySpinner.setAdapter(citySpinnerPojo);
-        addCustomerBinding.citySpinner.setFocusableInTouchMode(false);
+//        ArrayAdapter<SpinnerPojo.City> citySpinnerPojo = new ArrayAdapter<SpinnerPojo.City>(getContext(), android.R.layout.simple_spinner_dropdown_item, getCity());
+//        addCustomerBinding.citySpinner.setAdapter(citySpinnerPojo);
+//        addCustomerBinding.citySpinner.setFocusableInTouchMode(false);
+//
+//        ArrayAdapter<SpinnerPojo.State> stateSpinnerPojo = new ArrayAdapter<SpinnerPojo.State>(getContext(), android.R.layout.simple_spinner_dropdown_item, getState());
+//        addCustomerBinding.stateSpinner.setAdapter(stateSpinnerPojo);
+//        addCustomerBinding.stateSpinner.setFocusableInTouchMode(false);
+//
+//        ArrayAdapter<SpinnerPojo.District> districtSpinnerPojo = new ArrayAdapter<SpinnerPojo.District>(getContext(), android.R.layout.simple_spinner_dropdown_item, getDistrict());
+//        addCustomerBinding.districtSpinner.setAdapter(districtSpinnerPojo);
+//        addCustomerBinding.districtSpinner.setFocusableInTouchMode(false);
 
-        ArrayAdapter<SpinnerPojo.State> stateSpinnerPojo = new ArrayAdapter<SpinnerPojo.State>(getContext(), android.R.layout.simple_spinner_dropdown_item, getState());
-        addCustomerBinding.stateSpinner.setAdapter(stateSpinnerPojo);
-        addCustomerBinding.stateSpinner.setFocusableInTouchMode(false);
-
-        ArrayAdapter<SpinnerPojo.District> districtSpinnerPojo = new ArrayAdapter<SpinnerPojo.District>(getContext(), android.R.layout.simple_spinner_dropdown_item, getDistrict());
-        addCustomerBinding.districtSpinner.setAdapter(districtSpinnerPojo);
-        addCustomerBinding.districtSpinner.setFocusableInTouchMode(false);
-
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getContext(), android.R.layout.simple_spinner_dropdown_item, getMarital());
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getMarital());
         addCustomerBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
         addCustomerBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
     }
@@ -99,10 +96,10 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onDateClick() {
         Calendar c = Calendar.getInstance(Locale.ENGLISH);
-        int mYear = 0;
-        int mMonth = 0;
-        int mDay = 0;
-        if (addCustomerBinding.dateOfBirth.getText().toString().isEmpty()) {
+        int mYear;
+        int mMonth;
+        int mDay;
+        if (Objects.requireNonNull(addCustomerBinding.dateOfBirth.getText()).toString().isEmpty()) {
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -114,7 +111,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             mDay = Integer.parseInt(expDate[0]);
         }
         final DatePickerDialog dialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
-            String selectedDate = "";
+            String selectedDate;
             c.set(year, monthOfYear, dayOfMonth);
             selectedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(c.getTime());
             requiredDOBFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(c.getTime());
@@ -134,10 +131,10 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onAnniversaryClick() {
         Calendar c = Calendar.getInstance(Locale.ENGLISH);
-        int mYear = 0;
-        int mMonth = 0;
-        int mDay = 0;
-        if (addCustomerBinding.anniversary.getText().toString().isEmpty()) {
+        int mYear;
+        int mMonth;
+        int mDay;
+        if (Objects.requireNonNull(addCustomerBinding.anniversary.getText()).toString().isEmpty()) {
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -149,7 +146,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             mDay = Integer.parseInt(expDate[0]);
         }
         final DatePickerDialog dialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
-            String selectedDate = "";
+            String selectedDate;
             c.set(year, monthOfYear, dayOfMonth);
             selectedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(c.getTime());
             addCustomerBinding.anniversary.setText(selectedDate);
@@ -160,10 +157,10 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onRegistrationClick() {
         Calendar c = Calendar.getInstance(Locale.ENGLISH);
-        int mYear = 0;
-        int mMonth = 0;
-        int mDay = 0;
-        if (addCustomerBinding.dateOfRegistration.getText().toString().isEmpty()) {
+        int mYear;
+        int mMonth;
+        int mDay;
+        if (Objects.requireNonNull(addCustomerBinding.dateOfRegistration.getText()).toString().isEmpty()) {
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -175,7 +172,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             mDay = Integer.parseInt(expDate[0]);
         }
         final DatePickerDialog dialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
-            String selectedDate = "";
+            String selectedDate;
             c.set(year, monthOfYear, dayOfMonth);
             selectedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(c.getTime());
             addCustomerBinding.dateOfRegistration.setText(selectedDate);
@@ -230,7 +227,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     @Override
     public int getAge() {
-        if (addCustomerBinding.age.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(addCustomerBinding.age.getText()).toString().trim().isEmpty()) {
             return 0;
         } else {
             return Integer.parseInt(addCustomerBinding.age.getText().toString());
@@ -267,7 +264,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     @Override
     public int getNumberOfDependants() {
-        if (addCustomerBinding.numberOfDependents.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(addCustomerBinding.numberOfDependents.getText()).toString().trim().isEmpty()) {
             return 0;
         } else {
             return Integer.parseInt(addCustomerBinding.numberOfDependents.getText().toString());
@@ -296,29 +293,17 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     @Override
     public String getCityOption() {
-        if (addCustomerBinding.citySpinner.getSelectedItem() == null) {
-            return "";
-        } else {
-            return addCustomerBinding.citySpinner.getSelectedItem().toString();
-        }
+        return Objects.requireNonNull(addCustomerBinding.cityEdittext.getText()).toString();
     }
 
     @Override
     public String getStateOption() {
-        if (addCustomerBinding.stateSpinner.getSelectedItem() == null) {
-            return "";
-        } else {
-            return addCustomerBinding.stateSpinner.getSelectedItem().toString();
-        }
+        return Objects.requireNonNull(addCustomerBinding.stateEdittext.getText()).toString();
     }
 
     @Override
     public String getDistrictOption() {
-        if (addCustomerBinding.districtSpinner.getSelectedItem() == null) {
-            return "";
-        } else {
-            return addCustomerBinding.districtSpinner.getSelectedItem().toString();
-        }
+        return Objects.requireNonNull(addCustomerBinding.districtEditText.getText()).toString();
     }
 
     @Override
@@ -337,7 +322,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     }
 
     private ArrayList<SpinnerPojo> getGender() {
-        arrGenderSpinner = new ArrayList<>();
+        ArrayList<SpinnerPojo> arrGenderSpinner = new ArrayList<>();
         SpinnerPojo genderSpinnerPojo = new SpinnerPojo();
         genderSpinnerPojo.setGender("Male");
         arrGenderSpinner.add(genderSpinnerPojo);
@@ -347,42 +332,8 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         return arrGenderSpinner;
     }
 
-    private ArrayList<SpinnerPojo.City> getCity() {
-        arrCitySpinner = new ArrayList<>();
-        SpinnerPojo.City cityName = new SpinnerPojo.City();
-        cityName.setCity("Hyderbad");
-        arrCitySpinner.add(cityName);
-        cityName = new SpinnerPojo.City();
-        cityName.setCity("Siddipet");
-        arrCitySpinner.add(cityName);
-        cityName = new SpinnerPojo.City();
-        cityName.setCity("Warangal");
-        arrCitySpinner.add(cityName);
-        cityName = new SpinnerPojo.City();
-        cityName.setCity("Karimnagar");
-        arrCitySpinner.add(cityName);
-        return arrCitySpinner;
-    }
-
-    private ArrayList<SpinnerPojo.State> getState() {
-        arrStateSpinner = new ArrayList<>();
-        SpinnerPojo.State stateName = new SpinnerPojo.State();
-        stateName.setState("Telangana");
-        arrStateSpinner.add(stateName);
-        stateName = new SpinnerPojo.State();
-        stateName.setState("Andhra Pradhesh");
-        arrStateSpinner.add(stateName);
-        stateName = new SpinnerPojo.State();
-        stateName.setState("Tamilanadu");
-        arrStateSpinner.add(stateName);
-        stateName = new SpinnerPojo.State();
-        stateName.setState("Karnataka");
-        arrStateSpinner.add(stateName);
-        return arrStateSpinner;
-    }
-
     private ArrayList<SpinnerPojo.MaritalStatus> getMarital() {
-        arrMaritalSpinner = new ArrayList<>();
+        ArrayList<SpinnerPojo.MaritalStatus> arrMaritalSpinner = new ArrayList<>();
         SpinnerPojo.MaritalStatus maritalStatus = new SpinnerPojo.MaritalStatus();
         maritalStatus.setMaritalStatus("Married");
         arrMaritalSpinner.add(maritalStatus);
@@ -395,28 +346,12 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         return arrMaritalSpinner;
     }
 
-    private ArrayList<SpinnerPojo.District> getDistrict() {
-        arrDistrictSpinner = new ArrayList<>();
-        SpinnerPojo.District districtName = new SpinnerPojo.District();
-        districtName.setDistrict("Siddipet");
-        arrDistrictSpinner.add(districtName);
-        districtName = new SpinnerPojo.District();
-        districtName.setDistrict("Ameerpet");
-        arrDistrictSpinner.add(districtName);
-        districtName = new SpinnerPojo.District();
-        districtName.setDistrict("Kukatpally");
-        arrDistrictSpinner.add(districtName);
-        districtName = new SpinnerPojo.District();
-        districtName.setDistrict("Miyapur");
-        arrDistrictSpinner.add(districtName);
-        return arrDistrictSpinner;
-    }
 
     private boolean validate() {
-        String firstName = addCustomerBinding.firstName.getText().toString();
-        String mobile = addCustomerBinding.mobile.getText().toString();
-        String cardNumber = addCustomerBinding.cardNumber.getText().toString();
-        String dob = addCustomerBinding.dateOfBirth.getText().toString();
+        String firstName = Objects.requireNonNull(addCustomerBinding.firstName.getText()).toString();
+        String mobile = Objects.requireNonNull(addCustomerBinding.mobile.getText()).toString();
+        String cardNumber = Objects.requireNonNull(addCustomerBinding.cardNumber.getText()).toString();
+        String dob = Objects.requireNonNull(addCustomerBinding.dateOfBirth.getText()).toString();
 
         if (firstName.isEmpty()) {
             addCustomerBinding.firstName.setError("First Name should not be empty");
@@ -430,7 +365,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             addCustomerBinding.dateOfBirth.setError("Select any Date");
             addCustomerBinding.dateOfBirth.requestFocus();
             return false;
-        }else if (mobile.isEmpty()) {
+        } else if (mobile.isEmpty()) {
             addCustomerBinding.mobile.setError("Mobile Number should not be empty");
             addCustomerBinding.mobile.requestFocus();
             return false;

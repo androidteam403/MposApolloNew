@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -153,7 +154,8 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
 
     @Override
     public void onClickNewOrderBtn() {
-        startActivity(SearchCustomerDoctorDetailsActivity.getStartIntent(getBaseActivity()));
-        getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        Navigation.findNavController(dashboardBinding.newOrder).navigate(R.id.nav_billing);
+//        startActivity(SearchCustomerDoctorDetailsActivity.getStartIntent(getBaseActivity()));
+//        getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 }
