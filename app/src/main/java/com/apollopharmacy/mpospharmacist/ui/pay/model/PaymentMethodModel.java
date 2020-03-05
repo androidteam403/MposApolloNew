@@ -15,6 +15,7 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean isOTPView = false;
     private double balanceAmount;
     private boolean generateBill = false;
+    private boolean isPaymentDone = false;
     private SaveRetailsTransactionRes saveRetailsTransactionRes;
 
     @Bindable
@@ -112,5 +113,15 @@ public class PaymentMethodModel extends BaseObservable {
 
     public void setSaveRetailsTransactionRes(SaveRetailsTransactionRes saveRetailsTransactionRes) {
         this.saveRetailsTransactionRes = saveRetailsTransactionRes;
+    }
+
+    @Bindable
+    public boolean isPaymentDone() {
+        return isPaymentDone;
+    }
+
+    public void setPaymentDone(boolean paymentDone) {
+        isPaymentDone = paymentDone;
+        notifyPropertyChanged(BR.paymentDone);
     }
 }

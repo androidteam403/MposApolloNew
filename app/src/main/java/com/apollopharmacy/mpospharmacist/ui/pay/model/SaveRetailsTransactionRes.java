@@ -605,7 +605,7 @@ public  class SaveRetailsTransactionRes implements Serializable {
         return AmounttoAccount;
     }
 
-    public static class TenderLineEntity {
+    public static class TenderLineEntity implements Serializable{
         @Expose
         @SerializedName("WalletType")
         private double WalletType;
@@ -727,7 +727,7 @@ public  class SaveRetailsTransactionRes implements Serializable {
         }
     }
 
-    public static class SalesLineEntity {
+    public static class SalesLineEntity implements Serializable{
         @Expose
         @SerializedName("VariantId")
         private String VariantId;
