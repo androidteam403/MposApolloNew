@@ -128,7 +128,6 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/twenty_dp"
             android:layout_marginEnd="@dimen/twenty_dp"
             android:layout_weight="0.05"
             android:contentDescription="@string/label_img"
