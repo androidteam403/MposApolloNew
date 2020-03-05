@@ -507,15 +507,15 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         showMessage("Success SaveRetailTransaction");
         if(paymentMethodModel.isCashMode()) {
             paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID",getCashPaymentAmount());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID","₹ "+getCashPaymentAmount());
             arrPayAdapterModel.add(payAdapterModel);
         }else if(paymentMethodModel.isCardMode()){
             paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID",getCardPaymentAmount());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID","₹ "+getCardPaymentAmount());
             arrPayAdapterModel.add(payAdapterModel);
         }else if(paymentMethodModel.isOneApolloMode()){
             paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS",getOneApolloPoints());
+            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS","₹ "+getOneApolloPoints());
             arrPayAdapterModel.add(payAdapterModel);
         }
         payActivityAdapter.notifyDataSetChanged();
@@ -526,6 +526,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setBalanceAmount(true);
         }else{
             if(!TextUtils.isEmpty(body.getReciptId())) {
+                paymentMethodModel.setPaymentDone(true);
                 paymentMethodModel.setGenerateBill(true);
                 paymentMethodModel.setSaveRetailsTransactionRes(body);
             }
