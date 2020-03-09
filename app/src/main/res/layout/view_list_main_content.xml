@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="medicineModel"
+            type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel" />
+
+        <variable
+            name="product"
+            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
+    </data>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_list_main_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    tools:showIn="@layout/list_item_main">
+
+    <RelativeLayout
+        android:id="@+id/item_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/item_view_liner"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/eighteen_dp"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="0.05"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/pills" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="0.55"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{product.artCode.concat(` - `+product.description)}"
+                    android:textColor="@color/add_item_header"
+                    android:textSize="@dimen/text_dimen_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular"
+                    android:singleLine="true"
+                    android:text="@{product.batchListObj.batchNo+`/`+product.category+`/`+product.batchListObj.expDate+`/`+product.manufacture}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@{product.batchListObj.previewText}"
+                    android:textColor="@color/in_line_discount"
+                    android:textSize="@dimen/text_dimen_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:background="@color/search_customer_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.3"
+                        android:background="@color/cart_price_bg"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@{String.format(`%.2f`,product.batchListObj.mRP)}"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="@dimen/one_dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/search_customer_bg" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        android:background="@color/cart_price_bg"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@{String.valueOf(product.batchListObj.enterReqQuantity)}"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="@dimen/one_dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/search_customer_bg" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@color/cart_price_bg"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@{product.batchListObj.calculatedTotalPrice}"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/cart_tax_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:padding="@dimen/one_dp"
+                    android:text="@{`Tax : `+ product.batchListObj.totalTax +`%`}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_dp"
+                    android:background="@color/search_customer_bg" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/two_dp"
+            android:background="@color/search_customer_bg"
+            android:layout_below="@+id/item_view_liner"/>
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/black_transperent"
+        android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}"/>
+</RelativeLayout>
+</layout>
+
+

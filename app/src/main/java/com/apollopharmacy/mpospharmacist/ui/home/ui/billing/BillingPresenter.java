@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDReqModel;
@@ -88,15 +89,21 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             call.enqueue(new Callback<TransactionIDResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().showTransactionID(response.body());
                         getCorporateList();
+                    }else{
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    getMvpView().showMessage(t.getMessage());
                 }
             });
         } else {
@@ -113,19 +120,93 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().getCorporateList(response.body());
+                        getDoctorsList();
+                    }else{
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    getMvpView().showMessage(t.getMessage());
                 }
             });
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public void getDoctorsList() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
+            doctorSearchModel.setISAX(false);
+            doctorSearchModel.setDoctorID("");
+            doctorSearchModel.setDoctorName("");
+            doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
+            doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),doctorSearchModel);
+            call.enqueue(new Callback<DoctorSearchResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
+                    if (response.isSuccessful()  && response.body() != null && response.body().getRequestStatus() == 0) {
+                        getSalesOrigin();
+                        getMvpView().getDoctorSearchList(response.body());
+                    }else{
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    getMvpView().showMessage(t.getMessage());
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getSalesOrigin() {
+        if (getMvpView().isNetworkConnected()) {
+            ApiInterface api = ApiClient.getApiService();
+            Call<SalesOriginResModel> call = api.getSalesOriginList(getDataManager().getDataAreaId(),new JsonObject());
+            call.enqueue(new Callback<SalesOriginResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<SalesOriginResModel> call, @NotNull Response<SalesOriginResModel> response) {
+                    if (response.isSuccessful()  && response.body() != null && response.body().getGetSalesOriginResult().getRequestStatus() == 0) {
+                        getMvpView().hideLoading();
+                        getMvpView().getSalesOriginList(response.body());
+                    }else{
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getGetSalesOriginResult().getRequestStatus());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<SalesOriginResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    getMvpView().showMessage(t.getMessage());
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
 }

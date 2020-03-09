@@ -1,29 +1,21 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.Manifest;
-import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +24,8 @@ import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
 import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
+import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
@@ -44,8 +38,6 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
-import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
@@ -56,10 +48,9 @@ import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
-import com.apollopharmacy.mpospharmacist.utils.SwipeController;
-import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 import com.eze.api.EzeAPI;
+import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -79,7 +70,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private ActivityAddItemBinding addItemBinding;
     private CustDocEditMvpView custDocEditMvpView;
     private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
-    private MedicinesDetailAdapter medicinesDetailAdapter;
+    private MainRecyclerAdapter medicinesDetailAdapter;
     private final int ACTIVITY_ADD_PRODUCT_CODE = 102;
     private GetCustomerResponse.CustomerEntity customerEntity;
     private DoctorSearchResModel.DropdownValueBean doctorEntity;
@@ -241,10 +232,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         }
 
-        medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
+        addItemBinding.medicineRecycle.setLayoutManager(new LinearLayoutManager(this));
+         medicinesDetailAdapter = new MainRecyclerAdapter(this,medicineDetailsModelsList);
         addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
+   //     addItemBinding.medicineRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        ItemTouchHelperExtension.Callback   mCallback = new ItemTouchHelperCallback();
+        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+        mItemTouchHelper.attachToRecyclerView(addItemBinding.medicineRecycle);
+        medicinesDetailAdapter.setItemTouchHelperExtension(mItemTouchHelper);
+        medicinesDetailAdapter.setAddItemMvpView(this);
+//        medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//        addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
+//        addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
 
 //        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
 //            @Override
@@ -529,6 +529,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setPaymentDone(true);
                 paymentMethodModel.setGenerateBill(true);
                 paymentMethodModel.setSaveRetailsTransactionRes(body);
+            }else{
+                showMessage(body.getReturnMessage());
             }
         }
         ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation",rotationAngle, rotationAngle + 180);
@@ -647,8 +649,21 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 switch (requestCode) {
                     case ACTIVITY_ADD_PRODUCT_CODE:
                         if (data != null) {
+                            boolean itemNotFound = true;
                             GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
-                            medicineDetailsModelsList.add(items);
+                            if(items != null && medicineDetailsModelsList.size() > 0){
+                                for(int i=0; i< medicineDetailsModelsList.size(); i++){
+                                    GetItemDetailsRes.Items items1 = medicineDetailsModelsList.get(i);
+                                    if(items.getArtCode().equalsIgnoreCase(items1.getArtCode()) &&
+                                            items.getBatchListObj().getBatchNo().equalsIgnoreCase(items1.getBatchListObj().getBatchNo())){
+                                        medicineDetailsModelsList.get(i).getBatchListObj().setEnterReqQuantity(items1.getBatchListObj().getEnterReqQuantity()+items.getBatchListObj().getEnterReqQuantity());
+                                        itemNotFound = false;
+                                    }
+                                }
+                            }
+                            if(itemNotFound){
+                                medicineDetailsModelsList.add(items);
+                            }
                             medicinesDetailAdapter.notifyDataSetChanged();
                             addItemBinding.setProductCount(medicineDetailsModelsList.size());
                             // Insert into cart table

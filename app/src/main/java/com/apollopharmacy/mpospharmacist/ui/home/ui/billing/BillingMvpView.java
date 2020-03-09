@@ -28,4 +28,8 @@ public interface BillingMvpView extends MvpView {
     void showTransactionID(TransactionIDResModel model);
 
     void getCorporateList(CorporateModel corporateModel);
+
+    void getDoctorSearchList(DoctorSearchResModel model);
+
+    void getSalesOriginList(SalesOriginResModel model);
 }
