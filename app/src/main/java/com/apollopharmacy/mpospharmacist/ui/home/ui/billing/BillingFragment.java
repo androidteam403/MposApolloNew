@@ -117,6 +117,16 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
         fragmentBillingBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
     }
 
+    @Override
+    public void getDoctorSearchList(DoctorSearchResModel model) {
+        fragmentBillingBinding.setDoctor(model.get_DropdownValue().get(0));
+    }
+
+    @Override
+    public void getSalesOriginList(SalesOriginResModel model) {
+        fragmentBillingBinding.setSales(model.getGetSalesOriginResult().get_DropdownValue().get(0));
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
