@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.billing;
 
+import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
@@ -96,6 +97,8 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                         getMvpView().hideLoading();
                         if (response.body() != null) {
                             getMvpView().showMessage(response.body().getReturnMessage());
+                        }else{
+                            getMvpView().showMessage(R.string.some_error);
                         }
                     }
                 }

@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderAdapterBinding;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrdersModel;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private Activity activity;
-    private ArrayList<OrdersModel> ordersModelArrayList;
+    private ArrayList<OrderListRes> ordersModelArrayList;
 
-    public OrdersAdapter(Activity activity, ArrayList<OrdersModel> ordersModelArrayList) {
+    public OrdersAdapter(Activity activity, ArrayList<OrderListRes> ordersModelArrayList) {
         this.activity = activity;
         this.ordersModelArrayList = ordersModelArrayList;
     }
@@ -33,8 +33,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull OrdersAdapter.ViewHolder holder, int position) {
-        OrdersModel item = ordersModelArrayList.get(position);
-        holder.fragmentOrderAdapterBinding.setOrderModel(item);
+        OrderListRes item = ordersModelArrayList.get(position);
+        holder.fragmentOrderAdapterBinding.setOrderDetails(item);
 
     }
 

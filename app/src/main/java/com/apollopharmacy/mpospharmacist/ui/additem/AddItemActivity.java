@@ -266,12 +266,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        });
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
 
-        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel);
+        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel,this);
         RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
         addItemBinding.payAmount.setLayoutManager(mLayoutManagerOne);
         addItemBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         addItemBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         addItemBinding.payAmount.setAdapter(payActivityAdapter);
+
+        mPresenter.getTenderTypeApi();
     }
 
     @Override
@@ -505,34 +507,41 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body) {
         showMessage("Success SaveRetailTransaction");
-        if(paymentMethodModel.isCashMode()) {
-            paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID","₹ "+getCashPaymentAmount());
-            arrPayAdapterModel.add(payAdapterModel);
-        }else if(paymentMethodModel.isCardMode()){
-            paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID","₹ "+getCardPaymentAmount());
-            arrPayAdapterModel.add(payAdapterModel);
-        }else if(paymentMethodModel.isOneApolloMode()){
-            paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS","₹ "+getOneApolloPoints());
-            arrPayAdapterModel.add(payAdapterModel);
-        }
-        payActivityAdapter.notifyDataSetChanged();
-
-       OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
-        if(priceInfoModel.getOrderTotalAmount() >= paymentDoneAmount){
-            paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
-            paymentMethodModel.setBalanceAmount(true);
+        if(!TextUtils.isEmpty(body.getReciptId())) {
+            paymentMethodModel.setSaveRetailsTransactionRes(body);
+            onClickGenerateBill();
         }else{
-            if(!TextUtils.isEmpty(body.getReciptId())) {
-                paymentMethodModel.setPaymentDone(true);
-                paymentMethodModel.setGenerateBill(true);
-                paymentMethodModel.setSaveRetailsTransactionRes(body);
-            }else{
-                showMessage(body.getReturnMessage());
-            }
+            showMessage(body.getReturnMessage());
         }
+
+//        if(paymentMethodModel.isCashMode()) {
+//            paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID","₹ "+getCashPaymentAmount());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }else if(paymentMethodModel.isCardMode()){
+//            paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID","₹ "+getCardPaymentAmount());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }else if(paymentMethodModel.isOneApolloMode()){
+//            paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS","₹ "+getOneApolloPoints());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }
+//        payActivityAdapter.notifyDataSetChanged();
+
+//       OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
+//        if(priceInfoModel.getOrderTotalAmount() >= paymentDoneAmount){
+//            paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
+//            paymentMethodModel.setBalanceAmount(true);
+//        }else{
+//            if(!TextUtils.isEmpty(body.getReciptId())) {
+//                paymentMethodModel.setPaymentDone(true);
+//                paymentMethodModel.setGenerateBill(true);
+//                paymentMethodModel.setSaveRetailsTransactionRes(body);
+//            }else{
+//                showMessage(body.getReturnMessage());
+//            }
+//        }
         ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation",rotationAngle, rotationAngle + 180);
         anim.setDuration(500);
         anim.start();
@@ -602,7 +611,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-
+        updatePayedAmount(Double.parseDouble(getOneApolloPoints()),3);
     }
 
     @Override
@@ -620,6 +629,52 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes()));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public boolean isDonePayment() {
+        return paymentDoneAmount == orderTotalAmount();
+    }
+
+    @Override
+    public double orderTotalAmount() {
+        OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
+        return priceInfoModel.getOrderTotalAmount();
+    }
+
+    @Override
+    public void updatePayedAmount(double amount,int type) {
+        paymentDoneAmount+=amount;
+        if(paymentDoneAmount == orderTotalAmount()){
+            paymentMethodModel.setPaymentDone(true);
+            paymentMethodModel.setGenerateBill(true);
+        }else{
+            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+            paymentMethodModel.setBalanceAmount(true);
+        }
+        if(type == 1) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + getCashPaymentAmount(),Double.parseDouble(getCashPaymentAmount()));
+            arrPayAdapterModel.add(payAdapterModel);
+        }else if(type ==2) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + getCardPaymentAmount(),Double.parseDouble(getCardPaymentAmount()));
+            arrPayAdapterModel.add(payAdapterModel);
+        }else if(type == 3) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + getOneApolloPoints(),Double.parseDouble(getOneApolloPoints()));
+            arrPayAdapterModel.add(payAdapterModel);
+        }
+        payActivityAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void toRemovePayedAmount(double amount) {
+        paymentDoneAmount-=amount;
+        if(paymentDoneAmount == 0.0){
+            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+            paymentMethodModel.setBalanceAmount(false);
+
+        }
+        paymentMethodModel.setPaymentDone(false);
+        paymentMethodModel.setGenerateBill(false);
     }
 
     @Override

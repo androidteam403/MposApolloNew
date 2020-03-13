@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqMode
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
@@ -18,6 +19,8 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
@@ -37,6 +40,8 @@ import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -112,4 +117,10 @@ public interface ApiInterface {
 
     @POST("LoginService.svc/CheckUserConfig")
     Call<ConfingRes> CONFING_RES_CALL (@Body ConfingReq confingReq);
+
+    @POST("SalesTransactionService.svc/GetTransactionDetails")
+    Call<ArrayList<OrderListRes>> ORDER_LIST_RES_CALL (@Body OrderListReq orderListReq);
+
+    @POST("SalesTransactionService.svc/GetTenderType/{storeId}/{DataAreaId}")
+    Call<GetTenderTypeRes>  GET_TENDER_TYPE_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body  Object o);
 }

@@ -2,127 +2,150 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <import type="android.view.View" />
+        <variable
+            name="noDataFound"
+            type="Boolean" />
+        <variable
+            name="count"
+            type="Integer" />
         <variable
             name="callbacks"
             type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/search_customer_bg"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/five_dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/pay_btn_color"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:onClick="@{()-> callbacks.onReturnClick()}"
-                android:text="@string/label_return"
-                android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="2.5dp"
-                android:layout_height="@dimen/fifty_dp" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/cart_price_bg"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:onClick="@{()-> callbacks.onCancelCLick()}"
-                android:text="@string/label_cancel"
-                android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="2.5dp"
-                android:layout_height="@dimen/fifty_dp" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_weight="1"
-                android:background="@color/cart_price_bg"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:onClick="@{()-> callbacks.onReOrderClick()}"
-                android:text="@string/label_re_order"
-                android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/customer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten_dp"
+            android:layout_height="match_parent"
+            android:background="@color/search_customer_bg"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/customer_info_header"
-                android:text="@string/label_phonenumber_orderid"
-                android:textSize="@dimen/text_dimen_13" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
-                android:background="@drawable/rectangular_shape"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/pay_btn_color"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:onClick="@{()-> callbacks.onReturnClick()}"
+                    android:text="@string/label_return"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="2.5dp"
+                    android:layout_height="@dimen/fifty_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/cart_price_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:onClick="@{()-> callbacks.onCancelCLick()}"
+                    android:text="@string/label_cancel"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="2.5dp"
+                    android:layout_height="@dimen/fifty_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_weight="1"
+                    android:background="@color/cart_price_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:onClick="@{()-> callbacks.onReOrderClick()}"
+                    android:text="@string/label_re_order"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/customer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:paddingStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_search_by_phone_number"
-                    android:textColor="@color/search_order_hint_color"
+                    android:textColor="@color/customer_info_header"
+                    android:text="@string/label_phonenumber_orderid"
                     android:textSize="@dimen/text_dimen_13" />
 
-                <ImageView
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search" />
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="@drawable/rectangular_shape"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/search_Edit_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_search_by_phone_number"
+                        android:textColor="@color/search_order_hint_color"
+                        android:textSize="@dimen/text_dimen_13"
+                        android:background="@null"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_search"
+                        android:onClick="@{()-> callbacks.onClickSearchIcon()}" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/twenty_dp"
+                android:background="@color/light_grey"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:textColor="@color/black"
+                android:text="@{@string/label_5_items_found(count)}"
+                android:textSize="@dimen/text_dimen_12"
+                android:visibility="@{count == 0 ? View.GONE : View.VISIBLE}"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderrecycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/twenty_dp"
-            android:background="@color/light_grey"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:textColor="@color/black"
-            android:text="@string/label_3_items_found"
-            android:textSize="@dimen/text_dimen_12" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/orderrecycle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white" />
-
-    </LinearLayout>
+            android:text="@string/label_no_data_found"
+            android:layout_centerInParent="true"
+            android:visibility="@{noDataFound ? View.VISIBLE : View.GONE}"/>
+    </RelativeLayout>
 </layout>

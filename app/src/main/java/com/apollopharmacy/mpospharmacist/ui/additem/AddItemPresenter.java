@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
@@ -229,7 +230,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if (response.body() != null) {
                                 getMvpView().hideLoading();
                                 getMvpView().onSuccessOneApolloOtp(response.body().getOneApolloProcessResult());
-                                generateTenterLineService();
+                                //generateTenterLineService();
 
                             }else {
                                 getMvpView().hideLoading();
@@ -300,12 +301,47 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void onSuccessCardPayment(String response) {
-        generateTenterLineService();
+        getMvpView().updatePayedAmount(Double.parseDouble(getMvpView().getCardPaymentAmount()),2);
+        //generateTenterLineService();
     }
 
     @Override
     public void onClickGenerateBill() {
-        getMvpView().onClickGenerateBill();
+     //   saveRetailTransaction(generateTenderLineReq());
+    }
+
+    private GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
+    @Override
+    public void getTenderTypeApi() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
+            call.enqueue(new Callback<GetTenderTypeRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
+                            tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+                        } else {
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 
     @Override
@@ -368,12 +404,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 @Override
                 public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
                     if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
                         //Dismiss Dialog
                         if (response.body() != null)
-                            saveRetailTransaction(response.body());
+                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult().getGrossAmount(),1);
+                          //  saveRetailTransaction(response.body());
                         else {
                             getMvpView().onFailedGenerateTenderLine(response.body());
-                            getMvpView().hideLoading();
                         }
                     }
                 }
@@ -433,25 +470,42 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     private GenerateTenderLineReq.TypeEntity typeEntity() {
         GenerateTenderLineReq.TypeEntity typeEntity = new GenerateTenderLineReq.TypeEntity();
-        typeEntity.setPosOpereration(0);
-        typeEntity.setRoundingMethod(0);
-        if(getMvpView().getPaymentMethod().isCashMode()) {
-            typeEntity.setTender("Cash");
-            typeEntity.setTenderCombinationType(1);
-            typeEntity.setTenderLimit(200000);
-            typeEntity.setTenderTypeId("1");
-        }else if(getMvpView().getPaymentMethod().isCardMode()) {
-            typeEntity.setTender("Card");
-            typeEntity.setTenderCombinationType(2);
-            typeEntity.setTenderLimit(200000);
-            typeEntity.setTenderTypeId("2");
-        }else if(getMvpView().getPaymentMethod().isOneApolloMode()) {
-            typeEntity.setTender("gift");
-            typeEntity.setTenderCombinationType(6);
-            typeEntity.setTenderLimit(100000);
-            typeEntity.setTenderTypeId("3");
+        if(tenderTypeResultEntity != null && tenderTypeResultEntity.get_TenderType().size() > 0){
+            for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : tenderTypeResultEntity.get_TenderType()){
+                if(getMvpView().getPaymentMethod().isCashMode()) {
+                    if(tenderTypeEntity.getTender().equalsIgnoreCase("Cash")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                }else if(getMvpView().getPaymentMethod().isCardMode()) {
+                    if(tenderTypeEntity.getTender().equalsIgnoreCase("card")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                }else if(getMvpView().getPaymentMethod().isOneApolloMode()) {
+                    if(tenderTypeEntity.getTender().equalsIgnoreCase("gift")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                }
+            }
         }
-        typeEntity.setTenderURL("NULL");
+
         return typeEntity;
     }
 
@@ -527,7 +581,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setStockCheck(true);
         posTransactionEntity.setStore(getMvpView().getTransactionModule().getStoreID());// store details
         posTransactionEntity.setStoreName("");
-        posTransactionEntity.setTenderLine(new ArrayList<>());// TenderLine Object
+        posTransactionEntity.setTenderLine(getTenderLine());// TenderLine Object
         posTransactionEntity.setTerminal(getMvpView().getTransactionModule().getTerminalID());// teinal id
         posTransactionEntity.setTimewhenTransClosed(0);
         posTransactionEntity.setTotalDiscAmount(0);
@@ -661,6 +715,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         wallet.setWalletType(0);
         wallet.setWalletURL("");
         return wallet;
+    }
+
+    private ArrayList<GenerateTenderLineRes.TenderLineEntity> getTenderLine(){
+        ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = new ArrayList<>();
+
+        return tenderLineEntities;
     }
     /**
      * invoke to initialize the SDK with the merchant key and the device (card

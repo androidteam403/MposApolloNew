@@ -12,7 +12,7 @@ public class ApiClient {
     /********
      * URLS
      *******/
-    private static final String ROOT_URL = "http://172.16.200.131:9880/";
+    private static final String ROOT_URL = "http://172.16.200.131:8010/";
     private static final String ROOT_URL_2 = "http://172.16.2.251:98/";
 
     /**

@@ -10,4 +10,8 @@ public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresente
     void onReOrderClick();
 
     void onItemClick();
+
+    void onClickSearchIcon();
+
+    void getOrdersDetails();
 }

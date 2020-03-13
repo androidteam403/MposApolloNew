@@ -3,7 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -78,6 +80,27 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         batchInfoBinding.batchInfoRecycler.setAdapter(batchInfoAdapter);
         GetItemDetailsRes.Items selected_item = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
         mPresenter.getBatchDetailsApi(selected_item);
+
+        batchInfoBinding.inputQty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(!TextUtils.isEmpty(s)){
+                        quantityBaseBatchSelect(Double.parseDouble(s.toString()));
+                    }
+
+
+            }
+        });
     }
 
     @Override
@@ -168,6 +191,23 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             }
         }
 
+    }
+
+    private void quantityBaseBatchSelect(double totalQuantity){
+        double batchQuantity = 0.0;
+        double remainingQuantity = totalQuantity;
+        for (int i = 0; i < arrBatchList.size(); i++) {
+            double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
+            if(remainingQuantity != 0.0 && batchQuantity < totalQuantity){
+                batchQuantity += qoh;
+                remainingQuantity = totalQuantity - batchQuantity;
+                arrBatchList.get(i).setSelected(true);
+                batchInfoAdapter.notifyItemChanged(i);
+                selectedItem.setBatchListObj(arrBatchList.get(i));
+            }else{
+                break;
+            }
+        }
     }
 
     @Override
