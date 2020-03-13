@@ -326,4 +326,8 @@
     <string name="label_name_cust">Name: %1$s</string>
     <string name="label_doctor_code">Code: %1$s</string>
     <string name="generic_order_number"># %s</string>
+    <string name="generic_receiptid">Receipt ID:\n %1$s</string>
+    <string name="generic_transactionid">Transaction ID:\n %1$s</string>
+    <string name="label_mobile_order_success">Mobile:</string>
+    <string name="label_code_order_success">Code:</string>
 </resources>

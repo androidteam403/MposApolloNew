@@ -16,4 +16,9 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     public OrderSummaryPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onBackOrderPressed() {
+        getMvpView().onBackOrderPressed();
+    }
 }

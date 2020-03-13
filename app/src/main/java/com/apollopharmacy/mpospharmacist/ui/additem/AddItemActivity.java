@@ -521,10 +521,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         payActivityAdapter.notifyDataSetChanged();
 
        OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
-        if(priceInfoModel.getOrderTotalAmount() >= paymentDoneAmount){
+        if(priceInfoModel.getOrderTotalAmount() > paymentDoneAmount){
             paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
             paymentMethodModel.setBalanceAmount(true);
         }else{
+            hideKeyboard();
             if(!TextUtils.isEmpty(body.getReciptId())) {
                 paymentMethodModel.setPaymentDone(true);
                 paymentMethodModel.setGenerateBill(true);
@@ -615,7 +616,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onClickGenerateBill() {
-        startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes()));
+        startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }

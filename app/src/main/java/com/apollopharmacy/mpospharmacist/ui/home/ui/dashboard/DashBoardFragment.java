@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,23 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.apollopharmacy.mpospharmacist.BuildConfig;
-import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.databinding.FragmentDashboardBinding;
-import com.apollopharmacy.mpospharmacist.root.ApolloMposApp;
-import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
-import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity;
-import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
+import com.apollopharmacy.mpospharmacist.BuildConfig;
+import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.databinding.FragmentDashboardBinding;
+import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Inject;
 
 public class DashBoardFragment extends BaseFragment implements DashBoardMvpView {
 
@@ -41,7 +37,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
     private int dotscount;
     private ImageView[] dots;
 
-   private ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+    private ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
         @Override
         public void onAvailable(@NotNull Network network) {
             // network available
@@ -49,7 +45,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
                 dashboardBinding.internet.setTextColor(getResources().getColor(R.color.order_success_color));
                 dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
             });
-
         }
 
         @Override
@@ -59,12 +54,11 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
                 dashboardBinding.internet.setTextColor(getResources().getColor(R.color.grey));
                 dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.cross_mark));
             });
-
         }
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        dashboardBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_dashboard, container, false);
+        dashboardBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
         getActivityComponent().inject(this);
         mPresenter.onAttach(DashBoardFragment.this);
         return dashboardBinding.getRoot();
@@ -81,16 +75,15 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getContext());
         dashboardBinding.viewPager.setAdapter(viewPagerAdapter);
 
-        if(isNetworkConnected()){
+        if (isNetworkConnected()) {
             dashboardBinding.internet.setTextColor(getResources().getColor(R.color.order_success_color));
             dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
-        }else{
+        } else {
             dashboardBinding.internet.setTextColor(getResources().getColor(R.color.grey));
             dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.cross_mark));
         }
 
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             connectivityManager.registerDefaultNetworkCallback(networkCallback);
@@ -99,9 +92,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
                     .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
             connectivityManager.registerNetworkCallback(request, networkCallback);
         }
-
-
-
 
 //        dotscount = viewPagerAdapter.getCount();
 //        dots = new ImageView[dotscount];
@@ -127,13 +117,10 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
 
             @Override
             public void onPageSelected(int position) {
-
                 for (int i = 0; i < dotscount; i++) {
-                //    dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nonactive_dot));
+                    //    dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nonactive_dot));
                 }
-
                 // dots[position].setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.active_dot));
-
             }
 
             @Override
@@ -141,16 +128,9 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
 
             }
         });
-
 //        dashboardBinding.ChartProgressBar.setDataList(onChartBar());
 //        dashboardBinding.ChartProgressBar.build();
     }
-
-
-
-
-
-
 
     @Override
     public void onClickNewOrderBtn() {
