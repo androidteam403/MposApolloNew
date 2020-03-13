@@ -2,11 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <import type="android.view.View" />
+        <variable
+            name="noDataFound"
+            type="Boolean" />
+        <variable
+            name="count"
+            type="Integer" />
         <variable
             name="callbacks"
             type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="@dimen/zero_dp"
@@ -88,15 +99,17 @@
                 android:background="@drawable/rectangular_shape"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/search_Edit_mobile"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:paddingStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_search_by_phone_number"
                     android:textColor="@color/search_order_hint_color"
-                    android:textSize="@dimen/text_dimen_13" />
+                    android:textSize="@dimen/text_dimen_13"
+                    android:background="@null"/>
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
@@ -104,7 +117,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search" />
+                    android:src="@drawable/ic_search"
+                    android:onClick="@{()-> callbacks.onClickSearchIcon()}" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -115,8 +129,9 @@
             android:gravity="center"
             android:layout_marginBottom="@dimen/five_dp"
             android:textColor="@color/black"
-            android:text="@string/label_3_items_found"
-            android:textSize="@dimen/text_dimen_12" />
+            android:text="@{@string/label_5_items_found(count)}"
+            android:textSize="@dimen/text_dimen_12"
+            android:visibility="@{count == 0 ? View.GONE : View.VISIBLE}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderrecycle"
@@ -125,4 +140,12 @@
             android:background="@color/white" />
 
     </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_data_found"
+            android:layout_centerInParent="true"
+            android:visibility="@{noDataFound ? View.VISIBLE : View.GONE}"/>
+    </RelativeLayout>
 </layout>

@@ -15,14 +15,15 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/ten_dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_close_view" />
+            android:src="@drawable/ic_close_view"
+            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}"/>
 
         <ImageView
             android:id="@+id/icon_cash"
             android:layout_width="@dimen/twenty_dp"
             android:layout_height="@dimen/twenty_dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginStart="@dimen/twenty_dp"
             android:layout_toEndOf="@+id/close_icon"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_cash_black" />
@@ -51,6 +52,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener" />

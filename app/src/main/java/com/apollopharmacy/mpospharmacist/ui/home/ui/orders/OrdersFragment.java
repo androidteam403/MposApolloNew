@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,8 +17,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.adapter.OrdersAdapter;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrdersModel;
-import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +30,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     @Inject
     OrdersMvpPresenter<OrdersMvpView> mPresenter;
     private FragmentOrderBinding fragmentOrderBinding;
-    private ArrayList<OrdersModel> ordersModelArrayList = null;
+    private ArrayList<OrderListRes> ordersModelArrayList = new ArrayList<>();
     private OrdersAdapter ordersAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,32 +45,20 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     @Override
     protected void setUp(View view) {
         fragmentOrderBinding.setCallbacks(mPresenter);
+        fragmentOrderBinding.setNoDataFound(false);
 
-        getOrdersFragment();
-        if (ordersModelArrayList.size() > 0) {
-            ordersAdapter = new OrdersAdapter(getActivity(), ordersModelArrayList);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-            fragmentOrderBinding.orderrecycle.setLayoutManager(mLayoutManager);
-            fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
-            fragmentOrderBinding.orderrecycle.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL));
-            fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
-            fragmentOrderBinding.orderrecycle.setAdapter(ordersAdapter);
-        }
+        ordersAdapter = new OrdersAdapter(getActivity(), ordersModelArrayList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        fragmentOrderBinding.orderrecycle.setLayoutManager(mLayoutManager);
+        fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
+        fragmentOrderBinding.orderrecycle.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL));
+        fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
+        fragmentOrderBinding.orderrecycle.setAdapter(ordersAdapter);
+
+        mPresenter.getOrdersDetails();
     }
 
-    private void getOrdersFragment() {
-        ordersModelArrayList = new ArrayList<>();
-        OrdersModel ordersModel = new OrdersModel("OrderId\nJB99302", "CustomerName\nC.Nagaraj",
-                "CustNumber\n6544656", "OrderDate\n20 Jan 2020", "Amount\n120.00", "OrderStatus\nDelivered");
-        ordersModelArrayList.add(ordersModel);
-        ordersModel = new OrdersModel("OrderId\nJB99302", "CustomerName\nC.Nagaraj",
-                "CustNumber\n6544656", "OrderDate\n20 Jan 2020", "Amount\n120.00", "OrderStatus\nDelivered");
-        ordersModelArrayList.add(ordersModel);
-        ordersModel = new OrdersModel("OrderId\nJB99302", "CustomerName\nC.Nagaraj",
-                "CustNumber\n6544656", "OrderDate\n20 Jan 2020", "Amount\n120.00", "OrderStatus\nDelivered");
-        ordersModelArrayList.add(ordersModel);
 
-    }
 
     @Override
     public void onReturnClick() {
@@ -92,5 +78,32 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     @Override
     public void onItemClick() {
 
+    }
+
+    @Override
+    public String getSearchMobileNumber() {
+        return fragmentOrderBinding.searchEditMobile.getText().toString();
+    }
+
+    @Override
+    public void setErrorMessageEditText(String message) {
+        fragmentOrderBinding.searchEditMobile.setError(message);
+    }
+
+    @Override
+    public void onSuccessOrderList(ArrayList<OrderListRes> orderListRes) {
+        if(orderListRes.size() > 0) {
+            ordersModelArrayList.addAll(orderListRes);
+            ordersAdapter.notifyDataSetChanged();
+            fragmentOrderBinding.setCount(ordersModelArrayList.size());
+        }
+    }
+
+    @Override
+    public void noDataFound() {
+        ordersModelArrayList.clear();
+        ordersAdapter.notifyDataSetChanged();
+        fragmentOrderBinding.setCount(ordersModelArrayList.size());
+        fragmentOrderBinding.setNoDataFound(true);
     }
 }

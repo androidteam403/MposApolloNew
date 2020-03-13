@@ -4,97 +4,97 @@
     <data>
 
         <variable
-            name="orderModel"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrdersModel" />
+            name="orderDetails"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
     </data>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:padding="@dimen/five_dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
+            android:orientation="vertical"
+            android:layout_weight="1">
             <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.orderId}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.customerName}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.customerNumber}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_id(orderDetails.transactionId)}"
+                android:textSize="@dimen/text_dimen_12" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_date(orderDetails.transDate)}"
+                android:textSize="@dimen/text_dimen_12" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_name(orderDetails.customerName)}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_amount(String.format(`%.2f`,orderDetails.grossAmount))}"
+                android:textSize="@dimen/text_dimen_12" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_number(orderDetails.customerID)}"
+                android:textSize="@dimen/text_dimen_12" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{@string/label_order_recipet(orderDetails.reciptId)}"
+                android:textSize="@dimen/text_dimen_12"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.5"
+            android:layout_gravity="end|center_vertical">
+            <ImageView
+                android:id="@+id/arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
                 android:rotation="180"
-                android:src="@drawable/back_icon" />
+                android:src="@drawable/back_icon"
+                android:layout_gravity="end|center_vertical"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/three_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:orientation="horizontal"
-            android:weightSum="2.5">
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.orderDate}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.orderAmount}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{orderModel.orderStatus}"
-                android:textSize="@dimen/text_dimen_12" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
