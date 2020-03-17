@@ -10,6 +10,7 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -100,6 +101,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
         productListAdapter.setClickListiner(this);
         productListActivityBinding.productRecycler.setAdapter(productListAdapter);
+        productListActivityBinding.searchProductEditText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         productListActivityBinding.searchProductEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

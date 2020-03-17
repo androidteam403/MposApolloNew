@@ -6,12 +6,10 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
-import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,13 +46,13 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onItemClick() {
-        getMvpView().onItemClick();
+    public void onItemClick(OrderListRes item) {
+        getMvpView().onItemClick(item);
     }
 
     @Override
     public void onClickSearchIcon() {
-        if(!TextUtils.isEmpty(getMvpView().getSearchMobileNumber())){
+        if (!TextUtils.isEmpty(getMvpView().getSearchMobileNumber())) {
             OrderListReq orderListReq = new OrderListReq();
             orderListReq.setArtName("");
             orderListReq.setBatchNo("");
@@ -71,7 +69,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
             orderListReq.setReceiptId("");
             orderListReq.setToDate(null);
             orderServiceCall(orderListReq);
-        }else{
+        } else {
             getMvpView().setErrorMessageEditText("Enter Mobile Number");
         }
     }
@@ -84,7 +82,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
         orderListReq.setCardNo("");
         orderListReq.setCustomerAccount("");
         orderListReq.setCustomerName("");
-        orderListReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        orderListReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy")); // "13-Mar-2020"
         orderListReq.setHomeDelivery(false);
         orderListReq.setIPNumber("");
         orderListReq.setItemID("");
@@ -92,11 +90,11 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
         orderListReq.setPendingBills(false);
         orderListReq.setPreviousBills(false);
         orderListReq.setReceiptId("");
-        orderListReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        orderListReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy")); //  "13-Mar-2020"
         orderServiceCall(orderListReq);
     }
 
-    private void orderServiceCall(OrderListReq orderListReq){
+    private void orderServiceCall(OrderListReq orderListReq) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
@@ -105,10 +103,10 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
             call.enqueue(new Callback<ArrayList<OrderListRes>>() {
                 @Override
                 public void onResponse(@NotNull Call<ArrayList<OrderListRes>> call, @NotNull Response<ArrayList<OrderListRes>> response) {
-                    if (response.isSuccessful()  && response.body() != null && response.body().size() > 0) {
+                    if (response.isSuccessful() && response.body() != null && response.body().size() > 0) {
                         getMvpView().hideLoading();
                         getMvpView().onSuccessOrderList(response.body());
-                    }else{
+                    } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
                             getMvpView().noDataFound();

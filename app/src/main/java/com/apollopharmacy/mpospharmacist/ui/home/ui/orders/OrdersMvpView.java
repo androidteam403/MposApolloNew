@@ -13,7 +13,7 @@ public interface OrdersMvpView extends MvpView {
 
     void onReOrderClick();
 
-    void onItemClick();
+    void onItemClick(OrderListRes item);
 
     String getSearchMobileNumber();
 

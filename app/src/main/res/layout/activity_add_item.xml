@@ -227,7 +227,7 @@
                                     android:layout_weight="0.24"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center"
-                                    android:text="QTY."
+                                    android:text="QTY"
                                     android:textColor="@color/add_item_header"
                                     android:textSize="@dimen/text_dimen_10" />
 
@@ -253,8 +253,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/eighty_dp" />
-
-
                         </RelativeLayout>
                     </LinearLayout>
 

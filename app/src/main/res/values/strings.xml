@@ -326,6 +326,10 @@
     <string name="label_name_cust">Name: %1$s</string>
     <string name="label_doctor_code">Code: %1$s</string>
     <string name="generic_order_number"># %s</string>
+    <string name="generic_receiptid">Receipt ID:\n %1$s</string>
+    <string name="generic_transactionid">Transaction ID:\n %1$s</string>
+    <string name="label_mobile_order_success">Mobile:</string>
+    <string name="label_code_order_success">Code:</string>
 
     <string name="label_order_id"> OrderId \n%1$s</string>
     <string name="label_order_name"> CustomerName \n%1$s</string>
@@ -335,5 +339,7 @@
     <string name="label_order_recipet">Receipt Id\n%1$s</string>
 
     <string name="label_no_data_found">No Data Found !</string>
-
+    <string name="label_rupee_in_braces">(\u20B9)</string>
+    <string name="label_mrp_item_header">MRP</string>
+    <string name="label_total_item_header">TOTAL</string>
 </resources>

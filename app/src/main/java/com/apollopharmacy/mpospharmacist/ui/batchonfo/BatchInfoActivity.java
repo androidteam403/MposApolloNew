@@ -46,7 +46,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     BatchInfoAdapter batchInfoAdapter;
     BatchInfoListAdapterBinding batchInfoListAdapterBinding;
     private ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList = new ArrayList<>();
-    private int count = 0;
+    private int count = 1;
     private boolean isSelectedBatch = false;
     private GetItemDetailsRes.Items selectedItem;
     private double selectedBatchQOH ;
@@ -206,6 +206,8 @@ private int manualSelectedPosition = 0;
                     batchInfoAdapter.notifyItemChanged(i);
                 }
             }
+        }else {
+            selectBatch();
         }
     }
 

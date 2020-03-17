@@ -92,7 +92,7 @@
         </activity>
         <activity
             android:name=".ui.searchproductlistactivity.ProductListActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysVisible">
 
         </activity>
         <activity
