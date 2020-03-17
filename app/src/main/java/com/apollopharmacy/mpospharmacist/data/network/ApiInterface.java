@@ -95,7 +95,7 @@ public interface ApiInterface {
     Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") String amount,@Body GenerateTenderLineReq tenderLineReq);
 
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
-    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineRes.GenerateTenderLineResultEntity tenderLineReq);
+    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineReq.POSTransactionEntity tenderLineReq);
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{DataAreaId}")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);

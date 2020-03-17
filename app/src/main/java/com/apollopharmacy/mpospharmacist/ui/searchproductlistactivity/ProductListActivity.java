@@ -169,7 +169,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         updateProductsCount(itemDetailsRes.getItemList().size());
         itemsArrayList.addAll(itemDetailsRes.getItemList());
         productListAdapter.notifyDataSetChanged();
-        productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
+     //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
     }
 
     @Override
@@ -205,9 +205,11 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         if (requestCode == ACTIVITY_RESULT_FOR_BATCH_INFO) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
+                    ArrayList<GetItemDetailsRes.Items> items = (ArrayList<GetItemDetailsRes.Items>) data.getSerializableExtra("selected_item");
                     Intent intent = new Intent();
-                    intent.putExtra("selected_item", items);
+                    Bundle  bundle = new Bundle();
+                    bundle.putSerializable("selected_item", items);
+                    intent.putExtras(bundle);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

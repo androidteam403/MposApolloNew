@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +16,7 @@ import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PaidAmountBean;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
 import java.util.ArrayList;
 
@@ -61,5 +63,24 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             childView.setPaidbean(paidAmountArr.get(i));
             orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
         }
+
+        orderSummaryBinding.placeNewOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickNewOrder();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onClickNewOrder();
+    }
+
+    private void onClickNewOrder(){
+        Singletone.getInstance().isPlaceNewOrder = true;
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

@@ -48,6 +48,7 @@ import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 import com.eze.api.EzeAPI;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
@@ -69,7 +70,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     AddItemMvpPresenter<AddItemMvpView> mPresenter;
     private ActivityAddItemBinding addItemBinding;
     private CustDocEditMvpView custDocEditMvpView;
-    private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
+ //   private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
     private MainRecyclerAdapter medicinesDetailAdapter;
     private final int ACTIVITY_ADD_PRODUCT_CODE = 102;
     private GetCustomerResponse.CustomerEntity customerEntity;
@@ -156,7 +157,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
             addItemBinding.setCorporate(corporateEntity);
         }
-        addItemBinding.setProductCount(medicineDetailsModelsList.size());
+        addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
 
         addItemBinding.detailsLayout.detailsExpanCollapseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,13 +228,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 batchList.setCESSTaxCode(items.getCESSTaxCode());
                 batchList.setBatchNo(items.getBatchNo());
                 cartItems.setBatchListObj(batchList);
-                medicineDetailsModelsList.add(cartItems);
+                Singletone.getInstance().itemsArrayList.add(cartItems);
             }
 
         }
 
         addItemBinding.medicineRecycle.setLayoutManager(new LinearLayoutManager(this));
-         medicinesDetailAdapter = new MainRecyclerAdapter(this,medicineDetailsModelsList);
+         medicinesDetailAdapter = new MainRecyclerAdapter(this,Singletone.getInstance().itemsArrayList);
         addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
    //     addItemBinding.medicineRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         ItemTouchHelperExtension.Callback   mCallback = new ItemTouchHelperCallback();
@@ -264,7 +265,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //                swipeController.onDraw(c);
 //            }
 //        });
-        addItemBinding.setProductCount(medicineDetailsModelsList.size());
+        addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
 
         payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel,this);
         RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
@@ -273,7 +274,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         addItemBinding.payAmount.setAdapter(payActivityAdapter);
 
-        mPresenter.getTenderTypeApi();
+     //   mPresenter.getTenderTypeApi();
     }
 
     @Override
@@ -331,9 +332,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                medicineDetailsModelsList.clear();
+                clearOrderData();
                 medicinesDetailAdapter.notifyDataSetChanged();
-                addItemBinding.setProductCount(medicineDetailsModelsList.size());
+                addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
             }
         });
         dialogView.setNegativeLabel("No");
@@ -350,6 +351,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onPayButtonClick() {
         addItemBinding.setIsPaymentMode(true);
+        if(addItemBinding.getIsPaymentMode()){
+            paymentMethodModel.setGenerateBill(true);
+        }
 //        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
 //        addItemBinding.paymentLayout.startAnimation(bottomUp);
 //        addItemBinding.paymentLayout.setVisibility(View.VISIBLE);
@@ -442,7 +446,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public ArrayList<GetItemDetailsRes.Items> getSelectedProducts() {
-        return medicineDetailsModelsList;
+        return Singletone.getInstance().itemsArrayList;
     }
 
     @Override
@@ -491,6 +495,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onClickEditItemsList() {
         addItemBinding.setIsPaymentMode(false);
+        addItemBinding.cashPaymentAmountEdit.setText("");
+        addItemBinding.cardPaymentAmountEditText.setText("");
+        addItemBinding.oneApolloAmountEditText.setText("");
+        paymentMethodModel.setGenerateBill(false);
     }
 
     @Override
@@ -506,7 +514,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     double paymentDoneAmount = 0.0;
     @Override
     public void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body) {
-        showMessage("Success SaveRetailTransaction");
         if(!TextUtils.isEmpty(body.getReciptId())) {
             paymentMethodModel.setSaveRetailsTransactionRes(body);
             onClickGenerateBill();
@@ -586,9 +593,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
                     orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
-                medicineDetailsModelsList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
                 if(!TextUtils.isEmpty(posTransactionRes.getSalesLine().get(i).getPreviewText())) {
-                    medicineDetailsModelsList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
+                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
                 }
             }
         }
@@ -705,117 +712,133 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     case ACTIVITY_ADD_PRODUCT_CODE:
                         if (data != null) {
                             boolean itemNotFound = true;
-                            GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
-                            if(items != null && medicineDetailsModelsList.size() > 0){
-                                for(int i=0; i< medicineDetailsModelsList.size(); i++){
-                                    GetItemDetailsRes.Items items1 = medicineDetailsModelsList.get(i);
-                                    if(items.getArtCode().equalsIgnoreCase(items1.getArtCode()) &&
-                                            items.getBatchListObj().getBatchNo().equalsIgnoreCase(items1.getBatchListObj().getBatchNo())){
-                                        medicineDetailsModelsList.get(i).getBatchListObj().setEnterReqQuantity(items1.getBatchListObj().getEnterReqQuantity()+items.getBatchListObj().getEnterReqQuantity());
-                                        itemNotFound = false;
-                                    }
-                                }
+                            ArrayList<GetItemDetailsRes.Items> itemsArrayList = (ArrayList<GetItemDetailsRes.Items>) data.getSerializableExtra("selected_item");
+                            if (itemsArrayList != null) {
+                              //  Singletone.getInstance().itemsArrayList.clear();
+                                Singletone.getInstance().itemsArrayList.addAll(itemsArrayList);
+//                                for(GetItemDetailsRes.Items items : itemsArrayList){
+//                                    if(items != null && medicineDetailsModelsList.size() > 0){
+//                                        for(int i=0; i< medicineDetailsModelsList.size(); i++){
+//                                            GetItemDetailsRes.Items items1 = medicineDetailsModelsList.get(i);
+//                                            if(items.getArtCode().equalsIgnoreCase(items1.getArtCode()) ){
+//                                                double qoh = Double.parseDouble(items1.getBatchListObj().getQ_O_H());
+//                                                int previewsCount = items1.getBatchListObj().getEnterReqQuantity();
+//                                                double quantity = items1.getBatchListObj().getEnterReqQuantity() + items.getBatchListObj().getEnterReqQuantity();
+//                                                if (qoh <= quantity) {
+//                                                    items1.getBatchListObj().setEnterReqQuantity((int) qoh);
+//                                                }else {
+//                                                    items1.getBatchListObj().setEnterReqQuantity((int) quantity);
+//                                                }
+//                                                int afterCount = items1.getBatchListObj().getEnterReqQuantity();
+//                                                if(previewsCount == afterCount){
+//
+//                                                }
+//                                               // medicineDetailsModelsList.get(i).getBatchListObj().setEnterReqQuantity(items1.getBatchListObj().getEnterReqQuantity()+items.getBatchListObj().getEnterReqQuantity());
+//
+//                                            }
+//                                        }
+//                                    }
+//                                    medicineDetailsModelsList.add(items);
+//                                }
                             }
-                            if(itemNotFound){
-                                medicineDetailsModelsList.add(items);
-                            }
+
                             medicinesDetailAdapter.notifyDataSetChanged();
-                            addItemBinding.setProductCount(medicineDetailsModelsList.size());
-                            // Insert into cart table
-                            if (items != null) {
-                                Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
-                                CartItems cartItems = new CartItems();
-                                cartItems.setArtCode(items.getArtCode());
-                                cartItems.setCategory(items.getCategory());
-                                cartItems.setCategoryCode(items.getCategoryCode());
-                                cartItems.setDescription(items.getDescription());
-                                cartItems.setDiseaseType(items.getDiseaseType());
-                                cartItems.setDPCO(items.getDPCO());
-                                cartItems.setGenericName(items.getGenericName());
-                                cartItems.setHsncode_In(items.getHsncode_In());
-                                cartItems.setManufacture(items.getManufacture());
-                                cartItems.setManufactureCode(items.getManufactureCode());
-                                cartItems.setProductRecID(items.getProductRecID());
-                                cartItems.setRackId(items.getRackId());
-                                cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
-                                cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
-                                cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
-                                cartItems.setSch_Catg(items.getSch_Catg());
-                                cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
-                                cartItems.setSI_NO(items.getSI_NO());
-                                cartItems.setSubCategory(items.getSubCategory());
-                                cartItems.setSubClassification(items.getSubClassification());
-                                cartItems.setTotalTax(items.getBatchListObj().getTotalTax());
-                                cartItems.setSNO(items.getBatchListObj().getSNO());
-                                cartItems.setSGSTTaxCode(items.getBatchListObj().getSGSTTaxCode());
-                                cartItems.setSGSTPerc(items.getBatchListObj().getSGSTPerc());
-                                cartItems.setREQQTY(items.getBatchListObj().getREQQTY());
-                                cartItems.setQ_O_H(items.getBatchListObj().getQ_O_H());
-                                cartItems.setPrice(items.getBatchListObj().getPrice());
-                                cartItems.setNearByExpiry(items.getBatchListObj().getNearByExpiry());
-                                cartItems.setMRP(items.getBatchListObj().getMRP());
-                                cartItems.setItemID(items.getBatchListObj().getItemID());
-                                cartItems.setISMRPChange(items.getBatchListObj().getISMRPChange());
-                                cartItems.setIGSTTaxCode(items.getBatchListObj().getIGSTTaxCode());
-                                cartItems.setIGSTPerc(items.getBatchListObj().getIGSTPerc());
-                                cartItems.setExpDate(items.getBatchListObj().getExpDate());
-                                cartItems.setCGSTTaxCode(items.getBatchListObj().getCGSTTaxCode());
-                                cartItems.setCGSTPerc(items.getBatchListObj().getCGSTPerc());
-                                cartItems.setCESSPerc(items.getBatchListObj().getCESSPerc());
-                                cartItems.setCESSTaxCode(items.getBatchListObj().getCESSTaxCode());
-                                cartItems.setBatchNo(items.getBatchListObj().getBatchNo());
-                                if (savedCart != null) {
-                                    Realm realm = RealmController.with(this).getRealm();
-                                    realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            // increment index
-                                            Number currentIdNum = realm.where(CartItems.class).max("id");
-                                            int nextId;
-                                            if (currentIdNum == null) {
-                                                nextId = 1;
-                                            } else {
-                                                nextId = currentIdNum.intValue() + 1;
-                                            }
-                                            cartItems.setId(nextId);
-                                            //  realm.beginTransaction();
-                                            savedCart.getItemsArrayList().add(cartItems);
-                                        //    realm.copyToRealmOrUpdate(savedCart);
-                                            // realm.commitTransaction();
-                                        }
-                                    });
-
-                                } else {
-                                    RealmList<CartItems> itemsRealmList = new RealmList<>();
-                                    itemsRealmList.add(cartItems);
-                                    Cart cart = new Cart();
-                                    cart.setTransactionId(transactionIdModel.getTransactionID());
-                                    cart.setItemsArrayList(itemsRealmList);
-                                    Realm realm = RealmController.with(this).getRealm();
-                                    realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            // increment index
-                                            Number currentIdNum = realm.where(Cart.class).max("id");
-                                            int nextId;
-                                            if (currentIdNum == null) {
-                                                nextId = 1;
-                                            } else {
-                                                nextId = currentIdNum.intValue() + 1;
-                                            }
-                                            cart.setId(nextId);
-                                            //  realm.beginTransaction();
-
-                                         //   realm.copyToRealmOrUpdate(cart);
-                                            // realm.commitTransaction();
-                                        }
-                                    });
-                                    //realm.beginTransaction();
-                                    //realm.copyToRealm(cart);
-                                    //realm.commitTransaction();
-                                }
-
-                            }
+                            addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
+//                            // Insert into cart table
+//                            if (items != null) {
+//                                Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
+//                                CartItems cartItems = new CartItems();
+//                                cartItems.setArtCode(items.getArtCode());
+//                                cartItems.setCategory(items.getCategory());
+//                                cartItems.setCategoryCode(items.getCategoryCode());
+//                                cartItems.setDescription(items.getDescription());
+//                                cartItems.setDiseaseType(items.getDiseaseType());
+//                                cartItems.setDPCO(items.getDPCO());
+//                                cartItems.setGenericName(items.getGenericName());
+//                                cartItems.setHsncode_In(items.getHsncode_In());
+//                                cartItems.setManufacture(items.getManufacture());
+//                                cartItems.setManufactureCode(items.getManufactureCode());
+//                                cartItems.setProductRecID(items.getProductRecID());
+//                                cartItems.setRackId(items.getRackId());
+//                                cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
+//                                cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
+//                                cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
+//                                cartItems.setSch_Catg(items.getSch_Catg());
+//                                cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
+//                                cartItems.setSI_NO(items.getSI_NO());
+//                                cartItems.setSubCategory(items.getSubCategory());
+//                                cartItems.setSubClassification(items.getSubClassification());
+//                                cartItems.setTotalTax(items.getBatchListObj().getTotalTax());
+//                                cartItems.setSNO(items.getBatchListObj().getSNO());
+//                                cartItems.setSGSTTaxCode(items.getBatchListObj().getSGSTTaxCode());
+//                                cartItems.setSGSTPerc(items.getBatchListObj().getSGSTPerc());
+//                                cartItems.setREQQTY(items.getBatchListObj().getREQQTY());
+//                                cartItems.setQ_O_H(items.getBatchListObj().getQ_O_H());
+//                                cartItems.setPrice(items.getBatchListObj().getPrice());
+//                                cartItems.setNearByExpiry(items.getBatchListObj().getNearByExpiry());
+//                                cartItems.setMRP(items.getBatchListObj().getMRP());
+//                                cartItems.setItemID(items.getBatchListObj().getItemID());
+//                                cartItems.setISMRPChange(items.getBatchListObj().getISMRPChange());
+//                                cartItems.setIGSTTaxCode(items.getBatchListObj().getIGSTTaxCode());
+//                                cartItems.setIGSTPerc(items.getBatchListObj().getIGSTPerc());
+//                                cartItems.setExpDate(items.getBatchListObj().getExpDate());
+//                                cartItems.setCGSTTaxCode(items.getBatchListObj().getCGSTTaxCode());
+//                                cartItems.setCGSTPerc(items.getBatchListObj().getCGSTPerc());
+//                                cartItems.setCESSPerc(items.getBatchListObj().getCESSPerc());
+//                                cartItems.setCESSTaxCode(items.getBatchListObj().getCESSTaxCode());
+//                                cartItems.setBatchNo(items.getBatchListObj().getBatchNo());
+//                                if (savedCart != null) {
+//                                    Realm realm = RealmController.with(this).getRealm();
+//                                    realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
+//                                        @Override
+//                                        public void execute(Realm realm) {
+//                                            // increment index
+//                                            Number currentIdNum = realm.where(CartItems.class).max("id");
+//                                            int nextId;
+//                                            if (currentIdNum == null) {
+//                                                nextId = 1;
+//                                            } else {
+//                                                nextId = currentIdNum.intValue() + 1;
+//                                            }
+//                                            cartItems.setId(nextId);
+//                                            //  realm.beginTransaction();
+//                                            savedCart.getItemsArrayList().add(cartItems);
+//                                        //    realm.copyToRealmOrUpdate(savedCart);
+//                                            // realm.commitTransaction();
+//                                        }
+//                                    });
+//
+//                                } else {
+//                                    RealmList<CartItems> itemsRealmList = new RealmList<>();
+//                                    itemsRealmList.add(cartItems);
+//                                    Cart cart = new Cart();
+//                                    cart.setTransactionId(transactionIdModel.getTransactionID());
+//                                    cart.setItemsArrayList(itemsRealmList);
+//                                    Realm realm = RealmController.with(this).getRealm();
+//                                    realm.executeTransaction(new Realm.Transaction() { // must be in transaction for this to work
+//                                        @Override
+//                                        public void execute(Realm realm) {
+//                                            // increment index
+//                                            Number currentIdNum = realm.where(Cart.class).max("id");
+//                                            int nextId;
+//                                            if (currentIdNum == null) {
+//                                                nextId = 1;
+//                                            } else {
+//                                                nextId = currentIdNum.intValue() + 1;
+//                                            }
+//                                            cart.setId(nextId);
+//                                            //  realm.beginTransaction();
+//
+//                                         //   realm.copyToRealmOrUpdate(cart);
+//                                            // realm.commitTransaction();
+//                                        }
+//                                    });
+//                                    //realm.beginTransaction();
+//                                    //realm.copyToRealm(cart);
+//                                    //realm.commitTransaction();
+//                                }
+//
+//                            }
 
                             mPresenter.calculatePosTransaction();
                         }
@@ -1038,7 +1061,17 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     private void closeOrder(){
+        clearOrderData();
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    private void clearOrderData(){
+        Singletone.getInstance().itemsArrayList.clear();
+        addItemBinding.cardPaymentAmountEditText.setText("");
+        addItemBinding.cardPaymentAmountEditText.setText("");
+        addItemBinding.oneApolloAmountEditText.setText("");
+        paymentMethodModel.setPaymentDone(false);
+        paymentMethodModel.setGenerateBill(false);
     }
 }
