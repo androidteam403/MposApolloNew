@@ -17,7 +17,7 @@ public class GetItemDetailsReq {
     private String StoreID;
     @Expose
     @SerializedName("IsStockCheck")
-    private boolean IsStockCheck;
+    private boolean IsStockCheck = true;
     @Expose
     @SerializedName("IsGeneric")
     private boolean IsGeneric;

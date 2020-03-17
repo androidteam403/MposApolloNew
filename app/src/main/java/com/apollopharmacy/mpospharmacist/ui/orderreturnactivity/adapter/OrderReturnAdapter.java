@@ -10,16 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.OrderReturnAdapterBinding;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
-import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
 
 public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.ViewHolder> {
     private Activity activity;
-    private ArrayList<OrderReturnModel> orderReturnModelArrayList;
+    private ArrayList<OrderListRes.SalesLineEntity> orderReturnModelArrayList;
 
-    public OrderReturnAdapter(Activity activity, ArrayList<OrderReturnModel> orderReturnModelArrayList) {
+    public OrderReturnAdapter(Activity activity, ArrayList<OrderListRes.SalesLineEntity> orderReturnModelArrayList) {
         this.activity = activity;
         this.orderReturnModelArrayList = orderReturnModelArrayList;
     }
@@ -34,9 +33,8 @@ public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OrderReturnAdapter.ViewHolder holder, int position) {
-        OrderReturnModel item = orderReturnModelArrayList.get(position);
-        holder.orderReturnAdapterBinding.setOrderreturnmodel(item);
-
+        OrderListRes.SalesLineEntity item = orderReturnModelArrayList.get(position);
+        holder.orderReturnAdapterBinding.setModel(item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

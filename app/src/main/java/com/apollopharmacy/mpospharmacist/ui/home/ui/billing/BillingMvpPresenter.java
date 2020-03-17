@@ -27,4 +27,8 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
     void getTransactionID();
 
     void getCorporateList();
+
+    void getDoctorsList();
+
+    void getSalesOrigin();
 }

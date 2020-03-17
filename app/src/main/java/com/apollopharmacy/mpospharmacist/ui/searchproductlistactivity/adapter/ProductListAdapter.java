@@ -88,9 +88,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getArtCode().contains(charString.toUpperCase()) || row.getCategory().contains(charString.toUpperCase()) || row.getCategory().contains(charString.toUpperCase())
-                                || row.getDescription().contains(charString.toUpperCase()) || row.getGenericName().contains(charString.toUpperCase())
-                        || row.getSubCategory().contains(charString.toUpperCase())) {
+                        if (row.getArtCode().startsWith(charString.toUpperCase()) || row.getDescription().startsWith(charString.toUpperCase())) {
                             filteredList.add(row);
                         }
                     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener" />
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/white"
+        android:padding="@dimen/three_dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@{model.paymentType}"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/three_dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{model.paidAmount}"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+</layout>

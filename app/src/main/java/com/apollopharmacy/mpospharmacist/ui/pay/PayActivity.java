@@ -118,7 +118,7 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
             }
         }
         getAmount();
-        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel);
+        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel,null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         activityPayBinding.payAmount.setLayoutManager(mLayoutManager);
         activityPayBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
@@ -130,7 +130,7 @@ public class PayActivity extends BaseActivity implements PayMvpView, PayAdapterL
 
     private void getAmount() {
         arrPayAdapterModel = new ArrayList<>();
-        PayAdapterModel payAdapterModel = new PayAdapterModel("","100.00");
+        PayAdapterModel payAdapterModel = new PayAdapterModel("","100.00",0.0);
         arrPayAdapterModel.add(payAdapterModel);
     }
 

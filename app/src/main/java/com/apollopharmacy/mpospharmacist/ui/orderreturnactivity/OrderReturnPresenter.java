@@ -15,4 +15,9 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     public OrderReturnPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public void onClickBackPressed() {
+        getMvpView().onClickActionBarBack();
+    }
 }

@@ -45,7 +45,7 @@ public class GenerateTenderLineReq {
     public static class POSTransactionEntity {
         @Expose
         @SerializedName("TenderLine")
-        private List<String> TenderLine;
+        private List<GenerateTenderLineRes.TenderLineEntity> TenderLine;
         @Expose
         @SerializedName("SalesLine")
         private List<SalesLineEntity> SalesLine;
@@ -299,7 +299,7 @@ public class GenerateTenderLineReq {
         @SerializedName("Remainingamount")
         private double Remainingamount;
 
-        public void setTenderLine(List<String> tenderLine) {
+        public void setTenderLine(List<GenerateTenderLineRes.TenderLineEntity> tenderLine) {
             TenderLine = tenderLine;
         }
 
@@ -639,7 +639,7 @@ public class GenerateTenderLineReq {
             Remainingamount = remainingamount;
         }
 
-        public List<String> getTenderLine() {
+        public List<GenerateTenderLineRes.TenderLineEntity> getTenderLine() {
             return TenderLine;
         }
 

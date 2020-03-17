@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.orders;
 
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresenter<V> {
     void onReturnClick();
@@ -9,5 +10,9 @@ public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresente
 
     void onReOrderClick();
 
-    void onItemClick();
+    void onItemClick(OrderListRes item);
+
+    void onClickSearchIcon();
+
+    void getOrdersDetails();
 }

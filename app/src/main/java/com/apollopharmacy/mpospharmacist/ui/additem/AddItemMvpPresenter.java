@@ -45,4 +45,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onSuccessCardPayment(String response);
 
     void onClickGenerateBill();
+
+    void getTenderTypeApi();
 }

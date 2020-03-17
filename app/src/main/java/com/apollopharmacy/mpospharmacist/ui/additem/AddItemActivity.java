@@ -1,29 +1,21 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.Manifest;
-import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +24,8 @@ import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
 import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
+import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
@@ -44,8 +38,6 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
-import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.adapter.MedicinesDetailAdapter;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
@@ -56,10 +48,9 @@ import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
-import com.apollopharmacy.mpospharmacist.utils.SwipeController;
-import com.apollopharmacy.mpospharmacist.utils.SwipeControllerActions;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 import com.eze.api.EzeAPI;
+import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -79,7 +70,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private ActivityAddItemBinding addItemBinding;
     private CustDocEditMvpView custDocEditMvpView;
     private ArrayList<GetItemDetailsRes.Items> medicineDetailsModelsList = new ArrayList<>();
-    private MedicinesDetailAdapter medicinesDetailAdapter;
+    private MainRecyclerAdapter medicinesDetailAdapter;
     private final int ACTIVITY_ADD_PRODUCT_CODE = 102;
     private GetCustomerResponse.CustomerEntity customerEntity;
     private DoctorSearchResModel.DropdownValueBean doctorEntity;
@@ -124,13 +115,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private int rotationAngle = 0;
     private CorporateModel corporateModel;
 
-    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID,CorporateModel corporateModel) {
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("customer_info", customerEntity);
         intent.putExtra("doctor_info", doctor);
         intent.putExtra("corporate_info", corporate);
         intent.putExtra("transaction_id", transactionID);
-        intent.putExtra("corporate_model",corporateModel);
+        intent.putExtra("corporate_model", corporateModel);
         return intent;
     }
 
@@ -170,23 +161,23 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.detailsLayout.detailsExpanCollapseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(isExpand){
-                   isExpand = false;
-                   ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation",rotationAngle, rotationAngle + 180);
-                   anim.setDuration(500);
-                   anim.start();
-                   rotationAngle += 180;
-                   rotationAngle = rotationAngle%360;
-                   ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
-               }else{
-                   isExpand = true;
-                   ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation",rotationAngle, rotationAngle + 180);
-                   anim.setDuration(500);
-                   anim.start();
-                   rotationAngle += 180;
-                   rotationAngle = rotationAngle%360;
-                   ViewAnimationUtils.expand(addItemBinding.detailsLayout.customerDoctorLayout);
-               }
+                if (isExpand) {
+                    isExpand = false;
+                    ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
+                    anim.setDuration(500);
+                    anim.start();
+                    rotationAngle += 180;
+                    rotationAngle = rotationAngle % 360;
+                    ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
+                } else {
+                    isExpand = true;
+                    ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
+                    anim.setDuration(500);
+                    anim.start();
+                    rotationAngle += 180;
+                    rotationAngle = rotationAngle % 360;
+                    ViewAnimationUtils.expand(addItemBinding.detailsLayout.customerDoctorLayout);
+                }
             }
         });
 
@@ -241,10 +232,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         }
 
-        medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
+        addItemBinding.medicineRecycle.setLayoutManager(new LinearLayoutManager(this));
+        medicinesDetailAdapter = new MainRecyclerAdapter(this, medicineDetailsModelsList);
         addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
+        //     addItemBinding.medicineRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        ItemTouchHelperExtension.Callback mCallback = new ItemTouchHelperCallback();
+        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+        mItemTouchHelper.attachToRecyclerView(addItemBinding.medicineRecycle);
+        medicinesDetailAdapter.setItemTouchHelperExtension(mItemTouchHelper);
+        medicinesDetailAdapter.setAddItemMvpView(this);
+//        medicinesDetailAdapter = new MedicinesDetailAdapter(this, medicineDetailsModelsList);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//        addItemBinding.medicineRecycle.setLayoutManager(mLayoutManager);
+//        addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
 
 //        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
 //            @Override
@@ -266,12 +266,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        });
         addItemBinding.setProductCount(medicineDetailsModelsList.size());
 
-        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel);
+        payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel, this);
         RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
         addItemBinding.payAmount.setLayoutManager(mLayoutManagerOne);
         addItemBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         addItemBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         addItemBinding.payAmount.setAdapter(payActivityAdapter);
+
+        mPresenter.getTenderTypeApi();
     }
 
     @Override
@@ -281,7 +283,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -292,7 +294,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBarCodeSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "3"), ACTIVITY_ADD_PRODUCT_CODE);
+        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "3"), ACTIVITY_ADD_PRODUCT_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -314,14 +316,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         //If permission is granted, then go ahead recording audio
         else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(),getTransactionModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
+            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "2"), ACTIVITY_ADD_PRODUCT_CODE);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }
 
     @Override
     public void onClearAll() {
-        ExitInfoDialog  dialogView = new ExitInfoDialog(this);
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle("Are you Sure?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setSubtitle("Do you want to clear order Items");
@@ -502,41 +504,50 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     double paymentDoneAmount = 0.0;
+
     @Override
     public void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body) {
         showMessage("Success SaveRetailTransaction");
-        if(paymentMethodModel.isCashMode()) {
-            paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID","₹ "+getCashPaymentAmount());
-            arrPayAdapterModel.add(payAdapterModel);
-        }else if(paymentMethodModel.isCardMode()){
-            paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID","₹ "+getCardPaymentAmount());
-            arrPayAdapterModel.add(payAdapterModel);
-        }else if(paymentMethodModel.isOneApolloMode()){
-            paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
-            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS","₹ "+getOneApolloPoints());
-            arrPayAdapterModel.add(payAdapterModel);
+        if (!TextUtils.isEmpty(body.getReciptId())) {
+            paymentMethodModel.setSaveRetailsTransactionRes(body);
+            onClickGenerateBill();
+        } else {
+            showMessage(body.getReturnMessage());
         }
-        payActivityAdapter.notifyDataSetChanged();
 
-       OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
-        if(priceInfoModel.getOrderTotalAmount() > paymentDoneAmount){
-            paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
-            paymentMethodModel.setBalanceAmount(true);
-        }else{
-            hideKeyboard();
-            if(!TextUtils.isEmpty(body.getReciptId())) {
-                paymentMethodModel.setPaymentDone(true);
-                paymentMethodModel.setGenerateBill(true);
-                paymentMethodModel.setSaveRetailsTransactionRes(body);
-            }
-        }
-        ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation",rotationAngle, rotationAngle + 180);
+//        if(paymentMethodModel.isCashMode()) {
+//            paymentDoneAmount += Double.parseDouble(getCashPaymentAmount());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID","₹ "+getCashPaymentAmount());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }else if(paymentMethodModel.isCardMode()){
+//            paymentDoneAmount += Double.parseDouble(getCardPaymentAmount());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID","₹ "+getCardPaymentAmount());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }else if(paymentMethodModel.isOneApolloMode()){
+//            paymentDoneAmount += Double.parseDouble(getOneApolloPoints());
+//            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS","₹ "+getOneApolloPoints());
+//            arrPayAdapterModel.add(payAdapterModel);
+//        }
+//        payActivityAdapter.notifyDataSetChanged();
+
+//       OrderPriceInfoModel priceInfoModel =  addItemBinding.getOrderInfo();
+//        if(priceInfoModel.getOrderTotalAmount() >= paymentDoneAmount){
+//            paymentMethodModel.setBalanceAmount(priceInfoModel.getOrderTotalAmount() - paymentDoneAmount);
+//            paymentMethodModel.setBalanceAmount(true);
+//        }else{
+//            if(!TextUtils.isEmpty(body.getReciptId())) {
+//                paymentMethodModel.setPaymentDone(true);
+//                paymentMethodModel.setGenerateBill(true);
+//                paymentMethodModel.setSaveRetailsTransactionRes(body);
+//            }else{
+//                showMessage(body.getReturnMessage());
+//            }
+//        }
+        ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
         anim.setDuration(500);
         anim.start();
         rotationAngle += 180;
-        rotationAngle = rotationAngle%360;
+        rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
     }
 
@@ -564,12 +575,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         orderPriceInfoModel.setDiscTotalAmount(posTransactionRes.getDiscAmount());
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getTotalManualDiscountPercentage());
-        if(posTransactionRes.getSalesLine().size() > 0){
+        if (posTransactionRes.getSalesLine().size() > 0) {
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
             orderPriceInfoModel.setPlTotalAmount(0);
-            for(int i=0; i< posTransactionRes.getSalesLine().size(); i++){
-                if ( posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
+            for (int i = 0; i < posTransactionRes.getSalesLine().size(); i++) {
+                if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
                     orderPriceInfoModel.setPharmaTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                 else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("F"))
                     orderPriceInfoModel.setFmcgTotalAmount(orderPriceInfoModel.getFmcgTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
@@ -577,7 +588,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
                 medicineDetailsModelsList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
-                if(!TextUtils.isEmpty(posTransactionRes.getSalesLine().get(i).getPreviewText())) {
+                if (!TextUtils.isEmpty(posTransactionRes.getSalesLine().get(i).getPreviewText())) {
                     medicineDetailsModelsList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
                 }
             }
@@ -601,7 +612,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-
+        updatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
     }
 
     @Override
@@ -616,9 +627,55 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onClickGenerateBill() {
-        startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity));
+        startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
+    public boolean isDonePayment() {
+        return paymentDoneAmount == orderTotalAmount();
+    }
+
+    @Override
+    public double orderTotalAmount() {
+        OrderPriceInfoModel priceInfoModel = addItemBinding.getOrderInfo();
+        return priceInfoModel.getOrderTotalAmount();
+    }
+
+    @Override
+    public void updatePayedAmount(double amount, int type) {
+        paymentDoneAmount += amount;
+        if (paymentDoneAmount == orderTotalAmount()) {
+            paymentMethodModel.setPaymentDone(true);
+            paymentMethodModel.setGenerateBill(true);
+        } else {
+            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+            paymentMethodModel.setBalanceAmount(true);
+        }
+        if (type == 1) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + getCashPaymentAmount(), Double.parseDouble(getCashPaymentAmount()));
+            arrPayAdapterModel.add(payAdapterModel);
+        } else if (type == 2) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + getCardPaymentAmount(), Double.parseDouble(getCardPaymentAmount()));
+            arrPayAdapterModel.add(payAdapterModel);
+        } else if (type == 3) {
+            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + getOneApolloPoints(), Double.parseDouble(getOneApolloPoints()));
+            arrPayAdapterModel.add(payAdapterModel);
+        }
+        payActivityAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void toRemovePayedAmount(double amount) {
+        paymentDoneAmount -= amount;
+        if (paymentDoneAmount == 0.0) {
+            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+            paymentMethodModel.setBalanceAmount(false);
+
+        }
+        paymentMethodModel.setPaymentDone(false);
+        paymentMethodModel.setGenerateBill(false);
     }
 
     @Override
@@ -648,8 +705,21 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 switch (requestCode) {
                     case ACTIVITY_ADD_PRODUCT_CODE:
                         if (data != null) {
+                            boolean itemNotFound = true;
                             GetItemDetailsRes.Items items = (GetItemDetailsRes.Items) data.getSerializableExtra("selected_item");
-                            medicineDetailsModelsList.add(items);
+                            if (items != null && medicineDetailsModelsList.size() > 0) {
+                                for (int i = 0; i < medicineDetailsModelsList.size(); i++) {
+                                    GetItemDetailsRes.Items items1 = medicineDetailsModelsList.get(i);
+                                    if (items.getArtCode().equalsIgnoreCase(items1.getArtCode()) &&
+                                            items.getBatchListObj().getBatchNo().equalsIgnoreCase(items1.getBatchListObj().getBatchNo())) {
+                                        medicineDetailsModelsList.get(i).getBatchListObj().setEnterReqQuantity(items1.getBatchListObj().getEnterReqQuantity() + items.getBatchListObj().getEnterReqQuantity());
+                                        itemNotFound = false;
+                                    }
+                                }
+                            }
+                            if (itemNotFound) {
+                                medicineDetailsModelsList.add(items);
+                            }
                             medicinesDetailAdapter.notifyDataSetChanged();
                             addItemBinding.setProductCount(medicineDetailsModelsList.size());
                             // Insert into cart table
@@ -711,7 +781,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cartItems.setId(nextId);
                                             //  realm.beginTransaction();
                                             savedCart.getItemsArrayList().add(cartItems);
-                                        //    realm.copyToRealmOrUpdate(savedCart);
+                                            //    realm.copyToRealmOrUpdate(savedCart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -737,7 +807,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                             cart.setId(nextId);
                                             //  realm.beginTransaction();
 
-                                         //   realm.copyToRealmOrUpdate(cart);
+                                            //   realm.copyToRealmOrUpdate(cart);
                                             // realm.commitTransaction();
                                         }
                                     });
@@ -944,9 +1014,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
 
-
-    private void alertDialog(){
-        ExitInfoDialog  dialogView = new ExitInfoDialog(this);
+    private void alertDialog() {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle("Are you Sure?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setSubtitle("Do you want to cancel this order");
@@ -968,7 +1037,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         dialogView.show();
     }
 
-    private void closeOrder(){
+    private void closeOrder() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }

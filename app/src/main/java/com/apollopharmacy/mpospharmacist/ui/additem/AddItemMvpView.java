@@ -98,4 +98,12 @@ public interface AddItemMvpView extends MvpView {
     void onItemAdded();
 
     void onClickGenerateBill();
+
+    boolean isDonePayment();
+
+    double orderTotalAmount();
+
+    void updatePayedAmount(double amount,int type);
+
+    void toRemovePayedAmount(double amount);
 }

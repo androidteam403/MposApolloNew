@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.pay.payadapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.PayActivityAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpView;
 
 import java.util.ArrayList;
 
@@ -19,10 +21,12 @@ public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.
     private Activity activity;
     private ArrayList<PayAdapterModel> arrPayAdapterModel;
     PayActivityAdapterBinding payAdapterBinding;
+    private AddItemMvpView addItemMvpView;
 
-    public PayActivityAdapter(Activity activity, ArrayList<PayAdapterModel> arrPayAdapterModel) {
+    public PayActivityAdapter(Activity activity, ArrayList<PayAdapterModel> arrPayAdapterModel,AddItemMvpView addItemMvpView) {
         this.activity = activity;
         this.arrPayAdapterModel = arrPayAdapterModel;
+        this.addItemMvpView = addItemMvpView;
     }
 
     @NonNull
@@ -37,6 +41,16 @@ public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.
     public void onBindViewHolder(@NonNull PayActivityAdapter.ViewHolder holder, int position) {
         PayAdapterModel item = arrPayAdapterModel.get(position);
         holder.payAdapterBinding.setModel(item);
+        holder.payAdapterBinding.closeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(addItemMvpView != null){
+                    addItemMvpView.toRemovePayedAmount(item.getValue());
+                    arrPayAdapterModel.remove(position);
+                    notifyItemChanged(position);
+                }
+            }
+        });
     }
 
     @Override

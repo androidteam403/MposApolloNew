@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="orderreturnmodel"
-            type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel" />
+            name="model"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes.SalesLineEntity" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Dolo Bak Tab"
+                    android:text="@{model.itemId.concat(` - `+model.itemName)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_13" />
 
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/two_dp"
-                    android:text="DOL001/AP0020/Tablet/MicroLab.."
+                    android:text="@{model.inventBatchId+`/`+model.category+`/`+model.expiry+`/`+model.manufacturerName}"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
                     android:textSize="@dimen/text_dimen_12" />
@@ -80,7 +80,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineMrp}"
+                        android:text="@{model.itemName}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineQty}"
+                        android:text="@{model.itemName}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -112,7 +112,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineTotal}"
+                        android:text="@{model.itemName}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -123,7 +123,7 @@
                     android:background="@color/light_grey"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:text="@{orderreturnmodel.medicineTax}"
+                    android:text="@{model.itemName}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_12" />
 
@@ -139,6 +139,4 @@
             android:layout_height="@dimen/one_dp"
             android:background="@color/colorPrimary" />
     </LinearLayout>
-
-
 </layout>
