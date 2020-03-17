@@ -23,7 +23,7 @@ public class GetItemDetailsReq {
     private boolean IsGeneric;
     @Expose
     @SerializedName("IsInitial")
-    private boolean IsInitial;
+    private boolean IsInitial = true;
 
     public String getCorpCode() {
         return CorpCode;

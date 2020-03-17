@@ -3,10 +3,7 @@
 
     <data>
 
-        <import type="android.view.View"/>
-        <variable
-            name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterListener" />
+        <import type="android.view.View" />
 
         <variable
             name="model"

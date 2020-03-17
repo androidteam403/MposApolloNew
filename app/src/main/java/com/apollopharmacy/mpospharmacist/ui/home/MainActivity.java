@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpView;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -80,5 +81,16 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Singletone.getInstance().isPlaceNewOrder) {
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController.popBackStack();
+            navController.navigate(R.id.nav_billing);
+            Singletone.getInstance().isPlaceNewOrder = false;
+        }
     }
 }

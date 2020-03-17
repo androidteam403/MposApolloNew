@@ -15,6 +15,7 @@ import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.eze.api.EzeAPI;
 
@@ -307,10 +308,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void onClickGenerateBill() {
-     //   saveRetailTransaction(generateTenderLineReq());
+        saveRetailTransaction();
     }
 
-    private GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
+   // private GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
     @Override
     public void getTenderTypeApi() {
         if (getMvpView().isNetworkConnected()) {
@@ -324,7 +325,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
-                            tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+        //                    tenderTypeResultEntity = response.body().getGetTenderTypeResult();
                         } else {
                             if (response.body() != null) {
                                 getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
@@ -392,7 +393,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickRedeemPoints() {
 
     }
-
+private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = new ArrayList<>();
     private void generateTenterLineService(){
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -406,10 +407,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         //Dismiss Dialog
-                        if (response.body() != null)
-                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult().getGrossAmount(),1);
-                          //  saveRetailTransaction(response.body());
-                        else {
+                        if (response.body() != null) {
+                            tenderLineEntities.addAll(response.body().getGenerateTenderLineResult().getTenderLine());
+                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult().getGrossAmount(), 1);
+                            //  saveRetailTransaction(response.body());
+                        }else {
                             getMvpView().onFailedGenerateTenderLine(response.body());
                         }
                     }
@@ -426,13 +428,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
-    private void saveRetailTransaction(GenerateTenderLineRes body) {
+    private void saveRetailTransaction() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();
 
-            Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(body.getGenerateTenderLineResult());
+            Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(getSaveTransactionReq());
             call.enqueue(new Callback<SaveRetailsTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
@@ -467,11 +469,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
         return tenderLineReq;
     }
-
+    private GenerateTenderLineReq.POSTransactionEntity getSaveTransactionReq(){
+        return posTransactionEntity();
+    }
     private GenerateTenderLineReq.TypeEntity typeEntity() {
         GenerateTenderLineReq.TypeEntity typeEntity = new GenerateTenderLineReq.TypeEntity();
-        if(tenderTypeResultEntity != null && tenderTypeResultEntity.get_TenderType().size() > 0){
-            for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : tenderTypeResultEntity.get_TenderType()){
+        if(Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0){
+            for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
                 if(getMvpView().getPaymentMethod().isCashMode()) {
                     if(tenderTypeEntity.getTender().equalsIgnoreCase("Cash")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
@@ -591,7 +595,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setTotalTaxAmount(getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount());// total Tax amount
         posTransactionEntity.setTrackingRef("");
         posTransactionEntity.setTransactionId(getMvpView().getTransactionModule().getTransactionID());// Trancaction id
-        posTransactionEntity.setTransDate(CommonUtils.getCurrentDate("DD-MMM-YYYY hh:mm:ss"));// payment date time format `18-Feb-2020 03:01:20`
+        posTransactionEntity.setTransDate(CommonUtils.getCurrentDate("dd-MMM-YYYY hh:mm:ss"));// payment date time format `18-Feb-2020 03:01:20`
         posTransactionEntity.setTransType(0);
         posTransactionEntity.setType(2);
         posTransactionEntity.setVendorId("");
@@ -718,10 +722,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     private ArrayList<GenerateTenderLineRes.TenderLineEntity> getTenderLine(){
-        ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = new ArrayList<>();
-
         return tenderLineEntities;
     }
+
+
     /**
      * invoke to initialize the SDK with the merchant key and the device (card
      * reader) with bank keys

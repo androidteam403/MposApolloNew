@@ -102,26 +102,26 @@ public class PayPresenter<V extends PayMvpView> extends BasePresenter<V>
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();
 
-            Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(body.getGenerateTenderLineResult());
-            call.enqueue(new Callback<SaveRetailsTransactionRes>() {
-                @Override
-                public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
-                    if (response.isSuccessful()) {
-                        //Dismiss Dialog
-                        getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body() != null )
-                            getMvpView().onSuccessSaveRetailTransaction(response.body());
-                        else
-                            getMvpView().onFailedSaveRetailsTransaction(response.body());
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                }
-            });
+//            Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(body.getGenerateTenderLineResult());
+//            call.enqueue(new Callback<SaveRetailsTransactionRes>() {
+//                @Override
+//                public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
+//                    if (response.isSuccessful()) {
+//                        //Dismiss Dialog
+//                        getMvpView().hideLoading();
+//                        if (response.isSuccessful() && response.body() != null )
+//                            getMvpView().onSuccessSaveRetailTransaction(response.body());
+//                        else
+//                            getMvpView().onFailedSaveRetailsTransaction(response.body());
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Throwable t) {
+//                    //Dismiss Dialog
+//                    getMvpView().hideLoading();
+//                }
+//            });
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }

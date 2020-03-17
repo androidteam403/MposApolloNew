@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -15,9 +16,8 @@ import com.apollopharmacy.mpospharmacist.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
-import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PaidAmountBean;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
 import java.util.ArrayList;
 
@@ -56,7 +56,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         }
         if (getIntent() != null) {
             corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
-            if(corporateEntity != null){
+            if (corporateEntity != null) {
                 orderSummaryBinding.setCorporate(corporateEntity);
             }
         }
@@ -74,20 +74,30 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             childView.setPaidbean(paidAmountArr.get(i));
             orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
         }
+
+        orderSummaryBinding.placeNewOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickNewOrder();
+            }
+        });
     }
 
     @Override
-    public void onBackOrderPressed() {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
+    public void onBackPressed() {
+        onClickNewOrder();
+    }
+
+    private void onClickNewOrder() {
+        Singletone.getInstance().itemsArrayList.clear();
+        Singletone.getInstance().isPlaceNewOrder = true;
         Navigation.findNavController(orderSummaryBinding.placeNewOrderBtn).navigate(R.id.nav_billing);
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
     @Override
-    public void onBackPressed() {
-        onBackOrderPressed();
+    public void onBackOrderPressed() {
+        onClickNewOrder();
     }
 }

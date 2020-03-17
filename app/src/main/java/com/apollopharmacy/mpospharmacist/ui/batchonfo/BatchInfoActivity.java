@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityBatchInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.BatchInfoListAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter.BatchInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListener;
@@ -26,10 +28,12 @@ import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 
@@ -42,9 +46,12 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     BatchInfoAdapter batchInfoAdapter;
     BatchInfoListAdapterBinding batchInfoListAdapterBinding;
     private ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList = new ArrayList<>();
-    private int count = 0;
+    private int count = 1;
     private boolean isSelectedBatch = false;
     private GetItemDetailsRes.Items selectedItem;
+    private double selectedBatchQOH ;
+
+    private ArrayList<GetItemDetailsRes.Items> batchInfoProducts = new ArrayList<>();
 
     public static Intent getStartIntent(Context context, GetItemDetailsRes.Items items, TransactionIDResModel transactionID) {
         Intent intent = new Intent(context, BatchInfoActivity.class);
@@ -95,7 +102,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             @Override
             public void afterTextChanged(Editable s) {
                     if(!TextUtils.isEmpty(s)){
-                        quantityBaseBatchSelect(Double.parseDouble(s.toString()));
+                        quantityBaseBatchSelect();
                     }
 
 
@@ -124,21 +131,14 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     @Override
     public void onNavigateNextActivity() {
-        if(isSelectedBatch && !TextUtils.isEmpty(getRequiredQuantity())) {
-            selectedItem.getBatchListObj().setEnterReqQuantity(Integer.parseInt(getRequiredQuantity()));
-            Intent intent = new Intent();
-            intent.putExtra("selected_item", selectedItem);
-            setResult(RESULT_OK, intent);
-            finish();
+        if(batchInfoProducts.size()> 0 && !TextUtils.isEmpty(getRequiredQuantity())) {
+            addProductBasedBatch();
         }else{
             if (TextUtils.isEmpty(getRequiredQuantity()))
                 showMessage("enter Quantity");
             else
                 showMessage("select Batch");
         }
-//        startActivity(MedicinesDetailsActivity.getStartIntent(this,items));
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//        finish();
     }
 
     @Override
@@ -159,9 +159,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 }
             });
             isSelectedBatch = true;
-            arrBatchList.get(0).setSelected(true);
-            selectedItem.setBatchListObj(arrBatchList.get(0));
-            batchInfoAdapter.notifyDataSetChanged();
+            selectBatch();
         }
     }
 
@@ -179,34 +177,37 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     public void onItemClick(int position) {
         isSelectedBatch = true;
-        for (int i = 0; i < arrBatchList.size(); i++) {
-            if (arrBatchList.get(i).isSelected()) {
-                arrBatchList.get(i).setSelected(false);
-                batchInfoAdapter.notifyItemChanged(i);
-            }
-            if (position == i) {
-                arrBatchList.get(i).setSelected(true);
-                batchInfoAdapter.notifyItemChanged(i);
-                selectedItem.setBatchListObj(arrBatchList.get(i));
-            }
-        }
+        manualSelectedPosition = position;
+        selectBatch();
 
     }
+private int manualSelectedPosition = 0;
+    private void quantityBaseBatchSelect(){
+        if(selectedBatchQOH < Double.parseDouble(getRequiredQuantity())) {
+            batchInfoProducts.clear();
+            double totalQuantity = Double.parseDouble(getRequiredQuantity());
+            for (int i = 0; i < arrBatchList.size(); i++) {
+                double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
+                if (totalQuantity > 0) {
+                    GetItemDetailsRes.Items items = getNewItem();
+                    if (qoh <= totalQuantity)
+                        arrBatchList.get(i).setEnterReqQuantity((int) qoh);
+                    else
+                        arrBatchList.get(i).setEnterReqQuantity((int) totalQuantity);
 
-    private void quantityBaseBatchSelect(double totalQuantity){
-        double batchQuantity = 0.0;
-        double remainingQuantity = totalQuantity;
-        for (int i = 0; i < arrBatchList.size(); i++) {
-            double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
-            if(remainingQuantity != 0.0 && batchQuantity < totalQuantity){
-                batchQuantity += qoh;
-                remainingQuantity = totalQuantity - batchQuantity;
-                arrBatchList.get(i).setSelected(true);
-                batchInfoAdapter.notifyItemChanged(i);
-                selectedItem.setBatchListObj(arrBatchList.get(i));
-            }else{
-                break;
+
+                        totalQuantity = totalQuantity - qoh;
+                        items.setBatchListObj(arrBatchList.get(i));
+                        batchInfoProducts.add(items);
+                        arrBatchList.get(i).setSelected(true);
+                        batchInfoAdapter.notifyItemChanged(i);
+                } else {
+                    arrBatchList.get(i).setSelected(false);
+                    batchInfoAdapter.notifyItemChanged(i);
+                }
             }
+        }else {
+            selectBatch();
         }
     }
 
@@ -215,4 +216,150 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         return batchInfoBinding.inputQty.getText().toString();
     }
 
+    private void addProductBasedBatch(){
+        if(Singletone.getInstance().itemsArrayList.size() > 0){
+            if(isProductExitsOrNot()){
+                productAllReadyExitsDialog();
+            }else{
+                doneBatchSelect();
+            }
+        }else{
+            doneBatchSelect();
+        }
+    }
+
+    private void doneBatchSelect(){
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("selected_item", batchInfoProducts);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+    private boolean isProductExitsOrNot(){
+        for(GetItemDetailsRes.Items oldItems  : Singletone.getInstance().itemsArrayList){
+            if(selectedItem.getArtCode().equalsIgnoreCase(oldItems.getArtCode())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void selectBatch(){
+        for (int i = 0; i < arrBatchList.size(); i++) {
+            if (arrBatchList.get(i).isSelected()) {
+                arrBatchList.get(i).setSelected(false);
+                batchInfoAdapter.notifyItemChanged(i);
+            }
+            if (manualSelectedPosition == i) {
+                if(Double.parseDouble(getRequiredQuantity()) <= Double.parseDouble(arrBatchList.get(i).getQ_O_H()) ) {
+                    arrBatchList.get(i).setSelected(true);
+                    batchInfoAdapter.notifyItemChanged(i);
+                    selectedBatchQOH = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
+                    GetItemDetailsRes.Items items = selectedItem;
+                    arrBatchList.get(i).setEnterReqQuantity(Integer.parseInt(getRequiredQuantity()));
+                    items.setBatchListObj(arrBatchList.get(i));
+                    batchInfoProducts.clear();
+                    batchInfoProducts.add(items);
+                }else{
+                    showMessage("Requested Quantity greater then batch quantity");
+                    quantityBaseBatchSelect();
+                }
+            }
+        }
+
+    }
+
+    private void checkBatchQOH(GetBatchInfoRes.BatchListObj selectedBatch){
+
+    }
+    private GetItemDetailsRes.Items getNewItem(){
+        GetItemDetailsRes.Items  items = new GetItemDetailsRes.Items();
+        items.setArtCode(selectedItem.getArtCode());
+        items.setCategory(selectedItem.getCategory());
+        items.setCategoryCode(selectedItem.getCategoryCode());
+        items.setItemDelete(selectedItem.isItemDelete());
+        items.setBatchListObj(selectedItem.getBatchListObj());
+        items.setDescription(selectedItem.getDescription());
+        items.setDiseaseType(selectedItem.getDiseaseType());
+        items.setDPCO(selectedItem.getDPCO());
+        items.setGenericName(selectedItem.getGenericName());
+        items.setHsncode_In(selectedItem.getHsncode_In());
+        items.setManufacture(selectedItem.getManufacture());
+        items.setManufactureCode(selectedItem.getManufactureCode());
+        items.setProductRecID(selectedItem.getProductRecID());
+        items.setRackId(selectedItem.getRackId());
+        items.setRetailCategoryRecID(selectedItem.getRetailCategoryRecID());
+        items.setRetailMainCategoryRecID(selectedItem.getRetailMainCategoryRecID());
+        items.setRetailSubCategoryRecID(selectedItem.getRetailSubCategoryRecID());
+        items.setSch_Catg(selectedItem.getSch_Catg());
+        items.setSch_Catg_Code(selectedItem.getSch_Catg_Code());
+        items.setSI_NO(selectedItem.getSI_NO());
+        items.setSubCategory(selectedItem.getSubCategory());
+        items.setSubClassification(selectedItem.getSubClassification());
+        return items;
+    }
+
+    private void productAllReadyExitsDialog(){
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("Item Already Exist");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setSubtitle("Do you want to continue?");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                updateExistItemBatch();
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    private void updateExistItemBatch(){
+        double totalQuantity = 0.0 ;
+        ArrayList<GetItemDetailsRes.Items> existingProducts = Singletone.getInstance().itemsArrayList;
+        for(Iterator<GetItemDetailsRes.Items> it = existingProducts.iterator(); it.hasNext();) {
+            GetItemDetailsRes.Items s = it.next();
+            if(selectedItem.getArtCode().equalsIgnoreCase(s.getArtCode())) {
+                totalQuantity += s.getBatchListObj().getEnterReqQuantity();
+                it.remove();
+            }
+        }
+//        for(GetItemDetailsRes.Items oldItems  : existingProducts){
+//            if(selectedItem.getArtCode().equalsIgnoreCase(oldItems.getArtCode())){
+//                totalQuantity += oldItems.getBatchListObj().getEnterReqQuantity();
+//                Singletone.getInstance().itemsArrayList.remove(oldItems);
+//            }
+//        }
+        totalQuantity += Double.parseDouble(getRequiredQuantity());
+        batchInfoProducts.clear();
+        for (int i = 0; i < arrBatchList.size(); i++) {
+            double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
+            if (totalQuantity > 0) {
+                GetItemDetailsRes.Items items = getNewItem();
+                if (qoh <= totalQuantity)
+                    arrBatchList.get(i).setEnterReqQuantity((int) qoh);
+                else
+                    arrBatchList.get(i).setEnterReqQuantity((int) totalQuantity);
+
+
+                totalQuantity = totalQuantity - qoh;
+                items.setBatchListObj(arrBatchList.get(i));
+                batchInfoProducts.add(items);
+                arrBatchList.get(i).setSelected(true);
+                batchInfoAdapter.notifyItemChanged(i);
+            } else {
+                arrBatchList.get(i).setSelected(false);
+                batchInfoAdapter.notifyItemChanged(i);
+            }
+        }
+        doneBatchSelect();
+    }
 }
