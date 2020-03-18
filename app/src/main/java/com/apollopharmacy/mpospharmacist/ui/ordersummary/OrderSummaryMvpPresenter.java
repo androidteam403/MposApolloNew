@@ -4,4 +4,6 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 
 public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends MvpPresenter<V> {
 
+    void onBackOrderPressed();
+
 }

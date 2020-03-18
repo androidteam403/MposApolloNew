@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
@@ -17,10 +19,12 @@ import java.util.ArrayList;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private Activity activity;
     private ArrayList<OrderListRes> ordersModelArrayList;
+    private OrdersMvpPresenter<OrdersMvpView> mPresenter;
 
-    public OrdersAdapter(Activity activity, ArrayList<OrderListRes> ordersModelArrayList) {
+    public OrdersAdapter(Activity activity, ArrayList<OrderListRes> ordersModelArrayList, OrdersMvpPresenter<OrdersMvpView> mPresenter) {
         this.activity = activity;
         this.ordersModelArrayList = ordersModelArrayList;
+        this.mPresenter = mPresenter;
     }
 
     @NonNull
@@ -35,7 +39,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull OrdersAdapter.ViewHolder holder, int position) {
         OrderListRes item = ordersModelArrayList.get(position);
         holder.fragmentOrderAdapterBinding.setOrderDetails(item);
-
+        holder.fragmentOrderAdapterBinding.setCallback(mPresenter);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

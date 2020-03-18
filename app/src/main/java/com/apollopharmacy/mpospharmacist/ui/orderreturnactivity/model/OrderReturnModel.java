@@ -1,47 +1,27 @@
 package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model;
 
 public class OrderReturnModel {
-    private String medicineMrp;
-    private String medicineQty;
-    private String medicineTotal;
-    private String medicineTax;
+    private String paymentType;
+    private String paidAmount;
 
-    public OrderReturnModel(String medicineMrp, String medicineQty, String medicineTotal, String medicineTax) {
-        this.medicineMrp = medicineMrp;
-        this.medicineQty = medicineQty;
-        this.medicineTotal = medicineTotal;
-        this.medicineTax = medicineTax;
+    public OrderReturnModel(String paymentType, String paidAmount) {
+        this.paymentType = paymentType;
+        this.paidAmount = paidAmount;
     }
 
-    public String getMedicineMrp() {
-        return medicineMrp;
+    public String getPaymentType() {
+        return paymentType;
     }
 
-    public void setMedicineMrp(String medicineMrp) {
-        this.medicineMrp = medicineMrp;
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
     }
 
-    public String getMedicineQty() {
-        return medicineQty;
+    public String getPaidAmount() {
+        return paidAmount;
     }
 
-    public void setMedicineQty(String medicineQty) {
-        this.medicineQty = medicineQty;
-    }
-
-    public String getMedicineTotal() {
-        return medicineTotal;
-    }
-
-    public void setMedicineTotal(String medicineTotal) {
-        this.medicineTotal = medicineTotal;
-    }
-
-    public String getMedicineTax() {
-        return medicineTax;
-    }
-
-    public void setMedicineTax(String medicineTax) {
-        this.medicineTax = medicineTax;
+    public void setPaidAmount(String paidAmount) {
+        this.paidAmount = paidAmount;
     }
 }

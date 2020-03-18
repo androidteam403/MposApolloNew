@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
-            name="orderreturnmodel"
-            type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel" />
+            name="model"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes.SalesLineEntity" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Dolo Bak Tab"
+                    android:text="@{model.itemId.concat(` - `+model.itemName)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_13" />
 
@@ -45,18 +48,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/two_dp"
-                    android:text="DOL001/AP0020/Tablet/MicroLab.."
-                    android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
+                    android:singleLine="true"
+                    android:text="@{model.inventBatchId+`/`+model.category+`/`+model.expiry+`/`+model.manufacturerName}"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/three_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Discount 0.3(3%)-Dis-003"
                     android:layout_marginBottom="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@{model.previewText}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_dimen_10" />
             </LinearLayout>
@@ -80,7 +84,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineMrp}"
+                        android:text="@{String.format(`%.2f`,model.mRP)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -96,7 +100,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineQty}"
+                        android:text="@{String.valueOf(model.qty)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -112,7 +116,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{orderreturnmodel.medicineTotal}"
+                        android:text="@{String.format(`%.2f`,model.netAmount)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -123,7 +127,7 @@
                     android:background="@color/light_grey"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:text="@{orderreturnmodel.medicineTax}"
+                    android:text="@{`Tax : `+ model.tax +`%`}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_12" />
 
@@ -139,6 +143,4 @@
             android:layout_height="@dimen/one_dp"
             android:background="@color/colorPrimary" />
     </LinearLayout>
-
-
 </layout>

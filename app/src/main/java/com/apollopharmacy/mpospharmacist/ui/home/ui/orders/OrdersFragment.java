@@ -18,6 +18,7 @@ import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.adapter.OrdersAdapter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,7 +48,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         fragmentOrderBinding.setCallbacks(mPresenter);
         fragmentOrderBinding.setNoDataFound(false);
 
-        ordersAdapter = new OrdersAdapter(getActivity(), ordersModelArrayList);
+        ordersAdapter = new OrdersAdapter(getActivity(), ordersModelArrayList, mPresenter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         fragmentOrderBinding.orderrecycle.setLayoutManager(mLayoutManager);
         fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
@@ -76,8 +77,9 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     }
 
     @Override
-    public void onItemClick() {
-
+    public void onItemClick(OrderListRes item) {
+        startActivity(OrderReturnActivity.getStartIntent(getActivity(), item));
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override

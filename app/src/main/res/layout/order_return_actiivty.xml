@@ -1,380 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="product_count"
+            type="Integer" />
 
+        <variable
+            name="item"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
     </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
             tools:ignore="UselessParent">
+
+            <ImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.8"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_order_return"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_10001936"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                android:layout_height="wrap_content"
+                android:background="@color/light_grey"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="@dimen/fifty_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/app_name"
-                    android:paddingStart="@dimen/ten_dp"
-                    android:paddingEnd="@dimen/ten_dp"
-                    android:alpha="0.8"
-                    android:src="@drawable/ic_back_arrow"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/label_order_return"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_10001936"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/details_layout"
+                    layout="@layout/order_customer_doctor_info"
+                    app:item="@{item}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <include
-                        layout="@layout/view_customer_doctor_info"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_weight="1.2"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@{@string/label_product_item_count(product_count)}"
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_13" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/three_dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="@dimen/fifteen_dp"
-                        android:paddingEnd="@dimen/fifteen_dp"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.29"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/label_itemslist_7"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_13" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.29"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_mrp"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_10" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.22"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_qty"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_10" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.24"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_total"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_10" />
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/orderreturnrecycle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:nestedScrollingEnabled="false" />
-
-                    <LinearLayout
-                        android:id="@+id/footer"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.26"
+                        android:gravity="center"
                         android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="250dp"
-                            android:layout_height="80dp"
-                            android:background="@color/white"
-                            android:orientation="vertical"
-                            android:weightSum="4">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/ten_dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/ten_dp"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_disc_type_n6699985214"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="Pharma\n0.00"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="FMCG \n0.00"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="PL\n50.00"
-                                    android:textSize="@dimen/text_dimen_9" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/ten_dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/ten_dp"
-                                    android:layout_marginTop="@dimen/five_dp"
-                                    android:layout_weight="1"
-                                    android:ellipsize="end"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_roundedamt_n0_00"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_mrp_total_n5_36"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_taxable_amt_n46_64"
-                                    android:textSize="@dimen/text_dimen_9" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="DiscAmt\n0.00"
-                                    android:textSize="@dimen/text_dimen_9" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/testclick"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/fifteen_dp"
-                                android:text="@string/label__129_70"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_dimen_18"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/label_savings_20_50_10"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_10" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:background="@color/thick_blue"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/ten_dp"
-                        android:weightSum="1">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label_amount_payable"
-                                android:textAllCaps="true"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_additional_discount_10_00_5"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_dimen_10" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label__119_70"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/two_dp"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/label_img"
-                            android:src="@drawable/cash_paid" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_marginTop="@dimen/one_dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_cash_paid" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:gravity="end"
-                            android:text="@string/label__100_00"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/seven_dp"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/label_img"
-                            android:src="@drawable/wallet" />
+                            android:text="@string/label_mrp_item_header"
+                            android:textColor="@color/add_item_header"
+                            android:textSize="@dimen/text_dimen_10" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/labelwallet_pay" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:gravity="end"
-                            android:text="@string/label__9_70"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
+                            android:text="@string/label_rupee_in_braces"
+                            android:textColor="@color/add_item_header"
+                            android:textSize="@dimen/text_dimen_10" />
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/forty_five_dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@color/cpb_yellow"
-                            android:text="@string/label_return"
-                            android:textAllCaps="false" />
-                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.24"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="QTY"
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_10" />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/one_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_total_item_header"
+                            android:textColor="@color/add_item_header"
+                            android:textSize="@dimen/text_dimen_10" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_rupee_in_braces"
+                            android:textColor="@color/add_item_header"
+                            android:textSize="@dimen/text_dimen_10" />
+                    </LinearLayout>
                 </LinearLayout>
 
-            </ScrollView>
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/orderreturnrecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false" />
+
+                <LinearLayout
+                    android:id="@+id/footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="250dp"
+                        android:layout_height="80dp"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_disc_type(item.type)}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_pharma_price(String.format(`%.2f`,item.PharmaTotalAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_FMCG_price(String.format(`%.2f`,item.FmcgTotalAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_PL_price(String.format(`%.2f`,item.PlTotalAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/ten_dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,item.roundedAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,item.netAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,item.taxableTotalAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,item.discAmount))}"
+                                android:textSize="@dimen/text_dimen_9" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/testclick"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/fifteen_dp"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@{@string/label_total_price(String.format(`%.2f`,item.amounttoAccount))}"
+                            android:textSize="@dimen/text_dimen_18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/label_savings_price(String.format(`%.2f`,item.OrderSavingsAmount)) + `(`+item.discAmount+`%)`}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_10" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pay_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingEnd="@dimen/ten_dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="@dimen/forty_five_dp"
+                        android:background="@color/cpb_yellow"
+                        android:text="@string/label_return"
+                        android:textAllCaps="false" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
 </layout>

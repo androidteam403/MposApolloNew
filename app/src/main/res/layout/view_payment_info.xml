@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.55"
             android:fontFamily="@font/roboto_medium"
-            android:text="@{String.valueOf(paidbean.tenderType)}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_13" />
 

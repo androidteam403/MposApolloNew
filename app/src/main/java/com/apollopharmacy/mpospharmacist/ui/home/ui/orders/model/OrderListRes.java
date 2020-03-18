@@ -3,11 +3,10 @@ package com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderListRes {
-
-
+public class OrderListRes implements Serializable {
     @Expose
     @SerializedName("VendorId")
     private String VendorId;
@@ -263,6 +262,73 @@ public class OrderListRes {
     @Expose
     @SerializedName("AmounttoAccount")
     private double AmounttoAccount;
+
+    public double PharmaTotalAmount;
+    public double FmcgTotalAmount;
+    public double PlTotalAmount;
+    public double totalRoundedAmount;
+    public double MrpTotalAmount;
+    public double TaxableTotalAmount;
+    public double DiscTotalAmount;
+    public double OrderTotalAmount;
+    public double OrderSavingsAmount;
+    public double OrderSavingsPercentage;
+
+    public double getPharmaTotalAmount() {
+        return PharmaTotalAmount;
+    }
+
+    public void setPharmaTotalAmount(double pharmaTotalAmount) {
+        PharmaTotalAmount = pharmaTotalAmount;
+    }
+
+    public double getFmcgTotalAmount() {
+        return FmcgTotalAmount;
+    }
+
+    public void setFmcgTotalAmount(double fmcgTotalAmount) {
+        FmcgTotalAmount = fmcgTotalAmount;
+    }
+
+    public double getPlTotalAmount() {
+        return PlTotalAmount;
+    }
+
+    public void setPlTotalAmount(double plTotalAmount) {
+        PlTotalAmount = plTotalAmount;
+    }
+
+    public double getTaxableTotalAmount() {
+        return TaxableTotalAmount;
+    }
+
+    public void setTaxableTotalAmount(double taxableTotalAmount) {
+        TaxableTotalAmount = taxableTotalAmount;
+    }
+
+    public double getOrderTotalAmount() {
+        return OrderTotalAmount;
+    }
+
+    public void setOrderTotalAmount(double orderTotalAmount) {
+        OrderTotalAmount = orderTotalAmount;
+    }
+
+    public double getOrderSavingsAmount() {
+        return OrderSavingsAmount;
+    }
+
+    public void setOrderSavingsAmount(double orderSavingsAmount) {
+        OrderSavingsAmount = orderSavingsAmount;
+    }
+
+    public double getOrderSavingsPercentage() {
+        return OrderSavingsPercentage;
+    }
+
+    public void setOrderSavingsPercentage(double orderSavingsPercentage) {
+        OrderSavingsPercentage = orderSavingsPercentage;
+    }
 
     public String getVendorId() {
         return VendorId;
@@ -604,7 +670,7 @@ public class OrderListRes {
         return AmounttoAccount;
     }
 
-    public static class TenderLineEntity {
+    public static class TenderLineEntity implements Serializable {
         @Expose
         @SerializedName("WalletType")
         private int WalletType;
@@ -726,7 +792,7 @@ public class OrderListRes {
         }
     }
 
-    public static class SalesLineEntity {
+    public static class SalesLineEntity implements Serializable {
         @Expose
         @SerializedName("VariantId")
         private String VariantId;

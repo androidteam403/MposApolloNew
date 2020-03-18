@@ -8,13 +8,14 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityOrderSummaryBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PaidAmountBean;
+import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
@@ -29,10 +30,12 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     ActivityOrderSummaryBinding orderSummaryBinding;
     private ArrayList<SaveRetailsTransactionRes.SalesLineEntity> medicineArrList = new ArrayList<>();
     private ArrayList<SaveRetailsTransactionRes.TenderLineEntity> paidAmountArr = new ArrayList<>();
+    private CorporateModel.DropdownValueBean corporateEntity;
 
-    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes) {
+    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
         intent.putExtra("transaction_details", saveRetailsTransactionRes);
+        intent.putExtra("corporate_info", corporateEntity);
         return intent;
     }
 
@@ -51,7 +54,15 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
         }
+        if (getIntent() != null) {
+            corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+            if (corporateEntity != null) {
+                orderSummaryBinding.setCorporate(corporateEntity);
+            }
+        }
+
         medicineArrList.addAll(transactionRes.getSalesLine());
+        orderSummaryBinding.setItemCount(medicineArrList.size());
         for (int i = 0; i < medicineArrList.size(); i++) {
             ViewMedicineInfoBinding childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_medicine_info, orderSummaryBinding.medicineListLayout, false);
             childView.setMedicinebean(medicineArrList.get(i));
@@ -74,13 +85,19 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         onClickNewOrder();
     }
 
-    private void onClickNewOrder(){
+    private void onClickNewOrder() {
+        Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = true;
+        Navigation.findNavController(orderSummaryBinding.placeNewOrderBtn).navigate(R.id.nav_billing);
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public void onBackOrderPressed() {
+        onClickNewOrder();
     }
 }
