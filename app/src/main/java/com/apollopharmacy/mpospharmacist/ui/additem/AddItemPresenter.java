@@ -7,6 +7,8 @@ import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
@@ -336,6 +338,91 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 @Override
                 public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void onClickManualDisc() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<ManualDiscCheckRes> call = api.MANUAL_DISC_CHECK_RES_CALL(getManualDiscCheckReq());
+            call.enqueue(new Callback<ManualDiscCheckRes>() {
+                @Override
+                public void onResponse(@NotNull Call<ManualDiscCheckRes> call, @NotNull Response<ManualDiscCheckRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        //Dismiss Dialog
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                                getMvpView().openManualDiscDialog(response.body());
+                        } else {
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ManualDiscCheckRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void toApplyManualDisc(ManualDiscCheckRes body, ArrayList<ManualDiscCheckRes.DisplayList> displayListArrayList, String fixedDiscountCode) {
+        ManualDiscCheckReq manualDiscCheckReq = new ManualDiscCheckReq();
+        manualDiscCheckReq.setAvailableDiscList(body.getAvailDiscountList());
+        manualDiscCheckReq.setDiscList(body.getDiscList());
+        manualDiscCheckReq.setDisplayList(displayListArrayList);
+        manualDiscCheckReq.setFixedDiscountCode(fixedDiscountCode);
+        manualDiscCheckReq.setAutoDiscount(false);
+        manualDiscCheckReq.setClearAllDiscount(false);
+        manualDiscCheckReq.setCreditAmount(0);
+        manualDiscCheckReq.setEprescriptionDiscountPer(0);
+        manualDiscCheckReq.setEprescriptionMaxDicountValue(0);
+        manualDiscCheckReq.setHealingCardThresholdAmout(0);
+        manualDiscCheckReq.setISDiscountCodeRequired(0);
+        manualDiscCheckReq.setIsOTPRequired(0);
+        manualDiscCheckReq.setNormalSale(true);
+        manualDiscCheckReq.setOPTValidate(false);
+        manualDiscCheckReq.setPosSalesTransaction(posTransactionEntity());
+        manualDiscCheckReq.setRequestStatus(0);
+        manualDiscCheckReq.setRequestType("APPLYMANNUALDISCOUNT");
+
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<ManualDiscCheckRes> call = api.MANUAL_DISC_CHECK_RES_CALL(manualDiscCheckReq);
+            call.enqueue(new Callback<ManualDiscCheckRes>() {
+                @Override
+                public void onResponse(@NotNull Call<ManualDiscCheckRes> call, @NotNull Response<ManualDiscCheckRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        //Dismiss Dialog
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessCalculatePosTransaction(response.body().getPosSalesTransaction());
+                        } else {
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ManualDiscCheckRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
                 }
@@ -725,6 +812,23 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         return tenderLineEntities;
     }
 
+    private ManualDiscCheckReq getManualDiscCheckReq(){
+        ManualDiscCheckReq manualDiscCheckReq = new ManualDiscCheckReq();
+        manualDiscCheckReq.setAutoDiscount(false);
+        manualDiscCheckReq.setClearAllDiscount(false);
+        manualDiscCheckReq.setCreditAmount(0);
+        manualDiscCheckReq.setEprescriptionDiscountPer(0);
+        manualDiscCheckReq.setEprescriptionMaxDicountValue(0);
+        manualDiscCheckReq.setHealingCardThresholdAmout(0);
+        manualDiscCheckReq.setISDiscountCodeRequired(0);
+        manualDiscCheckReq.setIsOTPRequired(0);
+        manualDiscCheckReq.setNormalSale(true);
+        manualDiscCheckReq.setOPTValidate(false);
+        manualDiscCheckReq.setPosSalesTransaction(posTransactionEntity());
+        manualDiscCheckReq.setRequestStatus(0);
+        manualDiscCheckReq.setRequestType("REQUEST");
+        return manualDiscCheckReq;
+    }
 
     /**
      * invoke to initialize the SDK with the merchant key and the device (card

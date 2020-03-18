@@ -5,6 +5,8 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResMode
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
@@ -123,4 +125,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetTenderType/{storeId}/{DataAreaId}")
     Call<GetTenderTypeRes>  GET_TENDER_TYPE_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body  Object o);
+
+    @POST("SalesTransactionService.svc/ApplyMannualDiscount")
+    Call<ManualDiscCheckRes> MANUAL_DISC_CHECK_RES_CALL (@Body ManualDiscCheckReq manualDiscCheckReq);
 }

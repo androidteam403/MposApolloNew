@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
@@ -60,9 +61,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
-import io.realm.RealmList;
 
 public class AddItemActivity extends BaseActivity implements AddItemMvpView, CustDocEditMvpView {
 
@@ -632,6 +630,35 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void onItemEdit(GetItemDetailsRes.Items item) {
+        EditQuantityDialog  dialogView = new EditQuantityDialog(this);
+        dialogView.setItemData(item);
+        dialogView.setTitle("Change Quantity");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setSubtitle("Actual Quantity "+item.getBatchListObj().getEnterReqQuantity());
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dialogView.validateQuantity()){
+                    medicinesDetailAdapter.notifyDataSetChanged();
+                    dialogView.dismiss();
+                }
+
+
+
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
     public void onClickGenerateBill() {
         startActivity(OrderSummaryActivity.getStartIntent(this,paymentMethodModel.getSaveRetailsTransactionRes()));
         finish();
@@ -682,6 +709,40 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         paymentMethodModel.setPaymentDone(false);
         paymentMethodModel.setGenerateBill(false);
+    }
+
+    @Override
+    public void openManualDiscDialog(ManualDiscCheckRes body) {
+        ManualDiscDialog  dialogView = new ManualDiscDialog(this);
+        dialogView.setCategoryDisplayList(body.getDisplayList());
+        dialogView.setAvailDiscountList(body.getAvailDiscountList());
+        dialogView.setApplyDiscListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.toApplyManualDisc(body,dialogView.getDisplayListArrayList(),dialogView.getFixedDiscountCode());
+                dialogView.dismiss();
+
+            }
+        });
+        dialogView.setGenerateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.setValidateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.setCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
     }
 
     @Override

@@ -442,7 +442,8 @@
                                 android:paddingEnd="@dimen/ten_dp"
                                 android:paddingBottom="@dimen/five_dp"
                                 android:text="Apply"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:onClick="@{()-> callback.onClickManualDisc()}"/>
                         </LinearLayout>
 
                         <LinearLayout

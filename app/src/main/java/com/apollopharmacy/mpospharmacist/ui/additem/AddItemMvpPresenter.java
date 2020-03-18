@@ -1,6 +1,9 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+
+import java.util.ArrayList;
 
 public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresenter<V> {
 
@@ -47,4 +50,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickGenerateBill();
 
     void getTenderTypeApi();
+
+    void onClickManualDisc();
+
+    void toApplyManualDisc(ManualDiscCheckRes body, ArrayList<ManualDiscCheckRes.DisplayList> displayListArrayList, String fixedDiscountCode);
 }

@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 import android.content.Context;
 
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
@@ -97,6 +98,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onItemAdded();
 
+    void onItemEdit(GetItemDetailsRes.Items item);
+
     void onClickGenerateBill();
 
     boolean isDonePayment();
@@ -106,4 +109,6 @@ public interface AddItemMvpView extends MvpView {
     void updatePayedAmount(double amount,int type);
 
     void toRemovePayedAmount(double amount);
+
+    void openManualDiscDialog(ManualDiscCheckRes body);
 }
