@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacist.ui.pay.model;
+package com.apollopharmacy.mpospharmacist.ui.additem.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;

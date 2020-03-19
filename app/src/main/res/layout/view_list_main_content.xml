@@ -6,10 +6,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="medicineModel"
-            type="com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.model.MedicineDetailsModel" />
-
-        <variable
             name="product"
             type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
     </data>

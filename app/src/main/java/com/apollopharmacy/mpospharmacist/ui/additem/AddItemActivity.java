@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -27,7 +26,9 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
@@ -39,11 +40,11 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
-import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -60,9 +61,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
-import io.realm.RealmList;
 
 public class AddItemActivity extends BaseActivity implements AddItemMvpView, CustDocEditMvpView {
 
@@ -450,6 +448,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public CalculatePosTransactionRes getCalculatedPosTransactionRes() {
+        return calculatePosTransactionRes;
+    }
+
+    @Override
     public void setErrorCardPaymentAmountEditText(String message) {
         showMessage(message);
     }
@@ -562,9 +565,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body) {
         showMessage("Failed SaveRetailTransaction");
     }
-
+CalculatePosTransactionRes calculatePosTransactionRes ;
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
+        calculatePosTransactionRes = posTransactionRes;
 //        txtSaving.Text = Convert.ToDecimal(Math.Round((POSSalesTransaction.DiscAmount / POSSalesTransaction.TotalMRP) * 100, 2)).ToString("#0.00");
 //        txtMRP.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.TotalMRP, 2)).ToString("#0.00");
 //        txtTaxableAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.NetAmount, 2)).ToString("#0.00");
@@ -619,7 +623,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-        updatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
+        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()));
+      //  updatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
     }
 
     @Override
@@ -630,6 +635,33 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onItemAdded() {
         mPresenter.calculatePosTransaction();
+    }
+
+    @Override
+    public void onItemEdit(GetItemDetailsRes.Items item) {
+        EditQuantityDialog  dialogView = new EditQuantityDialog(this);
+        dialogView.setItemData(item);
+        dialogView.setTitle("Change Quantity");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setSubtitle("Actual Quantity "+item.getBatchListObj().getEnterReqQuantity());
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dialogView.validateQuantity()){
+                    medicinesDetailAdapter.notifyDataSetChanged();
+                    dialogView.dismiss();
+                    mPresenter.calculatePosTransaction();
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
     }
 
     @Override
@@ -651,26 +683,34 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public void updatePayedAmount(double amount, int type) {
-        paymentDoneAmount += amount;
-        if (paymentDoneAmount == orderTotalAmount()) {
-            paymentMethodModel.setPaymentDone(true);
-            paymentMethodModel.setGenerateBill(true);
-        } else {
-            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
-            paymentMethodModel.setBalanceAmount(true);
+    public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+        calculatePosTransactionRes = transactionRes;
+        if(transactionRes.getTenderLine().size()>0){
+            arrPayAdapterModel.clear();
+            for(TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()){
+                paymentDoneAmount += tenderLineEntity.getAmountTendered();
+                if (paymentDoneAmount == orderTotalAmount()) {
+                    paymentMethodModel.setPaymentDone(true);
+                    paymentMethodModel.setGenerateBill(true);
+                } else {
+                    paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+                    paymentMethodModel.setBalanceAmount(true);
+                }
+                if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
+                    PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                    arrPayAdapterModel.add(payAdapterModel);
+                } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 2) {
+                    PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                    arrPayAdapterModel.add(payAdapterModel);
+                } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 3) {
+                    PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                    arrPayAdapterModel.add(payAdapterModel);
+                }
+            }
+            payActivityAdapter.notifyDataSetChanged();
         }
-        if (type == 1) {
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + getCashPaymentAmount(), Double.parseDouble(getCashPaymentAmount()));
-            arrPayAdapterModel.add(payAdapterModel);
-        } else if (type == 2) {
-            PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + getCardPaymentAmount(), Double.parseDouble(getCardPaymentAmount()));
-            arrPayAdapterModel.add(payAdapterModel);
-        } else if (type == 3) {
-            PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + getOneApolloPoints(), Double.parseDouble(getOneApolloPoints()));
-            arrPayAdapterModel.add(payAdapterModel);
-        }
-        payActivityAdapter.notifyDataSetChanged();
+
+
     }
 
     @Override
@@ -683,6 +723,51 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         paymentMethodModel.setPaymentDone(false);
         paymentMethodModel.setGenerateBill(false);
+    }
+    private ManualDiscDialog  manualDiscDialog;
+    @Override
+    public void openManualDiscDialog(ManualDiscCheckRes body) {
+        manualDiscDialog = new ManualDiscDialog(this);
+        manualDiscDialog.setCategoryDisplayList(body.getDisplayList());
+        manualDiscDialog.setAvailDiscountList(body.getAvailDiscountList());
+        manualDiscDialog.setApplyDiscListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.toApplyManualDisc(body,manualDiscDialog.getDisplayListArrayList(),manualDiscDialog.getFixedDiscountCode());
+                manualDiscDialog.dismiss();
+
+            }
+        });
+        manualDiscDialog.setGenerateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.generateOTP();
+            }
+        });
+        manualDiscDialog.setValidateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(manualDiscDialog.isValidateOTP()){
+                    mPresenter.toApplyManualDisc(body,manualDiscDialog.getDisplayListArrayList(),manualDiscDialog.getFixedDiscountCode());
+                    manualDiscDialog.dismiss();
+                }
+
+            }
+        });
+        manualDiscDialog.setCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manualDiscDialog.dismiss();
+            }
+        });
+        manualDiscDialog.show();
+    }
+
+    @Override
+    public void generateOTPResponseSuccess(String otp) {
+        if(manualDiscDialog != null){
+            manualDiscDialog.visibleValidateOtp(otp);
+        }
     }
 
     @Override
@@ -876,14 +961,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             JSONObject response = new JSONObject(data.getStringExtra("response"));
                             response = response.getJSONObject("result");
                             response = response.getJSONObject("txn");
-                            strTxnId = response.getString("txnId");
-                            emiID = response.getString("emiId");
-                            if (strTxnId.equals("") || strTxnId.equals(null)) {
-                                Toast.makeText(this, data.getStringExtra("response"), Toast.LENGTH_LONG).show();
-                            } else {
-                                mPresenter.onSuccessCardPayment(data.getStringExtra("response"));
-                            }
-//
+                            mPresenter.onSuccessCardPayment(response.getDouble("amountOriginal"));
                         } else if (resultCode == RESULT_CANCELED) {
                             JSONObject response = new JSONObject(data.getStringExtra("response"));
                             response = response.getJSONObject("error");

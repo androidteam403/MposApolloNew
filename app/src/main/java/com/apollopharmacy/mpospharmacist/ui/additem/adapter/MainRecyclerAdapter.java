@@ -64,8 +64,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(mContext, "Refresh Click" + holder.getAdapterPosition()
-                                    , Toast.LENGTH_SHORT).show();
+                            if(addItemMvpView != null){
+                                addItemMvpView.onItemEdit(item);
+                            }
                             mItemTouchHelperExtension.closeOpened();
                         }
                     }
