@@ -11,7 +11,7 @@
 
         <variable
             name="orderDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
 
         <variable
             name="corporate"

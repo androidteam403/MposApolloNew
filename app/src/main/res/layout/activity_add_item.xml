@@ -40,7 +40,7 @@
 
         <variable
             name="paymentMode"
-            type="com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
 
         <variable
             name="validatePoints"
@@ -701,7 +701,7 @@
                                 android:background="@drawable/rounded_corners_white"
                                 android:fontFamily="@font/roboto_light"
                                 android:gravity="center_vertical"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:padding="@dimen/ten_dp"
                                 android:textColor="@color/black" />
 
@@ -749,7 +749,7 @@
                                 android:background="@drawable/rounded_corners_white"
                                 android:fontFamily="@font/roboto_light"
                                 android:gravity="center_vertical"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:padding="@dimen/ten_dp"
                                 android:textColor="@color/black" />
 
@@ -867,7 +867,7 @@
                                     android:background="@drawable/rounded_corners_white"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center_vertical"
-                                    android:inputType="number"
+                                    android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
                                     android:textColor="@color/black" />
 

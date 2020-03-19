@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacist.ui.additem.model;
 
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

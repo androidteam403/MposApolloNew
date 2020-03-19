@@ -10,9 +10,9 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.PaymentMethodModel;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
@@ -57,6 +57,8 @@ public interface AddItemMvpView extends MvpView {
     ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints();
 
     ArrayList<GetItemDetailsRes.Items> getSelectedProducts();
+
+    CalculatePosTransactionRes getCalculatedPosTransactionRes();
 
     void setErrorCardPaymentAmountEditText(String message);
 
@@ -106,9 +108,11 @@ public interface AddItemMvpView extends MvpView {
 
     double orderTotalAmount();
 
-    void updatePayedAmount(double amount,int type);
+    void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
 
     void toRemovePayedAmount(double amount);
 
     void openManualDiscDialog(ManualDiscCheckRes body);
+
+    void generateOTPResponseSuccess(String otp);
 }

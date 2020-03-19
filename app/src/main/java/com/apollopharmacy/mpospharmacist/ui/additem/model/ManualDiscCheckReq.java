@@ -1,10 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.additem.model;
 
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public  class ManualDiscCheckReq {
@@ -20,7 +18,7 @@ public  class ManualDiscCheckReq {
     private List<ManualDiscCheckRes.DisplayList> displayList;
     @Expose
     @SerializedName("PosSalesTransaction")
-    private GenerateTenderLineReq.POSTransactionEntity PosSalesTransaction;
+    private POSTransactionEntity PosSalesTransaction;
     @Expose
     @SerializedName("EprescriptionMaxDicountValue")
     private int EprescriptionMaxDicountValue;
@@ -65,7 +63,7 @@ public  class ManualDiscCheckReq {
         FixedDiscountCode = fixedDiscountCode;
     }
 
-    public void setPosSalesTransaction(GenerateTenderLineReq.POSTransactionEntity posSalesTransaction) {
+    public void setPosSalesTransaction(POSTransactionEntity posSalesTransaction) {
         PosSalesTransaction = posSalesTransaction;
     }
 

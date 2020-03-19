@@ -2,7 +2,6 @@ package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,11 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.databinding.PayActivityAdapterBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewOrderHistoryPaymentBinding;
-import com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpView;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel;
-import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayAdapterModel;
 
 import java.util.ArrayList;
 

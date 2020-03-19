@@ -9,12 +9,18 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactio
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TypeEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.Wallet;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
@@ -102,7 +108,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         if (TextUtils.isEmpty(getMvpView().getCashPaymentAmount())) {
             getMvpView().setErrorCashPaymentAmountEditText("Enter Amount");
         } else {
-            generateTenterLineService();
+            generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()));
         }
     }
 
@@ -303,9 +309,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onSuccessCardPayment(String response) {
-        getMvpView().updatePayedAmount(Double.parseDouble(getMvpView().getCardPaymentAmount()),2);
-        //generateTenterLineService();
+    public void onSuccessCardPayment(double amount) {
+      //  getMvpView().updatePayedAmount(Double.parseDouble(getMvpView().getCardPaymentAmount()),2);
+        generateTenterLineService(amount);
     }
 
     @Override
@@ -433,6 +439,46 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void generateOTP() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            String url = getDataManager().getGlobalJson().getSMSAPI();
+            String otp = String.valueOf(CommonUtils.generatorOTP(8));
+            String message = "Dear Customer, Your Smart Saver Offer OTP is "+ otp +",Use the OTP to avail the Offer";
+            Call<OTPRes> call = api.GENERATE_OTP_RES_CALL(url.replace("{0}",getMvpView().getCustomerModule().getMobileNo()).replace("{1}",message));
+            call.enqueue(new Callback<OTPRes>() {
+                @Override
+                public void onResponse(@NotNull Call<OTPRes> call, @NotNull Response<OTPRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        //Dismiss Dialog
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("OK")) {
+                                getMvpView().generateOTPResponseSuccess(otp);
+                        } else {
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<OTPRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void validateOTP() {
+
+    }
+
+    @Override
     public void validateOneApolloPoints(String userMobileNumber, String transactionID) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -480,23 +526,26 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickRedeemPoints() {
 
     }
-private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = new ArrayList<>();
-    private void generateTenterLineService(){
+private CalculatePosTransactionRes tenderLineEntities ;
+
+    @Override
+    public void generateTenterLineService(double amount){
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();
 
-            Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(getMvpView().getCashPaymentAmount(),generateTenderLineReq());
+            Call<GenerateTenderLineRes> call = api.GENERATE_TENDER_LINE_RES_CALL(amount,generateTenderLineReq(amount));
             call.enqueue(new Callback<GenerateTenderLineRes>() {
                 @Override
                 public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         //Dismiss Dialog
-                        if (response.body() != null) {
-                            tenderLineEntities.addAll(response.body().getGenerateTenderLineResult().getTenderLine());
-                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult().getGrossAmount(), 1);
+                        if (response.body() != null && response.body().getGenerateTenderLineResult().getRequestStatus() == 0) {
+                            tenderLineEntities = response.body().getGenerateTenderLineResult();
+                           // tenderLineEntities.addAll(response.body().getGenerateTenderLineResult().getTenderLine());
+                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult());
                             //  saveRetailTransaction(response.body());
                         }else {
                             getMvpView().onFailedGenerateTenderLine(response.body());
@@ -547,20 +596,19 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
     }
 
     // Generate TenderLine Request Formation
-    private GenerateTenderLineReq generateTenderLineReq() {
+    private GenerateTenderLineReq generateTenderLineReq(double amount) {
         GenerateTenderLineReq tenderLineReq = new GenerateTenderLineReq();
         tenderLineReq.setType(typeEntity());
-        tenderLineReq.setPOSTransaction(posTransactionEntity());
-        if(getMvpView().getPaymentMethod().isOneApolloMode()){
-            tenderLineReq.setWallet(wallet());
-        }
+        tenderLineReq.setPOSTransaction(getMvpView().getCalculatedPosTransactionRes());
+        tenderLineReq.setWallet(wallet(amount));
         return tenderLineReq;
     }
-    private GenerateTenderLineReq.POSTransactionEntity getSaveTransactionReq(){
-        return posTransactionEntity();
+    private CalculatePosTransactionRes getSaveTransactionReq(){
+        return tenderLineEntities;
     }
-    private GenerateTenderLineReq.TypeEntity typeEntity() {
-        GenerateTenderLineReq.TypeEntity typeEntity = new GenerateTenderLineReq.TypeEntity();
+
+    private TypeEntity typeEntity() {
+        TypeEntity typeEntity = new TypeEntity();
         if(Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0){
             for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
                 if(getMvpView().getPaymentMethod().isCashMode()) {
@@ -600,8 +648,8 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         return typeEntity;
     }
 
-    private GenerateTenderLineReq.POSTransactionEntity posTransactionEntity() {
-        GenerateTenderLineReq.POSTransactionEntity posTransactionEntity = new GenerateTenderLineReq.POSTransactionEntity();
+    private POSTransactionEntity posTransactionEntity() {
+        POSTransactionEntity posTransactionEntity = new POSTransactionEntity();
         posTransactionEntity.setAmounttoAccount(0);
         posTransactionEntity.setBatchTerminalid("");
         posTransactionEntity.setBillingCity("");
@@ -640,7 +688,7 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         posTransactionEntity.setISReturnAllowed(false);
         posTransactionEntity.setManualBill(false);
         posTransactionEntity.setMobileNO(getMvpView().getCustomerModule().getMobileNo());// user mobile number
-        posTransactionEntity.setNetAmount((getMvpView().getOrderPriceInfoModel().getMrpTotalAmount() - getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount()));// net amount
+        posTransactionEntity.setNetAmount(getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount());// net amount
         posTransactionEntity.setNetAmountInclTax(getMvpView().getOrderPriceInfoModel().getMrpTotalAmount());// include tax total
         posTransactionEntity.setNumberofItemLines(getMvpView().getSelectedProducts().size());// items count
         posTransactionEntity.setNumberofItems(getMvpView().getSelectedProducts().size());// items count
@@ -652,7 +700,7 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         posTransactionEntity.setReciptId("");
         posTransactionEntity.setREFNO("");
         posTransactionEntity.setRegionCode("");
-        posTransactionEntity.setRemainingamount(getMvpView().getOrderPriceInfoModel().getRoundedAmount());// amount to paid
+        posTransactionEntity.setRemainingamount(getMvpView().getOrderPriceInfoModel().getRoundedAmount());// remaning amount
         posTransactionEntity.setReminderDays(0);
         posTransactionEntity.setRequestStatus(0);
         posTransactionEntity.setReturn(false);
@@ -672,7 +720,7 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         posTransactionEntity.setStockCheck(true);
         posTransactionEntity.setStore(getMvpView().getTransactionModule().getStoreID());// store details
         posTransactionEntity.setStoreName("");
-        posTransactionEntity.setTenderLine(getTenderLine());// TenderLine Object
+        posTransactionEntity.setTenderLine(new ArrayList<>());// TenderLine Object
         posTransactionEntity.setTerminal(getMvpView().getTransactionModule().getTerminalID());// teinal id
         posTransactionEntity.setTimewhenTransClosed(0);
         posTransactionEntity.setTotalDiscAmount(0);
@@ -689,12 +737,13 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         return posTransactionEntity;
     }
 
-    private ArrayList<GenerateTenderLineReq.SalesLineEntity> salesLineEntities() {
-        ArrayList<GenerateTenderLineReq.SalesLineEntity> salesLineEntities = new ArrayList<>();
+    private ArrayList<SalesLineEntity> salesLineEntities() {
+        ArrayList<SalesLineEntity> salesLineEntities = new ArrayList<>();
         ArrayList<GetItemDetailsRes.Items> itemsArrayList = getMvpView().getSelectedProducts();
-        for (GetItemDetailsRes.Items items : itemsArrayList) {
+        for (int i=0; i< itemsArrayList.size(); i++) {
+            GetItemDetailsRes.Items items = itemsArrayList.get(i);
             if(!items.isItemDelete()) {
-                GenerateTenderLineReq.SalesLineEntity salesLineEntity = new GenerateTenderLineReq.SalesLineEntity();
+                SalesLineEntity salesLineEntity = new SalesLineEntity();
                 salesLineEntity.setAdditionaltax(0);
                 salesLineEntity.setApplyDiscount(false);
                 salesLineEntity.setBarcode("");
@@ -729,7 +778,7 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
                 salesLineEntity.setLinedscAmount(0);
                 salesLineEntity.setLineManualDiscountAmount(0);
                 salesLineEntity.setLineManualDiscountPercentage(0);
-                salesLineEntity.setLineNo(1);
+                salesLineEntity.setLineNo(i);
                 salesLineEntity.setManufacturerCode(items.getManufactureCode());
                 salesLineEntity.setManufacturerName(items.getManufacture());
                 salesLineEntity.setMixMode(false);
@@ -786,8 +835,8 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         return salesLineEntities;
     }
 
-    private GenerateTenderLineReq.Wallet wallet (){
-        GenerateTenderLineReq.Wallet wallet = new GenerateTenderLineReq.Wallet();
+    private Wallet  wallet(double amount){
+        Wallet wallet = new Wallet();
         wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
         wallet.setOTP(getMvpView().getOneApolloOtp());
         wallet.setOTPTransactionId("");
@@ -798,19 +847,19 @@ private ArrayList<GenerateTenderLineRes.TenderLineEntity> tenderLineEntities = n
         wallet.setResponse("");
         wallet.setReturnMessage("");
         wallet.setRewardsPoint(0);
-        wallet.setWalletAmount(0);
+        wallet.setWalletAmount(amount);
         wallet.setWalletOrderID("");
         wallet.setWalletRefundId("");
         wallet.setWalletRequestType(0);
-        wallet.setWalletTransactionID(getMvpView().getValidateOneApolloPoints().getRRNO());
-        wallet.setWalletType(0);
+        if(getMvpView().getValidateOneApolloPoints() != null && getMvpView().getValidateOneApolloPoints().getRRNO() != null)
+            wallet.setWalletTransactionID(getMvpView().getValidateOneApolloPoints().getRRNO());
+        else
+            wallet.setWalletTransactionID("");
+        wallet.setWalletType(9);
         wallet.setWalletURL("");
         return wallet;
     }
 
-    private ArrayList<GenerateTenderLineRes.TenderLineEntity> getTenderLine(){
-        return tenderLineEntities;
-    }
 
     private ManualDiscCheckReq getManualDiscCheckReq(){
         ManualDiscCheckReq manualDiscCheckReq = new ManualDiscCheckReq();

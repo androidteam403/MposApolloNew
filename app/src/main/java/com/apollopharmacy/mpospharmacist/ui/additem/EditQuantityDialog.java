@@ -44,8 +44,10 @@ public class EditQuantityDialog {
             if(editItem.getBatchListObj().getEnterReqQuantity() < getEnteredQuantity()){
                 editQuantityDialogBinding.editQuantityEditText.setError("Please Enter Valid Quantity");
                 return false;
+            }else {
+                editItem.getBatchListObj().setEnterReqQuantity(getEnteredQuantity());
+                return true;
             }
-            return true;
         }else{
             editQuantityDialogBinding.editQuantityEditText.setError("Please Enter Quantity");
             return false;

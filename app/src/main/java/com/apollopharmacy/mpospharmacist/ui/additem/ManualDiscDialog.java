@@ -4,17 +4,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.databinding.ExitInfoDialogBinding;
 import com.apollopharmacy.mpospharmacist.databinding.MaunalDiscDialogBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.CategoryDiscAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.payadapter.PayActivityAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,7 @@ public class ManualDiscDialog {
     public ManualDiscDialog(Context context) {
         this.context = context;
         dialog = new Dialog(context);
+        dialog.setCanceledOnTouchOutside(false);
         maunalDiscDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.maunal_disc_dialog, null, false);
         dialog.setContentView(maunalDiscDialogBinding.getRoot());
         if (dialog.getWindow() != null)
@@ -102,7 +102,33 @@ public class ManualDiscDialog {
             maunalDiscDialogBinding.dialogGenerateBtn.setVisibility(View.GONE);
         }
     }
+    private String OTP;
+    public void visibleValidateOtp(String otp){
+        if(!TextUtils.isEmpty(otp)){
+            OTP = otp;
+            maunalDiscDialogBinding.additionalDiscOtpEditText.setVisibility(View.VISIBLE);
+            maunalDiscDialogBinding.dialogGenerateBtn.setVisibility(View.GONE);
+            maunalDiscDialogBinding.dialogApplyDisc.setVisibility(View.GONE);
+            maunalDiscDialogBinding.dialogValidateBtn.setVisibility(View.VISIBLE);
+        }else{
+            maunalDiscDialogBinding.additionalDiscOtpEditText.setVisibility(View.GONE);
+            maunalDiscDialogBinding.dialogApplyDisc.setVisibility(View.GONE);
+            maunalDiscDialogBinding.dialogValidateBtn.setVisibility(View.GONE);
+            maunalDiscDialogBinding.dialogGenerateBtn.setVisibility(View.VISIBLE);
+        }
+    }
 
+    public boolean isValidateOTP(){
+        if(OTP.equalsIgnoreCase(getOTPFieldData())){
+            return true;
+        }else{
+            maunalDiscDialogBinding.additionalDiscOtpEditText.setError("Enter Valid OTP");
+            return false;
+        }
+    }
+    private String getOTPFieldData(){
+        return maunalDiscDialogBinding.additionalDiscOtpEditText.getText().toString();
+    }
     public void setApplyDiscListener(View.OnClickListener okListener) {
         maunalDiscDialogBinding.dialogApplyDisc.setOnClickListener(okListener);
     }

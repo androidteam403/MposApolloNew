@@ -85,21 +85,13 @@
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
-        <activity
-            android:name=".ui.pay.PayActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
 
-        </activity>
         <activity
             android:name=".ui.searchproductlistactivity.ProductListActivity"
             android:windowSoftInputMode="stateAlwaysVisible">
 
         </activity>
-        <activity
-            android:name=".ui.medicinedetailsactivity.MedicinesDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
 
-        </activity>
         <activity
             android:name=".ui.orderreturnactivity.OrderReturnActivity"
             android:windowSoftInputMode="stateAlwaysHidden">

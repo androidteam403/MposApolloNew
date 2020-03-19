@@ -2,13 +2,12 @@ package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpReq;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.OneApolloSendOtpRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
@@ -23,9 +22,9 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineReq;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.pay.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
@@ -50,7 +49,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface ApiInterface {
 
@@ -94,10 +93,10 @@ public interface ApiInterface {
     Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL (@Body GetBatchInfoReq getBatchInfoReq);
 
     @POST("SalesTransactionService.svc/GenerateTenderLine/{totalAmount}")
-    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") String amount,@Body GenerateTenderLineReq tenderLineReq);
+    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") double amount,@Body GenerateTenderLineReq tenderLineReq);
 
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
-    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body GenerateTenderLineReq.POSTransactionEntity tenderLineReq);
+    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes tenderLineReq);
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{DataAreaId}")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
@@ -109,7 +108,7 @@ public interface ApiInterface {
     Call<AddCustomerResModel> ADD_CUSTOMER_SERVICE(@Body AddCustomerReqModel addCustomerReqModel);
 
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
-    Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body GenerateTenderLineReq.POSTransactionEntity posTransactionReq);
+    Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body POSTransactionEntity posTransactionReq);
 
     @POST("WalletService.svc/OneApolloAPITransaction")
     Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);
@@ -128,4 +127,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/ApplyMannualDiscount")
     Call<ManualDiscCheckRes> MANUAL_DISC_CHECK_RES_CALL (@Body ManualDiscCheckReq manualDiscCheckReq);
+
+    @POST
+    Call<OTPRes> GENERATE_OTP_RES_CALL (@Url String url);
 }

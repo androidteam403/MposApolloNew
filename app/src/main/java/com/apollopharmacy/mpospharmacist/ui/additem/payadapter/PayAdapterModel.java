@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacist.ui.pay.payadapter;
+package com.apollopharmacy.mpospharmacist.ui.additem.payadapter;
 
 public class PayAdapterModel {
     private String amount;

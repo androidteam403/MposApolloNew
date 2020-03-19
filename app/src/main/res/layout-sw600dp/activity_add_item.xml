@@ -1,16 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpPresenter" />
+
+        <variable
+            name="call"
+            type="com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView" />
+
+        <variable
+            name="customer"
+            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+
+        <variable
+            name="doctor"
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+
+        <variable
+            name="transaction"
+            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+
+        <variable
+            name="product_count"
+            type="Integer" />
+
+        <variable
+            name="order_info"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel" />
+
+        <variable
+            name="isPaymentMode"
+            type="Boolean" />
+
+        <variable
+            name="paymentMode"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
+
+        <variable
+            name="validatePoints"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel.OneApolloProcessResultEntity" />
+
+        <variable
+            name="corporate"
+            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
     </data>
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/search_customer_bg">
+
+        <!--        <androidx.core.widget.NestedScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,41 +76,911 @@
                     android:layout_width="@dimen/fifty_dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_gravity="center_vertical"
+                    android:alpha="0.8"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBackPressed()}"
                     android:paddingStart="@dimen/ten_dp"
                     android:paddingEnd="@dimen/ten_dp"
-                    android:alpha="0.8"
-                    android:src="@drawable/ic_back_arrow"
-                    android:onClick="@{()-> callback.onClickBackPressed()}"/>
+                    android:src="@drawable/ic_back_arrow" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/five_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Add Item"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
+                    android:textSize="@dimen/text_dimen_18"
+                    app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
+                    app:span_color="@{@color/white}"
+                    app:span_font="@{`robotoRegular`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{transaction.transactionID}" />
             </LinearLayout>
 
-            <include layout="@layout/view_customer_doctor_info"/>
+            <include
+                android:id="@+id/details_layout"
+                layout="@layout/view_customer_doctor_info"
+                app:call="@{call}"
+                app:corporate="@{corporate}"
+                app:customer="@{customer}"
+                app:doctor="@{doctor}" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/product_list_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:visibility="@{isPaymentMode ? View.GONE : View.VISIBLE}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/light_grey"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/fifteen_dp"
+                        android:visibility="@{ product_count == 0 ? View.GONE : View.VISIBLE}">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="@dimen/fifteen_dp"
+                            android:paddingEnd="@dimen/fifteen_dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/label_add_medicines"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_15" />
+
+                            <ImageView
+                                android:layout_width="@dimen/thirty_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_marginStart="@dimen/five_dp"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()->callback.onManualSearchClick()}"
+                                android:src="@drawable/ic_search_product" />
+
+                            <ImageView
+                                android:layout_width="@dimen/thirty_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_marginEnd="@dimen/ten_dp"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()->callback.onVoiceSearchClick()}"
+                                android:src="@drawable/ic_voice_search" />
+
+                            <ImageView
+                                android:layout_width="@dimen/thirty_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()->callback.onBarCodeSearchClick()}"
+                                android:src="@drawable/ic_barcode" />
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/five_dp"
+                                    android:layout_toStartOf="@+id/clear_all_img"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="@string/label_clear_all_txt"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_15" />
+
+                                <ImageView
+                                    android:id="@+id/clear_all_img"
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:contentDescription="@string/app_name"
+                                    android:onClick="@{()-> callback.onClickClearAllBtn()}"
+                                    android:src="@drawable/ic_clear_all" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/twenty_dp"
+                            android:layout_marginBottom="@dimen/three_dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_weight="1.2"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@{@string/label_product_item_count(product_count)}"
+                                android:textColor="@color/add_item_header"
+                                android:textSize="@dimen/text_dimen_13" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.26"
+                                android:fontFamily="@font/roboto_regular"
+                                android:gravity="center"
+                                android:text="MRP(₹)"
+                                android:textColor="@color/add_item_header"
+                                android:textSize="@dimen/text_dimen_10" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.24"
+                                android:fontFamily="@font/roboto_regular"
+                                android:gravity="center"
+                                android:text="QTY"
+                                android:textColor="@color/add_item_header"
+                                android:textSize="@dimen/text_dimen_10" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:fontFamily="@font/roboto_regular"
+                                android:gravity="center"
+                                android:text="TOTAL(₹)"
+                                android:textColor="@color/add_item_header"
+                                android:textSize="@dimen/text_dimen_10" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{ product_count == 0 ? View.GONE : View.VISIBLE}">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/medicineRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/eighty_dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/payment_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:visibility="@{isPaymentMode ? View.VISIBLE : View.GONE}">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@color/white"
+                        android:padding="@dimen/five_dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/ten_dp"
+                            android:layout_marginEnd="@dimen/ten_dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@{@string/label_product_item_count(product_count)}"
+                            android:textAllCaps="true" />
+
+                        <ImageView
+                            android:layout_width="@dimen/twenty_dp"
+                            android:layout_height="@dimen/eighteen_dp"
+                            android:layout_alignParentEnd="true"
+                            android:contentDescription="@string/app_name"
+                            android:onClick="@{()-> callback.onClickEditItemsList()}"
+                            android:src="@drawable/ic_edit_view" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sixty_dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="250dp"
+                            android:layout_height="80dp"
+                            android:background="@color/white"
+                            android:orientation="vertical"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_disc_type(order_info.discType)}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/ten_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.DiscTotalAmount))}"
+                                    android:textSize="@dimen/text_dimen_9" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/fifteen_dp"
+                                android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
+                                android:textColor="@color/payment_amount_text"
+                                android:textSize="@dimen/text_dimen_16"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.OrderSavingsAmount)) + `(`+order_info.OrderSavingsPercentage+`%)`}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_9" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/seven_dp"
+                        android:background="@color/white"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/ten_dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Additional Discount : "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:background="@drawable/bg_apply_btn"
+                            android:paddingStart="@dimen/ten_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingEnd="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:text="Apply"
+                            android:textColor="@color/white"
+                            android:onClick="@{()-> callback.onClickManualDisc()}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@color/colorPrimary"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/ten_dp"
+                        android:visibility="@{paymentMode.isAdditionalDisc ? View.VISIBLE : View.GONE}"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="amount payable: "
+                                android:textAllCaps="true"
+                                android:textColor="@color/white" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Additional Discount: 10:00(5%) "
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_10" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="119.70"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/pay_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingEnd="@dimen/ten_dp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@color/red"
+                        android:padding="@dimen/seven_dp"
+                        android:visibility="@{paymentMode.isBalanceAmount ? View.VISIBLE : View.GONE}">
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="@dimen/fifteen_dp"
+                            android:layout_height="@dimen/fifteen_dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/fifteen_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_alert_error" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/fifteen_dp"
+                            android:layout_toEndOf="@id/image"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Balance amount: "
+                            android:textAllCaps="true"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/three_dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@{String.valueOf(String.format(`%.2f`,paymentMode.balanceAmount))}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_15" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{paymentMode.paymentDone ? View.GONE : View.VISIBLE}">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/twenty_dp"
+                            android:layout_marginBottom="@dimen/five_dp"
+                            android:text="payment method"
+                            android:textAllCaps="true"
+                            android:textColor="@color/payment_type_header" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@{paymentMode.isCashMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                android:onClick="@{()-> callback.onClickCashPayment()}"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_cash_black"
+                                    android:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Cash"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_dimen_13" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/eight_dp"
+                                android:layout_marginEnd="@dimen/eight_dp"
+                                android:background="@{paymentMode.isCardMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                android:onClick="@{()-> callback.onClickCardPayment()}"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_card_black"
+                                    android:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Card"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_dimen_13" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/eight_dp"
+                                android:background="@{paymentMode.isOneApolloMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                android:onClick="@{()-> callback.onClickOneApolloPayment()}"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_wallet_black"
+                                    android:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Wallet"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_dimen_13" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/eight_dp"
+                                android:background="@drawable/bg_payment_pending"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_other_black"
+                                    android:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Other"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_dimen_13" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/ten_dp"
+                            android:background="@color/white"
+                            android:gravity="center_horizontal"
+                            android:padding="@dimen/ten_dp"
+                            android:visibility="@{paymentMode.isCashMode ? View.VISIBLE : View.GONE }">
+
+                            <TextView
+                                android:id="@+id/cash_payment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/ten_dp"
+                                android:text="cash payment: "
+                                android:textAllCaps="true"
+                                android:textColor="@color/add_item_header" />
+
+                            <EditText
+                                android:id="@+id/cash_payment_amount_edit"
+                                android:layout_width="@dimen/one_hundred_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cash_payment"
+                                android:background="@drawable/rounded_corners_white"
+                                android:fontFamily="@font/roboto_light"
+                                android:gravity="center_vertical"
+                                android:inputType="number"
+                                android:padding="@dimen/ten_dp"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:layout_toEndOf="@+id/cash_payment_amount_edit"
+                                android:background="@drawable/bg_apply_btn"
+                                android:fontFamily="@font/roboto_regular"
+                                android:onClick="@{()-> callback.onClickCashPaymentPay()}"
+                                android:paddingStart="@dimen/ten_dp"
+                                android:paddingTop="@dimen/five_dp"
+                                android:paddingEnd="@dimen/ten_dp"
+                                android:paddingBottom="@dimen/five_dp"
+                                android:text="Update"
+                                android:textColor="@color/white" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/ten_dp"
+                            android:background="@color/white"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/ten_dp"
+                            android:visibility="@{paymentMode.isCardMode ? View.VISIBLE : View.GONE }">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/ten_dp"
+                                android:gravity="center_vertical"
+                                android:text="card payment: "
+                                android:textAllCaps="true"
+                                android:textColor="@color/add_item_header" />
+
+                            <EditText
+                                android:id="@+id/card_payment_amount_edit_text"
+                                android:layout_width="@dimen/one_hundred_dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rounded_corners_white"
+                                android:fontFamily="@font/roboto_light"
+                                android:gravity="center_vertical"
+                                android:inputType="number"
+                                android:padding="@dimen/ten_dp"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/ten_dp"
+                                android:background="@drawable/bg_apply_btn"
+                                android:fontFamily="@font/roboto_regular"
+                                android:onClick="@{()-> callback.onClickCardPaymentPay()}"
+                                android:paddingStart="@dimen/ten_dp"
+                                android:paddingTop="@dimen/five_dp"
+                                android:paddingEnd="@dimen/ten_dp"
+                                android:paddingBottom="@dimen/five_dp"
+                                android:text="Pay"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/ten_dp"
+                            android:background="@color/white"
+                            android:orientation="vertical"
+                            android:padding="@dimen/ten_dp"
+                            android:visibility="@{paymentMode.isOneApolloMode ? View.VISIBLE : View.GONE }">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/label_one_apollo_points"
+                                android:textAllCaps="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_13" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/sixty_five_dp"
+                                android:layout_marginTop="@dimen/ten_dp">
+
+                                <ImageView
+                                    android:id="@+id/one_apollo_img"
+                                    android:layout_width="@dimen/fifty_five_dp"
+                                    android:layout_height="@dimen/forty_dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/ten_dp"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/icon_one_apollo" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@+id/one_apollo_img"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="@string/label_total_apollo_points"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_dimen_13" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:text="@string/label_having_in_account"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_dimen_9" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="@{validatePoints.availablePoints}"
+                                        android:textColor="@color/theme_end_color"
+                                        android:textSize="@dimen/text_dimen_16" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/one_dp"
+                                android:layout_marginTop="@dimen/fifteen_dp"
+                                android:background="@color/medicine_divider_color" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:background="@color/white"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/ten_dp"
+                                android:visibility="@{paymentMode.isOTPView ? View.GONE : View.VISIBLE}">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="@dimen/ten_dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Points: "
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/add_item_header" />
+
+                                <EditText
+                                    android:id="@+id/one_apollo_amount_edit_text"
+                                    android:layout_width="@dimen/one_hundred_dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rounded_corners_white"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center_vertical"
+                                    android:inputType="number"
+                                    android:padding="@dimen/ten_dp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:background="@drawable/bg_apply_btn"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
+                                    android:paddingStart="@dimen/ten_dp"
+                                    android:paddingTop="@dimen/five_dp"
+                                    android:paddingEnd="@dimen/ten_dp"
+                                    android:paddingBottom="@dimen/five_dp"
+                                    android:text="Redeem"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:background="@color/white"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical"
+                                android:padding="@dimen/ten_dp"
+                                android:visibility="@{paymentMode.isOTPView ? View.VISIBLE : View.GONE}">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/ten_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="OTP"
+                                    android:textColor="@color/black" />
+
+                                <com.mukesh.OtpView
+                                    android:id="@+id/otp_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:textColor="@color/black"
+                                    app:cursorColor="@color/colorPrimary"
+                                    app:hideLineWhenFilled="false"
+                                    app:itemCount="6"
+                                    app:itemSpacing="@dimen/ten_dp"
+                                    app:itemWidth="40dp"
+                                    app:lineColor="@color/colorPrimary"
+                                    app:maskingChar="*"
+                                    app:state_filled="true"
+                                    app:viewType="line" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="@dimen/twenty_dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="@dimen/ten_dp"
+                                        android:background="@drawable/bg_apply_btn"
+                                        android:backgroundTint="@color/apollo_btn_color"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:onClick="@{()-> callback.onClickOTPVerify()}"
+                                        android:paddingStart="@dimen/ten_dp"
+                                        android:paddingTop="@dimen/five_dp"
+                                        android:paddingEnd="@dimen/ten_dp"
+                                        android:paddingBottom="@dimen/five_dp"
+                                        android:text="Verify"
+                                        android:textColor="@color/black" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginTop="@dimen/ten_dp"
+                                        android:fontFamily="@font/roboto_bold"
+                                        android:onClick="@{()-> callback.onClickReSendOTP()}"
+                                        android:text="Resend OTP"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/text_dimen_14" />
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
+        <!--        </androidx.core.widget.NestedScrollView>-->
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_add_items"
                 android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_dimen_16"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="@dimen/text_dimen_16" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -72,25 +991,168 @@
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
-                    android:onClick="@{()->callback.onManualSearchClick()}"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_search_product"/>
+                    android:onClick="@{()->callback.onManualSearchClick()}"
+                    android:src="@drawable/ic_search_product" />
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_marginEnd="@dimen/ten_dp"
-                    android:onClick="@{()->callback.onVoiceSearchClick()}"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_voice_search"/>
+                    android:onClick="@{()->callback.onVoiceSearchClick()}"
+                    android:src="@drawable/ic_voice_search" />
 
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()->callback.onBarCodeSearchClick()}"
-                    android:src="@drawable/ic_barcode"/>
+                    android:src="@drawable/ic_barcode" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:visibility="@{isPaymentMode || product_count == 0 ? View.GONE : View.VISIBLE}"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_disc_type(order_info.discType)}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.DiscTotalAmount))}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_9" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:background="@color/pay_btn_color"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onPayButtonClick()}"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.OrderSavingsAmount)) + `(`+order_info.OrderSavingsPercentage+`%)`}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="PAY"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_20" />
             </LinearLayout>
         </LinearLayout>
 
@@ -98,11 +1160,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_alignParentBottom="true"
-            android:alpha="0.3"
+            android:animateLayoutChanges="true"
             android:background="@color/cpb_yellow"
-            android:text="@string/label_continue"
+            android:onClick="@{()-> callback.onClickGenerateBill()}"
+            android:text="@string/label_generate_bill"
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>
