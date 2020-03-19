@@ -59,7 +59,7 @@ public class ValidatePointsResModel {
         private String DiscountPercentage;
         @Expose
         @SerializedName("DiscountAmount")
-        private String DiscountAmount;
+        private double DiscountAmount;
         @Expose
         @SerializedName("AvailablePoints")
         private String AvailablePoints;
@@ -107,7 +107,7 @@ public class ValidatePointsResModel {
             return DiscountPercentage;
         }
 
-        public String getDiscountAmount() {
+        public double getDiscountAmount() {
             return DiscountAmount;
         }
 

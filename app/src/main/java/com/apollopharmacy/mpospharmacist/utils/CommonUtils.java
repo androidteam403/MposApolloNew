@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,5 +100,18 @@ public class CommonUtils {
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public static char[] generatorOTP(int length)
+    {
+        System.out.print("Your OTP is : ");
+        //Creating object of Random class
+        Random obj = new Random();
+        char[] otp = new char[length];
+        for (int i=0; i<length; i++)
+        {
+            otp[i]= (char)(obj.nextInt(10)+48);
+        }
+        return otp;
     }
 }

@@ -54,9 +54,6 @@ import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingP
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersPresenter;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsMvpView;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -66,9 +63,6 @@ import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrederReturnMvpV
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpView;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryPresenter;
-import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.pay.PayMvpView;
-import com.apollopharmacy.mpospharmacist.ui.pay.PayPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginPresenter;
@@ -262,18 +256,6 @@ public class ActivityModule {
     @Provides
     @PerActivity
     BatchInfoMvpPresenter<BatchInfoMvpView> provideBatchInfoActivity(BatchInfoPresenter<BatchInfoMvpView> presenter) {
-        return presenter;
-    }
-
-    @Provides
-    @PerActivity
-    PayMvpPresenter<PayMvpView> providePayActivity(PayPresenter<PayMvpView> presenter) {
-        return presenter;
-    }
-
-    @Provides
-    @PerActivity
-    MedicineDetailsMvpPresenter<MedicineDetailsMvpView> provideMedicinesListActivity(MedicineDetailsPresenter<MedicineDetailsMvpView> presenter) {
         return presenter;
     }
 

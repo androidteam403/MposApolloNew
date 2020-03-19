@@ -25,7 +25,6 @@ import com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter.BatchInfoAdapter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.BatchInfoAdapterPojo;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
-import com.apollopharmacy.mpospharmacist.ui.medicinedetailsactivity.MedicinesDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;

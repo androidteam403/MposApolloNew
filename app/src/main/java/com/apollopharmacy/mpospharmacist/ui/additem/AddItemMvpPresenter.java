@@ -1,6 +1,11 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
+
+import java.util.ArrayList;
 
 public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresenter<V> {
 
@@ -42,9 +47,21 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickReSendOTP();
 
-    void onSuccessCardPayment(String response);
+    void onSuccessCardPayment(double amount);
 
     void onClickGenerateBill();
 
     void getTenderTypeApi();
+
+    void onClickManualDisc();
+
+    void toApplyManualDisc(ManualDiscCheckRes body, ArrayList<ManualDiscCheckRes.DisplayList> displayListArrayList, String fixedDiscountCode);
+
+    void generateOTP();
+
+    void validateOTP();
+
+
+
+    void generateTenterLineService(double amount);
 }

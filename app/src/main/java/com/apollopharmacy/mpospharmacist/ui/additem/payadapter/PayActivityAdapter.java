@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacist.ui.pay.payadapter;
+package com.apollopharmacy.mpospharmacist.ui.additem.payadapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
