@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacist.ui.splash;
 
 import android.os.Handler;
 
+import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
@@ -52,7 +53,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
 
     public void getTenderTypeApi() {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+         //   getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
 
             Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
@@ -60,7 +61,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                 @Override
                 public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+               //         getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
                             getMvpView().openMainActivity();
@@ -75,7 +76,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                 @Override
                 public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
-                    getMvpView().hideLoading();
+                    getMvpView().showMessage(R.string.some_error);
                 }
             });
         } else {

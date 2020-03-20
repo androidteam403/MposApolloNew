@@ -96,6 +96,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity);
 
+    void isManualDisc(boolean isManualDisc);
+
     void onItemDeleted();
 
     void onItemAdded();

@@ -45,7 +45,6 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     BatchInfoAdapter batchInfoAdapter;
     BatchInfoListAdapterBinding batchInfoListAdapterBinding;
     private ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList = new ArrayList<>();
-    private int count = 1;
     private boolean isSelectedBatch = false;
     private GetItemDetailsRes.Items selectedItem;
     private double selectedBatchQOH ;
@@ -99,11 +98,12 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                    if(!TextUtils.isEmpty(s)){
-                        quantityBaseBatchSelect();
-                    }
-
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
+                    editable.delete(0,1);
+                }else if(!TextUtils.isEmpty(editable)){
+                    quantityBaseBatchSelect();
+                }
 
             }
         });
@@ -111,20 +111,30 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     @Override
     public void onIncrementClick() {
-        count++;
-        String string = Integer.toString(count);
-        batchInfoBinding.inputQty.setText(string);
+        if(!TextUtils.isEmpty(getRequiredQuantity())) {
+            int quantity = Integer.parseInt(getRequiredQuantity());
+            quantity++;
+            String string = Integer.toString(quantity);
+            batchInfoBinding.inputQty.setText(string);
+        }else{
+            batchInfoBinding.inputQty.setText("1");
+        }
     }
 
     @Override
     public void onDecrementClick() {
-        if (count == 1) {
-            String string = Integer.toString(count);
-            batchInfoBinding.inputQty.setText(string);
-        } else {
-            count--;
-            String string = Integer.toString(count);
-            batchInfoBinding.inputQty.setText(string);
+        if(!TextUtils.isEmpty(getRequiredQuantity())) {
+            int quantity = Integer.parseInt(getRequiredQuantity());
+            if (quantity == 1) {
+                String string = Integer.toString(quantity);
+                batchInfoBinding.inputQty.setText(string);
+            } else {
+                quantity--;
+                String string = Integer.toString(quantity);
+                batchInfoBinding.inputQty.setText(string);
+            }
+        }else{
+            batchInfoBinding.inputQty.setText("1");
         }
     }
 
@@ -148,6 +158,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     @Override
     public void onSuccessBatchInfo(GetBatchInfoRes body) {
         if(body.getBatchList().size() > 0) {
+            batchInfoBinding.bathNotFoundText.setVisibility(View.GONE);
             arrBatchList.addAll(body.getBatchList());
             Collections.sort(arrBatchList, new Comparator<GetBatchInfoRes.BatchListObj>() {
                 @Override
@@ -159,6 +170,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             });
             isSelectedBatch = true;
             selectBatch();
+        }else{
+            batchInfoBinding.bathNotFoundText.setVisibility(View.VISIBLE);
         }
     }
 
