@@ -236,13 +236,25 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/batch_info_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/batch_list_footer"
             android:layout_below="@+id/batch_details"
             android:layout_gravity="center_horizontal"
             android:background="@color/white"
-            android:paddingTop="@dimen/five_dp"/>
+            android:paddingTop="@dimen/five_dp" />
 
         <TextView
+            android:id="@+id/bath_not_found_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Batches Found !"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/batch_list_footer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_alignParentBottom="true"

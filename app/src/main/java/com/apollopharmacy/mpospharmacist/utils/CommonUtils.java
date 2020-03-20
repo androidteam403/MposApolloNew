@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -45,6 +47,9 @@ public class CommonUtils {
         return progressDialog;
     }
 
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
 
     public static boolean nameVallidate(String name) {
         String pattern = "^[A-Za-z]*$";

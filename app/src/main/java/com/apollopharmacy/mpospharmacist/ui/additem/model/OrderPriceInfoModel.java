@@ -13,6 +13,15 @@ public class OrderPriceInfoModel {
     public double OrderTotalAmount;
     public double OrderSavingsAmount;
     public double OrderSavingsPercentage;
+    public double taxAmount;
+
+    public double getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(double taxAmount) {
+        this.taxAmount = taxAmount;
+    }
 
     public String getDiscType() {
         return DiscType;

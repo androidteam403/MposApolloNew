@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -283,7 +284,11 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     @Override
     public String getDOB() {
-        return requiredDOBFormat;
+        if(TextUtils.isEmpty(requiredDOBFormat)){
+            return CommonUtils.getCurrentDate("dd-MMM-yyyy");
+        }else {
+            return requiredDOBFormat;
+        }
     }
 
     @Override
@@ -351,33 +356,48 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         String firstName = Objects.requireNonNull(addCustomerBinding.firstName.getText()).toString();
         String mobile = Objects.requireNonNull(addCustomerBinding.mobile.getText()).toString();
         String cardNumber = Objects.requireNonNull(addCustomerBinding.cardNumber.getText()).toString();
-        String dob = Objects.requireNonNull(addCustomerBinding.dateOfBirth.getText()).toString();
+        String email = Objects.requireNonNull(addCustomerBinding.email.getText()).toString();
+        String zipCode = Objects.requireNonNull(addCustomerBinding.zipCode.getText()).toString();
 
         if (firstName.isEmpty()) {
             addCustomerBinding.firstName.setError("First Name should not be empty");
             addCustomerBinding.firstName.requestFocus();
             return false;
-        } else if (!CommonUtils.nameVallidate(firstName)) {
-            addCustomerBinding.firstName.setError("Invalid First Name");
-            addCustomerBinding.firstName.requestFocus();
-            return false;
-        } else if (dob.isEmpty()) {
-            addCustomerBinding.dateOfBirth.setError("Select any Date");
-            addCustomerBinding.dateOfBirth.requestFocus();
-            return false;
-        } else if (mobile.isEmpty()) {
-            addCustomerBinding.mobile.setError("Mobile Number should not be empty");
-            addCustomerBinding.mobile.requestFocus();
-            return false;
-        } else if (!CommonUtils.mobileValidate(mobile)) {
-            addCustomerBinding.mobile.setError("Invalid Mobile Number");
-            addCustomerBinding.mobile.requestFocus();
-            return false;
-        } else if (cardNumber.isEmpty()) {
+        }
+//        else if (!CommonUtils.nameVallidate(firstName)) {
+//            addCustomerBinding.firstName.setError("Invalid First Name");
+//            addCustomerBinding.firstName.requestFocus();
+//            return false;
+//        }
+        else if (cardNumber.isEmpty()) {
             addCustomerBinding.cardNumber.setError("Card Number should not be empty");
             addCustomerBinding.cardNumber.requestFocus();
             return false;
+        } else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
+            addCustomerBinding.email.setError("Enter Valid Email");
+            addCustomerBinding.email.requestFocus();
+            return false;
         }
+        else if (mobile.isEmpty()) {
+            addCustomerBinding.mobile.setError("Mobile Number should not be empty");
+            addCustomerBinding.mobile.requestFocus();
+            return false;
+        }
+//        else if (dob.isEmpty()) {
+//            addCustomerBinding.dateOfBirth.setError("Select any Date");
+//            addCustomerBinding.dateOfBirth.requestFocus();
+//            return false;
+//        }
+        else if (!CommonUtils.mobileValidate(mobile)) {
+            addCustomerBinding.mobile.setError("Invalid Mobile Number");
+            addCustomerBinding.mobile.requestFocus();
+            return false;
+        }else if(!zipCode.isEmpty() && zipCode.length() < 6){
+            addCustomerBinding.zipCode.setError("Enter Valid ZipCode");
+            addCustomerBinding.zipCode.requestFocus();
+            return false;
+        }
+
         return true;
     }
 }

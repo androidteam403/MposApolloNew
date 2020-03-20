@@ -35,7 +35,7 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:layout_toEndOf="@+id/icon_cash"
             android:fontFamily="@font/roboto_medium"
-            android:text="cash paid:"
+            android:text="@{model.paymentType}"
             android:textAllCaps="true"
             android:textColor="@color/black" />
 

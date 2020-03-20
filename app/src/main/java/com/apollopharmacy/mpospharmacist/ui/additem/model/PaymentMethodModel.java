@@ -17,6 +17,27 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean generateBill = false;
     private boolean isPaymentDone = false;
     private SaveRetailsTransactionRes saveRetailsTransactionRes;
+    private boolean isLoadApolloPoints = false;
+    private boolean isErrorApolloPoints = false;
+
+    @Bindable
+    public boolean isLoadApolloPoints() {
+        return isLoadApolloPoints;
+    }
+
+    public void setLoadApolloPoints(boolean loadApolloPoints) {
+        isLoadApolloPoints = loadApolloPoints;
+        notifyPropertyChanged(BR.loadApolloPoints);
+    }
+    @Bindable
+    public boolean isErrorApolloPoints() {
+        return isErrorApolloPoints;
+    }
+
+    public void setErrorApolloPoints(boolean errorApolloPoints) {
+        isErrorApolloPoints = errorApolloPoints;
+        notifyPropertyChanged(BR.errorApolloPoints);
+    }
 
     @Bindable
     public boolean isCashMode() {

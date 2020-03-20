@@ -54,7 +54,11 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
+                     editable.delete(0,1);
+                }else if(editable.toString().length() == 0){
+                    editable.append("0");
+                }
             }
         });
     }

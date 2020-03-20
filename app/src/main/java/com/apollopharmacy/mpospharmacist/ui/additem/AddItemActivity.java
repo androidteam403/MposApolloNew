@@ -277,7 +277,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        alertDialog();
+        if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
+            addItemBinding.setIsPaymentMode(false);
+        }else{
+            alertDialog();
+        }
+
     }
 
     @Override
@@ -491,6 +496,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setCashMode(false);
         paymentMethodModel.setCardMode(false);
         paymentMethodModel.setOneApolloMode(true);
+        paymentMethodModel.setLoadApolloPoints(true);
+        paymentMethodModel.setErrorApolloPoints(false);
         if (customerEntity != null && transactionIdModel != null)
             mPresenter.validateOneApolloPoints(customerEntity.getMobileNo(), transactionIdModel.getTransactionID());
     }
@@ -585,7 +592,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         orderPriceInfoModel.setOrderTotalAmount(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
         orderPriceInfoModel.setDiscTotalAmount(posTransactionRes.getDiscAmount());
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
-        orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getTotalManualDiscountPercentage());
+        orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
+        orderPriceInfoModel.setTaxAmount(posTransactionRes.getTotalTaxAmount());
         if (posTransactionRes.getSalesLine().size() > 0) {
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
@@ -599,12 +607,10 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
                 Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
-                if (!TextUtils.isEmpty(posTransactionRes.getSalesLine().get(i).getPreviewText())) {
-                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
-                }
+                Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
             }
         }
-
+        addItemBinding.setProductCount(getItemsCount());
         addItemBinding.setOrderInfo(orderPriceInfoModel);
     }
 
@@ -628,6 +634,11 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
+    public void isManualDisc(boolean isManualDisc) {
+        paymentMethodModel.setAdditionalDisc(isManualDisc);
+    }
+
+    @Override
     public void onItemDeleted() {
         mPresenter.calculatePosTransaction();
     }
@@ -635,6 +646,16 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     @Override
     public void onItemAdded() {
         mPresenter.calculatePosTransaction();
+    }
+
+    private int getItemsCount(){
+        int count = 0;
+        for(GetItemDetailsRes.Items items : Singletone.getInstance().itemsArrayList){
+            if(!items.isItemDelete()){
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -685,8 +706,12 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
         calculatePosTransactionRes = transactionRes;
+        addItemBinding.cashPaymentAmountEdit.setText("");
+        addItemBinding.cardPaymentAmountEditText.setText("");
+        addItemBinding.oneApolloAmountEditText.setText("");
         if(transactionRes.getTenderLine().size()>0){
             arrPayAdapterModel.clear();
+            paymentDoneAmount = 0.0;
             for(TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()){
                 paymentDoneAmount += tenderLineEntity.getAmountTendered();
                 if (paymentDoneAmount == orderTotalAmount()) {
@@ -772,11 +797,20 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public void onSuccessValidateOneApolloPoints(ValidatePointsResModel body) {
-        addItemBinding.setValidatePoints(body.getOneApolloProcessResult());
+        if(body.getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
+            paymentMethodModel.setLoadApolloPoints(false);
+            paymentMethodModel.setErrorApolloPoints(false);
+            addItemBinding.setValidatePoints(body.getOneApolloProcessResult());
+        }else{
+            paymentMethodModel.setLoadApolloPoints(false);
+            paymentMethodModel.setErrorApolloPoints(true);
+        }
     }
 
     @Override
     public void onFailedValidateOneApolloPoints(ValidatePointsResModel body) {
+        paymentMethodModel.setLoadApolloPoints(false);
+        paymentMethodModel.setErrorApolloPoints(true);
         showMessage("No Points are available to this number");
     }
 
@@ -829,7 +863,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                             }
 
                             medicinesDetailAdapter.notifyDataSetChanged();
-                            addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
+                          //  addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
 //                            // Insert into cart table
 //                            if (items != null) {
 //                                Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
@@ -1146,6 +1180,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     private void clearOrderData() {
         Singletone.getInstance().itemsArrayList.clear();
+        Singletone.getInstance().isPlaceNewOrder = true;
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.oneApolloAmountEditText.setText("");
