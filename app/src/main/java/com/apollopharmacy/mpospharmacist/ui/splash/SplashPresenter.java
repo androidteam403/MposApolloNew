@@ -37,16 +37,18 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
     }
 
     private void decideNextActivity() {
-        if (getDataManager().isAdminLoginFinish()) {
-            if (getDataManager().isAdminSetUpFinish())
-                if (getDataManager().isUserLogin())
-                    getTenderTypeApi();
+        if(getMvpView() != null) {
+            if (getDataManager().isAdminLoginFinish()) {
+                if (getDataManager().isAdminSetUpFinish())
+                    if (getDataManager().isUserLogin())
+                        getTenderTypeApi();
+                    else
+                        getMvpView().openLoginActivity();
                 else
-                    getMvpView().openLoginActivity();
-            else
-                getMvpView().storeSetupActivity();
-        } else {
-            getMvpView().openAdminSetupActivity();
+                    getMvpView().storeSetupActivity();
+            } else {
+                getMvpView().openAdminSetupActivity();
+            }
         }
     }
 

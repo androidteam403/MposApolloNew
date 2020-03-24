@@ -99,7 +99,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     protected void setUp() {
         activityStoreSetupBinding.setCallback(mPresenter);
-        mPresenter.getStoreList();
+
         deviceId = CommonUtils.getDeviceId(this);
 
         if (getIntent() != null) {
@@ -120,6 +120,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
             activityStoreSetupBinding.setStoremodel(storeSetupModel);
         }
         setUpGClient();
+        mPresenter.getStoreList();
     }
 
     @Override
