@@ -2,6 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+
         <variable
             name="batchInfo"
             type="com.apollopharmacy.mpospharmacist.ui.searchproduct.model.ProductBatchPojo" />
@@ -15,25 +16,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
             android:layout_marginStart="@dimen/five_dp"
+            android:weightSum="3"
             android:paddingTop="@dimen/five_dp"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:text="@{batchInfo.prodSno}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12" />
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.5"                   android:textSize="@dimen/text_dimen_12"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/text_dimen_12"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto_regular"
@@ -43,6 +47,7 @@
                 android:layout_weight="0.5"
                 android:textSize="@dimen/text_dimen_12"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto_regular"
@@ -67,7 +72,7 @@
                 android:text="@{batchInfo.prodTax}"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_dimen_12"
                 android:paddingBottom="@dimen/five_dp"

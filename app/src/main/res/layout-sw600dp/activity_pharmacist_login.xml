@@ -12,6 +12,9 @@
         <variable
             name="model"
             type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.PharmacistLoginModel" />
+        <variable
+            name="campaign"
+            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes.CampDetailsEntity" />
     </data>
 
     <RelativeLayout
@@ -47,7 +50,7 @@
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/selectUser"
-                style="@style/NewEditTextInputLayoutStyle"
+                style="@style/LoginEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
@@ -62,7 +65,7 @@
                 app:spinnerMode="bottomsheet" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/NewEditTextInputLayoutStyle"
+                style="@style/LoginEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
@@ -78,21 +81,18 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_password"
                     android:inputType="textPassword"
-                    android:singleLine="true"
-                    android:textSize="@dimen/text_dimen_15" />
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fifteen_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginEnd="@dimen/fifteen_dp"
-                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:layout_margin="@dimen/fifteen_dp"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/inStoreRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/radio_button_drawable"
@@ -106,6 +106,7 @@
                     android:textSize="@dimen/text_dimen_15" />
 
                 <RadioButton
+                    android:id="@+id/selectCampaignRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/twenty_five_dp"
@@ -135,9 +136,10 @@
             <LinearLayout
                 android:id="@+id/relativeInfo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/one_hundred_dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:padding="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
                 android:background="@color/thick_blue"
                 android:orientation="vertical"
@@ -155,7 +157,7 @@
                         android:layout_width="@dimen/one_hundred_dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_campaign_id"
+                        android:text="@string/label_campaign_name"
                         android:textColor="@color/colorPrimary" />
 
                     <TextView
@@ -163,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/campid"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_6255487"
+                        android:text="@{campaign.name}"
                         android:textColor="@color/white"
                         tools:ignore="RelativeOverlap" />
 
@@ -193,7 +195,7 @@
                         android:layout_marginTop="@dimen/seven_dp"
                         android:layout_toEndOf="@id/addres"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_opp_more_jubillehills_n_hyderabad"
+                        android:text="@{campaign.address}"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -213,7 +215,7 @@
                         android:layout_marginTop="@dimen/five_dp"
                         android:layout_toEndOf="@id/reqDate"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label__03_feb_2020_10_30"
+                        android:text="@{campaign.start_time}"
                         android:textColor="@color/white" />
                 </RelativeLayout>
             </LinearLayout>

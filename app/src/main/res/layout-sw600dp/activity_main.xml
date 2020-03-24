@@ -11,35 +11,32 @@
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        app:itemIconPadding="@dimen/ten_dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        app:itemIconTint="@color/white"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:theme="@style/NavigationTheme"
+        app:headerLayout="@layout/nav_header_main"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/activity_main_drawer">
 
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@color/colorPrimary"
-            android:fitsSystemWindows="true"
-            android:paddingTop="@dimen/fifteen_dp"
-            android:theme="@style/NavigationTheme"
-            app:headerLayout="@layout/nav_header_main"
-            app:itemIconPadding="@dimen/ten_dp"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
-            app:menu="@menu/activity_main_drawer">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_marginTop="550dp"
-                android:background="@color/cpb_yellow"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_18" />
-        </com.google.android.material.navigation.NavigationView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginTop="550dp"
+            android:background="@color/cpb_yellow"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="Logout"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dimen_18" />
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

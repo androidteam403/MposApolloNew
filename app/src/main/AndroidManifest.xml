@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.home.MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden">
 
@@ -23,6 +24,7 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,84 +35,102 @@
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
             android:theme="@style/CustomTheme"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.searchproduct.SearchProductActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.searchuser.SearchUserActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.additem.AddItemActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.batchonfo.BatchInfoActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".ui.searchproductlistactivity.ProductListActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".ui.orderreturnactivity.OrderReturnActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.scanner.ScannerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.ordersummary.OrderSummaryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".utils.MyFirebaseInstanceIDService">
             <intent-filter>

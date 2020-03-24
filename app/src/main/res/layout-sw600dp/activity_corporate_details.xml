@@ -9,6 +9,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/corporate_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/search_customer_bg"
@@ -59,7 +60,6 @@
                     android:id="@+id/corporate_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/one_hundred_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
                     android:hint="@string/label_corporate_number_id"
@@ -77,7 +77,8 @@
                 android:layout_marginEnd="@dimen/ten_dp"
                 android:layout_toStartOf="@+id/mike"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_search_product" />
+                android:src="@drawable/ic_search_product"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/mike"
@@ -87,7 +88,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_voice_search" />
+                android:src="@drawable/ic_voice_search"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <RelativeLayout

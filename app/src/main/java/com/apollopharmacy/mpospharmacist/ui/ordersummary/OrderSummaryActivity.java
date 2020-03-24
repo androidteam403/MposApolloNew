@@ -91,7 +91,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     private void onClickNewOrder() {
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = true;
-        Navigation.findNavController(orderSummaryBinding.placeNewOrderBtn).navigate(R.id.nav_billing);
+ //       Navigation.findNavController(orderSummaryBinding.placeNewOrderBtn).navigate(R.id.nav_billing);
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }

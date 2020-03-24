@@ -6,21 +6,27 @@
         <variable
             name="orderDetails"
             type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:baselineAligned="false"
+        android:onClick="@{() -> callback.onItemClick(orderDetails)}"
+        android:orientation="horizontal"
         android:padding="@dimen/five_dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,6 +34,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/label_order_id(orderDetails.transactionId)}"
                 android:textSize="@dimen/text_dimen_12" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,11 +43,13 @@
                 android:text="@{@string/label_order_date(orderDetails.transDate)}"
                 android:textSize="@dimen/text_dimen_12" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,11 +67,13 @@
                 android:textSize="@dimen/text_dimen_12" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,32 +81,32 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/label_order_number(orderDetails.customerID)}"
                 android:textSize="@dimen/text_dimen_12" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/label_order_recipet(orderDetails.reciptId)}"
-                android:textSize="@dimen/text_dimen_12"/>
+                android:textSize="@dimen/text_dimen_12" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="end|center_vertical"
             android:layout_weight="0.5"
-            android:layout_gravity="end|center_vertical">
+            android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/arrow_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
                 android:rotation="180"
-                android:src="@drawable/back_icon"
-                android:layout_gravity="end|center_vertical"/>
+                android:src="@drawable/back_icon" />
         </LinearLayout>
-
-
     </LinearLayout>
-
 </layout>

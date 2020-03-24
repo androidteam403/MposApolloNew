@@ -97,8 +97,10 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                 @Override
                 public void onResponse(@NotNull Call<StoreListResponseModel> call, @NotNull Response<StoreListResponseModel> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        getMvpView().setStoresList(response.body());
+                        if (getMvpView() != null) {
+                            getMvpView().hideLoading();
+                            getMvpView().setStoresList(response.body());
+                        }
                     }
                 }
 
