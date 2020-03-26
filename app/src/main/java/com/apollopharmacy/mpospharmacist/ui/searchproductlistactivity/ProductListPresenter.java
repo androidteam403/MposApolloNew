@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsReq;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +42,8 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
                 GetItemDetailsReq customerRequest = new GetItemDetailsReq();
                 customerRequest.setSearchString(getMvpView().getSearchProductKey());
                 customerRequest.setCorpCode(getMvpView().getCorporateValue().getCode());
-                customerRequest.setStoreID("16001");
+                customerRequest.setStoreID(getDataManager().getStoreId());
+                customerRequest.setStockCheck(!Singletone.getInstance().isManualBilling);
 
                 Call<GetItemDetailsRes> call = api.GET_ITEM_DETAILS_RES_CALL(customerRequest);
                 call.enqueue(new Callback<GetItemDetailsRes>() {
