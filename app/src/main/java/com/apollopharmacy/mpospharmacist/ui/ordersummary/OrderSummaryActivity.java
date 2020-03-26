@@ -4,19 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.navigation.Navigation;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityOrderSummaryBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
 import java.util.ArrayList;
@@ -50,6 +48,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     protected void setUp() {
+        orderSummaryBinding.setCallback(mPresenter);
         SaveRetailsTransactionRes transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
@@ -75,12 +74,12 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
         }
 
-        orderSummaryBinding.placeNewOrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickNewOrder();
-            }
-        });
+//        orderSummaryBinding.placeNewOrderBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onClickNewOrder();
+//            }
+//        });
     }
 
     @Override
@@ -88,16 +87,25 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         onClickNewOrder();
     }
 
+    @Override
+    public void onBackOrderPressed() {
+        onClickNewOrder();
+    }
+
     private void onClickNewOrder() {
         Singletone.getInstance().itemsArrayList.clear();
-        Singletone.getInstance().isPlaceNewOrder = true;
-        Navigation.findNavController(orderSummaryBinding.placeNewOrderBtn).navigate(R.id.nav_billing);
+        Singletone.getInstance().isPlaceNewOrder = false;
+        Singletone.getInstance().isOrderCompleted = true;
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
     @Override
-    public void onBackOrderPressed() {
-        onClickNewOrder();
+    public void onNewPlaceOrderClicked() {
+        Singletone.getInstance().itemsArrayList.clear();
+        Singletone.getInstance().isPlaceNewOrder = true;
+        Singletone.getInstance().isOrderCompleted = false;
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 }

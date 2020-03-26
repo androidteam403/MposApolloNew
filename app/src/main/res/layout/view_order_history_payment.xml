@@ -15,26 +15,40 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/five_dp"
         android:background="@color/white"
-        android:padding="@dimen/three_dp">
+        android:padding="@dimen/three_dp"
+        android:paddingStart="@dimen/eight_dp"
+        android:paddingEnd="@dimen/five_dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/ten_dp"
             android:fontFamily="@font/roboto_medium"
             android:text="@{model.paymentType}"
             android:textAllCaps="true"
             android:textColor="@color/black" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/three_dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@{model.paidAmount}"
-            android:textColor="@color/colorPrimary" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:text="@string/label_rs_symbol"
+                android:visibility="gone"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.paidAmount}"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>
