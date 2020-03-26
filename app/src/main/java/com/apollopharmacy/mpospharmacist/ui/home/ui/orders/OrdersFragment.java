@@ -60,7 +60,6 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     }
 
 
-
     @Override
     public void onReturnClick() {
         Toast.makeText(getContext(), "Return Clicked", Toast.LENGTH_SHORT).show();
@@ -94,7 +93,8 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
 
     @Override
     public void onSuccessOrderList(ArrayList<OrderListRes> orderListRes) {
-        if(orderListRes.size() > 0) {
+        hideKeyboard();
+        if (orderListRes.size() > 0) {
             ordersModelArrayList.addAll(orderListRes);
             ordersAdapter.notifyDataSetChanged();
             fragmentOrderBinding.setCount(ordersModelArrayList.size());
@@ -103,6 +103,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
 
     @Override
     public void noDataFound() {
+        hideKeyboard();
         ordersModelArrayList.clear();
         ordersAdapter.notifyDataSetChanged();
         fragmentOrderBinding.setCount(ordersModelArrayList.size());

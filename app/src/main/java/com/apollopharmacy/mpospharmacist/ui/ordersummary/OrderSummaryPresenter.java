@@ -21,4 +21,9 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     public void onBackOrderPressed() {
         getMvpView().onBackOrderPressed();
     }
+
+    @Override
+    public void onNewPlaceOrderClicked() {
+        getMvpView().onNewPlaceOrderClicked();
+    }
 }

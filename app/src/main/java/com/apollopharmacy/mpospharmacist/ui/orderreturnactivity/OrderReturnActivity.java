@@ -58,6 +58,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 
     @Override
     protected void setUp() {
+        orderReturnActiivtyBinding.setCallback(mvpPresenter);
         orderReturnModelList = new ArrayList<>();
         if (getIntent() != null) {
             orderHistoryItem = (OrderListRes) getIntent().getSerializableExtra("order_history_info");

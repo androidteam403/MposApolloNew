@@ -11,13 +11,18 @@
         <variable
             name="item"
             type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+        android:background="@color/light_grey">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,6 +39,7 @@
                 android:alpha="0.8"
                 android:contentDescription="@string/app_name"
                 android:paddingStart="@dimen/ten_dp"
+                android:onClick="@{() -> callback.onClickBackPressed()}"
                 android:paddingEnd="@dimen/ten_dp"
                 android:src="@drawable/ic_back_arrow" />
 
@@ -42,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@string/label_order_return"
+                android:text="@string/label_order_flow"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
 
@@ -52,7 +58,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_10001936"
+                android:text="@{@string/generic_order_number(item.transactionId)}"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -160,15 +166,16 @@
                 <LinearLayout
                     android:id="@+id/footer"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="@dimen/eighty_dp"
                     android:layout_marginTop="@dimen/five_dp"
+                    android:background="@color/white"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="250dp"
-                        android:layout_height="80dp"
-                        android:background="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"
+                        android:layout_weight="0.7"
                         android:weightSum="4">
 
                         <LinearLayout
@@ -259,9 +266,9 @@
 
                     <LinearLayout
                         android:id="@+id/testclick"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:layout_weight="0.3"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -283,15 +290,27 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Payment Mode"
+                    android:textAllCaps="true"
+                    android:textColor="@color/add_item_header"
+                    android:textSize="@dimen/text_dimen_13" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/pay_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@color/white"
-                    android:paddingStart="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:paddingEnd="@dimen/ten_dp" />
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginEnd="@dimen/ten_dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -307,9 +326,7 @@
                         android:text="@string/label_return"
                         android:textAllCaps="false" />
                 </RelativeLayout>
-
             </LinearLayout>
-
         </ScrollView>
     </LinearLayout>
 </layout>

@@ -6,4 +6,5 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
 
     void onBackOrderPressed();
 
+    void onNewPlaceOrderClicked();
 }
