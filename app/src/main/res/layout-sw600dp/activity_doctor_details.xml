@@ -1,269 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="doctor"
+            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel" />
 
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter" />
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/search_customer_bg">
-        <LinearLayout
+        android:layout_height="match_parent">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/fifty_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_gravity="center_vertical"
-                    android:alpha="0.8"
-                    android:contentDescription="@string/app_name"
-                    android:onClick="@{()-> callback.onBackPressedClick()}"
-                    android:paddingStart="@dimen/ten_dp"
-                    android:paddingEnd="@dimen/ten_dp"
-                    android:src="@drawable/ic_back_arrow" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/label_doctor_details"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
-            </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@color/search_customer_bg">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/ten_dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp">
+                    android:layout_height="@dimen/fifty_dp"
+                    android:background="@color/colorPrimary"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/fifty_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:alpha="0.8"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onBackPressedClick()}"
+                        android:paddingStart="@dimen/ten_dp"
+                        android:paddingEnd="@dimen/ten_dp"
+                        android:src="@drawable/ic_back_arrow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/label_doctor_details"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_18" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/ten_dp">
+
+                    <RelativeLayout
+                        android:id="@+id/custom_doctor_search_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:onClick="@{()->callback.onAllDoctorsClick()}"
+                        android:orientation="horizontal"
+                        android:visibility="@{doctor != null?View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_search_by_doctor_name"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:textSize="@dimen/text_dimen_13"
+                            tools:ignore="RelativeOverlap" />
+
+                        <ImageView
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_search" />
+                    </RelativeLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/phone_number"
+                        android:id="@+id/custom_doctor_layout"
                         style="@style/EditTextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/roboto_regular">
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:visibility="gone">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/corporate_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/one_hundred_dp"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="top"
-                            android:hint="@string/label_phone_number_id"
+                            android:onClick="@{()->callback.onCustomDoctorLayoutClick()}"
+                            android:hint="@string/label_search_by_doctor_name"
                             android:inputType="text"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
                             android:textSize="@dimen/text_dimen_15" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageView
-                        android:layout_width="@dimen/thirty_five_dp"
-                        android:layout_height="@dimen/thirty_five_dp"
-                        android:layout_centerVertical="true"
+                    <com.tiper.MaterialSpinner
+                        android:id="@+id/selectDoctor"
+                        style="@style/NewEditTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginEnd="@dimen/ten_dp"
-                        android:layout_toStartOf="@+id/mike"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_search_product" />
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:descendantFocusability="beforeDescendants"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_select_doctor"
+                        app:spinnerMode="bottomsheet" />
 
-                    <ImageView
-                        android:id="@+id/mike"
-                        android:layout_width="@dimen/thirty_five_dp"
-                        android:layout_height="@dimen/thirty_five_dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_voice_search" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/doctor_info_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
+                    <com.tiper.MaterialSpinner
+                        android:id="@+id/selectSalesOrigin"
+                        style="@style/NewEditTextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:background="@drawable/bg_white"
-                        android:baselineAligned="false"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/five_dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Doctor RegNo"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Doctor Name"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/five_dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fifteen_dp"
-                                android:layout_weight="0.5"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Speciality"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fifteen_dp"
-                                android:layout_weight="0.5"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Place Of Practice"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/five_dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fifteen_dp"
-                                android:layout_weight="0.5"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Address"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fifteen_dp"
-                                android:layout_weight="0.5"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Phone Number"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12" />
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:layout_marginBottom="@dimen/fifteen_dp"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/select_btn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_select_btn"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_select"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_16" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/ten_dp"
-                                android:layout_toEndOf="@+id/select_btn"
-                                android:background="@drawable/bg_select_btn"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_edit"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_16" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-
+                        android:descendantFocusability="beforeDescendants"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_sales_origin"
+                        app:spinnerMode="bottomsheet" />
                 </LinearLayout>
-
-
             </LinearLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:id="@+id/no_doctor_found_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/thirty_dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/label_no_doctor_found"
-                    android:textColor="@color/no_customer_found"
-                    android:textSize="@dimen/text_dimen_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
-                    android:background="@drawable/bg_select_btn"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:fontFamily="@font/roboto_bold"
-                    android:onClick="@{()-> callback.onAddDoctorClick()}"
-                    android:text="@string/label_add_new_doctor"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/pay_btn_color"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()-> callback.onSubmitClick()}"
+            android:text="@string/label_submit"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_dimen_17"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </layout>

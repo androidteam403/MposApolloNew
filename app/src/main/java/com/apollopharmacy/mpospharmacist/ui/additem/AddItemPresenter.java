@@ -76,21 +76,25 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void onPayButtonClick() {
+        getMvpView().hideKeyboard();
         getMvpView().onPayButtonClick();
     }
 
     @Override
     public void onClickCardPayment() {
+        getMvpView().hideKeyboard();
         getMvpView().onClickCardPaymentBtn();
     }
 
     @Override
     public void onClickCashPayment() {
+        getMvpView().hideKeyboard();
         getMvpView().onClickCashPaymentBtn();
     }
 
     @Override
     public void onClickOneApolloPayment() {
+        getMvpView().hideKeyboard();
         getMvpView().onClickOneApolloBtn();
     }
 
@@ -185,6 +189,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
+                        getMvpView().isManualDisc(false);
                         getMvpView().onSuccessCalculatePosTransaction(response.body());
 
                     }
@@ -369,8 +374,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         //Dismiss Dialog
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                                 getMvpView().openManualDiscDialog(response.body());
-                        } else {
-
+                        } else if(response.body() != null){
+                                getMvpView().showMessage(response.body().getReturnMessage());
                         }
                     }
                 }
@@ -420,6 +425,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         getMvpView().hideLoading();
                         //Dismiss Dialog
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().isManualDisc(true);
                             getMvpView().onSuccessCalculatePosTransaction(response.body().getPosSalesTransaction());
                         } else {
 
@@ -481,7 +487,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void validateOneApolloPoints(String userMobileNumber, String transactionID) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+          //  getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
             ValidatePointsReqModel pointsReqModel = new ValidatePointsReqModel();
             ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
@@ -503,7 +509,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
-                        if (response.body().getRequestStatus() == 0) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().onSuccessValidateOneApolloPoints(response.body());
                         } else {
                             getMvpView().onFailedValidateOneApolloPoints(response.body());

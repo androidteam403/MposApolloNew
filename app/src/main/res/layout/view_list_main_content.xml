@@ -18,7 +18,7 @@
         android:background="@android:color/white"
         tools:showIn="@layout/list_item_main">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/item_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/item_view_liner"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -41,7 +41,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_marginTop="@dimen/five_dp"
                     android:layout_weight="0.55"
@@ -65,20 +65,13 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@{product.batchListObj.previewText}"
-                        android:textColor="@color/in_line_discount"
-                        android:textSize="@dimen/text_dimen_10" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.4"
-                    android:background="@color/search_customer_bg"
+                    android:background="@color/cart_tax_bg"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -133,7 +126,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="@color/cart_tax_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -141,26 +134,30 @@
                         android:text="@{`Tax : `+ product.batchListObj.totalTax +`%`}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/one_dp"
-                        android:background="@color/search_customer_bg" />
                 </LinearLayout>
             </LinearLayout>
-
+            <TextView
+                android:id="@+id/preview_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{product.batchListObj.previewText}"
+                android:textColor="@color/in_line_discount"
+                android:textSize="@dimen/text_dimen_10"
+                android:layout_marginStart="@dimen/thirty_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:visibility="@{product.batchListObj.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/two_dp"
-                android:layout_below="@+id/item_view_liner"
                 android:background="@color/search_customer_bg" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:background="@color/black_transperent"
             android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
