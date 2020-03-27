@@ -692,7 +692,7 @@ private CalculatePosTransactionRes tenderLineEntities ;
         posTransactionEntity.setISPrescibeDiscount(false);
         posTransactionEntity.setISReserved(false);
         posTransactionEntity.setISReturnAllowed(false);
-        posTransactionEntity.setManualBill(false);
+        posTransactionEntity.setManualBill(Singletone.getInstance().isManualBilling);
         posTransactionEntity.setMobileNO(getMvpView().getCustomerModule().getMobileNo());// user mobile number
         posTransactionEntity.setNetAmount(getMvpView().getOrderPriceInfoModel().getTaxableTotalAmount());// net amount
         posTransactionEntity.setNetAmountInclTax(getMvpView().getOrderPriceInfoModel().getMrpTotalAmount());// include tax total
@@ -723,7 +723,7 @@ private CalculatePosTransactionRes tenderLineEntities ;
         posTransactionEntity.setShippingMethod("");
         posTransactionEntity.setStaff(getMvpView().getTransactionModule().getTerminalID());// terminal Id
         posTransactionEntity.setState(getDataManager().getGlobalJson().getStateCode());
-        posTransactionEntity.setStockCheck(true);
+        posTransactionEntity.setStockCheck(!Singletone.getInstance().isManualBilling);
         posTransactionEntity.setStore(getMvpView().getTransactionModule().getStoreID());// store details
         posTransactionEntity.setStoreName("");
         posTransactionEntity.setTenderLine(new ArrayList<>());// TenderLine Object

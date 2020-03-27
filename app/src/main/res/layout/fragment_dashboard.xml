@@ -316,7 +316,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/apollo_btn_color"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/roboto_bold"
             android:onClick="@{()-> callBack.onClickNewOrder()}"
             android:text="@string/label_new_order"
             android:textColor="@color/black" />

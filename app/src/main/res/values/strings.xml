@@ -257,14 +257,14 @@
     <string name="label_save">Save</string>
 
     <string name="label_disc_type">Disc Type\n%1$s</string>
-    <string name="label_pharma_price">Pharma\n₹%1$s</string>
-    <string name="label_FMCG_price">FMCG\n₹%1$s</string>
-    <string name="label_PL_price">PL\n₹%1$s</string>
-    <string name="label_RoundedAmt_price">RoundedAmt\n₹%1$s</string>
-    <string name="label_MRP_Total_price">MRP Total\n₹%1$s</string>
-    <string name="label_Taxable_Amt_price">Taxable Amt\n₹%1$s</string>
-    <string name="label_Disc_Amt_price">Tax Amt\n₹%1$s</string>
-    <string name="label_savings_price">Savings: ₹%1$s</string>
+    <string name="label_pharma_price">Pharma\n₹ %1$s</string>
+    <string name="label_FMCG_price">FMCG\n₹ %1$s</string>
+    <string name="label_PL_price">PL\n₹ %1$s</string>
+    <string name="label_RoundedAmt_price">RoundedAmt\n₹ %1$s</string>
+    <string name="label_MRP_Total_price">MRP Total\n₹ %1$s</string>
+    <string name="label_Taxable_Amt_price">Taxable Amt\n₹ %1$s</string>
+    <string name="label_Disc_Amt_price">Tax Amt\n₹ %1$s</string>
+    <string name="label_savings_price">Savings: ₹ %1$s</string>
     <string name="label_additional_discount">Additional Discount :</string>
     <string name="label_balance_amount">balance amount:</string>
     <string name="label_cash_payment">cash payment:</string>

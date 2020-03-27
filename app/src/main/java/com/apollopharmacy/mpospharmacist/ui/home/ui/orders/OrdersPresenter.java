@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
@@ -46,7 +47,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onItemClick(OrderListRes item) {
+    public void onItemClick(CalculatePosTransactionRes item) {
         getMvpView().onItemClick(item);
     }
 
@@ -94,15 +95,16 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
         orderServiceCall(orderListReq);
     }
 
-    private void orderServiceCall(OrderListReq orderListReq) {
+    @Override
+    public void orderServiceCall(OrderListReq orderListReq) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
 
-            Call<ArrayList<OrderListRes>> call = api.ORDER_LIST_RES_CALL(orderListReq);
-            call.enqueue(new Callback<ArrayList<OrderListRes>>() {
+            Call<ArrayList<CalculatePosTransactionRes>> call = api.ORDER_LIST_RES_CALL(orderListReq);
+            call.enqueue(new Callback<ArrayList<CalculatePosTransactionRes>>() {
                 @Override
-                public void onResponse(@NotNull Call<ArrayList<OrderListRes>> call, @NotNull Response<ArrayList<OrderListRes>> response) {
+                public void onResponse(@NotNull Call<ArrayList<CalculatePosTransactionRes>> call, @NotNull Response<ArrayList<CalculatePosTransactionRes>> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().size() > 0) {
                         getMvpView().hideLoading();
                         getMvpView().onSuccessOrderList(response.body());
@@ -115,7 +117,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<ArrayList<OrderListRes>> call, @NotNull Throwable t) {
+                public void onFailure(@NotNull Call<ArrayList<CalculatePosTransactionRes>> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                     getMvpView().showMessage(t.getMessage());
                 }

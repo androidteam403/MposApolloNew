@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.orders;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresenter<V> {
@@ -10,9 +12,11 @@ public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresente
 
     void onReOrderClick();
 
-    void onItemClick(OrderListRes item);
+    void onItemClick(CalculatePosTransactionRes item);
 
     void onClickSearchIcon();
 
     void getOrdersDetails();
+
+    void orderServiceCall(OrderListReq orderListReq);
 }

@@ -9,7 +9,8 @@
         android:id="@+id/nav_dash_board"
         android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment"
         android:label="@string/menu_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_dashboard"
+        app:startDestination="@id/action_nav_dash_board_to_nav_billing2">
         <action
             android:id="@+id/action_nav_dash_board_to_nav_billing2"
             app:destination="@id/nav_billing"

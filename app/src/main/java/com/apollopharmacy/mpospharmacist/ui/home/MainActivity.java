@@ -3,12 +3,15 @@ package com.apollopharmacy.mpospharmacist.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -54,6 +57,38 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        NavOptions navOptions = new NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_from_right)
+                .setExitAnim(R.anim.slide_to_left)
+                .setPopEnterAnim(R.anim.slide_from_right)
+                .setPopExitAnim(R.anim.slide_to_left)
+                .build();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                if (mAppBarConfiguration.getDrawerLayout() != null) {
+                    mAppBarConfiguration.getDrawerLayout().closeDrawers();
+                }
+                Singletone.getInstance().isManualBilling = false;
+                if (menuItem.getItemId() == R.id.nav_dash_board) {
+                    navController.navigate(R.id.nav_dash_board, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_doc_master) {
+                    navController.navigate(R.id.nav_doc_master, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_cust_master) {
+                    navController.navigate(R.id.nav_cust_master, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_billing) {
+                    navController.navigate(R.id.nav_billing, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_order) {
+                    navController.navigate(R.id.nav_order, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_manual_billing) {
+                    Singletone.getInstance().isManualBilling = true;
+                    navController.navigate(R.id.nav_manual_billing, null, navOptions, null);
+                }
+
+                return true;
+            }
+        });
         setUp();
     }
 
@@ -77,7 +112,10 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         if (Singletone.getInstance().isPlaceNewOrder) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             navController.popBackStack();
-            navController.navigate(R.id.nav_billing);
+            if (Singletone.getInstance().isManualBilling)
+                navController.navigate(R.id.nav_manual_billing);
+            else
+                navController.navigate(R.id.nav_billing);
             Singletone.getInstance().isPlaceNewOrder = false;
         } else if (Singletone.getInstance().isOrderCompleted) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

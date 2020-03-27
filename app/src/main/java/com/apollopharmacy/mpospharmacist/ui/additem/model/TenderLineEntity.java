@@ -3,7 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.additem.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TenderLineEntity {
+import java.io.Serializable;
+
+public class TenderLineEntity implements Serializable {
         @Expose
         @SerializedName("WalletType")
         private double WalletType;

@@ -54,12 +54,12 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(selected_item.getArtCode());
             batchInfoReq.setCustomerState("");
-            batchInfoReq.setDataAreaId("AHEL");
+            batchInfoReq.setDataAreaId(getDataManager().getDataAreaId());
             batchInfoReq.setSearchType(1);
             batchInfoReq.setSEZ(0);
-            batchInfoReq.setStoreId("16001");
-            batchInfoReq.setStoreState("AP");
-            batchInfoReq.setTerminalId("001");
+            batchInfoReq.setStoreId(getDataManager().getStoreId());
+            batchInfoReq.setStoreState(getDataManager().getGlobalJson().getStateCode());
+            batchInfoReq.setTerminalId(getDataManager().getTerminalId());
             Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
             call.enqueue(new Callback<GetBatchInfoRes>() {
                 @Override

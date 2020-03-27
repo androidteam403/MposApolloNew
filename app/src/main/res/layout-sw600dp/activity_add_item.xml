@@ -215,7 +215,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.26"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/price_regular"
                                     android:gravity="center"
                                     android:text="MRP(₹)"
                                     android:textColor="@color/add_item_header"
@@ -225,7 +225,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.24"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/price_regular"
                                     android:gravity="center"
                                     android:text="QTY"
                                     android:textColor="@color/add_item_header"
@@ -235,7 +235,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.3"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/price_regular"
                                     android:gravity="center"
                                     android:text="TOTAL(₹)"
                                     android:textColor="@color/add_item_header"
@@ -312,7 +312,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/ten_dp"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_disc_type(order_info.discType)}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -320,7 +320,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -328,7 +328,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -336,7 +336,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
                                 </LinearLayout>
@@ -354,7 +354,7 @@
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
                                         android:ellipsize="end"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -363,7 +363,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -372,7 +372,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
@@ -381,7 +381,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
-                                        android:fontFamily="@font/roboto_regular"
+                                        android:fontFamily="@font/price_regular"
                                         android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.taxAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
                                 </LinearLayout>
@@ -399,6 +399,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/fifteen_dp"
+                                    android:fontFamily="@font/price_regular"
                                     android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
                                     android:textColor="@color/payment_amount_text"
                                     android:textSize="@dimen/text_dimen_16"
@@ -409,7 +410,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+String.format(`%.2f`,order_info.OrderSavingsPercentage)+`%)`}"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_dimen_9" />
+                                    android:textSize="@dimen/text_dimen_9"
+                                    android:fontFamily="@font/price_regular"/>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -480,7 +482,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/price_regular"
                                     android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+order_info.OrderSavingsPercentage+`%)`}"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_dimen_10"
@@ -490,7 +492,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
-                                    android:fontFamily="@font/roboto_bold"
+                                    android:fontFamily="@font/price_regular"
                                     android:text="@{String.format(`%.2f`,order_info.OrderTotalAmount)}"
                                     android:textColor="@color/white" />
                             </LinearLayout>
@@ -1074,7 +1076,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_disc_type(order_info.discType)}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1083,7 +1085,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1092,7 +1094,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1101,7 +1103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1119,7 +1121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ellipsize="end"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1128,7 +1130,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1137,7 +1139,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1146,7 +1148,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.taxAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
@@ -1166,7 +1168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/ten_dp"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/price_bold"
                     android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_16" />
@@ -1174,7 +1176,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/price_regular"
                     android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+String.format(`%.2f`,order_info.OrderSavingsPercentage)+`%)`}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_9" />

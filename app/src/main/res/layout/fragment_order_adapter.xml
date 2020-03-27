@@ -6,7 +6,7 @@
 
         <variable
             name="orderDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes" />
 
         <variable
             name="callback"

@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.OrderReturnAdapterBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
 
 public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.ViewHolder> {
     private Activity activity;
-    private ArrayList<OrderListRes.SalesLineEntity> orderReturnModelArrayList;
+    private ArrayList<SalesLineEntity> orderReturnModelArrayList;
 
-    public OrderReturnAdapter(Activity activity, ArrayList<OrderListRes.SalesLineEntity> orderReturnModelArrayList) {
+    public OrderReturnAdapter(Activity activity, ArrayList<SalesLineEntity> orderReturnModelArrayList) {
         this.activity = activity;
         this.orderReturnModelArrayList = orderReturnModelArrayList;
     }
@@ -33,7 +34,7 @@ public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OrderReturnAdapter.ViewHolder holder, int position) {
-        OrderListRes.SalesLineEntity item = orderReturnModelArrayList.get(position);
+        SalesLineEntity item = orderReturnModelArrayList.get(position);
         holder.orderReturnAdapterBinding.setModel(item);
     }
 

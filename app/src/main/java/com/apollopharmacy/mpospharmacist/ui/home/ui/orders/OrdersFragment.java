@@ -1,7 +1,11 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.orders;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -15,10 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.adapter.OrdersAdapter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.FiltersReq;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnActivity;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,8 +41,10 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     @Inject
     OrdersMvpPresenter<OrdersMvpView> mPresenter;
     private FragmentOrderBinding fragmentOrderBinding;
-    private ArrayList<OrderListRes> ordersModelArrayList = new ArrayList<>();
+    private ArrayList<CalculatePosTransactionRes> ordersModelArrayList = new ArrayList<>();
     private OrdersAdapter ordersAdapter;
+    private FiltersReq filtersReq = new FiltersReq();
+    private BottomSheetFragment bottomSheetFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentOrderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false);
@@ -47,7 +59,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     protected void setUp(View view) {
         fragmentOrderBinding.setCallbacks(mPresenter);
         fragmentOrderBinding.setNoDataFound(false);
-
+        setHasOptionsMenu(true);
         ordersAdapter = new OrdersAdapter(getActivity(), ordersModelArrayList, mPresenter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         fragmentOrderBinding.orderrecycle.setLayoutManager(mLayoutManager);
@@ -55,11 +67,27 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         fragmentOrderBinding.orderrecycle.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL));
         fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
         fragmentOrderBinding.orderrecycle.setAdapter(ordersAdapter);
-
+        filtersReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        filtersReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        filtersReq.setMobile("");
+        filtersReq.setOrderId("");
         mPresenter.getOrdersDetails();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_filter) {
+            bottomSheetFragment = new BottomSheetFragment(getBaseActivity(),filtersReq,this);
+            bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onReturnClick() {
         Toast.makeText(getContext(), "Return Clicked", Toast.LENGTH_SHORT).show();
@@ -76,7 +104,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     }
 
     @Override
-    public void onItemClick(OrderListRes item) {
+    public void onItemClick(CalculatePosTransactionRes item) {
         startActivity(OrderReturnActivity.getStartIntent(getActivity(), item));
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
@@ -92,9 +120,10 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     }
 
     @Override
-    public void onSuccessOrderList(ArrayList<OrderListRes> orderListRes) {
+    public void onSuccessOrderList(ArrayList<CalculatePosTransactionRes> orderListRes) {
         hideKeyboard();
         if (orderListRes.size() > 0) {
+            ordersModelArrayList.clear();
             ordersModelArrayList.addAll(orderListRes);
             ordersAdapter.notifyDataSetChanged();
             fragmentOrderBinding.setCount(ordersModelArrayList.size());
@@ -108,5 +137,30 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         ordersAdapter.notifyDataSetChanged();
         fragmentOrderBinding.setCount(ordersModelArrayList.size());
         fragmentOrderBinding.setNoDataFound(true);
+    }
+
+    @Override
+    public void onClickApplyFilters() {
+        if(bottomSheetFragment != null){
+            if(bottomSheetFragment.validateFilters()){
+                bottomSheetFragment.dismiss();
+                OrderListReq orderListReq = new OrderListReq();
+                orderListReq.setArtName("");
+                orderListReq.setBatchNo("");
+                orderListReq.setCardNo("");
+                orderListReq.setCustomerAccount("");
+                orderListReq.setCustomerName("");
+                orderListReq.setFromDate(filtersReq.getFromDate()); // "13-Mar-2020"
+                orderListReq.setHomeDelivery(false);
+                orderListReq.setIPNumber("");
+                orderListReq.setItemID("");
+                orderListReq.setMobileNo(filtersReq.getMobile());
+                orderListReq.setPendingBills(false);
+                orderListReq.setPreviousBills(false);
+                orderListReq.setReceiptId(filtersReq.getOrderId());
+                orderListReq.setToDate(filtersReq.getToDate()); //  "13-Mar-2020"
+                mPresenter.orderServiceCall(orderListReq);
+            }
+        }
     }
 }

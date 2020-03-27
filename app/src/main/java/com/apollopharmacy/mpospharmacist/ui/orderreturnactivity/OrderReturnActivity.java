@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.OrderReturnActiivtyBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.OrderReturnAdapter;
@@ -30,15 +32,15 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     @Inject
     OrderReturnMvpPresenter<OrederReturnMvpView> mvpPresenter;
     OrderReturnActiivtyBinding orderReturnActiivtyBinding;
-    private ArrayList<OrderListRes.SalesLineEntity> orderReturnModelList = null;
+    private ArrayList<SalesLineEntity> orderReturnModelList = null;
     private OrderReturnAdapter orderReturnAdapter;
     private boolean isExpand = false;
     private int rotationAngle = 0;
-    private OrderListRes orderHistoryItem = null;
+    private CalculatePosTransactionRes orderHistoryItem = null;
     private PaidListAdapter payActivityAdapter;
     private ArrayList<OrderReturnModel> arrPayAdapterModel = new ArrayList<>();
 
-    public static Intent getStartIntent(Context context, OrderListRes model) {
+    public static Intent getStartIntent(Context context, CalculatePosTransactionRes model) {
         Intent intent = new Intent(context, OrderReturnActivity.class);
         intent.putExtra("order_history_info", model);
         return intent;
@@ -61,7 +63,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
         orderReturnActiivtyBinding.setCallback(mvpPresenter);
         orderReturnModelList = new ArrayList<>();
         if (getIntent() != null) {
-            orderHistoryItem = (OrderListRes) getIntent().getSerializableExtra("order_history_info");
+            orderHistoryItem = (CalculatePosTransactionRes) getIntent().getSerializableExtra("order_history_info");
             if (orderHistoryItem != null) {
                 orderReturnActiivtyBinding.setItem(orderHistoryItem);
                 orderReturnModelList.addAll(orderHistoryItem.getSalesLine());
