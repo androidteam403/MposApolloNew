@@ -86,6 +86,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         GetItemDetailsRes.Items selected_item = (GetItemDetailsRes.Items) getIntent().getSerializableExtra("selected_item");
         mPresenter.getBatchDetailsApi(selected_item);
 
+        batchInfoBinding.inputQty.setSelection(batchInfoBinding.inputQty.getText().toString().length());
+
         batchInfoBinding.inputQty.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,7 +106,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 }else if(!TextUtils.isEmpty(editable)){
                     quantityBaseBatchSelect();
                 }
-
+                    batchInfoBinding.inputQty.setSelection(editable.length());
             }
         });
     }

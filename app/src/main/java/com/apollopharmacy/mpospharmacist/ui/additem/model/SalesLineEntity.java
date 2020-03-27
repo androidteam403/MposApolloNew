@@ -3,7 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.additem.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public  class SalesLineEntity {
+import java.io.Serializable;
+
+public  class SalesLineEntity implements Serializable {
         @Expose
         @SerializedName("VariantId")
         private String VariantId;

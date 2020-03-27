@@ -120,7 +120,7 @@ public interface ApiInterface {
     Call<ConfingRes> CONFING_RES_CALL (@Body ConfingReq confingReq);
 
     @POST("SalesTransactionService.svc/GetTransactionDetails")
-    Call<ArrayList<OrderListRes>> ORDER_LIST_RES_CALL (@Body OrderListReq orderListReq);
+    Call<ArrayList<CalculatePosTransactionRes>> ORDER_LIST_RES_CALL (@Body OrderListReq orderListReq);
 
     @POST("SalesTransactionService.svc/GetTenderType/{storeId}/{DataAreaId}")
     Call<GetTenderTypeRes>  GET_TENDER_TYPE_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body  Object o);

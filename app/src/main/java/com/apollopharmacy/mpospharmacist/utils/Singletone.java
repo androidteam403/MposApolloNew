@@ -18,5 +18,6 @@ public class Singletone {
     public ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
     public GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
     public boolean isPlaceNewOrder = false;
+    public boolean isOrderCompleted = false;
     public boolean isManualBilling = false;
 }

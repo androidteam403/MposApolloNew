@@ -10,6 +10,7 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
     private final int MY_PERMISSIONS_RECORD_AUDIO = 106;
     private final int REQ_CODE_SPEECH_INPUT = 107;
     private String SEARCH_TYPE = "";
+    private boolean isListFiltered = false;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, ProductListActivity.class);
@@ -77,6 +79,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     protected void setUp() {
+        productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+        productListActivityBinding.pdialog.setMax(100);
+        productListActivityBinding.pdialog.setProgress(20);
         productListActivityBinding.setCallback(productListMvpPresenter);
         TransactionIDResModel transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
         productListActivityBinding.setTransaction(transactionIdModel);
@@ -119,16 +124,30 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             public void afterTextChanged(Editable s) {
                 if (s.length() == 3 && isLoadApi && itemsArrayList.size() == 0) {
                     productListMvpPresenter.getProductDetails();
+                    productListActivityBinding.pdialog.setVisibility(View.VISIBLE);
+                    isListFiltered = false;
                 } else if (s.length() >= 3 && !isLoadApi) {
+                    isListFiltered = true;
                     productListAdapter.getFilter().filter(s);
                 } else {
                     if (s.length() <= 2) {
-                        updateProductsCount(0);
-                        itemsArrayList.clear();
-                        productListAdapter.notifyDataSetChanged();
-                        isLoadApi = true;
+                        if (s.length() != 0) {
+                            if (!isListFiltered) {
+                                productListActivityBinding.setProductCount(0);
+                                itemsArrayList.clear();
+                                productListAdapter.notifyDataSetChanged();
+                                isLoadApi = true;
+                            } else {
+                                productListAdapter.getFilter().filter(s);
+                            }
+                        } else {
+                            isListFiltered = false;
+                            isLoadApi = true;
+                            productListActivityBinding.setProductCount(0);
+                            itemsArrayList.clear();
+                            productListAdapter.notifyDataSetChanged();
+                        }
                     }
-
                 }
             }
         });
@@ -142,7 +161,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onClickProductItem(GetItemDetailsRes.Items item) {
-        startActivityForResult(BatchInfoActivity.getStartIntent(this, item,productListActivityBinding.getTransaction()), ACTIVITY_RESULT_FOR_BATCH_INFO);
+        startActivityForResult(BatchInfoActivity.getStartIntent(this, item, productListActivityBinding.getTransaction()), ACTIVITY_RESULT_FOR_BATCH_INFO);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -169,20 +188,40 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onSuccessGetItems(GetItemDetailsRes itemDetailsRes) {
-        isLoadApi = false;
-        updateProductsCount(itemDetailsRes.getItemList().size());
-        itemsArrayList.addAll(itemDetailsRes.getItemList());
-        productListAdapter.notifyDataSetChanged();
-     //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
+        if (itemDetailsRes.getItemList().size() > 0) {
+            itemsArrayList.clear();
+            productListActivityBinding.itemNotFound.setVisibility(View.GONE);
+            productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+            isLoadApi = false;
+            updateProductsCount(itemDetailsRes.getItemList().size());
+            itemsArrayList.addAll(itemDetailsRes.getItemList());
+            productListAdapter.notifyDataSetChanged();
+        } else {
+            updateProductsCount(0);
+        }
+        //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
     }
 
     @Override
     public void onFailedGetItems(GetItemDetailsRes itemDetailsRes) {
-
+        updateProductsCount(0);
     }
 
     @Override
     public void updateProductsCount(int count) {
+        if (count == 0) {
+            if (!isListFiltered) {
+                itemsArrayList.clear();
+                productListAdapter.notifyDataSetChanged();
+            } else {
+                hideKeyboard();
+                productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+                productListActivityBinding.itemNotFound.setVisibility(View.VISIBLE);
+            }
+        } else {
+            productListActivityBinding.itemNotFound.setVisibility(View.GONE);
+            productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+        }
         productListActivityBinding.setProductCount(count);
     }
 
@@ -211,7 +250,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
                 if (data != null) {
                     ArrayList<GetItemDetailsRes.Items> items = (ArrayList<GetItemDetailsRes.Items>) data.getSerializableExtra("selected_item");
                     Intent intent = new Intent();
-                    Bundle  bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putSerializable("selected_item", items);
                     intent.putExtras(bundle);
                     setResult(RESULT_OK, intent);

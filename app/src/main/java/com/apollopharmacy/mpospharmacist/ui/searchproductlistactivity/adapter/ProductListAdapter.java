@@ -48,7 +48,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(productListMvpView != null){
+                if (productListMvpView != null) {
                     productListMvpView.onClickProductItem(item);
                 }
             }
@@ -70,7 +70,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return productListFiltered.size();
     }
 
-    public void setClickListiner(ProductListMvpView clickListiner){
+    public void setClickListiner(ProductListMvpView clickListiner) {
         this.productListMvpView = clickListiner;
     }
 
@@ -80,22 +80,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    productListFiltered = productListArrayList;
-                } else {
+                if (!charString.isEmpty()) {
                     ArrayList<GetItemDetailsRes.Items> filteredList = new ArrayList<>();
                     for (GetItemDetailsRes.Items row : productListArrayList) {
-
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
                         if (row.getArtCode().startsWith(charString.toUpperCase()) || row.getDescription().startsWith(charString.toUpperCase())) {
                             filteredList.add(row);
                         }
                     }
-
                     productListFiltered = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = productListFiltered;
                 return filterResults;

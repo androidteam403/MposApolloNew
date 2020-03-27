@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="orderDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes" />
 
         <variable
             name="callback"
@@ -30,18 +31,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_id(orderDetails.transactionId)}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_id(orderDetails.transactionId)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{orderDetails.transactionId}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_date(orderDetails.transDate)}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_recipet(orderDetails.reciptId)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{orderDetails.reciptId}" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,19 +60,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_name(orderDetails.customerName)}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_date(orderDetails.transDate)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{orderDetails.transDate}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_amount(String.format(`%.2f`,orderDetails.grossAmount))}"
-                android:textSize="@dimen/text_dimen_12" />
-
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_name(orderDetails.customerName)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{orderDetails.customerName}" />
         </LinearLayout>
 
         <LinearLayout
@@ -77,25 +89,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_number(orderDetails.customerID)}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_amount(String.format(`%.2f`,orderDetails.grossAmount))}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{String.format(`%.2f`,orderDetails.grossAmount)}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{@string/label_order_recipet(orderDetails.reciptId)}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_11"
+                app:full_text="@{@string/label_order_number(orderDetails.mobileNO)}"
+                app:span_color="@{@color/black}"
+                app:span_font="@{`robotoMedium`}"
+                app:span_size="@{@dimen/small_size_text}"
+                app:span_text="@{orderDetails.mobileNO}" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:layout_weight="0.5"
+            android:layout_weight="0.35"
             android:orientation="vertical">
 
             <ImageView

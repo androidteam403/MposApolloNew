@@ -5,4 +5,6 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 public interface OrderSummaryMvpView extends MvpView {
 
     void onBackOrderPressed();
+
+    void onNewPlaceOrderClicked();
 }

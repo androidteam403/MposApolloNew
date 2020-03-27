@@ -3,42 +3,30 @@ package com.apollopharmacy.mpospharmacist.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingMvpView;
-import com.apollopharmacy.mpospharmacist.utils.Singletone;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-import android.widget.TextView;
 
 import javax.inject.Inject;
 
-public class MainActivity extends BaseActivity implements MainActivityMvpView{
+public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView userName,userStoreLocation;
+    private TextView userName, userStoreLocation;
     @Inject
     MainActivityMvpPresenter<MainActivityMvpView> mvpPresenter;
 
@@ -84,18 +72,18 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView{
                 }
                 Singletone.getInstance().isManualBilling = false;
                 if (menuItem.getItemId() == R.id.nav_dash_board) {
-                    navController.navigate(R.id.nav_dash_board,null,navOptions,null);
-                }else if (menuItem.getItemId() == R.id.nav_doc_master) {
-                    navController.navigate(R.id.nav_doc_master,null,navOptions,null);
-                }else if (menuItem.getItemId() == R.id.nav_cust_master) {
-                    navController.navigate(R.id.nav_cust_master,null,navOptions,null);
-                }else if (menuItem.getItemId() == R.id.nav_billing) {
-                    navController.navigate(R.id.nav_billing,null,navOptions,null);
-                }else if (menuItem.getItemId() == R.id.nav_order) {
-                    navController.navigate(R.id.nav_order,null,navOptions,null);
-                }else if (menuItem.getItemId() == R.id.nav_manual_billing) {
+                    navController.navigate(R.id.nav_dash_board, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_doc_master) {
+                    navController.navigate(R.id.nav_doc_master, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_cust_master) {
+                    navController.navigate(R.id.nav_cust_master, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_billing) {
+                    navController.navigate(R.id.nav_billing, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_order) {
+                    navController.navigate(R.id.nav_order, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_manual_billing) {
                     Singletone.getInstance().isManualBilling = true;
-                    navController.navigate(R.id.nav_manual_billing,null,navOptions,null);
+                    navController.navigate(R.id.nav_manual_billing, null, navOptions, null);
                 }
 
                 return true;
@@ -121,14 +109,18 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView{
     @Override
     protected void onResume() {
         super.onResume();
-        if(Singletone.getInstance().isPlaceNewOrder) {
+        if (Singletone.getInstance().isPlaceNewOrder) {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             navController.popBackStack();
-            if(Singletone.getInstance().isManualBilling)
+            if (Singletone.getInstance().isManualBilling)
                 navController.navigate(R.id.nav_manual_billing);
             else
                 navController.navigate(R.id.nav_billing);
             Singletone.getInstance().isPlaceNewOrder = false;
+        } else if (Singletone.getInstance().isOrderCompleted) {
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController.navigate(R.id.nav_dash_board);
+            Singletone.getInstance().isOrderCompleted = false;
         }
     }
 }

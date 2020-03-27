@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes.SalesLineEntity" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
     </data>
 
     <LinearLayout
@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginTop="@dimen/three_dp"
                 android:layout_weight="0.55"
                 android:orientation="vertical">
 
@@ -42,7 +42,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:text="@{model.itemId.concat(` - `+model.itemName)}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_13" />
+                    android:textSize="@dimen/text_dimen_12" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:singleLine="true"
                     android:text="@{model.inventBatchId+`/`+model.category+`/`+model.expiry+`/`+model.manufacturerName}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textSize="@dimen/text_dimen_11" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -86,6 +86,7 @@
                         android:gravity="center"
                         android:text="@{String.format(`%.2f`,model.mRP)}"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
 
                     <View
@@ -100,6 +101,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
+                        android:textSize="@dimen/text_dimen_12"
                         android:text="@{String.valueOf(model.qty)}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
@@ -118,6 +120,7 @@
                         android:gravity="center"
                         android:text="@{String.format(`%.2f`,model.netAmount)}"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
                 </LinearLayout>
 

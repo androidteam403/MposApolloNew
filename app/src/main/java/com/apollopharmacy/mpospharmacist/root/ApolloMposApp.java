@@ -36,6 +36,7 @@ public class ApolloMposApp extends Application {
         customFontFamily.addFont("robotoRegular", "roboto_regular.ttf");
         customFontFamily.addFont("robotoMedium", "roboto_medium.ttf");
         customFontFamily.addFont("robotoBold", "roboto_bold.ttf");
+        customFontFamily.addFont("priceRegular", "price_regular.ttf");
 
         initRealmConfiguration();
     }
