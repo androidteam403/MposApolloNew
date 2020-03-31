@@ -132,11 +132,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:screenOrientation="portrait"/>
 
-        <service android:name=".utils.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+<!--        <service android:name=".utils.MyFirebaseInstanceIDService">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
@@ -154,6 +154,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <!-- Apk auto install -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -163,8 +174,9 @@
     <uses-permission android:name="com.google.android.permission.gsf.permission" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 </manifest>

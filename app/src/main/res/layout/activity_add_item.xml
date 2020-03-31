@@ -103,7 +103,8 @@
                     app:call="@{call}"
                     app:corporate="@{corporate}"
                     app:customer="@{customer}"
-                    app:doctor="@{doctor}" />
+                    app:doctor="@{doctor}"
+                    app:payment="@{paymentMode}"/>
 
 
                 <LinearLayout
@@ -942,7 +943,7 @@
 
                                 <com.mukesh.OtpView
                                     android:id="@+id/otp_view"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:textColor="@color/black"

@@ -197,6 +197,8 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             itemsArrayList.addAll(itemDetailsRes.getItemList());
             productListAdapter.notifyDataSetChanged();
         } else {
+            productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+            productListActivityBinding.itemNotFound.setVisibility(View.GONE);
             updateProductsCount(0);
         }
         //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());

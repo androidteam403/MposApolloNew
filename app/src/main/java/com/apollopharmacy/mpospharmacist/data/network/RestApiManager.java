@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.FeedItem;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.LoginRequest;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.UserProfile;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.WrapperResponse;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 
 import java.util.List;
 
@@ -30,5 +31,10 @@ public class RestApiManager implements RestApiHelper {
     @Override
     public Single<WrapperResponse<List<FeedItem>>> getFeedList() {
         return mService.getFeedList();
+    }
+
+    @Override
+    public Single<WrapperResponse<GetTenderTypeRes>> getTenderType(String storeId,String dataAreaId,Object o) {
+        return mService.GET_TENDER_TYPE_RES_CALL(storeId,dataAreaId,o);
     }
 }

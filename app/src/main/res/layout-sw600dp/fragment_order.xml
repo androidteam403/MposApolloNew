@@ -77,50 +77,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/customer_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ten_dp"
-                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/customer_info_header"
-                    android:text="@string/label_phonenumber_orderid"
-                    android:textSize="@dimen/text_dimen_13" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:background="@drawable/rectangular_shape"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/search_Edit_mobile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingStart="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_search_by_phone_number"
-                        android:textColor="@color/search_order_hint_color"
-                        android:textSize="@dimen/text_dimen_13"
-                        android:background="@null"/>
-
-                    <ImageView
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_search"
-                        android:onClick="@{()-> callbacks.onClickSearchIcon()}" />
-                </RelativeLayout>
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

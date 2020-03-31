@@ -51,29 +51,6 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
         getMvpView().onItemClick(item);
     }
 
-    @Override
-    public void onClickSearchIcon() {
-        if (!TextUtils.isEmpty(getMvpView().getSearchMobileNumber())) {
-            OrderListReq orderListReq = new OrderListReq();
-            orderListReq.setArtName("");
-            orderListReq.setBatchNo("");
-            orderListReq.setCardNo("");
-            orderListReq.setCustomerAccount("");
-            orderListReq.setCustomerName("");
-            orderListReq.setFromDate(null);
-            orderListReq.setHomeDelivery(false);
-            orderListReq.setIPNumber("");
-            orderListReq.setItemID("");
-            orderListReq.setMobileNo(getMvpView().getSearchMobileNumber());
-            orderListReq.setPendingBills(false);
-            orderListReq.setPreviousBills(false);
-            orderListReq.setReceiptId("");
-            orderListReq.setToDate(null);
-            orderServiceCall(orderListReq);
-        } else {
-            getMvpView().setErrorMessageEditText("Enter Mobile Number");
-        }
-    }
 
     @Override
     public void getOrdersDetails() {

@@ -6,10 +6,15 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
+import com.apollopharmacy.mpospharmacist.root.AppConstant;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,6 +84,50 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                 public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().showMessage(R.string.some_error);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void checkValidateVendor() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+
+            ApiInterface api = ApiClient.getApiService();
+            VendorValidationReq validationReq = new VendorValidationReq();
+            validationReq.setDEVICEID("");
+            validationReq.setKEY("");
+            Call<VendorCheckRes> call = api.VENDOR_CHECK_RES_CALL("", validationReq);
+            call.enqueue(new Callback<VendorCheckRes>() {
+                @Override
+                public void onResponse(@NotNull Call<VendorCheckRes> call, @NotNull Response<VendorCheckRes> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getStatus()) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            getDataManager().setVendorRes(json);
+                            if (getDataManager().isUserLogin()) {
+
+                            } else {
+
+                                getMvpView().openLoginActivity();
+                            }
+                        } else {
+
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getMessage());
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<VendorCheckRes> call, @NotNull Throwable t) {
+
+                    getMvpView().showMessage("Something went wrong");
                 }
             });
         } else {

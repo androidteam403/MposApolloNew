@@ -29,6 +29,7 @@
         app:menu="@menu/activity_main_drawer">
 
         <TextView
+            android:id="@+id/logout_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginTop="550dp"

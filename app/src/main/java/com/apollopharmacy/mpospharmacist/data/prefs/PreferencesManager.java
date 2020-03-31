@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.data.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.di.PreferenceInfo;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -29,6 +30,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_TERMINAL_ID ="PREF_KEY_TERMINAL_ID";
     private static final String PREF_KEY_USER_LOGIN = "PREF_KEY_USER_LOGIN";
     private static final String PREF_KEY_DATA_AREA_ID = "PREF_KEY_DATA_AREA_ID";
+    private static final String PREF_KEY_VENDOR_RES = "PREF_KEY_VENDOR_RES";
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -165,6 +167,18 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setUserLogin(boolean firstTime) {
         mPrefs.edit().putBoolean(PREF_KEY_USER_LOGIN,firstTime).apply();
+    }
+
+    @Override
+    public void setVendorRes(String res) {
+        mPrefs.edit().putString(PREF_KEY_VENDOR_RES,res).apply();
+    }
+
+    @Override
+    public VendorCheckRes getVendorRes() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_VENDOR_RES,"");
+        return gson.fromJson(json, VendorCheckRes.class);
     }
 
     @Override

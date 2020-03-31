@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
@@ -130,4 +132,8 @@ public interface ApiInterface {
 
     @POST
     Call<OTPRes> GENERATE_OTP_RES_CALL (@Url String url);
+
+    @POST
+    Call<VendorCheckRes> VENDOR_CHECK_RES_CALL(@Url String url, @Body VendorValidationReq requestBody);
+
 }

@@ -2,13 +2,19 @@ package com.apollopharmacy.mpospharmacist.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -17,9 +23,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.apollopharmacy.mpospharmacist.R;
+import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacist.utils.DownloadController;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import javax.inject.Inject;
 
@@ -89,6 +99,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 return true;
             }
         });
+
+        TextView logoutBtn = findViewById(R.id.logout_btn);
+        logoutBtn.setOnClickListener(view1 -> mvpPresenter.logoutUser());
         setUp();
     }
 
@@ -96,6 +109,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     protected void setUp() {
         userName.setText(mvpPresenter.getLoginUserName());
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
+
+     //   mvpPresenter.onCheckBuildDetails();
     }
 
 
@@ -121,6 +136,92 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             navController.navigate(R.id.nav_dash_board);
             Singletone.getInstance().isOrderCompleted = false;
+        }
+    }
+
+    @Override
+    public void navigateLoginActivity() {
+        startActivity(PharmacistLoginActivity.getStartIntent(this));
+        finish();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    private DownloadController downloadController;
+    @Override
+    public void displayAppInfoDialog(String title, String subTitle, String positiveBtn, String negativeBtn) {
+        ExitInfoDialog dialogView = new ExitInfoDialog(MainActivity.this);
+        dialogView.setTitle(title);
+        dialogView.setSubtitle(subTitle);
+        if (!TextUtils.isEmpty(positiveBtn)) {
+            dialogView.setPositiveLabel(positiveBtn);
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+//                    UpdateApp atualizaApp = new UpdateApp();
+//                    atualizaApp.setContext(getApplicationContext());
+//                    atualizaApp.execute("http://serverurl/appfile.apk");
+                    startDownload();
+
+                }
+            });
+        }
+        if (!TextUtils.isEmpty(negativeBtn)) {
+            dialogView.setNegativeLabel(negativeBtn);
+            dialogView.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogView.dismiss();
+                }
+            });
+        } else {
+            dialogView.setDialogDismiss();
+        }
+
+        dialogView.show();
+    }
+
+
+    private static final int PERMISSION_REQUEST_CODE = 1;
+
+    private void startDownload() {
+        if (checkPermission()) {
+            // start downloading
+            downloadController.enqueueDownload();
+        } else {
+            requestPermission(); // Code for permission
+        }
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startDownload();
+                    Log.e("value", "Permission Granted, Now you can use local drive .");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive .");
+                }
+                break;
         }
     }
 }

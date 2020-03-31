@@ -85,6 +85,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         }
         if(!TextUtils.isEmpty(orderId)){
             filtersReq.setOrderId(orderId);
+        }else{
+            filtersReq.setOrderId("");
         }
         return true;
     }
@@ -92,22 +94,25 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private void showFromDate(){
         // Get Current Date
         final Calendar c = Calendar.getInstance();
+        c.set(filtersReq.getFrom_Year(),filtersReq.getFrom_Month(),filtersReq.getFrom_date());
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        fromDay= dayOfMonth;
-                        fromMonth = monthOfYear;
-                        fromYear = year;
+                        filtersReq.setFrom_Year(year);
+                        filtersReq.setFrom_Month(monthOfYear);
+                        filtersReq.setFrom_date(dayOfMonth);
                         ordersBottomSheetBinding.getFilters().setFromDate(CommonUtils.convertDateFormat(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year));
                         filtersReq.setFromDate(CommonUtils.convertDateFormat(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year));
                     }
                 }, mYear, mMonth, mDay);
-        datePickerDialog.getDatePicker().setMaxDate(c.getTime().getTime());
+        Calendar ca = Calendar.getInstance();
+        datePickerDialog.getDatePicker().setMaxDate(ca.getTime().getTime());
         datePickerDialog.show();
     }
 
@@ -128,7 +133,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                     }
                 }, mYear, mMonth, mDay);
         Calendar ca = Calendar.getInstance();
-        ca.set(fromYear,fromMonth,fromDay);
+        ca.set(filtersReq.getFrom_Year(),filtersReq.getFrom_Month(),filtersReq.getFrom_date());
         datePickerDialog.getDatePicker().setMinDate(ca.getTime().getTime());
         datePickerDialog.getDatePicker().setMaxDate(c.getTime().getTime());
         datePickerDialog.show();

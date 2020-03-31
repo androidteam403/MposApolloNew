@@ -6,10 +6,12 @@ import com.apollopharmacy.mpospharmacist.data.network.RestApiHelper;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.FeedItem;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.LoginRequest;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.UserProfile;
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.WrapperResponse;
 import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesHelper;
 import com.apollopharmacy.mpospharmacist.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
@@ -69,6 +71,11 @@ public class BaseDataManager  implements DataManager {
     @Override
     public Single<WrapperResponse<List<FeedItem>>> getFeedList() {
         return mApiHelper.getFeedList();
+    }
+
+    @Override
+    public Single<WrapperResponse<GetTenderTypeRes>> getTenderType(String storeId, String dataAreaId, Object o) {
+        return mApiHelper.getTenderType(storeId,dataAreaId,o);
     }
 
     @Override
@@ -184,6 +191,16 @@ public class BaseDataManager  implements DataManager {
     @Override
     public void setUserLogin(boolean firstTime) {
         mPreferencesHelper.setUserLogin(firstTime);
+    }
+
+    @Override
+    public void setVendorRes(String res) {
+        mPreferencesHelper.setVendorRes(res);
+    }
+
+    @Override
+    public VendorCheckRes getVendorRes() {
+        return mPreferencesHelper.getVendorRes();
     }
 
     @Override
