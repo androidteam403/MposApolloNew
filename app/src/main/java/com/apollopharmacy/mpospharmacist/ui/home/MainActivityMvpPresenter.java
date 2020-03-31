@@ -7,4 +7,8 @@ public interface MainActivityMvpPresenter<V extends MainActivityMvpView> extends
     String getLoginUserName();
 
     String getLoinStoreLocation();
+
+    void logoutUser();
+
+    void onCheckBuildDetails();
 }

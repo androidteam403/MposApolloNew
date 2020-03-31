@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="call"
             type="com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView" />
@@ -20,6 +20,9 @@
         <variable
             name="corporate"
             type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+        <variable
+            name="payment"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
 
     </data>
 
@@ -103,7 +106,8 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onCustomerEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view" />
+                            android:src="@drawable/ic_edit_view"
+                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -192,7 +196,8 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onDoctorEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view" />
+                            android:src="@drawable/ic_edit_view"
+                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -286,7 +291,8 @@
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
-                        android:src="@drawable/ic_edit_view" />
+                        android:src="@drawable/ic_edit_view"
+                        android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
                 </RelativeLayout>
 
                 <LinearLayout

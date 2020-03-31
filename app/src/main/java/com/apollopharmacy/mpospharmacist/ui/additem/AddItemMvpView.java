@@ -116,5 +116,7 @@ public interface AddItemMvpView extends MvpView {
 
     void openManualDiscDialog(ManualDiscCheckRes body);
 
+    void errorMessageDialog(String title,String message);
+
     void generateOTPResponseSuccess(String otp);
 }

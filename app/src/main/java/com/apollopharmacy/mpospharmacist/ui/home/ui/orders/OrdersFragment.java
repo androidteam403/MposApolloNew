@@ -31,6 +31,8 @@ import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -71,6 +73,20 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         filtersReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
         filtersReq.setMobile("");
         filtersReq.setOrderId("");
+
+         Date today = new Date();
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(today);
+         int dayOfWeek = cal.get(Calendar.DAY_OF_MONTH);
+         int dayOfMonth = cal.get(Calendar.MONTH);
+         int dayOfYear = cal.get(Calendar.YEAR); //169
+
+        filtersReq.setFrom_date(dayOfWeek);
+        filtersReq.setFrom_Month(dayOfMonth);
+        filtersReq.setFrom_Year(dayOfYear);
+        filtersReq.setTo_date(dayOfWeek);
+        filtersReq.setTo_month(dayOfMonth);
+        filtersReq.setTo_year(dayOfYear);
         mPresenter.getOrdersDetails();
     }
 
@@ -109,15 +125,6 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
-    @Override
-    public String getSearchMobileNumber() {
-        return fragmentOrderBinding.searchEditMobile.getText().toString();
-    }
-
-    @Override
-    public void setErrorMessageEditText(String message) {
-        fragmentOrderBinding.searchEditMobile.setError(message);
-    }
 
     @Override
     public void onSuccessOrderList(ArrayList<CalculatePosTransactionRes> orderListRes) {
@@ -159,6 +166,9 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
                 orderListReq.setPreviousBills(false);
                 orderListReq.setReceiptId(filtersReq.getOrderId());
                 orderListReq.setToDate(filtersReq.getToDate()); //  "13-Mar-2020"
+                ordersModelArrayList.clear();
+                ordersAdapter.notifyDataSetChanged();
+                fragmentOrderBinding.setCount(ordersModelArrayList.size());
                 mPresenter.orderServiceCall(orderListReq);
             }
         }

@@ -14,8 +14,6 @@ public interface OrdersMvpPresenter<V extends OrdersMvpView> extends MvpPresente
 
     void onItemClick(CalculatePosTransactionRes item);
 
-    void onClickSearchIcon();
-
     void getOrdersDetails();
 
     void orderServiceCall(OrderListReq orderListReq);

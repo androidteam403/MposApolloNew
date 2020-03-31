@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.data.prefs;
 
+import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 public interface PreferencesHelper {
@@ -55,4 +56,8 @@ public interface PreferencesHelper {
     void storeGlobalJson(String json);
 
     GetGlobalConfingRes getGlobalJson();
+
+    void setVendorRes(String res);
+
+    VendorCheckRes getVendorRes();
 }

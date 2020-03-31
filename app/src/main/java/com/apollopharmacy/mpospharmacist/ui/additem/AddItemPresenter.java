@@ -375,7 +375,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                                 getMvpView().openManualDiscDialog(response.body());
                         } else if(response.body() != null){
-                                getMvpView().showMessage(response.body().getReturnMessage());
+                                getMvpView().errorMessageDialog("Manual Discount",response.body().getReturnMessage());
                         }
                     }
                 }

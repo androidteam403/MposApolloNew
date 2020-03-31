@@ -2,8 +2,10 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -68,4 +70,19 @@ public class ExitInfoDialog {
         exitInfoDialogBinding.dialogButtonNO.setText(negative);
     }
 
+    public void setDialogDismiss(){
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                }
+                return true;
+            }
+        });
+    }
 }

@@ -16,10 +16,6 @@ public interface OrdersMvpView extends MvpView {
 
     void onItemClick(CalculatePosTransactionRes item);
 
-    String getSearchMobileNumber();
-
-    void setErrorMessageEditText(String message);
-
     void onSuccessOrderList(ArrayList<CalculatePosTransactionRes> orderListRes);
 
     void noDataFound();

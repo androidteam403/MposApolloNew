@@ -612,6 +612,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         }
         addItemBinding.setProductCount(getItemsCount());
         addItemBinding.setOrderInfo(orderPriceInfoModel);
+
+        isExpand = false;
+        ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
+        anim.setDuration(500);
+        anim.start();
+        rotationAngle += 180;
+        rotationAngle = rotationAngle % 360;
+        ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
     }
 
     @Override
@@ -710,6 +718,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.oneApolloAmountEditText.setText("");
         if(transactionRes.getTenderLine().size()>0){
+            paymentMethodModel.setPaymentInitiate(true);
             arrPayAdapterModel.clear();
             paymentDoneAmount = 0.0;
             for(TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()){
@@ -718,8 +727,16 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     paymentMethodModel.setPaymentDone(true);
                     paymentMethodModel.setGenerateBill(true);
                 } else {
-                    paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
-                    paymentMethodModel.setBalanceAmount(true);
+                    double balanceAmt = orderTotalAmount() - paymentDoneAmount;
+                    if(balanceAmt < 0) {
+                        paymentMethodModel.setPaymentDone(true);
+                        paymentMethodModel.setGenerateBill(true);
+                        paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+                        paymentMethodModel.setBalanceAmount(false);
+                    }else{
+                        paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+                        paymentMethodModel.setBalanceAmount(true);
+                    }
                 }
                 if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
                     PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
@@ -733,6 +750,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 }
             }
             payActivityAdapter.notifyDataSetChanged();
+        }else{
+            paymentMethodModel.setPaymentInitiate(false);
         }
 
 
@@ -786,6 +805,28 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             }
         });
         manualDiscDialog.show();
+    }
+
+    @Override
+    public void errorMessageDialog(String title, String message) {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle(title);
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle(message);
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+            }
+        });
+//        dialogView.setNegativeLabel("No");
+//        dialogView.setNegativeListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialogView.dismiss();
+//            }
+//        });
+        dialogView.show();
     }
 
     @Override
@@ -964,7 +1005,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         }
                         break;
                     case CUSTOMER_SEARCH_ACTIVITY_CODE:
-                        customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+                        customerEntity = (GetCustomerResponse.CustomerEntity)data.getSerializableExtra("customer_info");
                         if (customerEntity != null) {
                             addItemBinding.setCustomer(customerEntity);
                         }
@@ -1187,4 +1228,6 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         paymentMethodModel.setPaymentDone(false);
         paymentMethodModel.setGenerateBill(false);
     }
+
+
 }
