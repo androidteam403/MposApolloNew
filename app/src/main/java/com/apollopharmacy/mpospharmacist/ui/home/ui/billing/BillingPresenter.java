@@ -106,7 +106,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 @Override
                 public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    getMvpView().showMessage(t.getMessage());
+                    handleApiError(t);
                 }
             });
         } else {
@@ -137,7 +137,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 @Override
                 public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    getMvpView().showMessage(t.getMessage());
+                    handleApiError(t);
                 }
             });
         } else {
@@ -174,7 +174,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 @Override
                 public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    getMvpView().showMessage(t.getMessage());
+                    handleApiError(t);
                 }
             });
         } else {
@@ -204,7 +204,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 @Override
                 public void onFailure(@NotNull Call<SalesOriginResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    getMvpView().showMessage(t.getMessage());
+                    handleApiError(t);
                 }
             });
         } else {

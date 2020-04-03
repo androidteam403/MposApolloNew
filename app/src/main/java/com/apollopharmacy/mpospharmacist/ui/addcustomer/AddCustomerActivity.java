@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacist.R;
@@ -16,6 +20,7 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+import com.tiper.MaterialSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +33,9 @@ import javax.inject.Inject;
 
 import androidx.databinding.DataBindingUtil;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
 public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpView {
@@ -37,9 +45,11 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     private ActivityAddCustomerBinding addCustomerBinding;
 
     private String requiredDOBFormat = "";
+    private GetCustomerResponse.CustomerEntity userInputNumber;
 
-    public static Intent getStartIntent(Context context, String inputNumber) {
+    public static Intent getStartIntent(Context context, boolean isEdit,GetCustomerResponse.CustomerEntity inputNumber) {
         Intent intent = new Intent(context, AddCustomerActivity.class);
+        intent.putExtra("is_edit_mode",isEdit);
         intent.putExtra("customer_number", inputNumber);
         return intent;
     }
@@ -58,17 +68,36 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         addCustomerBinding.setCallback(mPresenter);
 
         if (getIntent() != null) {
-            String userInputNumber = (String) getIntent().getSerializableExtra("customer_number");
-            addCustomerBinding.mobile.setText(userInputNumber);
-            if (userInputNumber != null) {
-                addCustomerBinding.mobile.setSelection(userInputNumber.length());
-            }
-        }
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-        addCustomerBinding.dateOfRegistration.setText(df.format(c));
+             userInputNumber = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_number");
+            addCustomerBinding.setCustomerDetails(userInputNumber);
 
-        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getGender());
+//            if (userInputNumber != null) {
+//                addCustomerBinding.mobile.setText(userInputNumber.getMobileNo());
+//                addCustomerBinding.mobile.setSelection(userInputNumber.getMobileNo().length());
+//            }
+        }
+//        Date c = Calendar.getInstance().getTime();
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+//        addCustomerBinding.dateOfRegistration.setText(df.format(c));
+        addCustomerBinding.gender.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_item, getGender()){
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        genderSpinnerPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addCustomerBinding.gender.setAdapter(genderSpinnerPojo);
 
 //        ArrayAdapter<SpinnerPojo.City> citySpinnerPojo = new ArrayAdapter<SpinnerPojo.City>(getContext(), android.R.layout.simple_spinner_dropdown_item, getCity());
@@ -82,8 +111,25 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 //        ArrayAdapter<SpinnerPojo.District> districtSpinnerPojo = new ArrayAdapter<SpinnerPojo.District>(getContext(), android.R.layout.simple_spinner_dropdown_item, getDistrict());
 //        addCustomerBinding.districtSpinner.setAdapter(districtSpinnerPojo);
 //        addCustomerBinding.districtSpinner.setFocusableInTouchMode(false);
+        addCustomerBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getApplicationContext(), android.R.layout.simple_spinner_item, getMarital()){
 
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getMarital());
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        maritalStatusPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addCustomerBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
         addCustomerBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
     }
@@ -125,8 +171,45 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onSubmitClick() {
         if (validate()) {
-            mPresenter.handleCustomerAddService();
+            boolean isEditMode = getIntent().getBooleanExtra("is_edit_mode",false);
+            if(isEditMode)
+                submitEditMode();
+            else
+                mPresenter.handleCustomerAddService();
         }
+    }
+
+    private void submitEditMode(){
+        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+        customerEntity.setSearchId(userInputNumber.getCustId());
+        customerEntity.setCardName(getFirstName());
+        customerEntity.setMiddleName(getMiddleName());
+        customerEntity.setLastName(getLastName());
+        customerEntity.setCardNo(userInputNumber.getCardNo());
+        customerEntity.setEmail(getEmail());
+        customerEntity.setMobileNo(getMobile());
+        customerEntity.setTelephoneNo(getTelephone());
+        customerEntity.setAge(addCustomerBinding.age.getText().toString());
+        customerEntity.setGender(getGenderOption());
+        customerEntity.setMaritalStatus(getMaritalStatus());
+        customerEntity.setDob(getDOB());
+        customerEntity.setDistrict(getDistrictOption());
+        customerEntity.setCity(getCityOption());
+        customerEntity.setState(getStateOption());
+        customerEntity.setZipCode(getZipCode());
+        customerEntity.setPostalAddress(getPostalAddress());
+        customerEntity.setAnniversary(getAnniversary());
+        customerEntity.setNumberOfDependents(addCustomerBinding.numberOfDependents.getText().toString());
+        customerEntity.setDateOfRegistration(getDateOfReg());
+        customerEntity.setCorpId(userInputNumber.getCorpId());
+
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("customer_info", customerEntity);
+        returnIntent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
     }
 
     @Override

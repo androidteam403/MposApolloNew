@@ -33,10 +33,24 @@
     <string name="label_span_reqQty">ReqQty: %1$s</string>
 
     <string name="label_generic_name"> Name: \n%1$s</string>
+    <string name="label_generic_lastName">Last Name: \n%1$s</string>
+    <string name="label_generic_age">Age: \n%1$s</string>
     <string name="label_generic_gender"> Gender: \n%1$s</string>
     <string name="label_generic_phone_number"> Phone number: \n%1$s</string>
     <string name="label_generic_phone_no"> Phone No.: \n%1$s</string>
     <string name="label_generic_dob"> DOB: \n%1$s</string>
+    <string name="label_generic_dob_text"> Date of Birth: \n%1$s</string>
+    <string name="label_generic_postal"> Postal Address: \n%1$s</string>
+    <string name="label_generic_city"> City: \n%1$s</string>
+    <string name="label_generic_State"> State: \n%1$s</string>
+    <string name="label_generic_District"> District: \n%1$s</string>
+    <string name="label_generic_Zip_Code"> Zip Code: \n%1$s</string>
+    <string name="label_generic_Email"> Email: \n%1$s</string>
+    <string name="label_generic_Anniversary"> Anniversary: \n%1$s</string>
+    <string name="label_generic_Marital_Status"> Marital Status: \n%1$s</string>
+    <string name="label_generic_Number_of_Dependents"> Number of Dependents: \n%1$s</string>
+    <string name="label_generic_Date_of_Registration"> Date of Registration: \n%1$s</string>
+
     <string name="label_generic_card_no">Card Number : \n%1$s</string>
     <string name="label_generic_tel">Telephone : \n%1$s</string>
 
@@ -135,7 +149,7 @@
     <string name="label_store_setup">Store Setup</string>
     <string name="label_mac_id">Mac id</string>
     <string name="label_pos123">pos123</string>
-    <string name="label_sight_registration">Sight Registration</string>
+    <string name="label_sight_registration">Site Registration</string>
     <string name="label_terminal_id">Terminal Id</string>
     <string name="label_select_store">Select Store</string>
     <string name="label_select_store_id">Select Store Id</string>
@@ -344,4 +358,6 @@
     <string name="label_total_item_header">TOTAL</string>
     <string name="label_rs_symbol">\u20B9</string>
     <string name="label_no_item_found">No Item Found</string>
+
+
 </resources>

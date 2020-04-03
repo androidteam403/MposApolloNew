@@ -67,6 +67,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
                 @Override
                 public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -91,6 +92,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
                 @Override
                 public void onFailure(@NotNull Call<SalesOriginResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -119,6 +121,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
 
                 @Override
                 public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
+                    handleApiError(t);
                 }
             });
         } else {

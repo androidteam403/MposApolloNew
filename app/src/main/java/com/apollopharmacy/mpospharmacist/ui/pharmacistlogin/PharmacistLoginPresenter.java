@@ -35,6 +35,11 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     }
 
     @Override
+    public void onClickCampaignClose() {
+        getMvpView().onClickCampaignClose();
+    }
+
+    @Override
     public void onInstoreCLick() {
         getMvpView().onClickInstore();
     }
@@ -65,6 +70,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onFailure(@NotNull Call<UserModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -93,6 +99,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onFailure(@NotNull Call<CampaignDetailsRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -108,8 +115,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             ApiInterface api = ApiClient.getApiService();
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());
-            loginReqModel.setStoreID(getMvpView().getStoreId());
-            loginReqModel.setTerminalID(getMvpView().getTerminalId());
+            loginReqModel.setStoreID(getDataManager().getStoreId());
+            loginReqModel.setTerminalID(getDataManager().getTerminalId());
             loginReqModel.setPassword(getMvpView().getUserPassword());
             Call<LoginResModel> call = api.LOGIN_RES_MODEL_CALL(loginReqModel);
             call.enqueue(new Callback<LoginResModel>() {
@@ -133,6 +140,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onFailure(@NotNull Call<LoginResModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -148,8 +156,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             ApiInterface api = ApiClient.getApiService();
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());
-            loginReqModel.setStoreID(getMvpView().getStoreId());
-            loginReqModel.setTerminalID(getMvpView().getTerminalId());
+            loginReqModel.setStoreID(getDataManager().getStoreId());
+            loginReqModel.setTerminalID(getDataManager().getTerminalId());
             loginReqModel.setPassword(getMvpView().getUserPassword());
             Call<LoginResModel> call = api.LOGIN_RES_MODEL_CALL(loginReqModel);
             call.enqueue(new Callback<LoginResModel>() {
@@ -173,6 +181,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onFailure(@NotNull Call<LoginResModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -208,6 +217,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

@@ -5,7 +5,6 @@ import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginR
 
 public interface NewAdminLoginMvpView extends MvpView {
 
-    void onLoginClick();
 
     String getUserID();
 
@@ -14,4 +13,6 @@ public interface NewAdminLoginMvpView extends MvpView {
     void userLoginSuccess(AdminLoginResModel loginResModel);
 
     void userLoginFailed(String errMsg);
+
+    boolean validation();
 }

@@ -28,37 +28,40 @@ public class NewAdminLoginPresenter <V extends NewAdminLoginMvpView> extends Bas
 
     @Override
     public void onAdminLoginClick() {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService2();
-            AdminLoginReqModel loginReqModel = new AdminLoginReqModel();
-            loginReqModel.setUserId(getMvpView().getUserID());
-            loginReqModel.setPassword(getMvpView().getPassword());
-            loginReqModel.setUserType("ADMIN");
-            Call<AdminLoginResModel> call = api.LOGIN_SERVICE_CALL(loginReqModel);
-            call.enqueue(new Callback<AdminLoginResModel>() {
-                @Override
-                public void onResponse(@NotNull Call<AdminLoginResModel> call, @NotNull Response<AdminLoginResModel> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        if (response.body().isStatus()) {
-                            getDataManager().setAdminLoginId(getMvpView().getUserID());
-                            getDataManager().setAdminLoginFinish(true);
-                            getMvpView().userLoginSuccess(response.body());
-                        } else {
-                            getMvpView().userLoginFailed(response.body().getMessage());
+        if(getMvpView().validation()) {
+            if (getMvpView().isNetworkConnected()) {
+                getMvpView().showLoading();
+                ApiInterface api = ApiClient.getApiService2();
+                AdminLoginReqModel loginReqModel = new AdminLoginReqModel();
+                loginReqModel.setUserId(getMvpView().getUserID());
+                loginReqModel.setPassword(getMvpView().getPassword());
+                loginReqModel.setUserType("ADMIN");
+                Call<AdminLoginResModel> call = api.LOGIN_SERVICE_CALL(loginReqModel);
+                call.enqueue(new Callback<AdminLoginResModel>() {
+                    @Override
+                    public void onResponse(@NotNull Call<AdminLoginResModel> call, @NotNull Response<AdminLoginResModel> response) {
+                        if (response.isSuccessful()) {
+                            getMvpView().hideLoading();
+                            if (response.body().isStatus()) {
+                                getDataManager().setAdminLoginId(getMvpView().getUserID());
+                                getDataManager().setAdminLoginFinish(true);
+                                getMvpView().userLoginSuccess(response.body());
+                            } else {
+                                getMvpView().userLoginFailed(response.body().getMessage());
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(@NotNull Call<AdminLoginResModel> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
+                    @Override
+                    public void onFailure(@NotNull Call<AdminLoginResModel> call, @NotNull Throwable t) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        handleApiError(t);
+                    }
+                });
+            } else {
+                getMvpView().onError("Internet Connection Not Available");
+            }
         }
     }
 }

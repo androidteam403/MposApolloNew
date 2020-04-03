@@ -277,6 +277,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/fifteen_dp"
                             android:textColor="@color/colorPrimary"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@{@string/label_total_price(String.format(`%.2f`,item.amounttoAccount))}"
                             android:textSize="@dimen/text_dimen_18"
                             android:textStyle="bold" />
@@ -284,7 +285,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{@string/label_savings_price(String.format(`%.2f`,item.OrderSavingsAmount)) + `(`+item.discAmount+`%)`}"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@{@string/label_savings_price(String.format(`%.2f`,item.OrderSavingsAmount)) + `(`+String.format(`%.2f`,item.discAmount)+`%)`}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_10" />
                     </LinearLayout>
@@ -324,7 +326,8 @@
                         android:layout_marginTop="@dimen/forty_five_dp"
                         android:background="@color/cpb_yellow"
                         android:text="@string/label_return"
-                        android:textAllCaps="false" />
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/roboto_regular"/>
                 </RelativeLayout>
             </LinearLayout>
         </ScrollView>

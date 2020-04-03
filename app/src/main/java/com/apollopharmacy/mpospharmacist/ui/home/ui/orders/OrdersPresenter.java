@@ -96,7 +96,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
                 @Override
                 public void onFailure(@NotNull Call<ArrayList<CalculatePosTransactionRes>> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    getMvpView().showMessage(t.getMessage());
+                    handleApiError(t);
                 }
             });
         } else {

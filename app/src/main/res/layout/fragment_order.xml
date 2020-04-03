@@ -89,6 +89,7 @@
                 android:layout_marginBottom="@dimen/five_dp"
                 android:background="@color/light_grey"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/label_5_items_found(count)}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12"
@@ -106,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto_regular"
             android:text="@string/label_no_data_found"
             android:visibility="@{noDataFound ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>

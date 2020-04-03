@@ -110,7 +110,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private final int REQUEST_CODE_BRAND_EMI = 10022;
     private final int REQUEST_CODE_PRINT_RECEIPT = 10021;
     private final int REQUEST_CODE_PRINT_BITMAP = 10022;
-    private boolean isExpand = false;
+    private boolean isExpand = true;
     private int rotationAngle = 0;
     private CorporateModel corporateModel;
 
@@ -442,9 +442,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return paymentMethodModel;
     }
 
+    ValidatePointsResModel.OneApolloProcessResultEntity validatePointsResModel;
     @Override
     public ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints() {
-        return addItemBinding.getValidatePoints();
+        return validatePointsResModel;
     }
 
     @Override
@@ -630,7 +631,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     @Override
     public void onSuccessOneApolloSendOtp(ValidatePointsResModel.OneApolloProcessResultEntity resultEntity) {
         paymentMethodModel.setOTPView(true);
-        addItemBinding.setValidatePoints(resultEntity);
+        validatePointsResModel = resultEntity;
+     //   addItemBinding.setValidatePoints(resultEntity);
     }
 
     @Override
@@ -726,6 +728,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 if (paymentDoneAmount == orderTotalAmount()) {
                     paymentMethodModel.setPaymentDone(true);
                     paymentMethodModel.setGenerateBill(true);
+                    paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+                    paymentMethodModel.setBalanceAmount(false);
                 } else {
                     double balanceAmt = orderTotalAmount() - paymentDoneAmount;
                     if(balanceAmt < 0) {
@@ -738,19 +742,21 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         paymentMethodModel.setBalanceAmount(true);
                     }
                 }
-                if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
-                    PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                    arrPayAdapterModel.add(payAdapterModel);
-                } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 2) {
-                    PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                    arrPayAdapterModel.add(payAdapterModel);
-                } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 3) {
-                    PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                    arrPayAdapterModel.add(payAdapterModel);
-                }
+                if (!TextUtils.isEmpty(tenderLineEntity.getTenderId()))
+                    if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        arrPayAdapterModel.add(payAdapterModel);
+                    } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 2) {
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        arrPayAdapterModel.add(payAdapterModel);
+                    } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 3) {
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        arrPayAdapterModel.add(payAdapterModel);
+                    }
             }
             payActivityAdapter.notifyDataSetChanged();
         }else{
+            paymentMethodModel.setBalanceAmount(false);
             paymentMethodModel.setPaymentInitiate(false);
         }
 
@@ -758,15 +764,19 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
-    public void toRemovePayedAmount(double amount) {
-        paymentDoneAmount -= amount;
-        if (paymentDoneAmount == 0.0) {
-            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
-            paymentMethodModel.setBalanceAmount(false);
-
+    public void toRemovePayedAmount(int position) {
+        if(calculatePosTransactionRes.getTenderLine().size() > 0) {
+            calculatePosTransactionRes.getTenderLine().remove(position);
         }
-        paymentMethodModel.setPaymentDone(false);
-        paymentMethodModel.setGenerateBill(false);
+        updatePayedAmount(calculatePosTransactionRes);
+//        paymentDoneAmount -= amount;
+//        if (paymentDoneAmount == 0.0) {
+//            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+//            paymentMethodModel.setBalanceAmount(false);
+//
+//        }
+//        paymentMethodModel.setPaymentDone(false);
+//        paymentMethodModel.setGenerateBill(false);
     }
     private ManualDiscDialog  manualDiscDialog;
     @Override
@@ -847,6 +857,12 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             paymentMethodModel.setErrorApolloPoints(true);
         }
     }
+
+    @Override
+    public ValidatePointsResModel.OneApolloProcessResultEntity onApolloPointsAvailablePoints() {
+      return   addItemBinding.getValidatePoints();
+    }
+
 
     @Override
     public void onFailedValidateOneApolloPoints(ValidatePointsResModel body) {

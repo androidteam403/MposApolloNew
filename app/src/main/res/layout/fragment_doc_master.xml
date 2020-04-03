@@ -157,7 +157,9 @@
             android:padding="@dimen/twelve_dp"
             android:text="@string/label_submit"
             android:textColor="@color/black"
+            android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/roboto_bold"/>
     </RelativeLayout>
 </layout>

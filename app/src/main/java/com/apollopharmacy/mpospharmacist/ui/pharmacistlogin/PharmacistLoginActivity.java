@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -18,12 +20,9 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBind
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
-import com.tiper.MaterialSpinner;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -32,9 +31,8 @@ import javax.inject.Inject;
 public class PharmacistLoginActivity extends BaseActivity implements PharmacistLoginMvpView {
     @Inject
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
-    String strFont = null;
     private ActivityPharmacistLoginBinding pharmacistLoginBinding;
-    private boolean isSelectCampaign = false;
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, PharmacistLoginActivity.class);
     }
@@ -48,10 +46,12 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         setUp();
     }
 
-    @SuppressLint("ResourceType")
+
     @Override
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
+        pharmacistLoginBinding.selectUser.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        pharmacistLoginBinding.selectCampaign.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         mPresenter.getUserId();
     }
 
@@ -81,9 +81,9 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
             int radioButtonID = pharmacistLoginBinding.radioGroup.getCheckedRadioButtonId();
             View radioButton = pharmacistLoginBinding.radioGroup.findViewById(radioButtonID);
             int idx = pharmacistLoginBinding.radioGroup.indexOfChild(radioButton);
-            if(idx == 0) {
-                  mPresenter.userLoginInStoreApi();
-            }else{
+            if (idx == 0) {
+                mPresenter.userLoginInStoreApi();
+            } else {
                 mPresenter.userLoginCampaignApi();
             }
         }
@@ -96,32 +96,68 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     }
 
     @Override
+    public void onClickCampaignClose() {
+        pharmacistLoginBinding.relativeInfo.setVisibility(View.GONE);
+        pharmacistLoginBinding.selectCampaign.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onCampaignSelect() {
 
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void getUserIds(UserModel body) {
-        ArrayAdapter<UserModel._DropdownValueBean> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, body.getGetLoginUserResult().get_DropdownValue());
-        strFont = this.getString(R.font.roboto_regular);
-        Typeface tt = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-        pharmacistLoginBinding.selectUser.setTypeface(tt);
+        ArrayAdapter<UserModel._DropdownValueBean> adapter = new ArrayAdapter<UserModel._DropdownValueBean>(this,
+                android.R.layout.simple_spinner_dropdown_item, body.getGetLoginUserResult().get_DropdownValue()) {
+
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         pharmacistLoginBinding.selectUser.setAdapter(adapter);
         pharmacistLoginBinding.selectUser.setOnItemClickListener((materialSpinner, view, i, l) -> {
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             pharmacistLoginBinding.selectUser.setError(null);
         });
     }
-    @SuppressLint("ResourceType")
+
     @Override
     public void setCampaignDetails(CampaignDetailsRes campaignDetails) {
-        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails());
-        strFont = this.getString(R.font.roboto_regular);
-        Typeface tt1 = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
-        pharmacistLoginBinding.selectCampaign.setTypeface(tt1);
+        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<CampaignDetailsRes.CampDetailsEntity>(this,
+                android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails()) {
+
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pharmacistLoginBinding.selectCampaign.setAdapter(adapter1);
 
         pharmacistLoginBinding.selectCampaign.setOnItemClickListener((materialSpinner, view, i, l) -> {
@@ -155,15 +191,6 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         return null;
     }
 
-    @Override
-    public String getStoreId() {
-        return "16001";
-    }
-
-    @Override
-    public String getTerminalId() {
-        return "001";
-    }
 
     @Override
     public String getUserPassword() {

@@ -79,6 +79,7 @@ public class DoctorMasterPresenter<V extends DoctorMasterMvpView> extends BasePr
                 @Override
                 public void onFailure(@NotNull Call<AddDoctorResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

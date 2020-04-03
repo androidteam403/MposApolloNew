@@ -88,4 +88,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="RobotoBoldTextAppearance">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
 </resources>

@@ -72,15 +72,9 @@ import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpView;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserMvpView;
-import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserPresenter;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashMvpView;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashPresenter;
@@ -139,17 +133,7 @@ public class ActivityModule {
         return presenter;
     }
 
-    @Provides
-    @PerActivity
-    SearchProductMvpPresenter<SearchProductMvpView> provideSearchProductActivity(SearchProductPresenter<SearchProductMvpView> presenter) {
-        return presenter;
-    }
 
-    @Provides
-    @PerActivity
-    SearchUserMvpPresenter<SearchUserMvpView> provideSearchUserActivity(SearchUserPresenter<SearchUserMvpView> presenter) {
-        return presenter;
-    }
 
     @Provides
     @PerActivity

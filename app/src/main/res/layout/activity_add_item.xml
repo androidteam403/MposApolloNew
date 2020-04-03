@@ -444,6 +444,7 @@
                                 android:paddingEnd="@dimen/ten_dp"
                                 android:paddingBottom="@dimen/five_dp"
                                 android:text="Apply"
+                                android:fontFamily="@font/roboto_regular"
                                 android:textColor="@color/white"
                                 android:onClick="@{()-> callback.onClickManualDisc()}"/>
                         </LinearLayout>
@@ -563,6 +564,7 @@
                             android:layout_marginTop="@dimen/twenty_dp"
                             android:layout_marginBottom="@dimen/five_dp"
                             android:text="payment method"
+                            android:fontFamily="@font/roboto_bold"
                             android:textAllCaps="true"
                             android:textColor="@color/payment_type_header" />
 
@@ -692,6 +694,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="cash payment: "
                                 android:textAllCaps="true"
                                 android:textColor="@color/add_item_header" />
@@ -743,6 +746,7 @@
                                 android:layout_marginEnd="@dimen/ten_dp"
                                 android:gravity="center_vertical"
                                 android:text="card payment: "
+                                android:fontFamily="@font/roboto_regular"
                                 android:textAllCaps="true"
                                 android:textColor="@color/add_item_header" />
 
@@ -857,6 +861,7 @@
                                         android:paddingEnd="@dimen/ten_dp"
                                         android:paddingBottom="@dimen/five_dp"
                                         android:text="Try Again"
+                                        android:fontFamily="@font/roboto_regular"
                                         android:textColor="@color/white"
                                         android:visibility="@{paymentMode.isErrorApolloPoints ? View.VISIBLE : View.GONE}"
                                         android:onClick="@{()-> callback.onClickOneApolloPayment()}"/>
@@ -893,6 +898,7 @@
                                     android:layout_marginEnd="@dimen/ten_dp"
                                     android:gravity="center_vertical"
                                     android:text="Points: "
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textAllCaps="true"
                                     android:textColor="@color/add_item_header" />
 
@@ -955,7 +961,8 @@
                                     app:lineColor="@color/colorPrimary"
                                     app:maskingChar="*"
                                     app:state_filled="true"
-                                    app:viewType="line" />
+                                    app:viewType="line"
+                                    android:fontFamily="@font/roboto_regular"/>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -1203,6 +1210,7 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

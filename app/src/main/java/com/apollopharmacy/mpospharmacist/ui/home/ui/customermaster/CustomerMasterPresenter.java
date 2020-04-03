@@ -67,8 +67,8 @@ public class CustomerMasterPresenter<V extends CustomerMasterMvpView> extends Ba
             addCustomerReqModel.setDistrict(getMvpView().getDistrictOption());
             addCustomerReqModel.setZipCode(getMvpView().getZipCode());
             addCustomerReqModel.setEmail(getMvpView().getEmail());
-            addCustomerReqModel.setTelephone(getMvpView().getMobile());
-            addCustomerReqModel.setDataAreaId("");
+            addCustomerReqModel.setTelephone(getMvpView().getTelephone());
+            addCustomerReqModel.setDataAreaId(getDataManager().getDataAreaId());
             addCustomerReqModel.setMobile(getMvpView().getMobile());
             addCustomerReqModel.setDOB(getMvpView().getDOB());
             addCustomerReqModel.setDOA("1900-01-01");
@@ -105,6 +105,7 @@ public class CustomerMasterPresenter<V extends CustomerMasterMvpView> extends Ba
                 @Override
                 public void onFailure(@NotNull Call<AddCustomerResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

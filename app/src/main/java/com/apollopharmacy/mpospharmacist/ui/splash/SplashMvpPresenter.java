@@ -7,4 +7,6 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 public interface SplashMvpPresenter<V extends SplashMvpView> extends MvpPresenter<V> {
 
     void checkValidateVendor();
+
+    void getGlobalConfigration();
 }

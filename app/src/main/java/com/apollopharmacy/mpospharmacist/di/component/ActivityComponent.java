@@ -25,9 +25,7 @@ import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
-import com.apollopharmacy.mpospharmacist.ui.searchuser.SearchUserActivity;
 import com.apollopharmacy.mpospharmacist.ui.splash.SplashActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialog;
@@ -44,10 +42,6 @@ import dagger.Component;
 public interface ActivityComponent {
 
     void inject(SplashActivity splashActivity);
-
-    void inject(SearchProductActivity searchProductActivity);
-
-    void inject(SearchUserActivity searchUserActivity);
 
     void inject(AddCustomerActivity addCustomerActivity);
 

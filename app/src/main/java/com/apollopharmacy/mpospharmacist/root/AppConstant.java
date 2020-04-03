@@ -7,7 +7,8 @@ package com.apollopharmacy.mpospharmacist.root;
 public class AppConstant {
 
     public static final String SHARED_PREF = "wave_pref_default";
-    public static final String PREF_NAME = "wave_pref";
+    public static final String USER_PREF_NAME = "m_pos_user_pref";
+    public static final String ADMIN_PREF_NAME = "m_pos_admin_pref";
     public static final String DB_NAME = "wave_db";
 
     public static final String TRANSACTION_ID = "";

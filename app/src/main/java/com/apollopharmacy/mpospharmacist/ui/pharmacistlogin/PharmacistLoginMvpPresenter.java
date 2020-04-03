@@ -7,6 +7,8 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
 
     void onClickLogin();
 
+    void onClickCampaignClose();
+
     void onInstoreCLick();
 
     void onSelectCampaign();

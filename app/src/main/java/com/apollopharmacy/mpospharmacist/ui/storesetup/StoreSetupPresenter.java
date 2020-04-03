@@ -80,6 +80,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                 public void onFailure(@NotNull Call<DeviceSetupResModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -107,6 +108,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                 @Override
                 public void onFailure(@NotNull Call<StoreListResponseModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -148,6 +150,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                 public void onFailure(@NotNull Call<ConfingRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

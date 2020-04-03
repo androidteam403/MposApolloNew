@@ -9,8 +9,10 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.NetworkService;
 import com.apollopharmacy.mpospharmacist.data.network.RestApiHelper;
 import com.apollopharmacy.mpospharmacist.data.network.RestApiManager;
+import com.apollopharmacy.mpospharmacist.data.network.WrapperConverterFactory;
 import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesHelper;
 import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesManager;
+import com.apollopharmacy.mpospharmacist.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacist.di.ApiInfo;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.di.DatabaseInfo;
@@ -69,9 +71,14 @@ public class ApplicationModule {
     @Provides
     @PreferenceInfo
     String providePreferenceName() {
-        return AppConstant.PREF_NAME;
+        return AppConstant.USER_PREF_NAME;
     }
 
+    @Provides
+    @AdminPreferenceInfo
+    String provideAdminPreferenceName(){
+        return AppConstant.ADMIN_PREF_NAME;
+    }
     @Provides
     @Singleton
     DataManager provideDataManager(BaseDataManager mDataManager) {
@@ -97,7 +104,7 @@ public class ApplicationModule {
     @Provides
     public OkHttpClient provideClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor(chain -> {
             Request request = chain.request();
@@ -119,7 +126,7 @@ public class ApplicationModule {
                 .baseUrl(baseURL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(new WrapperConverterFactory(GsonConverterFactory.create()))
                 .build();
     }
 

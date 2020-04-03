@@ -1,11 +1,13 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster;
 
 import android.app.DatePickerDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentCustMasterBinding;
@@ -26,6 +28,10 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+
+import org.jetbrains.annotations.NotNull;
+
+import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
 
 public class CustomerMasterFragment extends BaseFragment implements CustomerMasterMvpView {
@@ -50,9 +56,46 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         fragmentCustMasterBinding.dateOfRegistration.setText(df.format(c));
 
-        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<>(getBaseActivity(), android.R.layout.simple_spinner_dropdown_item, getGender());
+        fragmentCustMasterBinding.gender.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()){
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        genderSpinnerPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fragmentCustMasterBinding.gender.setAdapter(genderSpinnerPojo);
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<>(getBaseActivity(), android.R.layout.simple_spinner_dropdown_item, getMarital());
+        fragmentCustMasterBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()){
+
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        maritalStatusPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fragmentCustMasterBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
         fragmentCustMasterBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
     }

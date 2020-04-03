@@ -165,8 +165,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Last Name"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_lastName(customer.lastName)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.lastName}"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -180,8 +184,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Age"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_age(customer.age)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.age}" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -189,8 +197,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Gender"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_gender(customer.gender)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.gender}"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -204,8 +216,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Date of Birth"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_dob_text(customer.dob)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.dob}"/>
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -213,8 +229,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Postal Address"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_postal(customer.postalAddress)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.postalAddress}" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -228,8 +248,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="City"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_city(customer.city)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.city}" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -237,8 +261,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="State"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_State(customer.state)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.state}" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -252,8 +280,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="District"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_District(customer.district)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.district}" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -261,8 +293,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Zip Code"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Zip_Code(customer.zipCode)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.zipCode}" />
 
                             </LinearLayout>
 
@@ -277,8 +313,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Email"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Email(customer.email)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.email}"/>
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -318,8 +358,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Anniversary"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Anniversary(customer.anniversary)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.anniversary}" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -333,8 +377,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Marital Status"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Marital_Status(customer.maritalStatus)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.maritalStatus}" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -342,8 +390,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Number of Dependents"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Number_of_Dependents(customer.numberOfDependents)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.numberOfDependents}" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -370,8 +422,12 @@
                                     android:layout_marginTop="@dimen/fifteen_dp"
                                     android:layout_weight="0.5"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Date of Registration"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    app:full_text="@{@string/label_generic_Date_of_Registration(customer.dateOfRegistration)}"
+                                    app:span_color="@{@color/black}"
+                                    app:span_font="@{`robotoBold`}"
+                                    app:span_size="@{@dimen/small_size_text}"
+                                    app:span_text="@{customer.dateOfRegistration}"/>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -406,7 +462,8 @@
                             android:text="@string/label_edit"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_16"
-                            android:visibility="gone"/>
+                            android:visibility="visible"
+                            android:onClick="@{()-> callback.onClickEditBtn(customer)}"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

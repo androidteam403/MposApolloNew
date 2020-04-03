@@ -63,6 +63,7 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
                     public void onFailure(@NotNull Call<GetItemDetailsRes> call, @NotNull Throwable t) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
+                        handleApiError(t);
                     }
                 });
             } else {

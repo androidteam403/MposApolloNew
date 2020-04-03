@@ -9,11 +9,13 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivitySplashBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
 import javax.inject.Inject;
 
@@ -65,6 +67,18 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     @Override
     public void startSyncService() {
 //        SyncService.start(this);
+    }
+
+    @Override
+    public void updateTenderType(GetTenderTypeRes data) {
+        if (data != null && data.getGetTenderTypeResult() != null && data.getGetTenderTypeResult().getRequestStatus() == 0) {
+            Singletone.getInstance().tenderTypeResultEntity = data.getGetTenderTypeResult();
+            openMainActivity();
+        } else {
+            if (data != null && data.getGetTenderTypeResult() != null) {
+                showMessage(data.getGetTenderTypeResult().getReturnMessage());
+            }
+        }
     }
 
     @Override

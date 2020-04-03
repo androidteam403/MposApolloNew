@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactio
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -86,6 +87,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onSuccessValidateOneApolloPoints(ValidatePointsResModel body);
 
+    ValidatePointsResModel.OneApolloProcessResultEntity onApolloPointsAvailablePoints();
+
     void onFailedValidateOneApolloPoints(ValidatePointsResModel body);
 
     void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
@@ -112,7 +115,7 @@ public interface AddItemMvpView extends MvpView {
 
     void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
 
-    void toRemovePayedAmount(double amount);
+    void toRemovePayedAmount(int position);
 
     void openManualDiscDialog(ManualDiscCheckRes body);
 
