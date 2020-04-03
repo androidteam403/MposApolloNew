@@ -146,6 +146,8 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15"
+                        android:maxLength="10"
+                        android:minLines="10"
                         android:text="@{customerDetails.cardNo}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 

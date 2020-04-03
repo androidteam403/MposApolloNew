@@ -118,7 +118,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{String.format(`%.2f`,model.netAmount)}"
+                        android:text="@{String.format(`%.2f`,model.netAmountInclTax)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />

@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{campaign.start_time}"
+                        android:text="@{campaign.start_time + ` - `+ campaign.end_time}"
                         android:textColor="@color/white"
                         tools:ignore="RelativeOverlap" />
 

@@ -103,6 +103,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
                     editable.delete(0,1);
+                }else if(editable.toString().startsWith("0")){
+                    editable.append("1");
                 }else if(!TextUtils.isEmpty(editable)){
                     quantityBaseBatchSelect();
                 }

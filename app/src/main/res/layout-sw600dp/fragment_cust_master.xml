@@ -103,6 +103,8 @@
                     android:hint="@string/label_card_number"
                     android:inputType="text"
                     android:padding="@dimen/ten_dp"
+                    android:maxLength="10"
+                    android:minLines="10"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -194,7 +196,7 @@
                 android:layout_margin="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_gender"
-                app:spinnerMode="bottomsheet" />
+                app:spinnerMode="bottomsheet"/>
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/marital_status_spinner"
@@ -204,7 +206,7 @@
                 android:layout_margin="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_marital_status"
-                app:spinnerMode="bottomsheet" />
+                app:spinnerMode="bottomsheet"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/EditTextInputLayoutStyle"
@@ -310,7 +312,8 @@
                     android:inputType="number"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_dimen_15" />
+                    android:textSize="@dimen/text_dimen_15"
+                    android:maxLength="6"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

@@ -279,6 +279,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onBackPressed() {
         if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
             addItemBinding.setIsPaymentMode(false);
+            paymentMethodModel.setGenerateBill(false);
         }else{
             alertDialog();
         }
@@ -352,11 +353,27 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void partialPaymentDialog() {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("Alert!");
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle("Partial Payment done,Kindly void payment lines");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
     public void onPayButtonClick() {
         if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             paymentMethodModel.setGenerateBill(true);
         }
         addItemBinding.setIsPaymentMode(true);
+        updatePayedAmount(calculatePosTransactionRes);
 //        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
 //        addItemBinding.paymentLayout.startAnimation(bottomUp);
 //        addItemBinding.paymentLayout.setVisibility(View.VISIBLE);
@@ -611,7 +628,11 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
             }
         }
-        addItemBinding.setProductCount(getItemsCount());
+        if(getItemsCount() !=0) {
+            addItemBinding.setProductCount(getItemsCount());
+        }else{
+            addItemBinding.footer.setVisibility(View.GONE);
+        }
         addItemBinding.setOrderInfo(orderPriceInfoModel);
 
         isExpand = false;
@@ -640,7 +661,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
         mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()));
-      //  updatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
+      //  pdatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
     }
 
     @Override
@@ -714,6 +735,12 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
+    public double orderRemainingAmount() {
+        return orderTotalAmount()- paymentDoneAmount;
+    }
+
+    private boolean isGeneratedBill = false;
+    @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
         calculatePosTransactionRes = transactionRes;
         addItemBinding.cashPaymentAmountEdit.setText("");
@@ -728,6 +755,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 if (paymentDoneAmount == orderTotalAmount()) {
                     paymentMethodModel.setPaymentDone(true);
                     paymentMethodModel.setGenerateBill(true);
+                    isGeneratedBill = true;
                     paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
                     paymentMethodModel.setBalanceAmount(false);
                 } else {
@@ -735,11 +763,13 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     if(balanceAmt < 0) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
+                        isGeneratedBill = true;
                         paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
                         paymentMethodModel.setBalanceAmount(false);
                     }else{
                         paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
                         paymentMethodModel.setBalanceAmount(true);
+                        paymentMethodModel.setPaymentDone(false);
                     }
                 }
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId()))
@@ -1243,6 +1273,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         addItemBinding.oneApolloAmountEditText.setText("");
         paymentMethodModel.setPaymentDone(false);
         paymentMethodModel.setGenerateBill(false);
+        isGeneratedBill = false;
     }
 
 
