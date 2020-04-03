@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,48 +57,8 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         fragmentCustMasterBinding.dateOfRegistration.setText(df.format(c));
 
-        fragmentCustMasterBinding.gender.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()){
-            @NotNull
-            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
-                ((TextView) v).setTypeface(externalFont);
-                return v;
-            }
-
-
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
-                ((TextView) v).setTypeface(externalFont);
-                return v;
-            }
-        };
-        genderSpinnerPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fragmentCustMasterBinding.gender.setAdapter(genderSpinnerPojo);
-        fragmentCustMasterBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()){
-
-            @NotNull
-            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
-                ((TextView) v).setTypeface(externalFont);
-                return v;
-            }
-
-
-            public View getDropDownView(int position, View convertView,@NotNull ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
-                ((TextView) v).setTypeface(externalFont);
-                return v;
-            }
-        };
-        maritalStatusPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fragmentCustMasterBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
-        fragmentCustMasterBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
+        genderSpinner();
+        maritalStatusSpinner();
     }
 
     @Override
@@ -209,6 +170,26 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 //        setResult(Activity.RESULT_OK, returnIntent);
 //        finish();
         showMessage(addCustomerResModel.getReturnMessage());
+        fragmentCustMasterBinding.firstName.setText("");
+        fragmentCustMasterBinding.middleName.setText("");
+        fragmentCustMasterBinding.lastName.setText("");
+        fragmentCustMasterBinding.cardNumber.setText("");
+        fragmentCustMasterBinding.mobile.setText("");
+        fragmentCustMasterBinding.telephone.setText("");
+        fragmentCustMasterBinding.email.setText("");
+        fragmentCustMasterBinding.age.setText("");
+        fragmentCustMasterBinding.dateOfBirth.setText("");
+        fragmentCustMasterBinding.districtEditText.setText("");
+        fragmentCustMasterBinding.stateEdittext.setText("");
+        fragmentCustMasterBinding.cityEdittext.setText("");
+        fragmentCustMasterBinding.zipCode.setText("");
+        fragmentCustMasterBinding.postalAddress.setText("");
+        fragmentCustMasterBinding.anniversary.setText("");
+        fragmentCustMasterBinding.numberOfDependents.setText("");
+
+        genderSpinner();
+        maritalStatusSpinner();
+
     }
 
     @Override
@@ -289,7 +270,11 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
     @Override
     public String getDOB() {
-        return requiredDOBFormat;
+        if(TextUtils.isEmpty(requiredDOBFormat)){
+            return CommonUtils.getCurrentDate("dd-MMM-yyyy");
+        }else {
+            return requiredDOBFormat;
+        }
     }
 
     @Override
@@ -357,19 +342,24 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         String firstName = Objects.requireNonNull(fragmentCustMasterBinding.firstName.getText()).toString();
         String mobile = Objects.requireNonNull(fragmentCustMasterBinding.mobile.getText()).toString();
         String cardNumber = Objects.requireNonNull(fragmentCustMasterBinding.cardNumber.getText()).toString();
-        String dob = Objects.requireNonNull(fragmentCustMasterBinding.dateOfBirth.getText()).toString();
+        String email = Objects.requireNonNull(fragmentCustMasterBinding.email.getText()).toString();
+        String zipCode = Objects.requireNonNull(fragmentCustMasterBinding.zipCode.getText()).toString();
 
         if (firstName.isEmpty()) {
             fragmentCustMasterBinding.firstName.setError("First Name should not be empty");
             fragmentCustMasterBinding.firstName.requestFocus();
             return false;
-        } else if (!CommonUtils.nameVallidate(firstName)) {
-            fragmentCustMasterBinding.firstName.setError("Invalid First Name");
-            fragmentCustMasterBinding.firstName.requestFocus();
+        } else if (cardNumber.isEmpty()) {
+            fragmentCustMasterBinding.cardNumber.setError("Card Number should not be empty");
+            fragmentCustMasterBinding.cardNumber.requestFocus();
             return false;
-        } else if (dob.isEmpty()) {
-            fragmentCustMasterBinding.dateOfBirth.setError("Select any Date");
-            fragmentCustMasterBinding.dateOfBirth.requestFocus();
+        } else if (cardNumber.length() < 10) {
+            fragmentCustMasterBinding.cardNumber.setError("Card Number Minimum 10 characters");
+            fragmentCustMasterBinding.cardNumber.requestFocus();
+            return false;
+        }else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
+            fragmentCustMasterBinding.email.setError("Enter Valid Email");
+            fragmentCustMasterBinding.email.requestFocus();
             return false;
         } else if (mobile.isEmpty()) {
             fragmentCustMasterBinding.mobile.setError("Mobile Number should not be empty");
@@ -379,11 +369,61 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
             fragmentCustMasterBinding.mobile.setError("Invalid Mobile Number");
             fragmentCustMasterBinding.mobile.requestFocus();
             return false;
-        } else if (cardNumber.isEmpty()) {
-            fragmentCustMasterBinding.cardNumber.setError("Card Number should not be empty");
-            fragmentCustMasterBinding.cardNumber.requestFocus();
+        }else if(!zipCode.isEmpty() && zipCode.length() < 6){
+            fragmentCustMasterBinding.zipCode.setError("Enter Valid ZipCode");
+            fragmentCustMasterBinding.zipCode.requestFocus();
             return false;
         }
         return true;
+    }
+
+    private void genderSpinner(){
+        fragmentCustMasterBinding.gender.setSelection(0);
+        fragmentCustMasterBinding.gender.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo>  genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()){
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        genderSpinnerPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fragmentCustMasterBinding.gender.setAdapter(genderSpinnerPojo);
+    }
+
+    private void maritalStatusSpinner(){
+        fragmentCustMasterBinding.maritalStatusSpinner.setSelection(0);
+        fragmentCustMasterBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()){
+
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+
+            public View getDropDownView(int position, View convertView,@NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        maritalStatusPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fragmentCustMasterBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
+        fragmentCustMasterBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
     }
 }

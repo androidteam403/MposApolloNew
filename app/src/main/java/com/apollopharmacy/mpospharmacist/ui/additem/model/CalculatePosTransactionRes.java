@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculatePosTransactionRes implements Serializable {
@@ -50,7 +51,7 @@ public class CalculatePosTransactionRes implements Serializable {
     private String Terminal;
     @Expose
     @SerializedName("TenderLine")
-    private List<TenderLineEntity> TenderLine;
+    private List<TenderLineEntity> TenderLine = new ArrayList<>();
     @Expose
     @SerializedName("StoreName")
     private String StoreName;

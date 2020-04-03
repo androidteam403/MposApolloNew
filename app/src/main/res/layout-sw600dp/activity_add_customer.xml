@@ -138,6 +138,8 @@
                         android:hint="@string/label_card_number"
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
+                        android:maxLength="10"
+                        android:minLines="10"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>

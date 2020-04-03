@@ -71,7 +71,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void onClickClearAllBtn() {
-        getMvpView().onClearAll();
+        if(tenderLineEntities.getTenderLine().size() > 0){
+            getMvpView().partialPaymentDialog();
+        }else {
+            getMvpView().onClearAll();
+        }
     }
 
     @Override
@@ -102,7 +106,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickCardPaymentPay() {
         if (TextUtils.isEmpty(getMvpView().getCardPaymentAmount())) {
             getMvpView().setErrorCardPaymentAmountEditText("Enter Amount");
-        } else {
+        } else if(getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCardPaymentAmount())){
+            getMvpView().setErrorCardPaymentAmountEditText("Enterd Amount greater then Order amount");
+        }else {
             doInitializeEzeTap();
         }
     }
@@ -111,6 +117,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickCashPaymentPay() {
         if (TextUtils.isEmpty(getMvpView().getCashPaymentAmount())) {
             getMvpView().setErrorCashPaymentAmountEditText("Enter Amount");
+        } else if(getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCashPaymentAmount())){
+            getMvpView().setErrorCashPaymentAmountEditText("Enterd Amount greater then Order amount");
         } else {
             generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()));
         }
@@ -119,52 +127,56 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickOneApolloPaymentPay() {
         if(!TextUtils.isEmpty(getMvpView().getOneApolloPoints()) ) {
-            if(validateOneApolloPoints()) {
-                if (getMvpView().isNetworkConnected()) {
-                    getMvpView().showLoading();
-                    //Creating an object of our api interface
-                    ApiInterface api = ApiClient.getApiService();
-                    ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
-                    ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
-                    requestDataEntity.setAction("SENDOTP");
-                    requestDataEntity.setCoupon("");
-                    requestDataEntity.setCustomerID("");
-                    requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
-                    requestDataEntity.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
-                    requestDataEntity.setOTP("");
-                    requestDataEntity.setPoints(getMvpView().getOneApolloPoints());
-                    requestDataEntity.setReqBy("M");
-                    requestDataEntity.setRRNO("");
-                    requestDataEntity.setStoreId(getDataManager().getStoreId());
-                    requestDataEntity.setType("");
-                    requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
-                    oneApolloSendOtpReq.setRequestData(requestDataEntity);
-                    Call<ValidatePointsResModel> call = api.ONE_APOLLO_SEND_OTP_RES_CALL(oneApolloSendOtpReq);
-                    call.enqueue(new Callback<ValidatePointsResModel>() {
-                        @Override
-                        public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
-                            if (response.isSuccessful()) {
-                                //Dismiss Dialog
-                                if (response.body() != null) {
-                                    getMvpView().hideLoading();
-                                    getMvpView().onSuccessOneApolloSendOtp(response.body().getOneApolloProcessResult());
-                                }else {
-                                    getMvpView().hideLoading();
+            if (validateOneApolloPoints()) {
+                if (getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCardPaymentAmount())) {
+                    getMvpView().setErrorCardPaymentAmountEditText("Enterd Amount greater then Order amount");
+                }else{
+                    if (getMvpView().isNetworkConnected()) {
+                        getMvpView().showLoading();
+                        //Creating an object of our api interface
+                        ApiInterface api = ApiClient.getApiService();
+                        ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
+                        ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
+                        requestDataEntity.setAction("SENDOTP");
+                        requestDataEntity.setCoupon("");
+                        requestDataEntity.setCustomerID("");
+                        requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
+                        requestDataEntity.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
+                        requestDataEntity.setOTP("");
+                        requestDataEntity.setPoints(getMvpView().getOneApolloPoints());
+                        requestDataEntity.setReqBy("M");
+                        requestDataEntity.setRRNO("");
+                        requestDataEntity.setStoreId(getDataManager().getStoreId());
+                        requestDataEntity.setType("");
+                        requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
+                        oneApolloSendOtpReq.setRequestData(requestDataEntity);
+                        Call<ValidatePointsResModel> call = api.ONE_APOLLO_SEND_OTP_RES_CALL(oneApolloSendOtpReq);
+                        call.enqueue(new Callback<ValidatePointsResModel>() {
+                            @Override
+                            public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
+                                if (response.isSuccessful()) {
+                                    //Dismiss Dialog
+                                    if (response.body() != null) {
+                                        getMvpView().hideLoading();
+                                        getMvpView().onSuccessOneApolloSendOtp(response.body().getOneApolloProcessResult());
+                                    }else {
+                                        getMvpView().hideLoading();
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
-                            //Dismiss Dialog
-                            getMvpView().hideLoading();
-                            handleApiError(t);
-                        }
-                    });
-                } else {
-                    getMvpView().onError("Internet Connection Not Available");
+                            @Override
+                            public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
+                                //Dismiss Dialog
+                                getMvpView().hideLoading();
+                                handleApiError(t);
+                            }
+                        });
+                    } else {
+                        getMvpView().onError("Internet Connection Not Available");
+                    }
                 }
-            }else{
+            } else {
                 getMvpView().setErrorOneApolloPointsEditText("Enter valid Points");
             }
         }else{
@@ -544,7 +556,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickRedeemPoints() {
 
     }
-private CalculatePosTransactionRes tenderLineEntities ;
+private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransactionRes();
 
     @Override
     public void generateTenterLineService(double amount){
@@ -740,7 +752,7 @@ private CalculatePosTransactionRes tenderLineEntities ;
         posTransactionEntity.setStockCheck(!Singletone.getInstance().isManualBilling);
         posTransactionEntity.setStore(getMvpView().getTransactionModule().getStoreID());// store details
         posTransactionEntity.setStoreName("");
-        posTransactionEntity.setTenderLine(new ArrayList<>());// TenderLine Object
+        posTransactionEntity.setTenderLine(tenderLineEntities.getTenderLine());// TenderLine Object
         posTransactionEntity.setTerminal(getMvpView().getTransactionModule().getTerminalID());// teinal id
         posTransactionEntity.setTimewhenTransClosed(0);
         posTransactionEntity.setTotalDiscAmount(0);

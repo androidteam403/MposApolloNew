@@ -57,6 +57,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public void onBindViewHolder(@NotNull final MainRecyclerAdapter.ItemBaseViewHolder holder, int position) {
         GetItemDetailsRes.Items item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
+        if(item.getCategoryCode().equalsIgnoreCase("P")){
+            holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));
+        }else if(item.getCategoryCode().equalsIgnoreCase("F")){
+            holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_fmcg));
+        }else if(item.getCategoryCode().equalsIgnoreCase("A")){
+            holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_h_b));
+        }
 
         if (holder instanceof ItemSwipeWithActionWidthViewHolder) {
             ItemSwipeWithActionWidthViewHolder viewHolder = (ItemSwipeWithActionWidthViewHolder) holder;
@@ -79,12 +86,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                             if (item.isItemDelete()) {
                                 if (addItemMvpView != null) {
                                     item.setItemDelete(false);
+                                    viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
                                     addItemMvpView.onItemAdded();
                                 }
                             } else {
-                                item.setItemDelete(true);
                                 if (addItemMvpView != null) {
                                     item.setItemDelete(true);
+                                    viewHolder.mActionViewRefresh.setVisibility(View.GONE);
                                     addItemMvpView.onItemDeleted();
                                 }
                             }

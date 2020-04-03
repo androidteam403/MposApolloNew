@@ -28,10 +28,12 @@ import com.apollopharmacy.mpospharmacist.databinding.ProductListActivityBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -151,6 +153,11 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
                 }
             }
         });
+
+        productListActivityBinding.productRecycler.setOnTouchListener((v, event) -> {
+            CommonUtils.hideKeyboard(ProductListActivity.this);
+            return false;
+        });
     }
 
 
@@ -161,6 +168,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     public void onClickProductItem(GetItemDetailsRes.Items item) {
+        CommonUtils.hideKeyboard(ProductListActivity.this);
         startActivityForResult(BatchInfoActivity.getStartIntent(this, item, productListActivityBinding.getTransaction()), ACTIVITY_RESULT_FOR_BATCH_INFO);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }

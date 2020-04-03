@@ -31,6 +31,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onClearAll();
 
+    void partialPaymentDialog();
+
     void onPayButtonClick();
 
     Context getContext();
@@ -112,6 +114,8 @@ public interface AddItemMvpView extends MvpView {
     boolean isDonePayment();
 
     double orderTotalAmount();
+
+    double orderRemainingAmount();
 
     void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
 

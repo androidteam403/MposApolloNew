@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -29,10 +31,33 @@ public class EditQuantityDialog {
         dialog.setContentView(editQuantityDialogBinding.getRoot());
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        editQuantityDialogBinding.editQuantityEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
+                    editable.delete(0,1);
+                }else if(editable.toString().startsWith("0")){
+                    editable.append("1");
+                }
+                editQuantityDialogBinding.editQuantityEditText.setSelection(editable.length());
+            }
+        });
     }
 
     public void setItemData(GetItemDetailsRes.Items item){
         editItem = item;
+        editQuantityDialogBinding.editQuantityEditText.setText(String.valueOf(editItem.getBatchListObj().getEnterReqQuantity()));
     }
 
     public int getEnteredQuantity(){

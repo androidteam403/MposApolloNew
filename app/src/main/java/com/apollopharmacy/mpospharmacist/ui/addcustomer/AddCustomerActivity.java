@@ -446,32 +446,23 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             addCustomerBinding.firstName.setError("First Name should not be empty");
             addCustomerBinding.firstName.requestFocus();
             return false;
-        }
-//        else if (!CommonUtils.nameVallidate(firstName)) {
-//            addCustomerBinding.firstName.setError("Invalid First Name");
-//            addCustomerBinding.firstName.requestFocus();
-//            return false;
-//        }
-        else if (cardNumber.isEmpty()) {
+        } else if (cardNumber.isEmpty()) {
             addCustomerBinding.cardNumber.setError("Card Number should not be empty");
             addCustomerBinding.cardNumber.requestFocus();
             return false;
-        } else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
+        } else if (cardNumber.length() < 10) {
+            addCustomerBinding.cardNumber.setError("Card Number Minimum 10 characters");
+            addCustomerBinding.cardNumber.requestFocus();
+            return false;
+        }else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
             addCustomerBinding.email.setError("Enter Valid Email");
             addCustomerBinding.email.requestFocus();
             return false;
-        }
-        else if (mobile.isEmpty()) {
+        } else if (mobile.isEmpty()) {
             addCustomerBinding.mobile.setError("Mobile Number should not be empty");
             addCustomerBinding.mobile.requestFocus();
             return false;
-        }
-//        else if (dob.isEmpty()) {
-//            addCustomerBinding.dateOfBirth.setError("Select any Date");
-//            addCustomerBinding.dateOfBirth.requestFocus();
-//            return false;
-//        }
-        else if (!CommonUtils.mobileValidate(mobile)) {
+        } else if (!CommonUtils.mobileValidate(mobile)) {
             addCustomerBinding.mobile.setError("Invalid Mobile Number");
             addCustomerBinding.mobile.requestFocus();
             return false;
