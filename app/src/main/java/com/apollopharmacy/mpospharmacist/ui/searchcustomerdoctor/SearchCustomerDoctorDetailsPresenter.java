@@ -97,6 +97,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
                 @Override
                 public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -122,6 +123,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
                 @Override
                 public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

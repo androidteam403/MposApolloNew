@@ -204,6 +204,11 @@ public class BaseDataManager  implements DataManager {
     }
 
     @Override
+    public void adminLogOut() {
+        mPreferencesHelper.adminLogOut();
+    }
+
+    @Override
     public void logoutUser() {
         mPreferencesHelper.logoutUser();
     }

@@ -32,6 +32,7 @@
                 android:layout_marginStart="@dimen/ten_dp"
                 android:layout_weight="0.7"
                 android:paddingBottom="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@{batchInfo.batchNo}"
                 android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
                 android:textSize="@dimen/text_dimen_12" />

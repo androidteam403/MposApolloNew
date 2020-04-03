@@ -19,4 +19,6 @@ public interface CustomerDetailsMvpView extends MvpView {
     void onFailedCustomerSearch();
 
     void onSubmitBtnClick(GetCustomerResponse.CustomerEntity customerEntity);
+
+    void onEditBtnClick(GetCustomerResponse.CustomerEntity customerEntity);
 }

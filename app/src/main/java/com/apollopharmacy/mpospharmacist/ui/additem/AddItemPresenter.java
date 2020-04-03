@@ -158,6 +158,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
                             //Dismiss Dialog
                             getMvpView().hideLoading();
+                            handleApiError(t);
                         }
                     });
                 } else {
@@ -199,6 +200,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -209,7 +211,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public boolean validateOneApolloPoints() {
         double enterPoints = Double.parseDouble(getMvpView().getOneApolloPoints());
-        double availablePoints = Double.parseDouble(getMvpView().getValidateOneApolloPoints().getAvailablePoints());
+        double availablePoints = Double.parseDouble(getMvpView().onApolloPointsAvailablePoints().getAvailablePoints());
         return enterPoints <= availablePoints;
     }
 
@@ -243,7 +245,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             //Dismiss Dialog
                             if (response.body() != null) {
                                 getMvpView().hideLoading();
-                                getMvpView().onSuccessOneApolloOtp(response.body().getOneApolloProcessResult());
+                                if(response.body().getOneApolloProcessResult().getStatus().equals("False"))
+                                    getMvpView().showMessage(response.body().getOneApolloProcessResult().getMessage());
+                                else
+                                    getMvpView().onSuccessOneApolloOtp(response.body().getOneApolloProcessResult());
                                 //generateTenterLineService();
 
                             }else {
@@ -256,6 +261,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
+                        handleApiError(t);
                     }
                 });
             } else {
@@ -274,7 +280,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             ApiInterface api = ApiClient.getApiService();
             ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
             ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
-            requestDataEntity.setAction("VALOTP");
+            requestDataEntity.setAction("RESENDOTP");
             requestDataEntity.setCoupon("");
             requestDataEntity.setCustomerID("");
             requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
@@ -306,6 +312,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -351,6 +358,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -384,6 +392,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<ManualDiscCheckRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -437,6 +446,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<ManualDiscCheckRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -472,6 +482,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<OTPRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -521,6 +532,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -563,6 +575,7 @@ private CalculatePosTransactionRes tenderLineEntities ;
                 public void onFailure(@NotNull Call<GenerateTenderLineRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {
@@ -594,6 +607,7 @@ private CalculatePosTransactionRes tenderLineEntities ;
                 public void onFailure(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

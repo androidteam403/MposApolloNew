@@ -42,6 +42,7 @@ public class CorporateDetailsPresenter<V extends CorporateDetailsMvpView> extend
                 @Override
                 public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                     getMvpView().showNotFoundCorporate();
                 }
             });

@@ -40,6 +40,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     public void onCustomerSearchClick() {
         if(!TextUtils.isEmpty(getMvpView().getCustomerNumber())){
             if (getMvpView().isNetworkConnected()) {
+                getMvpView().showLoading();
                 //Creating an object of our api interface
                 ApiInterface api = ApiClient.getApiService();
                 GetCustomerRequest customerRequest = new GetCustomerRequest();
@@ -63,6 +64,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                     public void onFailure(@NotNull Call<GetCustomerResponse> call, @NotNull Throwable t) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
+                        handleApiError(t);
                     }
                 });
             } else {
@@ -79,6 +81,11 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     @Override
     public void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity) {
         getMvpView().onSubmitBtnClick(customerEntity);
+    }
+
+    @Override
+    public void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity) {
+        getMvpView().onEditBtnClick(customerEntity);
     }
 
 

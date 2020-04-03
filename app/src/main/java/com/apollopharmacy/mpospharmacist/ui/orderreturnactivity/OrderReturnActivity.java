@@ -49,9 +49,6 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
         orderReturnActiivtyBinding = DataBindingUtil.setContentView(this, R.layout.order_return_actiivty);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(OrderReturnActivity.this);

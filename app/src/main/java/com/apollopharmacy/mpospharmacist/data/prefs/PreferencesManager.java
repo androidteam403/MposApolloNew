@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacist.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.di.PreferenceInfo;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -33,12 +34,14 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_VENDOR_RES = "PREF_KEY_VENDOR_RES";
 
     private final SharedPreferences mPrefs;
+    private final SharedPreferences mAdminPrefs;
     private Context mAppContext;
 
     @Inject
     public PreferencesManager(@ApplicationContext Context context,
-                              @PreferenceInfo String prefFileName) {
+                              @PreferenceInfo String prefFileName, @AdminPreferenceInfo String adminPrefFileName) {
         mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+        mAdminPrefs = context.getSharedPreferences(adminPrefFileName, Context.MODE_PRIVATE);
         mAppContext = context;
     }
 
@@ -54,13 +57,13 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public void storeGlobalJson(String json) {
-        mPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
     }
 
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_KEY_GLOBAL_JSON,"");
+        String json = mAdminPrefs.getString(PREF_KEY_GLOBAL_JSON,"");
         return gson.fromJson(json, GetGlobalConfingRes.class);
     }
 
@@ -101,62 +104,62 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public boolean isAdminLoginFinish() {
-        return mPrefs.getBoolean(PREF_KEY_ADMIN_LOGIN,false);
+        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_LOGIN,false);
     }
 
     @Override
     public void setAdminLoginFinish(boolean isLogin) {
-        mPrefs.edit().putBoolean(PREF_KEY_ADMIN_LOGIN,isLogin).apply();
+        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_LOGIN,isLogin).apply();
     }
 
     @Override
     public String getAdminLoginId() {
-        return mPrefs.getString(PREF_KEY_ADMIN_LOGIN_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_ADMIN_LOGIN_ID,"");
     }
 
     @Override
     public void setAdminLoginId(String id) {
-        mPrefs.edit().putString(PREF_KEY_ADMIN_LOGIN_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_ADMIN_LOGIN_ID,id).apply();
     }
 
     @Override
     public boolean isAdminSetUpFinish() {
-        return mPrefs.getBoolean(PREF_KEY_ADMIN_SET_UP,false);
+        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_SET_UP,false);
     }
 
     @Override
     public void setAdminSetUpFinish(boolean isSetUp) {
-        mPrefs.edit().putBoolean(PREF_KEY_ADMIN_SET_UP,isSetUp).apply();
+        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_SET_UP,isSetUp).apply();
     }
 
     @Override
     public String getStoreId() {
-        return mPrefs.getString(PREF_KEY_STORE_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_STORE_ID,"");
     }
 
     @Override
     public void setStoreId(String id) {
-        mPrefs.edit().putString(PREF_KEY_STORE_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_STORE_ID,id).apply();
     }
 
     @Override
     public String getDataAreaId() {
-        return mPrefs.getString(PREF_KEY_DATA_AREA_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_DATA_AREA_ID,"");
     }
 
     @Override
     public void setDataAreaId(String dataAreaId) {
-        mPrefs.edit().putString(PREF_KEY_DATA_AREA_ID,dataAreaId).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_DATA_AREA_ID,dataAreaId).apply();
     }
 
     @Override
     public String getTerminalId() {
-        return mPrefs.getString(PREF_KEY_TERMINAL_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_TERMINAL_ID,"");
     }
 
     @Override
     public void setTerminalId(String id) {
-            mPrefs.edit().putString(PREF_KEY_TERMINAL_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_TERMINAL_ID,id).apply();
     }
 
     @Override
@@ -182,7 +185,14 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
+    public void adminLogOut() {
+        mAdminPrefs.edit().clear().apply();
+    }
+
+    @Override
     public void logoutUser() {
         mPrefs.edit().clear().apply();
     }
+
+
 }

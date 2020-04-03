@@ -80,6 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     @Override
     public void showLoading() {
         hideLoading();
+        hideKeyboard();
         mProgressDialog = CommonUtils.showLoadingDialog(this);
     }
 
@@ -157,7 +158,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 

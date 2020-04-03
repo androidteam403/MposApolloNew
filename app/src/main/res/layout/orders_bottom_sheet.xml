@@ -44,7 +44,8 @@
                     android:text="From Date"
                     android:textColor="#444"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
                     android:text="@{filters.fromDate}"
                     android:textColor="#444"
                     android:textSize="18sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:fontFamily="@font/roboto_light"/>
             </LinearLayout>
 
             <LinearLayout
@@ -71,7 +73,8 @@
                     android:text="To Date"
                     android:textColor="#444"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -80,7 +83,8 @@
                     android:text="@{filters.toDate}"
                     android:textColor="#444"
                     android:textSize="18sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:fontFamily="@font/roboto_light"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -91,7 +95,8 @@
             android:text="Mobile Number"
             android:textColor="#444"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto_regular"/>
 
         <EditText
             android:id="@+id/mobile_number"
@@ -100,7 +105,8 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:text="@{filters.mobile}"
-            android:maxLength="10"/>
+            android:maxLength="10"
+            android:fontFamily="@font/roboto_light"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,7 +114,8 @@
             android:text="Order Id"
             android:textColor="#444"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto_regular"/>
 
         <EditText
             android:id="@+id/order_id"
@@ -116,7 +123,8 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:text="@{filters.orderId}"/>
+            android:text="@{filters.orderId}"
+            android:fontFamily="@font/roboto_light"/>
 
         <Button
             android:layout_width="match_parent"
@@ -125,6 +133,7 @@
             android:background="@color/apollo_btn_color"
             android:foreground="?attr/selectableItemBackground"
             android:text="Apply"
+            android:fontFamily="@font/roboto_regular"
             android:textColor="#fff"
             android:onClick="@{()-> callback.onClickApplyFilters()}"/>
 

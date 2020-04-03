@@ -44,7 +44,8 @@
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:padding="@dimen/ten_dp"
                 android:text="DETAILS"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
 
             <ImageView
                 android:id="@+id/expand_collapse_icon"
@@ -63,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@color/search_customer_bg">
 
             <LinearLayout

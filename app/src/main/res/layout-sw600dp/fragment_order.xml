@@ -2,13 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="noDataFound"
             type="Boolean" />
+
         <variable
             name="count"
             type="Integer" />
+
         <variable
             name="callbacks"
             type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
@@ -29,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
                 android:orientation="horizontal"
-                android:weightSum="3"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:weightSum="3">
 
                 <TextView
                     android:layout_width="@dimen/zero_dp"
@@ -82,13 +86,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/twenty_dp"
+                android:layout_marginBottom="@dimen/five_dp"
                 android:background="@color/light_grey"
                 android:gravity="center"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/label_5_items_found(count)}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12"
-                android:visibility="@{count == 0 ? View.GONE : View.VISIBLE}"/>
+                android:visibility="@{count == 0 ? View.GONE : View.VISIBLE}" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/orderrecycle"
@@ -101,8 +106,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_no_data_found"
             android:layout_centerInParent="true"
-            android:visibility="@{noDataFound ? View.VISIBLE : View.GONE}"/>
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/label_no_data_found"
+            android:visibility="@{noDataFound ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

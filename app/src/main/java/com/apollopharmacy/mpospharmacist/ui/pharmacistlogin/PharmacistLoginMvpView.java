@@ -12,6 +12,8 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     void onClickInstore();
 
+    void onClickCampaignClose();
+
     void onCampaignSelect();
 
     void getUserIds(UserModel body);
@@ -25,10 +27,6 @@ public interface PharmacistLoginMvpView extends MvpView {
     String getUserId();
 
     String getCampaignId();
-
-    String getStoreId();
-
-    String getTerminalId();
 
     String getUserPassword();
 }

@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextAppearance(this,R.style.RobotoBoldTextAppearance);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(MainActivity.this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -101,7 +102,12 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         });
 
         TextView logoutBtn = findViewById(R.id.logout_btn);
-        logoutBtn.setOnClickListener(view1 -> mvpPresenter.logoutUser());
+        logoutBtn.setOnClickListener(view1 -> {
+            if (mAppBarConfiguration.getDrawerLayout() != null) {
+                mAppBarConfiguration.getDrawerLayout().closeDrawers();
+            }
+            logoutDialog();
+        });
         setUp();
     }
 
@@ -223,5 +229,29 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 }
                 break;
         }
+    }
+
+    private void logoutDialog(){
+        ExitInfoDialog dialogView = new ExitInfoDialog(MainActivity.this);
+        dialogView.setTitle("Alert");
+        dialogView.setSubtitle("Are you sure want to logout the application ?");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                mvpPresenter.logoutUser();
+
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+
+        dialogView.show();
     }
 }

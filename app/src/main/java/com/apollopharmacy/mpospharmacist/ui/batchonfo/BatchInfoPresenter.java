@@ -78,6 +78,7 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
                 public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

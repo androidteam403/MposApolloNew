@@ -81,6 +81,7 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
                 @Override
                 public void onFailure(@NotNull Call<AddDoctorResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

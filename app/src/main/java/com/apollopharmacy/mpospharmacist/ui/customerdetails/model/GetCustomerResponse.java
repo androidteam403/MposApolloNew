@@ -153,5 +153,141 @@ public class GetCustomerResponse {
         public void setAvailablePoints(String availablePoints) {
             AvailablePoints = availablePoints;
         }
+
+        private String middleName ="";
+        private String lastName="";
+        private String age="";
+        private String gender="";
+        private String dob="";
+        private String postalAddress="";
+        private String city="";
+        private String state="";
+        private String district="";
+        private String zipCode="";
+        private String email="";
+        private String anniversary="";
+        private String maritalStatus="";
+        private String numberOfDependents="";
+        private String dateOfRegistration="";
+
+        public String getMiddleName() {
+            return middleName;
+        }
+
+        public void setMiddleName(String middleName) {
+            this.middleName = middleName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
+            this.gender = gender;
+        }
+
+        public String getDob() {
+            return dob;
+        }
+
+        public void setDob(String dob) {
+            this.dob = dob;
+        }
+
+        public String getPostalAddress() {
+            return postalAddress;
+        }
+
+        public void setPostalAddress(String postalAddress) {
+            this.postalAddress = postalAddress;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getDistrict() {
+            return district;
+        }
+
+        public void setDistrict(String district) {
+            this.district = district;
+        }
+
+        public String getZipCode() {
+            return zipCode;
+        }
+
+        public void setZipCode(String zipCode) {
+            this.zipCode = zipCode;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getAnniversary() {
+            return anniversary;
+        }
+
+        public void setAnniversary(String anniversary) {
+            this.anniversary = anniversary;
+        }
+
+        public String getMaritalStatus() {
+            return maritalStatus;
+        }
+
+        public void setMaritalStatus(String maritalStatus) {
+            this.maritalStatus = maritalStatus;
+        }
+
+        public String getNumberOfDependents() {
+            return numberOfDependents;
+        }
+
+        public void setNumberOfDependents(String numberOfDependents) {
+            this.numberOfDependents = numberOfDependents;
+        }
+
+        public String getDateOfRegistration() {
+            return dateOfRegistration;
+        }
+
+        public void setDateOfRegistration(String dateOfRegistration) {
+            this.dateOfRegistration = dateOfRegistration;
+        }
     }
 }

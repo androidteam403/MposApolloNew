@@ -60,4 +60,6 @@ public interface PreferencesHelper {
     void setVendorRes(String res);
 
     VendorCheckRes getVendorRes();
+
+    void adminLogOut();
 }

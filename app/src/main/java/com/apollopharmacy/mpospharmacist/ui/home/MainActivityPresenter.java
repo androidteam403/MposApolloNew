@@ -4,8 +4,6 @@ import com.apollopharmacy.mpospharmacist.BuildConfig;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.searchproduct.SearchProductMvpView;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;

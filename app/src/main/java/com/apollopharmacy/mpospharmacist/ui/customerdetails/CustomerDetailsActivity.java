@@ -27,7 +27,10 @@ import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -38,9 +41,11 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> mPresenter;
     ActivityCustomerDetailsBinding customerDetailsBinding;
     private int NEW_CUSTOMER_SEARCH_ACTIVITY_CODE = 105;
+    private int EDIT_CUSTOMER_SEARCH_ACTIVITY_CODE = 106;
     private final int MY_PERMISSIONS_RECORD_AUDIO = 106;
     private final int REQ_CODE_SPEECH_INPUT = 107;
 
+    private GetCustomerResponse.CustomerEntity customerEntity;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, CustomerDetailsActivity.class);
     }
@@ -88,7 +93,12 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onAddCustomerClick() {
-        startActivityForResult(AddCustomerActivity.getStartIntent(this, customerDetailsBinding.customerNumberEdit.getText().toString()), NEW_CUSTOMER_SEARCH_ACTIVITY_CODE);
+        GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
+        entity.setMobileNo(customerDetailsBinding.customerNumberEdit.getText().toString());
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        entity.setDateOfRegistration(df.format(c));
+        startActivityForResult(AddCustomerActivity.getStartIntent(this,false, entity), NEW_CUSTOMER_SEARCH_ACTIVITY_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -149,6 +159,15 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     }
 
     @Override
+    public void onEditBtnClick(GetCustomerResponse.CustomerEntity customerEntity) {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        customerEntity.setDateOfRegistration(df.format(c));
+        startActivityForResult(AddCustomerActivity.getStartIntent(this, true,customerEntity), EDIT_CUSTOMER_SEARCH_ACTIVITY_CODE);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
@@ -176,6 +195,11 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 customerDetailsBinding.customerNumberEdit.setText(searchedProductName);
                 customerDetailsBinding.customerNumberEdit.setSelection(searchedProductName.length());
                 mPresenter.onCustomerSearchClick();
+            }
+        }else if(requestCode == EDIT_CUSTOMER_SEARCH_ACTIVITY_CODE){
+            if (resultCode == Activity.RESULT_OK) {
+                GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
+                customerDetailsBinding.setCustomer(customerEntity);
             }
         }
     }

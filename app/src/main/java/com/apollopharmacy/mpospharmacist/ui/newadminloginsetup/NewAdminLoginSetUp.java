@@ -40,9 +40,6 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
         newAdminloginSetupBinding = DataBindingUtil.setContentView(this, R.layout.new_adminlogin_setup);
         getActivityComponent().inject(this);
         newAdminLoginPresenter.onAttach(NewAdminLoginSetUp.this);
@@ -70,12 +67,6 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
 
     }
 
-    @Override
-    public void onLoginClick() {
-        if (validations()) {
-            newAdminLoginPresenter.onAdminLoginClick();
-        }
-    }
 
     @Override
     public String getUserID() {
@@ -99,7 +90,8 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
-    private boolean validations() {
+    @Override
+    public boolean validation() {
         String userID = Objects.requireNonNull(newAdminloginSetupBinding.userId.getText()).toString();
         String password = Objects.requireNonNull(newAdminloginSetupBinding.password.getText()).toString();
         if (userID.isEmpty()) {

@@ -23,7 +23,8 @@
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="19sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto_regular"/>
 
         <TextView
             android:id="@+id/subtitle"
@@ -36,7 +37,8 @@
             android:paddingTop="4dp"
             android:textAlignment="center"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:fontFamily="@font/roboto_regular"/>
 
         <EditText
             android:id="@+id/edit_quantity_edit_text"
@@ -51,7 +53,7 @@
             android:layout_marginEnd="@dimen/twenty_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/five_dp"
-            android:layout_below="@+id/subtitle"/>
+            android:layout_below="@+id/subtitle" />
 
         <View
             android:id="@+id/line"
@@ -76,7 +78,8 @@
                 android:stateListAnimator="@null"
                 android:textAlignment="center"
                 android:textColor="#007aff"
-                android:textSize="19sp" />
+                android:textSize="19sp"
+                android:fontFamily="@font/roboto_regular"/>
 
             <View
                 android:id="@+id/separator"
@@ -95,7 +98,8 @@
                 android:textAlignment="center"
                 android:textColor="#007aff"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
     </RelativeLayout>

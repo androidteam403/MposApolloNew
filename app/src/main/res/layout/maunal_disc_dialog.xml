@@ -29,14 +29,16 @@
                 android:layout_weight="0.5"
                 android:text="Category"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="Discount Value"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_recycler_view"
@@ -52,7 +54,8 @@
             android:layout_height="wrap_content"
             android:text="Name"
             android:textColor="@color/black"
-            android:padding="@dimen/ten_dp"/>
+            android:padding="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_bold"/>
 
         <RadioGroup
             android:id="@+id/hour_radio_group"
@@ -98,7 +101,8 @@
                 android:textAlignment="center"
                 android:textColor="#007aff"
                 android:textSize="19sp"
-                android:text="Cancel"/>
+                android:text="Cancel"
+                android:fontFamily="@font/roboto_regular"/>
 
             <View
                 android:id="@+id/separator"
@@ -118,7 +122,8 @@
                 android:textColor="#007aff"
                 android:textSize="19sp"
                 android:textStyle="normal"
-                android:text="Apply Discount"/>
+                android:text="Apply Discount"
+                android:fontFamily="@font/roboto_regular"/>
             <TextView
                 android:id="@+id/dialogGenerateBtn"
                 android:layout_width="match_parent"
@@ -132,7 +137,8 @@
                 android:textSize="19sp"
                 android:textStyle="normal"
                 android:text="Generate OTP"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:fontFamily="@font/roboto_regular"/>
 
             <TextView
                 android:id="@+id/dialogValidateBtn"
@@ -147,7 +153,8 @@
                 android:textSize="19sp"
                 android:textStyle="normal"
                 android:text="Validate OTP"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
     </LinearLayout>

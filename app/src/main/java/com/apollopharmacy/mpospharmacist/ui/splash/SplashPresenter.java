@@ -11,6 +11,7 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
 import com.apollopharmacy.mpospharmacist.root.AppConstant;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
@@ -71,7 +72,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                //         getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
-                            getMvpView().openMainActivity();
+                            getGlobalConfigration();
                         } else {
                             if (response.body() != null) {
                                 getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
@@ -83,7 +84,8 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                 @Override
                 public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
                     //Dismiss Dialog
-                    getMvpView().showMessage(R.string.some_error);
+                    handleApiError(t);
+                  //  getMvpView().showMessage(R.string.some_error);
                 }
             });
         } else {
@@ -127,7 +129,44 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
                 @Override
                 public void onFailure(@NotNull Call<VendorCheckRes> call, @NotNull Throwable t) {
 
-                    getMvpView().showMessage("Something went wrong");
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getGlobalConfigration() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+          //  getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
+            call.enqueue(new Callback<GetGlobalConfingRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            getDataManager().storeGlobalJson(json);
+                            getMvpView().openMainActivity();
+                        } else {
+                            if(response.body() != null)
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                 //   getMvpView().hideLoading();
+                    handleApiError(t);
                 }
             });
         } else {

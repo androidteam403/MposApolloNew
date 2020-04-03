@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:text="@{displayItem.categoryDescription}"
         android:textColor="@color/black"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/roboto_regular"/>
     <EditText
         android:id="@+id/cash_payment_amount_edit"
         android:layout_width="@dimen/one_hundred_dp"
@@ -23,6 +24,7 @@
         android:fontFamily="@font/roboto_light"
         android:gravity="center_vertical|center_horizontal"
         android:inputType="number"
+        android:maxLength="3"
         android:textColor="@color/black"
         android:layout_alignParentEnd="true"
         android:text="@{String.valueOf(displayItem.discountValue)}"/>
