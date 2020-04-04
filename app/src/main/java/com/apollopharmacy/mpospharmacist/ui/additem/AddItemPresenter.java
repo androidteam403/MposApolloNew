@@ -774,7 +774,7 @@ private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransact
         ArrayList<GetItemDetailsRes.Items> itemsArrayList = getMvpView().getSelectedProducts();
         for (int i=0; i< itemsArrayList.size(); i++) {
             GetItemDetailsRes.Items items = itemsArrayList.get(i);
-            if(!items.isItemDelete()) {
+
                 SalesLineEntity salesLineEntity = new SalesLineEntity();
                 salesLineEntity.setAdditionaltax(0);
                 salesLineEntity.setApplyDiscount(false);
@@ -861,8 +861,13 @@ private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransact
                 salesLineEntity.setUnitPrice(items.getBatchListObj().getMRP());
                 salesLineEntity.setUnitQty(items.getBatchListObj().getREQQTY());
                 salesLineEntity.setVariantId("");
-                salesLineEntities.add(salesLineEntity);
+            if(items.isItemDelete()) {
+                salesLineEntity.setVoid(true);
+            }else{
+                salesLineEntity.setVoid(false);
             }
+                salesLineEntities.add(salesLineEntity);
+
         }
         return salesLineEntities;
     }
