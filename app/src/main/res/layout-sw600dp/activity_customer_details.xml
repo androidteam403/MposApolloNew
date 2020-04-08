@@ -83,6 +83,7 @@
                         android:gravity="top"
                         android:hint="@string/label_phone_number_id"
                         android:inputType="number"
+                        android:imeOptions="actionSearch"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:text=""

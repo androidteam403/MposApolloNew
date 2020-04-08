@@ -808,7 +808,7 @@ public  class SaveRetailsTransactionRes implements Serializable {
         private double RemainderDays;
         @Expose
         @SerializedName("Qty")
-        private double Qty;
+        private int Qty;
         @Expose
         @SerializedName("ProductRecID")
         private String ProductRecID;
@@ -1091,7 +1091,7 @@ public  class SaveRetailsTransactionRes implements Serializable {
             return RemainderDays;
         }
 
-        public double getQty() {
+        public int getQty() {
             return Qty;
         }
 

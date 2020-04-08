@@ -49,10 +49,7 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity
-            android:name=".ui.searchuser.SearchUserActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
@@ -80,7 +77,7 @@
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait">
 
         </activity>

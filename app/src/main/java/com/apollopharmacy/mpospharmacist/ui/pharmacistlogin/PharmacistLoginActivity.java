@@ -7,6 +7,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -50,6 +52,10 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     protected void setUp() {
         pharmacistLoginBinding.setCallback(mPresenter);
+        pharmacistLoginBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pharmacistLoginBinding.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        pharmacistLoginBinding.selectUser.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        pharmacistLoginBinding.selectCampaign.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         pharmacistLoginBinding.selectUser.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         pharmacistLoginBinding.selectCampaign.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         mPresenter.getUserId();

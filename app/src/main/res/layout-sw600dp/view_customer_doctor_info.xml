@@ -160,7 +160,8 @@
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoBold`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{`TDG-21324`}" />
+                        app:span_text="@{`TDG-21324`}"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -200,62 +201,41 @@
                             android:src="@drawable/ic_edit_view"
                             android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
                     </RelativeLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.3"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_name"
-                            android:textColor="@color/customer_info_header"
-                            android:textSize="@dimen/text_dimen_11" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.7"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@{doctor.displayText}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_11" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/three_dp"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/customer_info_header"
+                        android:textSize="@dimen/text_dimen_10"
+                        app:full_text="@{@string/label_name(doctor.displayText)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoBold`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{doctor.displayText}"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.3"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_reg_no"
-                            android:textColor="@color/customer_info_header"
-                            android:textSize="@dimen/text_dimen_11" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.7"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@{doctor.code}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_11" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/three_dp"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/customer_info_header"
+                        android:textSize="@dimen/text_dimen_10"
+                        app:full_text="@{@string/label_reg_no(doctor.code)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoBold`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{doctor.code}"/>
                     </LinearLayout>
-
                 </LinearLayout>
             </LinearLayout>
 

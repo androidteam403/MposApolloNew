@@ -147,7 +147,9 @@
                     android:background="@drawable/rounded_corners_white"
                     android:maxLength="3"
                     android:text="1"
-                    android:fontFamily="@font/roboto_regular"/>
+                    android:fontFamily="@font/roboto_regular"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
 
                 <ImageView
                     android:id="@+id/increment"
@@ -237,12 +239,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/batch_info_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/batch_list_footer"
             android:layout_below="@+id/batch_details"
             android:layout_gravity="center_horizontal"
-            android:background="@color/white"
-            android:paddingTop="@dimen/five_dp" />
+            android:background="@color/search_customer_bg"
+            android:paddingTop="@dimen/five_dp"/>
 
         <TextView
             android:id="@+id/bath_not_found_text"
@@ -259,6 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/two_dp"
             android:background="@color/cpb_yellow"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"

@@ -107,7 +107,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         if (TextUtils.isEmpty(getMvpView().getCardPaymentAmount())) {
             getMvpView().setErrorCardPaymentAmountEditText("Enter Amount");
         } else if(getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCardPaymentAmount())){
-            getMvpView().setErrorCardPaymentAmountEditText("Enterd Amount greater then Order amount");
+            getMvpView().setErrorCardPaymentAmountEditText("Entered Amount greater then Order amount");
         }else {
             doInitializeEzeTap();
         }
@@ -118,7 +118,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         if (TextUtils.isEmpty(getMvpView().getCashPaymentAmount())) {
             getMvpView().setErrorCashPaymentAmountEditText("Enter Amount");
         } else if(getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCashPaymentAmount())){
-            getMvpView().setErrorCashPaymentAmountEditText("Enterd Amount greater then Order amount");
+            getMvpView().setErrorCashPaymentAmountEditText("Entered Amount greater then Order amount");
         } else {
             generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()));
         }
@@ -128,8 +128,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickOneApolloPaymentPay() {
         if(!TextUtils.isEmpty(getMvpView().getOneApolloPoints()) ) {
             if (validateOneApolloPoints()) {
-                if (getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getCardPaymentAmount())) {
-                    getMvpView().setErrorCardPaymentAmountEditText("Enterd Amount greater then Order amount");
+                if (getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getOneApolloPoints())) {
+                    getMvpView().setErrorCardPaymentAmountEditText("Entered Amount greater then Order amount");
                 }else{
                     if (getMvpView().isNetworkConnected()) {
                         getMvpView().showLoading();
@@ -287,6 +287,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickReSendOTP() {
         if (getMvpView().isNetworkConnected()) {
+            getMvpView().clearOTPVIew();
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService();

@@ -270,15 +270,15 @@ public class GetBatchInfoRes {
             this.enterReqQuantity = enterReqQuantity;
         }
 
-        private String calculatedTotalPrice;
+        private double calculatedTotalPrice;
 
 
         @Bindable
-        public String getCalculatedTotalPrice() {
+        public double getCalculatedTotalPrice() {
             return  calculatedTotalPrice ;
         }
 
-        public void setCalculatedTotalPrice(String calculatedTotalPrice) {
+        public void setCalculatedTotalPrice(double calculatedTotalPrice) {
             this.calculatedTotalPrice = calculatedTotalPrice;
             notifyPropertyChanged(BR.calculatedTotalPrice);
         }

@@ -127,7 +127,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 
     private void getPaymentTypes() {
         for (int i = 0; i < orderHistoryItem.getTenderLine().size(); i++) {
-            OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(), "₹ " + orderHistoryItem.getTenderLine().get(i).getAmountTendered());
+            OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(),  orderHistoryItem.getTenderLine().get(i).getAmountTendered());
             arrPayAdapterModel.add(orderReturnModel);
         }
     }

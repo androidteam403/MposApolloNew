@@ -126,4 +126,6 @@ public interface AddItemMvpView extends MvpView {
     void errorMessageDialog(String title,String message);
 
     void generateOTPResponseSuccess(String otp);
+
+    void clearOTPVIew();
 }

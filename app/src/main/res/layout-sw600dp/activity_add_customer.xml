@@ -11,6 +11,9 @@
             type="com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerMvpPresenter" />
 
         <variable
+            name="customerDetails"
+            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+        <variable
             name="model"
             type="com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerModel" />
     </data>
@@ -80,7 +83,8 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.cardName}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +104,8 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.middleName}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +125,8 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.lastName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -138,10 +144,11 @@
                         android:hint="@string/label_card_number"
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_dimen_15"
                         android:maxLength="10"
                         android:minLines="10"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:text="@{customerDetails.cardNo}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -160,7 +167,8 @@
                         android:inputType="textEmailAddress"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.email}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -181,7 +189,8 @@
                         android:maxLength="10"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.mobileNo}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -200,7 +209,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.telephoneNo}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -220,7 +230,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.age}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.tiper.MaterialSpinner
@@ -262,7 +273,7 @@
                         android:onClick="@{()-> callback.onDateClick()}"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{model.dob}"
+                        android:text="@{customerDetails.dob}"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -284,7 +295,7 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{model.district}"
+                        android:text="@{customerDetails.district}"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -307,7 +318,7 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{model.city}"
+                        android:text="@{customerDetails.city}"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -329,7 +340,7 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{model.state}"
+                        android:text="@{customerDetails.state}"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -351,7 +362,8 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15"
-                        android:maxLength="6"/>
+                        android:maxLength="6"
+                        android:text="@{customerDetails.zipCode}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -371,7 +383,7 @@
                         android:inputType="textMultiLine"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:text="@{model.postalAddress}"
+                        android:text="@{customerDetails.postalAddress}"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -394,7 +406,8 @@
                         android:onClick="@{()-> callback.onClickAnniversary()}"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.anniversary}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -414,7 +427,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.numberOfDependents}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -435,7 +449,8 @@
                         android:inputType="date"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15" />
+                        android:textSize="@dimen/text_dimen_15"
+                        android:text="@{customerDetails.dateOfRegistration}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -450,7 +465,7 @@
                     android:textColor="@color/black"
                     tools:ignore="MissingConstraints"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold" />
+                    android:fontFamily="@font/roboto_bold"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

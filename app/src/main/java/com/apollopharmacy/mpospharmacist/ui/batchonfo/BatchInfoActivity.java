@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -109,6 +112,17 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                     quantityBaseBatchSelect();
                 }
                     batchInfoBinding.inputQty.setSelection(editable.length());
+            }
+        });
+
+        batchInfoBinding.inputQty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    onNavigateNextActivity();
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -344,7 +358,9 @@ private int manualSelectedPosition = 0;
         for(Iterator<GetItemDetailsRes.Items> it = existingProducts.iterator(); it.hasNext();) {
             GetItemDetailsRes.Items s = it.next();
             if(selectedItem.getArtCode().equalsIgnoreCase(s.getArtCode())) {
-                totalQuantity += s.getBatchListObj().getEnterReqQuantity();
+                if(!s.isItemDelete()) {
+                    totalQuantity += s.getBatchListObj().getEnterReqQuantity();
+                }
                 it.remove();
             }
         }

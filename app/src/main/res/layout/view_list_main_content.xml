@@ -42,7 +42,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_marginTop="@dimen/five_dp"
                     android:layout_weight="0.55"
@@ -65,21 +65,30 @@
                         android:text="@{product.batchListObj.batchNo+`/`+product.category+`/`+product.batchListObj.expDate+`/`+product.manufacture}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
-
+                    <TextView
+                        android:id="@+id/preview_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@{product.batchListObj.previewText}"
+                        android:textColor="@color/in_line_discount"
+                        android:textSize="@dimen/text_dimen_10"
+                        android:visibility="@{product.batchListObj.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.4"
                     android:background="@color/cart_tax_bg"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty_dp"
+                        android:layout_height="0dp"
                         android:orientation="horizontal"
-                        android:weightSum="4">
+                        android:layout_weight="1"
+                        >
 
                         <TextView
                             android:layout_width="0dp"
@@ -88,7 +97,7 @@
                             android:background="@color/cart_price_bg"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
-                            android:text="@{String.format(`%.2f`,product.batchListObj.mRP)}"
+                            android:text="@{@string/price_format(product.batchListObj.mRP)}"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
@@ -120,34 +129,25 @@
                             android:background="@color/cart_price_bg"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
-                            android:text="@{product.batchListObj.calculatedTotalPrice}"
+                            android:text="@{@string/price_format(product.batchListObj.calculatedTotalPrice)}"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:background="@color/cart_tax_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:padding="@dimen/one_dp"
-                        android:text="@{`Tax : `+ product.batchListObj.totalTax +`%`}"
+                        android:text="@{`Tax : `+ @string/price_format(product.batchListObj.totalTax) +`%`}"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12" />
+                        android:textSize="@dimen/text_dimen_12"
+                        android:layout_weight="1"/>
                 </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:id="@+id/preview_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{product.batchListObj.previewText}"
-                android:textColor="@color/in_line_discount"
-                android:textSize="@dimen/text_dimen_10"
-                android:layout_marginStart="@dimen/thirty_dp"
-                android:layout_marginEnd="@dimen/ten_dp"
-                android:visibility="@{product.batchListObj.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/two_dp"
@@ -155,12 +155,14 @@
 
         </LinearLayout>
 
-
-        <View
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:background="@color/black_transperent"
-            android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}"
+            android:layout_alignBottom="@+id/item_view"
+            android:layout_alignTop="@+id/item_view"/>
+
     </RelativeLayout>
 </layout>
 

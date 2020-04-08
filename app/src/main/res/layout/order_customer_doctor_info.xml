@@ -27,7 +27,8 @@
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:padding="@dimen/ten_dp"
                 android:text="DETAILS"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
 
             <ImageView
                 android:id="@+id/expand_collapse_icon"
@@ -132,7 +133,8 @@
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoBold`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{`TDG-21324`}" />
+                        app:span_text="@{`TDG-21324`}"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,76 +148,56 @@
                     android:paddingTop="@dimen/five_dp"
                     android:paddingEnd="@dimen/eight_dp"
                     android:paddingBottom="@dimen/five_dp">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/label_doctor_details"
-                            android:textAllCaps="true"
-                            android:textColor="@color/add_item_header"
-                            android:textSize="@dimen/text_dimen_14"
-                            tools:ignore="RelativeOverlap" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_doctor_details"
+                        android:textAllCaps="true"
+                        android:textColor="@color/add_item_header"
+                        android:textSize="@dimen/text_dimen_14"
+                        tools:ignore="RelativeOverlap" />
                     </RelativeLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.3"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_name"
-                            android:textColor="@color/customer_info_header"
-                            android:textSize="@dimen/text_dimen_11" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.7"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@{item.doctorName}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_11" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/three_dp"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/customer_info_header"
+                        android:textSize="@dimen/text_dimen_10"
+                        app:full_text="@{@string/label_name(item.doctorName)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoBold`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{item.doctorName}" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.3"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_reg_no"
-                            android:textColor="@color/customer_info_header"
-                            android:textSize="@dimen/text_dimen_11" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_weight="0.7"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@{item.doctorCode}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_11" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/three_dp"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/customer_info_header"
+                        android:textSize="@dimen/text_dimen_10"
+                        app:full_text="@{@string/label_reg_no(item.doctorCode)}"
+                        app:span_color="@{@color/black}"
+                        app:span_font="@{`robotoBold`}"
+                        app:span_size="@{@dimen/small_size_text}"
+                        app:span_text="@{item.doctorCode}" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

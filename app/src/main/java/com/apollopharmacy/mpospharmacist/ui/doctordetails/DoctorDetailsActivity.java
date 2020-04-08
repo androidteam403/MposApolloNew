@@ -69,6 +69,8 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         allDoctorsArrayList = new ArrayList<>();
         mPresenter.getDoctorsList();
         mPresenter.getAllDoctorsList();
+        doctorDetailsBinding.selectDoctor.setFocusableInTouchMode(false);
+        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
     }
 
     @Override
@@ -106,6 +108,9 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         doctorDetailsBinding.selectDoctor.setAdapter(adapter);
         doctorDetailsBinding.selectDoctor.setSelection(0);
+        doctorDetailsBinding.selectDoctor.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        doctorDetailsBinding.selectDoctor.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        doctorDetailsBinding.selectDoctor.setFocusableInTouchMode(false);
         doctorDetailsBinding.selectDoctor.setOnItemClickListener((materialSpinner, view, i, l) -> {
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             doctorDetailsBinding.selectDoctor.setError(null);
@@ -154,6 +159,9 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         doctorDetailsBinding.selectSalesOrigin.setAdapter(adapter);
         doctorDetailsBinding.selectSalesOrigin.setSelection(0);
+        doctorDetailsBinding.selectSalesOrigin.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        doctorDetailsBinding.selectSalesOrigin.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
         doctorDetailsBinding.selectSalesOrigin.setOnItemClickListener((materialSpinner, view, i, l) -> {
             materialSpinner.focusSearch(View.FOCUS_DOWN);
             doctorDetailsBinding.selectSalesOrigin.setError(null);

@@ -55,6 +55,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NotNull final MainRecyclerAdapter.ItemBaseViewHolder holder, int position) {
+
         GetItemDetailsRes.Items item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
         if(item.getCategoryCode().equalsIgnoreCase("P")){
@@ -65,6 +66,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_h_b));
         }
 
+        holder.listItemMainBinding.mainContentView.viewListMainContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         if (holder instanceof ItemSwipeWithActionWidthViewHolder) {
             ItemSwipeWithActionWidthViewHolder viewHolder = (ItemSwipeWithActionWidthViewHolder) holder;
             viewHolder.mActionViewRefresh.setOnClickListener(

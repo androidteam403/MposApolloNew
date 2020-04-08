@@ -53,7 +53,7 @@
                 android:layout_weight="0.4"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
-                android:text="@{String.valueOf(batchInfo.mRP)}"
+                android:text="@{@string/price_format(batchInfo.mRP)}"
                 android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
                 android:textSize="@dimen/text_dimen_12" />
 
@@ -63,7 +63,7 @@
                 android:layout_weight="0.4"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
-                android:text="@{String.valueOf(batchInfo.totalTax)}"
+                android:text="@{@string/price_format(batchInfo.totalTax)}"
                 android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
                 android:textSize="@dimen/text_dimen_12" />
 

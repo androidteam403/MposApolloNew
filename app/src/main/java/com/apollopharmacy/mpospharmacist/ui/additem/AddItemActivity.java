@@ -156,7 +156,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             addItemBinding.setCorporate(corporateEntity);
         }
         addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
-
+        addItemBinding.setItemsCount(Singletone.getInstance().itemsArrayList.size());
         addItemBinding.detailsLayout.detailsExpanCollapseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,7 +264,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //            }
 //        });
         addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
-
+        addItemBinding.setItemsCount(Singletone.getInstance().itemsArrayList.size());
         payActivityAdapter = new PayActivityAdapter(this, arrPayAdapterModel, this);
         RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
         addItemBinding.payAmount.setLayoutManager(mLayoutManagerOne);
@@ -339,6 +339,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 clearOrderData();
                 medicinesDetailAdapter.notifyDataSetChanged();
                 addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
+                addItemBinding.setItemsCount(Singletone.getInstance().itemsArrayList.size());
             }
         });
         dialogView.setNegativeLabel("No");
@@ -500,6 +501,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setCashMode(false);
         paymentMethodModel.setCardMode(true);
         paymentMethodModel.setOneApolloMode(false);
+        addItemBinding.cardPaymentAmountEditText.setText(String.valueOf(orderRemainingAmount()));
     }
 
     @Override
@@ -507,6 +509,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setCashMode(true);
         paymentMethodModel.setCardMode(false);
         paymentMethodModel.setOneApolloMode(false);
+        addItemBinding.cashPaymentAmountEdit.setText(String.valueOf(orderRemainingAmount()));
     }
 
     @Override
@@ -612,6 +615,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setTaxAmount(posTransactionRes.getTotalTaxAmount());
+        paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount())- paymentDoneAmount)));
         if (posTransactionRes.getSalesLine().size() > 0) {
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
@@ -625,15 +629,18 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
                         orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
-                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(new DecimalFormat("##.##").format(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax()));
+                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                     Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
+                    Singletone.getInstance().itemsArrayList.get(i).setItemDelete(posTransactionRes.getSalesLine().get(i).isVoid());
                 }
 
             }
         }
         if(getItemsCount() !=0) {
+            addItemBinding.setItemsCount(getItemsCount());
             addItemBinding.setProductCount(getItemsCount());
         }else{
+            addItemBinding.setItemsCount(getItemsCount());
             addItemBinding.footer.setVisibility(View.GONE);
         }
         addItemBinding.setOrderInfo(orderPriceInfoModel);
@@ -754,43 +761,54 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             arrPayAdapterModel.clear();
             paymentDoneAmount = 0.0;
             for(TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()){
-                paymentDoneAmount += tenderLineEntity.getAmountTendered();
-                if (paymentDoneAmount == orderTotalAmount()) {
-                    paymentMethodModel.setPaymentDone(true);
-                    paymentMethodModel.setGenerateBill(true);
-                    isGeneratedBill = true;
-                    paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
-                    paymentMethodModel.setBalanceAmount(false);
-                } else {
-                    double balanceAmt = orderTotalAmount() - paymentDoneAmount;
-                    if(balanceAmt < 0) {
+                if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
+                    paymentDoneAmount += tenderLineEntity.getAmountTendered();
+                    if (paymentDoneAmount == orderTotalAmount()) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
                         isGeneratedBill = true;
-                        paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
+                        paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
                         paymentMethodModel.setBalanceAmount(false);
-                    }else{
-                        paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
-                        paymentMethodModel.setBalanceAmount(true);
-                        paymentMethodModel.setPaymentDone(false);
+                    } else {
+                        double balanceAmt = orderTotalAmount() - paymentDoneAmount;
+                        if (balanceAmt < 0) {
+                            paymentMethodModel.setPaymentDone(true);
+                            paymentMethodModel.setGenerateBill(true);
+                            isGeneratedBill = true;
+                            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+                            paymentMethodModel.setBalanceAmount(false);
+                        } else {
+                            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+                            paymentMethodModel.setBalanceAmount(true);
+                            paymentMethodModel.setPaymentDone(false);
+                        }
                     }
-                }
-                if (!TextUtils.isEmpty(tenderLineEntity.getTenderId()))
+
                     if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                         arrPayAdapterModel.add(payAdapterModel);
                     } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 2) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                         arrPayAdapterModel.add(payAdapterModel);
                     } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 3) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", "₹ " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                        PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                         arrPayAdapterModel.add(payAdapterModel);
                     }
+                } else {
+                    showMessage("Tender Id null");
+                    break;
+                }
             }
             payActivityAdapter.notifyDataSetChanged();
         }else{
+            paymentDoneAmount = 0;
+            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
             paymentMethodModel.setBalanceAmount(false);
             paymentMethodModel.setPaymentInitiate(false);
+            paymentMethodModel.setPaymentDone(false);
+            paymentMethodModel.setGenerateBill(false);
+            arrPayAdapterModel.clear();
+            payActivityAdapter.notifyDataSetChanged();
         }
 
 
@@ -877,6 +895,11 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         if(manualDiscDialog != null){
             manualDiscDialog.visibleValidateOtp(otp);
         }
+    }
+
+    @Override
+    public void clearOTPVIew() {
+        addItemBinding.otpView.setText("");
     }
 
     @Override

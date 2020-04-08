@@ -10,8 +10,11 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -158,6 +161,17 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             CommonUtils.hideKeyboard(ProductListActivity.this);
             return false;
         });
+
+        productListActivityBinding.searchProductEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    productListMvpPresenter.getProductDetails();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -224,7 +238,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
                 itemsArrayList.clear();
                 productListAdapter.notifyDataSetChanged();
             } else {
-                hideKeyboard();
+               // hideKeyboard();
                 productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
                 productListActivityBinding.itemNotFound.setVisibility(View.VISIBLE);
             }

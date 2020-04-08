@@ -52,7 +52,8 @@
                 android:hint="@string/label_enter_user_id"
                 android:inputType="text"
                 android:singleLine="true"
-                android:textSize="@dimen/text_dimen_15" />
+                android:textSize="@dimen/text_dimen_15"
+                android:imeOptions="actionNext"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -73,7 +74,8 @@
                 android:drawablePadding="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_password"
-                android:inputType="textPassword"
+                android:inputType="text"
+                android:imeOptions="actionSend"
                 android:singleLine="true"
                 android:textSize="@dimen/text_dimen_15" />
         </com.google.android.material.textfield.TextInputLayout>

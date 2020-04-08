@@ -109,4 +109,7 @@ dependencies {
     // Add the Firebase SDK for Crashlytics.
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
 
+    //Loading ... animation lib
+    implementation 'com.github.bhargavms:DotLoader:1.1.1'
+
 }

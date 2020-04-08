@@ -2,7 +2,12 @@ package com.apollopharmacy.mpospharmacist.ui.newadminloginsetup;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacist.R;
@@ -49,7 +54,8 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
     @Override
     protected void setUp() {
         newAdminloginSetupBinding.setCallback(newAdminLoginPresenter);
-
+        newAdminloginSetupBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        newAdminloginSetupBinding.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -65,6 +71,16 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
                     }
                 });
 
+        newAdminloginSetupBinding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    newAdminLoginPresenter.onAdminLoginClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 
