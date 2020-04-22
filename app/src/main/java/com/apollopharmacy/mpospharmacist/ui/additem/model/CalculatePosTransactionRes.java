@@ -103,6 +103,11 @@ public class CalculatePosTransactionRes implements Serializable {
     @Expose
     @SerializedName("ReminderDays")
     private double ReminderDays;
+
+    public void setRemainingamount(double remainingamount) {
+        Remainingamount = remainingamount;
+    }
+
     @Expose
     @SerializedName("Remainingamount")
     private double Remainingamount;
@@ -348,6 +353,10 @@ public class CalculatePosTransactionRes implements Serializable {
 
     public List<SalesLineEntity> getSalesLine() {
         return SalesLine;
+    }
+
+    public void setSalesLine(List<SalesLineEntity> salesLine) {
+        SalesLine = salesLine;
     }
 
     public double getSEZ() {
@@ -697,5 +706,37 @@ public class CalculatePosTransactionRes implements Serializable {
 
     public void setOrderSavingsPercentage(double orderSavingsPercentage) {
         OrderSavingsPercentage = orderSavingsPercentage;
+    }
+
+    public void setGender(double gender) {
+        Gender = gender;
+    }
+
+    public void setDoctorName(String doctorName) {
+        DoctorName = doctorName;
+    }
+
+    public void setDoctorCode(String doctorCode) {
+        DoctorCode = doctorCode;
+    }
+
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
+    }
+
+    public void setCustomerState(String customerState) {
+        CustomerState = customerState;
+    }
+
+    public void setCustomerName(String customerName) {
+        CustomerName = customerName;
+    }
+
+    public void setCustomerID(String customerID) {
+        CustomerID = customerID;
+    }
+
+    public void setCustAddress(String custAddress) {
+        CustAddress = custAddress;
     }
 }

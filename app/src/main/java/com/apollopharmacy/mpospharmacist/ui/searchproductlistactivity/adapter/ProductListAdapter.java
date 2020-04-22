@@ -20,6 +20,8 @@ import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.Prod
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements Filterable {
     private ProductListActivity activity;
@@ -43,17 +45,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
-        GetItemDetailsRes.Items item = productListFiltered.get(position);
-        holder.productListAdapterBinding.setProductlist(item);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (productListMvpView != null) {
-                    productListMvpView.onClickProductItem(item);
+        if(productListFiltered.size()>0) {
+            GetItemDetailsRes.Items item = productListFiltered.get(position);
+            holder.productListAdapterBinding.setProductlist(item);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (productListMvpView != null) {
+                        productListMvpView.onClickProductItem(item);
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -85,9 +88,32 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     for (GetItemDetailsRes.Items row : productListArrayList) {
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getArtCode().startsWith(charString.toUpperCase()) || row.getDescription().startsWith(charString.toUpperCase())) {
-                            filteredList.add(row);
+//                        String searchKey = Pattern.compile("[ ](?=[ ])|[^-_,A-Za-z0-9 ]+", Pattern.MULTILINE).matcher(charString.toUpperCase()).replaceAll("");
+//                        if (row.getArtCode().contains(charString.toUpperCase()) || row.getDescription().contains(charString.toUpperCase())) {
+//                            filteredList.add(row);
+//                        }
+
+                        if (charString.toUpperCase().contains("%")) {
+                            String[] splitKey = charString.toUpperCase().split("%");
+                            if(splitKey.length > 1) {
+                                for (int i = 0; i < splitKey.length; i++) {
+                                    if (i != 0) {
+                                        if (!filteredList.contains(row) && (row.getArtCode().contains(splitKey[i]) || row.getDescription().contains(splitKey[i]))) {
+                                            filteredList.add(row);
+                                        }
+                                    }
+                                }
+                            }else{
+                                if (!filteredList.contains(row) && (row.getArtCode().contains(charString.toUpperCase().replace("%","")) || row.getDescription().contains(charString.toUpperCase().replace("%","")))) {
+                                    filteredList.add(row);
+                                }
+                            }
+                        } else {
+                            if (!filteredList.contains(row) && (row.getArtCode().contains(charString.toUpperCase()) || row.getDescription().contains(charString.toUpperCase()))) {
+                                filteredList.add(row);
+                            }
                         }
+
                     }
                     productListFiltered = filteredList;
                 }
@@ -103,5 +129,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 activity.updateProductsCount(productListFiltered.size());
             }
         };
+    }
+
+    public void clearDate(){
+        productListFiltered.clear();
+        notifyDataSetChanged();
+
+    }
+
+    public void add(ArrayList<GetItemDetailsRes.Items> productListFiltered){
+        this.productListFiltered = productListFiltered;
+        this.productListArrayList = productListFiltered;
+      //  notifyDataSetChanged();
     }
 }

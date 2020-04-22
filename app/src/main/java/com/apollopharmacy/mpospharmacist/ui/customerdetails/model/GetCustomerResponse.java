@@ -32,13 +32,25 @@ public class GetCustomerResponse {
         return RequestStatus;
     }
 
+    public void set_Customer(List<CustomerEntity> _Customer) {
+        this._Customer = _Customer;
+    }
+
+    public void setReturnMessage(String returnMessage) {
+        ReturnMessage = returnMessage;
+    }
+
+    public void setRequestStatus(int requestStatus) {
+        RequestStatus = requestStatus;
+    }
+
     public static class CustomerEntity implements Serializable {
         @Expose
         @SerializedName("Tier")
         private String Tier;
         @Expose
         @SerializedName("TelephoneNo")
-        private String TelephoneNo;
+        private String TelephoneNo = "";
         @Expose
         @SerializedName("MobileNo")
         private String MobileNo;
@@ -56,7 +68,7 @@ public class GetCustomerResponse {
         private String CorpId;
         @Expose
         @SerializedName("CardNo")
-        private String CardNo;
+        private String CardNo = "";
         @Expose
         @SerializedName("CardName")
         private String CardName;

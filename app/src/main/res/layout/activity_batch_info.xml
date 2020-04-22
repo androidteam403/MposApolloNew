@@ -8,7 +8,7 @@
             type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
         <variable
             name="product"
-            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
         <import type="android.view.View" />
         <variable
             name="batch_selected"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginBottom="@dimen/ten_dp"
-                android:text="@{product.description}"
+                android:text="@{product.itemName}"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="@dimen/text_dimen_13"
                 android:textColor="@color/white"
@@ -146,7 +146,7 @@
                     android:inputType="number"
                     android:background="@drawable/rounded_corners_white"
                     android:maxLength="3"
-                    android:text="1"
+                    android:text=""
                     android:fontFamily="@font/roboto_regular"
                     android:singleLine="true"
                     android:imeOptions="actionDone"/>
@@ -173,7 +173,6 @@
             android:background="@color/batch_header_bg"
             android:orientation="horizontal"
             android:padding="@dimen/ten_dp"
-            android:weightSum="3"
             tools:ignore="UselessParent">
 
             <TextView
@@ -184,27 +183,29 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_batch_no"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_weight="0.7"
+                android:layout_weight="0.6"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_exp_date"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="start"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/twenty_dp"
-                android:layout_weight="0.4"
+                android:layout_weight="0.3"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_mrp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="start" />
 
             <TextView
                 android:layout_width="0dp"
@@ -213,17 +214,19 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_tax"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="start" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_weight="0.4"
+                android:layout_weight="0.3"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_q_o_h"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="start"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -233,7 +236,8 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/label_req"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="center_horizontal" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

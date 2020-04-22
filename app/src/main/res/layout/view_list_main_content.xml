@@ -7,7 +7,7 @@
 
         <variable
             name="product"
-            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -52,7 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@{product.artCode.concat(` - `+product.description)}"
+                        android:text="@{product.itemId.concat(` - `+product.itemName)}"
                         android:textColor="@color/add_item_header"
                         android:textSize="@dimen/text_dimen_13" />
 
@@ -62,7 +62,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
                         android:singleLine="true"
-                        android:text="@{product.batchListObj.batchNo+`/`+product.category+`/`+product.batchListObj.expDate+`/`+product.manufacture}"
+                        android:text="@{product.inventBatchId+`/`+product.category+`/`+product.expiry+`/`+product.manufacturerName}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
                     <TextView
@@ -70,10 +70,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{product.batchListObj.previewText}"
+                        android:text="@{product.previewText}"
                         android:textColor="@color/in_line_discount"
                         android:textSize="@dimen/text_dimen_10"
-                        android:visibility="@{product.batchListObj.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
+                        android:visibility="@{product.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -87,8 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:orientation="horizontal"
-                        android:layout_weight="1"
-                        >
+                        android:layout_weight="1">
 
                         <TextView
                             android:layout_width="0dp"
@@ -97,9 +96,11 @@
                             android:background="@color/cart_price_bg"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
-                            android:text="@{@string/price_format(product.batchListObj.mRP)}"
+                            android:text="@{@string/price_format(product.mRP)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:ellipsize="end" />
 
                         <View
                             android:layout_width="@dimen/one_dp"
@@ -113,9 +114,11 @@
                             android:background="@color/cart_price_bg"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
-                            android:text="@{String.valueOf(product.batchListObj.enterReqQuantity)}"
+                            android:text="@{String.valueOf(product.qty)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:ellipsize="end" />
 
                         <View
                             android:layout_width="@dimen/one_dp"
@@ -129,9 +132,11 @@
                             android:background="@color/cart_price_bg"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
-                            android:text="@{@string/price_format(product.batchListObj.calculatedTotalPrice)}"
+                            android:text="@{@string/price_format(product.netAmountInclTax)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:ellipsize="end"/>
                     </LinearLayout>
 
                     <TextView
@@ -141,10 +146,12 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:padding="@dimen/one_dp"
-                        android:text="@{`Tax : `+ @string/price_format(product.batchListObj.totalTax) +`%`}"
+                        android:text="@{`Tax : `+ @string/price_format(product.totalTax) +`%`}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -159,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black_transperent"
-            android:visibility="@{product.itemDelete ? View.VISIBLE : View.GONE}"
+            android:visibility="@{product.isVoid ? View.VISIBLE : View.GONE}"
             android:layout_alignBottom="@+id/item_view"
             android:layout_alignTop="@+id/item_view"/>
 

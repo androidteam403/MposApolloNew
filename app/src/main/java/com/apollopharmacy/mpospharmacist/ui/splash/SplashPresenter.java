@@ -1,6 +1,12 @@
 package com.apollopharmacy.mpospharmacist.ui.splash;
 
+import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
@@ -13,6 +19,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacist.utils.MyAdmin;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
@@ -38,11 +45,11 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
     @Override
     public void onAttach(V mvpView) {
         super.onAttach(mvpView);
-        Handler mWaitHandler = new Handler();
-        mWaitHandler.postDelayed(this::decideNextActivity, SPLASH_DISPLAY_LENGTH);
+
     }
 
-    private void decideNextActivity() {
+    @Override
+    public void decideNextActivity() {
         if(getMvpView() != null) {
             if (getDataManager().isAdminLoginFinish()) {
                 if (getDataManager().isAdminSetUpFinish())
@@ -172,5 +179,39 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void enableKioskMode() {
+        // get policy manager
+        DevicePolicyManager myDevicePolicyManager = (DevicePolicyManager) getMvpView().getBaseActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
+        // get this app package name
+        ComponentName mDPM = new ComponentName(getMvpView().getBaseActivity(), MyAdmin.class);
+
+        //startLockTask();
+        if (myDevicePolicyManager != null) {
+
+            myDevicePolicyManager.removeActiveAdmin(mDPM);
+//            myDevicePolicyManager.clearDeviceOwnerApp(getMvpView().getBaseActivity().getPackageName());
+            if (myDevicePolicyManager.isDeviceOwnerApp(getMvpView().getBaseActivity().getPackageName())) {
+                // get this app package name
+                String[] packages = {getMvpView().getBaseActivity().getPackageName()};
+                // mDPM is the admin package, and allow the specified packages to lock task
+                myDevicePolicyManager.setLockTaskPackages(mDPM, packages);
+            } else {
+               // getMvpView().showMessage("Not owner");
+                getDataManager().setKioskMode(true);
+                getMvpView().startAnimation();
+                //startLockTask();
+            }
+//            if (myDevicePolicyManager.isLockTaskPermitted(getMvpView().getBaseActivity().getPackageName())) {
+//                getDataManager().setKioskMode(true);
+//                getMvpView().startAnimation();
+//            } else {
+//                getMvpView().displayKioskRequiredDialog();
+//            }
+
+        }
+
     }
 }

@@ -32,6 +32,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_USER_LOGIN = "PREF_KEY_USER_LOGIN";
     private static final String PREF_KEY_DATA_AREA_ID = "PREF_KEY_DATA_AREA_ID";
     private static final String PREF_KEY_VENDOR_RES = "PREF_KEY_VENDOR_RES";
+    private static final String PREF_KEY_KIOSK_MODE = "PREF_KEY_KIOSK_MODE";
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -100,6 +101,16 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setUserMobile(String mobileNumber) {
         mPrefs.edit().putString(PREF_KEY_USER_MOBILE, mobileNumber).apply();
+    }
+
+    @Override
+    public void setKioskMode(boolean isKiosk) {
+        mAdminPrefs.edit().putBoolean(PREF_KEY_KIOSK_MODE,isKiosk).apply();
+    }
+
+    @Override
+    public boolean isKioskMode() {
+        return mAdminPrefs.getBoolean(PREF_KEY_KIOSK_MODE,false);
     }
 
     @Override

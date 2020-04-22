@@ -27,6 +27,10 @@
             android:id="@+id/nav_manual_billing"
             android:icon="@drawable/ic_menu_manual_billing"
             android:title="@string/menu_manual_billing" />
+        <item
+            android:id="@+id/nav_exit_kiosk"
+            android:icon="@drawable/ic_menu_manual_billing"
+            android:title="@string/menu_exit_kiosk" />
     </group>
 
 

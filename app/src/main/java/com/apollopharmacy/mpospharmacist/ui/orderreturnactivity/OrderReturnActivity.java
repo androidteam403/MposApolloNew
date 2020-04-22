@@ -16,6 +16,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.OrderReturnActiivtyBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.OrderReturnAdapter;
@@ -126,9 +127,13 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     }
 
     private void getPaymentTypes() {
+        arrPayAdapterModel.add(new OrderReturnModel("Total Amount",orderHistoryItem.getGrossAmount()- orderHistoryItem.getDiscAmount()));
         for (int i = 0; i < orderHistoryItem.getTenderLine().size(); i++) {
             OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(),  orderHistoryItem.getTenderLine().get(i).getAmountTendered());
             arrPayAdapterModel.add(orderReturnModel);
+        }
+        if(orderHistoryItem.getRemainingamount() != 0) {
+            arrPayAdapterModel.add(new OrderReturnModel("Pay Back Amount",orderHistoryItem.getRemainingamount()));
         }
     }
 

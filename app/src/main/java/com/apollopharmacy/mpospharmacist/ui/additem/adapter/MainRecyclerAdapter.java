@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ListItemMainBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpView;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
@@ -27,12 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ItemBaseViewHolder> {
 
     public static final int ITEM_TYPE_ACTION_WIDTH = 1001;
-    private List<GetItemDetailsRes.Items> mDatas;
+    private List<SalesLineEntity> mDatas;
     private Context mContext;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
     private AddItemMvpView addItemMvpView;
 
-    public MainRecyclerAdapter(Context context,ArrayList<GetItemDetailsRes.Items> medicineDetailsModelArrayList) {
+    public MainRecyclerAdapter(Context context,ArrayList<SalesLineEntity> medicineDetailsModelArrayList) {
         mDatas = medicineDetailsModelArrayList;
         mContext = context;
     }
@@ -56,7 +57,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public void onBindViewHolder(@NotNull final MainRecyclerAdapter.ItemBaseViewHolder holder, int position) {
 
-        GetItemDetailsRes.Items item = mDatas.get(position);
+        SalesLineEntity item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
         if(item.getCategoryCode().equalsIgnoreCase("P")){
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));
@@ -89,17 +90,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (item.isItemDelete()) {
+                            if (item.getIsVoid()) {
                                 if (addItemMvpView != null) {
-                                    item.setItemDelete(false);
+                                  //  item.setVoid(false);
                                     viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
-                                    addItemMvpView.onItemAdded();
+                                    addItemMvpView.onItemAdded(item.getLineNo());
                                 }
                             } else {
                                 if (addItemMvpView != null) {
-                                    item.setItemDelete(true);
+                                   // item.setVoid(true);
                                     viewHolder.mActionViewRefresh.setVisibility(View.GONE);
-                                    addItemMvpView.onItemDeleted();
+                                    addItemMvpView.onItemDeleted(item.getLineNo());
                                 }
                             }
                             mItemTouchHelperExtension.closeOpened();
@@ -116,7 +117,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     public void move(int from, int to) {
-        GetItemDetailsRes.Items prev = mDatas.remove(from);
+        SalesLineEntity prev = mDatas.remove(from);
         mDatas.add(to > from ? to - 1 : to, prev);
         notifyItemMoved(from, to);
     }

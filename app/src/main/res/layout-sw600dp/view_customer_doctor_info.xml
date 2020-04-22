@@ -107,8 +107,7 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onCustomerEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view"
-                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}"/>
+                            android:src="@drawable/ic_edit_view"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -198,43 +197,42 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onDoctorEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view"
-                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
+                            android:src="@drawable/ic_edit_view" />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
                         android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/three_dp"
-                        android:layout_weight="0.3"
-                        android:textColor="@color/customer_info_header"
-                        android:textSize="@dimen/text_dimen_10"
-                        app:full_text="@{@string/label_name(doctor.displayText)}"
-                        app:span_color="@{@color/black}"
-                        app:span_font="@{`robotoBold`}"
-                        app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{doctor.displayText}"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:padding="@dimen/three_dp"
+                            android:layout_weight="0.3"
+                            android:textColor="@color/customer_info_header"
+                            android:textSize="@dimen/text_dimen_10"
+                            app:full_text="@{@string/label_name(doctor.displayText)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoBold`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{doctor.displayText}"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="@dimen/three_dp"
-                        android:layout_weight="0.3"
-                        android:textColor="@color/customer_info_header"
-                        android:textSize="@dimen/text_dimen_10"
-                        app:full_text="@{@string/label_reg_no(doctor.code)}"
-                        app:span_color="@{@color/black}"
-                        app:span_font="@{`robotoBold`}"
-                        app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{doctor.code}"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:padding="@dimen/three_dp"
+                            android:layout_weight="0.3"
+                            android:textColor="@color/customer_info_header"
+                            android:textSize="@dimen/text_dimen_10"
+                            app:full_text="@{@string/label_reg_no(doctor.code)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoBold`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{doctor.code}"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -272,8 +270,7 @@
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
-                        android:src="@drawable/ic_edit_view"
-                        android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
+                        android:src="@drawable/ic_edit_view" />
                 </RelativeLayout>
 
                 <LinearLayout

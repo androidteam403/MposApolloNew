@@ -107,8 +107,7 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onCustomerEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view"
-                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}"/>
+                            android:src="@drawable/ic_edit_view"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -198,8 +197,7 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onDoctorEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view"
-                            android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
+                            android:src="@drawable/ic_edit_view" />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -272,8 +270,7 @@
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
-                        android:src="@drawable/ic_edit_view"
-                        android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}" />
+                        android:src="@drawable/ic_edit_view" />
                 </RelativeLayout>
 
                 <LinearLayout

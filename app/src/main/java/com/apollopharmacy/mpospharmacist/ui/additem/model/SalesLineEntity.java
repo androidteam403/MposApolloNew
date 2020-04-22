@@ -1,11 +1,14 @@
 package com.apollopharmacy.mpospharmacist.ui.additem.model;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+import com.apollopharmacy.mpospharmacist.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
-public  class SalesLineEntity implements Serializable {
+public  class SalesLineEntity extends BaseObservable implements Serializable {
         @Expose
         @SerializedName("VariantId")
         private String VariantId;
@@ -86,7 +89,7 @@ public  class SalesLineEntity implements Serializable {
         private double RemainderDays;
         @Expose
         @SerializedName("Qty")
-        private double Qty;
+        private int Qty;
         @Expose
         @SerializedName("ProductRecID")
         private String ProductRecID;
@@ -369,7 +372,7 @@ public  class SalesLineEntity implements Serializable {
             return RemainderDays;
         }
 
-        public double getQty() {
+        public int getQty() {
             return Qty;
         }
 
@@ -461,7 +464,7 @@ public  class SalesLineEntity implements Serializable {
             return LinedscAmount;
         }
 
-        public double getLineNo() {
+        public int getLineNo() {
             return LineNo;
         }
 
@@ -483,10 +486,6 @@ public  class SalesLineEntity implements Serializable {
 
         public String getItemId() {
             return ItemId;
-        }
-
-        public boolean getIsVoid() {
-            return IsVoid;
         }
 
         public boolean getIsSubsitute() {
@@ -614,9 +613,15 @@ public  class SalesLineEntity implements Serializable {
                 return MixMode;
         }
 
-        public boolean isVoid() {
+        @Bindable
+        public boolean getIsVoid() {
                 return IsVoid;
         }
+
+//        @Bindable
+//        public boolean isVoid() {
+//                return IsVoid;
+//        }
 
         public boolean isSubsitute() {
                 return IsSubsitute;
@@ -750,7 +755,7 @@ public  class SalesLineEntity implements Serializable {
                 RemainderDays = remainderDays;
         }
 
-        public void setQty(double qty) {
+        public void setQty(int qty) {
                 Qty = qty;
         }
 
@@ -866,8 +871,9 @@ public  class SalesLineEntity implements Serializable {
                 ItemId = itemId;
         }
 
-        public void setVoid(boolean aVoid) {
-                IsVoid = aVoid;
+        public void setVoid(boolean itemDelete) {
+                IsVoid = itemDelete;
+                notifyPropertyChanged(BR.itemDelete);
         }
 
         public void setSubsitute(boolean subsitute) {

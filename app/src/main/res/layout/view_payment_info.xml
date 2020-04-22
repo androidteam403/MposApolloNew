@@ -12,34 +12,25 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/one_dp"
-        android:weightSum="1">
+        android:paddingTop="@dimen/one_dp">
 
         <TextView
             android:id="@+id/payment_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:fontFamily="@font/roboto_medium"
             android:text="@{paidbean.tenderName}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_13" />
 
-        <TextView
-            android:id="@+id/payment_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.55"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_13" />
 
         <TextView
             android:id="@+id/paid_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_weight="0.25"
+            android:layout_weight="0.1"
             android:fontFamily="@font/price_regular"
             android:gravity="end"
             android:text="@{@string/label_Rs_pay_amount(@string/price_format(paidbean.amountTendered))}"

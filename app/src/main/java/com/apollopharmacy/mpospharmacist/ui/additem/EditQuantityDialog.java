@@ -13,6 +13,7 @@ import android.view.View;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.EditQuantityDialogBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ExitInfoDialogBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import androidx.databinding.DataBindingUtil;
@@ -23,7 +24,7 @@ public class EditQuantityDialog {
     private EditQuantityDialogBinding editQuantityDialogBinding;
 
     private boolean negativeExist = false;
-    private GetItemDetailsRes.Items editItem;
+    private SalesLineEntity editItem;
 
     public EditQuantityDialog(Context context) {
         dialog = new Dialog(context);
@@ -55,9 +56,9 @@ public class EditQuantityDialog {
         });
     }
 
-    public void setItemData(GetItemDetailsRes.Items item){
+    public void setItemData(SalesLineEntity item){
         editItem = item;
-        editQuantityDialogBinding.editQuantityEditText.setText(String.valueOf(editItem.getBatchListObj().getEnterReqQuantity()));
+        editQuantityDialogBinding.editQuantityEditText.setText(String.valueOf(editItem.getQty()));
     }
 
     public int getEnteredQuantity(){
@@ -66,11 +67,11 @@ public class EditQuantityDialog {
 
     public boolean validateQuantity(){
         if(!TextUtils.isEmpty(editQuantityDialogBinding.editQuantityEditText.getText().toString())){
-            if(editItem.getBatchListObj().getEnterReqQuantity() < getEnteredQuantity()){
+            if(editItem.getQty() < getEnteredQuantity()){
                 editQuantityDialogBinding.editQuantityEditText.setError("Please Enter Valid Quantity");
                 return false;
             }else {
-                editItem.getBatchListObj().setEnterReqQuantity(getEnteredQuantity());
+                editItem.setQty(getEnteredQuantity());
                 return true;
             }
         }else{

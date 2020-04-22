@@ -64,4 +64,10 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
 
     void generateTenterLineService(double amount);
+
+    void clearAllVoidTransaction();
+
+    void closeOrderVoidTransaction();
+
+    void voidProduct(int lineNumber);
 }

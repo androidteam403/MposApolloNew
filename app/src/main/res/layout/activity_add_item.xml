@@ -539,7 +539,7 @@
                                 android:layout_marginStart="@dimen/fifteen_dp"
                                 android:layout_toEndOf="@id/image"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="Balance amount: "
+                                android:text="@{(paymentMode.balanceAmount &lt; 0) ? `Pay Back Amount:`:`Balance amount:`}"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white" />
 

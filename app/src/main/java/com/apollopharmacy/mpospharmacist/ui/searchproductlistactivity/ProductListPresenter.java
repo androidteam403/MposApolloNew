@@ -43,7 +43,7 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
                 customerRequest.setSearchString(getMvpView().getSearchProductKey());
                 customerRequest.setCorpCode(getMvpView().getCorporateValue().getCode());
                 customerRequest.setStoreID(getDataManager().getStoreId());
-                customerRequest.setStockCheck(!Singletone.getInstance().isManualBilling);
+                customerRequest.setStockCheck(false); // To check manual billing !Singletone.getInstance().isManualBilling
 
                 Call<GetItemDetailsRes> call = api.GET_ITEM_DETAILS_RES_CALL(customerRequest);
                 call.enqueue(new Callback<GetItemDetailsRes>() {

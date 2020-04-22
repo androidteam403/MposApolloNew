@@ -66,5 +66,25 @@ public class CorporateModel implements Serializable{
         public String getsEZ() {
             return sEZ;
         }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public void setCustState(String custState) {
+            this.custState = custState;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setPayMode(String payMode) {
+            this.payMode = payMode;
+        }
+
+        public void setsEZ(String sEZ) {
+            this.sEZ = sEZ;
+        }
     }
 }

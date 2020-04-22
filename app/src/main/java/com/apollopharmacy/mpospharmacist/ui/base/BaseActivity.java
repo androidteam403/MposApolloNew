@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.base;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -173,4 +174,14 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
     protected abstract void setUp();
+
+    public boolean isAppInLockTaskMode() {
+        ActivityManager activityManager=(ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        // When SDK version is 23
+        int lockTaskMode= 0;
+        if (activityManager != null) {
+            lockTaskMode = activityManager.getLockTaskModeState();
+        }
+        return lockTaskMode != ActivityManager.LOCK_TASK_MODE_NONE;
+    }
 }

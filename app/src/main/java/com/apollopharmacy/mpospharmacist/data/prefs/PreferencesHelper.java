@@ -5,6 +5,10 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfi
 
 public interface PreferencesHelper {
 
+    void setKioskMode(boolean isKiosk);
+
+    boolean isKioskMode();
+
     boolean isAdminLoginFinish();
 
     void setAdminLoginFinish(boolean isLogin);

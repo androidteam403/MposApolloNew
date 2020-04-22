@@ -725,6 +725,74 @@ public  class SaveRetailsTransactionRes implements Serializable {
         public double getAmountCur() {
             return AmountCur;
         }
+
+        public void setWalletType(double walletType) {
+            WalletType = walletType;
+        }
+
+        public void setWalletTransactionID(String walletTransactionID) {
+            WalletTransactionID = walletTransactionID;
+        }
+
+        public void setWalletOrderId(String walletOrderId) {
+            WalletOrderId = walletOrderId;
+        }
+
+        public void setTenderType(double tenderType) {
+            TenderType = tenderType;
+        }
+
+        public void setTenderName(String tenderName) {
+            TenderName = tenderName;
+        }
+
+        public void setTenderId(String tenderId) {
+            TenderId = tenderId;
+        }
+
+        public void setRewardsPodouble(double rewardsPodouble) {
+            RewardsPodouble = rewardsPodouble;
+        }
+
+        public void setPreviewText(String previewText) {
+            PreviewText = previewText;
+        }
+
+        public void setMobileNo(String mobileNo) {
+            MobileNo = mobileNo;
+        }
+
+        public void setLineNo(double lineNo) {
+            LineNo = lineNo;
+        }
+
+        public void setVoid(boolean aVoid) {
+            IsVoid = aVoid;
+        }
+
+        public void setExchRateMst(double exchRateMst) {
+            ExchRateMst = exchRateMst;
+        }
+
+        public void setExchRate(double exchRate) {
+            ExchRate = exchRate;
+        }
+
+        public void setBarCode(String barCode) {
+            BarCode = barCode;
+        }
+
+        public void setAmountTendered(double amountTendered) {
+            AmountTendered = amountTendered;
+        }
+
+        public void setAmountMst(double amountMst) {
+            AmountMst = amountMst;
+        }
+
+        public void setAmountCur(double amountCur) {
+            AmountCur = amountCur;
+        }
     }
 
     public static class SalesLineEntity implements Serializable{

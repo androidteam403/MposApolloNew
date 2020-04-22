@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.utils;
 
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Singletone {
     private Singletone() {
     }
 
-    public ArrayList<GetItemDetailsRes.Items> itemsArrayList = new ArrayList<>();
+    public ArrayList<SalesLineEntity> itemsArrayList = new ArrayList<>();
     public GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
     public boolean isPlaceNewOrder = false;
     public boolean isOrderCompleted = false;

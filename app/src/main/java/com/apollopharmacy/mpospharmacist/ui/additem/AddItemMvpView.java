@@ -5,8 +5,8 @@ import android.content.Context;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -30,6 +30,8 @@ public interface AddItemMvpView extends MvpView {
     void onClickActionBarBack();
 
     void onClearAll();
+
+    void onSuccessClearAll();
 
     void partialPaymentDialog();
 
@@ -59,7 +61,7 @@ public interface AddItemMvpView extends MvpView {
 
     ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints();
 
-    ArrayList<GetItemDetailsRes.Items> getSelectedProducts();
+    ArrayList<SalesLineEntity> getSelectedProducts();
 
     CalculatePosTransactionRes getCalculatedPosTransactionRes();
 
@@ -103,11 +105,11 @@ public interface AddItemMvpView extends MvpView {
 
     void isManualDisc(boolean isManualDisc);
 
-    void onItemDeleted();
+    void onItemDeleted(int lineNumber);
 
-    void onItemAdded();
+    void onItemAdded(int lineNumber);
 
-    void onItemEdit(GetItemDetailsRes.Items item);
+    void onItemEdit(SalesLineEntity item);
 
     void onClickGenerateBill();
 
@@ -128,4 +130,9 @@ public interface AddItemMvpView extends MvpView {
     void generateOTPResponseSuccess(String otp);
 
     void clearOTPVIew();
+
+    void showDoctorSelectError();
+
+    void closeOrderSuccess();
+
 }

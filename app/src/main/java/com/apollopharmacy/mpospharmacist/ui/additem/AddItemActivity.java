@@ -19,19 +19,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
-import com.apollopharmacy.mpospharmacist.data.db.model.Cart;
-import com.apollopharmacy.mpospharmacist.data.db.model.CartItems;
-import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
@@ -124,6 +121,17 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel,CalculatePosTransactionRes calculatePosTransactionRes) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("corporate_info", corporate);
+        intent.putExtra("transaction_id", transactionID);
+        intent.putExtra("corporate_model", corporateModel);
+        intent.putExtra("calculatedPosRes", calculatePosTransactionRes);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,56 +188,56 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         });
 
-        Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
-        if (savedCart != null && savedCart.getItemsArrayList().size() > 0) {
-            for (int i = 0; i < savedCart.getItemsArrayList().size(); i++) {
-                CartItems items = savedCart.getItemsArrayList().get(i);
-                GetItemDetailsRes.Items cartItems = new GetItemDetailsRes.Items();
-                cartItems.setArtCode(items.getArtCode());
-                cartItems.setCategory(items.getCategory());
-                cartItems.setCategoryCode(items.getCategoryCode());
-                cartItems.setDescription(items.getDescription());
-                cartItems.setDiseaseType(items.getDiseaseType());
-                cartItems.setDPCO(items.isDPCO());
-                cartItems.setGenericName(items.getGenericName());
-                cartItems.setHsncode_In(items.getHsncode_In());
-                cartItems.setManufacture(items.getManufacture());
-                cartItems.setManufactureCode(items.getManufactureCode());
-                cartItems.setProductRecID(items.getProductRecID());
-                cartItems.setRackId(items.getRackId());
-                cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
-                cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
-                cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
-                cartItems.setSch_Catg(items.getSch_Catg());
-                cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
-                cartItems.setSI_NO(items.getSI_NO());
-                cartItems.setSubCategory(items.getSubCategory());
-                cartItems.setSubClassification(items.getSubClassification());
-                GetBatchInfoRes.BatchListObj batchList = new GetBatchInfoRes.BatchListObj();
-                batchList.setTotalTax(items.getTotalTax());
-                batchList.setSNO(items.getSNO());
-                batchList.setSGSTTaxCode(items.getSGSTTaxCode());
-                batchList.setSGSTPerc(items.getSGSTPerc());
-                batchList.setREQQTY(items.getREQQTY());
-                batchList.setQ_O_H(items.getQ_O_H());
-                batchList.setPrice(items.getPrice());
-                batchList.setNearByExpiry(items.isNearByExpiry());
-                batchList.setMRP(items.getMRP());
-                batchList.setItemID(items.getItemID());
-                batchList.setISMRPChange(items.isISMRPChange());
-                batchList.setIGSTTaxCode(items.getIGSTTaxCode());
-                batchList.setIGSTPerc(items.getIGSTPerc());
-                batchList.setExpDate(items.getExpDate());
-                batchList.setCGSTTaxCode(items.getCGSTTaxCode());
-                batchList.setCGSTPerc(items.getCGSTPerc());
-                batchList.setCESSPerc(items.getCESSPerc());
-                batchList.setCESSTaxCode(items.getCESSTaxCode());
-                batchList.setBatchNo(items.getBatchNo());
-                cartItems.setBatchListObj(batchList);
-                Singletone.getInstance().itemsArrayList.add(cartItems);
-            }
-
-        }
+//        Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
+//        if (savedCart != null && savedCart.getItemsArrayList().size() > 0) {
+//            for (int i = 0; i < savedCart.getItemsArrayList().size(); i++) {
+//                CartItems items = savedCart.getItemsArrayList().get(i);
+//                GetItemDetailsRes.Items cartItems = new GetItemDetailsRes.Items();
+//                cartItems.setArtCode(items.getArtCode());
+//                cartItems.setCategory(items.getCategory());
+//                cartItems.setCategoryCode(items.getCategoryCode());
+//                cartItems.setDescription(items.getDescription());
+//                cartItems.setDiseaseType(items.getDiseaseType());
+//                cartItems.setDPCO(items.isDPCO());
+//                cartItems.setGenericName(items.getGenericName());
+//                cartItems.setHsncode_In(items.getHsncode_In());
+//                cartItems.setManufacture(items.getManufacture());
+//                cartItems.setManufactureCode(items.getManufactureCode());
+//                cartItems.setProductRecID(items.getProductRecID());
+//                cartItems.setRackId(items.getRackId());
+//                cartItems.setRetailCategoryRecID(items.getRetailCategoryRecID());
+//                cartItems.setRetailMainCategoryRecID(items.getRetailMainCategoryRecID());
+//                cartItems.setRetailSubCategoryRecID(items.getRetailSubCategoryRecID());
+//                cartItems.setSch_Catg(items.getSch_Catg());
+//                cartItems.setSch_Catg_Code(items.getSch_Catg_Code());
+//                cartItems.setSI_NO(items.getSI_NO());
+//                cartItems.setSubCategory(items.getSubCategory());
+//                cartItems.setSubClassification(items.getSubClassification());
+//                GetBatchInfoRes.BatchListObj batchList = new GetBatchInfoRes.BatchListObj();
+//                batchList.setTotalTax(items.getTotalTax());
+//                batchList.setSNO(items.getSNO());
+//                batchList.setSGSTTaxCode(items.getSGSTTaxCode());
+//                batchList.setSGSTPerc(items.getSGSTPerc());
+//                batchList.setREQQTY(items.getREQQTY());
+//                batchList.setQ_O_H(items.getQ_O_H());
+//                batchList.setPrice(items.getPrice());
+//                batchList.setNearByExpiry(items.isNearByExpiry());
+//                batchList.setMRP(items.getMRP());
+//                batchList.setItemID(items.getItemID());
+//                batchList.setISMRPChange(items.isISMRPChange());
+//                batchList.setIGSTTaxCode(items.getIGSTTaxCode());
+//                batchList.setIGSTPerc(items.getIGSTPerc());
+//                batchList.setExpDate(items.getExpDate());
+//                batchList.setCGSTTaxCode(items.getCGSTTaxCode());
+//                batchList.setCGSTPerc(items.getCGSTPerc());
+//                batchList.setCESSPerc(items.getCESSPerc());
+//                batchList.setCESSTaxCode(items.getCESSTaxCode());
+//                batchList.setBatchNo(items.getBatchNo());
+//                cartItems.setBatchListObj(batchList);
+//                Singletone.getInstance().itemsArrayList.add(cartItems);
+//            }
+//
+//        }
 
         addItemBinding.medicineRecycle.setLayoutManager(new LinearLayoutManager(this));
         medicinesDetailAdapter = new MainRecyclerAdapter(this, Singletone.getInstance().itemsArrayList);
@@ -271,6 +279,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         addItemBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         addItemBinding.payAmount.setAdapter(payActivityAdapter);
+        if (getIntent() != null) {
+            calculatePosTransactionRes = (CalculatePosTransactionRes) getIntent().getSerializableExtra("calculatedPosRes");
+            if (calculatePosTransactionRes != null) {
+                onSuccessCalculatePosTransaction(calculatePosTransactionRes);
+            }
+        }
 
         //   mPresenter.getTenderTypeApi();
     }
@@ -336,10 +350,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                clearOrderData();
-                medicinesDetailAdapter.notifyDataSetChanged();
-                addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
-                addItemBinding.setItemsCount(Singletone.getInstance().itemsArrayList.size());
+                mPresenter.clearAllVoidTransaction();
             }
         });
         dialogView.setNegativeLabel("No");
@@ -351,6 +362,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         });
         dialogView.show();
 
+    }
+
+    @Override
+    public void onSuccessClearAll() {
+        clearOrderData();
+        medicinesDetailAdapter.notifyDataSetChanged();
+        addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
+        addItemBinding.setItemsCount(Singletone.getInstance().itemsArrayList.size());
     }
 
     @Override
@@ -467,7 +486,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public ArrayList<GetItemDetailsRes.Items> getSelectedProducts() {
+    public ArrayList<SalesLineEntity> getSelectedProducts() {
         return Singletone.getInstance().itemsArrayList;
     }
 
@@ -629,12 +648,15 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
                         orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
 
-                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
-                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
-                    Singletone.getInstance().itemsArrayList.get(i).setItemDelete(posTransactionRes.getSalesLine().get(i).isVoid());
+//                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setCalculatedTotalPrice(posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
+//                    Singletone.getInstance().itemsArrayList.get(i).getBatchListObj().setPreviewText(posTransactionRes.getSalesLine().get(i).getPreviewText());
+//                    Singletone.getInstance().itemsArrayList.get(i).setItemDelete(posTransactionRes.getSalesLine().get(i).isVoid());
                 }
 
             }
+            Singletone.getInstance().itemsArrayList.clear();
+            Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
+            medicinesDetailAdapter.notifyDataSetChanged();
         }
         if(getItemsCount() !=0) {
             addItemBinding.setItemsCount(getItemsCount());
@@ -680,19 +702,19 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
-    public void onItemDeleted() {
-        mPresenter.calculatePosTransaction();
+    public void onItemDeleted(int lineNumber) {
+        mPresenter.voidProduct(lineNumber);
     }
 
     @Override
-    public void onItemAdded() {
-        mPresenter.calculatePosTransaction();
+    public void onItemAdded(int lineNumber) {
+        mPresenter.voidProduct(lineNumber);
     }
 
     private int getItemsCount(){
         int count = 0;
-        for(GetItemDetailsRes.Items items : Singletone.getInstance().itemsArrayList){
-            if(!items.isItemDelete()){
+        for(SalesLineEntity items : Singletone.getInstance().itemsArrayList){
+            if(!items.getIsVoid()){
                 count++;
             }
         }
@@ -700,12 +722,12 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
-    public void onItemEdit(GetItemDetailsRes.Items item) {
+    public void onItemEdit(SalesLineEntity item) {
         EditQuantityDialog  dialogView = new EditQuantityDialog(this);
         dialogView.setItemData(item);
         dialogView.setTitle("Change Quantity");
         dialogView.setPositiveLabel("Ok");
-        dialogView.setSubtitle("Actual Quantity "+item.getBatchListObj().getEnterReqQuantity());
+        dialogView.setSubtitle("Actual Quantity "+item.getQty());
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -741,7 +763,10 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     @Override
     public double orderTotalAmount() {
         OrderPriceInfoModel priceInfoModel = addItemBinding.getOrderInfo();
-        return priceInfoModel.getOrderTotalAmount();
+        if (priceInfoModel != null)
+            return priceInfoModel.getOrderTotalAmount();
+        else
+            return 0;
     }
 
     @Override
@@ -776,7 +801,11 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                             paymentMethodModel.setGenerateBill(true);
                             isGeneratedBill = true;
                             paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
-                            paymentMethodModel.setBalanceAmount(false);
+                            if(balanceAmt == 0) {
+                                paymentMethodModel.setBalanceAmount(false);
+                            }else{
+                                paymentMethodModel.setBalanceAmount(true);
+                            }
                         } else {
                             paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
                             paymentMethodModel.setBalanceAmount(true);
@@ -811,7 +840,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             payActivityAdapter.notifyDataSetChanged();
         }
 
-
+        calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
     }
 
     @Override
@@ -903,6 +932,28 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
+    public void showDoctorSelectError() {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("");
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle("Kindly Select Doctor");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void closeOrderSuccess() {
+        clearOrderData();
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
     public void onSuccessValidateOneApolloPoints(ValidatePointsResModel body) {
         if(body.getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
             paymentMethodModel.setLoadApolloPoints(false);
@@ -945,10 +996,12 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     case ACTIVITY_ADD_PRODUCT_CODE:
                         if (data != null) {
                             boolean itemNotFound = true;
-                            ArrayList<GetItemDetailsRes.Items> itemsArrayList = (ArrayList<GetItemDetailsRes.Items>) data.getSerializableExtra("selected_item");
+                            ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) data.getSerializableExtra("selected_item");
                             if (itemsArrayList != null) {
                                 //  Singletone.getInstance().itemsArrayList.clear();
                                 Singletone.getInstance().itemsArrayList.addAll(itemsArrayList);
+                                medicinesDetailAdapter.notifyDataSetChanged();
+                                mPresenter.calculatePosTransaction();
 //                                for(GetItemDetailsRes.Items items : itemsArrayList){
 //                                    if(items != null && medicineDetailsModelsList.size() > 0){
 //                                        for(int i=0; i< medicineDetailsModelsList.size(); i++){
@@ -975,7 +1028,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 //                                }
                             }
 
-                            medicinesDetailAdapter.notifyDataSetChanged();
+
                           //  addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
 //                            // Insert into cart table
 //                            if (items != null) {
@@ -1073,19 +1126,31 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 //
 //                            }
 
-                            mPresenter.calculatePosTransaction();
+
                         }
                         break;
                     case CUSTOMER_SEARCH_ACTIVITY_CODE:
                         customerEntity = (GetCustomerResponse.CustomerEntity)data.getSerializableExtra("customer_info");
                         if (customerEntity != null) {
                             addItemBinding.setCustomer(customerEntity);
+                            if(calculatePosTransactionRes != null){
+                                calculatePosTransactionRes.setCustomerID(customerEntity.getCustId());
+                                calculatePosTransactionRes.setCustAddress(customerEntity.getPostalAddress());
+                                calculatePosTransactionRes.setCustomerName(customerEntity.getCardName());
+                                calculatePosTransactionRes.setCustomerState(customerEntity.getState());
+                              //  calculatePosTransactionRes.setGender(customerEntity.getGender().equalsIgnoreCase("Male") ? 0 : 1);
+                                calculatePosTransactionRes.setDOB(customerEntity.getDob());
+                            }
                         }
                         break;
                     case DOCTOR_SEARCH_ACTIVITY_CODE:
                         doctorEntity = (DoctorSearchResModel.DropdownValueBean) data.getSerializableExtra("doctor_info");
                         if (doctorEntity != null) {
                             addItemBinding.setDoctor(doctorEntity);
+                            if(calculatePosTransactionRes != null){
+                                calculatePosTransactionRes.setDoctorCode(doctorEntity.getCode());
+                                calculatePosTransactionRes.setDoctorName(doctorEntity.getDisplayText());
+                            }
                         }
                         break;
                     case CORPORATE_SEARCH_ACTIVITY_CODE:
@@ -1271,8 +1336,10 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                closeOrder();
-
+                if (calculatePosTransactionRes != null)
+                    mPresenter.closeOrderVoidTransaction();
+                else
+                    closeOrderSuccess();
             }
         });
         dialogView.setNegativeLabel("No");
@@ -1285,11 +1352,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         dialogView.show();
     }
 
-    private void closeOrder() {
-        clearOrderData();
-        finish();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-    }
+
 
     private void clearOrderData() {
         Singletone.getInstance().itemsArrayList.clear();
