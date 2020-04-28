@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 public interface BatchInfoMvpPresenter<V extends BatchInfoMvpView> extends MvpPresenter<V> {
@@ -12,5 +14,7 @@ public interface BatchInfoMvpPresenter<V extends BatchInfoMvpView> extends MvpPr
 
     void onActionBarBackPressed();
 
-    void getBatchDetailsApi(GetItemDetailsRes.Items selected_item);
+    void getBatchDetailsApi(SalesLineEntity selected_item);
+
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj items);
 }

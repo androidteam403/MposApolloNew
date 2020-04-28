@@ -124,6 +124,16 @@ public class BaseDataManager  implements DataManager {
     }
 
     @Override
+    public void setKioskMode(boolean isKiosk) {
+        mPreferencesHelper.setKioskMode(isKiosk);
+    }
+
+    @Override
+    public boolean isKioskMode() {
+        return mPreferencesHelper.isKioskMode();
+    }
+
+    @Override
     public boolean isAdminLoginFinish() {
         return mPreferencesHelper.isAdminLoginFinish();
     }

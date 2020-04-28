@@ -33,8 +33,8 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/three_dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@{model.paidAmount}"
+            android:fontFamily="@font/price_bold"
+            android:text="@{`₹ `+@string/price_format(model.paidAmount)}"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 </layout>

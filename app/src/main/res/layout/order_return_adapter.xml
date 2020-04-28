@@ -84,7 +84,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{String.format(`%.2f`,model.mRP)}"
+                        android:text="@{@string/price_format(model.mRP)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
@@ -118,7 +118,7 @@
                         android:background="@color/storesetupbackgroundcolor"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="@{String.format(`%.2f`,model.netAmountInclTax)}"
+                        android:text="@{@string/price_format(model.netAmountInclTax)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />

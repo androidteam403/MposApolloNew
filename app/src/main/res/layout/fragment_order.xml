@@ -87,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/twenty_dp"
                 android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:background="@color/light_grey"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"

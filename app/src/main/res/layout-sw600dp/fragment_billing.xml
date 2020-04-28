@@ -97,6 +97,54 @@
                         android:paddingEnd="@dimen/five_dp"
                         android:src="@drawable/ic_search" />
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Name"
+                            android:inputType="textPersonName"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_dimen_15"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_mobile1"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_dimen_15"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout

@@ -14,7 +14,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.apollopharmacy.mpospharmacist.R;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -135,5 +137,22 @@ public class CommonUtils {
             System.out.println("Excep"+e);
         }
         return null;
+    }
+
+    public static String convertTimeFormat(String time){
+        if(!TextUtils.isEmpty(time)) {
+            DateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            Date date = null;
+            try {
+                date = sdf.parse(time);
+                SimpleDateFormat format = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                if (date != null) {
+                    return format.format(date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
     }
 }

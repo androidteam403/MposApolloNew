@@ -79,6 +79,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 //        Date c = Calendar.getInstance().getTime();
 //        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 //        addCustomerBinding.dateOfRegistration.setText(df.format(c));
+        addCustomerBinding.gender.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         addCustomerBinding.gender.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_item, getGender()){
             @NotNull
@@ -111,6 +112,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 //        ArrayAdapter<SpinnerPojo.District> districtSpinnerPojo = new ArrayAdapter<SpinnerPojo.District>(getContext(), android.R.layout.simple_spinner_dropdown_item, getDistrict());
 //        addCustomerBinding.districtSpinner.setAdapter(districtSpinnerPojo);
 //        addCustomerBinding.districtSpinner.setFocusableInTouchMode(false);
+        addCustomerBinding.maritalStatusSpinner.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         addCustomerBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getApplicationContext(), android.R.layout.simple_spinner_item, getMarital()){
 
@@ -181,11 +183,12 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     private void submitEditMode(){
         GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
-        customerEntity.setSearchId(userInputNumber.getCustId());
+        customerEntity.setSearchId(userInputNumber.getSearchId());
+        customerEntity.setCustId(userInputNumber.getCustId());
         customerEntity.setCardName(getFirstName());
         customerEntity.setMiddleName(getMiddleName());
         customerEntity.setLastName(getLastName());
-        customerEntity.setCardNo(userInputNumber.getCardNo());
+        customerEntity.setCardNo(getCardNumber());
         customerEntity.setEmail(getEmail());
         customerEntity.setMobileNo(getMobile());
         customerEntity.setTelephoneNo(getTelephone());

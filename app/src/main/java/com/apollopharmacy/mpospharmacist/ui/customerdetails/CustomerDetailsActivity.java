@@ -9,10 +9,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -72,8 +75,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 customerDetailsBinding.setCustomer(customerEntity);
-                customerDetailsBinding.customerNumberEdit.setText(customerEntity.getSearchId());
-                customerDetailsBinding.customerNumberEdit.setSelection(customerEntity.getSearchId().length());
+                if(!TextUtils.isEmpty(customerEntity.getSearchId())) {
+                    customerDetailsBinding.customerNumberEdit.setText(customerEntity.getSearchId());
+                    customerDetailsBinding.customerNumberEdit.setSelection(customerEntity.getSearchId().length());
+                }
             }
         }
 
@@ -82,8 +87,17 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             return false;
         });
         customerDetailsBinding.customerNumberEdit.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+        customerDetailsBinding.customerNumberEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    mPresenter.onCustomerSearchClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         //temp
 //        GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
@@ -201,6 +215,9 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
                 GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
                 customerDetailsBinding.setCustomer(customerEntity);
             }
+            customerDetailsBinding.customerNumberEdit.clearFocus();
+            CommonUtils.hideKeyboard(CustomerDetailsActivity.this);
+
         }
     }
 

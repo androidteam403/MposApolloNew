@@ -10,4 +10,12 @@ public interface MainActivityMvpPresenter<V extends MainActivityMvpView> extends
     void logoutUser();
 
     void onCheckBuildDetails();
+
+    void getCorporateList();
+
+    void getUnpostedTransaction();
+
+    boolean isKisokMode();
+
+    void setKioskMode(boolean isKioskMode);
 }

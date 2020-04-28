@@ -62,4 +62,36 @@ public class TransactionIDResModel implements Serializable {
     public String getBillingMode() {
         return billingMode;
     }
+
+    public void setRequestStatus(int requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public void setReturnMessage(String returnMessage) {
+        this.returnMessage = returnMessage;
+    }
+
+    public void setResultValue(String resultValue) {
+        this.resultValue = resultValue;
+    }
+
+    public void setTransactionID(String transactionID) {
+        this.transactionID = transactionID;
+    }
+
+    public void setStoreID(String storeID) {
+        this.storeID = storeID;
+    }
+
+    public void setTerminalID(String terminalID) {
+        this.terminalID = terminalID;
+    }
+
+    public void setDataAreaID(String dataAreaID) {
+        this.dataAreaID = dataAreaID;
+    }
+
+    public void setBillingMode(String billingMode) {
+        this.billingMode = billingMode;
+    }
 }

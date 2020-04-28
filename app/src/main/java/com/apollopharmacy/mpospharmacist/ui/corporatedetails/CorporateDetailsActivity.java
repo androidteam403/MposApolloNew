@@ -104,15 +104,17 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
 
     @Override
     public void getCorporateList(CorporateModel corporateModel) {
-        corporateList = new ArrayList<>();
-        tempCorporateList.clear();
-        corporateList.addAll(corporateModel.get_DropdownValue());
-        tempCorporateList.addAll(corporateModel.get_DropdownValue());
-        corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        corporateDetailsBinding.corporateRecyclerView.setLayoutManager(mLayoutManager);
-        corporateDetailAdapter.setClickListener(this);
-        corporateDetailsBinding.corporateRecyclerView.setAdapter(corporateDetailAdapter);
+        if(corporateModel.get_DropdownValue()!= null && corporateModel.get_DropdownValue().size() > 0) {
+            corporateList = new ArrayList<>();
+            tempCorporateList.clear();
+            corporateList.addAll(corporateModel.get_DropdownValue());
+            tempCorporateList.addAll(corporateModel.get_DropdownValue());
+            corporateDetailAdapter = new CorporateDetailAdapter(this, corporateList);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            corporateDetailsBinding.corporateRecyclerView.setLayoutManager(mLayoutManager);
+            corporateDetailAdapter.setClickListener(this);
+            corporateDetailsBinding.corporateRecyclerView.setAdapter(corporateDetailAdapter);
+        }
     }
 
     @Override

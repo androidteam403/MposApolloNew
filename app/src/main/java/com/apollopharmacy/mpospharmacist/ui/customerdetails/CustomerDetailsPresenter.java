@@ -5,12 +5,16 @@ import android.text.TextUtils;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -43,25 +47,49 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                 getMvpView().showLoading();
                 //Creating an object of our api interface
                 ApiInterface api = ApiClient.getApiService();
-                GetCustomerRequest customerRequest = new GetCustomerRequest();
-                customerRequest.setSearchString(getMvpView().getCustomerNumber());
-
-                Call<GetCustomerResponse> call = api.GET_CUSTOMER_REQUEST_CALL(customerRequest);
-                call.enqueue(new Callback<GetCustomerResponse>() {
+//                GetCustomerRequest customerRequest = new GetCustomerRequest();
+//                customerRequest.setSearchString(getMvpView().getCustomerNumber());
+//
+//                Call<GetCustomerResponse> call = api.GET_CUSTOMER_REQUEST_CALL(customerRequest);
+                ValidatePointsReqModel pointsReqModel = new ValidatePointsReqModel();
+                ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
+                requestDataEntity.setStoreId("");
+                requestDataEntity.setDocNum("");
+                requestDataEntity.setMobileNum(getMvpView().getCustomerNumber());
+                requestDataEntity.setReqBy("M");
+                requestDataEntity.setRRNO("");
+                requestDataEntity.setOTP("");
+                requestDataEntity.setAction("BALANCECHECK");
+                requestDataEntity.setCoupon("");
+                requestDataEntity.setType("");
+                requestDataEntity.setCustomerID("");
+                requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
+                pointsReqModel.setRequestData(requestDataEntity);
+                Call<ValidatePointsResModel> call = api.VALIDATE_ONE_APOLLO_POINTS(pointsReqModel);
+                call.enqueue(new Callback<ValidatePointsResModel>() {
                     @Override
-                    public void onResponse(@NotNull Call<GetCustomerResponse> call, @NotNull Response<GetCustomerResponse> response) {
+                    public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
                         if (response.isSuccessful()) {
                             //Dismiss Dialog
                             getMvpView().hideLoading();
-                            if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0)
-                                getMvpView().onSuccessCustomerSearch(response.body());
-                            else
+                            if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                                GetCustomerResponse customerResponse = new GetCustomerResponse();
+                                ArrayList<GetCustomerResponse.CustomerEntity> customerEntities = new ArrayList<>();
+                                if(response.body().getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
+                                    GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
+                                    entity.setMobileNo(response.body().getOneApolloProcessResult().getMobileNum());
+                                    entity.setCardName(response.body().getOneApolloProcessResult().getName());
+                                    customerEntities.add(entity);
+                                }
+                                customerResponse.set_Customer(customerEntities);
+                                getMvpView().onSuccessCustomerSearch(customerResponse);
+                            } else
                                 getMvpView().onFailedCustomerSearch();
                         }
                     }
 
                     @Override
-                    public void onFailure(@NotNull Call<GetCustomerResponse> call, @NotNull Throwable t) {
+                    public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         handleApiError(t);

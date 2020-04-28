@@ -3,12 +3,14 @@ package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -201,14 +203,19 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
-                        getMvpView().hideLoading();
-                        if (response.body().getRequestStatus() == 0) {
+                       // getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
                             getDataManager().storeGlobalJson(json);
-                            getMvpView().userLoginSuccess();
+                            getTenderTypeApi();
+
                         } else {
-                            getMvpView().userLoginFailed(response.body().getReturnMessage());
+                            getMvpView().hideLoading();
+                            if(response.body() != null)
+                              getMvpView().userLoginFailed(response.body().getReturnMessage());
+                            else
+                                handleApiError(1);
                         }
                     }
                 }
@@ -224,4 +231,41 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    public void getTenderTypeApi() {
+        if (getMvpView().isNetworkConnected()) {
+            //   getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
+            call.enqueue(new Callback<GetTenderTypeRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
+                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+                            getMvpView().userLoginSuccess();
+                        } else {
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
+                            }else{
+                                handleApiError(1);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    handleApiError(t);
+                    //  getMvpView().showMessage(R.string.some_error);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
 }

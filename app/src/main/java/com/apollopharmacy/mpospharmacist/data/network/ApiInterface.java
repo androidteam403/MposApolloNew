@@ -12,6 +12,8 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryReq;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -94,6 +96,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetBatchDetails")
     Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL (@Body GetBatchInfoReq getBatchInfoReq);
 
+    @POST("SalesTransactionService.svc/CheckBatchInventory")
+    Call<CheckBatchInventoryRes> CHECK_BATCH_INVENTORY_RES_CALL (@Body CheckBatchInventoryReq batchInventoryReq);
+
     @POST("SalesTransactionService.svc/GenerateTenderLine/{totalAmount}")
     Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") double amount,@Body GenerateTenderLineReq tenderLineReq);
 
@@ -111,6 +116,15 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body POSTransactionEntity posTransactionReq);
+
+    @POST("SalesTransactionService.svc/VoidTransaction")
+    Call<CalculatePosTransactionRes> VOID_TRANSACTION (@Body CalculatePosTransactionRes posTransactionReq);
+
+    @POST("SalesTransactionService.svc/VoidProduct/{Item_line}")
+    Call<CalculatePosTransactionRes> VOID_PRODUCT (@Path("Item_line") int line,@Body CalculatePosTransactionRes posTransactionReq);
+
+    @POST("SalesTransactionService.svc/GetUnpostedTransaction/{storeId}/{terminalId}/{DataAreaId}")
+    Call<CalculatePosTransactionRes> GET_UNPOSTED_TRANSACTION (@Path("storeId") String storeId,@Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId,@Body  Object o );
 
     @POST("WalletService.svc/OneApolloAPITransaction")
     Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);

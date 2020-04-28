@@ -67,7 +67,17 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             childView.setMedicinebean(medicineArrList.get(i));
             orderSummaryBinding.medicineListLayout.addView(childView.getRoot());
         }
+        SaveRetailsTransactionRes.TenderLineEntity lineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
+        lineEntity.setTenderName("Total Amount");
+        lineEntity.setAmountTendered((transactionRes.getGrossAmount()- transactionRes.getDiscAmount()));
+        paidAmountArr.add(lineEntity);
         paidAmountArr.addAll(transactionRes.getTenderLine());
+        if(transactionRes.getRemainingamount() != 0) {
+            SaveRetailsTransactionRes.TenderLineEntity remainAmountLineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
+            remainAmountLineEntity.setAmountTendered(transactionRes.getRemainingamount());
+            remainAmountLineEntity.setTenderName("Pay Back Amount");
+            paidAmountArr.add(remainAmountLineEntity);
+        }
         for (int i = 0; i < paidAmountArr.size(); i++) {
             ViewPaymentInfoBinding childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
             childView.setPaidbean(paidAmountArr.get(i));

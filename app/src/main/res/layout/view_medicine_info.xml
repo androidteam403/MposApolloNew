@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.15"
             android:fontFamily="@font/roboto_regular"
-            android:text="@{String.valueOf(medicinebean.originalPrice)}"
+            android:text="@{@string/price_format(medicinebean.originalPrice)}"
             android:layout_gravity="end"
             android:gravity="end"
             android:textColor="@color/black"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.17"
             android:fontFamily="@font/roboto_regular"
-            android:text="@{String.valueOf(medicinebean.price)}"
+            android:text="@{@string/price_format(medicinebean.netAmountInclTax)}"
             android:gravity="end"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dimen_13" />

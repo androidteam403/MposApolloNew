@@ -57,6 +57,12 @@ public class DoctorMasterFragment extends BaseFragment implements DoctorMasterMv
         DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
         doctorModel.setCode(addDoctorResModel.getDocRegID());
         doctorModel.setDisplayText(addDoctorResModel.getDocName());
+        fragmentDocMasterBinding.doctorRegNumber.setText("");
+        fragmentDocMasterBinding.doctorName.setText("");
+        fragmentDocMasterBinding.speciality.setText("");
+        fragmentDocMasterBinding.placeOfPractice.setText("");
+        fragmentDocMasterBinding.address.setText("");
+        fragmentDocMasterBinding.phoneNumber.setText("");
 //        Intent returnIntent = new Intent();
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("doctor_info", doctorModel);

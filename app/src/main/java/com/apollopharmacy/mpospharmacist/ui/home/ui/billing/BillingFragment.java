@@ -3,6 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.home.ui.billing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +56,59 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
     protected void setUp(View view) {
         mPresenter.getTransactionID();
         fragmentBillingBinding.setCallbacks(mPresenter);
+
+        fragmentBillingBinding.customerName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(TextUtils.isEmpty(editable)){
+                    fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                    fragmentBillingBinding.continueBtn.setClickable(false);
+                }else{
+                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                        fragmentBillingBinding.continueBtn.setAlpha(1);
+                        fragmentBillingBinding.continueBtn.setClickable(true);
+                    }
+                }
+
+            }
+        });
+
+        fragmentBillingBinding.customerMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(TextUtils.isEmpty(editable)){
+                    fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                    fragmentBillingBinding.continueBtn.setClickable(false);
+                }else{
+                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                        fragmentBillingBinding.continueBtn.setAlpha(1);
+                        fragmentBillingBinding.continueBtn.setClickable(true);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -101,6 +157,16 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
         if (fragmentBillingBinding.getCustomer() != null) {
             startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }else{
+            if(fragmentBillingBinding.customerMobile.getText().toString().length() < 10){
+                fragmentBillingBinding.customerMobile.setError("Enter valid mobile number");
+            }else{
+                GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
+                entity.setCardName(fragmentBillingBinding.customerName.getText().toString());
+                entity.setMobileNo(fragmentBillingBinding.customerMobile.getText().toString());
+                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
+                getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            }
         }
     }
 

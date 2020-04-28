@@ -2,9 +2,9 @@ package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model;
 
 public class OrderReturnModel {
     private String paymentType;
-    private String paidAmount;
+    private double paidAmount;
 
-    public OrderReturnModel(String paymentType, String paidAmount) {
+    public OrderReturnModel(String paymentType, double paidAmount) {
         this.paymentType = paymentType;
         this.paidAmount = paidAmount;
     }
@@ -17,11 +17,11 @@ public class OrderReturnModel {
         this.paymentType = paymentType;
     }
 
-    public String getPaidAmount() {
+    public double getPaidAmount() {
         return paidAmount;
     }
 
-    public void setPaidAmount(String paidAmount) {
+    public void setPaidAmount(double paidAmount) {
         this.paidAmount = paidAmount;
     }
 }

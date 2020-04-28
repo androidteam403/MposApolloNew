@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -66,6 +67,7 @@ public class ManualDiscDialog {
                 offersList.add(availDiscountList.get(i).getOfferId());
                 RadioButton button = new RadioButton(context);
                 button.setId(i);
+                button.setTypeface(Typeface.createFromAsset(context.getAssets(), "font/roboto_regular.ttf"));
                 button.setTag(availDiscountList.get(i));
                 button.setText(availDiscountList.get(i).getDiscountName());
                 if(i == 0) {

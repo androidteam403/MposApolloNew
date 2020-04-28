@@ -49,10 +49,7 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity
-            android:name=".ui.searchuser.SearchUserActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
@@ -80,7 +77,7 @@
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait">
 
         </activity>
@@ -161,6 +158,18 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
+
+        <receiver android:name=".utils.MyAdmin"
+            android:label="@string/app_name"
+            android:description="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data android:name="android.app.device_admin"
+                android:resource="@xml/my_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

@@ -180,7 +180,7 @@
                                     android:layout_marginEnd="@dimen/five_dp"
                                     android:layout_weight="0.3"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_name"
+                                    android:text="@string/label_nam"
                                     android:textColor="@color/customer_info_header"
                                     android:textSize="@dimen/text_dimen_11" />
 
@@ -259,7 +259,7 @@
                                     android:layout_marginEnd="@dimen/five_dp"
                                     android:layout_weight="0.3"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="@string/label_name"
+                                    android:text="@string/label_nam"
                                     android:textColor="@color/customer_info_header"
                                     android:textSize="@dimen/text_dimen_11" />
 
@@ -372,7 +372,7 @@
                                 android:layout_marginEnd="@dimen/five_dp"
                                 android:layout_weight="0.3"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_name"
+                                android:text="@string/label_nam"
                                 android:textColor="@color/customer_info_header"
                                 android:textSize="@dimen/text_dimen_11" />
 
@@ -434,9 +434,9 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end"
+                            android:layout_gravity="center"
                             android:layout_weight="0.15"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/price_regular"
                             android:gravity="end"
                             android:text="@string/label_product_price"
                             android:textSize="@dimen/text_dimen_12" />
@@ -446,7 +446,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="0.13"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/price_regular"
                             android:gravity="center"
                             android:text="Qty."
                             android:textSize="@dimen/text_dimen_12" />
@@ -456,7 +456,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.17"
                             android:ellipsize="end"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/price_regular"
                             android:gravity="end"
                             android:singleLine="true"
                             android:text="@string/label_product_total_price"

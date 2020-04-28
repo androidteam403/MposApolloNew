@@ -197,6 +197,7 @@
     <string name="menu_billing">Billing</string>
     <string name="menu_orders">Orders</string>
     <string name="menu_manual_billing">Manual Billing</string>
+    <string name="menu_exit_kiosk">Exit Kiosk</string>
 
     <string name="label_continue">Continue</string>
     <string name="label_select">Select</string>
@@ -211,8 +212,9 @@
     <string name="label_doctor_details">Doctor Details</string>
     <string name="label_corporate_details">Corporate Details</string>
     <string name="label_span_tracking_ref_no">Tracking Ref. No.:\n%1$s</string>
-    <string name="label_name">Name:</string>
-    <string name="label_reg_no">Reg. No.:</string>
+    <string name="label_nam">Name : </string>
+    <string name="label_name">Name:\n%1$s</string>
+    <string name="label_reg_no">Reg. No.:\n%1$s</string>
     <string name="label_add_items">Add Items</string>
     <string name="label_3_items_found">3 items found</string>
     <string name="label_re_order">Re-Order</string>
@@ -359,5 +361,5 @@
     <string name="label_rs_symbol">\u20B9</string>
     <string name="label_no_item_found">No Item Found</string>
 
-
+    <string name="price_format">%,.2f</string>
 </resources>

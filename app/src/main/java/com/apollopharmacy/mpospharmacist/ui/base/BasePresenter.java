@@ -101,6 +101,30 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     }
 
+    @Override
+    public void handleApiError(int code) {
+        switch (code) {
+            case HttpsURLConnection.HTTP_UNAUTHORIZED:
+                mMvpView.onError("Unauthorised UserProfile ");
+                break;
+            case HttpsURLConnection.HTTP_FORBIDDEN:
+                mMvpView.onError("Forbidden");
+                break;
+            case HttpsURLConnection.HTTP_INTERNAL_ERROR:
+                mMvpView.onError("Internal Server Error");
+                break;
+            case HttpsURLConnection.HTTP_BAD_REQUEST:
+                mMvpView.onError("Bad Request");
+                break;
+            case API_STATUS_CODE_LOCAL_ERROR:
+                mMvpView.onError("No Internet Connection");
+                break;
+            default:
+                mMvpView.onError("Something Went Wrong Please Try Again.");
+
+        }
+    }
+
 
     @Override
     public void setUserAsLoggedOut() {

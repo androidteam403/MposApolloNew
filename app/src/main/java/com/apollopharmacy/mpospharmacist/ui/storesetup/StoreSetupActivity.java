@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +22,6 @@ import com.apollopharmacy.mpospharmacist.data.db.model.StoreDetails;
 import com.apollopharmacy.mpospharmacist.data.db.realm.RealmController;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityStoreSetupBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.NewAdminLoginSetUp;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.dialog.GetStoresDialog;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
@@ -84,9 +82,10 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
 
     }
 
-    public static Intent getStartIntent(Context context){
-        return new Intent(context,StoreSetupActivity.class);
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, StoreSetupActivity.class);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +159,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
 
     @Override
     public void storeSetupSuccess(DeviceSetupResModel storeResModel) {
-       // adminSetup();
+        // adminSetup();
         mPresenter.insertAdminLoginDetails();
     }
 
@@ -336,6 +335,8 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
+        } else {
+          //  checkPermissions();
         }
     }
 

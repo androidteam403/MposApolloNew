@@ -91,11 +91,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="@dimen/text_dimen_11"
-                app:full_text="@{@string/label_order_amount(String.format(`%.2f`,orderDetails.grossAmount))}"
+                app:full_text="@{@string/label_order_amount(@string/price_format(orderDetails.grossAmount))}"
                 app:span_color="@{@color/black}"
                 app:span_font="@{`robotoMedium`}"
                 app:span_size="@{@dimen/small_size_text}"
-                app:span_text="@{String.format(`%.2f`,orderDetails.grossAmount)}" />
+                app:span_text="@{@string/price_format(orderDetails.grossAmount)}" />
 
             <TextView
                 android:layout_width="wrap_content"

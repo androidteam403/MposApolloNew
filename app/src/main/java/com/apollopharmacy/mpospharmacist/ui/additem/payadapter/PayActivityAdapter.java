@@ -46,8 +46,8 @@ public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.
             public void onClick(View v) {
                 if(addItemMvpView != null){
                     addItemMvpView.toRemovePayedAmount(position);
-                    arrPayAdapterModel.remove(position);
-                    notifyItemChanged(position);
+//                    arrPayAdapterModel.remove(position);
+//                    notifyItemChanged(position);
                 }
             }
         });

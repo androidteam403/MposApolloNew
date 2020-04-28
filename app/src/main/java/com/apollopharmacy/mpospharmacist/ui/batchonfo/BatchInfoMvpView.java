@@ -16,7 +16,13 @@ public interface BatchInfoMvpView extends MvpView {
 
     void onFailedBatchInfo(GetBatchInfoRes body);
 
-    void onItemClick(int position);
+    void onItemClick(int position, int quantity);
+
+    void onBatchQTYChange(int position, int quantity);
 
     String getRequiredQuantity();
+
+    void checkBatchInventorySuccess();
+
+    void checkBatchInventoryFailed(String returnMessage);
 }

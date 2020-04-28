@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.apollopharmacy.mpospharmacist.utils.CommonUtils"/>
+
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter" />
@@ -71,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fifteen_dp"
                 android:layout_marginEnd="@dimen/fifteen_dp"
+                android:hint="@string/label_password"
                 android:fontFamily="@font/roboto_regular">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -80,9 +83,9 @@
                     android:layout_marginBottom="@dimen/five_dp"
                     android:drawablePadding="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_password"
-                    android:inputType="textPassword"
-                    android:singleLine="true" />
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
@@ -228,7 +231,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{campaign.start_time + ` - `+ campaign.end_time}"
+                        android:text="@{CommonUtils.convertTimeFormat(campaign.start_time) + ` - `+ CommonUtils.convertTimeFormat(campaign.end_time)}"
                         android:textColor="@color/white"
                         tools:ignore="RelativeOverlap" />
 

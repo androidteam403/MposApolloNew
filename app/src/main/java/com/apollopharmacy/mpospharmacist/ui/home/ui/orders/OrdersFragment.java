@@ -159,6 +159,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
             ordersModelArrayList.addAll(orderListRes);
             ordersAdapter.notifyDataSetChanged();
             fragmentOrderBinding.setCount(ordersModelArrayList.size());
+            fragmentOrderBinding.setNoDataFound(false);
         }
     }
 

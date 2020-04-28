@@ -197,24 +197,24 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_pharma_price(String.format(`%.2f`,item.PharmaTotalAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_pharma_price(@string/price_format(item.PharmaTotalAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_FMCG_price(String.format(`%.2f`,item.FmcgTotalAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_FMCG_price(@string/price_format(item.FmcgTotalAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_PL_price(String.format(`%.2f`,item.PlTotalAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_PL_price(@string/price_format(item.PlTotalAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
                         </LinearLayout>
 
@@ -231,8 +231,8 @@
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
                                 android:ellipsize="end"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,item.roundedAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_RoundedAmt_price(@string/price_format(item.roundedAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -240,8 +240,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,item.netAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_MRP_Total_price(@string/price_format(item.netAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -249,8 +249,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,item.taxableTotalAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_Taxable_Amt_price(@string/price_format(item.taxableTotalAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
 
                             <TextView
@@ -258,8 +258,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,item.discAmount))}"
+                                android:fontFamily="@font/price_regular"
+                                android:text="@{@string/label_Disc_Amt_price(@string/price_format(item.discAmount))}"
                                 android:textSize="@dimen/text_dimen_9" />
                         </LinearLayout>
                     </LinearLayout>
@@ -277,16 +277,16 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/fifteen_dp"
                             android:textColor="@color/colorPrimary"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@{@string/label_total_price(String.format(`%.2f`,item.amounttoAccount))}"
+                            android:fontFamily="@font/price_bold"
+                            android:text="@{@string/label_total_price(@string/price_format((item.grossAmount - item.discAmount)))}"
                             android:textSize="@dimen/text_dimen_18"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@{@string/label_savings_price(String.format(`%.2f`,item.OrderSavingsAmount)) + `(`+String.format(`%.2f`,item.discAmount)+`%)`}"
+                            android:fontFamily="@font/price_regular"
+                            android:text="@{@string/label_savings_price(@string/price_format(item.OrderSavingsAmount)) + `(`+@string/price_format(item.discAmount)+`%)`}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_10" />
                     </LinearLayout>

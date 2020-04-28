@@ -22,7 +22,6 @@
             android:orientation="horizontal"
             android:paddingTop="@dimen/five_dp"
             android:paddingBottom="@dimen/five_dp"
-            android:weightSum="3"
             tools:ignore="UselessParent">
 
 
@@ -30,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_weight="0.7"
+                android:layout_weight="0.6"
                 android:paddingBottom="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{batchInfo.batchNo}"
@@ -40,7 +39,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
                 android:text="@{batchInfo.expDate}"
@@ -50,30 +49,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
+                android:layout_weight="0.3"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
-                android:text="@{String.valueOf(batchInfo.mRP)}"
-                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingBottom="@dimen/five_dp"
-                android:text="@{String.valueOf(batchInfo.totalTax)}"
-                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
-                android:textSize="@dimen/text_dimen_12" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingBottom="@dimen/five_dp"
-                android:text="@{batchInfo.q_O_H}"
+                android:text="@{@string/price_format(batchInfo.mRP)}"
                 android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
                 android:textSize="@dimen/text_dimen_12" />
 
@@ -81,12 +60,40 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="@{@string/price_format(batchInfo.totalTax)}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="@{batchInfo.q_O_H}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <EditText
+                android:id="@+id/batch_wise_qty_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
                 android:layout_marginStart="@dimen/twenty_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:enabled="@{batchInfo.selected ? true : false}"
                 android:text="@{String.valueOf(batchInfo.rEQQTY)}"
-                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
-                android:textSize="@dimen/text_dimen_12" />
+                android:textColor="@{batchInfo.isSelected ? @color/black :@color/black}"
+                android:textSize="@dimen/text_dimen_12"
+                android:gravity="center_horizontal"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:background="@{batchInfo.selected ? @drawable/rounded_corners_white : @drawable/bg_disble_edit}"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

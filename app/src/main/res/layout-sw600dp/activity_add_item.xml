@@ -31,6 +31,10 @@
             type="Integer" />
 
         <variable
+            name="items_count"
+            type="Integer" />
+
+        <variable
             name="order_info"
             type="com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel" />
 
@@ -132,8 +136,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:paddingStart="@dimen/fifteen_dp"
-                                android:paddingEnd="@dimen/fifteen_dp">
+                                android:paddingStart="@dimen/ten_dp"
+                                android:paddingEnd="@dimen/ten_dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -208,8 +212,8 @@
                                     android:layout_marginStart="@dimen/ten_dp"
                                     android:layout_weight="1.2"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="@{@string/label_product_item_count(product_count)}"
-                                    android:textColor="@color/add_item_header"
+                                    android:text="@{@string/label_product_item_count(items_count)}"
+                                    android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_13" />
 
                                 <TextView
@@ -322,7 +326,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
+                                        android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
                                     <TextView
@@ -330,7 +334,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
+                                        android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
                                     <TextView
@@ -338,7 +342,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
+                                        android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
                                 </LinearLayout>
 
@@ -356,7 +360,7 @@
                                         android:layout_weight="1"
                                         android:ellipsize="end"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
+                                        android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
                                     <TextView
@@ -365,7 +369,7 @@
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
+                                        android:text="@{@string/label_MRP_Total_price(@string/price_format(order_info.MrpTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
                                     <TextView
@@ -374,7 +378,7 @@
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
+                                        android:text="@{@string/label_Taxable_Amt_price(@string/price_format(order_info.TaxableTotalAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
 
                                     <TextView
@@ -383,7 +387,7 @@
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/price_regular"
-                                        android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.taxAmount))}"
+                                        android:text="@{@string/label_Disc_Amt_price(@string/price_format(order_info.taxAmount))}"
                                         android:textSize="@dimen/text_dimen_9" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -401,7 +405,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/fifteen_dp"
                                     android:fontFamily="@font/price_regular"
-                                    android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
+                                    android:text="@{@string/label_total_price(@string/price_format(order_info.OrderTotalAmount))}"
                                     android:textColor="@color/payment_amount_text"
                                     android:textSize="@dimen/text_dimen_16"
                                     android:textStyle="bold" />
@@ -409,7 +413,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+String.format(`%.2f`,order_info.OrderSavingsPercentage)+`%)`}"
+                                    android:text="@{@string/label_savings_price(@string/price_format(order_info.discTotalAmount)) + ` (`+@string/price_format(order_info.OrderSavingsPercentage)+`%)`}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_9"
                                     android:fontFamily="@font/price_regular"/>
@@ -485,7 +489,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
                                     android:fontFamily="@font/price_regular"
-                                    android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+order_info.OrderSavingsPercentage+`%)`}"
+                                    android:text="@{@string/label_savings_price(@string/price_format(order_info.discTotalAmount)) + ` (`+@string/price_format(order_info.OrderSavingsPercentage)+`%)`}"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_dimen_10"
                                     android:visibility="@{paymentMode.isAdditionalDisc ? View.VISIBLE : View.GONE}"/>
@@ -495,7 +499,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
                                     android:fontFamily="@font/price_regular"
-                                    android:text="@{String.format(`%.2f`,order_info.OrderTotalAmount)}"
+                                    android:text="@{`₹ `+@string/price_format(order_info.OrderTotalAmount)}"
                                     android:textColor="@color/white" />
                             </LinearLayout>
                         </LinearLayout>
@@ -535,7 +539,7 @@
                                 android:layout_marginStart="@dimen/fifteen_dp"
                                 android:layout_toEndOf="@id/image"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="Balance amount: "
+                                android:text="@{(paymentMode.balanceAmount &lt; 0) ? `Pay Back Amount:`:`Balance amount:`}"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white" />
 
@@ -545,8 +549,8 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/three_dp"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@{String.valueOf(String.format(`%.2f`,paymentMode.balanceAmount))}"
+                                android:fontFamily="@font/price_bold"
+                                android:text="@{`₹ `+@string/price_format(paymentMode.balanceAmount)}"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_dimen_15" />
 
@@ -710,7 +714,8 @@
                                     android:gravity="center_vertical"
                                     android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -759,7 +764,8 @@
                                     android:gravity="center_vertical"
                                     android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1094,7 +1100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_pharma_price(String.format(`%.2f`,order_info.PharmaTotalAmount))}"
+                        android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
 
@@ -1103,7 +1109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_FMCG_price(String.format(`%.2f`,order_info.FmcgTotalAmount))}"
+                        android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
 
@@ -1112,7 +1118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_PL_price(String.format(`%.2f`,order_info.PlTotalAmount))}"
+                        android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
                 </LinearLayout>
@@ -1130,7 +1136,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_RoundedAmt_price(String.format(`%.2f`,order_info.RoundedAmount))}"
+                        android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
 
@@ -1139,7 +1145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_MRP_Total_price(String.format(`%.2f`,order_info.MrpTotalAmount))}"
+                        android:text="@{@string/label_MRP_Total_price(@string/price_format(order_info.MrpTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
 
@@ -1148,7 +1154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_Taxable_Amt_price(String.format(`%.2f`,order_info.TaxableTotalAmount))}"
+                        android:text="@{@string/label_Taxable_Amt_price(@string/price_format(order_info.TaxableTotalAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
 
@@ -1157,7 +1163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/price_regular"
-                        android:text="@{@string/label_Disc_Amt_price(String.format(`%.2f`,order_info.taxAmount))}"
+                        android:text="@{@string/label_Disc_Amt_price(@string/price_format(order_info.taxAmount))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_9" />
                 </LinearLayout>
@@ -1177,7 +1183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:fontFamily="@font/price_bold"
-                    android:text="@{@string/label_total_price(String.format(`%.2f`,order_info.OrderTotalAmount))}"
+                    android:text="@{@string/label_total_price(@string/price_format(order_info.OrderTotalAmount))}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_16" />
 
@@ -1185,7 +1191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/price_regular"
-                    android:text="@{@string/label_savings_price(String.format(`%.2f`,order_info.discTotalAmount)) + ` (`+String.format(`%.2f`,order_info.OrderSavingsPercentage)+`%)`}"
+                    android:text="@{@string/label_savings_price(@string/price_format(order_info.discTotalAmount)) + ` (`+@string/price_format(order_info.OrderSavingsPercentage)+`%)`}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_9" />
 

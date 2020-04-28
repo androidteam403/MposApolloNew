@@ -59,6 +59,7 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
                 }else if(editable.toString().length() == 0){
                     editable.append("0");
                 }
+                holder.displayItemBinding.cashPaymentAmountEdit.setSelection(editable.length());
             }
         });
     }

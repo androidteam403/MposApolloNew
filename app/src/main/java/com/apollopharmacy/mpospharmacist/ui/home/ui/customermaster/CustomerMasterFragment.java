@@ -379,6 +379,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
     private void genderSpinner(){
         fragmentCustMasterBinding.gender.setSelection(0);
+        fragmentCustMasterBinding.gender.getEditText().setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         fragmentCustMasterBinding.gender.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         ArrayAdapter<SpinnerPojo>  genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()){
             @NotNull
@@ -403,6 +404,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
     private void maritalStatusSpinner(){
         fragmentCustMasterBinding.maritalStatusSpinner.setSelection(0);
+        fragmentCustMasterBinding.maritalStatusSpinner.getEditText().setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         fragmentCustMasterBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()){
 

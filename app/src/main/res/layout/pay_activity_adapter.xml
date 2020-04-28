@@ -16,7 +16,7 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_close_view"
-            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}" />
 
         <ImageView
             android:id="@+id/icon_cash"
@@ -39,20 +39,36 @@
             android:textAllCaps="true"
             android:textColor="@color/black" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/three_dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@{model.amount}"
-            android:textColor="@color/colorPrimary" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/three_dp"
+                android:fontFamily="@font/price_bold"
+                android:text="₹"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/three_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@{@string/price_format(model.value)}"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterListener" />
