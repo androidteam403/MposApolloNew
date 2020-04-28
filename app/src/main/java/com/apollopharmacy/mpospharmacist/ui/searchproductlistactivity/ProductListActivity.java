@@ -129,39 +129,25 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 3 && isLoadApi && itemsArrayList.size() == 0) {
+                if (s.length() >= 3 ) {
                     productListMvpPresenter.getProductDetails();
                     productListActivityBinding.pdialog.setVisibility(View.VISIBLE);
                     isListFiltered = false;
-                } else if (s.length() >= 3 && !isLoadApi) {
-                    isListFiltered = true;
-                    productListAdapter.getFilter().filter(s);
-                } else {
+                }else{
                     productListActivityBinding.setProductCount(0);
                     itemsArrayList.clear();
                     productListAdapter.clearDate();
-                    isLoadApi = true;
-                    productListActivityBinding.itemNotFound.setVisibility(View.GONE);
-                   // updateProductsCount(0);
-//                    if (s.length() <= 2) {
-//                        if (s.length() != 0) {
-//                            if (!isListFiltered) {
-//                                productListActivityBinding.setProductCount(0);
-//                                itemswArrayList.clear();
-//                                productListAdapter.clearDate();
-//                                isLoadApi = true;
-//                            } else {
-//                                productListAdapter.getFilter().filter(s);
-//                            }
-//                        } else {
-//                            isListFiltered = false;
-//                            isLoadApi = true;
-//                            productListActivityBinding.setProductCount(0);
-//                            itemsArrayList.clear();
-//                            productListAdapter.clearDate();
-//                        }
-//                    }
                 }
+//                else if (s.length() >= 3 && !isLoadApi) {
+//                    isListFiltered = true;
+//                    productListAdapter.getFilter().filter(s);
+//                } else {
+//                    productListActivityBinding.setProductCount(0);
+//                    itemsArrayList.clear();
+//                    productListAdapter.clearDate();
+//                    isLoadApi = true;
+//                    productListActivityBinding.itemNotFound.setVisibility(View.GONE);
+//                }
             }
         });
 
@@ -291,11 +277,13 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
             updateProductsCount(itemDetailsRes.getItemList().size());
             itemsArrayList.addAll(itemDetailsRes.getItemList());
+            productListAdapter.clearDate();
             productListAdapter.add(itemDetailsRes.getItemList());
          //   productListAdapter.notifyDataSetChanged();
             isLoadApi = false;
-            productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
+         //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
         } else {
+            productListAdapter.clearDate();
             productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
             productListActivityBinding.itemNotFound.setVisibility(View.GONE);
             updateProductsCount(0);

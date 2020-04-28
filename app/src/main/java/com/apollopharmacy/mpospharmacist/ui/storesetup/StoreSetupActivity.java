@@ -336,7 +336,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
         } else {
-            checkPermissions();
+          //  checkPermissions();
         }
     }
 

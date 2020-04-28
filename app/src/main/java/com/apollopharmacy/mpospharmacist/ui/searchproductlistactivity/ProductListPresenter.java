@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class ProductListPresenter<V extends ProductListMvpView> extends BasePresenter<V>
         implements ProductListMvpPresenter<V> {
-
+    private Call<GetItemDetailsRes> call;
     @Inject
     public ProductListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -44,8 +44,11 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
                 customerRequest.setCorpCode(getMvpView().getCorporateValue().getCode());
                 customerRequest.setStoreID(getDataManager().getStoreId());
                 customerRequest.setStockCheck(false); // To check manual billing !Singletone.getInstance().isManualBilling
+                if(call != null){
+                    call.cancel();
+                }
 
-                Call<GetItemDetailsRes> call = api.GET_ITEM_DETAILS_RES_CALL(customerRequest);
+                call = api.GET_ITEM_DETAILS_RES_CALL(customerRequest);
                 call.enqueue(new Callback<GetItemDetailsRes>() {
                     @Override
                     public void onResponse(@NotNull Call<GetItemDetailsRes> call, @NotNull Response<GetItemDetailsRes> response) {

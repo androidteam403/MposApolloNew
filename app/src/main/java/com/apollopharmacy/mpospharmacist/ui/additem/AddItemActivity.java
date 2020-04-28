@@ -777,6 +777,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     private boolean isGeneratedBill = false;
     @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+        isGeneratedBill = false;
         calculatePosTransactionRes = transactionRes;
         addItemBinding.cashPaymentAmountEdit.setText("");
         addItemBinding.cardPaymentAmountEditText.setText("");
@@ -841,6 +842,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         }
 
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
+        if(isGeneratedBill){
+            mPresenter.onClickGenerateBill();
+        }
     }
 
     @Override

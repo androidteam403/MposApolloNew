@@ -133,6 +133,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public void clearDate(){
         productListFiltered.clear();
+        productListArrayList.clear();
         notifyDataSetChanged();
 
     }
