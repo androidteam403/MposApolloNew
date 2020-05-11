@@ -54,7 +54,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
             if (getDataManager().isAdminLoginFinish()) {
                 if (getDataManager().isAdminSetUpFinish())
                     if (getDataManager().isUserLogin())
-                        getTenderTypeApi();
+                        getMvpView().openMainActivity();
                     else
                         getMvpView().openLoginActivity();
                 else

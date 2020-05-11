@@ -583,7 +583,8 @@
                                     android:layout_height="wrap_content"
                                     android:background="@{paymentMode.isCashMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                     android:onClick="@{()-> callback.onClickCashPayment()}"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="@{paymentMode.enableCashBtn ? View.VISIBLE : View.GONE}">
 
                                     <ImageView
                                         android:layout_width="@dimen/thirty_dp"
@@ -610,7 +611,8 @@
                                     android:layout_marginEnd="@dimen/eight_dp"
                                     android:background="@{paymentMode.isCardMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                     android:onClick="@{()-> callback.onClickCardPayment()}"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="@{paymentMode.enableCardBtn ? View.VISIBLE : View.GONE}">
 
                                     <ImageView
                                         android:layout_width="@dimen/thirty_dp"
@@ -636,14 +638,15 @@
                                     android:layout_marginEnd="@dimen/eight_dp"
                                     android:background="@{paymentMode.isOneApolloMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                     android:onClick="@{()-> callback.onClickOneApolloPayment()}"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="@{paymentMode.enableApolloBtn ? View.VISIBLE : View.GONE}">
 
                                     <ImageView
                                         android:layout_width="@dimen/thirty_dp"
                                         android:layout_height="@dimen/thirty_dp"
                                         android:layout_gravity="center"
                                         android:contentDescription="@string/app_name"
-                                        android:src="@drawable/ic_wallet_black"
+                                        android:src="@drawable/ic_other_black"
                                         android:tint="@color/white" />
 
                                     <TextView
@@ -660,14 +663,43 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/eight_dp"
-                                    android:background="@drawable/bg_payment_pending"
+                                    android:background="@{paymentMode.isWalletMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                     android:orientation="vertical"
-                                    android:visibility="gone">
+                                    android:onClick="@{()-> callback.onClickWalletPayment()}"
+                                    android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}">
 
                                     <ImageView
                                         android:layout_width="@dimen/thirty_dp"
                                         android:layout_height="@dimen/thirty_dp"
                                         android:contentDescription="@string/app_name"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_wallet_black"
+                                        android:tint="@color/white" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/three_dp"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:text="Wallet"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_dimen_13" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/eight_dp"
+                                    android:background="@{paymentMode.isCreditMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                    android:orientation="vertical"
+                                    android:onClick="@{()-> callback.onClickCreditPayment()}"
+                                    android:visibility="@{paymentMode.enableCreditBtn ? View.VISIBLE : View.GONE}">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/thirty_dp"
+                                        android:layout_height="@dimen/thirty_dp"
+                                        android:contentDescription="@string/app_name"
+                                        android:layout_gravity="center"
                                         android:src="@drawable/ic_other_black"
                                         android:tint="@color/white" />
 
@@ -676,7 +708,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/three_dp"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Other"
+                                        android:text="Credit"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_dimen_13" />
                                 </LinearLayout>
@@ -871,7 +903,23 @@
                                             android:textColor="@color/white"
                                             android:visibility="@{paymentMode.isErrorApolloPoints ? View.VISIBLE : View.GONE}"
                                             android:onClick="@{()-> callback.onClickOneApolloPayment()}"/>
-
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginStart="@dimen/five_dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:background="@drawable/bg_apply_btn"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
+                                            android:paddingStart="@dimen/ten_dp"
+                                            android:paddingTop="@dimen/five_dp"
+                                            android:paddingEnd="@dimen/ten_dp"
+                                            android:paddingBottom="@dimen/five_dp"
+                                            android:text="Redeem"
+                                            android:textColor="@color/white"
+                                            android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.VISIBLE : View.GONE}"/>
                                         <ProgressBar
                                             android:layout_width="@dimen/fifty_five_dp"
                                             android:layout_height="@dimen/forty_dp"
@@ -896,7 +944,7 @@
                                     android:gravity="center_horizontal"
                                     android:orientation="horizontal"
                                     android:padding="@dimen/ten_dp"
-                                    android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.VISIBLE : View.GONE}">
+                                    android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.GONE : View.GONE}">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -1007,6 +1055,97 @@
                                             android:textSize="@dimen/text_dimen_14" />
                                     </RelativeLayout>
                                 </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:layout_marginBottom="@dimen/ten_dp"
+                                android:background="@color/white"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/ten_dp"
+                                android:visibility="@{paymentMode.isWalletMode ? View.VISIBLE : View.GONE }">
+
+                                <ImageView
+                                    android:layout_width="@dimen/sixty_dp"
+                                    android:layout_height="@dimen/sixty_dp"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_phonepe"
+                                    android:onClick="@{()-> callback.onSelectPhonePe()}"/>
+
+                                <ImageView
+                                    android:layout_width="@dimen/sixty_dp"
+                                    android:layout_height="@dimen/sixty_dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/ten_dp"
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_paytm"
+                                    android:onClick="@{()-> callback.onSelectPayTm()}" />
+
+                                <ImageView
+                                    android:layout_width="@dimen/sixty_dp"
+                                    android:layout_height="@dimen/sixty_dp"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_airtel_money"
+                                    android:onClick="@{()-> callback.onSelectAirtelMoney()}" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:layout_marginBottom="@dimen/ten_dp"
+                                android:background="@color/white"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/ten_dp"
+                                android:visibility="@{paymentMode.isCreditMode ? View.VISIBLE : View.GONE }">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/ten_dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="credit payment: "
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/add_item_header" />
+
+                                <EditText
+                                    android:id="@+id/credit_payment_amount_edit"
+                                    android:layout_width="@dimen/one_hundred_dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/cash_payment"
+                                    android:background="@drawable/rounded_corners_white"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center_vertical"
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/ten_dp"
+                                    android:textColor="@color/black"
+                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:layout_toEndOf="@+id/cash_payment_amount_edit"
+                                    android:background="@drawable/bg_apply_btn"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:onClick="@{()-> callback.onClickCreditPaymentPay()}"
+                                    android:paddingStart="@dimen/ten_dp"
+                                    android:paddingTop="@dimen/five_dp"
+                                    android:paddingEnd="@dimen/ten_dp"
+                                    android:paddingBottom="@dimen/five_dp"
+                                    android:text="Update"
+                                    android:textColor="@color/white" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

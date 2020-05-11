@@ -1,12 +1,15 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.apollopharmacy.mpospharmacist.R;
@@ -67,9 +70,11 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
                     editable.delete(0,1);
-                } else if(TextUtils.isEmpty(editable)){
-                    editable.append("0");
-                } else {
+                }
+//                else if(TextUtils.isEmpty(editable)){
+//                    editable.append("0");
+//                }
+                else if(!TextUtils.isEmpty(editable)){
                     if (batchInfoMvpView != null) {
                         item.setREQQTY(Integer.parseInt(editable.toString()));
 //                        if (!item.getNearByExpiry() && !TextUtils.isEmpty(editable) && !editable.toString().equalsIgnoreCase("0"))
@@ -90,6 +95,24 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
                     return true;
                 }
                 return false;
+            }
+        });
+        holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.hasFocus()){
+                        if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().equalsIgnoreCase("0")){
+                            holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setText("");
+                        }
+                    InputMethodManager imm = (InputMethodManager)holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getContext(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.showSoftInput(holder.batchInfoListAdapterBinding.batchWiseQtyEdit, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                }else{
+                    if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().isEmpty()){
+                        holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setText("0");
+                    }
+                }
             }
         });
     }

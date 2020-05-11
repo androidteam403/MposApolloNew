@@ -249,6 +249,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 if(body.getCorpCode().equalsIgnoreCase(valueBean.getCode())) {
                     corporateModule.setCode(body.getCorpCode());
                     corporateModule.setDescription(valueBean.getDescription());
+                    corporateModule.setPayMode(valueBean.getPayMode());
                     break;
                 }
             }

@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
@@ -27,9 +29,15 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickOneApolloPayment();
 
+    void onClickWalletPayment();
+
+    void onClickCreditPayment();
+
     void onClickCardPaymentPay();
 
     void onClickCashPaymentPay();
+
+    void onClickCreditPaymentPay();
 
     void onClickOneApolloPaymentPay();
 
@@ -61,7 +69,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void validateOTP();
 
-
+    CalculatePosTransactionRes getTenderLineEntities();
 
     void generateTenterLineService(double amount);
 
@@ -70,4 +78,12 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void closeOrderVoidTransaction();
 
     void voidProduct(int lineNumber);
+
+    void checkAllowedPaymentMode(PaymentMethodModel paymentMethodModel);
+
+    void onSelectPhonePe();
+
+    void onSelectPayTm();
+
+    void onSelectAirtelMoney();
 }

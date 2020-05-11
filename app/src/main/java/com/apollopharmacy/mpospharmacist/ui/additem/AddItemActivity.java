@@ -42,6 +42,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -286,17 +287,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         }
 
-        //   mPresenter.getTenderTypeApi();
+           mPresenter.checkAllowedPaymentMode(paymentMethodModel);
     }
 
     @Override
     public void onBackPressed() {
-        if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
-            addItemBinding.setIsPaymentMode(false);
-            paymentMethodModel.setGenerateBill(false);
-        }else{
-            alertDialog();
+        if (mPresenter.getTenderLineEntities().getTenderLine().size() > 0) {
+            partialPaymentDialog();
+        } else {
+            if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
+                addItemBinding.setIsPaymentMode(false);
+                paymentMethodModel.setGenerateBill(false);
+            }else{
+                alertDialog();
+            }
         }
+
 
     }
 
@@ -435,13 +441,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public String getCreditPaymentAmount() {
+        return addItemBinding.creditPaymentAmountEdit.getText().toString();
+    }
+
+    @Override
     public String getCardPaymentAmount() {
         return addItemBinding.cardPaymentAmountEditText.getText().toString();
     }
 
     @Override
     public String getOneApolloPoints() {
-        return addItemBinding.oneApolloAmountEditText.getText().toString();
+        return addItemBinding.getValidatePoints().getAvailablePoints();
     }
 
     @Override
@@ -506,6 +517,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void setErrorCreditPaymentAmountEditText(String message) {
+        showMessage(message);
+    }
+
+    @Override
     public void setErrorOneApolloPointsEditText(String message) {
         showMessage(message);
     }
@@ -520,6 +536,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setCashMode(false);
         paymentMethodModel.setCardMode(true);
         paymentMethodModel.setOneApolloMode(false);
+        paymentMethodModel.setWalletMode(false);
+        paymentMethodModel.setCreditMode(false);
         addItemBinding.cardPaymentAmountEditText.setText(String.valueOf(orderRemainingAmount()));
     }
 
@@ -528,6 +546,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setCashMode(true);
         paymentMethodModel.setCardMode(false);
         paymentMethodModel.setOneApolloMode(false);
+        paymentMethodModel.setWalletMode(false);
+        paymentMethodModel.setCreditMode(false);
         addItemBinding.cashPaymentAmountEdit.setText(String.valueOf(orderRemainingAmount()));
     }
 
@@ -538,8 +558,28 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(true);
         paymentMethodModel.setLoadApolloPoints(true);
         paymentMethodModel.setErrorApolloPoints(false);
+        paymentMethodModel.setWalletMode(false);
+        paymentMethodModel.setCreditMode(false);
         if (customerEntity != null && transactionIdModel != null)
             mPresenter.validateOneApolloPoints(customerEntity.getMobileNo(), transactionIdModel.getTransactionID());
+    }
+
+    @Override
+    public void onClickWalletPaymentBtn() {
+        paymentMethodModel.setCashMode(false);
+        paymentMethodModel.setCardMode(false);
+        paymentMethodModel.setOneApolloMode(false);
+        paymentMethodModel.setWalletMode(true);
+        paymentMethodModel.setCreditMode(false);
+    }
+
+    @Override
+    public void onClickCreditPaymentBtn() {
+        paymentMethodModel.setCashMode(false);
+        paymentMethodModel.setCardMode(false);
+        paymentMethodModel.setOneApolloMode(false);
+        paymentMethodModel.setWalletMode(false);
+        paymentMethodModel.setCreditMode(true);
     }
 
     @Override
@@ -1160,6 +1200,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                     case CORPORATE_SEARCH_ACTIVITY_CODE:
                         corporateEntity = (CorporateModel.DropdownValueBean) data.getSerializableExtra("corporate_info");
                         addItemBinding.setCorporate(corporateEntity);
+                        mPresenter.checkAllowedPaymentMode(paymentMethodModel);
                         mPresenter.calculatePosTransaction();
                         break;
                     case REQUEST_CODE_INITIALIZE:
