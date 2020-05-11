@@ -1,1 +1,1 @@
-include ':app', ':library', ':gpslibrary', ':otpview', ':itemtouchhelperextension'
+include ':app', ':otpview', ':itemtouchhelperextension'

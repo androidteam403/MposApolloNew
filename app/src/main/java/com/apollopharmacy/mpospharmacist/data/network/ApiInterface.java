@@ -12,6 +12,8 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
@@ -31,6 +33,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
@@ -141,6 +144,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetTenderType/{storeId}/{DataAreaId}")
     Call<GetTenderTypeRes>  GET_TENDER_TYPE_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body  Object o);
 
+    @POST("SalesTransactionService.svc/AllowedPaymentMode/{storeId}/{terminalId}/{DataAreaId}")
+    Call<AllowedPaymentModeRes>  ALLOWED_PAYMENT_MODE_RES_CALL (@Path("storeId") String storeId, @Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body  Object o);
+
     @POST("SalesTransactionService.svc/ApplyMannualDiscount")
     Call<ManualDiscCheckRes> MANUAL_DISC_CHECK_RES_CALL (@Body ManualDiscCheckReq manualDiscCheckReq);
 
@@ -149,5 +155,8 @@ public interface ApiInterface {
 
     @POST
     Call<VendorCheckRes> VENDOR_CHECK_RES_CALL(@Url String url, @Body VendorValidationReq requestBody);
+
+    @POST("WalletService.svc/GetWalletDetails/{storeId}/{state}")
+    Call<WalletServiceRes>  WALLET_SERVICE_RES_CALL (@Path("storeId") String storeId, @Path("state") String state, @Body WalletServiceReq walletServiceReq);
 
 }

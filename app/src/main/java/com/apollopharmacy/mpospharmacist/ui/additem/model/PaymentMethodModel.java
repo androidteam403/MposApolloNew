@@ -6,9 +6,11 @@ import androidx.databinding.library.baseAdapters.BR;
 
 public class PaymentMethodModel extends BaseObservable {
 
-    private boolean cashMode = true;
+    private boolean cashMode = false;
     private boolean cardMode = false;
     private boolean oneApolloMode = false;
+    private boolean walletMode = false;
+    private boolean creditMode = false;
     private boolean hellingCardMode = false;
     private boolean isAdditionalDisc = false;
     private boolean isBalanceAmount = false;
@@ -20,6 +22,11 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean isLoadApolloPoints = false;
     private boolean isErrorApolloPoints = false;
     private boolean isPaymentInitiate = false;
+    private boolean isEnableCashBtn = false;
+    private boolean isEnableCardBtn = false;
+    private boolean isEnableApolloBtn = false;
+    private boolean isEnableWalletBtn = false;
+    private boolean isEnableCreditBtn = false;
 
     @Bindable
     public boolean isPaymentInitiate() {
@@ -48,6 +55,30 @@ public class PaymentMethodModel extends BaseObservable {
     public void setErrorApolloPoints(boolean errorApolloPoints) {
         isErrorApolloPoints = errorApolloPoints;
         notifyPropertyChanged(BR.errorApolloPoints);
+    }
+
+    @Bindable
+    public boolean isWalletMode() {
+        return walletMode;
+    }
+
+    public void setWalletMode(boolean walletMode) {
+        this.walletMode = walletMode;
+        notifyPropertyChanged(BR.walletMode);
+    }
+
+    @Bindable
+    public boolean isCreditMode() {
+        return creditMode;
+    }
+
+    public void setCreditMode(boolean creditMode) {
+        this.creditMode = creditMode;
+        notifyPropertyChanged(BR.creditMode);
+    }
+
+    public void setEnableCreditBtn(boolean enableCreditBtn) {
+        isEnableCreditBtn = enableCreditBtn;
     }
 
     @Bindable
@@ -155,5 +186,55 @@ public class PaymentMethodModel extends BaseObservable {
     public void setPaymentDone(boolean paymentDone) {
         isPaymentDone = paymentDone;
         notifyPropertyChanged(BR.paymentDone);
+    }
+
+    @Bindable
+    public boolean isEnableCashBtn() {
+        return isEnableCashBtn;
+    }
+
+    @Bindable
+    public boolean isEnableCardBtn() {
+        return isEnableCardBtn;
+    }
+
+    @Bindable
+    public boolean isEnableApolloBtn() {
+        return isEnableApolloBtn;
+    }
+
+    @Bindable
+    public boolean isEnableWalletBtn() {
+        return isEnableWalletBtn;
+    }
+
+    @Bindable
+    public boolean isEnableCreditBtn() {
+        return isEnableCreditBtn;
+    }
+
+    public void setEnableCashBtn(boolean enableCashBtn) {
+        isEnableCashBtn = enableCashBtn;
+        notifyPropertyChanged(BR.enableCashBtn);
+    }
+
+    public void setEnableCardBtn(boolean enableCardBtn) {
+        isEnableCardBtn = enableCardBtn;
+        notifyPropertyChanged(BR.enableCardBtn);
+    }
+
+    public void setEnableApolloBtn(boolean enableApolloBtn) {
+        isEnableApolloBtn = enableApolloBtn;
+        notifyPropertyChanged(BR.enableApolloBtn);
+    }
+
+    public void setEnableWalletBtn(boolean enableWalletBtn) {
+        isEnableWalletBtn = enableWalletBtn;
+        notifyPropertyChanged(BR.enableWalletBtn);
+    }
+
+    public void setEnableCreaditBtn(boolean enableCreditBtn) {
+        isEnableCreditBtn = enableCreditBtn;
+        notifyPropertyChanged(BR.enableCreditBtn);
     }
 }

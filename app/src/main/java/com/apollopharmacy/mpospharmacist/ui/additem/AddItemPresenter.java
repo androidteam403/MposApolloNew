@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
@@ -13,13 +14,18 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TypeEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.Wallet;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
@@ -117,6 +123,26 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void onClickWalletPayment() {
+        getMvpView().hideKeyboard();
+        if (!showErrorPharmaDocutor()) {
+            getMvpView().onClickWalletPaymentBtn();
+        } else {
+            getMvpView().showDoctorSelectError();
+        }
+    }
+
+    @Override
+    public void onClickCreditPayment() {
+        getMvpView().hideKeyboard();
+        if (!showErrorPharmaDocutor()) {
+            getMvpView().onClickCreditPaymentBtn();
+        } else {
+            getMvpView().showDoctorSelectError();
+        }
+    }
+
+    @Override
     public void onClickCardPaymentPay() {
         if (TextUtils.isEmpty(getMvpView().getCardPaymentAmount())) {
             getMvpView().setErrorCardPaymentAmountEditText("Enter Amount");
@@ -146,63 +172,125 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onClickOneApolloPaymentPay() {
-        if (!TextUtils.isEmpty(getMvpView().getOneApolloPoints())) {
-            if (validateOneApolloPoints()) {
-                if (getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getOneApolloPoints())) {
-                    getMvpView().setErrorCardPaymentAmountEditText("Entered Amount greater then Order amount");
-                } else {
-                    if (getMvpView().isNetworkConnected()) {
-                        getMvpView().showLoading();
-                        //Creating an object of our api interface
-                        ApiInterface api = ApiClient.getApiService();
-                        ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
-                        ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
-                        requestDataEntity.setAction("SENDOTP");
-                        requestDataEntity.setCoupon("");
-                        requestDataEntity.setCustomerID("");
-                        requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
-                        requestDataEntity.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
-                        requestDataEntity.setOTP("");
-                        requestDataEntity.setPoints(getMvpView().getOneApolloPoints());
-                        requestDataEntity.setReqBy("M");
-                        requestDataEntity.setRRNO("");
-                        requestDataEntity.setStoreId(getDataManager().getStoreId());
-                        requestDataEntity.setType("");
-                        requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
-                        oneApolloSendOtpReq.setRequestData(requestDataEntity);
-                        Call<ValidatePointsResModel> call = api.ONE_APOLLO_SEND_OTP_RES_CALL(oneApolloSendOtpReq);
-                        call.enqueue(new Callback<ValidatePointsResModel>() {
-                            @Override
-                            public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
-                                if (response.isSuccessful()) {
-                                    //Dismiss Dialog
-                                    if (response.body() != null) {
-                                        getMvpView().hideLoading();
-                                        getMvpView().onSuccessOneApolloSendOtp(response.body().getOneApolloProcessResult());
-                                    } else {
-                                        getMvpView().hideLoading();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
-                                //Dismiss Dialog
-                                getMvpView().hideLoading();
-                                handleApiError(t);
-                            }
-                        });
-                    } else {
-                        getMvpView().onError("Internet Connection Not Available");
-                    }
-                }
+    public void onClickCreditPaymentPay() {
+        if (!showErrorPharmaDocutor()) {
+            if (TextUtils.isEmpty(getMvpView().getCreditPaymentAmount())) {
+                getMvpView().setErrorCreditPaymentAmountEditText("Enter Amount");
             } else {
-                getMvpView().setErrorOneApolloPointsEditText("Enter valid Points");
+                generateTenterLineService(Double.parseDouble(getMvpView().getCreditPaymentAmount()));
             }
         } else {
-            getMvpView().setErrorOneApolloPointsEditText("Enter Points");
+            getMvpView().showDoctorSelectError();
         }
+    }
+
+    @Override
+    public void onClickOneApolloPaymentPay() {
+        if (getMvpView().orderRemainingAmount() <= Double.parseDouble(getMvpView().getOneApolloPoints())) {
+            if (getMvpView().isNetworkConnected()) {
+                getMvpView().showLoading();
+                //Creating an object of our api interface
+                ApiInterface api = ApiClient.getApiService();
+                ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
+                ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
+                requestDataEntity.setAction("SENDOTP");
+                requestDataEntity.setCoupon("");
+                requestDataEntity.setCustomerID("");
+                requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
+                requestDataEntity.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
+                requestDataEntity.setOTP("");
+                requestDataEntity.setPoints(String.valueOf(getMvpView().orderRemainingAmount()));
+                requestDataEntity.setReqBy("M");
+                requestDataEntity.setRRNO("");
+                requestDataEntity.setStoreId(getDataManager().getStoreId());
+                requestDataEntity.setType("");
+                requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
+                oneApolloSendOtpReq.setRequestData(requestDataEntity);
+                Call<ValidatePointsResModel> call = api.ONE_APOLLO_SEND_OTP_RES_CALL(oneApolloSendOtpReq);
+                call.enqueue(new Callback<ValidatePointsResModel>() {
+                    @Override
+                    public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
+                        if (response.isSuccessful()) {
+                            //Dismiss Dialog
+                            if (response.body() != null) {
+                                getMvpView().hideLoading();
+                                getMvpView().onSuccessOneApolloSendOtp(response.body().getOneApolloProcessResult());
+                            } else {
+                                getMvpView().hideLoading();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        handleApiError(t);
+                    }
+                });
+            } else {
+                getMvpView().onError("Internet Connection Not Available");
+            }
+            //getMvpView().setErrorCardPaymentAmountEditText("Entered Amount greater then Order amount");
+        } else {
+            getMvpView().onError("Apollo Points less than order amount");
+        }
+//        if (!TextUtils.isEmpty(getMvpView().getOneApolloPoints())) {
+//            if (validateOneApolloPoints()) {
+//                if (getMvpView().orderRemainingAmount() < Double.parseDouble(getMvpView().getOneApolloPoints())) {
+//                    getMvpView().setErrorCardPaymentAmountEditText("Entered Amount greater then Order amount");
+//                } else {
+//                    if (getMvpView().isNetworkConnected()) {
+//                        getMvpView().showLoading();
+//                        //Creating an object of our api interface
+//                        ApiInterface api = ApiClient.getApiService();
+//                        ValidatePointsReqModel oneApolloSendOtpReq = new ValidatePointsReqModel();
+//                        ValidatePointsReqModel.RequestDataEntity requestDataEntity = new ValidatePointsReqModel.RequestDataEntity();
+//                        requestDataEntity.setAction("SENDOTP");
+//                        requestDataEntity.setCoupon("");
+//                        requestDataEntity.setCustomerID("");
+//                        requestDataEntity.setDocNum(getMvpView().getDoctorModule().getCode());
+//                        requestDataEntity.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
+//                        requestDataEntity.setOTP("");
+//                        requestDataEntity.setPoints(getMvpView().getOneApolloPoints());
+//                        requestDataEntity.setReqBy("M");
+//                        requestDataEntity.setRRNO("");
+//                        requestDataEntity.setStoreId(getDataManager().getStoreId());
+//                        requestDataEntity.setType("");
+//                        requestDataEntity.setUrl(getDataManager().getGlobalJson().getOneApolloURL());
+//                        oneApolloSendOtpReq.setRequestData(requestDataEntity);
+//                        Call<ValidatePointsResModel> call = api.ONE_APOLLO_SEND_OTP_RES_CALL(oneApolloSendOtpReq);
+//                        call.enqueue(new Callback<ValidatePointsResModel>() {
+//                            @Override
+//                            public void onResponse(@NotNull Call<ValidatePointsResModel> call, @NotNull Response<ValidatePointsResModel> response) {
+//                                if (response.isSuccessful()) {
+//                                    //Dismiss Dialog
+//                                    if (response.body() != null) {
+//                                        getMvpView().hideLoading();
+//                                        getMvpView().onSuccessOneApolloSendOtp(response.body().getOneApolloProcessResult());
+//                                    } else {
+//                                        getMvpView().hideLoading();
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
+//                                //Dismiss Dialog
+//                                getMvpView().hideLoading();
+//                                handleApiError(t);
+//                            }
+//                        });
+//                    } else {
+//                        getMvpView().onError("Internet Connection Not Available");
+//                    }
+//                }
+//            } else {
+//                getMvpView().setErrorOneApolloPointsEditText("Enter valid Points");
+//            }
+//        } else {
+//            getMvpView().setErrorOneApolloPointsEditText("Enter Points");
+//        }
     }
 
     @Override
@@ -726,6 +814,214 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
+    @Override
+    public void checkAllowedPaymentMode(PaymentMethodModel paymentMethodModel) {
+        paymentMethodModel.setCashMode(false);
+        paymentMethodModel.setCardMode(false);
+        paymentMethodModel.setOneApolloMode(false);
+        paymentMethodModel.setWalletMode(false);
+        paymentMethodModel.setCreditMode(false);
+        for (AllowedPaymentModeRes._PaymentMethodListEntity entity : Singletone.getInstance().paymentMethodListEntity) {
+            if(getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())){
+                //Cash Tender
+                if (!entity.getCombinationCode().contains("1")) {
+                    paymentMethodModel.setEnableCashBtn(false);
+                } else {
+                    paymentMethodModel.setEnableCashBtn(true);
+                }
+
+                //Credit Tender
+                if (!entity.getCombinationCode().contains("3")) {
+                    paymentMethodModel.setEnableCreaditBtn(false);
+                } else {
+                    if (getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
+                        paymentMethodModel.setEnableCreaditBtn(false);
+                    } else if (!getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId()) ) {
+                        paymentMethodModel.setEnableCreaditBtn(true);
+                    } else {
+                        paymentMethodModel.setEnableCreaditBtn(false);
+                    }
+                }
+
+                //Card Tender
+                if (!entity.getCombinationCode().contains("2")) {
+                    paymentMethodModel.setEnableCardBtn(false);
+                } else {
+                    paymentMethodModel.setEnableCardBtn(true);
+                }
+
+                //Gift Tender
+                if (!entity.getCombinationCode().contains("6")) {
+                    paymentMethodModel.setEnableApolloBtn(false);
+                } else {
+                    paymentMethodModel.setEnableApolloBtn(true);
+                }
+
+                //Vendor Payment Tender
+//            if (!entity.getCombinationCode().contains("7"))
+//            { btnVendorPayment.Enabled = false; }
+//            else
+//            { btnVendorPayment.Enabled = true; }
+
+                //Wallets Tender
+                if (!entity.getCombinationCode().contains("5")) {
+                    paymentMethodModel.setEnableWalletBtn(false);
+                } else {
+                    paymentMethodModel.setEnableWalletBtn(true);
+                }
+
+//            if (drpTrackingRef.EditValue.ToString() == "172")
+//            {
+//                btnIPPayment.Enabled = true;
+//            }
+//            else
+//            {
+//                btnIPPayment.Enabled = false;
+//            }
+            /*if (POSSalesTransaction.IsReturn == true)
+                            {
+                                btnCash.Enabled = true;
+                                btnCredits.Enabled = true;
+                                btnHealingCard.Enabled = false;
+                                btnCard.Enabled = false;
+                                btnGift.Enabled = false;
+                                btnWallets.Enabled = false;
+                            }*/
+
+            if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed())
+            {
+                paymentMethodModel.setEnableCashBtn(false);
+                paymentMethodModel.setEnableCardBtn(false);
+                paymentMethodModel.setEnableApolloBtn(false);
+                paymentMethodModel.setEnableWalletBtn(false);
+                paymentMethodModel.setEnableCreaditBtn(false);
+            }
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onSelectPhonePe() {
+        WalletServiceReq walletServiceReq = new WalletServiceReq();
+        walletServiceReq.setOTP("");
+        walletServiceReq.setOTPTransactionId("");
+        walletServiceReq.setPOSTerminal(getDataManager().getTerminalId());
+        walletServiceReq.setPOSTransactionID(getMvpView().getTransactionModule().getTransactionID());
+        walletServiceReq.setRequestStatus(0);
+        walletServiceReq.setRequestURL("");
+        walletServiceReq.setResponse("");
+        walletServiceReq.setReturnMessage("");
+        walletServiceReq.setRewardsPoint(0);
+        walletServiceReq.setWalletOrderID("");
+        walletServiceReq.setWalletRefundId("");
+        walletServiceReq.setWalletTransactionID("");
+
+        for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
+            if(tenderTypeEntity.getTender().equalsIgnoreCase("PhonePe")){
+                walletServiceReq.setWalletType(4);
+                walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+            }
+        }
+        showWalletPaymentDialog("PhonePe Transaction", true,walletServiceReq);
+    }
+
+    @Override
+    public void onSelectPayTm() {
+        WalletServiceReq walletServiceReq = new WalletServiceReq();
+        walletServiceReq.setOTP("");
+        walletServiceReq.setOTPTransactionId("");
+        walletServiceReq.setPOSTerminal(getDataManager().getTerminalId());
+        walletServiceReq.setPOSTransactionID(getMvpView().getTransactionModule().getTransactionID());
+        walletServiceReq.setRequestStatus(0);
+        walletServiceReq.setRequestURL("");
+        walletServiceReq.setResponse("");
+        walletServiceReq.setReturnMessage("");
+        walletServiceReq.setRewardsPoint(0);
+        walletServiceReq.setWalletOrderID("");
+        walletServiceReq.setWalletRefundId("");
+        walletServiceReq.setWalletTransactionID("");
+
+        for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
+            if(tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")){
+                walletServiceReq.setWalletType(3);
+                walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+            }
+        }
+        showWalletPaymentDialog("Paytm Transaction", false,walletServiceReq);
+    }
+
+    @Override
+    public void onSelectAirtelMoney() {
+        WalletServiceReq walletServiceReq = new WalletServiceReq();
+        walletServiceReq.setOTP("");
+        walletServiceReq.setOTPTransactionId("");
+        walletServiceReq.setPOSTerminal(getDataManager().getTerminalId());
+        walletServiceReq.setPOSTransactionID(getMvpView().getTransactionModule().getTransactionID());
+        walletServiceReq.setRequestStatus(0);
+        walletServiceReq.setRequestURL("");
+        walletServiceReq.setResponse("");
+        walletServiceReq.setReturnMessage("");
+        walletServiceReq.setRewardsPoint(0);
+        walletServiceReq.setWalletOrderID("");
+        walletServiceReq.setWalletRefundId("");
+        walletServiceReq.setWalletTransactionID("");
+
+        for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
+            if(tenderTypeEntity.getTender().equalsIgnoreCase("Airtel")){
+                walletServiceReq.setWalletType(2);
+                walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+            }
+        }
+        showWalletPaymentDialog("Airtel Money Transaction",true,walletServiceReq);
+    }
+    WalletPaymentDialog walletPaymentDialog;
+    private void showWalletPaymentDialog(String title,boolean isEnableGenerateOtp,WalletServiceReq walletServiceReq){
+         walletPaymentDialog = new WalletPaymentDialog(getMvpView().getContext());
+        walletPaymentDialog.setTitle(title);
+        walletPaymentDialog.setEnableGenerateOTP(isEnableGenerateOtp);
+        walletPaymentDialog.setCalculatedPosTransaction(getMvpView().getCalculatedPosTransactionRes());
+        walletPaymentDialog.setCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                walletServiceReq.setWalletRequestType(4);
+                generateWalletOTP(walletServiceReq);
+
+            }
+        });
+        walletPaymentDialog.setGenerateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(walletPaymentDialog.isValidateAmount(walletServiceReq)){
+                    //walletPaymentDialog.dismiss();
+                    walletServiceReq.setMobileNo(walletPaymentDialog.getWalletMobileNumber());
+                    walletServiceReq.setWalletAmount(walletPaymentDialog.getWalletAmount());
+                    walletServiceReq.setWalletRequestType(3);
+                    generateWalletOTP(walletServiceReq);
+                }
+            }
+        });
+        walletPaymentDialog.setValidateOTPListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(walletPaymentDialog.isValidateAmount(walletServiceReq)){
+                   // walletPaymentDialog.dismiss();
+                    walletServiceReq.setWalletRequestType(0);
+                    generateWalletOTP(walletServiceReq);
+                }
+
+            }
+        });
+        walletPaymentDialog.setCloseListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                walletPaymentDialog.dismiss();
+            }
+        });
+        walletPaymentDialog.show();
+    }
+
     private void saveRetailTransaction() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -774,7 +1070,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         return tenderLineReq;
     }
 
-    private CalculatePosTransactionRes getSaveTransactionReq() {
+    @Override
+    public CalculatePosTransactionRes getTenderLineEntities() {
         return tenderLineEntities;
     }
 
@@ -804,6 +1101,16 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     }
                 } else if (getMvpView().getPaymentMethod().isOneApolloMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("gift")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                } else if (getMvpView().getPaymentMethod().isCreditMode()) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("Credit")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
                         typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
                         typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
@@ -1115,5 +1422,56 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
         // }
         EzeAPI.initialize(getMvpView().getContext(), REQUEST_CODE_INITIALIZE, jsonRequest);
+    }
+
+    /**
+     * Wallet generate OTP Request
+     */
+    private void generateWalletOTP(WalletServiceReq walletServiceReq) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            Call<WalletServiceRes> call = api.WALLET_SERVICE_RES_CALL(getDataManager().getStoreId(),getDataManager().getGlobalJson().getStateCode(),walletServiceReq);
+            call.enqueue(new Callback<WalletServiceRes>() {
+                @Override
+                public void onResponse(@NotNull Call<WalletServiceRes> call, @NotNull Response<WalletServiceRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0){
+                            if(walletPaymentDialog != null){
+                                getMvpView().showMessage(response.body().getReturnMessage());
+                                if(response.body().getWalletRequestType() == 3){
+                                    walletServiceReq.setOTPTransactionId(response.body().getOTPTransactionId());
+                                    walletPaymentDialog.setGenerateOTPSuccess(response.body().getWalletType());
+                                }else if(response.body().getWalletRequestType() == 0){
+                                    walletPaymentDialog.dismiss();
+                                    generateTenderLineReq(response.body().getWalletAmount());
+                                }else if(response.body().getWalletRequestType() == 4){
+                                    walletPaymentDialog.dismiss();
+                                }
+                            }
+                        }else{
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getReturnMessage());
+                            }else{
+                                getMvpView().showMessage("Something went wrong please try again");
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<WalletServiceRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+
     }
 }

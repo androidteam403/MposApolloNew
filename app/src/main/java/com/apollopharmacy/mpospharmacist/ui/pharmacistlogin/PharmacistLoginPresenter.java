@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
@@ -242,10 +243,10 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 @Override
                 public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+                       // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
                             Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
-                            getMvpView().userLoginSuccess();
+                            getAllowedPaymentMode();
                         } else {
                             if (response.body() != null) {
                                 getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
@@ -268,4 +269,39 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         }
     }
 
+    public void getAllowedPaymentMode() {
+        if (getMvpView().isNetworkConnected()) {
+            //   getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+
+            Call<AllowedPaymentModeRes> call = api.ALLOWED_PAYMENT_MODE_RES_CALL(getDataManager().getStoreId(),getDataManager().getTerminalId(),getDataManager().getDataAreaId(),new Object());
+            call.enqueue(new Callback<AllowedPaymentModeRes>() {
+                @Override
+                public void onResponse(@NotNull Call<AllowedPaymentModeRes> call, @NotNull Response<AllowedPaymentModeRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null && response.body().get_PaymentMethodList() != null && response.body().getRequestStatus() == 0) {
+                            Singletone.getInstance().paymentMethodListEntity.addAll(response.body().get_PaymentMethodList()) ;
+                            getMvpView().userLoginSuccess();
+                        } else {
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getReturnMessage());
+                            }else{
+                                handleApiError(1);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<AllowedPaymentModeRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    handleApiError(t);
+                    //  getMvpView().showMessage(R.string.some_error);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
 }

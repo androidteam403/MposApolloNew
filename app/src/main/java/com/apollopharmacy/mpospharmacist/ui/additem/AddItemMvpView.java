@@ -41,6 +41,8 @@ public interface AddItemMvpView extends MvpView {
 
     String getCashPaymentAmount();
 
+    String getCreditPaymentAmount();
+
     String getCardPaymentAmount();
 
     String getOneApolloPoints();
@@ -69,6 +71,8 @@ public interface AddItemMvpView extends MvpView {
 
     void setErrorCashPaymentAmountEditText(String message);
 
+    void setErrorCreditPaymentAmountEditText(String message);
+
     void setErrorOneApolloPointsEditText(String message);
 
     void setErrorOneApolloOtpEditText(String message);
@@ -78,6 +82,10 @@ public interface AddItemMvpView extends MvpView {
     void onClickCashPaymentBtn();
 
     void onClickOneApolloBtn();
+
+    void onClickWalletPaymentBtn();
+
+    void onClickCreditPaymentBtn();
 
     void onClickEditItemsList();
 
