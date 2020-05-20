@@ -5,11 +5,14 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CouponDiscount;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffAPIReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
@@ -36,6 +39,7 @@ import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginR
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -105,11 +109,17 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GenerateTenderLine/{totalAmount}")
     Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") double amount,@Body GenerateTenderLineReq tenderLineReq);
 
+    @POST("WalletService.svc/GetPharmacyStaffAPIDetails")
+    Call<PharmacyStaffApiRes> PHARMACY_STAFF_API_RES_CALL (@Body PharmacyStaffAPIReq tenderLineReq);
+
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
     Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes tenderLineReq);
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{DataAreaId}")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
+
+    @POST("SalesTransactionService.svc/GetTrackingWiseConfigration/{storeId}/{DataAreaId}")
+    Call<GetTrackingWiseConfing> GET_TRACKING_WISE_CONFING_CALL (@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/DoctorCreation")
     Call<AddDoctorResModel> ADD_DOCTOR_SERVICE(@Body AddDoctorReqModel addDoctorReqModel);
@@ -158,5 +168,11 @@ public interface ApiInterface {
 
     @POST("WalletService.svc/GetWalletDetails/{storeId}/{state}")
     Call<WalletServiceRes>  WALLET_SERVICE_RES_CALL (@Path("storeId") String storeId, @Path("state") String state, @Body WalletServiceReq walletServiceReq);
+
+    @POST("SalesTransactionService.svc/CancelPOSTransaction")
+    Call<CalculatePosTransactionRes> CANCEL_POS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes posTransactionReq);
+
+    @POST("SalesTransactionService.svc/ApplyMannualDiscount")
+    Call<CouponDiscount> COUPON_DISCOUNT_CALL (@Body CouponDiscount couponDiscount);
 
 }

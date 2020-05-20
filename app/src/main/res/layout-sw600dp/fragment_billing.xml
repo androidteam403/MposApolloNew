@@ -30,6 +30,10 @@
         <variable
             name="transaction"
             type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+
+        <variable
+            name="prg_tracking"
+            type="Boolean" />
     </data>
 
     <RelativeLayout
@@ -120,7 +124,8 @@
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textSize="@dimen/text_dimen_15"/>
+                            android:textSize="@dimen/text_dimen_15"
+                            android:imeOptions="actionNext"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -142,7 +147,8 @@
                             android:maxLength="10"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textSize="@dimen/text_dimen_15"/>
+                            android:textSize="@dimen/text_dimen_15"
+                            android:imeOptions="actionDone"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -446,6 +452,7 @@
                 android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}">
 
                 <LinearLayout
+                    android:id="@+id/corporate_details_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -485,6 +492,29 @@
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_next_level" />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginEnd="@dimen/thirty_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_below="@+id/corporate_details_view">
+
+<!--                    android:visibility="@{prg_tracking ? View.VISIBLE : View.GONE}"-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/prg_tracking_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Prg.Tracking"
+                        android:inputType="textPersonName"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_dimen_15"
+                        android:imeOptions="actionNext"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </RelativeLayout>
         </LinearLayout>
 

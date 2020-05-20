@@ -1,7 +1,9 @@
 package com.apollopharmacy.mpospharmacist.data.prefs;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 
 public interface PreferencesHelper {
 
@@ -60,6 +62,14 @@ public interface PreferencesHelper {
     void storeGlobalJson(String json);
 
     GetGlobalConfingRes getGlobalJson();
+
+    void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing);
+
+    GetTrackingWiseConfing getTrackingWiseConfing();
+
+    void storeAllowedPaymentMethod(AllowedPaymentModeRes allowedPaymentModeRes);
+
+    AllowedPaymentModeRes getAllowedPaymentModeRes();
 
     void setVendorRes(String res);
 

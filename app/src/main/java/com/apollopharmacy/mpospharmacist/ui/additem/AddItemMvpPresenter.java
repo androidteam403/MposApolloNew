@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactio
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 
@@ -63,6 +64,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickManualDisc();
 
+    void onClickCouponDisc();
+
     void toApplyManualDisc(ManualDiscCheckRes body, ArrayList<ManualDiscCheckRes.DisplayList> displayListArrayList, String fixedDiscountCode);
 
     void generateOTP();
@@ -71,7 +74,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     CalculatePosTransactionRes getTenderLineEntities();
 
-    void generateTenterLineService(double amount);
+    void generateTenterLineService(double amount, WalletServiceRes walletServiceRes);
 
     void clearAllVoidTransaction();
 
@@ -86,4 +89,10 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onSelectPayTm();
 
     void onSelectAirtelMoney();
+
+    boolean validTenderLimit(double amount, String tenderName);
+
+    void getPharmacyStaffApiDetails(String action,double amount);
+
+    void applyCouponCodeApi(String couponCode,double categoryAmount);
 }

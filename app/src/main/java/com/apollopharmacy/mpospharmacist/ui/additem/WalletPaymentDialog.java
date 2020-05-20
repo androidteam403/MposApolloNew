@@ -64,8 +64,23 @@ public class WalletPaymentDialog {
             return false;
         }
     }
-
     public boolean isValidateAmount(WalletServiceReq walletServiceReq){
+        if(TextUtils.isEmpty(walletPaymentBinding.walletMobileNumber.getText().toString())){
+            walletPaymentBinding.walletMobileNumber.setError("Enter Mobile Number");
+            return false;
+        }else if(walletPaymentBinding.walletMobileNumber.getText().toString().length()<10){
+            walletPaymentBinding.walletMobileNumber.setError("Enter valid Mobile Number");
+            return false;
+        }
+        if(TextUtils.isEmpty(walletPaymentBinding.walletAmountEdit.getText().toString())){
+            walletPaymentBinding.walletAmountEdit.setError("Enter Amount");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isValidateOTP(WalletServiceReq walletServiceReq){
         if(TextUtils.isEmpty(walletPaymentBinding.walletMobileNumber.getText().toString())){
             walletPaymentBinding.walletMobileNumber.setError("Enter Mobile Number");
             return false;
@@ -129,11 +144,13 @@ public class WalletPaymentDialog {
 
     public void setEnableGenerateOTP(boolean isEnableGenerate){
         if(isEnableGenerate) {
+            walletPaymentBinding.walletOtpLayout.setVisibility(View.GONE);
             walletPaymentBinding.dialogGenerateBtn.setVisibility(View.VISIBLE);
             walletPaymentBinding.dialogValidateBtn.setVisibility(View.GONE);
             walletPaymentBinding.dialogButtonCancel.setVisibility(View.GONE);
             walletPaymentBinding.dialogCloseBtn.setVisibility(View.VISIBLE);
         }else{
+            walletPaymentBinding.walletOtpLayout.setVisibility(View.VISIBLE);
             walletPaymentBinding.dialogGenerateBtn.setVisibility(View.GONE);
             walletPaymentBinding.dialogValidateBtn.setVisibility(View.VISIBLE);
             walletPaymentBinding.dialogButtonCancel.setVisibility(View.GONE);

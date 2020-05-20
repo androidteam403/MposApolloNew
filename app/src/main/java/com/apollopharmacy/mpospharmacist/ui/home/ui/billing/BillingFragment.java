@@ -231,4 +231,49 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
             }
         }
     }
+
+    private void corporatePrgTracking(CorporateModel.DropdownValueBean result){
+        if(result.getCode().equalsIgnoreCase("5")){
+            fragmentBillingBinding.setPrgTracking(true);
+            fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+            fragmentBillingBinding.continueBtn.setClickable(false);
+            fragmentBillingBinding.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(TextUtils.isEmpty(editable) ){
+                        fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                        fragmentBillingBinding.continueBtn.setClickable(false);
+                    }else{
+                        if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                                && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString()) && !TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+                            continueBtnEnable();
+                            fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
+                        }
+                    }
+                }
+            });
+        }else{
+            fragmentBillingBinding.setPrgTracking(false);
+        }
+    }
+
+    private void continueBtnEnable(){
+        if(fragmentBillingBinding.getCorporate().getCode().equalsIgnoreCase("5") && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+            fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+            fragmentBillingBinding.continueBtn.setClickable(false);
+        }else {
+            fragmentBillingBinding.continueBtn.setAlpha(1);
+            fragmentBillingBinding.continueBtn.setClickable(true);
+        }
+    }
 }

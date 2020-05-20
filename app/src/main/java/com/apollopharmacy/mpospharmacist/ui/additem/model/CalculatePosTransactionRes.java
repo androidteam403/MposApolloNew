@@ -295,6 +295,10 @@ public class CalculatePosTransactionRes implements Serializable {
         return TrackingRef;
     }
 
+    public void setTrackingRef(String trackingRef) {
+        TrackingRef = trackingRef;
+    }
+
     public double getTotalTaxAmount() {
         return TotalTaxAmount;
     }

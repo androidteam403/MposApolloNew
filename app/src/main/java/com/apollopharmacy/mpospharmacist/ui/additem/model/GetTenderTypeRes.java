@@ -49,7 +49,7 @@ public  class GetTenderTypeRes {
         private String TenderTypeId;
         @Expose
         @SerializedName("TenderLimit")
-        private int TenderLimit;
+        private double TenderLimit;
         @Expose
         @SerializedName("TenderCombinationType")
         private int TenderCombinationType;
@@ -71,7 +71,7 @@ public  class GetTenderTypeRes {
             return TenderTypeId;
         }
 
-        public int getTenderLimit() {
+        public double getTenderLimit() {
             return TenderLimit;
         }
 

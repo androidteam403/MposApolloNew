@@ -441,12 +441,12 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         salesLineEntity.setDiscOfferId("");
         salesLineEntity.setDiscountStructureType(0);
         salesLineEntity.setDiscountType("");
-        salesLineEntity.setDiseaseType("Acute");
-        salesLineEntity.setDPCO(false);
+        salesLineEntity.setDiseaseType(selectedItem.getDiseaseType());
+        salesLineEntity.setDPCO(selectedItem.getDPCO());
         salesLineEntity.setHsncode_In(selectedItem.getHsncode_In());
         salesLineEntity.setISPrescribed(0);
         salesLineEntity.setISReserved(false);
-        salesLineEntity.setISStockAvailable(false);
+        salesLineEntity.setISStockAvailable(true);
         salesLineEntity.setItemId(selectedItem.getItemId());
         salesLineEntity.setItemName(selectedItem.getItemName());
         salesLineEntity.setLineNo(lineNumber);

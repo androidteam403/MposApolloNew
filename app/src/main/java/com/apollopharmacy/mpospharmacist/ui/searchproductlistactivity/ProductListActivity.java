@@ -193,12 +193,12 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         salesLineEntity.setDiscOfferId("");
         salesLineEntity.setDiscountStructureType(0);
         salesLineEntity.setDiscountType("");
-        salesLineEntity.setDiseaseType("Acute");
-        salesLineEntity.setDPCO(false);
+        salesLineEntity.setDiseaseType(items.getDiseaseType());
+        salesLineEntity.setDPCO(items.getDPCO());
         salesLineEntity.setHsncode_In(items.getHsncode_In());
         salesLineEntity.setISPrescribed(0);
         salesLineEntity.setISReserved(false);
-        salesLineEntity.setISStockAvailable(false);
+        salesLineEntity.setISStockAvailable(true);
         salesLineEntity.setItemId(items.getArtCode());
         salesLineEntity.setItemName(items.getDescription());
         salesLineEntity.setLineNo(Singletone.getInstance().itemsArrayList.size()+1);

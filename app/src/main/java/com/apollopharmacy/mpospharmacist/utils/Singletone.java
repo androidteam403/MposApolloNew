@@ -20,7 +20,6 @@ public class Singletone {
 
     public ArrayList<SalesLineEntity> itemsArrayList = new ArrayList<>();
     public GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
-    public List<AllowedPaymentModeRes._PaymentMethodListEntity> paymentMethodListEntity = new ArrayList<>() ;
     public boolean isPlaceNewOrder = false;
     public boolean isOrderCompleted = false;
     public boolean isManualBilling = false;

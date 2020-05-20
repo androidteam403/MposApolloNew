@@ -131,6 +131,9 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
         if (TextUtils.isEmpty(Objects.requireNonNull(customerDetailsBinding.customerNumberEdit.getText()).toString())) {
             setCustomerErrorMessage();
             return null;
+        }else if(customerDetailsBinding.customerNumberEdit.getText().toString().length() < 10){
+            customerDetailsBinding.phoneNumber.setError("Enter Valid Mobile Number/Id");
+            return null;
         } else {
             customerDetailsBinding.phoneNumber.setError(null);
         }
@@ -148,6 +151,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
         if (body.get_Customer().size() > 0) {
             GetCustomerResponse.CustomerEntity customerEntity = body.get_Customer().get(0);
             customerEntity.setSearchId(getCustomerNumber());
+            customerEntity.setRegisteredCustomer(true);
             customerDetailsBinding.setCustomer(customerEntity);
             customerDetailsBinding.setNoUser(false);
         } else {
@@ -164,12 +168,30 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onSubmitBtnClick(GetCustomerResponse.CustomerEntity customerEntity) {
-        Intent returnIntent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("customer_info", customerEntity);
-        returnIntent.putExtras(bundle);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+        if(customerEntity != null && customerEntity.isRegisteredCustomer()) {
+            Intent returnIntent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("customer_info", customerEntity);
+            returnIntent.putExtras(bundle);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }else{
+            if(TextUtils.isEmpty(customerDetailsBinding.customerName.getText().toString())){
+                customerDetailsBinding.customerName.setError("Enter Name");
+            } else if(customerDetailsBinding.customerMobile.getText().toString().length() < 10){
+                customerDetailsBinding.customerMobile.setError("Enter valid mobile number");
+            }else{
+                GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
+                entity.setCardName(customerDetailsBinding.customerName.getText().toString());
+                entity.setMobileNo(customerDetailsBinding.customerMobile.getText().toString());
+                Intent returnIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("customer_info", entity);
+                returnIntent.putExtras(bundle);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        }
     }
 
     @Override

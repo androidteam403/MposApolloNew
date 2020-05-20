@@ -50,6 +50,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
         @Override
         public void onLost(@NotNull Network network) {
             // network unavailable
+            if(getBaseActivity() != null)
             getBaseActivity().runOnUiThread(() -> {
                 dashboardBinding.internet.setTextColor(getResources().getColor(R.color.grey));
                 dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.cross_mark));

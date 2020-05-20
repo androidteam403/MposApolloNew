@@ -74,7 +74,7 @@ public class PaymentMethodModel extends BaseObservable {
 
     public void setCreditMode(boolean creditMode) {
         this.creditMode = creditMode;
-        notifyPropertyChanged(BR.creditMode);
+      //  notifyPropertyChanged(BR.creditMode);
     }
 
     public void setEnableCreditBtn(boolean enableCreditBtn) {

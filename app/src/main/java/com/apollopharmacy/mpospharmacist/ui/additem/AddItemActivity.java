@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -43,6 +45,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransaction
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
@@ -287,18 +290,118 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         }
 
+        addItemBinding.cardPaymentAmountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"card")){
+                        addItemBinding.cardPaymentAmountEditText.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.cashPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"Cash")){
+                        addItemBinding.cashPaymentAmountEdit.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.creditPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"credit")){
+                        addItemBinding.creditPaymentAmountEdit.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.oneApolloAmountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"gift")){
+                        addItemBinding.oneApolloAmountEditText.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.detailsLayout.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                addItemBinding.getCorporate().setPrg_Tracking(editable.toString());
+            }
+        });
            mPresenter.checkAllowedPaymentMode(paymentMethodModel);
     }
 
     @Override
     public void onBackPressed() {
-        if (mPresenter.getTenderLineEntities().getTenderLine().size() > 0) {
-            partialPaymentDialog();
-        } else {
-            if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
-                addItemBinding.setIsPaymentMode(false);
-                paymentMethodModel.setGenerateBill(false);
-            }else{
+        if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
+            addItemBinding.setIsPaymentMode(false);
+            paymentMethodModel.setGenerateBill(false);
+        }else{
+            if (mPresenter.getTenderLineEntities().getTenderLine().size() > 0) {
+                partialPaymentDialog("Alert!","Partial Payment done,Kindly void payment lines");
+            } else {
                 alertDialog();
             }
         }
@@ -379,11 +482,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public void partialPaymentDialog() {
+    public void partialPaymentDialog(String title, String description) {
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
-        dialogView.setTitle("Alert!");
+        dialogView.setTitle(title);
         dialogView.setPositiveLabel("OK");
-        dialogView.setSubtitle("Partial Payment done,Kindly void payment lines");
+        dialogView.setSubtitle(description);
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -503,6 +606,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public CalculatePosTransactionRes getCalculatedPosTransactionRes() {
+        calculatePosTransactionRes.setTrackingRef(getCorporateModule().getPrg_Tracking());
         return calculatePosTransactionRes;
     }
 
@@ -732,7 +836,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()));
+        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()),null);
       //  pdatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
     }
 
@@ -995,6 +1099,104 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         clearOrderData();
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public void showOTPPopUp(String otp) {
+        OTPDialog  dialogView = new OTPDialog(this);
+        dialogView.setOTP(otp);
+        dialogView.setTitle("OTP");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dialogView.validateOTP()){
+                    dialogView.dismiss();
+                    getPaymentMethod().setCreditMode(true);
+                    mPresenter.generateTenterLineService(orderRemainingAmount(),null);
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void showCreditPayment(double amount, GetTrackingWiseConfing._TrackingConfigrationEntity entity) {
+        CreditPaymentDialog  dialogView = new CreditPaymentDialog(this);
+        dialogView.setPaymentAmount(amount);
+        dialogView.setTitle("Credit Payment");
+        if(getCalculatedPosTransactionRes().getTenderLine().size()==0)
+            dialogView.setPositiveLabel("Ok");
+        else
+            dialogView.hidePositiveBtn();
+
+        dialogView.setSubtitle("Total amount : "+orderRemainingAmount());
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dialogView.validateQuantity()) {
+                    dialogView.dismiss();
+                    if (entity.getISEMPBilling() == 1) {
+                        mPresenter.getPharmacyStaffApiDetails("ENQUIRY", amount);
+                    } else {
+                        getPaymentMethod().setCreditMode(true);
+                        mPresenter.generateTenterLineService(amount,null);
+                    }
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void showCouponCodeDialog(double categoryAmount) {
+        CreditPaymentDialog  dialogView = new CreditPaymentDialog(this);
+        dialogView.setTitle("Coupon Discount");
+        dialogView.setPositiveLabel("Apply Coupon");
+        dialogView.setSubtitle("");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dialogView.validateQuantity()) {
+                    dialogView.dismiss();
+                    mPresenter.applyCouponCodeApi(dialogView.getEnteredEditText(),categoryAmount);
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void corpPrgTrackingError() {
+        isExpand = true;
+        ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
+        anim.setDuration(500);
+        anim.start();
+        rotationAngle += 180;
+        rotationAngle = rotationAngle % 360;
+        ViewAnimationUtils.expand(addItemBinding.detailsLayout.customerDoctorLayout);
+        partialPaymentDialog("","Kindly select Partner Prg Tracking !");
     }
 
     @Override

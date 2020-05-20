@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public  class TypeEntity {
         @Expose
         @SerializedName("TenderLimit")
-        private int TenderLimit;
+        private double TenderLimit;
         @Expose
         @SerializedName("TenderCombinationType")
         private int TenderCombinationType;
@@ -26,7 +26,7 @@ public  class TypeEntity {
         @SerializedName("TenderTypeId")
         private String TenderTypeId;
 
-        public int getTenderLimit() {
+        public double getTenderLimit() {
             return TenderLimit;
         }
 
@@ -54,7 +54,7 @@ public  class TypeEntity {
             return TenderTypeId;
         }
 
-        public void setTenderLimit(int tenderLimit) {
+        public void setTenderLimit(double tenderLimit) {
             TenderLimit = tenderLimit;
         }
 

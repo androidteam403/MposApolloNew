@@ -16,6 +16,9 @@
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter" />
     </data>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -314,22 +317,68 @@
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_marginEnd="@dimen/ten_dp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/forty_five_dp"
-                        android:background="@color/cpb_yellow"
-                        android:text="@string/label_return"
-                        android:textAllCaps="false"
-                        android:fontFamily="@font/roboto_regular"/>
-                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/pay_btn_color"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onReturnClick(item)}"
+                android:text="@string/label_return"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="2.5dp"
+                android:layout_height="@dimen/fifty_dp" />
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/cart_price_bg"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onCancelCLick(item)}"
+                android:text="@string/label_cancel"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="2.5dp"
+                android:layout_height="@dimen/fifty_dp" />
+
+            <TextView
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_weight="1"
+                android:background="@color/cart_price_bg"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onReOrderClick(item)}"
+                android:text="@string/label_re_order"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
 </layout>

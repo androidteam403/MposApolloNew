@@ -301,5 +301,15 @@ public class GetCustomerResponse {
         public void setDateOfRegistration(String dateOfRegistration) {
             this.dateOfRegistration = dateOfRegistration;
         }
+
+        private boolean registeredCustomer;
+
+        public boolean isRegisteredCustomer() {
+            return registeredCustomer;
+        }
+
+        public void setRegisteredCustomer(boolean registeredCustomer) {
+            this.registeredCustomer = registeredCustomer;
+        }
     }
 }

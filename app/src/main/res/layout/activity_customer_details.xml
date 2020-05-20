@@ -90,7 +90,7 @@
                         android:textSize="@dimen/text_dimen_15"
                         android:focusable="true"
                         android:cursorVisible="true"
-                        />
+                        android:maxLength="10" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
@@ -117,12 +117,66 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/unregistered_customer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/search_view_layout">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Name"
+                        android:inputType="textPersonName"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_dimen_15"
+                        android:imeOptions="actionNext"
+                        android:text="@{customer.cardName}"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customer_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_mobile1"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_dimen_15"
+                        android:imeOptions="actionDone"
+                        android:text="@{customer.mobileNo}"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/customer_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/search_view_layout"
                 android:orientation="vertical"
-                android:visibility="@{customer == null ? View.GONE : View.VISIBLE}">
+                android:visibility="@{customer.registeredCustomer  ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -441,16 +495,7 @@
                         android:layout_marginBottom="@dimen/fifteen_dp"
                         android:gravity="center">
 
-                        <TextView
-                            android:id="@+id/select_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_select_btn"
-                            android:fontFamily="@font/roboto_medium"
-                            android:onClick="@{()-> callback.onClickSelectBtn(customer)}"
-                            android:text="@string/label_select"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_16" />
+
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -499,6 +544,19 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/select_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_select_btn"
+                android:fontFamily="@font/roboto_medium"
+                android:onClick="@{()-> callback.onClickSelectBtn(customer)}"
+                android:text="@string/label_select"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_16"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
     </LinearLayout>
 </layout>

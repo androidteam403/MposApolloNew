@@ -14,6 +14,7 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResM
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
@@ -33,7 +34,7 @@ public interface AddItemMvpView extends MvpView {
 
     void onSuccessClearAll();
 
-    void partialPaymentDialog();
+    void partialPaymentDialog(String title, String description);
 
     void onPayButtonClick();
 
@@ -143,4 +144,11 @@ public interface AddItemMvpView extends MvpView {
 
     void closeOrderSuccess();
 
+    void showOTPPopUp(String otp);
+
+    void showCreditPayment(double amount, GetTrackingWiseConfing._TrackingConfigrationEntity entity);
+
+    void showCouponCodeDialog(double categoryAmount);
+
+    void corpPrgTrackingError();
 }
