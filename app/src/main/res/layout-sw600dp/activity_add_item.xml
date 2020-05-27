@@ -785,7 +785,7 @@
                                     android:gravity="center_vertical"
                                     android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
-                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}"
+                                    android:text="@{String.format(`%.2f`,paymentMode.balanceAmount)}"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -835,7 +835,7 @@
                                     android:gravity="center_vertical"
                                     android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
-                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}"
+                                    android:text="@{String.format(`%.2f`,paymentMode.balanceAmount)}"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -1169,7 +1169,7 @@
                                     android:gravity="center_vertical"
                                     android:inputType="numberDecimal"
                                     android:padding="@dimen/ten_dp"
-                                    android:text="@{String.valueOf(paymentMode.balanceAmount)}"
+                                    android:text="@{String.format(`%.2f`,paymentMode.balanceAmount)}"
                                     android:textColor="@color/black" />
 
                                 <TextView

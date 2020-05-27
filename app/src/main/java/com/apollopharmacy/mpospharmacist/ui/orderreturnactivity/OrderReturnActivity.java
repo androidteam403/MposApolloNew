@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.OrderReturnActiivtyBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
@@ -36,7 +37,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     private ArrayList<SalesLineEntity> orderReturnModelList = null;
     private OrderReturnAdapter orderReturnAdapter;
     private boolean isExpand = false;
-    private int rotationAngle = 0;
+    private int rotationAngle = 180;
     private CalculatePosTransactionRes orderHistoryItem = null;
     private PaidListAdapter payActivityAdapter;
     private ArrayList<OrderReturnModel> arrPayAdapterModel = new ArrayList<>();
@@ -59,13 +60,14 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     @Override
     protected void setUp() {
         orderReturnActiivtyBinding.setCallback(mvpPresenter);
+        orderReturnActiivtyBinding.setIsReturn(false);
         orderReturnModelList = new ArrayList<>();
         if (getIntent() != null) {
             orderHistoryItem = (CalculatePosTransactionRes) getIntent().getSerializableExtra("order_history_info");
             if (orderHistoryItem != null) {
                 orderReturnActiivtyBinding.setItem(orderHistoryItem);
                 orderReturnModelList.addAll(orderHistoryItem.getSalesLine());
-                orderReturnActiivtyBinding.setProductCount(orderReturnModelList.size());
+                orderReturnActiivtyBinding.setProductCount(orderHistoryItem.getSalesLine().size());
                 if (orderHistoryItem.getSalesLine().size() > 0) {
                     orderHistoryItem.setPharmaTotalAmount(0);
                     orderHistoryItem.setFmcgTotalAmount(0);
@@ -87,6 +89,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                     }
                     getPaymentTypes();
                 }
+                mvpPresenter.trackingWiseReturnAllowed(orderHistoryItem.getCorpCode());
             }
         }
         orderReturnActiivtyBinding.detailsLayout.detailsExpanCollapseLayout.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +114,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                 }
             }
         });
-        if (orderReturnModelList.size() > 0) {
-            orderReturnAdapter = new OrderReturnAdapter(this, orderReturnModelList);
+        if (orderHistoryItem.getSalesLine().size() > 0) {
+            orderReturnAdapter = new OrderReturnAdapter(this, orderHistoryItem.getSalesLine());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             orderReturnActiivtyBinding.orderreturnrecycle.setLayoutManager(mLayoutManager);
             orderReturnActiivtyBinding.orderreturnrecycle.setAdapter(orderReturnAdapter);
@@ -141,6 +144,132 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     public void onClickActionBarBack() {
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public void isCorpAllowedReturn(boolean isAllowed) {
+        if (isAllowed) {
+            orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
+        } else {
+            orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll) {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle(title);
+        dialogView.setPositiveLabel("OK");
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setSubtitle(message);
+        dialogView.setDialogDismiss();
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                if(isCancelOrder){
+                    mvpPresenter.cancelDSBilling(orderHistoryItem);
+                }else if(isReturnAll){
+                    orderHistoryItem.setReturnType(0);
+                    mvpPresenter.orderReturnAll(orderHistoryItem);
+                }
+            }
+        });
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void showCancelOrderSuccess(String title, String message) {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle(title);
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle(message);
+        dialogView.setDialogDismiss();
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                finish();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void partialReturnOrder() {
+        if(!orderReturnActiivtyBinding.getIsReturn()) {
+            for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
+                orderHistoryItem.getSalesLine().get(i).setReturnClick(true);
+                orderReturnAdapter.notifyItemChanged(i);
+            }
+           // orderReturnAdapter.notifyDataSetChanged();
+            orderReturnActiivtyBinding.setIsReturn(true);
+        }else{
+            if(!isItemChecked()) {
+                ExitInfoDialog dialogView = new ExitInfoDialog(this);
+                dialogView.setTitle("Alert");
+                dialogView.setPositiveLabel("OK");
+                dialogView.setDialogDismiss();
+                dialogView.setSubtitle("Please select return item(s)");
+                dialogView.setPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogView.dismiss();
+                    }
+                });
+                if(!dialogView.isDisplay())
+                    dialogView.show();
+
+            }else if(!isItemQuantity()){
+                ExitInfoDialog dialogView = new ExitInfoDialog(this);
+                dialogView.setTitle("Alert");
+                dialogView.setDialogDismiss();
+                dialogView.setPositiveLabel("OK");
+                dialogView.setSubtitle("Return Quantity should be greater than 0 !");
+                dialogView.setPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogView.dismiss();
+                    }
+                });
+                if(!dialogView.isDisplay())
+                    dialogView.show();
+            }else{
+                orderHistoryItem.setReturnType(1);
+                mvpPresenter.orderReturnAll(orderHistoryItem);
+            }
+        }
+    }
+
+    private boolean isItemChecked(){
+        boolean isValid = false;
+        for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
+            if(orderHistoryItem.getSalesLine().get(i).getIsChecked()){
+                return true;
+            }
+        }
+        return isValid;
+    }
+
+    private boolean isItemQuantity(){
+        boolean isValid = false;
+        for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
+            if(orderHistoryItem.getSalesLine().get(i).getIsChecked()){
+                if(orderHistoryItem.getSalesLine().get(i).getReturnQty() != 0){
+                    isValid = true;
+                }else{
+                    isValid = false;
+                    return isValid;
+                }
+            }
+        }
+        return isValid;
     }
 
     @Override

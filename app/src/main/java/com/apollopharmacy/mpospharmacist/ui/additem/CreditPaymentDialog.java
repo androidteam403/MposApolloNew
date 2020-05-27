@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -95,4 +96,7 @@ public class CreditPaymentDialog {
         dialogCreditPaymentBinding.dialogButtonNO.setText(negative);
     }
 
+    public void setInputType(){
+        dialogCreditPaymentBinding.editQuantityEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+    }
 }

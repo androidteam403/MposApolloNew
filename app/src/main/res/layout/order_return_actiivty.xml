@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+            <import type="android.view.View"/>
         <variable
             name="product_count"
             type="Integer" />
+
+        <variable
+            name="isReturn"
+            type="Boolean"/>
 
         <variable
             name="item"
@@ -16,6 +21,7 @@
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.OrderReturnMvpPresenter" />
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,9 +29,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/light_grey"
             android:orientation="vertical"
-            tools:ignore="UselessParent"
-            android:background="@color/light_grey">
+            tools:ignore="UselessParent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,8 +47,8 @@
                     android:layout_gravity="center_vertical"
                     android:alpha="0.8"
                     android:contentDescription="@string/app_name"
-                    android:paddingStart="@dimen/ten_dp"
                     android:onClick="@{() -> callback.onClickBackPressed()}"
+                    android:paddingStart="@dimen/ten_dp"
                     android:paddingEnd="@dimen/ten_dp"
                     android:src="@drawable/ic_back_arrow" />
 
@@ -139,7 +145,8 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.3"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{isReturn ? View.GONE : View.VISIBLE}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -156,6 +163,27 @@
                                 android:text="@string/label_rupee_in_braces"
                                 android:textColor="@color/add_item_header"
                                 android:textSize="@dimen/text_dimen_10" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="@{isReturn ? View.VISIBLE : View.GONE}">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/one_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="R.QTY"
+                                android:textColor="@color/add_item_header"
+                                android:textSize="@dimen/text_dimen_10" />
+
+
                         </LinearLayout>
                     </LinearLayout>
 
@@ -177,8 +205,8 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:layout_weight="0.7"
+                            android:orientation="vertical"
                             android:weightSum="4">
 
                             <LinearLayout
@@ -279,9 +307,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/fifteen_dp"
-                                android:textColor="@color/colorPrimary"
                                 android:fontFamily="@font/price_bold"
                                 android:text="@{@string/label_total_price(@string/price_format((item.grossAmount - item.discAmount)))}"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/text_dimen_18"
                                 android:textStyle="bold" />
 
@@ -312,20 +340,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:background="@color/white"
-                        android:paddingTop="@dimen/five_dp"
                         android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_marginEnd="@dimen/ten_dp" />
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:background="@color/white"
+                        android:paddingTop="@dimen/five_dp" />
 
 
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
+
         <RelativeLayout
+            android:id="@+id/corp_return_options_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -353,6 +383,22 @@
 
                 <TextView
                     android:layout_width="@dimen/zero_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_weight="1"
+                    android:background="@color/cart_price_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onReOrderClick(item)}"
+                    android:text="@string/label_re_order"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="2.5dp"
+                    android:layout_height="@dimen/fifty_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/zero_dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/cart_price_bg"
@@ -363,21 +409,7 @@
                     android:textSize="@dimen/text_dimen_16"
                     android:textStyle="bold" />
 
-                <View
-                    android:layout_width="2.5dp"
-                    android:layout_height="@dimen/fifty_dp" />
 
-                <TextView
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_weight="1"
-                    android:background="@color/cart_price_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:onClick="@{()-> callback.onReOrderClick(item)}"
-                    android:text="@string/label_re_order"
-                    android:textSize="@dimen/text_dimen_16"
-                    android:textStyle="bold" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

@@ -48,6 +48,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickRedeemPoints();
 
+    void checkProductTrackingWise();
+
     void calculatePosTransaction();
 
     boolean validateOneApolloPoints();

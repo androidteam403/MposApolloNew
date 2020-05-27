@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentBillingBinding;
@@ -154,6 +155,13 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
     @Override
     public void onContinueBtnClick() {
+        if(fragmentBillingBinding.getDoctor() == null  ){
+           showMessage("please select Doctor");
+            return;
+        }else if(fragmentBillingBinding.getCorporate() == null){
+            showMessage("please select Corporate");
+            return;
+        }
         if (fragmentBillingBinding.getCustomer() != null) {
             startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

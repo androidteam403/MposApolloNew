@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.DialogWalletPaymentBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
 
 public class WalletPaymentDialog {
@@ -101,7 +102,7 @@ public class WalletPaymentDialog {
         return true;
     }
 
-    private String getOTPFieldData() {
+    public String getOTPFieldData() {
         return walletPaymentBinding.walletOtpEdit.getText().toString();
     }
 
@@ -161,8 +162,12 @@ public class WalletPaymentDialog {
     public void setCalculatedPosTransaction(CalculatePosTransactionRes posTransaction){
         walletPaymentBinding.setOrder(posTransaction);
         walletPaymentBinding.walletMobileNumber.setSelection(walletPaymentBinding.walletMobileNumber.getText().length());
+        walletPaymentBinding.walletAmountEdit.setSelection(walletPaymentBinding.walletAmountEdit.getText().length());
     }
 
+    public void setPaymentMethod(PaymentMethodModel paymentMethod){
+        walletPaymentBinding.setPayment(paymentMethod);
+    }
     public void setGenerateOTPSuccess(int walletType){
         walletPaymentBinding.dialogGenerateBtn.setVisibility(View.GONE);
         walletPaymentBinding.dialogValidateBtn.setVisibility(View.VISIBLE);

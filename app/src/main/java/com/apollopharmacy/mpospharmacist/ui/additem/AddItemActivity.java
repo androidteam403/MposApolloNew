@@ -112,7 +112,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private final int REQUEST_CODE_PRINT_RECEIPT = 10021;
     private final int REQUEST_CODE_PRINT_BITMAP = 10022;
     private boolean isExpand = true;
-    private int rotationAngle = 0;
+    private int rotationAngle = 180;
     private CorporateModel corporateModel;
 
     public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel) {
@@ -290,89 +290,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         }
 
-        addItemBinding.cardPaymentAmountEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"card")){
-                        addItemBinding.cardPaymentAmountEditText.setText("");
-                    }
-                }
-            }
-        });
-
-        addItemBinding.cashPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"Cash")){
-                        addItemBinding.cashPaymentAmountEdit.setText("");
-                    }
-                }
-            }
-        });
-
-        addItemBinding.creditPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"credit")){
-                        addItemBinding.creditPaymentAmountEdit.setText("");
-                    }
-                }
-            }
-        });
-
-        addItemBinding.oneApolloAmountEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"gift")){
-                        addItemBinding.oneApolloAmountEditText.setText("");
-                    }
-                }
-            }
-        });
 
         addItemBinding.detailsLayout.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -501,8 +419,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             paymentMethodModel.setGenerateBill(true);
         }
-        addItemBinding.setIsPaymentMode(true);
+       // addItemBinding.setIsPaymentMode(true);
         updatePayedAmount(calculatePosTransactionRes);
+        addItemBinding.setIsPaymentMode(true);
+        setEnableEditTextChange();
 //        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
 //        addItemBinding.paymentLayout.startAnimation(bottomUp);
 //        addItemBinding.paymentLayout.setVisibility(View.VISIBLE);
@@ -652,6 +572,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(false);
         paymentMethodModel.setWalletMode(false);
         paymentMethodModel.setCreditMode(false);
+        paymentMethodModel.setPhonePeMode(false);
+        paymentMethodModel.setPaytmMode(false);
+        paymentMethodModel.setAirtelMode(false);
         addItemBinding.cashPaymentAmountEdit.setText(String.valueOf(orderRemainingAmount()));
     }
 
@@ -664,6 +587,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setErrorApolloPoints(false);
         paymentMethodModel.setWalletMode(false);
         paymentMethodModel.setCreditMode(false);
+        paymentMethodModel.setPhonePeMode(false);
+        paymentMethodModel.setPaytmMode(false);
+        paymentMethodModel.setAirtelMode(false);
         if (customerEntity != null && transactionIdModel != null)
             mPresenter.validateOneApolloPoints(customerEntity.getMobileNo(), transactionIdModel.getTransactionID());
     }
@@ -675,6 +601,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(false);
         paymentMethodModel.setWalletMode(true);
         paymentMethodModel.setCreditMode(false);
+        paymentMethodModel.setPhonePeMode(false);
+        paymentMethodModel.setPaytmMode(false);
+        paymentMethodModel.setAirtelMode(false);
     }
 
     @Override
@@ -684,6 +613,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(false);
         paymentMethodModel.setWalletMode(false);
         paymentMethodModel.setCreditMode(true);
+        paymentMethodModel.setPhonePeMode(false);
+        paymentMethodModel.setPaytmMode(false);
+        paymentMethodModel.setAirtelMode(false);
     }
 
     @Override
@@ -769,7 +701,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 //        txtPharmaAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "P" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
 //        txtPLAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "A" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
 //        txtFMCGAmt.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.SalesLine.Where(ObjLine => ObjLine.CategoryCode == "F" && ObjLine.IsVoid == false).Sum(ObjLine => ObjLine.NetAmountInclTax), 2)).ToString("#0.00");
-
+        calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
         orderPriceInfoModel.setOrderSavingsAmount(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
         orderPriceInfoModel.setTaxableTotalAmount(posTransactionRes.getNetAmount());
@@ -926,6 +858,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         addItemBinding.cashPaymentAmountEdit.setText("");
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.oneApolloAmountEditText.setText("");
+        addItemBinding.creditPaymentAmountEdit.setText("");
         if(transactionRes.getTenderLine().size()>0){
             paymentMethodModel.setPaymentInitiate(true);
             arrPayAdapterModel.clear();
@@ -958,16 +891,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         }
                     }
 
-                    if (Integer.valueOf(tenderLineEntity.getTenderId()) == 1) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("CASH PAID", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                        arrPayAdapterModel.add(payAdapterModel);
-                    } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 2) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("CARD PAID", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                        arrPayAdapterModel.add(payAdapterModel);
-                    } else if (Integer.valueOf(tenderLineEntity.getTenderId()) == 3) {
-                        PayAdapterModel payAdapterModel = new PayAdapterModel("ONE APOLLO POINTS", " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                        arrPayAdapterModel.add(payAdapterModel);
-                    }
+                    PayAdapterModel payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                    arrPayAdapterModel.add(payAdapterModel);
+
                 } else {
                     showMessage("Tender Id null");
                     break;
@@ -1168,6 +1094,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         dialogView.setTitle("Coupon Discount");
         dialogView.setPositiveLabel("Apply Coupon");
         dialogView.setSubtitle("");
+        dialogView.setInputType();
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1222,6 +1149,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         paymentMethodModel.setLoadApolloPoints(false);
         paymentMethodModel.setErrorApolloPoints(true);
         showMessage("No Points are available to this number");
+    }
+
+    @Override
+    public void onSuccessCheckProductTrackingWise(CalculatePosTransactionRes posTransactionRes) {
+        Singletone.getInstance().itemsArrayList.clear();
+        Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
+        medicinesDetailAdapter.notifyDataSetChanged();
+        mPresenter.calculatePosTransaction();
     }
 
     /**
@@ -1403,7 +1338,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         corporateEntity = (CorporateModel.DropdownValueBean) data.getSerializableExtra("corporate_info");
                         addItemBinding.setCorporate(corporateEntity);
                         mPresenter.checkAllowedPaymentMode(paymentMethodModel);
-                        mPresenter.calculatePosTransaction();
+                        mPresenter.checkProductTrackingWise();
                         break;
                     case REQUEST_CODE_INITIALIZE:
                         if (resultCode == RESULT_OK) {
@@ -1612,5 +1547,91 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         isGeneratedBill = false;
     }
 
+
+    private void setEnableEditTextChange(){
+        addItemBinding.cardPaymentAmountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable) &&  addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"card")){
+                        addItemBinding.cardPaymentAmountEditText.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.cashPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"Cash")){
+                        addItemBinding.cashPaymentAmountEdit.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.creditPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)&& addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()&& paymentMethodModel.isCreditMode()){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"credit")){
+                        addItemBinding.creditPaymentAmountEdit.setText("");
+                    }
+                }
+            }
+        });
+
+        addItemBinding.oneApolloAmountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable)&& addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()){
+                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"gift")){
+                        addItemBinding.oneApolloAmountEditText.setText("");
+                    }
+                }
+            }
+        });
+    }
 
 }

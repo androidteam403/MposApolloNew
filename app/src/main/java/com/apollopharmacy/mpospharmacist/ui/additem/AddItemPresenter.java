@@ -665,6 +665,36 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     }
 
+    @Override
+    public void checkProductTrackingWise() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            Call<CalculatePosTransactionRes> call = api.CHECK_PRODUCT_TRACKING_WISE_RES_CALL(posTransactionEntity());
+            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        getMvpView().onSuccessCheckProductTrackingWise(response.body());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
     private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransactionRes();
 
     @Override
@@ -922,6 +952,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
             }
         }
+        getMvpView().getPaymentMethod().setPhonePeMode(true);
+        getMvpView().getPaymentMethod().setPaytmMode(false);
+        getMvpView().getPaymentMethod().setAirtelMode(false);
+        getMvpView().getPaymentMethod().setCashMode(false);
+        getMvpView().getPaymentMethod().setCardMode(false);
+        getMvpView().getPaymentMethod().setOneApolloMode(false);
+        getMvpView().getPaymentMethod().setWalletMode(true);
+        getMvpView().getPaymentMethod().setCreditMode(false);
         showWalletPaymentDialog("PhonePe Transaction", true,walletServiceReq);
     }
 
@@ -947,6 +985,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
             }
         }
+        getMvpView().getPaymentMethod().setPhonePeMode(false);
+        getMvpView().getPaymentMethod().setPaytmMode(true);
+        getMvpView().getPaymentMethod().setAirtelMode(false);
+        getMvpView().getPaymentMethod().setCashMode(false);
+        getMvpView().getPaymentMethod().setCardMode(false);
+        getMvpView().getPaymentMethod().setOneApolloMode(false);
+        getMvpView().getPaymentMethod().setWalletMode(true);
+        getMvpView().getPaymentMethod().setCreditMode(false);
         showWalletPaymentDialog("Paytm Transaction", false,walletServiceReq);
     }
 
@@ -972,6 +1018,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
             }
         }
+        getMvpView().getPaymentMethod().setPhonePeMode(false);
+        getMvpView().getPaymentMethod().setPaytmMode(false);
+        getMvpView().getPaymentMethod().setAirtelMode(true);
+        getMvpView().getPaymentMethod().setCashMode(false);
+        getMvpView().getPaymentMethod().setCardMode(false);
+        getMvpView().getPaymentMethod().setOneApolloMode(false);
+        getMvpView().getPaymentMethod().setWalletMode(true);
+        getMvpView().getPaymentMethod().setCreditMode(false);
         showWalletPaymentDialog("Airtel Money Transaction",true,walletServiceReq);
     }
 
@@ -1070,7 +1124,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if(response.body().getCouponEnquiryDetailsResult() != null &&
                                     response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult() != null &&
                                         response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getRequestStatus()){
-
+                                    getMvpView().getPaymentMethod().setCreditMode(true);
+                                    generateTenterLineService(Double.parseDouble(response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getCreditAmount()),null);
                             }else{
                                 getMvpView().partialPaymentDialog("",response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getRequestMessage());
                             }
@@ -1098,6 +1153,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletPaymentDialog.setTitle(title);
         walletPaymentDialog.setEnableGenerateOTP(isEnableGenerateOtp);
         walletPaymentDialog.setCalculatedPosTransaction(getMvpView().getCalculatedPosTransactionRes());
+        walletPaymentDialog.setPaymentMethod(getMvpView().getPaymentMethod());
         walletPaymentDialog.setCancelListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1123,6 +1179,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             public void onClick(View v) {
                 if(walletPaymentDialog.isValidateOTP(walletServiceReq)){
                    // walletPaymentDialog.dismiss();
+                    walletServiceReq.setMobileNo(walletPaymentDialog.getWalletMobileNumber());
+                    walletServiceReq.setWalletAmount(walletPaymentDialog.getWalletAmount());
+                    walletServiceReq.setOTP(walletPaymentDialog.getOTPFieldData());
                     walletServiceReq.setWalletRequestType(0);
                     generateWalletOTP(walletServiceReq);
                 }
@@ -1227,6 +1286,36 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     }
                 } else if (getMvpView().getPaymentMethod().isCreditMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("Credit")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                } else if (getMvpView().getPaymentMethod().isPhonePeMode()) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("PhonePe")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                } else if (getMvpView().getPaymentMethod().isPaytmMode()) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+                    }
+                } else if (getMvpView().getPaymentMethod().isAirtelMode()) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("Airtel")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
                         typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
                         typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());

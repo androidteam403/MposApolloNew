@@ -150,6 +150,22 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     protected void setUp() {
         Animation animZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         splashBinding.imageAppLogo.startAnimation(animZoomOut);
-        mPresenter.enableKioskMode();
+        animZoomOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mPresenter.enableKioskMode();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
     }
 }

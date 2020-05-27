@@ -36,6 +36,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -130,6 +131,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body POSTransactionEntity posTransactionReq);
 
+    @POST("SalesTransactionService.svc/CheckProductTrackingWise")
+    Call<CalculatePosTransactionRes> CHECK_PRODUCT_TRACKING_WISE_RES_CALL (@Body POSTransactionEntity posTransactionReq);
+
     @POST("SalesTransactionService.svc/VoidTransaction")
     Call<CalculatePosTransactionRes> VOID_TRANSACTION (@Body CalculatePosTransactionRes posTransactionReq);
 
@@ -174,5 +178,11 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/ApplyMannualDiscount")
     Call<CouponDiscount> COUPON_DISCOUNT_CALL (@Body CouponDiscount couponDiscount);
+
+    @POST("SalesTransactionService.svc/TrackingWiseReturnAllowed/{corpId}")
+    Call<TrackingWiseReturnAllowedRes>  TRACKING_WISE_RETURN_ALLOWED_RES_CALL (@Path("corpId") String corpId);
+
+    @POST("SalesTransactionService.svc/ReturnPOSTransaction")
+    Call<CalculatePosTransactionRes> RETURN_POS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes posTransactionReq);
 
 }

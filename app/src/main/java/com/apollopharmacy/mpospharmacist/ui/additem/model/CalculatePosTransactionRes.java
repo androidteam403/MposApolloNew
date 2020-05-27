@@ -72,7 +72,7 @@ public class CalculatePosTransactionRes implements Serializable {
     private String SalesOrigin;
     @Expose
     @SerializedName("SalesLine")
-    private List<SalesLineEntity> SalesLine;
+    private ArrayList<SalesLineEntity> SalesLine;
     @Expose
     @SerializedName("SEZ")
     private double SEZ;
@@ -81,7 +81,12 @@ public class CalculatePosTransactionRes implements Serializable {
     private double RoundedAmount;
     @Expose
     @SerializedName("ReturnType")
-    private double ReturnType;
+    private int ReturnType;
+
+    public void setReturnType(int returnType) {
+        ReturnType = returnType;
+    }
+
     @Expose
     @SerializedName("ReturnTransactionId")
     private String ReturnTransactionId;
@@ -355,11 +360,11 @@ public class CalculatePosTransactionRes implements Serializable {
         return SalesOrigin;
     }
 
-    public List<SalesLineEntity> getSalesLine() {
+    public ArrayList<SalesLineEntity> getSalesLine() {
         return SalesLine;
     }
 
-    public void setSalesLine(List<SalesLineEntity> salesLine) {
+    public void setSalesLine(ArrayList<SalesLineEntity> salesLine) {
         SalesLine = salesLine;
     }
 
@@ -371,7 +376,7 @@ public class CalculatePosTransactionRes implements Serializable {
         return RoundedAmount;
     }
 
-    public double getReturnType() {
+    public int getReturnType() {
         return ReturnType;
     }
 
@@ -385,6 +390,14 @@ public class CalculatePosTransactionRes implements Serializable {
 
     public String getReturnStore() {
         return ReturnStore;
+    }
+
+    public void setReturnTerminal(String returnTerminal) {
+        ReturnTerminal = returnTerminal;
+    }
+
+    public void setReturnStore(String returnStore) {
+        ReturnStore = returnStore;
     }
 
     public String getReturnReceiptId() {
@@ -619,6 +632,9 @@ public class CalculatePosTransactionRes implements Serializable {
         return AmounttoAccount;
     }
 
+    public void setReturn(boolean aReturn) {
+        IsReturn = aReturn;
+    }
 
     public double PharmaTotalAmount;
     public double FmcgTotalAmount;

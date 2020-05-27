@@ -11,6 +11,9 @@ public class PaymentMethodModel extends BaseObservable {
     private boolean oneApolloMode = false;
     private boolean walletMode = false;
     private boolean creditMode = false;
+    private boolean phonePeMode = false;
+    private boolean paytmMode = false;
+    private boolean airtelMode = false;
     private boolean hellingCardMode = false;
     private boolean isAdditionalDisc = false;
     private boolean isBalanceAmount = false;
@@ -236,5 +239,32 @@ public class PaymentMethodModel extends BaseObservable {
     public void setEnableCreaditBtn(boolean enableCreditBtn) {
         isEnableCreditBtn = enableCreditBtn;
         notifyPropertyChanged(BR.enableCreditBtn);
+    }
+    @Bindable
+    public boolean isPhonePeMode() {
+        return phonePeMode;
+    }
+
+    public void setPhonePeMode(boolean phonePeMode) {
+        this.phonePeMode = phonePeMode;
+        notifyPropertyChanged(BR.phonePeMode);
+    }
+    @Bindable
+    public boolean isPaytmMode() {
+        return paytmMode;
+    }
+
+    public void setPaytmMode(boolean paytmMode) {
+        this.paytmMode = paytmMode;
+        notifyPropertyChanged(BR.paytmMode);
+    }
+    @Bindable
+    public boolean isAirtelMode() {
+        return airtelMode;
+    }
+
+    public void setAirtelMode(boolean airtelMode) {
+        this.airtelMode = airtelMode;
+        notifyPropertyChanged(BR.airtelMode);
     }
 }

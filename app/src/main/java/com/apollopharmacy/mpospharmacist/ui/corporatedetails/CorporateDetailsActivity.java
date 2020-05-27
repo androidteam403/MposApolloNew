@@ -71,7 +71,9 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     protected void setUp() {
         corporateDetailsBinding.setCallback(mPresenter);
         CorporateModel corporateModel  = (CorporateModel )getIntent().getSerializableExtra("corporate_list");
-        getCorporateList(corporateModel);
+        if(corporateModel != null) {
+            getCorporateList(corporateModel);
+        }
         corporateDetailsBinding.corporateNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

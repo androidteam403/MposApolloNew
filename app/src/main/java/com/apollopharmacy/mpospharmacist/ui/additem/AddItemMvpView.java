@@ -104,6 +104,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onFailedValidateOneApolloPoints(ValidatePointsResModel body);
 
+    void onSuccessCheckProductTrackingWise(CalculatePosTransactionRes posTransactionRes);
+
     void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);
 
     void onFailedCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes);

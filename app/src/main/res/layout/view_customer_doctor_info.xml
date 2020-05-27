@@ -56,7 +56,8 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
-                android:src="@drawable/ic_down_arrow" />
+                android:src="@drawable/ic_down_arrow"
+                android:rotation="180"/>
         </RelativeLayout>
 
         <LinearLayout

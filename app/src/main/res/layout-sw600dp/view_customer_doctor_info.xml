@@ -56,7 +56,8 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
-                android:src="@drawable/ic_down_arrow" />
+                android:src="@drawable/ic_down_arrow"
+                android:rotation="180"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -316,7 +317,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:layout_below="@+id/corporate_details_view">
 
-<!--                    android:visibility="@{corporate.code.equalsIgnoreCase(`5`) ? View.VISIBLE : View.GONE}"-->
+                    <!--                    android:visibility="@{corporate.code.equalsIgnoreCase(`5`) ? View.VISIBLE : View.GONE}"-->
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/prg_tracking_edit"
                         android:layout_width="match_parent"

@@ -7,6 +7,8 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
 
     void onClickBackPressed();
 
+    void trackingWiseReturnAllowed(String corpId);
+
     void cancelDSBilling(CalculatePosTransactionRes posTransactionRes);
 
     void onReturnClick(CalculatePosTransactionRes posTransactionRes);
@@ -14,4 +16,6 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
     void onCancelCLick(CalculatePosTransactionRes posTransactionRes);
 
     void onReOrderClick(CalculatePosTransactionRes posTransactionRes);
+
+    void orderReturnAll(CalculatePosTransactionRes posTransactionRes);
 }
