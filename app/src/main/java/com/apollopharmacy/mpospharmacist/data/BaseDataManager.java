@@ -12,7 +12,9 @@ import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesHelper;
 import com.apollopharmacy.mpospharmacist.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 
 import java.util.List;
 
@@ -61,6 +63,26 @@ public class BaseDataManager  implements DataManager {
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         return mPreferencesHelper.getGlobalJson();
+    }
+
+    @Override
+    public void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing) {
+        mPreferencesHelper.storeTrackingWiseConfiguration(trackingWiseConfing);
+    }
+
+    @Override
+    public GetTrackingWiseConfing getTrackingWiseConfing() {
+        return mPreferencesHelper.getTrackingWiseConfing();
+    }
+
+    @Override
+    public void storeAllowedPaymentMethod(AllowedPaymentModeRes allowedPaymentModeRes) {
+        mPreferencesHelper.storeAllowedPaymentMethod(allowedPaymentModeRes);
+    }
+
+    @Override
+    public AllowedPaymentModeRes getAllowedPaymentModeRes() {
+        return mPreferencesHelper.getAllowedPaymentModeRes();
     }
 
     @Override

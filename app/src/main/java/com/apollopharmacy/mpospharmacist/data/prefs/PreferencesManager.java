@@ -7,7 +7,9 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.di.PreferenceInfo;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -33,6 +35,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_DATA_AREA_ID = "PREF_KEY_DATA_AREA_ID";
     private static final String PREF_KEY_VENDOR_RES = "PREF_KEY_VENDOR_RES";
     private static final String PREF_KEY_KIOSK_MODE = "PREF_KEY_KIOSK_MODE";
+    private static final String PREF_KEY_ALLOWED_PAYMENT = "PREF_KEY_ALLOWED_PAYMENT";
+    private static final String PREF_KEY_TRACKING_CONFIG = "PREF_KEY_TRACKING_CONFIG";
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -58,14 +62,42 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public void storeGlobalJson(String json) {
-        mAdminPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
+        mPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
     }
 
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         Gson gson = new Gson();
-        String json = mAdminPrefs.getString(PREF_KEY_GLOBAL_JSON,"");
+        String json = mPrefs.getString(PREF_KEY_GLOBAL_JSON,"");
         return gson.fromJson(json, GetGlobalConfingRes.class);
+    }
+
+    @Override
+    public void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing) {
+        Gson gson = new Gson();
+        String json = gson.toJson(trackingWiseConfing);
+        mPrefs.edit().putString(PREF_KEY_TRACKING_CONFIG,json).apply();
+    }
+
+    @Override
+    public GetTrackingWiseConfing getTrackingWiseConfing() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_TRACKING_CONFIG,"");
+        return gson.fromJson(json, GetTrackingWiseConfing.class);
+    }
+
+    @Override
+    public void storeAllowedPaymentMethod(AllowedPaymentModeRes allowedPaymentModeRes) {
+        Gson gson = new Gson();
+        String json = gson.toJson(allowedPaymentModeRes);
+        mPrefs.edit().putString(PREF_KEY_ALLOWED_PAYMENT,json).apply();
+    }
+
+    @Override
+    public AllowedPaymentModeRes getAllowedPaymentModeRes() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_ALLOWED_PAYMENT,"");
+        return gson.fromJson(json, AllowedPaymentModeRes.class);
     }
 
     @Override

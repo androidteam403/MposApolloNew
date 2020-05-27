@@ -32,16 +32,16 @@
                 <TextView
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
                     android:textSize="@dimen/text_dimen_12"
                     app:full_text="@{@string/label_product_art_code(productlist.artCode)}"
                     app:span_color="@{@color/black}"
                     app:span_font="@{`robotoMedium`}"
                     app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.artCode}"
-                    android:maxLines="2"/>
+                    app:span_text="@{productlist.artCode}" />
 
                 <TextView
                     android:layout_width="@dimen/zero_dp"
@@ -49,27 +49,14 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
                     android:textSize="@dimen/text_dimen_12"
                     app:full_text="@{@string/label_product_description(productlist.description)}"
                     app:span_color="@{@color/black}"
                     app:span_font="@{`robotoMedium`}"
                     app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.description}"
-                    android:maxLines="2"/>
+                    app:span_text="@{productlist.description}" />
 
-                <TextView
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="@dimen/text_dimen_12"
-                    app:full_text="@{@string/label_product_category(productlist.category)}"
-                    app:span_color="@{@color/black}"
-                    app:span_font="@{`robotoMedium`}"
-                    app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.category}"
-                    android:maxLines="2" />
 
             </LinearLayout>
 
@@ -87,13 +74,27 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_product_category(productlist.category)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoMedium`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{productlist.category}" />
+
+                <TextView
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
                     android:textSize="@dimen/text_dimen_12"
                     app:full_text="@{@string/label_product_sub_category(productlist.subCategory)}"
                     app:span_color="@{@color/black}"
                     app:span_font="@{`robotoMedium`}"
                     app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.subCategory}"
-                    android:maxLines="2"/>
+                    app:span_text="@{productlist.subCategory}" />
 
                 <TextView
                     android:layout_width="@dimen/zero_dp"
@@ -101,13 +102,14 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
                     android:textSize="@dimen/text_dimen_12"
+                    android:visibility="gone"
                     app:full_text="@{@string/label_product_manufacturer(productlist.manufacture)}"
                     app:span_color="@{@color/black}"
                     app:span_font="@{`robotoMedium`}"
                     app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.manufacture}"
-                    android:maxLines="2"/>
+                    app:span_text="@{productlist.manufacture}" />
 
                 <TextView
                     android:layout_width="@dimen/zero_dp"
@@ -115,13 +117,13 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
                     android:textSize="@dimen/text_dimen_12"
                     app:full_text="@{@string/label_product_Generic_name(productlist.genericName)}"
                     app:span_color="@{@color/black}"
                     app:span_font="@{`robotoMedium`}"
                     app:span_size="@{@dimen/small_size_text}"
-                    app:span_text="@{productlist.genericName}"
-                    android:maxLines="2"/>
+                    app:span_text="@{productlist.genericName}" />
             </LinearLayout>
         </LinearLayout>
 

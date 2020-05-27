@@ -28,61 +28,6 @@
             android:background="@color/search_customer_bg"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:weightSum="3">
-
-                <TextView
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/pay_btn_color"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:onClick="@{()-> callbacks.onReturnClick()}"
-                    android:text="@string/label_return"
-                    android:textSize="@dimen/text_dimen_16"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="2.5dp"
-                    android:layout_height="@dimen/fifty_dp" />
-
-                <TextView
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/cart_price_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:onClick="@{()-> callbacks.onCancelCLick()}"
-                    android:text="@string/label_cancel"
-                    android:textSize="@dimen/text_dimen_16"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="2.5dp"
-                    android:layout_height="@dimen/fifty_dp" />
-
-                <TextView
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_weight="1"
-                    android:background="@color/cart_price_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:onClick="@{()-> callbacks.onReOrderClick()}"
-                    android:text="@string/label_re_order"
-                    android:textSize="@dimen/text_dimen_16"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/twenty_dp"

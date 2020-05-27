@@ -38,6 +38,11 @@ public class ExitInfoDialog {
         exitInfoDialogBinding.dialogButtonNO.setOnClickListener(okListener);
     }
 
+    public boolean isDisplay(){
+      return   dialog.isShowing();
+    }
+
+
     public void show() {
         if (negativeExist) {
             exitInfoDialogBinding.dialogButtonNO.setVisibility(View.VISIBLE);

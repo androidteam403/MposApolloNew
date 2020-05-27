@@ -86,5 +86,15 @@ public class CorporateModel implements Serializable{
         public void setsEZ(String sEZ) {
             this.sEZ = sEZ;
         }
+
+        private String prg_Tracking;
+
+        public String getPrg_Tracking() {
+            return prg_Tracking;
+        }
+
+        public void setPrg_Tracking(String prg_Tracking) {
+            this.prg_Tracking = prg_Tracking;
+        }
     }
 }

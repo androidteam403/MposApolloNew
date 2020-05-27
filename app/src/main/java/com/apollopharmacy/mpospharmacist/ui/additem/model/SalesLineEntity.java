@@ -352,6 +352,8 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
             return ReturnQty;
         }
 
+
+
         public String getRetailSubCategoryRecID() {
             return RetailSubCategoryRecID;
         }
@@ -496,9 +498,7 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
             return IsPriceOverride;
         }
 
-        public boolean getIsChecked() {
-            return IsChecked;
-        }
+
 
         public String getInventBatchId() {
             return InventBatchId;
@@ -994,5 +994,30 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
 
         public void setAdditionaltax(double additionaltax) {
                 Additionaltax = additionaltax;
+        }
+
+        private boolean isReturnClick = false;
+
+        @Bindable
+        public boolean isReturnClick() {
+                return isReturnClick;
+        }
+
+        public void setReturnClick(boolean returnClick) {
+                isReturnClick = returnClick;
+                notifyPropertyChanged(BR.returnClick);
+        }
+
+        public boolean getIsChecked() {
+                return IsChecked;
+        }
+        private boolean isSelectedReturnItem = false;
+
+        public boolean isSelectedReturnItem() {
+                return isSelectedReturnItem;
+        }
+
+        public void setSelectedReturnItem(boolean selectedReturnItem) {
+                isSelectedReturnItem = selectedReturnItem;
         }
 }

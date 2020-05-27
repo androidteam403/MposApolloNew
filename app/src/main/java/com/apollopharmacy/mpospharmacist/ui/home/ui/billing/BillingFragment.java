@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentBillingBinding;
@@ -154,6 +155,13 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
     @Override
     public void onContinueBtnClick() {
+        if(fragmentBillingBinding.getDoctor() == null  ){
+           showMessage("please select Doctor");
+            return;
+        }else if(fragmentBillingBinding.getCorporate() == null){
+            showMessage("please select Corporate");
+            return;
+        }
         if (fragmentBillingBinding.getCustomer() != null) {
             startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -229,6 +237,51 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+    }
+
+    private void corporatePrgTracking(CorporateModel.DropdownValueBean result){
+        if(result.getCode().equalsIgnoreCase("5")){
+            fragmentBillingBinding.setPrgTracking(true);
+            fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+            fragmentBillingBinding.continueBtn.setClickable(false);
+            fragmentBillingBinding.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(TextUtils.isEmpty(editable) ){
+                        fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                        fragmentBillingBinding.continueBtn.setClickable(false);
+                    }else{
+                        if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                                && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString()) && !TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+                            continueBtnEnable();
+                            fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
+                        }
+                    }
+                }
+            });
+        }else{
+            fragmentBillingBinding.setPrgTracking(false);
+        }
+    }
+
+    private void continueBtnEnable(){
+        if(fragmentBillingBinding.getCorporate().getCode().equalsIgnoreCase("5") && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+            fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+            fragmentBillingBinding.continueBtn.setClickable(false);
+        }else {
+            fragmentBillingBinding.continueBtn.setAlpha(1);
+            fragmentBillingBinding.continueBtn.setClickable(true);
         }
     }
 }

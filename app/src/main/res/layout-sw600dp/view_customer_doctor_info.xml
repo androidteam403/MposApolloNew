@@ -56,7 +56,8 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
-                android:src="@drawable/ic_down_arrow" />
+                android:src="@drawable/ic_down_arrow"
+                android:rotation="180"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -270,7 +271,8 @@
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
-                        android:src="@drawable/ic_edit_view" />
+                        android:src="@drawable/ic_edit_view"
+                        android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}"/>
                 </RelativeLayout>
 
                 <LinearLayout
@@ -305,6 +307,31 @@
                         app:span_size="@{@dimen/small_size_text}"
                         app:span_text="@{corporate.description}" />
                 </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginEnd="@dimen/thirty_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_below="@+id/corporate_details_view">
+
+                    <!--                    android:visibility="@{corporate.code.equalsIgnoreCase(`5`) ? View.VISIBLE : View.GONE}"-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/prg_tracking_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Prg.Tracking"
+                        android:inputType="text"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_dimen_15"
+                        android:imeOptions="actionNext"
+                        android:text="@{corporate.prg_Tracking}"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
