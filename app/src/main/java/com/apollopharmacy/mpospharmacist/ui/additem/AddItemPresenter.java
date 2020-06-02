@@ -150,7 +150,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickCreditPaymentPay() {
         if (!showErrorPharmaDocutor()) {
-            getPharmacyStaffApiDetails("ENQUIRY",getMvpView().orderRemainingAmount());
+            getPharmacyStaffApiDetails("","ENQUIRY",getMvpView().orderRemainingAmount());
 //            if (TextUtils.isEmpty(getMvpView().getCreditPaymentAmount())) {
 //                getMvpView().setErrorCreditPaymentAmountEditText("Enter Amount");
 //            } else {
@@ -695,6 +695,40 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
+    @Override
+    public void changeQuantity(SalesLineEntity salesLineEntity, int quantity) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService();
+            Call<CalculatePosTransactionRes> call = api.CHANGE_QUANTITY_RES_CALL(salesLineEntity.getLineNo(),quantity,posTransactionEntity());
+            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if(response.body() != null && response.body().getRequestStatus() == 0) {
+                            salesLineEntity.setQty(quantity);
+                            calculatePosTransaction();
+                        }else{
+                            getMvpView().partialPaymentDialog("",response.body().getReturnMessage());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
     private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransactionRes();
 
     @Override
@@ -822,7 +856,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             getMvpView().isManualDisc(false);
                             getMvpView().onSuccessCalculatePosTransaction(response.body());
                         } else {
-                            getMvpView().showMessage(response.body().getReturnMessage());
+                            getMvpView().partialPaymentDialog("",response.body().getReturnMessage());
                         }
 
                     } else {
@@ -1045,7 +1079,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void getPharmacyStaffApiDetails(String action,double amount) {
+    public void getPharmacyStaffApiDetails(String otp,String action,double amount) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
@@ -1063,7 +1097,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 staffAPIReq.setEmpId(getMvpView().getCorporateModule().getPrg_Tracking());
 
             staffAPIReq.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
-            staffAPIReq.setOTP("");
+            staffAPIReq.setOTP(otp);
             staffAPIReq.setRegion(getDataManager().getGlobalJson().getRegion());
             staffAPIReq.setSiteId(getDataManager().getGlobalJson().getStoreID());
             staffAPIReq.setSiteName(getDataManager().getGlobalJson().getStoreName());
@@ -1078,13 +1112,21 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if(action.equalsIgnoreCase("ENQUIRY")) {
                                 double availableAmount = Double.parseDouble(response.body().getTotalBalance()) - Double.parseDouble(response.body().getUsedBalance());
                                 if (amount <= availableAmount) {
-                                    getPharmacyStaffApiDetails("GENOTP",amount);
+                                    getPharmacyStaffApiDetails(otp,"GENOTP",amount);
                                 } else {
                                     getMvpView().partialPaymentDialog("", "Balance Not Available");
                                 }
                             }else if(action.equalsIgnoreCase("GENOTP")){
                                 if(response.body().getValidateOTP().equalsIgnoreCase("true")){
-                                        getMvpView().showOTPPopUp(response.body().getOTP());
+                                        getMvpView().showOTPPopUp(amount,response.body().getOTP());
+                                }else{
+                                    getMvpView().getPaymentMethod().setCreditMode(true);
+                                    generateTenterLineService(amount,null);
+                                }
+                            }else if(action.equalsIgnoreCase("VALOTP")){
+                                if(response.body().getStatus().equalsIgnoreCase("true")){
+                                    getMvpView().getPaymentMethod().setCreditMode(true);
+                                    generateTenterLineService(amount,null);
                                 }else{
                                     getMvpView().getPaymentMethod().setCreditMode(true);
                                     generateTenterLineService(amount,null);
@@ -1124,6 +1166,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if(response.body().getCouponEnquiryDetailsResult() != null &&
                                     response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult() != null &&
                                         response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getRequestStatus()){
+                                getMvpView().getCalculatedPosTransactionRes().setCouponCode(couponCode);
                                     getMvpView().getPaymentMethod().setCreditMode(true);
                                     generateTenterLineService(Double.parseDouble(response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getCreditAmount()),null);
                             }else{
@@ -1589,7 +1632,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         ArrayList<SalesLineEntity> itemsArrayList = getMvpView().getSelectedProducts();
         for (int i = 0; i < itemsArrayList.size(); i++) {
             SalesLineEntity items = itemsArrayList.get(i);
-            if (items.getCategoryCode().equalsIgnoreCase("P")) {
+            if (!items.getIsVoid() && items.getCategoryCode().equalsIgnoreCase("P")) {
                 if (getMvpView().getDoctorModule() != null) {
                     return getMvpView().getDoctorModule().getDisplayText().contains("SELF")
                             || getMvpView().getDoctorModule().getDisplayText().contains("OTHERS");
@@ -1677,7 +1720,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             }
                         }else{
                             if (response.body() != null) {
-                                getMvpView().showMessage(response.body().getReturnMessage());
+                                getMvpView().partialPaymentDialog("",response.body().getReturnMessage());
                             }else{
                                 getMvpView().showMessage("Something went wrong please try again");
                             }
@@ -1716,7 +1759,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         getMvpView().onClickWalletPaymentBtn();
                         break;
                     case 5:
-                        getPharmacyStaffApiDetails("ENQUIRY",getMvpView().orderRemainingAmount());
+                        getPharmacyStaffApiDetails("","ENQUIRY",getMvpView().orderRemainingAmount());
                         break;
                 }
             }
@@ -1725,17 +1768,37 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
 
     }
+
     private boolean checkTrackingWiseConfing(int paymentType){
-        if(!getMvpView().getCorporateModule().getCode().equalsIgnoreCase("5") && tenderLineEntities.getTenderLine().size() == 0 && getDataManager().getTrackingWiseConfing() != null && getDataManager().getTrackingWiseConfing().get_TrackingConfigration().size() > 0){
+        if(!getMvpView().getCorporateModule().getCode().equalsIgnoreCase("5")  && getDataManager().getTrackingWiseConfing() != null && getDataManager().getTrackingWiseConfing().get_TrackingConfigration().size() > 0){
             for(GetTrackingWiseConfing._TrackingConfigrationEntity entity : getDataManager().getTrackingWiseConfing().get_TrackingConfigration()){
                 if(entity.getCorpCode().equalsIgnoreCase(getMvpView().getCorporateModule().getCode()) && entity.getMandatoryCreditPercentage() > 0){
-                    if(paymentType == 5)
-                        getMvpView().showCreditPayment(calculateCorporatePaymentPercentage(entity.getMandatoryCreditPercentage()),entity);
-                    else
+                    if(paymentType == 5) {
+                        if (TextUtils.isEmpty(getMvpView().getCorporateModule().getPrg_Tracking())) {
+                            getMvpView().corpPrgTrackingError();
+                            return false;
+                        }else {
+                            getMvpView().showCreditPayment(calculateCorporatePaymentPercentage(entity.getMandatoryCreditPercentage()), entity);
+                        }
+                    }else if(tenderLineEntities.getTenderLine().size() == 0)
                         getMvpView().partialPaymentDialog("","Credit Payment Mandatory!! "+ entity.getMandatoryCreditPercentage() +" % Payment Must be in credit");
+                    else
+                        return true;
 
                     return false;
                 }
+            }
+        }
+        // only pharmacy check getPharmacyStaff api
+        if(getMvpView().getCorporateModule().getCode().equalsIgnoreCase("5"))
+            return true;
+        else if(paymentType == 5){
+            if (TextUtils.isEmpty(getMvpView().getCorporateModule().getPrg_Tracking())) {
+                getMvpView().corpPrgTrackingError();
+                return false;
+            }else {
+                getMvpView().showCreditPayment(Double.parseDouble(String.format("%.2f",getMvpView().orderRemainingAmount())), new GetTrackingWiseConfing._TrackingConfigrationEntity());
+                return false;
             }
         }
         return true;

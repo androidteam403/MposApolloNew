@@ -82,9 +82,9 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             transactionIDModel.setReturnMessage("");
             transactionIDModel.setResultValue("");
             transactionIDModel.setTransactionID("");
-            transactionIDModel.setStoreID(getDataManager().getStoreId());
+            transactionIDModel.setStoreID(getDataManager().getGlobalJson().getStoreID());
             transactionIDModel.setTerminalID(getDataManager().getTerminalId());
-            transactionIDModel.setDataAreaID("AHEL");
+            transactionIDModel.setDataAreaID(getDataManager().getGlobalJson().getDataAreaID());
             transactionIDModel.setBillingMode(5);
             Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
             call.enqueue(new Callback<TransactionIDResModel>() {

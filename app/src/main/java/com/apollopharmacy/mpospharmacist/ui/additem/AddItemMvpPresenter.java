@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
@@ -50,6 +51,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void checkProductTrackingWise();
 
+    void changeQuantity(SalesLineEntity salesLineEntity, int quantity);
+
     void calculatePosTransaction();
 
     boolean validateOneApolloPoints();
@@ -94,7 +97,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     boolean validTenderLimit(double amount, String tenderName);
 
-    void getPharmacyStaffApiDetails(String action,double amount);
+    void getPharmacyStaffApiDetails(String otp,String action,double amount);
 
     void applyCouponCodeApi(String couponCode,double categoryAmount);
 }

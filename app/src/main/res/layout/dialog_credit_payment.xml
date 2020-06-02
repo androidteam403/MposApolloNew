@@ -40,6 +40,20 @@
             android:textSize="15sp"
             android:fontFamily="@font/roboto_regular"/>
 
+        <TextView
+            android:id="@+id/balance_amount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subtitle"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="4dp"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:fontFamily="@font/roboto_regular"/>
+
         <EditText
             android:id="@+id/edit_quantity_edit_text"
             android:layout_width="match_parent"
@@ -53,7 +67,7 @@
             android:layout_marginEnd="@dimen/twenty_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/five_dp"
-            android:layout_below="@+id/subtitle" />
+            android:layout_below="@+id/balance_amount" />
 
         <View
             android:id="@+id/line"

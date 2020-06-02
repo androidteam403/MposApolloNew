@@ -306,8 +306,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             @Override
             public void afterTextChanged(Editable editable) {
                 addItemBinding.getCorporate().setPrg_Tracking(editable.toString());
+                addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
             }
         });
+        addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
            mPresenter.checkAllowedPaymentMode(paymentMethodModel);
     }
 
@@ -562,7 +564,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(false);
         paymentMethodModel.setWalletMode(false);
         paymentMethodModel.setCreditMode(false);
-        addItemBinding.cardPaymentAmountEditText.setText(String.valueOf(orderRemainingAmount()));
+        addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f",(orderRemainingAmount())));
     }
 
     @Override
@@ -575,7 +577,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setPhonePeMode(false);
         paymentMethodModel.setPaytmMode(false);
         paymentMethodModel.setAirtelMode(false);
-        addItemBinding.cashPaymentAmountEdit.setText(String.valueOf(orderRemainingAmount()));
+        addItemBinding.cashPaymentAmountEdit.setText(String.format("%.2f",(orderRemainingAmount())));
     }
 
     @Override
@@ -710,7 +712,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setTaxAmount(posTransactionRes.getTotalTaxAmount());
-        paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount())- paymentDoneAmount)));
+        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount())- paymentDoneAmount)));
         if (posTransactionRes.getSalesLine().size() > 0) {
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
@@ -750,6 +752,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         rotationAngle += 180;
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
+
+        updatePayedAmount(calculatePosTransactionRes);
     }
 
     @Override
@@ -810,7 +814,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 if(dialogView.validateQuantity()){
                     medicinesDetailAdapter.notifyDataSetChanged();
                     dialogView.dismiss();
-                    mPresenter.calculatePosTransaction();
+                    mPresenter.changeQuantity(item,dialogView.getEnteredQuantity());
+                    //mPresenter.calculatePosTransaction();
                 }
             }
         });
@@ -840,14 +845,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     public double orderTotalAmount() {
         OrderPriceInfoModel priceInfoModel = addItemBinding.getOrderInfo();
         if (priceInfoModel != null)
-            return priceInfoModel.getOrderTotalAmount();
+            return Double.parseDouble(String.format("%.2f",priceInfoModel.getOrderTotalAmount()));
         else
             return 0;
     }
 
     @Override
     public double orderRemainingAmount() {
-        return orderTotalAmount()- paymentDoneAmount;
+        return Double.parseDouble(String.format("%.2f",(orderTotalAmount()- paymentDoneAmount)));
     }
 
     private boolean isGeneratedBill = false;
@@ -870,7 +875,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
                         isGeneratedBill = true;
-                        paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+                        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
                         paymentMethodModel.setBalanceAmount(false);
                     } else {
                         double balanceAmt = orderTotalAmount() - paymentDoneAmount;
@@ -878,14 +883,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                             paymentMethodModel.setPaymentDone(true);
                             paymentMethodModel.setGenerateBill(true);
                             isGeneratedBill = true;
-                            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
                             if(balanceAmt == 0) {
                                 paymentMethodModel.setBalanceAmount(false);
                             }else{
                                 paymentMethodModel.setBalanceAmount(true);
                             }
                         } else {
-                            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
                             paymentMethodModel.setBalanceAmount(true);
                             paymentMethodModel.setPaymentDone(false);
                         }
@@ -902,7 +907,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             payActivityAdapter.notifyDataSetChanged();
         }else{
             paymentDoneAmount = 0;
-            paymentMethodModel.setBalanceAmount(Double.valueOf(new DecimalFormat("##.##").format((orderTotalAmount() - paymentDoneAmount))));
+            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
             paymentMethodModel.setBalanceAmount(false);
             paymentMethodModel.setPaymentInitiate(false);
             paymentMethodModel.setPaymentDone(false);
@@ -1028,7 +1033,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
-    public void showOTPPopUp(String otp) {
+    public void showOTPPopUp(double amount,String otp) {
         OTPDialog  dialogView = new OTPDialog(this);
         dialogView.setOTP(otp);
         dialogView.setTitle("OTP");
@@ -1038,8 +1043,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             public void onClick(View view) {
                 if(dialogView.validateOTP()){
                     dialogView.dismiss();
-                    getPaymentMethod().setCreditMode(true);
-                    mPresenter.generateTenterLineService(orderRemainingAmount(),null);
+                    mPresenter.getPharmacyStaffApiDetails(dialogView.getEnteredOTP(),"VALOTP",amount);
+//                    getPaymentMethod().setCreditMode(true);
+//                    mPresenter.generateTenterLineService(orderRemainingAmount(),null);
                 }
             }
         });
@@ -1063,14 +1069,15 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         else
             dialogView.hidePositiveBtn();
 
-        dialogView.setSubtitle("Total amount : "+orderRemainingAmount());
+        dialogView.setSubtitle("Total amount : "+orderTotalAmount());
+        dialogView.setBalanceAmount("Balance Amount : "+ Double.parseDouble(String.format("%.2f",(orderRemainingAmount()-amount))));
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(dialogView.validateQuantity()) {
                     dialogView.dismiss();
                     if (entity.getISEMPBilling() == 1) {
-                        mPresenter.getPharmacyStaffApiDetails("ENQUIRY", amount);
+                        mPresenter.getPharmacyStaffApiDetails("","ENQUIRY", amount);
                     } else {
                         getPaymentMethod().setCreditMode(true);
                         mPresenter.generateTenterLineService(amount,null);
@@ -1078,7 +1085,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 }
             }
         });
-        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeLabel("Exit");
         dialogView.setNegativeListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

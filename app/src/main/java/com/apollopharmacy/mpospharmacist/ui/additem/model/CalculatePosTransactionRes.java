@@ -284,9 +284,15 @@ public class CalculatePosTransactionRes implements Serializable {
         return Type;
     }
 
+    public void setTransactionId(String transactionId) {
+        TransactionId = transactionId;
+    }
+
     public String getTransactionId() {
         return TransactionId;
     }
+
+
 
     public double getTransType() {
         return TransType;
@@ -600,6 +606,10 @@ public class CalculatePosTransactionRes implements Serializable {
         return CouponCode;
     }
 
+    public void setCouponCode(String couponCode) {
+        CouponCode = couponCode;
+    }
+
     public String getCorpCode() {
         return CorpCode;
     }
@@ -758,5 +768,278 @@ public class CalculatePosTransactionRes implements Serializable {
 
     public void setCustAddress(String custAddress) {
         CustAddress = custAddress;
+    }
+
+
+    public void setVendorId(String vendorId) {
+        VendorId = vendorId;
+    }
+
+    public void setType(double type) {
+        Type = type;
+    }
+
+    public void setTransType(double transType) {
+        TransType = transType;
+    }
+
+    public void setTransDate(String transDate) {
+        TransDate = transDate;
+    }
+
+    public void setTotalTaxAmount(double totalTaxAmount) {
+        TotalTaxAmount = totalTaxAmount;
+    }
+
+    public void setTotalManualDiscountPercentage(double totalManualDiscountPercentage) {
+        TotalManualDiscountPercentage = totalManualDiscountPercentage;
+    }
+
+    public void setTotalManualDiscountAmount(double totalManualDiscountAmount) {
+        TotalManualDiscountAmount = totalManualDiscountAmount;
+    }
+
+    public void setTotalMRP(double totalMRP) {
+        TotalMRP = totalMRP;
+    }
+
+    public void setTotalDiscAmount(double totalDiscAmount) {
+        TotalDiscAmount = totalDiscAmount;
+    }
+
+    public void setTimewhenTransClosed(double timewhenTransClosed) {
+        TimewhenTransClosed = timewhenTransClosed;
+    }
+
+    public void setTerminal(String terminal) {
+        Terminal = terminal;
+    }
+
+    public void setTenderLine(List<TenderLineEntity> tenderLine) {
+        TenderLine = tenderLine;
+    }
+
+    public void setStoreName(String storeName) {
+        StoreName = storeName;
+    }
+
+    public void setStore(String store) {
+        Store = store;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public void setStaff(String staff) {
+        Staff = staff;
+    }
+
+    public void setShippingMethod(String shippingMethod) {
+        ShippingMethod = shippingMethod;
+    }
+
+    public void setSalesOrigin(String salesOrigin) {
+        SalesOrigin = salesOrigin;
+    }
+
+    public void setSEZ(double SEZ) {
+        this.SEZ = SEZ;
+    }
+
+    public void setRoundedAmount(double roundedAmount) {
+        RoundedAmount = roundedAmount;
+    }
+
+    public void setReturnTransactionId(String returnTransactionId) {
+        ReturnTransactionId = returnTransactionId;
+    }
+
+    public void setReturnReceiptId(String returnReceiptId) {
+        ReturnReceiptId = returnReceiptId;
+    }
+
+    public void setReturnMessage(String returnMessage) {
+        ReturnMessage = returnMessage;
+    }
+
+    public void setRequestStatus(double requestStatus) {
+        RequestStatus = requestStatus;
+    }
+
+    public void setReminderDays(double reminderDays) {
+        ReminderDays = reminderDays;
+    }
+
+    public void setRegionCode(String regionCode) {
+        RegionCode = regionCode;
+    }
+
+    public void setReciptId(String reciptId) {
+        ReciptId = reciptId;
+    }
+
+    public void setREFNO(String REFNO) {
+        this.REFNO = REFNO;
+    }
+
+    public void setPosEvent(double posEvent) {
+        PosEvent = posEvent;
+    }
+
+    public void setPincode(String pincode) {
+        Pincode = pincode;
+    }
+
+    public void setPaymentSource(String paymentSource) {
+        PaymentSource = paymentSource;
+    }
+
+    public void setOrderType(String orderType) {
+        OrderType = orderType;
+    }
+
+    public void setOrderSource(String orderSource) {
+        OrderSource = orderSource;
+    }
+
+    public void setNumberofItems(double numberofItems) {
+        NumberofItems = numberofItems;
+    }
+
+    public void setNumberofItemLines(double numberofItemLines) {
+        NumberofItemLines = numberofItemLines;
+    }
+
+    public void setNetAmountInclTax(double netAmountInclTax) {
+        NetAmountInclTax = netAmountInclTax;
+    }
+
+    public void setNetAmount(double netAmount) {
+        NetAmount = netAmount;
+    }
+
+    public void setMobileNO(String mobileNO) {
+        MobileNO = mobileNO;
+    }
+
+    public void setVoid(boolean aVoid) {
+        IsVoid = aVoid;
+    }
+
+    public void setStockCheck(boolean stockCheck) {
+        IsStockCheck = stockCheck;
+    }
+
+    public void setRepeatBill(boolean repeatBill) {
+        IsRepeatBill = repeatBill;
+    }
+
+    public void setManualBill(boolean manualBill) {
+        IsManualBill = manualBill;
+    }
+
+    public void setISReturnAllowed(boolean ISReturnAllowed) {
+        this.ISReturnAllowed = ISReturnAllowed;
+    }
+
+    public void setISReserved(boolean ISReserved) {
+        this.ISReserved = ISReserved;
+    }
+
+    public void setISPrescibeDiscount(boolean ISPrescibeDiscount) {
+        this.ISPrescibeDiscount = ISPrescibeDiscount;
+    }
+
+    public void setISPosted(boolean ISPosted) {
+        this.ISPosted = ISPosted;
+    }
+
+    public void setISOMSOrder(boolean ISOMSOrder) {
+        this.ISOMSOrder = ISOMSOrder;
+    }
+
+    public void setISBatchModifiedAllowed(boolean ISBatchModifiedAllowed) {
+        this.ISBatchModifiedAllowed = ISBatchModifiedAllowed;
+    }
+
+    public void setISAdvancePayment(boolean ISAdvancePayment) {
+        this.ISAdvancePayment = ISAdvancePayment;
+    }
+
+    public void setIPSerialNO(String IPSerialNO) {
+        this.IPSerialNO = IPSerialNO;
+    }
+
+    public void setIPNO(String IPNO) {
+        this.IPNO = IPNO;
+    }
+
+    public void setGrossAmount(double grossAmount) {
+        GrossAmount = grossAmount;
+    }
+
+    public void setEntryStatus(double entryStatus) {
+        EntryStatus = entryStatus;
+    }
+
+    public void setDiscAmount(double discAmount) {
+        DiscAmount = discAmount;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        DeliveryDate = deliveryDate;
+    }
+
+    public void setDataAreaId(String dataAreaId) {
+        DataAreaId = dataAreaId;
+    }
+
+    public void setCustDiscamount(double custDiscamount) {
+        CustDiscamount = custDiscamount;
+    }
+
+    public void setCustAccount(String custAccount) {
+        CustAccount = custAccount;
+    }
+
+    public void setCurrency(String currency) {
+        Currency = currency;
+    }
+
+    public void setCreatedonPosTerminal(String createdonPosTerminal) {
+        CreatedonPosTerminal = createdonPosTerminal;
+    }
+
+    public void setCorpCode(String corpCode) {
+        CorpCode = corpCode;
+    }
+
+    public void setComment(String comment) {
+        Comment = comment;
+    }
+
+    public void setChannel(String channel) {
+        Channel = channel;
+    }
+
+    public void setCancelReasonCode(String cancelReasonCode) {
+        CancelReasonCode = cancelReasonCode;
+    }
+
+    public void setBusinessDate(String businessDate) {
+        BusinessDate = businessDate;
+    }
+
+    public void setBillingCity(String billingCity) {
+        BillingCity = billingCity;
+    }
+
+    public void setBatchTerminalid(String batchTerminalid) {
+        BatchTerminalid = batchTerminalid;
+    }
+
+    public void setAmounttoAccount(double amounttoAccount) {
+        AmounttoAccount = amounttoAccount;
     }
 }

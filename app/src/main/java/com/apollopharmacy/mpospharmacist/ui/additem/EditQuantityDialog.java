@@ -71,7 +71,7 @@ public class EditQuantityDialog {
                 editQuantityDialogBinding.editQuantityEditText.setError("Please Enter Valid Quantity");
                 return false;
             }else {
-                editItem.setQty(getEnteredQuantity());
+               // editItem.setQty(getEnteredQuantity());
                 return true;
             }
         }else{

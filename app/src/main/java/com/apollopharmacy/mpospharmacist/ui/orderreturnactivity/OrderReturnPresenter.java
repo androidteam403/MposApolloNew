@@ -1,11 +1,16 @@
 package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity;
 
+import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDReqModel;
+import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +38,17 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     }
 
     @Override
+    public GetGlobalConfingRes getGlobalConfing() {
+       return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public String terminalId() {
+        return getDataManager().getTerminalId();
+    }
+
+
+    @Override
     public void trackingWiseReturnAllowed(String corpId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -41,15 +57,18 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             call.enqueue(new Callback<TrackingWiseReturnAllowedRes>() {
                 @Override
                 public void onResponse(@NotNull Call<TrackingWiseReturnAllowedRes> call, @NotNull Response<TrackingWiseReturnAllowedRes> response) {
-                    getMvpView().hideLoading();
+                   // getMvpView().hideLoading();
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
-                        if(response.body().getResultValue().equalsIgnoreCase("1")){
+                        if(response.body().getResultValue().equalsIgnoreCase("True") || response.body().getResultValue().equalsIgnoreCase("true") ){
                             getMvpView().isCorpAllowedReturn(true);
+                            getTransactionID();
                         }else{
+                            getMvpView().hideLoading();
                             getMvpView().isCorpAllowedReturn(false);
                         }
 
                     } else {
+                        getMvpView().hideLoading();
                         if (response.body() != null) {
                             getMvpView().showMessage(response.body().getReturnMessage());
                         }
@@ -58,6 +77,48 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
                 @Override
                 public void onFailure(@NotNull Call<TrackingWiseReturnAllowedRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getTransactionID() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService();
+            TransactionIDReqModel transactionIDModel = new TransactionIDReqModel();
+            transactionIDModel.setRequestStatus(0);
+            transactionIDModel.setReturnMessage("");
+            transactionIDModel.setResultValue("");
+            transactionIDModel.setTransactionID("");
+            transactionIDModel.setStoreID(getGlobalConfing().getStoreID());
+            transactionIDModel.setTerminalID(getDataManager().getTerminalId());
+            transactionIDModel.setDataAreaID(getGlobalConfing().getDataAreaID());
+            transactionIDModel.setBillingMode(5);
+            Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
+            call.enqueue(new Callback<TransactionIDResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                        getMvpView().setTransactionId(response.body().getTransactionID());
+                    }else{
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }else{
+                            getMvpView().showMessage(R.string.some_error);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }
@@ -79,11 +140,11 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("Order Cancelled", "Receipt Number: " + response.body().getReturnReceiptId());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showMessage(response.body().getReturnMessage());
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
                         }
                     }
                 }
@@ -106,12 +167,29 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
     @Override
     public void onCancelCLick(CalculatePosTransactionRes posTransactionRes) {
-        getMvpView().showInfoPopup("Cancel Order", "Do you want to Cancel Order?", true,false);
+        if (isAllowOrNot(posTransactionRes)) {
+            getMvpView().showInfoPopup("Cancel Order", "Do you want to Cancel Order?", true, false);
+        }else{
+            getMvpView().showCancelOrderSuccess("","Transaction Already Cancelled!!");
+        }
     }
 
     @Override
     public void onReOrderClick(CalculatePosTransactionRes posTransactionRes) {
-        getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false,true);
+        if (isAllowOrNot(posTransactionRes)) {
+            getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false, true);
+        } else {
+            getMvpView().showCancelOrderSuccess("", "Transaction Already Cancelled!!");
+        }
+    }
+
+    private boolean isAllowOrNot(CalculatePosTransactionRes posTransactionRes){
+        for(SalesLineEntity salesLineEntity : posTransactionRes.getSalesLine()){
+            if(salesLineEntity.getQty() != salesLineEntity.getRemainingQty()){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -128,7 +206,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("Return successfully ", "Receipt Number: " + response.body().getReturnReceiptId());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.apollopharmacy.mpospharmacist.databinding.DialogWalletPaymentBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
+import com.apollopharmacy.mpospharmacist.utils.DecimalDigitsInputFilter;
 
 public class WalletPaymentDialog {
 
@@ -35,7 +37,7 @@ public class WalletPaymentDialog {
     }
 
     private void setUp() {
-
+        walletPaymentBinding.walletAmountEdit.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(100,2)});
     }
 
 

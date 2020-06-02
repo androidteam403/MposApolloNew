@@ -131,6 +131,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body POSTransactionEntity posTransactionReq);
 
+    @POST("SalesTransactionService.svc/ChangeQty/{lineNumber}/{quantity}")
+    Call<CalculatePosTransactionRes> CHANGE_QUANTITY_RES_CALL (@Path("lineNumber") int lineNumber, @Path("quantity") int quantity, @Body POSTransactionEntity posTransactionReq);
+
     @POST("SalesTransactionService.svc/CheckProductTrackingWise")
     Call<CalculatePosTransactionRes> CHECK_PRODUCT_TRACKING_WISE_RES_CALL (@Body POSTransactionEntity posTransactionReq);
 

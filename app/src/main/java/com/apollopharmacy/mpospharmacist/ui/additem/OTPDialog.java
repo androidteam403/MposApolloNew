@@ -85,4 +85,8 @@ public class OTPDialog {
         this.otp = otp;
     }
 
+    public String getEnteredOTP(){
+       return dialogOtpViewBinding.otpEditText.getText().toString();
+    }
+
 }

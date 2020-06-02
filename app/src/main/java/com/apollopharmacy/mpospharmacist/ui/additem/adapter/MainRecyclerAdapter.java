@@ -93,13 +93,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                             if (item.getIsVoid()) {
                                 if (addItemMvpView != null) {
                                   //  item.setVoid(false);
-                                    viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
+                                 //   viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
                                     addItemMvpView.onItemAdded(item.getLineNo());
                                 }
                             } else {
                                 if (addItemMvpView != null) {
                                    // item.setVoid(true);
-                                    viewHolder.mActionViewRefresh.setVisibility(View.GONE);
+                                 //   viewHolder.mActionViewRefresh.setVisibility(View.GONE);
                                     addItemMvpView.onItemDeleted(item.getLineNo());
                                 }
                             }

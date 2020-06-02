@@ -24,10 +24,12 @@
         android:fontFamily="@font/roboto_light"
         android:gravity="center_vertical|center_horizontal"
         android:inputType="number"
-        android:maxLength="3"
+        android:digits="0123456789."
         android:textColor="@color/black"
         android:layout_alignParentEnd="true"
-        android:text="@{String.valueOf(displayItem.discountValue)}"/>
+        android:cursorVisible="false"
+        android:text="0"
+        android:imeOptions="actionNext"/>
 
 </RelativeLayout>
 </layout>
