@@ -46,6 +46,7 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
         Bundle bundle = new Bundle();
         bundle.putSerializable("corporate_list", corporateModel);
         intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

@@ -78,6 +78,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
         intent.putExtra("user_id", userID);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
 
     }

@@ -63,6 +63,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         intent.putExtra("transaction_id", transactionID);
         bundle.putSerializable("selected_item", items);
         intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

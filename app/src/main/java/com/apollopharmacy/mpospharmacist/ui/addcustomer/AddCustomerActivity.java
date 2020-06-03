@@ -51,6 +51,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         Intent intent = new Intent(context, AddCustomerActivity.class);
         intent.putExtra("is_edit_mode",isEdit);
         intent.putExtra("customer_number", inputNumber);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

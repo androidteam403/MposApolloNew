@@ -49,6 +49,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     public static Intent getStartIntent(Context context, CalculatePosTransactionRes model) {
         Intent intent = new Intent(context, OrderReturnActivity.class);
         intent.putExtra("order_history_info", model);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 
