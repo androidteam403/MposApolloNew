@@ -155,4 +155,25 @@ public class CommonUtils {
         }
         return "";
     }
+
+    public static int checkCancelledDateTime(String canceledDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        Date endDateTime = null;
+        Date currentDate = null;
+        try {
+            endDateTime = dateFormat.parse(canceledDate);
+            currentDate = dateFormat.parse(new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int startEndCatalogDate = 0;
+        if (endDateTime != null) {
+            if (endDateTime.before(currentDate)) {
+                startEndCatalogDate = 1;
+            } else if (endDateTime.after(currentDate)) {
+                startEndCatalogDate = -1;
+            }
+        }
+        return startEndCatalogDate;
+    }
 }
