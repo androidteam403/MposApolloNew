@@ -146,7 +146,7 @@ public interface AddItemMvpView extends MvpView {
 
     void closeOrderSuccess();
 
-    void showOTPPopUp(String otp);
+    void showOTPPopUp(double amount,String otp);
 
     void showCreditPayment(double amount, GetTrackingWiseConfing._TrackingConfigrationEntity entity);
 

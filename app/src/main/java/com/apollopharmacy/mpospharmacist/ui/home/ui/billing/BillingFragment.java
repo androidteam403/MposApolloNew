@@ -110,6 +110,25 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
                 }
             }
         });
+
+        fragmentBillingBinding.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
+                    fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
+                }
+            }
+        });
     }
 
     @Override

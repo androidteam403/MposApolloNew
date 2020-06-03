@@ -509,7 +509,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="Prg.Tracking"
                         android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15"

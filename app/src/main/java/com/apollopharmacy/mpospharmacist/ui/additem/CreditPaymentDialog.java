@@ -84,6 +84,9 @@ public class CreditPaymentDialog {
         dialogCreditPaymentBinding.subtitle.setText(subtitle);
     }
 
+    public void setBalanceAmount(String amount){
+        dialogCreditPaymentBinding.balanceAmount.setText(amount);
+    }
     public void setPositiveLabel(String positive) {
         dialogCreditPaymentBinding.dialogButtonOK.setText(positive);
     }

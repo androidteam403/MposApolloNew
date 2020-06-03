@@ -41,10 +41,12 @@ public class DashBoardFragment extends BaseFragment implements DashBoardMvpView 
         @Override
         public void onAvailable(@NotNull Network network) {
             // network available
-            getBaseActivity().runOnUiThread(() -> {
-                dashboardBinding.internet.setTextColor(getResources().getColor(R.color.order_success_color));
-                dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
-            });
+            if(getBaseActivity() != null) {
+                getBaseActivity().runOnUiThread(() -> {
+                    dashboardBinding.internet.setTextColor(getResources().getColor(R.color.order_success_color));
+                    dashboardBinding.internetimagebackground.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
+                });
+            }
         }
 
         @Override

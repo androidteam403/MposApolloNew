@@ -162,7 +162,7 @@ public  class ManualDiscCheckRes {
         private String RetailCategoryId;
         @Expose
         @SerializedName("DiscountValue")
-        private int DiscountValue;
+        private double DiscountValue;
         @Expose
         @SerializedName("CategoryCode")
         private String CategoryCode;
@@ -171,7 +171,7 @@ public  class ManualDiscCheckRes {
             return RetailCategoryId;
         }
 
-        public int getDiscountValue() {
+        public double getDiscountValue() {
             return DiscountValue;
         }
 
@@ -184,7 +184,7 @@ public  class ManualDiscCheckRes {
 
         @Expose
         @SerializedName("DiscountValue")
-        private int DiscountValue;
+        private double DiscountValue;
         @Expose
         @SerializedName("CategoryDescription")
         private String CategoryDescription;
@@ -192,7 +192,7 @@ public  class ManualDiscCheckRes {
         @SerializedName("CategoryCode")
         private String CategoryCode;
 
-        public int getDiscountValue() {
+        public double getDiscountValue() {
             return DiscountValue;
         }
 
@@ -204,7 +204,7 @@ public  class ManualDiscCheckRes {
             return CategoryCode;
         }
 
-        public void setDiscountValue(int discountValue) {
+        public void setDiscountValue(double discountValue) {
             DiscountValue = discountValue;
         }
     }

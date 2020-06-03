@@ -369,7 +369,7 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/pay_btn_color"
+                    android:background="@color/cart_price_bg"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:onClick="@{()-> callback.onReturnClick(item)}"
@@ -405,7 +405,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:onClick="@{()-> callback.onCancelCLick(item)}"
-                    android:text="@string/label_cancel"
+                    android:text="Cancel All"
                     android:textSize="@dimen/text_dimen_16"
                     android:textStyle="bold" />
 

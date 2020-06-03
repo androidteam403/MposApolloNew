@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -41,8 +42,10 @@ public class ManualDiscDialog {
         dialog.setCanceledOnTouchOutside(false);
         maunalDiscDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.maunal_disc_dialog, null, false);
         dialog.setContentView(maunalDiscDialogBinding.getRoot());
-        if (dialog.getWindow() != null)
+        if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
         setUp();
     }
 

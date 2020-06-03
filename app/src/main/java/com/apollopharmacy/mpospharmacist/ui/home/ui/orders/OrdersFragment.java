@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.orders;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -43,6 +45,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class OrdersFragment extends BaseFragment implements OrdersMvpView {
 
@@ -53,7 +57,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     private OrdersAdapter ordersAdapter;
     private FiltersReq filtersReq = new FiltersReq();
     private BottomSheetFragment bottomSheetFragment;
-
+    public static final int REQUEST_CODE = 1;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentOrderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false);
 
@@ -75,25 +79,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
         fragmentOrderBinding.orderrecycle.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL));
         fragmentOrderBinding.orderrecycle.setItemAnimator(new DefaultItemAnimator());
         fragmentOrderBinding.orderrecycle.setAdapter(ordersAdapter);
-        filtersReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
-        filtersReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
-        filtersReq.setMobile("");
-        filtersReq.setOrderId("");
-
-         Date today = new Date();
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(today);
-         int dayOfWeek = cal.get(Calendar.DAY_OF_MONTH);
-         int dayOfMonth = cal.get(Calendar.MONTH);
-         int dayOfYear = cal.get(Calendar.YEAR); //169
-
-        filtersReq.setFrom_date(dayOfWeek);
-        filtersReq.setFrom_Month(dayOfMonth);
-        filtersReq.setFrom_Year(dayOfYear);
-        filtersReq.setTo_date(dayOfWeek);
-        filtersReq.setTo_month(dayOfMonth);
-        filtersReq.setTo_year(dayOfYear);
-        mPresenter.getOrdersDetails();
+        apiOrdersCall();
     }
 
     @Override
@@ -146,7 +132,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
 
     @Override
     public void onItemClick(CalculatePosTransactionRes item) {
-        startActivity(OrderReturnActivity.getStartIntent(getActivity(), item));
+        startActivityForResult(OrderReturnActivity.getStartIntent(getActivity(), item),REQUEST_CODE);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -198,5 +184,40 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
                 mPresenter.orderServiceCall(orderListReq);
             }
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+            if(data != null) {
+                boolean isUpdated = data.getBooleanExtra("isUpdated", false);
+                if(isUpdated){
+                    apiOrdersCall();
+                }
+            }
+        }
+    }
+
+    private void apiOrdersCall(){
+        filtersReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        filtersReq.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
+        filtersReq.setMobile("");
+        filtersReq.setOrderId("");
+
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_MONTH);
+        int dayOfMonth = cal.get(Calendar.MONTH);
+        int dayOfYear = cal.get(Calendar.YEAR); //169
+
+        filtersReq.setFrom_date(dayOfWeek);
+        filtersReq.setFrom_Month(dayOfMonth);
+        filtersReq.setFrom_Year(dayOfYear);
+        filtersReq.setTo_date(dayOfWeek);
+        filtersReq.setTo_month(dayOfMonth);
+        filtersReq.setTo_year(dayOfYear);
+        mPresenter.getOrdersDetails();
     }
 }

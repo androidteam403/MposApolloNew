@@ -82,7 +82,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
             transactionIDModel.setTransactionID("");
             transactionIDModel.setStoreID(getDataManager().getStoreId());
             transactionIDModel.setTerminalID(getDataManager().getTerminalId());
-            transactionIDModel.setDataAreaID("AHEL");
+            transactionIDModel.setDataAreaID(getDataManager().getDataAreaId());
             transactionIDModel.setBillingMode(5);
             Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
             call.enqueue(new Callback<TransactionIDResModel>() {
