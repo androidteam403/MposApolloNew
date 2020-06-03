@@ -23,6 +23,7 @@ import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.OrderReturnAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.PaidListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel;
+import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 
 import java.text.ParseException;
@@ -135,16 +136,16 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     }
 
     private void getPaymentTypes() {
-        arrPayAdapterModel.add(new OrderReturnModel("Total Amount",orderHistoryItem.getGrossAmount()- orderHistoryItem.getDiscAmount()));
+        arrPayAdapterModel.add(new OrderReturnModel("Total Amount", orderHistoryItem.getGrossAmount() - orderHistoryItem.getDiscAmount()));
         for (int i = 0; i < orderHistoryItem.getTenderLine().size(); i++) {
-            OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(),  orderHistoryItem.getTenderLine().get(i).getAmountTendered());
+            OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(), orderHistoryItem.getTenderLine().get(i).getAmountTendered());
             arrPayAdapterModel.add(orderReturnModel);
-            if(orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("2") || orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("card")  ){
+            if (orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("2") || orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("card")) {
                 isCardPayment = true;
             }
         }
-        if(orderHistoryItem.getRemainingamount() != 0) {
-            arrPayAdapterModel.add(new OrderReturnModel("Pay Back Amount",orderHistoryItem.getRemainingamount()));
+        if (orderHistoryItem.getRemainingamount() != 0) {
+            arrPayAdapterModel.add(new OrderReturnModel("Pay Back Amount", orderHistoryItem.getRemainingamount()));
         }
     }
 
@@ -184,24 +185,35 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                if(isCancelOrder){
+                if (isCancelOrder) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
                     try {
-                        Date d1 = sdf.parse(orderHistoryItem.getBusinessDate());
-                        if (d1 != null) {
-                            if(d1.compareTo(new Date()) == 0 || isCardPayment){
-                                showCancelOrderSuccess("","Cancelation Not Allowed!!");
-                            }else {
+                        if (isCardPayment) {
+                            showCancelOrderSuccess("", "Cancellation Not Allowed!!");
+                        } else {
+                            if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
+                                showCancelOrderSuccess("", "Cancellation Not Allowed!!");
+                            } else {
                                 orderHistoryItem.setReturnType(0);
                                 orderHistoryItem.setReturn(true);
                                 mvpPresenter.cancelDSBilling(orderHistoryItem);
                             }
+//                            Date d1 = sdf.parse(orderHistoryItem.getBusinessDate());
+//                            if (d1 != null) {
+////                                if (d1.compareTo(new Date()) == 0 || isCardPayment) {
+////                                    showCancelOrderSuccess("", "Cancelation Not Allowed!!");
+////                                } else {
+////                                    orderHistoryItem.setReturnType(0);
+////                                    orderHistoryItem.setReturn(true);
+////                                    mvpPresenter.cancelDSBilling(orderHistoryItem);
+////                                }
+//                            }
                         }
-                    } catch (ParseException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                }else if(isReturnAll){
+                } else if (isReturnAll) {
                     orderHistoryItem.setReturnType(0);
                     orderHistoryItem.setReturn(true);
                     mvpPresenter.orderReturnAll(orderHistoryItem);
@@ -240,15 +252,15 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 
     @Override
     public void partialReturnOrder() {
-        if(!orderReturnActiivtyBinding.getIsReturn()) {
+        if (!orderReturnActiivtyBinding.getIsReturn()) {
             for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
                 orderHistoryItem.getSalesLine().get(i).setReturnClick(true);
                 orderReturnAdapter.notifyItemChanged(i);
             }
-           // orderReturnAdapter.notifyDataSetChanged();
+            // orderReturnAdapter.notifyDataSetChanged();
             orderReturnActiivtyBinding.setIsReturn(true);
-        }else{
-            if(!isItemChecked()) {
+        } else {
+            if (!isItemChecked()) {
                 ExitInfoDialog dialogView = new ExitInfoDialog(this);
                 dialogView.setTitle("Alert");
                 dialogView.setPositiveLabel("OK");
@@ -260,10 +272,10 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                         dialogView.dismiss();
                     }
                 });
-                if(!dialogView.isDisplay())
+                if (!dialogView.isDisplay())
                     dialogView.show();
 
-            }else if(!isItemQuantity()){
+            } else if (!isItemQuantity()) {
                 ExitInfoDialog dialogView = new ExitInfoDialog(this);
                 dialogView.setTitle("Alert");
                 dialogView.setDialogDismiss();
@@ -275,32 +287,32 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                         dialogView.dismiss();
                     }
                 });
-                if(!dialogView.isDisplay())
+                if (!dialogView.isDisplay())
                     dialogView.show();
-            }else{
+            } else {
                 orderHistoryItem.setReturnType(1);
                 mvpPresenter.orderReturnAll(orderHistoryItem);
             }
         }
     }
 
-    private boolean isItemChecked(){
+    private boolean isItemChecked() {
         boolean isValid = false;
         for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
-            if(orderHistoryItem.getSalesLine().get(i).getIsChecked()){
+            if (orderHistoryItem.getSalesLine().get(i).getIsChecked()) {
                 return true;
             }
         }
         return isValid;
     }
 
-    private boolean isItemQuantity(){
+    private boolean isItemQuantity() {
         boolean isValid = false;
         for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
-            if(orderHistoryItem.getSalesLine().get(i).getIsChecked()){
-                if(orderHistoryItem.getSalesLine().get(i).getReturnQty() != 0){
+            if (orderHistoryItem.getSalesLine().get(i).getIsChecked()) {
+                if (orderHistoryItem.getSalesLine().get(i).getReturnQty() != 0) {
                     isValid = true;
-                }else{
+                } else {
                     isValid = false;
                     return isValid;
                 }

@@ -125,7 +125,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel,CalculatePosTransactionRes calculatePosTransactionRes) {
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, CalculatePosTransactionRes calculatePosTransactionRes) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("customer_info", customerEntity);
         intent.putExtra("doctor_info", doctor);
@@ -292,7 +292,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
 
 
-
         addItemBinding.detailsLayout.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -311,23 +310,21 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         });
         addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
-           mPresenter.checkAllowedPaymentMode(paymentMethodModel);
+        mPresenter.checkAllowedPaymentMode(paymentMethodModel);
     }
 
     @Override
     public void onBackPressed() {
-        if(addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()){
+        if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             addItemBinding.setIsPaymentMode(false);
             paymentMethodModel.setGenerateBill(false);
-        }else{
+        } else {
             if (mPresenter.getTenderLineEntities().getTenderLine().size() > 0) {
-                partialPaymentDialog("Alert!","Partial Payment done,Kindly void payment lines");
+                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
             } else {
                 alertDialog();
             }
         }
-
-
     }
 
     @Override
@@ -422,7 +419,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             paymentMethodModel.setGenerateBill(true);
         }
-       // addItemBinding.setIsPaymentMode(true);
+        // addItemBinding.setIsPaymentMode(true);
         updatePayedAmount(calculatePosTransactionRes);
         addItemBinding.setIsPaymentMode(true);
         setEnableEditTextChange();
@@ -517,6 +514,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     ValidatePointsResModel.OneApolloProcessResultEntity validatePointsResModel;
+
     @Override
     public ValidatePointsResModel.OneApolloProcessResultEntity getValidateOneApolloPoints() {
         return validatePointsResModel;
@@ -565,7 +563,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setOneApolloMode(false);
         paymentMethodModel.setWalletMode(false);
         paymentMethodModel.setCreditMode(false);
-        addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f",(orderRemainingAmount())));
+        addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f", (orderRemainingAmount())));
     }
 
     @Override
@@ -578,7 +576,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setPhonePeMode(false);
         paymentMethodModel.setPaytmMode(false);
         paymentMethodModel.setAirtelMode(false);
-        addItemBinding.cashPaymentAmountEdit.setText(String.format("%.2f",(orderRemainingAmount())));
+        addItemBinding.cashPaymentAmountEdit.setText(String.format("%.2f", (orderRemainingAmount())));
     }
 
     @Override
@@ -691,7 +689,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body) {
         showMessage("Failed SaveRetailTransaction");
     }
-CalculatePosTransactionRes calculatePosTransactionRes ;
+
+    CalculatePosTransactionRes calculatePosTransactionRes;
+
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
         calculatePosTransactionRes = posTransactionRes;
@@ -713,13 +713,13 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setTaxAmount(posTransactionRes.getTotalTaxAmount());
-        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount())- paymentDoneAmount)));
+        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount()) - paymentDoneAmount)));
         if (posTransactionRes.getSalesLine().size() > 0) {
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
             orderPriceInfoModel.setPlTotalAmount(0);
             for (int i = 0; i < posTransactionRes.getSalesLine().size(); i++) {
-                if(!posTransactionRes.getSalesLine().get(i).getIsVoid()) {
+                if (!posTransactionRes.getSalesLine().get(i).getIsVoid()) {
                     if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
                         orderPriceInfoModel.setPharmaTotalAmount(orderPriceInfoModel.getPharmaTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                     else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("F"))
@@ -737,10 +737,10 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
             Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
             medicinesDetailAdapter.notifyDataSetChanged();
         }
-        if(getItemsCount() !=0) {
+        if (getItemsCount() != 0) {
             addItemBinding.setItemsCount(getItemsCount());
             addItemBinding.setProductCount(getItemsCount());
-        }else{
+        } else {
             addItemBinding.setItemsCount(getItemsCount());
             addItemBinding.footer.setVisibility(View.GONE);
         }
@@ -766,15 +766,15 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     public void onSuccessOneApolloSendOtp(ValidatePointsResModel.OneApolloProcessResultEntity resultEntity) {
         paymentMethodModel.setOTPView(true);
         validatePointsResModel = resultEntity;
-     //   addItemBinding.setValidatePoints(resultEntity);
+        //   addItemBinding.setValidatePoints(resultEntity);
     }
 
     @Override
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()),null);
-      //  pdatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
+        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()), null);
+        //  pdatePayedAmount(Double.parseDouble(getOneApolloPoints()), 3);
     }
 
     @Override
@@ -792,10 +792,10 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         mPresenter.voidProduct(lineNumber);
     }
 
-    private int getItemsCount(){
+    private int getItemsCount() {
         int count = 0;
-        for(SalesLineEntity items : Singletone.getInstance().itemsArrayList){
-            if(!items.getIsVoid()){
+        for (SalesLineEntity items : Singletone.getInstance().itemsArrayList) {
+            if (!items.getIsVoid()) {
                 count++;
             }
         }
@@ -804,18 +804,18 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public void onItemEdit(SalesLineEntity item) {
-        EditQuantityDialog  dialogView = new EditQuantityDialog(this);
+        EditQuantityDialog dialogView = new EditQuantityDialog(this);
         dialogView.setItemData(item);
         dialogView.setTitle("Change Quantity");
         dialogView.setPositiveLabel("Ok");
-        dialogView.setSubtitle("Actual Quantity "+item.getQty());
+        dialogView.setSubtitle("Actual Quantity " + item.getQty());
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dialogView.validateQuantity()){
+                if (dialogView.validateQuantity()) {
                     medicinesDetailAdapter.notifyDataSetChanged();
                     dialogView.dismiss();
-                    mPresenter.changeQuantity(item,dialogView.getEnteredQuantity());
+                    mPresenter.changeQuantity(item, dialogView.getEnteredQuantity());
                     //mPresenter.calculatePosTransaction();
                 }
             }
@@ -846,17 +846,18 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     public double orderTotalAmount() {
         OrderPriceInfoModel priceInfoModel = addItemBinding.getOrderInfo();
         if (priceInfoModel != null)
-            return Double.parseDouble(String.format("%.2f",priceInfoModel.getOrderTotalAmount()));
+            return Double.parseDouble(String.format("%.2f", priceInfoModel.getOrderTotalAmount()));
         else
             return 0;
     }
 
     @Override
     public double orderRemainingAmount() {
-        return Double.parseDouble(String.format("%.2f",(orderTotalAmount()- paymentDoneAmount)));
+        return Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount)));
     }
 
     private boolean isGeneratedBill = false;
+
     @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
         isGeneratedBill = false;
@@ -865,18 +866,18 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.oneApolloAmountEditText.setText("");
         addItemBinding.creditPaymentAmountEdit.setText("");
-        if(transactionRes.getTenderLine().size()>0){
+        if (transactionRes.getTenderLine().size() > 0) {
             paymentMethodModel.setPaymentInitiate(true);
             arrPayAdapterModel.clear();
             paymentDoneAmount = 0.0;
-            for(TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()){
+            for (TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()) {
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
                     paymentDoneAmount += tenderLineEntity.getAmountTendered();
                     if (paymentDoneAmount == orderTotalAmount()) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
                         isGeneratedBill = true;
-                        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
+                        paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                         paymentMethodModel.setBalanceAmount(false);
                     } else {
                         double balanceAmt = orderTotalAmount() - paymentDoneAmount;
@@ -884,14 +885,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                             paymentMethodModel.setPaymentDone(true);
                             paymentMethodModel.setGenerateBill(true);
                             isGeneratedBill = true;
-                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
-                            if(balanceAmt == 0) {
+                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
+                            if (balanceAmt == 0) {
                                 paymentMethodModel.setBalanceAmount(false);
-                            }else{
+                            } else {
                                 paymentMethodModel.setBalanceAmount(true);
                             }
                         } else {
-                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
+                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                             paymentMethodModel.setBalanceAmount(true);
                             paymentMethodModel.setPaymentDone(false);
                         }
@@ -906,9 +907,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                 }
             }
             payActivityAdapter.notifyDataSetChanged();
-        }else{
+        } else {
             paymentDoneAmount = 0;
-            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f",(orderTotalAmount() - paymentDoneAmount))));
+            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
             paymentMethodModel.setBalanceAmount(false);
             paymentMethodModel.setPaymentInitiate(false);
             paymentMethodModel.setPaymentDone(false);
@@ -918,14 +919,14 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         }
 
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
-        if(isGeneratedBill){
-            mPresenter.onClickGenerateBill();
-        }
+//        if (isGeneratedBill) {
+//            mPresenter.onClickGenerateBill();
+//        }
     }
 
     @Override
     public void toRemovePayedAmount(int position) {
-        if(calculatePosTransactionRes.getTenderLine().size() > 0) {
+        if (calculatePosTransactionRes.getTenderLine().size() > 0) {
             calculatePosTransactionRes.getTenderLine().remove(position);
         }
         updatePayedAmount(calculatePosTransactionRes);
@@ -938,7 +939,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 //        paymentMethodModel.setPaymentDone(false);
 //        paymentMethodModel.setGenerateBill(false);
     }
-    private ManualDiscDialog  manualDiscDialog;
+
+    private ManualDiscDialog manualDiscDialog;
+
     @Override
     public void openManualDiscDialog(ManualDiscCheckRes body) {
         manualDiscDialog = new ManualDiscDialog(this);
@@ -947,7 +950,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         manualDiscDialog.setApplyDiscListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.toApplyManualDisc(body,manualDiscDialog.getDisplayListArrayList(),manualDiscDialog.getFixedDiscountCode());
+                mPresenter.toApplyManualDisc(body, manualDiscDialog.getDisplayListArrayList(), manualDiscDialog.getFixedDiscountCode());
                 manualDiscDialog.dismiss();
 
             }
@@ -961,8 +964,8 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         manualDiscDialog.setValidateOTPListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(manualDiscDialog.isValidateOTP()){
-                    mPresenter.toApplyManualDisc(body,manualDiscDialog.getDisplayListArrayList(),manualDiscDialog.getFixedDiscountCode());
+                if (manualDiscDialog.isValidateOTP()) {
+                    mPresenter.toApplyManualDisc(body, manualDiscDialog.getDisplayListArrayList(), manualDiscDialog.getFixedDiscountCode());
                     manualDiscDialog.dismiss();
                 }
 
@@ -1001,7 +1004,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public void generateOTPResponseSuccess(String otp) {
-        if(manualDiscDialog != null){
+        if (manualDiscDialog != null) {
             manualDiscDialog.visibleValidateOtp(otp);
         }
     }
@@ -1034,17 +1037,17 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
     @Override
-    public void showOTPPopUp(double amount,String otp) {
-        OTPDialog  dialogView = new OTPDialog(this);
+    public void showOTPPopUp(double amount, String otp) {
+        OTPDialog dialogView = new OTPDialog(this);
         dialogView.setOTP(otp);
         dialogView.setTitle("OTP");
         dialogView.setPositiveLabel("Ok");
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dialogView.validateOTP()){
+                if (dialogView.validateOTP()) {
                     dialogView.dismiss();
-                    mPresenter.getPharmacyStaffApiDetails(dialogView.getEnteredOTP(),"VALOTP",amount);
+                    mPresenter.getPharmacyStaffApiDetails(dialogView.getEnteredOTP(), "VALOTP", amount);
 //                    getPaymentMethod().setCreditMode(true);
 //                    mPresenter.generateTenterLineService(orderRemainingAmount(),null);
                 }
@@ -1062,26 +1065,26 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public void showCreditPayment(double amount, GetTrackingWiseConfing._TrackingConfigrationEntity entity) {
-        CreditPaymentDialog  dialogView = new CreditPaymentDialog(this);
+        CreditPaymentDialog dialogView = new CreditPaymentDialog(this);
         dialogView.setPaymentAmount(amount);
         dialogView.setTitle("Credit Payment");
-        if(getCalculatedPosTransactionRes().getTenderLine().size()==0)
+        if (getCalculatedPosTransactionRes().getTenderLine().size() == 0)
             dialogView.setPositiveLabel("Ok");
         else
             dialogView.hidePositiveBtn();
 
-        dialogView.setSubtitle("Total amount : "+orderTotalAmount());
-        dialogView.setBalanceAmount("Balance Amount : "+ Double.parseDouble(String.format("%.2f",(orderRemainingAmount()-amount))));
+        dialogView.setSubtitle("Total amount : " + orderTotalAmount());
+        dialogView.setBalanceAmount("Balance Amount : " + Double.parseDouble(String.format("%.2f", (orderRemainingAmount() - amount))));
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dialogView.validateQuantity()) {
+                if (dialogView.validateQuantity()) {
                     dialogView.dismiss();
                     if (entity.getISEMPBilling() == 1) {
-                        mPresenter.getPharmacyStaffApiDetails("","ENQUIRY", amount);
+                        mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else {
                         getPaymentMethod().setCreditMode(true);
-                        mPresenter.generateTenterLineService(amount,null);
+                        mPresenter.generateTenterLineService(amount, null);
                     }
                 }
             }
@@ -1098,7 +1101,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public void showCouponCodeDialog(double categoryAmount) {
-        CreditPaymentDialog  dialogView = new CreditPaymentDialog(this);
+        CreditPaymentDialog dialogView = new CreditPaymentDialog(this);
         dialogView.setTitle("Coupon Discount");
         dialogView.setPositiveLabel("Apply Coupon");
         dialogView.setSubtitle("");
@@ -1106,9 +1109,9 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dialogView.validateQuantity()) {
+                if (dialogView.validateQuantity()) {
                     dialogView.dismiss();
-                    mPresenter.applyCouponCodeApi(dialogView.getEnteredEditText(),categoryAmount);
+                    mPresenter.applyCouponCodeApi(dialogView.getEnteredEditText(), categoryAmount);
                 }
             }
         });
@@ -1131,16 +1134,16 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
         rotationAngle += 180;
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.expand(addItemBinding.detailsLayout.customerDoctorLayout);
-        partialPaymentDialog("","Kindly select Partner Prg Tracking !");
+        partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
     }
 
     @Override
     public void onSuccessValidateOneApolloPoints(ValidatePointsResModel body) {
-        if(body.getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
+        if (body.getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
             paymentMethodModel.setLoadApolloPoints(false);
             paymentMethodModel.setErrorApolloPoints(false);
             addItemBinding.setValidatePoints(body.getOneApolloProcessResult());
-        }else{
+        } else {
             paymentMethodModel.setLoadApolloPoints(false);
             paymentMethodModel.setErrorApolloPoints(true);
         }
@@ -1148,7 +1151,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
     @Override
     public ValidatePointsResModel.OneApolloProcessResultEntity onApolloPointsAvailablePoints() {
-      return   addItemBinding.getValidatePoints();
+        return addItemBinding.getValidatePoints();
     }
 
 
@@ -1218,7 +1221,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                             }
 
 
-                          //  addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
+                            //  addItemBinding.setProductCount(Singletone.getInstance().itemsArrayList.size());
 //                            // Insert into cart table
 //                            if (items != null) {
 //                                Cart savedCart = RealmController.with(this).getCartTransaction(transactionIdModel.getTransactionID());
@@ -1319,15 +1322,15 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         }
                         break;
                     case CUSTOMER_SEARCH_ACTIVITY_CODE:
-                        customerEntity = (GetCustomerResponse.CustomerEntity)data.getSerializableExtra("customer_info");
+                        customerEntity = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
                         if (customerEntity != null) {
                             addItemBinding.setCustomer(customerEntity);
-                            if(calculatePosTransactionRes != null){
+                            if (calculatePosTransactionRes != null) {
                                 calculatePosTransactionRes.setCustomerID(customerEntity.getCustId());
                                 calculatePosTransactionRes.setCustAddress(customerEntity.getPostalAddress());
                                 calculatePosTransactionRes.setCustomerName(customerEntity.getCardName());
                                 calculatePosTransactionRes.setCustomerState(customerEntity.getState());
-                              //  calculatePosTransactionRes.setGender(customerEntity.getGender().equalsIgnoreCase("Male") ? 0 : 1);
+                                //  calculatePosTransactionRes.setGender(customerEntity.getGender().equalsIgnoreCase("Male") ? 0 : 1);
                                 calculatePosTransactionRes.setDOB(customerEntity.getDob());
                             }
                         }
@@ -1336,7 +1339,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
                         doctorEntity = (DoctorSearchResModel.DropdownValueBean) data.getSerializableExtra("doctor_info");
                         if (doctorEntity != null) {
                             addItemBinding.setDoctor(doctorEntity);
-                            if(calculatePosTransactionRes != null){
+                            if (calculatePosTransactionRes != null) {
                                 calculatePosTransactionRes.setDoctorCode(doctorEntity.getCode());
                                 calculatePosTransactionRes.setDoctorName(doctorEntity.getDisplayText());
                             }
@@ -1543,7 +1546,6 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
 
-
     private void clearOrderData() {
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = true;
@@ -1556,7 +1558,7 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
     }
 
 
-    private void setEnableEditTextChange(){
+    private void setEnableEditTextChange() {
         addItemBinding.cardPaymentAmountEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -1565,16 +1567,46 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String text = charSequence.toString();
+                if (charSequence.length() <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace(".", ""));
+                        addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
+                    }
+//                    else if (text.indexOf("0") == 0) {
+//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
+//                    }
+                } else {
+                    if (text.contains(".") &&
+                            text.indexOf(".") != text.length() - 1 &&
+                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                        addItemBinding.cardPaymentAmountEditText.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "card")) {
+                                addItemBinding.cardPaymentAmountEditText.setText("");
+                            }
+                        }
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
+                        addItemBinding.cardPaymentAmountEditText.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "card")) {
+                                addItemBinding.cardPaymentAmountEditText.setText("");
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable) &&  addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"card")){
-                        addItemBinding.cardPaymentAmountEditText.setText("");
-                    }
-                }
+//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "card")) {
+//                        addItemBinding.cardPaymentAmountEditText.setText("");
+//                    }
+//                }
             }
         });
 
@@ -1586,16 +1618,46 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String text = charSequence.toString();
+                if (charSequence.length() <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace(".", ""));
+                        addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
+                    }
+//                    else if (text.indexOf("0") == 0) {
+//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
+//                    }
+                } else {
+                    if (text.contains(".") &&
+                            text.indexOf(".") != text.length() - 1 &&
+                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                        addItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "Cash")) {
+                                addItemBinding.cashPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
+                        addItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "Cash")) {
+                                addItemBinding.cashPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"Cash")){
-                        addItemBinding.cashPaymentAmountEdit.setText("");
-                    }
-                }
+//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
+//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "Cash")) {
+//                        addItemBinding.cashPaymentAmountEdit.setText("");
+//                    }
+//                }
             }
         });
 
@@ -1607,16 +1669,46 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String text = charSequence.toString();
+                if (charSequence.length() <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        addItemBinding.creditPaymentAmountEdit.setText(addItemBinding.creditPaymentAmountEdit.getText().toString().replace(".", ""));
+                        addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
+                    }
+//                    else if (text.indexOf("0") == 0) {
+//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
+//                    }
+                } else {
+                    if (text.contains(".") &&
+                            text.indexOf(".") != text.length() - 1 &&
+                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                        addItemBinding.creditPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "credit")) {
+                                addItemBinding.creditPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
+                        addItemBinding.creditPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "credit")) {
+                                addItemBinding.creditPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)&& addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()&& paymentMethodModel.isCreditMode()){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"credit")){
-                        addItemBinding.creditPaymentAmountEdit.setText("");
-                    }
-                }
+//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
+//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "credit")) {
+//                        addItemBinding.creditPaymentAmountEdit.setText("");
+//                    }
+//                }
             }
         });
 
@@ -1628,16 +1720,46 @@ CalculatePosTransactionRes calculatePosTransactionRes ;
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String text = charSequence.toString();
+                if (charSequence.length() <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        addItemBinding.oneApolloAmountEditText.setText(addItemBinding.oneApolloAmountEditText.getText().toString().replace(".", ""));
+                        addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
+                    }
+//                    else if (text.indexOf("0") == 0) {
+//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
+//                    }
+                } else {
+                    if (text.contains(".") &&
+                            text.indexOf(".") != text.length() - 1 &&
+                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                        addItemBinding.oneApolloAmountEditText.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "gift")) {
+                                addItemBinding.oneApolloAmountEditText.setText("");
+                            }
+                        }
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
+                        addItemBinding.oneApolloAmountEditText.setText(text.substring(0, text.length() - 1));
+                        addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "gift")) {
+                                addItemBinding.oneApolloAmountEditText.setText("");
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable)&& addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()){
-                    if(!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()),"gift")){
-                        addItemBinding.oneApolloAmountEditText.setText("");
-                    }
-                }
+//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
+//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "gift")) {
+//                        addItemBinding.oneApolloAmountEditText.setText("");
+//                    }
+//                }
             }
         });
     }
