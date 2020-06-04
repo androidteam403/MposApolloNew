@@ -38,6 +38,7 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
         Intent intent = new Intent(context, AddDoctorActivity.class);
         intent.putExtra("doctor_info", doctorEntity);
         intent.putExtra("sales_info", salesEntity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

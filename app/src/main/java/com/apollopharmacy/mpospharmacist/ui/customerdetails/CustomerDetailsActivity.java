@@ -56,6 +56,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
     public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity) {
         Intent intent = new Intent(context, CustomerDetailsActivity.class);
         intent.putExtra("customer_info", customerEntity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 
