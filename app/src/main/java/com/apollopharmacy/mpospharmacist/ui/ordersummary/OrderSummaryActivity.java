@@ -34,6 +34,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         Intent intent = new Intent(context, OrderSummaryActivity.class);
         intent.putExtra("transaction_details", saveRetailsTransactionRes);
         intent.putExtra("corporate_info", corporateEntity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

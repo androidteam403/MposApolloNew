@@ -51,6 +51,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         Intent intent = new Intent(context, DoctorDetailsActivity.class);
         intent.putExtra("doctor_info", doctorEntity);
         intent.putExtra("sales_info", salesEntity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

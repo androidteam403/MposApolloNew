@@ -72,6 +72,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         intent.putExtra("corporate_info", corporateModule);
         intent.putExtra("transaction_id", transactionID);
         intent.putExtra("search_type", searchType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 
