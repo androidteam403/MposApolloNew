@@ -40,38 +40,44 @@
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
 
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
             android:name=".ui.adddoctor.AddDoctorActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
             android:name=".ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
             android:name=".ui.additem.AddItemActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
@@ -89,27 +95,31 @@
         <activity
             android:name=".ui.batchonfo.BatchInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
 
         <activity
             android:name=".ui.searchproductlistactivity.ProductListActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
 
         <activity
             android:name=".ui.orderreturnactivity.OrderReturnActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme">
 
         </activity>
         <activity
             android:name=".ui.customerdoctorinfo.CustomerDoctorInfoActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme"/>
         <activity
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
             android:theme="@style/CustomTheme"
@@ -118,12 +128,14 @@
         <activity
             android:name=".ui.scanner.ScannerActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme"/>
 
         <activity
             android:name=".ui.ordersummary.OrderSummaryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme"/>
 
 <!--        <service android:name=".utils.MyFirebaseInstanceIDService">-->
 <!--            <intent-filter>-->

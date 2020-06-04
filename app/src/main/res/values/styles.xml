@@ -8,6 +8,7 @@
         <item name="android:windowBackground">@drawable/splash_bg_img</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <!--        <item name="android:windowAnimationStyle">@style/animationName</item>-->
     </style>
 
@@ -107,6 +108,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="RobotoBoldTextAppearance">
