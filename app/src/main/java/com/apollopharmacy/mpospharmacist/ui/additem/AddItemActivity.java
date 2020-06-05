@@ -1573,13 +1573,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace(".", ""));
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
+                    } else if (text.indexOf("0") == 0) {
+                        addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace("0", ""));
                     }
-//                    else if (text.indexOf("0") == 0) {
-//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
-//                    }
                 } else {
-                    if (text.contains(".") &&
-                            text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.cardPaymentAmountEditText.setText(text.substring(0, text.length() - 1));
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
@@ -1598,16 +1596,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             }
                         }
                     }
+                    if (!text.contains(".")) {
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "card")) {
+                                addItemBinding.cardPaymentAmountEditText.setText("");
+                            }
+                        }
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
-//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "card")) {
-//                        addItemBinding.cardPaymentAmountEditText.setText("");
-//                    }
-//                }
+                if (!editable.toString().isEmpty() && editable.toString().length() > 1) {
+                    if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+                        if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "card")) {
+                            addItemBinding.cardPaymentAmountEditText.setText("");
+                        }
+                    }
+                }
             }
         });
 
@@ -1624,13 +1631,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace(".", ""));
                         addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
+                    } else if (text.indexOf("0") == 0) {
+                        addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace("0", ""));
                     }
-//                    else if (text.indexOf("0") == 0) {
-//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
-//                    }
                 } else {
-                    if (text.contains(".") &&
-                            text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
@@ -1649,16 +1654,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             }
                         }
                     }
+                    if (!text.contains(".")) {
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "Cash")) {
+                                addItemBinding.cashPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
-//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "Cash")) {
-//                        addItemBinding.cashPaymentAmountEdit.setText("");
-//                    }
-//                }
+                if (!editable.toString().isEmpty() && editable.toString().length() > 1) {
+                    if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
+                        if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "Cash")) {
+                            addItemBinding.cashPaymentAmountEdit.setText("");
+                        }
+                    }
+                }
             }
         });
 
@@ -1675,13 +1689,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.creditPaymentAmountEdit.setText(addItemBinding.creditPaymentAmountEdit.getText().toString().replace(".", ""));
                         addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
+                    } else if (text.indexOf("0") == 0) {
+                        addItemBinding.creditPaymentAmountEdit.setText(addItemBinding.creditPaymentAmountEdit.getText().toString().replace("0", ""));
                     }
-//                    else if (text.indexOf("0") == 0) {
-//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
-//                    }
                 } else {
-                    if (text.contains(".") &&
-                            text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.creditPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
@@ -1700,16 +1712,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             }
                         }
                     }
+                    if (!text.contains(".")) {
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "credit")) {
+                                addItemBinding.creditPaymentAmountEdit.setText("");
+                            }
+                        }
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
-//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "credit")) {
-//                        addItemBinding.creditPaymentAmountEdit.setText("");
-//                    }
-//                }
+                if (!editable.toString().isEmpty() && editable.toString().length() > 1) {
+                    if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
+                        if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "credit")) {
+                            addItemBinding.creditPaymentAmountEdit.setText("");
+                        }
+                    }
+                }
             }
         });
 
@@ -1726,13 +1747,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.oneApolloAmountEditText.setText(addItemBinding.oneApolloAmountEditText.getText().toString().replace(".", ""));
                         addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
+                    } else if (text.indexOf("0") == 0) {
+                        addItemBinding.oneApolloAmountEditText.setText(addItemBinding.oneApolloAmountEditText.getText().toString().replace("0", ""));
                     }
-//                    else if (text.indexOf("0") == 0) {
-//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
-//                    }
                 } else {
-                    if (text.contains(".") &&
-                            text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.oneApolloAmountEditText.setText(text.substring(0, text.length() - 1));
                         addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
@@ -1751,16 +1770,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             }
                         }
                     }
+                    if (!text.contains(".")) {
+                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
+                            if (!mPresenter.validTenderLimit(Double.parseDouble(text), "gift")) {
+                                addItemBinding.oneApolloAmountEditText.setText("");
+                            }
+                        }
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
-//                    if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "gift")) {
-//                        addItemBinding.oneApolloAmountEditText.setText("");
-//                    }
-//                }
+                if (!editable.toString().isEmpty() && editable.toString().length() > 1) {
+                    if (!TextUtils.isEmpty(editable) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {
+                        if (!mPresenter.validTenderLimit(Double.parseDouble(editable.toString()), "gift")) {
+                            addItemBinding.oneApolloAmountEditText.setText("");
+                        }
+                    }
+                }
             }
         });
     }
