@@ -44,7 +44,7 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
     public void onBindViewHolder(@NonNull CategoryDiscAdapter.ViewHolder holder, int position) {
         ManualDiscCheckRes.DisplayList item = displayListArrayList.get(position);
         holder.displayItemBinding.setDisplayItem(item);
-        holder.displayItemBinding.cashPaymentAmountEdit.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(100,2)});
+        holder.displayItemBinding.cashPaymentAmountEdit.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(100, 2)});
         holder.displayItemBinding.cashPaymentAmountEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -63,8 +63,7 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
 //                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
 //                    }
                 } else {
-                    if (text.contains(".") &&
-                            text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         holder.displayItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         holder.displayItemBinding.cashPaymentAmountEdit.setSelection(holder.displayItemBinding.cashPaymentAmountEdit.getText().length());
@@ -75,6 +74,9 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
                         holder.displayItemBinding.cashPaymentAmountEdit.setSelection(holder.displayItemBinding.cashPaymentAmountEdit.getText().length());
                         displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                     }
+                    if (!text.contains(".")) {
+                        displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
+                    }
                 }
 //                if(charSequence.length()>0 && !charSequence.toString().equalsIgnoreCase("."))
 //                displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
@@ -83,7 +85,9 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0") && editable.toString().startsWith(".")) {
-                     editable.delete(0,1);
+                    editable.delete(0, 1);
+                } else if (!editable.toString().isEmpty() && editable.toString().length() >= 1) {
+                    displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                 }
 //                else if(editable.toString().length() == 0){
 //                    editable.append("0");
@@ -95,17 +99,17 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
         holder.displayItemBinding.cashPaymentAmountEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(holder.displayItemBinding.cashPaymentAmountEdit.hasFocus()){
-                    if(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().equalsIgnoreCase("0") || holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().equalsIgnoreCase(".0")){
+                if (holder.displayItemBinding.cashPaymentAmountEdit.hasFocus()) {
+                    if (holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().equalsIgnoreCase("0") || holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().equalsIgnoreCase(".0")) {
                         holder.displayItemBinding.cashPaymentAmountEdit.setText("");
                         holder.displayItemBinding.cashPaymentAmountEdit.setCursorVisible(true);
                     }
-                    InputMethodManager imm = (InputMethodManager)holder.displayItemBinding.cashPaymentAmountEdit.getContext(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) holder.displayItemBinding.cashPaymentAmountEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm != null) {
                         imm.showSoftInput(holder.displayItemBinding.cashPaymentAmountEdit, InputMethodManager.SHOW_IMPLICIT);
                     }
-                }else{
-                    if(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().isEmpty()){
+                } else {
+                    if (holder.displayItemBinding.cashPaymentAmountEdit.getText().toString().isEmpty()) {
                         holder.displayItemBinding.cashPaymentAmountEdit.setText("0");
                     }
                 }
@@ -121,7 +125,7 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CategoryDisplayItemBinding displayItemBinding;
 
-        public ViewHolder(@NonNull CategoryDisplayItemBinding displayItemBinding){
+        public ViewHolder(@NonNull CategoryDisplayItemBinding displayItemBinding) {
             super(displayItemBinding.getRoot());
             this.displayItemBinding = displayItemBinding;
         }
