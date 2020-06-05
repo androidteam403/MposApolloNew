@@ -122,6 +122,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("corporate_info", corporate);
         intent.putExtra("transaction_id", transactionID);
         intent.putExtra("corporate_model", corporateModel);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 

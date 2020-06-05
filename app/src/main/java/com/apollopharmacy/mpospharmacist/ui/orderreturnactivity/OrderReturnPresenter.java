@@ -179,7 +179,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         if (isAllowOrNot(posTransactionRes)) {
             getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false, true);
         } else {
-            getMvpView().showCancelOrderSuccess("", "Transaction Already Cancelled!!");
+            getMvpView().showCancelOrderSuccess("", "Transaction Already Return!!");
         }
     }
 

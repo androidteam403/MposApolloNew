@@ -36,6 +36,9 @@
             type="Boolean" />
     </data>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -239,7 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_dp"
             android:layout_below="@+id/customer_layout"
-            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/customer_doctor_divider" />
 
@@ -378,7 +381,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_dp"
             android:layout_below="@+id/doctor_layout"
-            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/customer_doctor_divider" />
 
@@ -523,6 +526,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/corporate_layout"
             android:alpha="0.3"
             android:background="@color/cpb_yellow"
             android:fontFamily="@font/roboto_bold"
@@ -532,4 +536,5 @@
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold" />
     </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

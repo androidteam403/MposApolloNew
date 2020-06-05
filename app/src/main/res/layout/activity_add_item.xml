@@ -1200,6 +1200,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:animateLayoutChanges="true"
+            android:layout_below="@+id/details_layout"
             android:orientation="vertical"
             android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">
 
@@ -1398,6 +1399,6 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
-            android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

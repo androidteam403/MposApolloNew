@@ -39,4 +39,6 @@ public interface StoreSetupMvpView extends MvpView {
     String getLongitude();
 
     void onNavigateHomeScreen();
+
+    void dialogCloseListiner();
 }

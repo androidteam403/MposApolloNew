@@ -1397,6 +1397,6 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_dimen_17"
             android:textStyle="bold"
-            android:visibility="@{paymentMode.generateBill ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

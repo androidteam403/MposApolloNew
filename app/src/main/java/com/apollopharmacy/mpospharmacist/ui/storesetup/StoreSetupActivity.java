@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -123,6 +124,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         mPresenter.getStoreList();
     }
 
+    private boolean isShowDialog = false;
     @Override
     public void onSelectStoreSearch() {
         if (storeListObj != null) {
@@ -130,7 +132,10 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
                 GetStoresDialog dialog = GetStoresDialog.newInstance();
                 dialog.setStoreDetailsMvpView(this);
                 dialog.setStoreListArray(storeListObj.getStoreListArr());
-                dialog.show(getSupportFragmentManager(), "");
+                if( !isShowDialog ) {
+                    isShowDialog =true;
+                    dialog.show(getSupportFragmentManager(), "");
+                }
             }
         }
     }
@@ -230,6 +235,11 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         startActivity(PharmacistLoginActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
+    }
+
+    @Override
+    public void dialogCloseListiner() {
+        isShowDialog = false;
     }
 
     private void adminSetup() {

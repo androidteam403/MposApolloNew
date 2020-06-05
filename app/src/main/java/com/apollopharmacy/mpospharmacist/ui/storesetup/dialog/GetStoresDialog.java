@@ -45,6 +45,7 @@ public class GetStoresDialog extends BaseDialog implements GetStoresDialogMvpVie
         return dialog;
     }
 
+
     public void setStoreListArray(ArrayList<StoreListResponseModel.StoreListObj> storesArrList) {
         this.storesArrList = storesArrList;
     }
@@ -101,11 +102,19 @@ public class GetStoresDialog extends BaseDialog implements GetStoresDialogMvpVie
     @Override
     public void dismissDialog() {
         dismissDialog("");
+        storeSetupMvpView.dialogCloseListiner();
     }
 
     @Override
     public void onClickListener(StoreListResponseModel.StoreListObj item) {
         storeSetupMvpView.onSelectStore(item);
         dismissDialog("");
+        storeSetupMvpView.dialogCloseListiner();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        storeSetupMvpView.dialogCloseListiner();
     }
 }
