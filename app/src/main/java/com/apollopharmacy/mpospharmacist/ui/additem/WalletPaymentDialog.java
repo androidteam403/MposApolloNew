@@ -2,12 +2,14 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -36,6 +38,7 @@ public class WalletPaymentDialog {
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setUp();
+        setDialogDismiss();
     }
 
     private void setUp() {
@@ -216,5 +219,21 @@ public class WalletPaymentDialog {
         if (walletType != 4) {
             walletPaymentBinding.walletOtpLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setDialogDismiss(){
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                }
+                return true;
+            }
+        });
     }
 }

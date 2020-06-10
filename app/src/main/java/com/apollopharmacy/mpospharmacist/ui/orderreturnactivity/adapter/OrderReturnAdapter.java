@@ -42,6 +42,13 @@ public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.
     public void onBindViewHolder(@NonNull OrderReturnAdapter.ViewHolder holder, int position) {
         SalesLineEntity item = orderReturnModelArrayList.get(position);
         holder.orderReturnAdapterBinding.setModel(item);
+        if(item.getCategoryCode().equalsIgnoreCase("P")){
+            holder.orderReturnAdapterBinding.itemIcon.setImageDrawable(activity.getDrawable(R.drawable.ic_pharma));
+        }else if(item.getCategoryCode().equalsIgnoreCase("F")){
+            holder.orderReturnAdapterBinding.itemIcon.setImageDrawable(activity.getDrawable(R.drawable.ic_fmcg));
+        }else if(item.getCategoryCode().equalsIgnoreCase("A")){
+            holder.orderReturnAdapterBinding.itemIcon.setImageDrawable(activity.getDrawable(R.drawable.ic_h_b));
+        }
         holder.orderReturnAdapterBinding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

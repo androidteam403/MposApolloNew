@@ -34,7 +34,6 @@
         </activity>
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
-            android:theme="@style/CustomTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
@@ -76,14 +75,12 @@
         </activity>
         <activity
             android:name=".ui.customerdetails.CustomerDetailsActivity"
-            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".ui.doctordetails.DoctorDetailsActivity"
-            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:screenOrientation="portrait" />
         <activity
@@ -112,7 +109,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.corporatedetails.CorporateDetailsActivity"
-            android:theme="@style/CustomTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:screenOrientation="portrait"/>
         <activity

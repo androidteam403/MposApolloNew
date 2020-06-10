@@ -133,7 +133,10 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService();
-
+            posTransactionRes.setReturn(true);
+            posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
+            posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
+            posTransactionRes.setState(getGlobalConfing().getStateCode());
             Call<CalculatePosTransactionRes> call = api.CANCEL_POS_TRANSACTION_RES_CALL(posTransactionRes);
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
@@ -167,23 +170,24 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
     @Override
     public void onCancelCLick(CalculatePosTransactionRes posTransactionRes) {
-        if (isAllowOrNot(posTransactionRes)) {
+      //  if (isAllowOrNot(posTransactionRes)) {
             getMvpView().showInfoPopup("Cancel Order", "Do you want to Cancel Order?", true, false);
-        }else{
-            getMvpView().showCancelOrderSuccess("","Transaction Already Cancelled!!");
-        }
+//        }else{
+//            getMvpView().showCancelOrderSuccess("","Transaction Already Cancelled!!");
+//        }
     }
 
     @Override
     public void onReOrderClick(CalculatePosTransactionRes posTransactionRes) {
-        if (isAllowOrNot(posTransactionRes)) {
+       // if (isAllowOrNot(posTransactionRes)) {
             getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false, true);
-        } else {
-            getMvpView().showCancelOrderSuccess("", "Transaction Already Cancelled!!");
-        }
+//        } else {
+//            getMvpView().showCancelOrderSuccess("", "Transaction Already Return!!");
+//        }
     }
 
-    private boolean isAllowOrNot(CalculatePosTransactionRes posTransactionRes){
+    @Override
+    public boolean isAllowOrNot(CalculatePosTransactionRes posTransactionRes){
         for(SalesLineEntity salesLineEntity : posTransactionRes.getSalesLine()){
             if(salesLineEntity.getQty() != salesLineEntity.getRemainingQty()){
                 return false;
@@ -200,6 +204,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             posTransactionRes.setReturn(true);
             posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
             posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
+            posTransactionRes.setState(getGlobalConfing().getStateCode());
             Call<CalculatePosTransactionRes> call = api.RETURN_POS_TRANSACTION_RES_CALL(posTransactionRes);
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override

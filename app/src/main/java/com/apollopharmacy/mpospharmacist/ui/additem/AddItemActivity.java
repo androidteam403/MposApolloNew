@@ -122,6 +122,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("corporate_info", corporate);
         intent.putExtra("transaction_id", transactionID);
         intent.putExtra("corporate_model", corporateModel);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
 
@@ -881,7 +882,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         paymentMethodModel.setBalanceAmount(false);
                     } else {
                         double balanceAmt = orderTotalAmount() - paymentDoneAmount;
-                        if (balanceAmt < 0) {
+                        if (balanceAmt <= 0) {
                             paymentMethodModel.setPaymentDone(true);
                             paymentMethodModel.setGenerateBill(true);
                             isGeneratedBill = true;
@@ -895,6 +896,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                             paymentMethodModel.setBalanceAmount(true);
                             paymentMethodModel.setPaymentDone(false);
+                            paymentMethodModel.setGenerateBill(false);
                         }
                     }
 
@@ -1572,9 +1574,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace(".", ""));
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
-                    } else if (text.indexOf("0") == 0) {
-                        addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace("0", ""));
                     }
+//                    else if (text.indexOf("0") == 0) {
+//                        addItemBinding.cardPaymentAmountEditText.setText(addItemBinding.cardPaymentAmountEditText.getText().toString().replace("0", ""));
+//                    }
                 } else {
                     if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
@@ -1630,9 +1633,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace(".", ""));
                         addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
-                    } else if (text.indexOf("0") == 0) {
-                        addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace("0", ""));
                     }
+//                    else if (text.indexOf("0") == 0) {
+//                        addItemBinding.cashPaymentAmountEdit.setText(addItemBinding.cashPaymentAmountEdit.getText().toString().replace("0", ""));
+//                    }
                 } else {
                     if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {

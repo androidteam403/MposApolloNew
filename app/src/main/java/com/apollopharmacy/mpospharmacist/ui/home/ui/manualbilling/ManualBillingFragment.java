@@ -3,6 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +67,77 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
     protected void setUp(View view) {
         mPresenter.getTransactionID();
         fragmentBillingBinding.setCallbacks(mPresenter);
+        fragmentBillingBinding.customerName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(TextUtils.isEmpty(editable)){
+                    fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                    fragmentBillingBinding.continueBtn.setClickable(false);
+                }else{
+                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                        fragmentBillingBinding.continueBtn.setAlpha(1);
+                        fragmentBillingBinding.continueBtn.setClickable(true);
+                    }
+                }
+
+            }
+        });
+
+        fragmentBillingBinding.customerMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(TextUtils.isEmpty(editable)){
+                    fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
+                    fragmentBillingBinding.continueBtn.setClickable(false);
+                }else{
+                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                        fragmentBillingBinding.continueBtn.setAlpha(1);
+                        fragmentBillingBinding.continueBtn.setClickable(true);
+                    }
+                }
+            }
+        });
+
+        fragmentBillingBinding.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
+                    fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
+                }
+            }
+        });
     }
 
     @Override

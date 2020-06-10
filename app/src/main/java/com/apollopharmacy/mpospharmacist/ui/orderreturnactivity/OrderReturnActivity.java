@@ -186,37 +186,32 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
             public void onClick(View view) {
                 dialogView.dismiss();
                 if (isCancelOrder) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
                     try {
                         if (isCardPayment) {
-                            showCancelOrderSuccess("", "Cancellation Not Allowed!!");
+                            showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
                         } else {
                             if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
                                 showCancelOrderSuccess("", "Cancellation Not Allowed!!");
-                            } else {
+                            } else if(!mvpPresenter.isAllowOrNot(orderHistoryItem)){
+                                showCancelOrderSuccess("","Transaction Already Cancelled!!");
+                            }else {
                                 orderHistoryItem.setReturnType(0);
                                 orderHistoryItem.setReturn(true);
                                 mvpPresenter.cancelDSBilling(orderHistoryItem);
                             }
-//                            Date d1 = sdf.parse(orderHistoryItem.getBusinessDate());
-//                            if (d1 != null) {
-////                                if (d1.compareTo(new Date()) == 0 || isCardPayment) {
-////                                    showCancelOrderSuccess("", "Cancelation Not Allowed!!");
-////                                } else {
-////                                    orderHistoryItem.setReturnType(0);
-////                                    orderHistoryItem.setReturn(true);
-////                                    mvpPresenter.cancelDSBilling(orderHistoryItem);
-////                                }
-//                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 } else if (isReturnAll) {
-                    orderHistoryItem.setReturnType(0);
-                    orderHistoryItem.setReturn(true);
-                    mvpPresenter.orderReturnAll(orderHistoryItem);
+                    if(mvpPresenter.isAllowOrNot(orderHistoryItem)) {
+                        orderHistoryItem.setReturnType(0);
+                        orderHistoryItem.setReturn(true);
+                        mvpPresenter.orderReturnAll(orderHistoryItem);
+                    }else{
+                        showCancelOrderSuccess("", "Transaction Already Return!!");
+                    }
                 }
             }
         });

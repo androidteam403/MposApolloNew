@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacist.ui.additem.adapter;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,18 +64,18 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
 //                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
 //                    }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
+                    if (!TextUtils.isEmpty(text) && text.contains(".") && text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         holder.displayItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         holder.displayItemBinding.cashPaymentAmountEdit.setSelection(holder.displayItemBinding.cashPaymentAmountEdit.getText().length());
                         displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                     }
-                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
+                    if (!TextUtils.isEmpty(text) && text.contains(".") && text.substring(text.indexOf(".") + 1).length() > 2) {
                         holder.displayItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         holder.displayItemBinding.cashPaymentAmountEdit.setSelection(holder.displayItemBinding.cashPaymentAmountEdit.getText().length());
                         displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                     }
-                    if (!text.contains(".")) {
+                    if (!TextUtils.isEmpty(text) && !text.contains(".")) {
                         displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                     }
                 }
@@ -86,7 +87,7 @@ public class CategoryDiscAdapter extends RecyclerView.Adapter<CategoryDiscAdapte
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0") && editable.toString().startsWith(".")) {
                     editable.delete(0, 1);
-                } else if (!editable.toString().isEmpty() && editable.toString().length() >= 1) {
+                } else if (!editable.toString().isEmpty() && editable.toString().length() >= 1 && !editable.toString().startsWith(".")) {
                     displayListArrayList.get(position).setDiscountValue(Double.parseDouble(holder.displayItemBinding.cashPaymentAmountEdit.getText().toString()));
                 }
 //                else if(editable.toString().length() == 0){
