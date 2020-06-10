@@ -119,7 +119,7 @@
     <dimen name="price">13dp</dimen>
 
     <dimen name="small_span_size">0.35dp</dimen>
-    <dimen name="small_size_text">0.4dp</dimen>
+    <dimen name="small_size_text">0.8dp</dimen>
     <dimen name="default_text_size">0.5dp</dimen>
     <dimen name="span_text_size">0.6dp</dimen>
     <dimen name="span_medium_size">0.7dp</dimen>

@@ -980,21 +980,23 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletServiceReq.setWalletRefundId("");
         walletServiceReq.setWalletTransactionID("");
 
-        for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
-            if(tenderTypeEntity.getTender().equalsIgnoreCase("PhonePe")){
-                walletServiceReq.setWalletType(4);
-                walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+        if(Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+                if (tenderTypeEntity.getTender().equalsIgnoreCase("PhonePe")) {
+                    walletServiceReq.setWalletType(4);
+                    walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+                }
             }
+            getMvpView().getPaymentMethod().setPhonePeMode(true);
+            getMvpView().getPaymentMethod().setPaytmMode(false);
+            getMvpView().getPaymentMethod().setAirtelMode(false);
+            getMvpView().getPaymentMethod().setCashMode(false);
+            getMvpView().getPaymentMethod().setCardMode(false);
+            getMvpView().getPaymentMethod().setOneApolloMode(false);
+            getMvpView().getPaymentMethod().setWalletMode(true);
+            getMvpView().getPaymentMethod().setCreditMode(false);
+            showWalletPaymentDialog("PhonePe Transaction", true, walletServiceReq);
         }
-        getMvpView().getPaymentMethod().setPhonePeMode(true);
-        getMvpView().getPaymentMethod().setPaytmMode(false);
-        getMvpView().getPaymentMethod().setAirtelMode(false);
-        getMvpView().getPaymentMethod().setCashMode(false);
-        getMvpView().getPaymentMethod().setCardMode(false);
-        getMvpView().getPaymentMethod().setOneApolloMode(false);
-        getMvpView().getPaymentMethod().setWalletMode(true);
-        getMvpView().getPaymentMethod().setCreditMode(false);
-        showWalletPaymentDialog("PhonePe Transaction", true,walletServiceReq);
     }
 
     @Override
@@ -1013,21 +1015,25 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletServiceReq.setWalletRefundId("");
         walletServiceReq.setWalletTransactionID("");
 
-        for(GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()){
-            if(tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")){
-                walletServiceReq.setWalletType(3);
-                walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+        if(Singletone.getInstance().tenderTypeResultEntity != null) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+                if (tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")) {
+                    walletServiceReq.setWalletType(3);
+                    walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
+                }
             }
+            getMvpView().getPaymentMethod().setPhonePeMode(false);
+            getMvpView().getPaymentMethod().setPaytmMode(true);
+            getMvpView().getPaymentMethod().setAirtelMode(false);
+            getMvpView().getPaymentMethod().setCashMode(false);
+            getMvpView().getPaymentMethod().setCardMode(false);
+            getMvpView().getPaymentMethod().setOneApolloMode(false);
+            getMvpView().getPaymentMethod().setWalletMode(true);
+            getMvpView().getPaymentMethod().setCreditMode(false);
+            showWalletPaymentDialog("Paytm Transaction", false, walletServiceReq);
+        }else{
+            getMvpView().showMessage("TenderType missing");
         }
-        getMvpView().getPaymentMethod().setPhonePeMode(false);
-        getMvpView().getPaymentMethod().setPaytmMode(true);
-        getMvpView().getPaymentMethod().setAirtelMode(false);
-        getMvpView().getPaymentMethod().setCashMode(false);
-        getMvpView().getPaymentMethod().setCardMode(false);
-        getMvpView().getPaymentMethod().setOneApolloMode(false);
-        getMvpView().getPaymentMethod().setWalletMode(true);
-        getMvpView().getPaymentMethod().setCreditMode(false);
-        showWalletPaymentDialog("Paytm Transaction", false,walletServiceReq);
     }
 
     @Override
@@ -1583,6 +1589,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setWalletOrderID(walletServiceRes.getWalletOrderID());
             wallet.setWalletRefundId(walletServiceRes.getWalletRefundId());
             wallet.setWalletRequestType(walletServiceRes.getWalletRequestType());
+            wallet.setWalletTransactionID(walletServiceRes.getWalletTransactionID());
         }else{
             wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
             wallet.setOTP(getMvpView().getOneApolloOtp());
@@ -1598,12 +1605,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setWalletOrderID("");
             wallet.setWalletRefundId("");
             wallet.setWalletRequestType(0);
+            if (getMvpView().getValidateOneApolloPoints() != null && getMvpView().getValidateOneApolloPoints().getRRNO() != null)
+                wallet.setWalletTransactionID(getMvpView().getValidateOneApolloPoints().getRRNO());
+            else
+                wallet.setWalletTransactionID("");
         }
 
-        if (getMvpView().getValidateOneApolloPoints() != null && getMvpView().getValidateOneApolloPoints().getRRNO() != null)
-            wallet.setWalletTransactionID(getMvpView().getValidateOneApolloPoints().getRRNO());
-        else
-            wallet.setWalletTransactionID("");
+
         wallet.setWalletType(9);
         wallet.setWalletURL("");
         return wallet;
@@ -1713,6 +1721,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     walletPaymentDialog.setGenerateOTPSuccess(response.body().getWalletType());
                                 }else if(response.body().getWalletRequestType() == 0){
                                     walletPaymentDialog.dismiss();
+                                    walletServiceReq.setRewardsPoint(response.body().getRewardsPoint());
+                                    walletServiceReq.setWalletOrderID(response.body().getWalletOrderID());
+                                    walletServiceReq.setWalletRefundId(response.body().getWalletRefundId());
+                                    walletServiceReq.setWalletTransactionID(response.body().getWalletTransactionID());
                                     generateTenterLineService(response.body().getWalletAmount(),response.body());
                                 }else if(response.body().getWalletRequestType() == 4){
                                     walletPaymentDialog.dismiss();

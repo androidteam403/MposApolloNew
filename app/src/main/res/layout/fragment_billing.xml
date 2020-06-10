@@ -38,503 +38,500 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_customer_bg">
-
-
-        <LinearLayout
-            android:id="@+id/customer_layout"
+        android:background="@color/search_customer_bg"
+        android:fillViewport="true">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten_dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/search_customer_bg">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_customer_details"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16" />
 
             <LinearLayout
+                android:id="@+id/customer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{customer != null ? View.GONE : View.VISIBLE}">
+                android:layout_margin="@dimen/ten_dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fifteen_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_phone_number_id"
-                    android:textColor="@color/customer_header_text"
-                    android:textSize="@dimen/text_dimen_13" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty_dp"
                     android:layout_marginTop="@dimen/five_dp"
-                    android:background="@drawable/rectangular_shape"
-                    android:onClick="@{()-> callbacks.onCustomerSearchClick()}"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_search_by_phone_number"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:textSize="@dimen/text_dimen_13" />
-
-                    <ImageView
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/app_name"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:src="@drawable/ic_search" />
-                </RelativeLayout>
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_customer_details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_16" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:visibility="@{customer != null ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_phone_number_id"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:onClick="@{()-> callbacks.onCustomerSearchClick()}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_search_by_phone_number"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:textSize="@dimen/text_dimen_13" />
+
+                        <ImageView
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:src="@drawable/ic_search" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/customer_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Name"
+                                android:inputType="textPersonName"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textSize="@dimen/text_dimen_15"
+                                android:imeOptions="actionNext"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/EditTextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/customer_mobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_mobile1"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textSize="@dimen/text_dimen_15"
+                                android:imeOptions="actionDone"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:visibility="@{customer == null ? View.GONE : View.VISIBLE}"
+                    android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/customer_header_text"
+                                android:textSize="@dimen/text_dimen_12"
+                                app:full_text="@{@string/label_generic_name(customer.cardName)}"
+                                app:span_color="@{@color/black}"
+                                app:span_font="@{`robotoMedium`}"
+                                app:span_size="@{@dimen/small_size_text}"
+                                app:span_text="@{customer.cardName}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Billing Code: \nPOS1234"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_12"
+                                android:visibility="gone"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/customer_header_text"
+                                android:textSize="@dimen/text_dimen_12"
+                                app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
+                                app:span_color="@{@color/black}"
+                                app:span_font="@{`robotoMedium`}"
+                                app:span_size="@{@dimen/small_size_text}"
+                                app:span_text="@{customer.mobileNo}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Tracking Ref No: \n0-NS NORMALSALE"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_12"
+                                android:visibility="gone"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_seven_dp"
+                        android:layout_height="@dimen/twenty_seven_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_next_level" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/details_divider_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_dp"
+                android:layout_below="@+id/customer_layout"
+                android:background="@color/customer_doctor_divider" />
+
+            <LinearLayout
+                android:id="@+id/doctor_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details_divider_view"
+                android:layout_margin="@dimen/ten_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_doctor_details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{doctor != null ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_registration_number_id"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_search_by_registration_number"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:textSize="@dimen/text_dimen_13" />
+
+                        <ImageView
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:src="@drawable/ic_search" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:visibility="@{doctor == null ? View.GONE : View.VISIBLE}"
+                    android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/customer_header_text"
+                                android:textSize="@dimen/text_dimen_12"
+                                app:full_text="@{@string/label_generic_doctor_reg_no(doctor.code)}"
+                                app:span_color="@{@color/black}"
+                                app:span_font="@{`robotoMedium`}"
+                                app:span_size="@{@dimen/small_size_text}"
+                                app:span_text="@{doctor.code}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/ten_dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/customer_header_text"
+                                android:textSize="@dimen/text_dimen_12"
+                                app:full_text="@{@string/label_generic_sales_origin(sales.displayText)}"
+                                app:span_color="@{@color/black}"
+                                app:span_font="@{`robotoMedium`}"
+                                app:span_size="@{@dimen/small_size_text}"
+                                app:span_text="@{sales.displayText}" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
+                            app:full_text="@{@string/label_generic_doctor_name(doctor.displayText)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoMedium`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{doctor.displayText}" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_seven_dp"
+                        android:layout_height="@dimen/twenty_seven_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_next_level" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/corporate_divider_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_dp"
+                android:layout_below="@+id/doctor_layout"
+                android:background="@color/customer_doctor_divider" />
+
+            <LinearLayout
+                android:id="@+id/corporate_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/corporate_divider_view"
+                android:layout_margin="@dimen/ten_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_corporate_details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_16"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{corporate != null ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/label_registration_number_id"
+                        android:textColor="@color/customer_header_text"
+                        android:textSize="@dimen/text_dimen_13" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:background="@drawable/rectangular_shape"
+                        android:onClick="@{()-> callbacks.onCorporateSearchClick()}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_search_by_registration_number"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:textSize="@dimen/text_dimen_13" />
+
+                        <ImageView
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="@dimen/five_dp"
+                            android:paddingEnd="@dimen/five_dp"
+                            android:src="@drawable/ic_search" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:visibility="@{corporate == null ? View.GONE : View.VISIBLE}"
+                    android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}">
+
+                    <LinearLayout
+                        android:id="@+id/corporate_details_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
+                            app:full_text="@{@string/label_generic_corporate_no(corporate.code)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoMedium`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{corporate.code}" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingEnd="@dimen/thirty_dp"
+                            android:textColor="@color/customer_header_text"
+                            android:textSize="@dimen/text_dimen_12"
+                            app:full_text="@{@string/label_generic_corporate_name(corporate.description)}"
+                            app:span_color="@{@color/black}"
+                            app:span_font="@{`robotoMedium`}"
+                            app:span_size="@{@dimen/small_size_text}"
+                            app:span_text="@{corporate.description}" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_seven_dp"
+                        android:layout_height="@dimen/twenty_seven_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_next_level" />
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/EditTextInputLayoutStyle"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/thirty_dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:layout_weight="1">
+                        android:layout_below="@+id/corporate_details_view">
 
+                        <!--                    android:visibility="@{prg_tracking ? View.VISIBLE : View.GONE}"-->
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/customer_name"
+                            android:id="@+id/prg_tracking_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:hint="Name"
+                            android:hint="Prg.Tracking"
                             android:inputType="textPersonName"
-                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
                             android:textSize="@dimen/text_dimen_15"
                             android:imeOptions="actionNext"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EditTextInputLayoutStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:layout_weight="1">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/customer_mobile"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:digits="0123456789"
-                            android:fontFamily="@font/roboto_regular"
-                            android:hint="@string/label_mobile1"
-                            android:inputType="number"
-                            android:maxLength="10"
-                            android:padding="@dimen/ten_dp"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_dimen_15"
-                            android:imeOptions="actionDone"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fifteen_dp"
-                android:visibility="@{customer == null ? View.GONE : View.VISIBLE}"
-                android:onClick="@{()-> callbacks.onClickCustomerEdit(customer)}">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/customer_header_text"
-                            android:textSize="@dimen/text_dimen_12"
-                            app:full_text="@{@string/label_generic_name(customer.cardName)}"
-                            app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoMedium`}"
-                            app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.cardName}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Billing Code: \nPOS1234"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/customer_header_text"
-                            android:textSize="@dimen/text_dimen_12"
-                            app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
-                            app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoMedium`}"
-                            app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.mobileNo}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Tracking Ref No: \n0-NS NORMALSALE"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="@dimen/twenty_seven_dp"
-                    android:layout_height="@dimen/twenty_seven_dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_next_level" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/details_divider_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_dp"
-            android:layout_below="@+id/customer_layout"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:background="@color/customer_doctor_divider" />
-
-        <LinearLayout
-            android:id="@+id/doctor_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/details_divider_view"
-            android:layout_margin="@dimen/ten_dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_doctor_details"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{doctor != null ? View.GONE : View.VISIBLE}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fifteen_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_registration_number_id"
-                    android:textColor="@color/customer_header_text"
-                    android:textSize="@dimen/text_dimen_13" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:background="@drawable/rectangular_shape"
-                    android:onClick="@{()-> callbacks.onDoctorSearchClick()}"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_search_by_registration_number"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:textSize="@dimen/text_dimen_13" />
-
-                    <ImageView
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/app_name"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:src="@drawable/ic_search" />
                 </RelativeLayout>
             </LinearLayout>
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/continue_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:visibility="@{doctor == null ? View.GONE : View.VISIBLE}"
-                android:onClick="@{()-> callbacks.onDoctorEditClick(doctor, sales)}">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/customer_header_text"
-                            android:textSize="@dimen/text_dimen_12"
-                            app:full_text="@{@string/label_generic_doctor_reg_no(doctor.code)}"
-                            app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoMedium`}"
-                            app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{doctor.code}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/customer_header_text"
-                            android:textSize="@dimen/text_dimen_12"
-                            app:full_text="@{@string/label_generic_sales_origin(sales.displayText)}"
-                            app:span_color="@{@color/black}"
-                            app:span_font="@{`robotoMedium`}"
-                            app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{sales.displayText}" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/customer_header_text"
-                        android:textSize="@dimen/text_dimen_12"
-                        app:full_text="@{@string/label_generic_doctor_name(doctor.displayText)}"
-                        app:span_color="@{@color/black}"
-                        app:span_font="@{`robotoMedium`}"
-                        app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{doctor.displayText}" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="@dimen/twenty_seven_dp"
-                    android:layout_height="@dimen/twenty_seven_dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_next_level" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/corporate_divider_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_dp"
-            android:layout_below="@+id/doctor_layout"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:background="@color/customer_doctor_divider" />
-
-        <LinearLayout
-            android:id="@+id/corporate_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/corporate_divider_view"
-            android:layout_margin="@dimen/ten_dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_alignParentBottom="true"
+                android:alpha="0.3"
+                android:background="@color/cpb_yellow"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_corporate_details"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16"
+                android:onClick="@{()->callbacks.onContinueBtnClick()}"
+                android:text="@string/label_continue"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_dimen_17"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{corporate != null ? View.GONE : View.VISIBLE}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fifteen_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_registration_number_id"
-                    android:textColor="@color/customer_header_text"
-                    android:textSize="@dimen/text_dimen_13" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:background="@drawable/rectangular_shape"
-                    android:onClick="@{()-> callbacks.onCorporateSearchClick()}"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_search_by_registration_number"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:textSize="@dimen/text_dimen_13" />
-
-                    <ImageView
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/app_name"
-                        android:paddingStart="@dimen/five_dp"
-                        android:paddingEnd="@dimen/five_dp"
-                        android:src="@drawable/ic_search" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:visibility="@{corporate == null ? View.GONE : View.VISIBLE}"
-                android:onClick="@{()-> callbacks.onCorporateEditClick(corporate)}">
-
-                <LinearLayout
-                    android:id="@+id/corporate_details_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/customer_header_text"
-                        android:textSize="@dimen/text_dimen_12"
-                        app:full_text="@{@string/label_generic_corporate_no(corporate.code)}"
-                        app:span_color="@{@color/black}"
-                        app:span_font="@{`robotoMedium`}"
-                        app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.code}" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:paddingEnd="@dimen/thirty_dp"
-                        android:textColor="@color/customer_header_text"
-                        android:textSize="@dimen/text_dimen_12"
-                        app:full_text="@{@string/label_generic_corporate_name(corporate.description)}"
-                        app:span_color="@{@color/black}"
-                        app:span_font="@{`robotoMedium`}"
-                        app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.description}" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="@dimen/twenty_seven_dp"
-                    android:layout_height="@dimen/twenty_seven_dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_next_level" />
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/EditTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:layout_marginEnd="@dimen/thirty_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_below="@+id/corporate_details_view">
-
-<!--                    android:visibility="@{prg_tracking ? View.VISIBLE : View.GONE}"-->
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/prg_tracking_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Prg.Tracking"
-                        android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789"
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:imeOptions="actionNext"/>
-                </com.google.android.material.textfield.TextInputLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/continue_btn"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/corporate_layout"
-            android:alpha="0.3"
-            android:background="@color/cpb_yellow"
-            android:fontFamily="@font/roboto_bold"
-            android:onClick="@{()->callbacks.onContinueBtnClick()}"
-            android:text="@string/label_continue"
-            android:textAllCaps="false"
-            android:textSize="@dimen/text_dimen_17"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

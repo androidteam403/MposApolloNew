@@ -501,7 +501,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/ten_dp"
-                            android:layout_toEndOf="@+id/select_btn"
                             android:background="@drawable/bg_select_btn"
                             android:backgroundTint="@color/colorPrimary"
                             android:fontFamily="@font/roboto_medium"

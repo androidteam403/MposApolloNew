@@ -130,7 +130,9 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.cardName}" />
+                            app:span_text="@{customer.cardName}"
+                            android:maxLines="2"
+                            android:ellipsize="end"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -145,7 +147,9 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.mobileNo}" />
+                            app:span_text="@{customer.mobileNo}"
+                            android:maxLines="2"
+                            android:ellipsize="end"/>
                     </LinearLayout>
 
                     <TextView
@@ -218,7 +222,9 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{doctor.displayText}"/>
+                            app:span_text="@{doctor.displayText}"
+                            android:maxLines="2"
+                            android:ellipsize="end"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -233,7 +239,9 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{doctor.code}"/>
+                            app:span_text="@{doctor.code}"
+                            android:maxLines="2"
+                            android:ellipsize="end"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -291,7 +299,9 @@
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoMedium`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.code}" />
+                        app:span_text="@{corporate.code}"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -305,7 +315,9 @@
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoMedium`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.description}" />
+                        app:span_text="@{corporate.description}"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

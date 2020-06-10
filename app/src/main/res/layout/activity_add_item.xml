@@ -1200,7 +1200,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:animateLayoutChanges="true"
-            android:layout_below="@+id/details_layout"
             android:orientation="vertical"
             android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">
 

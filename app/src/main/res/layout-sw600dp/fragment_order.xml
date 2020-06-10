@@ -99,7 +99,9 @@
                 android:id="@+id/orderrecycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/ten_dp" />
 
         </LinearLayout>
 

@@ -35,6 +35,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="EditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
