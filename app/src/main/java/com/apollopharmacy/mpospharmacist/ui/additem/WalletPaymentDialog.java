@@ -223,17 +223,17 @@ public class WalletPaymentDialog {
 
     public void setDialogDismiss(){
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-
-            @Override
-            public boolean onKey(DialogInterface arg0, int keyCode,
-                                 KeyEvent event) {
-                // TODO Auto-generated method stub
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-                }
-                return true;
-            }
-        });
+        dialog.setCancelable(false);
+//        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+//                // TODO Auto-generated method stub
+//                if (keyCode == KeyEvent.KEYCODE_BACK) {
+//
+//                }
+//                return true;
+//            }
+//        });
     }
 }
