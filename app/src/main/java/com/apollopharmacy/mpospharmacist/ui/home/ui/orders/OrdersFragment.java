@@ -55,6 +55,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView {
     private FragmentOrderBinding fragmentOrderBinding;
     private ArrayList<CalculatePosTransactionRes> ordersModelArrayList = new ArrayList<>();
     private OrdersAdapter ordersAdapter;
+    private CalculatePosTransactionRes transactionRes;
     private FiltersReq filtersReq = new FiltersReq();
     private BottomSheetFragment bottomSheetFragment;
     public static final int REQUEST_CODE = 1;

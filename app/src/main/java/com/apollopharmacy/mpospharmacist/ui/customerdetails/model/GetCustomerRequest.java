@@ -34,6 +34,17 @@ public class GetCustomerRequest {
     @SerializedName("SearchString")
     private String SearchString;
 
+    @SerializedName("Terminal")
+    private String Terminal;
+
+    public String getTerminal() {
+        return Terminal;
+    }
+
+    public void setTerminal(String terminal) {
+        Terminal = terminal;
+    }
+
     public String getAXSearchUrl() {
         return AXSearchUrl;
     }

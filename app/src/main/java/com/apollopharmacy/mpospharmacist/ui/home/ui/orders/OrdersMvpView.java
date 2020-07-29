@@ -21,4 +21,5 @@ public interface OrdersMvpView extends MvpView {
     void noDataFound();
 
     void onClickApplyFilters();
+
 }

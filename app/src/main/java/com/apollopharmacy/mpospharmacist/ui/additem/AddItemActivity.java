@@ -25,11 +25,16 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacist.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -39,17 +44,10 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryActivity;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
-import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListActivity;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 import com.eze.api.EzeAPI;
@@ -58,7 +56,6 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -156,6 +153,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
+                addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
             }
             doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
             if (doctorEntity != null) {
@@ -292,7 +290,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         }
 
-
         addItemBinding.detailsLayout.prgTrackingEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -316,7 +313,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
+        if (paymentDoneAmount == orderTotalAmount()) {
+            alertBackDialog();
+        } else if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             addItemBinding.setIsPaymentMode(false);
             paymentMethodModel.setGenerateBill(false);
         } else {
@@ -326,7 +325,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 alertDialog();
             }
         }
+
     }
+
+    private void alertBackDialog() {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setSubtitle("Generate Bill Before Exit");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
 
     @Override
     public void onManualSearchClick() {

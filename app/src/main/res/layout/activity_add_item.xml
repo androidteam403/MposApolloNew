@@ -77,7 +77,8 @@
                 android:onClick="@{()-> callback.onClickBackPressed()}"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_back_arrow"
+                android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,6 +87,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
                 app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
                 app:span_color="@{@color/white}"
                 app:span_font="@{`robotoRegular`}"
@@ -465,8 +468,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="0.5"
-                                android:orientation="vertical"
-                                android:gravity="end">
+                                android:gravity="end"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"

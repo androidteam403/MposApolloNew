@@ -15,4 +15,6 @@ public interface OrederReturnMvpView extends MvpView {
     void showCancelOrderSuccess(String title, String message);
 
     void partialReturnOrder();
+
+    void onAlreadyItemReturnedColor();
 }

@@ -98,6 +98,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                 mvpPresenter.trackingWiseReturnAllowed(orderHistoryItem.getCorpCode());
             }
         }
+
+
         orderReturnActiivtyBinding.detailsLayout.detailsExpanCollapseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +127,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             orderReturnActiivtyBinding.orderreturnrecycle.setLayoutManager(mLayoutManager);
             orderReturnActiivtyBinding.orderreturnrecycle.setAdapter(orderReturnAdapter);
+//            orderHistoryItem.setReturnType(1);
+//            mvpPresenter.orderReturnAll(orderHistoryItem);
         }
 
         payActivityAdapter = new PaidListAdapter(this, arrPayAdapterModel);
@@ -289,6 +293,11 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                 mvpPresenter.orderReturnAll(orderHistoryItem);
             }
         }
+    }
+
+    @Override
+    public void onAlreadyItemReturnedColor() {
+//        this.orderReturnAdapter.itemColorChange();
     }
 
     private boolean isItemChecked() {

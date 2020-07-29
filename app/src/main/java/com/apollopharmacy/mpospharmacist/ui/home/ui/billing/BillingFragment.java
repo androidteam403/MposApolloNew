@@ -9,7 +9,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentBillingBinding;
@@ -27,10 +30,6 @@ import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.Transacti
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 
 
 public class BillingFragment extends BaseFragment implements BillingMvpView {
@@ -71,12 +70,12 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(TextUtils.isEmpty(editable)){
+                if (TextUtils.isEmpty(editable)) {
                     fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
                     fragmentBillingBinding.continueBtn.setClickable(false);
-                }else{
-                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
-                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                } else {
+                    if (!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())) {
                         fragmentBillingBinding.continueBtn.setAlpha(1);
                         fragmentBillingBinding.continueBtn.setClickable(true);
                     }
@@ -98,12 +97,12 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(TextUtils.isEmpty(editable)){
+                if (TextUtils.isEmpty(editable)) {
                     fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
                     fragmentBillingBinding.continueBtn.setClickable(false);
-                }else{
-                    if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
-                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())){
+                } else {
+                    if (!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                            && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString())) {
                         fragmentBillingBinding.continueBtn.setAlpha(1);
                         fragmentBillingBinding.continueBtn.setClickable(true);
                     }
@@ -174,24 +173,24 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
     @Override
     public void onContinueBtnClick() {
-        if(fragmentBillingBinding.getDoctor() == null  ){
-           showMessage("please select Doctor");
+        if (fragmentBillingBinding.getDoctor() == null) {
+            showMessage("please select Doctor");
             return;
-        }else if(fragmentBillingBinding.getCorporate() == null){
+        } else if (fragmentBillingBinding.getCorporate() == null) {
             showMessage("please select Corporate");
             return;
         }
         if (fragmentBillingBinding.getCustomer() != null) {
-            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
+            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        }else{
-            if(fragmentBillingBinding.customerMobile.getText().toString().length() < 10){
+        } else {
+            if (fragmentBillingBinding.customerMobile.getText().toString().length() < 10) {
                 fragmentBillingBinding.customerMobile.setError("Enter valid mobile number");
-            }else{
+            } else {
                 GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                 entity.setCardName(fragmentBillingBinding.customerName.getText().toString());
                 entity.setMobileNo(fragmentBillingBinding.customerMobile.getText().toString());
-                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem,corporateModel));
+                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel));
                 getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         }
@@ -230,6 +229,16 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
                 fragmentBillingBinding.continueBtn.setClickable(true);
                 customerResult = (GetCustomerResponse.CustomerEntity) data.getSerializableExtra("customer_info");
                 fragmentBillingBinding.setCustomer(customerResult);
+                if (customerResult.getCorpId() != null) {
+                    fragmentBillingBinding.prgTrackingEdit.setText(customerResult.getCardNo());
+                    for (CorporateModel.DropdownValueBean corporateModel : corporateModel.get_DropdownValue())
+                        if (corporateModel.getCode().equalsIgnoreCase(customerResult.getCorpId())) {
+                            fragmentBillingBinding.setCorporate(corporateModel);
+                        }
+                }else {
+                    fragmentBillingBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
+                    fragmentBillingBinding.prgTrackingEdit.setText("");
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -259,8 +268,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
         }
     }
 
-    private void corporatePrgTracking(CorporateModel.DropdownValueBean result){
-        if(result.getCode().equalsIgnoreCase("5")){
+    private void corporatePrgTracking(CorporateModel.DropdownValueBean result) {
+        if (result.getCode().equalsIgnoreCase("5")) {
             fragmentBillingBinding.setPrgTracking(true);
             fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
             fragmentBillingBinding.continueBtn.setClickable(false);
@@ -277,28 +286,28 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(TextUtils.isEmpty(editable) ){
+                    if (TextUtils.isEmpty(editable)) {
                         fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
                         fragmentBillingBinding.continueBtn.setClickable(false);
-                    }else{
-                        if(!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
-                                && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString()) && !TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+                    } else {
+                        if (!TextUtils.isEmpty(fragmentBillingBinding.customerMobile.getText().toString())
+                                && !TextUtils.isEmpty(fragmentBillingBinding.customerName.getText().toString()) && !TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
                             continueBtnEnable();
                             fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
                         }
                     }
                 }
             });
-        }else{
+        } else {
             fragmentBillingBinding.setPrgTracking(false);
         }
     }
 
-    private void continueBtnEnable(){
-        if(fragmentBillingBinding.getCorporate().getCode().equalsIgnoreCase("5") && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+    private void continueBtnEnable() {
+        if (fragmentBillingBinding.getCorporate().getCode().equalsIgnoreCase("5") && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
             fragmentBillingBinding.continueBtn.setAlpha((float) 0.3);
             fragmentBillingBinding.continueBtn.setClickable(false);
-        }else {
+        } else {
             fragmentBillingBinding.continueBtn.setAlpha(1);
             fragmentBillingBinding.continueBtn.setClickable(true);
         }

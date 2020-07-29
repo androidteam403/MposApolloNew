@@ -15,4 +15,6 @@ public interface CustomerDetailsMvpPresenter<V extends CustomerDetailsMvpView> e
     void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity);
 
     void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity);
+
+    void getCustomerApi();
 }

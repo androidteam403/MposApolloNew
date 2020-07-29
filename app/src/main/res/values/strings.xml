@@ -264,6 +264,10 @@
     <string name="label_product_item_count">ITEMS LIST (%1$s)</string>
     <string name="label_generic_new_order">New Order # %1$s</string>
 
+    <string name="label_corporate_no">Corporate No.</string>
+    <string name="label_corporate_name">Corporate Name</string>
+
+
     <string name="label_generic_mac_id">MAC ID\n%1$s</string>
     <string name="label_generic_device_type">Device Type\n%1$s</string>
     <string name="label_generic_device_name">Device Name\n%1$s</string>

@@ -216,6 +216,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                         getMvpView().hideLoading();
                         if (response.body() != null) {
                             getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                            getMvpView().onAlreadyItemReturnedColor();
                         }
                     }
                 }

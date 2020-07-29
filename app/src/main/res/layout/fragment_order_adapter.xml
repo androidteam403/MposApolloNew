@@ -15,6 +15,7 @@
 
 
     <LinearLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -23,12 +24,15 @@
         android:padding="@dimen/five_dp">
 
         <LinearLayout
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/orderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -40,6 +44,7 @@
                 app:span_text="@{orderDetails.transactionId}" />
 
             <TextView
+                android:id="@+id/receiptId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -58,6 +63,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/orderDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -69,6 +75,7 @@
                 app:span_text="@{orderDetails.transDate}" />
 
             <TextView
+                android:id="@+id/custName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -87,6 +94,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -98,6 +106,7 @@
                 app:span_text="@{@string/price_format(orderDetails.grossAmount)}" />
 
             <TextView
+                android:id="@+id/custNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"

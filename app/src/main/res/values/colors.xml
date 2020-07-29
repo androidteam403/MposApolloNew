@@ -62,6 +62,7 @@
     <color name="transaction_id_color">#0dbd00</color>
     <color name="order_success_divider_bg">#d1f1f1</color>
     <color name="address_divider_color">#03b3b3</color>
+    <color name="thick_green">#008000</color>
 
     <array name="dot_colors">
         <item>#03A9F4</item>

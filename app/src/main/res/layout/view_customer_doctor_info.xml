@@ -342,7 +342,7 @@
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15"
                         android:imeOptions="actionDone"
-                        android:text="@{corporate.prg_Tracking}"/>
+                        android:text="@{customer.cardNo}"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>

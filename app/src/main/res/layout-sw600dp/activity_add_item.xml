@@ -77,7 +77,8 @@
                 android:onClick="@{()-> callback.onClickBackPressed()}"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_back_arrow"
+                android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,6 +87,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingEnd="@dimen/ten_dp"
                 app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
                 app:span_color="@{@color/white}"
                 app:span_font="@{`robotoRegular`}"
@@ -429,13 +432,14 @@
                             android:layout_marginTop="@dimen/seven_dp"
                             android:background="@color/white"
                             android:orientation="horizontal"
-                            android:padding="@dimen/ten_dp">
+                            android:padding="@dimen/ten_dp"
+                            android:weightSum="1">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
+                                android:layout_weight="0.5"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -463,9 +467,9 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="horizontal"
-                                android:gravity="end">
+                                android:layout_weight="0.5"
+                                android:gravity="end"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -473,7 +477,7 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="Additional Discount : "
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_dimen_13" />
+                                    android:textSize="@dimen/text_dimen_12" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

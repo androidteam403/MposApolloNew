@@ -42,7 +42,70 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
 
     @Override
     public void onCustomerSearchClick() {
-        if(!TextUtils.isEmpty(getMvpView().getCustomerNumber())){
+
+        if (!TextUtils.isEmpty(getMvpView().getCustomerNumber())) {
+            if (getMvpView().isNetworkConnected()) {
+                getMvpView().showLoading();
+                //Creating an object of our api interface
+                ApiInterface api = ApiClient.getApiService();
+                GetCustomerRequest customerRequest = new GetCustomerRequest();
+                customerRequest.setSearchString(getMvpView().getCustomerNumber());
+                customerRequest.setSearchType(0);
+                customerRequest.setISAX(true);
+                customerRequest.setISOneApollo(true);
+                customerRequest.setStore("16001");
+                customerRequest.setTerminal(null);
+                customerRequest.setDataAreaID("AHEL");
+                customerRequest.setClusterCode("14907");
+                customerRequest.setOneApolloSearchUrl(getDataManager().getGlobalJson().getCustomerSearchOneApolloUrl());
+                customerRequest.setAXSearchUrl(getDataManager().getGlobalJson().getCustomerSearchAXUrl());
+                Call<GetCustomerResponse> call = api.GET_CUSTOMER_REQUEST_CALL(customerRequest);
+
+                call.enqueue(new Callback<GetCustomerResponse>() {
+                    @Override
+                    public void onResponse(@NotNull Call<GetCustomerResponse> call, @NotNull Response<GetCustomerResponse> response) {
+                        if (response.isSuccessful()) {
+                            //Dismiss Dialog
+                            getMvpView().hideLoading();
+                            if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                                getMvpView().onSuccessCustomerSearch(response.body());
+                            } else {
+                                getCustomerApi();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<GetCustomerResponse> call, @NotNull Throwable t) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        handleApiError(t);
+                    }
+                });
+            } else {
+                getMvpView().onError("Internet Connection Not Available");
+            }
+        }
+    }
+
+    @Override
+    public void onVoiceSearchClick() {
+        getMvpView().onVoiceSearchClick();
+    }
+
+    @Override
+    public void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity) {
+        getMvpView().onSubmitBtnClick(customerEntity);
+    }
+
+    @Override
+    public void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity) {
+        getMvpView().onEditBtnClick(customerEntity);
+    }
+
+    @Override
+    public void getCustomerApi() {
+        if (!TextUtils.isEmpty(getMvpView().getCustomerNumber())) {
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
                 //Creating an object of our api interface
@@ -75,7 +138,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                             if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                                 GetCustomerResponse customerResponse = new GetCustomerResponse();
                                 ArrayList<GetCustomerResponse.CustomerEntity> customerEntities = new ArrayList<>();
-                                if(response.body().getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
+                                if (response.body().getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
                                     GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                                     entity.setMobileNo(response.body().getOneApolloProcessResult().getMobileNum());
                                     entity.setCardName(response.body().getOneApolloProcessResult().getName());
@@ -99,21 +162,6 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                 getMvpView().onError("Internet Connection Not Available");
             }
         }
-    }
-
-    @Override
-    public void onVoiceSearchClick() {
-        getMvpView().onVoiceSearchClick();
-    }
-
-    @Override
-    public void onClickSelectBtn(GetCustomerResponse.CustomerEntity customerEntity) {
-        getMvpView().onSubmitBtnClick(customerEntity);
-    }
-
-    @Override
-    public void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity) {
-        getMvpView().onEditBtnClick(customerEntity);
     }
 
 

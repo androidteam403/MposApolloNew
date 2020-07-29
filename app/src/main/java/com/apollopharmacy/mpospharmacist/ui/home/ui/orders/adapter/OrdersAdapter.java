@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +14,6 @@ import com.apollopharmacy.mpospharmacist.databinding.FragmentOrderAdapterBinding
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,31 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         CalculatePosTransactionRes item = ordersModelArrayList.get(position);
         holder.fragmentOrderAdapterBinding.setOrderDetails(item);
         holder.fragmentOrderAdapterBinding.setCallback(mPresenter);
+        if (item.getTransType() == 2) {//order cancelled
+            holder.fragmentOrderAdapterBinding.itemLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.thick_green));
+            holder.fragmentOrderAdapterBinding.orderId.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.receiptId.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.orderDate.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.custName.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.amount.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.custNumber.setTextColor(ContextCompat.getColor(activity, R.color.white));
+        } else if (item.getTransType() == 1) {//partial return
+            holder.fragmentOrderAdapterBinding.itemLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.transaction_id_color));
+            holder.fragmentOrderAdapterBinding.orderId.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.receiptId.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.orderDate.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.custName.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.amount.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.custNumber.setTextColor(ContextCompat.getColor(activity, R.color.white));
+        } else if (item.getTransType() == 0) {//order placed
+            holder.fragmentOrderAdapterBinding.itemLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+            holder.fragmentOrderAdapterBinding.orderId.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+            holder.fragmentOrderAdapterBinding.receiptId.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+            holder.fragmentOrderAdapterBinding.orderDate.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+            holder.fragmentOrderAdapterBinding.custName.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+            holder.fragmentOrderAdapterBinding.amount.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+            holder.fragmentOrderAdapterBinding.custNumber.setTextColor(ContextCompat.getColor(activity, R.color.grey));
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
