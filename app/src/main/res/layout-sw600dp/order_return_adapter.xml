@@ -4,7 +4,6 @@
     <data>
 
         <import type="android.view.View" />
-
         <variable
             name="model"
             type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />

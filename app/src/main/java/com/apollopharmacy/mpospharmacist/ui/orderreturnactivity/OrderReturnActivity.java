@@ -161,6 +161,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 
     @Override
     public void isCorpAllowedReturn(boolean isAllowed) {
+
         if (isAllowed && orderHistoryItem.getTransType() == 0) {
             orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
         } else {

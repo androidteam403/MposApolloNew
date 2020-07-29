@@ -323,6 +323,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
             } else {
                 alertDialog();
+
             }
         }
 

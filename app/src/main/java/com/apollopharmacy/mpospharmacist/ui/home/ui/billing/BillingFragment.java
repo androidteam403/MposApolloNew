@@ -235,6 +235,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
                         if (corporateModel.getCode().equalsIgnoreCase(customerResult.getCorpId())) {
                             fragmentBillingBinding.setCorporate(corporateModel);
                         }
+
                 }else {
                     fragmentBillingBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
                     fragmentBillingBinding.prgTrackingEdit.setText("");

@@ -105,6 +105,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
 
     @Override
     public void getCustomerApi() {
+
         if (!TextUtils.isEmpty(getMvpView().getCustomerNumber())) {
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();

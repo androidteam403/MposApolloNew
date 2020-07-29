@@ -88,6 +88,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             transactionIDModel.setBillingMode(5);
             Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
             call.enqueue(new Callback<TransactionIDResModel>() {
+
                 @Override
                 public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {

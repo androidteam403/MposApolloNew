@@ -122,6 +122,7 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     public void onClickBackPressed() {
+
         onBackPressed();
     }
 

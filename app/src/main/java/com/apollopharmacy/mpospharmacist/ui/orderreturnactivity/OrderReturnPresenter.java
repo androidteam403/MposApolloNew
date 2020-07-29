@@ -211,6 +211,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
+
                         getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
                     } else {
                         getMvpView().hideLoading();
