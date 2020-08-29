@@ -12,4 +12,14 @@ public interface AllDoctorsDialogMvpView extends MvpView {
     void updateNoDoctorView(int arrayCnt);
 
     void onAddDoctorClick();
+
+    String doctorSearch();
+
+    void onSuccessDoctorSearch(DoctorSearchResModel body);
+
+    void onSuccessDefaultDoctorSearch(DoctorSearchResModel body);
+
+
+    void onFailureDoctorSerach();
+
 }

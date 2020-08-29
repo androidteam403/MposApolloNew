@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:background="@color/cpb_yellow"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Name: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="testing"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Terminal Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/terminal_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="111"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

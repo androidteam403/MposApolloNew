@@ -4,10 +4,8 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactio
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 
 import java.util.ArrayList;
 
@@ -97,7 +95,18 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     boolean validTenderLimit(double amount, String tenderName);
 
-    void getPharmacyStaffApiDetails(String otp,String action,double amount);
+    void getPharmacyStaffApiDetails(String otp, String action, double amount);
 
-    void applyCouponCodeApi(String couponCode,double categoryAmount);
+    void applyCouponCodeApi(String couponCode, double categoryAmount);
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
+
+    void onUploadApiCall();
+
+    void getUplaodPharmacyStaffApiDetails(String action);
+
 }

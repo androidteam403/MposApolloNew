@@ -74,7 +74,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     public void getTransactionID() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionIDReqModel transactionIDModel = new TransactionIDReqModel();
             transactionIDModel.setRequestStatus(0);
             transactionIDModel.setReturnMessage("");
@@ -109,7 +109,7 @@ public class SearchCustomerDoctorDetailsPresenter<V extends SearchCustomerDoctor
     public void getCorporateList() {
         if (getMvpView().isNetworkConnected()) {
             //getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {
                 @Override

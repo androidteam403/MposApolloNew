@@ -64,13 +64,88 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/action_bar_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:background="@color/cpb_yellow"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/fifty_dp"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Name: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="testing"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Terminal Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/terminal_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="111"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/search_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_below="@+id/custom_action_bar"
+            android:layout_below="@+id/action_bar_view"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/fifteen_dp"
-            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginEnd="@dimen/ten_dp"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -90,8 +165,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
                     android:hint="@string/label_search_for_items"
-                    android:inputType="text"
                     android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
@@ -153,12 +228,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pdialog"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/eight_dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@{@string/label_5_items_found(product_count)}"
-            android:layout_centerHorizontal="true"
             android:textColor="@color/black"
             android:visibility="@{product_count == 0 ? View.INVISIBLE : View.VISIBLE}" />
 

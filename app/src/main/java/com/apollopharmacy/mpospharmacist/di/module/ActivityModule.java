@@ -18,6 +18,9 @@ import com.apollopharmacy.mpospharmacist.ui.additem.AddItemPresenter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpView;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoPresenter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.dialog.DateChangeMvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.dialog.DateChangeMvpView;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.dialog.DateChangePresenter;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsPresenter;
@@ -273,6 +276,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     OrderSummaryMvpPresenter<OrderSummaryMvpView> providesOrderSummaryActivityProvides(OrderSummaryPresenter<OrderSummaryMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DateChangeMvpPresenter<DateChangeMvpView> dateChaneActivityProvides(DateChangePresenter<DateChangeMvpView> presenter) {
         return presenter;
     }
 }

@@ -28,7 +28,7 @@ public class CorporateDetailsPresenter<V extends CorporateDetailsMvpView> extend
     public void getCorporateList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
@@ -54,5 +54,20 @@ public class CorporateDetailsPresenter<V extends CorporateDetailsMvpView> extend
     @Override
     public void onActionBarBackPressed() {
         getMvpView().onClickBackPressed();
+    }
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
     }
 }

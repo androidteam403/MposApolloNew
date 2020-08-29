@@ -12,6 +12,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityOrderSummaryBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -29,11 +30,13 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     private ArrayList<SaveRetailsTransactionRes.SalesLineEntity> medicineArrList = new ArrayList<>();
     private ArrayList<SaveRetailsTransactionRes.TenderLineEntity> paidAmountArr = new ArrayList<>();
     private CorporateModel.DropdownValueBean corporateEntity;
+    ViewPaymentInfoBinding childView;
 
-    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity) {
+    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
         intent.putExtra("transaction_details", saveRetailsTransactionRes);
         intent.putExtra("corporate_info", corporateEntity);
+        intent.putExtra("order_data", orderPriceInfoModel);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -49,7 +52,14 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     protected void setUp() {
+        orderSummaryBinding.siteName.setText(mPresenter.getStoreName());
+        orderSummaryBinding.siteId.setText(mPresenter.getStoreId());
+        orderSummaryBinding.terminalId.setText(mPresenter.getTerminalId());
         orderSummaryBinding.setCallback(mPresenter);
+//        OrderPriceInfoModel orderPriceInfoModel=(OrderPriceInfoModel) getIntent().getSerializableExtra("order_data");
+//        if (orderPriceInfoModel!=null){
+//            childView.setOrderAmount(orderPriceInfoModel);
+//        }
         SaveRetailsTransactionRes transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
@@ -70,17 +80,17 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         }
         SaveRetailsTransactionRes.TenderLineEntity lineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
         lineEntity.setTenderName("Total Amount");
-        lineEntity.setAmountTendered((transactionRes.getGrossAmount()- transactionRes.getDiscAmount()));
+        lineEntity.setAmountTendered((transactionRes.getGrossAmount() - transactionRes.getDiscAmount()));
         paidAmountArr.add(lineEntity);
         paidAmountArr.addAll(transactionRes.getTenderLine());
-        if(transactionRes.getRemainingamount() != 0) {
+        if (transactionRes.getRemainingamount() != 0) {
             SaveRetailsTransactionRes.TenderLineEntity remainAmountLineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
             remainAmountLineEntity.setAmountTendered(transactionRes.getRemainingamount());
             remainAmountLineEntity.setTenderName("Pay Back Amount");
             paidAmountArr.add(remainAmountLineEntity);
         }
         for (int i = 0; i < paidAmountArr.size(); i++) {
-            ViewPaymentInfoBinding childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
+            childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
             childView.setPaidbean(paidAmountArr.get(i));
             orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
         }

@@ -3,7 +3,6 @@ package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
 
 public interface PharmacistLoginMvpView extends MvpView {
@@ -29,4 +28,7 @@ public interface PharmacistLoginMvpView extends MvpView {
     String getCampaignId();
 
     String getUserPassword();
+
+
+
 }

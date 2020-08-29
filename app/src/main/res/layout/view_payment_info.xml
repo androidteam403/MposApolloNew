@@ -2,39 +2,46 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="paidbean"
             type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes.TenderLineEntity" />
+
+        <variable
+            name="orderDiscount"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/one_dp">
-
-        <TextView
-            android:id="@+id/payment_type"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@{paidbean.tenderName}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_13" />
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/one_dp">
+
+            <TextView
+                android:id="@+id/payment_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{paidbean.tenderName}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_13" />
 
 
-        <TextView
-            android:id="@+id/paid_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="0.1"
-            android:fontFamily="@font/price_regular"
-            android:gravity="end"
-            android:text="@{@string/label_Rs_pay_amount(@string/price_format(paidbean.amountTendered))}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_13" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/paid_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="0.1"
+                android:fontFamily="@font/price_regular"
+                android:gravity="end"
+                android:text="@{@string/label_Rs_pay_amount(@string/price_format(paidbean.amountTendered))}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_13" />
+        </LinearLayout>
+
+
 </layout>

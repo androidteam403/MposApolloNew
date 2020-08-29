@@ -2,6 +2,7 @@
     <string name="app_name">ApolloMPOS</string>
 
     <string name="some_error">Something went wrong</string>
+    <string name="url_error">Unable to communicate</string>
     <string name="label_setup_process">Setup Process</string>
     <string name="label_please_login_to_complete_theprocess">Please login to complete the process</string>
     <string name="label_search_pharmacy">Search pharmacy by location or pincode</string>

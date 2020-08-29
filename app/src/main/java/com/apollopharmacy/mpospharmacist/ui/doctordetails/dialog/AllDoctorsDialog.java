@@ -27,7 +27,10 @@ import javax.inject.Inject;
 public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpView {
     private DialogAllDoctorsBinding allDoctorsBinding;
     private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList = new ArrayList<>();
+    private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayListOnElse = new ArrayList<>();
     private DoctorDetailsMvpView doctorDetailsMvpView;
+    private AllDoctorsListAdapter doctorsListAdapter;
+    boolean isListFiltered = false;
 
     @Inject
     AllDoctorsDialogMvpPresenter<AllDoctorsDialogMvpView> mPresenter;
@@ -39,8 +42,9 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
         return dialog;
     }
 
-    public void setDoctorsArray(ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList) {
-        this.doctorSearchArrayList = doctorSearchArrayList;
+    public void setDoctorsArray(ArrayList<DoctorSearchResModel.DropdownValueBean> doctorSearchArrayList1) {
+        this.doctorSearchArrayList = doctorSearchArrayList1;
+        doctorSearchArrayListOnElse.addAll(doctorSearchArrayList1);
     }
 
     public void setDoctorDetailsMvpView(DoctorDetailsMvpView detailsMvpView) {
@@ -64,7 +68,7 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
     @Override
     protected void setUp(View view) {
         allDoctorsBinding.setCallback(mPresenter);
-        AllDoctorsListAdapter doctorsListAdapter = new AllDoctorsListAdapter(getActivity(), doctorSearchArrayList);
+        doctorsListAdapter = new AllDoctorsListAdapter(getActivity(), doctorSearchArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         allDoctorsBinding.allDoctorsRecyclerView.setLayoutManager(mLayoutManager);
         doctorsListAdapter.onClickListener(this);
@@ -82,7 +86,14 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
 
             @Override
             public void afterTextChanged(Editable s) {
-                doctorsListAdapter.getFilter().filter(s);
+                if (s.length() >= 3) {
+                    mPresenter.searchDoctorDetailsByName();
+                } else if (s.toString().isEmpty()) {
+                    mPresenter.defaultDoctorList();
+//                    doctorSearchArrayList.clear();
+//                    doctorSearchArrayList.addAll(doctorSearchArrayListOnElse);
+//                    doctorsListAdapter.clearDate();
+                }
             }
         });
     }
@@ -99,15 +110,15 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
 
     @Override
     public void onClickListener(DoctorSearchResModel.DropdownValueBean item) {
-        doctorDetailsMvpView.onSelectDoctor(item);
+        doctorDetailsMvpView.onSelectDoctor(item, doctorSearchArrayListOnElse);
         dismissDialog("");
     }
 
     @Override
     public void updateNoDoctorView(int arrayCnt) {
-        if(arrayCnt > 0){
+        if (arrayCnt > 0) {
             allDoctorsBinding.setNoDoctor(false);
-        }else {
+        } else {
             allDoctorsBinding.setNoDoctor(true);
         }
     }
@@ -116,5 +127,45 @@ public class AllDoctorsDialog extends BaseDialog implements AllDoctorsDialogMvpV
     public void onAddDoctorClick() {
         doctorDetailsMvpView.onAddDoctorClick();
         dismissDialog("");
+    }
+
+    @Override
+    public String doctorSearch() {
+        return allDoctorsBinding.doctorNameSearch.getText().toString();
+    }
+
+    @Override
+    public void onSuccessDoctorSearch(DoctorSearchResModel body) {
+        if (body.get_DropdownValue().size() > 0) {
+            doctorSearchArrayList.clear();
+            allDoctorsBinding.allDoctorsRecyclerView.setVisibility(View.VISIBLE);
+            allDoctorsBinding.setNoDoctor(false);
+            doctorSearchArrayList.addAll(body.get_DropdownValue());
+            doctorsListAdapter.clearDate();
+            doctorsListAdapter.add(body.get_DropdownValue());
+            //   productListAdapter.notifyDataSetChanged();
+            //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
+        } else {
+            doctorsListAdapter.clearDate();
+            allDoctorsBinding.setNoDoctor(false);
+        }
+    }
+
+    @Override
+    public void onSuccessDefaultDoctorSearch(DoctorSearchResModel body) {
+        if (body.get_DropdownValue().size() > 0) {
+            doctorSearchArrayList.clear();
+            allDoctorsBinding.allDoctorsRecyclerView.setVisibility(View.VISIBLE);
+            allDoctorsBinding.setNoDoctor(false);
+            doctorSearchArrayList.addAll(body.get_DropdownValue());
+            doctorsListAdapter.clearDate();
+            doctorsListAdapter.add(body.get_DropdownValue());
+        }
+    }
+
+    @Override
+    public void onFailureDoctorSerach() {
+        allDoctorsBinding.allDoctorsRecyclerView.setVisibility(View.GONE);
+        allDoctorsBinding.setNoDoctor(true);
     }
 }

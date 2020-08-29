@@ -43,6 +43,10 @@
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/site_data_info"
+            layout="@layout/activity_site_data" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,8 +67,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
                     android:hint="@string/label_corporate_number_id"
-                    android:inputType="text"
                     android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
@@ -79,7 +83,7 @@
                 android:layout_toStartOf="@+id/mike"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_search_product"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/mike"
@@ -90,7 +94,7 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_voice_search"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout

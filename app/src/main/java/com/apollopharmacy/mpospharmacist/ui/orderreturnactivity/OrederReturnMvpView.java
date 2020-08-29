@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
 public interface OrederReturnMvpView extends MvpView {
@@ -10,11 +11,16 @@ public interface OrederReturnMvpView extends MvpView {
 
     void setTransactionId(String transactionId);
 
-    void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll);
+    void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll,String terminalId);
 
     void showCancelOrderSuccess(String title, String message);
 
-    void partialReturnOrder();
+    void partialReturnOrder(String terminalId);
 
     void onAlreadyItemReturnedColor();
+
+    void onSalesTrackingClick();
+
+    CalculatePosTransactionRes calculations();
+
 }

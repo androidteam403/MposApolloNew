@@ -59,6 +59,10 @@
                         android:textSize="@dimen/text_dimen_18" />
                 </LinearLayout>
 
+                <include
+                    android:id="@+id/site_data_info"
+                    layout="@layout/activity_site_data" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -112,9 +116,9 @@
                             android:focusable="false"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="top"
-                            android:onClick="@{()->callback.onCustomDoctorLayoutClick()}"
                             android:hint="@string/label_search_by_doctor_name"
                             android:inputType="text"
+                            android:onClick="@{()->callback.onCustomDoctorLayoutClick()}"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
                             android:textSize="@dimen/text_dimen_15" />

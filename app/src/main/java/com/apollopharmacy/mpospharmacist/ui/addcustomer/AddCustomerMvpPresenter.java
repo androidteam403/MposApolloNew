@@ -15,4 +15,10 @@ public interface AddCustomerMvpPresenter<V extends AddCustomerMvpView> extends M
     void onActionBarBackPressed();
 
     void handleCustomerAddService( );
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.billing;
 
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -32,4 +33,21 @@ public interface BillingMvpView extends MvpView {
     void getDoctorSearchList(DoctorSearchResModel model);
 
     void getSalesOriginList(SalesOriginResModel model);
+
+    void getSalesListDropDown(SalesOriginResModel model);
+
+    String getPrgTracing();
+
+    void partialPaymentDialog(String title, String description);
+
+    void onUploadApiCall();
+
+
+    CorporateModel.DropdownValueBean getCorporateModule();
+
+    void onFaliureStaffListData();
+
+    void onSucessStaffListData(PharmacyStaffApiRes res);
+
+
 }

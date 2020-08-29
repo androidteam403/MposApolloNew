@@ -30,13 +30,15 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_ADMIN_LOGIN_ID = "PREF_KEY_ADMIN_LOGIN_ID";
     private static final String PREF_KEY_ADMIN_SET_UP = "PREF_KEY_ADMIN_SET_UP";
     private static final String PREF_KEY_STORE_ID = "PREF_KEY_STORE_ID";
-    private static final String PREF_KEY_TERMINAL_ID ="PREF_KEY_TERMINAL_ID";
+    private static final String PREF_KEY_TERMINAL_ID = "PREF_KEY_TERMINAL_ID";
     private static final String PREF_KEY_USER_LOGIN = "PREF_KEY_USER_LOGIN";
     private static final String PREF_KEY_DATA_AREA_ID = "PREF_KEY_DATA_AREA_ID";
     private static final String PREF_KEY_VENDOR_RES = "PREF_KEY_VENDOR_RES";
     private static final String PREF_KEY_KIOSK_MODE = "PREF_KEY_KIOSK_MODE";
     private static final String PREF_KEY_ALLOWED_PAYMENT = "PREF_KEY_ALLOWED_PAYMENT";
     private static final String PREF_KEY_TRACKING_CONFIG = "PREF_KEY_TRACKING_CONFIG";
+    private static final String PREF_KEY_EPOS_URL = "PREF_KEY_EPOS_URL";
+    private static final String PREF_KEY_BOOLEAN_EPOS_URL = "PREF_KEY_BOOLEAN_EPOS_URL";
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -57,18 +59,18 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public String getUserId() {
-        return mPrefs.getString(PREF_KEY_USER_ID,"");
+        return mPrefs.getString(PREF_KEY_USER_ID, "");
     }
 
     @Override
     public void storeGlobalJson(String json) {
-        mPrefs.edit().putString(PREF_KEY_GLOBAL_JSON,json).apply();
+        mPrefs.edit().putString(PREF_KEY_GLOBAL_JSON, json).apply();
     }
 
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_KEY_GLOBAL_JSON,"");
+        String json = mPrefs.getString(PREF_KEY_GLOBAL_JSON, "");
         return gson.fromJson(json, GetGlobalConfingRes.class);
     }
 
@@ -76,13 +78,13 @@ public class PreferencesManager implements PreferencesHelper {
     public void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing) {
         Gson gson = new Gson();
         String json = gson.toJson(trackingWiseConfing);
-        mPrefs.edit().putString(PREF_KEY_TRACKING_CONFIG,json).apply();
+        mPrefs.edit().putString(PREF_KEY_TRACKING_CONFIG, json).apply();
     }
 
     @Override
     public GetTrackingWiseConfing getTrackingWiseConfing() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_KEY_TRACKING_CONFIG,"");
+        String json = mPrefs.getString(PREF_KEY_TRACKING_CONFIG, "");
         return gson.fromJson(json, GetTrackingWiseConfing.class);
     }
 
@@ -90,13 +92,13 @@ public class PreferencesManager implements PreferencesHelper {
     public void storeAllowedPaymentMethod(AllowedPaymentModeRes allowedPaymentModeRes) {
         Gson gson = new Gson();
         String json = gson.toJson(allowedPaymentModeRes);
-        mPrefs.edit().putString(PREF_KEY_ALLOWED_PAYMENT,json).apply();
+        mPrefs.edit().putString(PREF_KEY_ALLOWED_PAYMENT, json).apply();
     }
 
     @Override
     public AllowedPaymentModeRes getAllowedPaymentModeRes() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_KEY_ALLOWED_PAYMENT,"");
+        String json = mPrefs.getString(PREF_KEY_ALLOWED_PAYMENT, "");
         return gson.fromJson(json, AllowedPaymentModeRes.class);
     }
 
@@ -107,7 +109,7 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public void setUserId(String userId) {
-        mPrefs.edit().putString(PREF_KEY_USER_ID,userId).apply();
+        mPrefs.edit().putString(PREF_KEY_USER_ID, userId).apply();
     }
 
     @Override
@@ -137,93 +139,113 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public void setKioskMode(boolean isKiosk) {
-        mAdminPrefs.edit().putBoolean(PREF_KEY_KIOSK_MODE,isKiosk).apply();
+        mAdminPrefs.edit().putBoolean(PREF_KEY_KIOSK_MODE, isKiosk).apply();
     }
 
     @Override
     public boolean isKioskMode() {
-        return mAdminPrefs.getBoolean(PREF_KEY_KIOSK_MODE,false);
+        return mAdminPrefs.getBoolean(PREF_KEY_KIOSK_MODE, false);
     }
 
     @Override
     public boolean isAdminLoginFinish() {
-        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_LOGIN,false);
+        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_LOGIN, false);
     }
 
     @Override
     public void setAdminLoginFinish(boolean isLogin) {
-        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_LOGIN,isLogin).apply();
+        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_LOGIN, isLogin).apply();
     }
 
     @Override
     public String getAdminLoginId() {
-        return mAdminPrefs.getString(PREF_KEY_ADMIN_LOGIN_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_ADMIN_LOGIN_ID, "");
     }
 
     @Override
     public void setAdminLoginId(String id) {
-        mAdminPrefs.edit().putString(PREF_KEY_ADMIN_LOGIN_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_ADMIN_LOGIN_ID, id).apply();
+    }
+
+    @Override
+    public String getEposURL() {
+        return mAdminPrefs.getString(PREF_KEY_EPOS_URL, "");
+    }
+
+    @Override
+    public void setEposURL(String url) {
+        mAdminPrefs.edit().putString(PREF_KEY_EPOS_URL, url).apply();
+    }
+
+    @Override
+    public void storeEposUrl(boolean url) {
+        mAdminPrefs.edit().putBoolean(PREF_KEY_BOOLEAN_EPOS_URL, url).apply();
+    }
+
+    @Override
+    public boolean isEposUrl() {
+        return mAdminPrefs.getBoolean(PREF_KEY_BOOLEAN_EPOS_URL, false);
     }
 
     @Override
     public boolean isAdminSetUpFinish() {
-        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_SET_UP,false);
+        return mAdminPrefs.getBoolean(PREF_KEY_ADMIN_SET_UP, false);
     }
 
     @Override
     public void setAdminSetUpFinish(boolean isSetUp) {
-        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_SET_UP,isSetUp).apply();
+        mAdminPrefs.edit().putBoolean(PREF_KEY_ADMIN_SET_UP, isSetUp).apply();
     }
 
     @Override
     public String getStoreId() {
-        return mAdminPrefs.getString(PREF_KEY_STORE_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_STORE_ID, "");
     }
 
     @Override
     public void setStoreId(String id) {
-        mAdminPrefs.edit().putString(PREF_KEY_STORE_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_STORE_ID, id).apply();
     }
 
     @Override
     public String getDataAreaId() {
-        return mAdminPrefs.getString(PREF_KEY_DATA_AREA_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_DATA_AREA_ID, "");
     }
 
     @Override
     public void setDataAreaId(String dataAreaId) {
-        mAdminPrefs.edit().putString(PREF_KEY_DATA_AREA_ID,dataAreaId).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_DATA_AREA_ID, dataAreaId).apply();
     }
 
     @Override
     public String getTerminalId() {
-        return mAdminPrefs.getString(PREF_KEY_TERMINAL_ID,"");
+        return mAdminPrefs.getString(PREF_KEY_TERMINAL_ID, "");
     }
 
     @Override
     public void setTerminalId(String id) {
-        mAdminPrefs.edit().putString(PREF_KEY_TERMINAL_ID,id).apply();
+        mAdminPrefs.edit().putString(PREF_KEY_TERMINAL_ID, id).apply();
     }
 
     @Override
     public boolean isUserLogin() {
-        return mPrefs.getBoolean(PREF_KEY_USER_LOGIN,false);
+        return mPrefs.getBoolean(PREF_KEY_USER_LOGIN, false);
     }
 
     @Override
     public void setUserLogin(boolean firstTime) {
-        mPrefs.edit().putBoolean(PREF_KEY_USER_LOGIN,firstTime).apply();
+        mPrefs.edit().putBoolean(PREF_KEY_USER_LOGIN, firstTime).apply();
     }
 
     @Override
     public void setVendorRes(String res) {
-        mPrefs.edit().putString(PREF_KEY_VENDOR_RES,res).apply();
+        mPrefs.edit().putString(PREF_KEY_VENDOR_RES, res).apply();
     }
 
     @Override
     public VendorCheckRes getVendorRes() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_KEY_VENDOR_RES,"");
+        String json = mPrefs.getString(PREF_KEY_VENDOR_RES, "");
         return gson.fromJson(json, VendorCheckRes.class);
     }
 

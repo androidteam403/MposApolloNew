@@ -43,7 +43,7 @@ public class AddDoctorPresenter<V extends AddDoctorMvpView> extends BasePresente
     public void handleAddDoctorService() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             AddDoctorReqModel doctorReqModel = new AddDoctorReqModel();
             doctorReqModel.setDocRegID(getMvpView().getDoctorRegNo());
             doctorReqModel.setDocAXID("");

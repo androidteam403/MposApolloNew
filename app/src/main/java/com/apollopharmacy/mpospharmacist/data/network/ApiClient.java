@@ -1,7 +1,13 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
+import android.util.Patterns;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,13 +20,13 @@ public class ApiClient {
      *******/
 //    private static final String ROOT_URL = "http://172.16.200.131:8010/";
 //    private static final String ROOT_URL_2 = "http://172.16.2.251:98/";
-    private static final String ROOT_URL = "http://lms.apollopharmacy.org:51/EPOS/";
+//    private static final String ROOT_URL = "http://lms.apollopharmacy.org:51/EPOS/";
     private static final String ROOT_URL_2 = "http://lms.apollopharmacy.org:8033/APK/";
 
     /**
      * Get Retrofit Instance
      */
-    private static Retrofit getRetrofitInstance() {
+    private static Retrofit getRetrofitInstance(String data)throws IllegalArgumentException {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
@@ -28,11 +34,12 @@ public class ApiClient {
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
-                .baseUrl(ROOT_URL)
+                .baseUrl(data)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
     }
+
 
     private static Retrofit getRetrofitInstance2() {
         OkHttpClient client = new OkHttpClient.Builder()
@@ -53,11 +60,20 @@ public class ApiClient {
      *
      * @return API Service
      */
-    public static ApiInterface getApiService() {
-        return getRetrofitInstance().create(ApiInterface.class);
+    public static ApiInterface getApiService(String url) {
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        try {
+            if (httpUrl == null) {
+                throw new IllegalArgumentException("");
+            }
+            return getRetrofitInstance(url).create(ApiInterface.class);
+        }catch (IllegalArgumentException i){
+
+        }
+        return null;
     }
 
-    public static ApiInterface getApiService2(){
+    public static ApiInterface getApiService2() {
         return getRetrofitInstance2().create(ApiInterface.class);
     }
 }

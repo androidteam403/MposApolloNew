@@ -2,11 +2,8 @@ package com.apollopharmacy.mpospharmacist.utils;
 
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Singletone {
     private static final Singletone ourInstance = new Singletone();

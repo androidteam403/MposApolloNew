@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -46,6 +47,7 @@ import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.Stack;
 
 import javax.inject.Inject;
 
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     private TextView userName, userStoreLocation;
     private CorporateModel corporateModel;
     private NavigationView navigationView;
+    private Stack<Fragment> fragmentStack = new Stack<>();
+
     @Inject
     MainActivityMvpPresenter<MainActivityMvpView> mvpPresenter;
 
@@ -68,7 +72,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextAppearance(this,R.style.RobotoBoldTextAppearance);
+        toolbar.setTitleTextAppearance(this, R.style.RobotoBoldTextAppearance);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(MainActivity.this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -99,6 +103,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 if (mAppBarConfiguration.getDrawerLayout() != null) {
                     mAppBarConfiguration.getDrawerLayout().closeDrawers();
                 }
+                if (menuItem.isChecked()) return false;
                 Singletone.getInstance().isManualBilling = false;
                 if (menuItem.getItemId() == R.id.nav_dash_board) {
                     navController.navigate(R.id.nav_dash_board, null, navOptions, null);
@@ -111,16 +116,16 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 } else if (menuItem.getItemId() == R.id.nav_order) {
                     navController.navigate(R.id.nav_order, null, navOptions, null);
                 } else if (menuItem.getItemId() == R.id.nav_manual_billing) {
-                    Singletone.getInstance().isManualBilling = true;
-                    navController.navigate(R.id.nav_manual_billing, null, navOptions, null);
-                } else if(menuItem.getItemId() == R.id.nav_exit_kiosk){
-                    KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this,mvpPresenter);
+//                    Singletone.getInstance().isManualBilling = true;
+//                    navController.navigate(R.id.nav_manual_billing, null, navOptions, null);
+                } else if (menuItem.getItemId() == R.id.nav_exit_kiosk) {
+                    KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this, mvpPresenter);
                     adminPwdDialog.setPositiveClickListener(new KioskExitClickListener() {
                         @Override
                         public void onClickPositiveBtn() {
-                            if(isAppInLockTaskMode()){
+                            if (isAppInLockTaskMode()) {
                                 stopLockTask();
-                            }else{
+                            } else {
                                 startLockTask();
                             }
                             updateMenuKiosk();
@@ -148,11 +153,16 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         setUp();
     }
 
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
+
     @Override
     protected void setUp() {
         userName.setText(mvpPresenter.getLoginUserName());
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
-            mvpPresenter.getCorporateList();
+        mvpPresenter.getCorporateList();
         //   mvpPresenter.onCheckBuildDetails();
     }
 
@@ -191,6 +201,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     }
 
     private DownloadController downloadController;
+
     @Override
     public void displayAppInfoDialog(String title, String subTitle, String positiveBtn, String negativeBtn) {
         ExitInfoDialog dialogView = new ExitInfoDialog(MainActivity.this);
@@ -233,7 +244,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     @Override
     public void onSuccessGetUnPostedPOSTransaction(CalculatePosTransactionRes body) {
         GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
-       // entity.setCardNo(body.getCustomerID());
+        // entity.setCardNo(body.getCustomerID());
         entity.setCustId(body.getCustomerID());
         entity.setPostalAddress(body.getCustAddress());
         entity.setState(body.getCustomerState());
@@ -244,9 +255,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         doctorModule.setCode(body.getDoctorCode());
         doctorModule.setDisplayText(body.getDoctorName());
         CorporateModel.DropdownValueBean corporateModule = new CorporateModel.DropdownValueBean();
-        if(corporateModel != null){
-            for(CorporateModel.DropdownValueBean valueBean : corporateModel.get_DropdownValue() ){
-                if(body.getCorpCode().equalsIgnoreCase(valueBean.getCode())) {
+        if (corporateModel != null) {
+            for (CorporateModel.DropdownValueBean valueBean : corporateModel.get_DropdownValue()) {
+                if (body.getCorpCode().equalsIgnoreCase(valueBean.getCode())) {
                     corporateModule.setCode(body.getCorpCode());
                     corporateModule.setDescription(valueBean.getDescription());
                     corporateModule.setPayMode(valueBean.getPayMode());
@@ -258,14 +269,14 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         transactionIdModel.setTransactionID(body.getTransactionId());
         Singletone.getInstance().itemsArrayList.addAll(body.getSalesLine());
 
-       // setCartItems(body.getSalesLine());
-        startActivity(AddItemActivity.getStartIntent(this, entity, doctorModule, corporateModule, transactionIdModel,corporateModel,body));
+        // setCartItems(body.getSalesLine());
+        startActivity(AddItemActivity.getStartIntent(this, entity, doctorModule, corporateModule, transactionIdModel, corporateModel, body));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         hideLoading();
     }
 
     private void setCartItems(List<SalesLineEntity> salesLine) {
-        for(SalesLineEntity lineEntity : salesLine) {
+        for (SalesLineEntity lineEntity : salesLine) {
             GetItemDetailsRes.Items cartItems = new GetItemDetailsRes.Items();
             cartItems.setArtCode(lineEntity.getItemId());
             cartItems.setCategory(lineEntity.getCategory());
@@ -273,33 +284,33 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             cartItems.setDescription(lineEntity.getItemName());
             cartItems.setDiseaseType(lineEntity.getDiseaseType());
             cartItems.setDPCO(lineEntity.isDPCO());
-          //  cartItems.setGenericName(lineEntity.getGenericName());
+            //  cartItems.setGenericName(lineEntity.getGenericName());
             cartItems.setHsncode_In(lineEntity.getHsncode_In());
             cartItems.setManufacture(lineEntity.getManufacturerName());
             cartItems.setManufactureCode(lineEntity.getManufacturerCode());
             cartItems.setProductRecID(lineEntity.getProductRecID());
-          //  cartItems.setRackId(lineEntity.getRackId());
+            //  cartItems.setRackId(lineEntity.getRackId());
             cartItems.setRetailCategoryRecID(lineEntity.getRetailCategoryRecID());
             cartItems.setRetailMainCategoryRecID(lineEntity.getRetailMainCategoryRecID());
             cartItems.setRetailSubCategoryRecID(lineEntity.getRetailSubCategoryRecID());
             cartItems.setSch_Catg(lineEntity.getScheduleCategory());
             cartItems.setSch_Catg_Code(lineEntity.getScheduleCategoryCode());
-         //   cartItems.setSI_NO(lineEntity.getS());
+            //   cartItems.setSI_NO(lineEntity.getS());
             cartItems.setSubCategory(lineEntity.getSubCategory());
             cartItems.setSubClassification(lineEntity.getSubClassification());
             cartItems.setItemDelete(lineEntity.getIsVoid());
             GetBatchInfoRes.BatchListObj batchList = new GetBatchInfoRes.BatchListObj();
             batchList.setTotalTax(lineEntity.getTotalTax());
-        //    batchList.setSNO(lineEntity.getSNO());
+            //    batchList.setSNO(lineEntity.getSNO());
             batchList.setSGSTTaxCode(lineEntity.getSGSTTaxCode());
             batchList.setSGSTPerc(lineEntity.getSGSTPerc());
-            batchList.setREQQTY((int)lineEntity.getQty());
-         //   batchList.setQ_O_H(lineEntity.getQ_O_H());
+            batchList.setREQQTY((int) lineEntity.getQty());
+            //   batchList.setQ_O_H(lineEntity.getQ_O_H());
             batchList.setPrice(lineEntity.getPrice());
-         //   batchList.setNearByExpiry(lineEntity.isNearByExpiry());
+            //   batchList.setNearByExpiry(lineEntity.isNearByExpiry());
             batchList.setMRP(lineEntity.getMRP());
             batchList.setItemID(lineEntity.getItemId());
-         //   batchList.setISMRPChange(lineEntity.isISMRPChange());
+            //   batchList.setISMRPChange(lineEntity.isISMRPChange());
             batchList.setIGSTTaxCode(lineEntity.getIGSTTaxCode());
             batchList.setIGSTPerc(lineEntity.getIGSTPerc());
             batchList.setExpDate(lineEntity.getExpiry());
@@ -308,12 +319,13 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             batchList.setCESSPerc(lineEntity.getCESSPerc());
             batchList.setCESSTaxCode(lineEntity.getCESSTaxCode());
             batchList.setBatchNo(lineEntity.getInventBatchId());
-            batchList.setEnterReqQuantity((int)lineEntity.getQty());
+            batchList.setEnterReqQuantity((int) lineEntity.getQty());
             cartItems.setBatchListObj(batchList);
-          //  Singletone.getInstance().itemsArrayList.add(cartItems);
+            //  Singletone.getInstance().itemsArrayList.add(cartItems);
         }
 
     }
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     private void startDownload() {
@@ -357,7 +369,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         }
     }
 
-    private void logoutDialog(){
+    private void logoutDialog() {
         ExitInfoDialog dialogView = new ExitInfoDialog(MainActivity.this);
         dialogView.setTitle("Alert");
         dialogView.setSubtitle("Are you sure want to logout the application ?");
@@ -381,7 +393,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         dialogView.show();
     }
 
-    private void setKioskMode(){
+    private void setKioskMode() {
         // get policy manager
         DevicePolicyManager myDevicePolicyManager = (DevicePolicyManager) this.getSystemService(Context.DEVICE_POLICY_SERVICE);
         // get this app package name
@@ -399,11 +411,11 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             Menu menu = navigationView.getMenu();
             MenuItem menuItem = menu.findItem(R.id.nav_exit_kiosk);
             if (myDevicePolicyManager.isLockTaskPermitted(this.getPackageName())) {
-                if(mvpPresenter.isKisokMode()) {
+                if (mvpPresenter.isKisokMode()) {
                     stopLockTask();
                     mvpPresenter.setKioskMode(false);
                     menuItem.setTitle("Enter Kiosk");
-                }else {
+                } else {
                     startLockTask();
                     mvpPresenter.setKioskMode(true);
                     menuItem.setTitle("Exit Kiosk");
@@ -414,12 +426,12 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         }
     }
 
-    private void updateMenuKiosk(){
+    private void updateMenuKiosk() {
         Menu menu = navigationView.getMenu();
-        MenuItem tools= menu.findItem(R.id.nav_exit_kiosk);
-        if(!isAppInLockTaskMode()) {
+        MenuItem tools = menu.findItem(R.id.nav_exit_kiosk);
+        if (!isAppInLockTaskMode()) {
             tools.setTitle("Enter Kiosk");
-        }else {
+        } else {
             tools.setTitle("Exit Kiosk");
         }
     }

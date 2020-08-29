@@ -1,18 +1,22 @@
 package com.apollopharmacy.mpospharmacist.ui.additem.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+
+import androidx.core.view.MotionEventCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ListItemMainBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpView;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
@@ -20,10 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.core.view.MotionEventCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ItemBaseViewHolder> {
 
@@ -33,15 +33,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private ItemTouchHelperExtension mItemTouchHelperExtension;
     private AddItemMvpView addItemMvpView;
 
-    public MainRecyclerAdapter(Context context,ArrayList<SalesLineEntity> medicineDetailsModelArrayList) {
+    public MainRecyclerAdapter(Context context, ArrayList<SalesLineEntity> medicineDetailsModelArrayList) {
         mDatas = medicineDetailsModelArrayList;
         mContext = context;
     }
 
-
-    public void setAddItemMvpView(AddItemMvpView addItemMvpView){
+    public void setAddItemMvpView(AddItemMvpView addItemMvpView) {
         this.addItemMvpView = addItemMvpView;
     }
+
     public void setItemTouchHelperExtension(ItemTouchHelperExtension itemTouchHelperExtension) {
         mItemTouchHelperExtension = itemTouchHelperExtension;
     }
@@ -50,7 +50,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @NotNull
     @Override
     public MainRecyclerAdapter.ItemBaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-      ListItemMainBinding itemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_main, parent, false);
+        ListItemMainBinding itemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_main, parent, false);
         return new ItemSwipeWithActionWidthViewHolder(itemMainBinding);
     }
 
@@ -59,11 +59,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         SalesLineEntity item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
-        if(item.getCategoryCode().equalsIgnoreCase("P")){
+        if (item.getCategoryCode().equalsIgnoreCase("P")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));
-        }else if(item.getCategoryCode().equalsIgnoreCase("F")){
+        } else if (item.getCategoryCode().equalsIgnoreCase("F")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_fmcg));
-        }else if(item.getCategoryCode().equalsIgnoreCase("A")){
+        } else if (item.getCategoryCode().equalsIgnoreCase("A")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_h_b));
         }
 
@@ -78,7 +78,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if(addItemMvpView != null){
+                            if (addItemMvpView != null) {
                                 addItemMvpView.onItemEdit(item);
                             }
                             mItemTouchHelperExtension.closeOpened();
@@ -92,14 +92,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                         public void onClick(View view) {
                             if (item.getIsVoid()) {
                                 if (addItemMvpView != null) {
-                                  //  item.setVoid(false);
-                                 //   viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
+                                    //  item.setVoid(false);
+                                    //   viewHolder.mActionViewRefresh.setVisibility(View.VISIBLE);
                                     addItemMvpView.onItemAdded(item.getLineNo());
                                 }
                             } else {
                                 if (addItemMvpView != null) {
-                                   // item.setVoid(true);
-                                 //   viewHolder.mActionViewRefresh.setVisibility(View.GONE);
+                                    // item.setVoid(true);
+                                    //   viewHolder.mActionViewRefresh.setVisibility(View.GONE);
                                     addItemMvpView.onItemDeleted(item.getLineNo());
                                 }
                             }
@@ -109,6 +109,45 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             );
         }
+        holder.listItemMainBinding.mainContentView.remainingDays.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (holder.listItemMainBinding.mainContentView.remainingDays.hasFocus()) {
+                    if (holder.listItemMainBinding.mainContentView.remainingDays.getText().toString().equalsIgnoreCase("0.0")) {
+                        holder.listItemMainBinding.mainContentView.remainingDays.setText("");
+                    }
+                    InputMethodManager imm = (InputMethodManager) holder.listItemMainBinding.mainContentView.remainingDays.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.showSoftInput(holder.listItemMainBinding.mainContentView.remainingDays, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                } else {
+                    if (holder.listItemMainBinding.mainContentView.remainingDays.getText().toString().isEmpty()) {
+                        holder.listItemMainBinding.mainContentView.remainingDays.setText("0.0");
+                    }
+                }
+            }
+        });
+        holder.listItemMainBinding.mainContentView.remainingDays.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    item.setRemainderDays(0.0);
+                } else {
+                    if (editable.length() > 0) {
+                        item.setRemainderDays(Double.parseDouble(editable.toString()));
+                    }
+                }
+            }
+
+        });
     }
 
     private void doDelete(int adapterPosition) {
@@ -140,6 +179,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             super(item.getRoot());
             this.listItemMainBinding = item;
         }
+
         public void bind() {
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -154,12 +194,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
 
-
-
     class ItemSwipeWithActionWidthViewHolder extends ItemBaseViewHolder implements Extension {
 
         View mActionViewDelete;
         View mActionViewRefresh;
+
         public ItemSwipeWithActionWidthViewHolder(ListItemMainBinding itemView) {
             super(itemView);
             mActionViewDelete = itemView.getRoot().findViewById(R.id.view_list_repo_action_delete);

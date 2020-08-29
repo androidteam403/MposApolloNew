@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_marginTop="@dimen/five_dp"
-                    android:layout_weight="0.55"
+                    android:layout_weight="0.4"
                     android:orientation="vertical">
 
                     <TextView
@@ -65,6 +65,7 @@
                         android:text="@{product.inventBatchId+`/`+product.category+`/`+product.expiry+`/`+product.manufacturerName}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
+
                     <TextView
                         android:id="@+id/preview_text"
                         android:layout_width="match_parent"
@@ -73,7 +74,7 @@
                         android:text="@{product.previewText}"
                         android:textColor="@color/in_line_discount"
                         android:textSize="@dimen/text_dimen_10"
-                        android:visibility="@{product.previewText.length() == 0 ? View.GONE : View.VISIBLE}"/>
+                        android:visibility="@{product.previewText.length() == 0 ? View.GONE : View.VISIBLE}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -86,21 +87,21 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1.3"
                             android:background="@color/cart_price_bg"
+                            android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="@{@string/price_format(product.mRP)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:singleLine="true"
-                            android:ellipsize="end" />
+                            android:textStyle="bold" />
 
                         <View
                             android:layout_width="@dimen/one_dp"
@@ -112,13 +113,13 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1.2"
                             android:background="@color/cart_price_bg"
+                            android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="@{String.valueOf(product.qty)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:singleLine="true"
-                            android:ellipsize="end" />
+                            android:textStyle="bold" />
 
                         <View
                             android:layout_width="@dimen/one_dp"
@@ -130,28 +131,48 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1.5"
                             android:background="@color/cart_price_bg"
+                            android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="@{@string/price_format(product.netAmountInclTax)}"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="@dimen/one_dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/search_customer_bg" />
+
+                        <EditText
+                            android:id="@+id/remaining_days"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/rounded_corners_white"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:singleLine="true"
-                            android:ellipsize="end"/>
+                            android:textSize="@dimen/text_dimen_12"
+                            android:inputType="number"
+                            android:text="@{String.valueOf(product.remainderDays)}"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:background="@color/cart_tax_bg"
+                        android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:padding="@dimen/one_dp"
+                        android:singleLine="true"
                         android:text="@{`Tax : `+ @string/price_format(product.totalTax) +`%`}"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_dimen_12"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:ellipsize="end"/>
+                        android:textSize="@dimen/text_dimen_12" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -165,10 +186,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black_transperent"
-            android:visibility="@{product.isVoid ? View.VISIBLE : View.GONE}"
+            android:layout_alignTop="@+id/item_view"
             android:layout_alignBottom="@+id/item_view"
-            android:layout_alignTop="@+id/item_view"/>
+            android:background="@color/black_transperent"
+            android:visibility="@{product.isVoid ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>

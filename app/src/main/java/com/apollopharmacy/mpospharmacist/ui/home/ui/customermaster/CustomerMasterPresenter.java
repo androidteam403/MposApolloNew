@@ -56,7 +56,7 @@ public class CustomerMasterPresenter<V extends CustomerMasterMvpView> extends Ba
     public void handleCustomerAddService() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             AddCustomerReqModel addCustomerReqModel = new AddCustomerReqModel();
             addCustomerReqModel.setFirstName(getMvpView().getFirstName());
             addCustomerReqModel.setMiddleName(getMvpView().getMiddleName());

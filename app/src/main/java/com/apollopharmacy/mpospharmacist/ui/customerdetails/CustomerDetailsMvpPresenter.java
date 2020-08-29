@@ -16,5 +16,11 @@ public interface CustomerDetailsMvpPresenter<V extends CustomerDetailsMvpView> e
 
     void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity);
 
-    void getCustomerApi();
+    void getCustomerApi(GetCustomerResponse body);
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

@@ -41,4 +41,8 @@ public interface StoreSetupMvpView extends MvpView {
     void onNavigateHomeScreen();
 
     void dialogCloseListiner();
+
+    void onVerifyClick();
+
+    String getEposURL();
 }

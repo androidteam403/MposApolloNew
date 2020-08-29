@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class BaseDataManager  implements DataManager {
+public class BaseDataManager implements DataManager {
     private static final String TAG = "BaseDataManager";
 
 
@@ -97,7 +97,7 @@ public class BaseDataManager  implements DataManager {
 
     @Override
     public Single<WrapperResponse<GetTenderTypeRes>> getTenderType(String storeId, String dataAreaId, Object o) {
-        return mApiHelper.getTenderType(storeId,dataAreaId,o);
+        return mApiHelper.getTenderType(storeId, dataAreaId, o);
     }
 
     @Override
@@ -172,7 +172,27 @@ public class BaseDataManager  implements DataManager {
 
     @Override
     public void setAdminLoginId(String id) {
-            mPreferencesHelper.setAdminLoginId(id);
+        mPreferencesHelper.setAdminLoginId(id);
+    }
+
+    @Override
+    public String getEposURL() {
+        return mPreferencesHelper.getEposURL();
+    }
+
+    @Override
+    public void setEposURL(String url) {
+        mPreferencesHelper.setEposURL(url);
+    }
+
+    @Override
+    public void storeEposUrl(boolean url) {
+        mPreferencesHelper.storeEposUrl(url);
+    }
+
+    @Override
+    public boolean isEposUrl() {
+        return mPreferencesHelper.isEposUrl();
     }
 
     @Override

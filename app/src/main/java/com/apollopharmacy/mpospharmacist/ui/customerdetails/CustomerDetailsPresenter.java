@@ -47,15 +47,15 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
                 //Creating an object of our api interface
-                ApiInterface api = ApiClient.getApiService();
+                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
                 GetCustomerRequest customerRequest = new GetCustomerRequest();
                 customerRequest.setSearchString(getMvpView().getCustomerNumber());
                 customerRequest.setSearchType(0);
                 customerRequest.setISAX(true);
                 customerRequest.setISOneApollo(true);
-                customerRequest.setStore("16001");
+                customerRequest.setStore(getDataManager().getStoreId());
                 customerRequest.setTerminal(null);
-                customerRequest.setDataAreaID("AHEL");
+                customerRequest.setDataAreaID(getDataManager().getDataAreaId());
                 customerRequest.setClusterCode("14907");
                 customerRequest.setOneApolloSearchUrl(getDataManager().getGlobalJson().getCustomerSearchOneApolloUrl());
                 customerRequest.setAXSearchUrl(getDataManager().getGlobalJson().getCustomerSearchAXUrl());
@@ -67,10 +67,17 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                         if (response.isSuccessful()) {
                             //Dismiss Dialog
                             getMvpView().hideLoading();
+                            GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
                             if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                                 getMvpView().onSuccessCustomerSearch(response.body());
+                                for (int i = 0; i < response.body().get_Customer().size(); i++)
+                                    if (response.body().get_Customer().get(i).getAvailablePoints() == null ||
+                                            response.body().get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("") ||
+                                            response.body().get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("0")) {
+                                        getCustomerApi(response.body());
+                                    }
                             } else {
-                                getCustomerApi();
+                                getCustomerApi(response.body());
                             }
                         }
                     }
@@ -104,13 +111,13 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     }
 
     @Override
-    public void getCustomerApi() {
+    public void getCustomerApi(GetCustomerResponse custdata) {
 
         if (!TextUtils.isEmpty(getMvpView().getCustomerNumber())) {
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
                 //Creating an object of our api interface
-                ApiInterface api = ApiClient.getApiService();
+                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 //                GetCustomerRequest customerRequest = new GetCustomerRequest();
 //                customerRequest.setSearchString(getMvpView().getCustomerNumber());
 //
@@ -142,13 +149,33 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                 if (response.body().getOneApolloProcessResult().getStatus().equalsIgnoreCase("True")) {
                                     GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                                     entity.setMobileNo(response.body().getOneApolloProcessResult().getMobileNum());
-                                    entity.setCardName(response.body().getOneApolloProcessResult().getName());
-                                    customerEntities.add(entity);
-                                }
-                                customerResponse.set_Customer(customerEntities);
-                                getMvpView().onSuccessCustomerSearch(customerResponse);
-                            } else
-                                getMvpView().onFailedCustomerSearch();
+                                    for (int i = 0; i < custdata.get_Customer().size(); i++) {
+                                        if (custdata.get_Customer().get(i).getCardName() != null) {
+                                            entity.setCardName(custdata.get_Customer().get(i).getCardName());
+                                        } else {
+                                            entity.setCardName(response.body().getOneApolloProcessResult().getName());
+                                        }
+                                        if (custdata.get_Customer().get(i).getAvailablePoints() == null ||
+                                                custdata.get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("") ||
+                                                custdata.get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("0")) {
+                                            entity.setAvailablePoints(response.body().getOneApolloProcessResult().getAvailablePoints());
+                                        } else {
+                                            entity.setAvailablePoints(custdata.get_Customer().get(i).getAvailablePoints());
+                                        }
+                                        entity.setCorpId(custdata.get_Customer().get(i).getCorpId());
+                                        entity.setEmpNo(custdata.get_Customer().get(i).getEmpNo());
+                                        entity.setTier(response.body().getOneApolloProcessResult().getTier());
+                                        entity.setCardNo(custdata.get_Customer().get(i).getCardNo());
+                                        entity.setCustActiveStatus(custdata.get_Customer().get(i).getCustActiveStatus());
+                                        entity.setCustId(custdata.get_Customer().get(i).getCustId());
+                                        entity.setTelephoneNo(custdata.get_Customer().get(i).getTelephoneNo());
+                                        customerEntities.add(entity);
+                                    }
+                                    customerResponse.set_Customer(customerEntities);
+                                    getMvpView().onSuccessCustomerSearch(customerResponse);
+                                } else
+                                    getMvpView().onFailedCustomerSearch();
+                            }
                         }
                     }
 
@@ -163,6 +190,21 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                 getMvpView().onError("Internet Connection Not Available");
             }
         }
+    }
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getGlobalJson().getStoreName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
     }
 
 

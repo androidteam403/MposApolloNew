@@ -74,6 +74,9 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
 
     @Override
     protected void setUp() {
+        customerDetailsBinding.siteData.siteName.setText(mPresenter.getStoreName());
+        customerDetailsBinding.siteData.siteId.setText(mPresenter.getStoreId());
+        customerDetailsBinding.siteData.terminalId.setText(mPresenter.getTerminalId());
         customerDetailsBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             GetCustomerResponse.CustomerEntity customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");

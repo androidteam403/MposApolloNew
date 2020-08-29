@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -20,6 +19,14 @@
         <variable
             name="itemCount"
             type="Integer" />
+
+        <variable
+            name="orderAmount"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel" />
+
+        <variable
+            name="orderDiscount"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
     </data>
 
     <RelativeLayout
@@ -54,11 +61,86 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/site_data"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:background="@color/cpb_yellow"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/fifty_dp"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Name: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="testing"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Terminal Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/terminal_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="111"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+        </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/custom_action_bar"
+            android:layout_below="@+id/site_data"
             android:layout_marginBottom="@dimen/forty_five_dp"
             android:fillViewport="true">
 
@@ -495,6 +577,70 @@
                         android:textSize="@dimen/text_dimen_14" />
 
                     <LinearLayout
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/one_dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Total Mrp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.1"
+                            android:fontFamily="@font/price_regular"
+                            android:gravity="end"
+                            android:text="@{@string/label_Rs_pay_amount(@string/price_format(orderDetails.totalMRP))}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/one_dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Total Discount"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.1"
+                            android:fontFamily="@font/price_regular"
+                            android:gravity="end"
+                            android:text="@{@string/label_Rs_pay_amount(@string/price_format(orderDetails.discAmount))}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_13" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/paid_amount_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -502,6 +648,7 @@
                         android:layout_marginEnd="@dimen/fifteen_dp"
                         android:layout_marginBottom="@dimen/ten_dp"
                         android:orientation="vertical" />
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

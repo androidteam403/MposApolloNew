@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="batchInfo"
+            type="com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
+        android:stateListAnimator="@null">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:text="Batch No"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:text="Exp Date"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:text="Mrp"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp">
+
+
+                <TextView
+                    android:id="@+id/batchno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.5"
+                    android:text="@{batchInfo.batchNo}"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:id="@+id/exp_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@{batchInfo.expDate}"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:textSize="@dimen/text_dimen_12" />
+
+                <TextView
+                    android:id="@+id/mrp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="@{String.valueOf(batchInfo.MRP)}"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:textSize="@dimen/text_dimen_12" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/submit"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/cpb_yellow"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Submit"
+                android:textColor="@color/black"
+                android:layout_margin="@dimen/twenty_dp"
+                android:padding="@dimen/eight_dp"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

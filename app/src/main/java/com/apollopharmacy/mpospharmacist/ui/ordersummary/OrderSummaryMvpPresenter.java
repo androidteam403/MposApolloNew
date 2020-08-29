@@ -7,4 +7,10 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
     void onBackOrderPressed();
 
     void onNewPlaceOrderClicked();
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

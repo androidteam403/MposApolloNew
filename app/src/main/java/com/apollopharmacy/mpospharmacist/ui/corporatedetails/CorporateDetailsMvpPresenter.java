@@ -7,4 +7,10 @@ public interface CorporateDetailsMvpPresenter<V extends CorporateDetailsMvpView>
     void getCorporateList();
 
     void onActionBarBackPressed();
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

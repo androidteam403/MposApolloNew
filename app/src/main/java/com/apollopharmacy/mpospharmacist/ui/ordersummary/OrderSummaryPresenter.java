@@ -26,4 +26,20 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     public void onNewPlaceOrderClicked() {
         getMvpView().onNewPlaceOrderClicked();
     }
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getGlobalJson().getStoreName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 }

@@ -27,4 +27,8 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
     void orderReturnAll(CalculatePosTransactionRes posTransactionRes);
 
     boolean isAllowOrNot(CalculatePosTransactionRes posTransactionRes);
+
+    void onSalesTrackingClick();
+
+    void onSalesTrackingApiCall();
 }

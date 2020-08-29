@@ -8,6 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +49,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         if(productListFiltered.size()>0) {
             GetItemDetailsRes.Items item = productListFiltered.get(position);
             holder.productListAdapterBinding.setProductlist(item);
+            if (item.getDPCO())
+            {
+                holder.productListAdapterBinding.itemBackground.setBackgroundColor(ContextCompat.getColor(activity, R.color.cpb_yellow));
+                holder.productListAdapterBinding.arrowBack.setBackgroundColor(ContextCompat.getColor(activity, R.color.cpb_yellow));
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -135,7 +141,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         productListFiltered.clear();
         productListArrayList.clear();
         notifyDataSetChanged();
-
     }
 
     public void add(ArrayList<GetItemDetailsRes.Items> productListFiltered){

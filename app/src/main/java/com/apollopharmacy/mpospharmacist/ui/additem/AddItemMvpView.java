@@ -3,20 +3,20 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 import android.content.Context;
 
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,8 @@ public interface AddItemMvpView extends MvpView {
     Context getContext();
 
     String getCashPaymentAmount();
+
+    void getPrescriptionMandatory();
 
     String getCreditPaymentAmount();
 
@@ -136,7 +138,7 @@ public interface AddItemMvpView extends MvpView {
 
     void openManualDiscDialog(ManualDiscCheckRes body);
 
-    void errorMessageDialog(String title,String message);
+    void errorMessageDialog(String title, String message);
 
     void generateOTPResponseSuccess(String otp);
 
@@ -146,11 +148,23 @@ public interface AddItemMvpView extends MvpView {
 
     void closeOrderSuccess();
 
-    void showOTPPopUp(double amount,String otp);
+    void showOTPPopUp(double amount, String otp);
 
     void showCreditPayment(double amount, GetTrackingWiseConfing._TrackingConfigrationEntity entity);
 
     void showCouponCodeDialog(double categoryAmount);
 
     void corpPrgTrackingError();
+
+    void onUploadApiCall();
+
+    void onFaliureStaffListData();
+
+    void onSucessStaffListData(PharmacyStaffApiRes res);
+
+    void onItemClick(int position, double quantity, SalesLineEntity salesLineEntity);
+
+    void onErrorshowOfRDays();
+
+//    boolean userDetails(String rDays);
 }

@@ -4,6 +4,8 @@ import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 
+import java.util.ArrayList;
+
 public interface DoctorDetailsMvpView extends MvpView {
     void onAddDoctorClick();
 
@@ -19,7 +21,7 @@ public interface DoctorDetailsMvpView extends MvpView {
 
     void onSubmitClick();
 
-    void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean);
+    void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorList);
 
     void onCustomDoctorLayoutClick();
 }

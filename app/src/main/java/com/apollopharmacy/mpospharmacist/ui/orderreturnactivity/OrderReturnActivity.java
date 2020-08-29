@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -17,19 +18,14 @@ import com.apollopharmacy.mpospharmacist.databinding.OrderReturnActiivtyBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.OrderReturnAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.PaidListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -179,55 +175,59 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     }
 
     @Override
-    public void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll) {
-        ExitInfoDialog dialogView = new ExitInfoDialog(this);
-        dialogView.setTitle(title);
-        dialogView.setPositiveLabel("OK");
-        dialogView.setNegativeLabel("Cancel");
-        dialogView.setSubtitle(message);
-        dialogView.setDialogDismiss();
-        dialogView.setPositiveListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogView.dismiss();
-                if (isCancelOrder) {
-                    try {
-                        if (isCardPayment) {
-                            showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
-                        } else {
-                            if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
-                                showCancelOrderSuccess("", "Cancellation Not Allowed!!");
-                            } else if(!mvpPresenter.isAllowOrNot(orderHistoryItem)){
-                                showCancelOrderSuccess("","Transaction Already Cancelled!!");
-                            }else {
-                                orderHistoryItem.setReturnType(0);
-                                orderHistoryItem.setReturn(true);
-                                mvpPresenter.cancelDSBilling(orderHistoryItem);
+    public void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll, String terminalId) {
+        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId)) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle(title);
+            dialogView.setPositiveLabel("OK");
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setSubtitle(message);
+            dialogView.setDialogDismiss();
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                    if (isCancelOrder) {
+                        try {
+                            if (isCardPayment) {
+                                showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
+                            } else {
+                                if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
+                                    showCancelOrderSuccess("", "Cancellation Not Allowed!!");
+                                } else if (!mvpPresenter.isAllowOrNot(orderHistoryItem)) {
+                                    showCancelOrderSuccess("", "Transaction Already Cancelled!!");
+                                } else {
+                                    orderHistoryItem.setReturnType(0);
+                                    orderHistoryItem.setReturn(true);
+                                    mvpPresenter.cancelDSBilling(orderHistoryItem);
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
-                } else if (isReturnAll) {
-                    if(mvpPresenter.isAllowOrNot(orderHistoryItem)) {
-                        orderHistoryItem.setReturnType(0);
-                        orderHistoryItem.setReturn(true);
-                        mvpPresenter.orderReturnAll(orderHistoryItem);
-                    }else{
-                        showCancelOrderSuccess("", "Transaction Already Return!!");
+                    } else if (isReturnAll) {
+                        if (mvpPresenter.isAllowOrNot(orderHistoryItem)) {
+                            orderHistoryItem.setReturnType(0);
+                            orderHistoryItem.setReturn(true);
+                            mvpPresenter.orderReturnAll(orderHistoryItem);
+                        } else {
+                            showCancelOrderSuccess("", "Transaction Already Return!!");
+                        }
                     }
                 }
-            }
-        });
-        dialogView.setNegativeListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogView.dismiss();
-            }
-        });
-        dialogView.show();
-        orderReturnActiivtyBinding.setIsReturn(false);
+            });
+            dialogView.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+            orderReturnActiivtyBinding.setIsReturn(false);
+        } else {
+            Toast.makeText(this, "Cannot Process order for this Terminal", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -251,54 +251,68 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     }
 
     @Override
-    public void partialReturnOrder() {
-        if (!orderReturnActiivtyBinding.getIsReturn()) {
-            for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
-                orderHistoryItem.getSalesLine().get(i).setReturnClick(true);
-                orderReturnAdapter.notifyItemChanged(i);
-            }
-            // orderReturnAdapter.notifyDataSetChanged();
-            orderReturnActiivtyBinding.setIsReturn(true);
-        } else {
-            if (!isItemChecked()) {
-                ExitInfoDialog dialogView = new ExitInfoDialog(this);
-                dialogView.setTitle("Alert");
-                dialogView.setPositiveLabel("OK");
-                dialogView.setDialogDismiss();
-                dialogView.setSubtitle("Please select return item(s)");
-                dialogView.setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogView.dismiss();
-                    }
-                });
-                if (!dialogView.isDisplay())
-                    dialogView.show();
-
-            } else if (!isItemQuantity()) {
-                ExitInfoDialog dialogView = new ExitInfoDialog(this);
-                dialogView.setTitle("Alert");
-                dialogView.setDialogDismiss();
-                dialogView.setPositiveLabel("OK");
-                dialogView.setSubtitle("Return Quantity should be greater than 0 !");
-                dialogView.setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogView.dismiss();
-                    }
-                });
-                if (!dialogView.isDisplay())
-                    dialogView.show();
+    public void partialReturnOrder(String terminalId) {
+        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId)) {
+            if (!orderReturnActiivtyBinding.getIsReturn()) {
+                for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
+                    orderHistoryItem.getSalesLine().get(i).setReturnClick(true);
+                    orderReturnAdapter.notifyItemChanged(i);
+                }
+                // orderReturnAdapter.notifyDataSetChanged();
+                orderReturnActiivtyBinding.setIsReturn(true);
             } else {
-                orderHistoryItem.setReturnType(1);
-                mvpPresenter.orderReturnAll(orderHistoryItem);
+                if (!isItemChecked()) {
+                    ExitInfoDialog dialogView = new ExitInfoDialog(this);
+                    dialogView.setTitle("Alert");
+                    dialogView.setPositiveLabel("OK");
+                    dialogView.setDialogDismiss();
+                    dialogView.setSubtitle("Please select return item(s)");
+                    dialogView.setPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogView.dismiss();
+                        }
+                    });
+                    if (!dialogView.isDisplay())
+                        dialogView.show();
+
+                } else if (!isItemQuantity()) {
+                    ExitInfoDialog dialogView = new ExitInfoDialog(this);
+                    dialogView.setTitle("Alert");
+                    dialogView.setDialogDismiss();
+                    dialogView.setPositiveLabel("OK");
+                    dialogView.setSubtitle("Return Quantity should be greater than 0 !");
+                    dialogView.setPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogView.dismiss();
+                        }
+                    });
+                    if (!dialogView.isDisplay())
+                        dialogView.show();
+                } else {
+                    orderHistoryItem.setReturnType(1);
+                    mvpPresenter.orderReturnAll(orderHistoryItem);
+                }
             }
+        } else {
+            Toast.makeText(this, "Cannot Process order for this Terminal", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onAlreadyItemReturnedColor() {
 //        this.orderReturnAdapter.itemColorChange();
+    }
+
+    @Override
+    public void onSalesTrackingClick() {
+        Toast.makeText(this, "onSalesTracking", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public CalculatePosTransactionRes calculations() {
+        return orderHistoryItem;
     }
 
     private boolean isItemChecked() {

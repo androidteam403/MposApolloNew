@@ -71,6 +71,9 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
 
     @Override
     protected void setUp() {
+        corporateDetailsBinding.siteDataInfo.siteName.setText(mPresenter.getStoreName());
+        corporateDetailsBinding.siteDataInfo.siteId.setText(mPresenter.getStoreId());
+        corporateDetailsBinding.siteDataInfo.terminalId.setText(mPresenter.getTerminalId());
         corporateDetailsBinding.setCallback(mPresenter);
         CorporateModel corporateModel  = (CorporateModel )getIntent().getSerializableExtra("corporate_list");
         if(corporateModel != null) {

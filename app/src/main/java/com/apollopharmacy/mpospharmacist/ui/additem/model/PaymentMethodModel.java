@@ -153,6 +153,7 @@ public class PaymentMethodModel extends BaseObservable {
         isOTPView = oTPView;
         notifyPropertyChanged(BR.oTPView);
     }
+
     @Bindable
     public double getBalanceAmount() {
         return balanceAmount;

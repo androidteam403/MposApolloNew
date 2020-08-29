@@ -32,5 +32,15 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
 
     void getSalesOrigin();
 
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
+
+    void getPharmacyStaffApiDetails(String action);
+
+    void onUploadApiCall();
+
 
 }

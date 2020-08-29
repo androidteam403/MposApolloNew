@@ -4,11 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
             name="call"
             type="com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView" />
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpPresenter" />
 
         <variable
             name="customer"
@@ -21,9 +26,15 @@
         <variable
             name="corporate"
             type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+
         <variable
-            name="payment"
+            name="isPaymentMode"
+            type="Boolean" />
+
+        <variable
+            name="paymentMode"
             type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
+
 
     </data>
 
@@ -43,10 +54,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_bold"
                 android:padding="@dimen/ten_dp"
                 android:text="DETAILS"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textColor="@color/black" />
 
             <ImageView
                 android:id="@+id/expand_collapse_icon"
@@ -57,17 +68,17 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="@dimen/twenty_dp"
                 android:contentDescription="@string/label_img"
-                android:src="@drawable/ic_down_arrow"
-                android:rotation="180"/>
+                android:rotation="180"
+                android:src="@drawable/ic_down_arrow" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/customer_doctor_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/search_customer_bg"
             android:orientation="vertical"
-            android:visibility="visible"
-            android:background="@color/search_customer_bg">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,7 +120,8 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onCustomerEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view"/>
+                            android:src="@drawable/ic_edit_view"
+                            android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -123,7 +135,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="@dimen/five_dp"
                             android:layout_weight="1"
+                            android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
+                            android:maxLines="2"
                             android:padding="@dimen/three_dp"
                             android:textColor="@color/customer_info_header"
                             android:textSize="@dimen/text_dimen_10"
@@ -131,16 +145,16 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.cardName}"
-                            android:maxLines="2"
-                            android:ellipsize="end"/>
+                            app:span_text="@{customer.cardName}" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/five_dp"
                             android:layout_weight="1"
+                            android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
+                            android:maxLines="2"
                             android:padding="@dimen/three_dp"
                             android:textColor="@color/customer_info_header"
                             android:textSize="@dimen/text_dimen_10"
@@ -148,9 +162,7 @@
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{customer.mobileNo}"
-                            android:maxLines="2"
-                            android:ellipsize="end"/>
+                            app:span_text="@{customer.mobileNo}" />
                     </LinearLayout>
 
                     <TextView
@@ -161,12 +173,12 @@
                         android:padding="@dimen/three_dp"
                         android:textColor="@color/customer_info_header"
                         android:textSize="@dimen/text_dimen_10"
+                        android:visibility="gone"
                         app:full_text="@{@string/label_span_tracking_ref_no(`TDG-21324`)}"
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoBold`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{`TDG-21324`}"
-                        android:visibility="gone"/>
+                        app:span_text="@{`TDG-21324`}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -203,46 +215,50 @@
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onDoctorEditClick()}"
                             android:padding="@dimen/three_dp"
-                            android:src="@drawable/ic_edit_view" />
+
+                            android:src="@drawable/ic_edit_view"
+                            android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
                     </RelativeLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/five_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:padding="@dimen/three_dp"
                             android:layout_weight="0.3"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_regular"
+                            android:maxLines="2"
+                            android:padding="@dimen/three_dp"
                             android:textColor="@color/customer_info_header"
                             android:textSize="@dimen/text_dimen_10"
                             app:full_text="@{@string/label_name(doctor.displayText)}"
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{doctor.displayText}"
-                            android:maxLines="2"
-                            android:ellipsize="end"/>
+                            app:span_text="@{doctor.displayText}" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/five_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:padding="@dimen/three_dp"
                             android:layout_weight="0.3"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_regular"
+                            android:maxLines="2"
+                            android:padding="@dimen/three_dp"
                             android:textColor="@color/customer_info_header"
                             android:textSize="@dimen/text_dimen_10"
                             app:full_text="@{@string/label_reg_no(doctor.code)}"
                             app:span_color="@{@color/black}"
                             app:span_font="@{`robotoBold`}"
                             app:span_size="@{@dimen/small_size_text}"
-                            app:span_text="@{doctor.code}"
-                            android:maxLines="2"
-                            android:ellipsize="end"/>
+                            app:span_text="@{doctor.code}" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -250,13 +266,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/eight_dp"
-                android:layout_marginTop="@dimen/five_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:paddingEnd="@dimen/eight_dp"
-                android:paddingBottom="@dimen/five_dp"
-                android:background="@color/white">
+                android:paddingBottom="@dimen/five_dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -281,7 +297,7 @@
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
                         android:src="@drawable/ic_edit_view"
-                        android:visibility="@{payment.paymentInitiate ? View.GONE : View.VISIBLE}"/>
+                        android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -293,22 +309,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
                         android:textColor="@color/customer_header_text"
                         android:textSize="@dimen/text_dimen_12"
                         app:full_text="@{@string/label_generic_corporate_no(corporate.code)}"
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoMedium`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.code}"
-                        android:maxLines="2"
-                        android:ellipsize="end"/>
+                        app:span_text="@{corporate.code}" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
                         android:paddingEnd="@dimen/thirty_dp"
                         android:textColor="@color/customer_header_text"
                         android:textSize="@dimen/text_dimen_12"
@@ -316,35 +334,112 @@
                         app:span_color="@{@color/black}"
                         app:span_font="@{`robotoMedium`}"
                         app:span_size="@{@dimen/small_size_text}"
-                        app:span_text="@{corporate.description}"
-                        android:maxLines="2"
-                        android:ellipsize="end" />
+                        app:span_text="@{corporate.description}" />
                 </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/EditTextInputLayoutStyle"
+                <LinearLayout
+                    android:id="@+id/site_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/two_dp"
                     android:layout_marginTop="@dimen/five_dp"
-                    android:layout_marginEnd="@dimen/thirty_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_below="@+id/corporate_details_view">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
-                    <!--                    android:visibility="@{corporate.code.equalsIgnoreCase(`5`) ? View.VISIBLE : View.GONE}"-->
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/prg_tracking_edit"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Prg.Tracking"
-                        android:inputType="text"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:imeOptions="actionDone"
-                        android:text="@{customer.cardNo}"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/thirty_dp"
+                        android:layout_weight="0.35"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Tier:" />
+
+                        <TextView
+                            android:id="@+id/tier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="--"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/zero_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/thirty_dp"
+                        android:layout_weight="0.65"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Available Amount:" />
+
+                        <TextView
+                            android:id="@+id/available_points"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="--"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/site_details"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/thirty_dp"
+                        android:layout_weight="0.9"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/prg_tracking_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Prg.Tracking"
+                            android:imeOptions="actionDone"
+                            android:inputType="text"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/upload_api"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:layout_weight="0.1"
+                        android:background="@drawable/rounded_background"
+                        android:onClick="@{()-> callback.onUploadApiCall()}"
+                        android:paddingTop="@dimen/three_dp"
+                        android:text="GO"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

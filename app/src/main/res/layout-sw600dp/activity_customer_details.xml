@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter" />
@@ -19,542 +20,565 @@
             type="Boolean" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/customer_parent_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/search_customer_bg"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/fifty_dp"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_gravity="center_vertical"
-                android:alpha="0.8"
-                android:contentDescription="@string/app_name"
-                android:onClick="@{()-> callback.onActionBarBackPressed()}"
-                android:paddingStart="@dimen/ten_dp"
-                android:paddingEnd="@dimen/ten_dp"
-                android:src="@drawable/ic_back_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/five_dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_customer_details"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
-        </LinearLayout>
-
-        <RelativeLayout
+            android:id="@+id/customer_parent_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/ten_dp">
-
-            <RelativeLayout
-                android:id="@+id/search_view_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phone_number"
-                    style="@style/EditTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_regular">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/customer_number_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/one_hundred_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="top"
-                        android:hint="@string/label_phone_number_id"
-                        android:inputType="number"
-                        android:imeOptions="actionSearch"
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textSize="@dimen/text_dimen_15"
-                        android:focusable="true"
-                        android:cursorVisible="true"
-                        android:maxLength="10" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="@dimen/thirty_five_dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_marginEnd="@dimen/ten_dp"
-                    android:layout_toStartOf="@+id/mike"
-                    android:contentDescription="@string/app_name"
-                    android:onClick="@{()-> callback.onCustomerSearchClick()}"
-                    android:src="@drawable/ic_search_product" />
-
-                <ImageView
-                    android:id="@+id/mike"
-                    android:layout_width="@dimen/thirty_five_dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:onClick="@{() -> callback.onVoiceSearchClick()}"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_voice_search" />
-            </RelativeLayout>
+            android:background="@color/search_customer_bg"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/unregistered_customer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/search_view_layout">
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/EditTextInputLayoutStyle"
-                    android:layout_width="0dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onActionBarBackPressed()}"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:src="@drawable/ic_back_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/five_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_weight="1">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/customer_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Name"
-                        android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:imeOptions="actionNext"
-                        android:text="@{customer.cardName}"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/EditTextInputLayoutStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/five_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_weight="1">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/customer_mobile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:digits="0123456789"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_mobile1"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:imeOptions="actionDone"
-                        android:text="@{customer.mobileNo}"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_customer_details"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/customer_info_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/search_view_layout"
-                android:orientation="vertical"
-                android:visibility="@{customer.registeredCustomer  ? View.VISIBLE : View.GONE}">
+            <include
+                android:id="@+id/site_data"
+                layout="@layout/activity_site_data" />
 
-                <LinearLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingEnd="@dimen/ten_dp"
+                android:paddingBottom="@dimen/ten_dp">
+
+                <RelativeLayout
+                    android:id="@+id/search_view_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:background="@drawable/bg_white"
-                    android:baselineAligned="false"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="@dimen/ten_dp">
 
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phone_number"
+                        style="@style/EditTextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_number_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/one_hundred_dp"
+                            android:cursorVisible="true"
+                            android:focusable="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="top"
+                            android:hint="@string/label_phone_number_id"
+                            android:imeOptions="actionSearch"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_five_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:layout_toStartOf="@+id/mike"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onCustomerSearchClick()}"
+                        android:src="@drawable/ic_search_product" />
+
+                    <ImageView
+                        android:id="@+id/mike"
+                        android:layout_width="@dimen/thirty_five_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> callback.onVoiceSearchClick()}"
+                        android:src="@drawable/ic_voice_search" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/unregistered_customer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_view_layout"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Name*"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:text="@{customer.cardName}"
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/five_dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/customer_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="@string/label_mobile1"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:text="@{customer.mobileNo}"
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/customer_info_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_view_layout"
+                    android:orientation="vertical"
+                    android:visibility="@{customer.registeredCustomer  ? View.VISIBLE : View.GONE}">
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/site_data"
+                        android:layout_marginBottom="@dimen/ten_dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/ten_dp"
+                            android:background="@drawable/bg_white"
+                            android:baselineAligned="false"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:weightSum="1">
 
-                                <TextView
-                                    android:layout_width="0dp"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_name(customer.cardName)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.cardName}" />
+                                    android:layout_margin="@dimen/ten_dp"
+                                    android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_lastName(customer.lastName)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.lastName}"/>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_name(customer.cardName)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.cardName}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_lastName(customer.lastName)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.lastName}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_age(customer.age)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.age}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_gender(customer.gender)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.gender}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_dob_text(customer.dob)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.dob}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_postal(customer.postalAddress)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.postalAddress}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_city(customer.city)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.city}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_State(customer.state)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.state}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_District(customer.district)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.district}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Zip_Code(customer.zipCode)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.zipCode}" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Email(customer.email)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.email}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_tel(customer.telephoneNo)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.telephoneNo}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.mobileNo}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Anniversary(customer.anniversary)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.anniversary}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Marital_Status(customer.maritalStatus)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.maritalStatus}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Number_of_Dependents(customer.numberOfDependents)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.numberOfDependents}" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_card_no(customer.cardNo)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.cardNo}" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/fifteen_dp"
+                                            android:layout_weight="0.5"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:textSize="@dimen/text_dimen_12"
+                                            app:full_text="@{@string/label_generic_Date_of_Registration(customer.dateOfRegistration)}"
+                                            app:span_color="@{@color/black}"
+                                            app:span_font="@{`robotoBold`}"
+                                            app:span_size="@{@dimen/small_size_text}"
+                                            app:span_text="@{customer.dateOfRegistration}" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:layout_marginBottom="@dimen/fifteen_dp"
+                                android:gravity="center">
+
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_age(customer.age)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.age}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_gender(customer.gender)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.gender}"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_dob_text(customer.dob)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.dob}"/>
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_postal(customer.postalAddress)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.postalAddress}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_city(customer.city)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.city}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_State(customer.state)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.state}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_District(customer.district)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.district}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Zip_Code(customer.zipCode)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.zipCode}" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Email(customer.email)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.email}"/>
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_tel(customer.telephoneNo)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.telephoneNo}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_phone_no(customer.mobileNo)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.mobileNo}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Anniversary(customer.anniversary)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.anniversary}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Marital_Status(customer.maritalStatus)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.maritalStatus}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Number_of_Dependents(customer.numberOfDependents)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.numberOfDependents}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_card_no(customer.cardNo)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.cardNo}" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fifteen_dp"
-                                    android:layout_weight="0.5"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_Date_of_Registration(customer.dateOfRegistration)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoBold`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{customer.dateOfRegistration}"/>
-                            </LinearLayout>
+                                    android:layout_marginStart="@dimen/ten_dp"
+                                    android:layout_marginBottom="@dimen/ten_dp"
+                                    android:background="@drawable/bg_select_btn"
+                                    android:backgroundTint="@color/colorPrimary"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:onClick="@{()-> callback.onClickEditBtn(customer)}"
+                                    android:text="@string/label_edit"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_dimen_16"
+                                    android:visibility="visible" />
+                            </RelativeLayout>
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/no_customer_found_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="@{no_user ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_no_customer_found"
+                        android:textColor="@color/no_customer_found"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginBottom="@dimen/fifteen_dp"
-                        android:gravity="center">
-
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
-                            android:background="@drawable/bg_select_btn"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/label_edit"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_16"
-                            android:visibility="visible"
-                            android:onClick="@{()-> callback.onClickEditBtn(customer)}"/>
-                    </RelativeLayout>
+                        android:background="@drawable/bg_select_btn"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{()-> callback.onAddCustomerClick()}"
+                        android:text="@string/label_add_new_customer"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_18" />
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/no_customer_found_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:visibility="@{no_user ? View.VISIBLE : View.GONE}">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/select_btn"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/label_no_customer_found"
-                    android:textColor="@color/no_customer_found"
-                    android:textSize="@dimen/text_dimen_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:layout_alignParentBottom="true"
                     android:background="@drawable/bg_select_btn"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:fontFamily="@font/roboto_bold"
-                    android:onClick="@{()-> callback.onAddCustomerClick()}"
-                    android:text="@string/label_add_new_customer"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_18" />
-            </LinearLayout>
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickSelectBtn(customer)}"
+                    android:text="@string/label_select"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_16" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/select_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_select_btn"
-                android:fontFamily="@font/roboto_medium"
-                android:onClick="@{()-> callback.onClickSelectBtn(customer)}"
-                android:text="@string/label_select"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16"
-                android:gravity="center"
-                android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
-    </LinearLayout>
 </layout>

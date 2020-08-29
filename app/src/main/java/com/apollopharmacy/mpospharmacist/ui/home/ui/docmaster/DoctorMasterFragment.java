@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentDocMasterBinding;
@@ -15,9 +19,6 @@ import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 
 
 public class DoctorMasterFragment extends BaseFragment implements DoctorMasterMvpView {
@@ -54,6 +55,7 @@ public class DoctorMasterFragment extends BaseFragment implements DoctorMasterMv
 
     @Override
     public void addDoctorSuccess(AddDoctorResModel addDoctorResModel) {
+        Toast.makeText(getContext(), ""+addDoctorResModel.getReturnMessage(), Toast.LENGTH_SHORT).show();
         DoctorSearchResModel.DropdownValueBean doctorModel = new DoctorSearchResModel.DropdownValueBean();
         doctorModel.setCode(addDoctorResModel.getDocRegID());
         doctorModel.setDisplayText(addDoctorResModel.getDocName());

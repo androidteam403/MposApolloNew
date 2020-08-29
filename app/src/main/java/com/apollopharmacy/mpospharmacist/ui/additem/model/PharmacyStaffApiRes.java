@@ -3,7 +3,9 @@ package com.apollopharmacy.mpospharmacist.ui.additem.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PharmacyStaffApiRes {
+import java.io.Serializable;
+
+public class PharmacyStaffApiRes implements Serializable {
 
     @Expose
     @SerializedName("ValidateOTP")

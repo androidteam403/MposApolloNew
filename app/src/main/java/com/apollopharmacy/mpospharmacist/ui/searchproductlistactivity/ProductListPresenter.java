@@ -38,7 +38,7 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
         if (!TextUtils.isEmpty(getMvpView().getSearchProductKey())) {
             if (getMvpView().isNetworkConnected()) {
                 //Creating an object of our api interface
-                ApiInterface api = ApiClient.getApiService();
+                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
                 GetItemDetailsReq customerRequest = new GetItemDetailsReq();
                 customerRequest.setSearchString(getMvpView().getSearchProductKey());
                 customerRequest.setCorpCode(getMvpView().getCorporateValue().getCode());
@@ -84,4 +84,20 @@ public class ProductListPresenter<V extends ProductListMvpView> extends BasePres
     public void onBarCodeClick() {
         getMvpView().onBarCodeClick();
     }
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getGlobalJson().getStoreName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 }

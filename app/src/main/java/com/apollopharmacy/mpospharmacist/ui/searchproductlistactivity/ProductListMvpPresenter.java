@@ -11,4 +11,10 @@ public interface ProductListMvpPresenter<V extends ProductListMvpView> extends M
     void onVoiceSearchClick();
 
     void onBarCodeClick();
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

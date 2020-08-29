@@ -76,7 +76,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
     public void orderServiceCall(OrderListReq orderListReq) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
             Call<ArrayList<CalculatePosTransactionRes>> call = api.ORDER_LIST_RES_CALL(orderListReq);
             call.enqueue(new Callback<ArrayList<CalculatePosTransactionRes>>() {

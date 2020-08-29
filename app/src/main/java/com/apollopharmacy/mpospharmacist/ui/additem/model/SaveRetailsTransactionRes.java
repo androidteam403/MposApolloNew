@@ -102,6 +102,11 @@ public  class SaveRetailsTransactionRes implements Serializable {
     @Expose
     @SerializedName("ReminderDays")
     private double ReminderDays;
+
+    public void setReminderDays(double reminderDays) {
+        ReminderDays = reminderDays;
+    }
+
     @Expose
     @SerializedName("Remainingamount")
     private double Remainingamount;

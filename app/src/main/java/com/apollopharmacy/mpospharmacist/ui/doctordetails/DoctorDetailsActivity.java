@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityDoctorDetailsBinding;
-import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialog;
@@ -40,6 +38,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     private DoctorSearchResModel.DropdownValueBean customDoctorItem = null;
     private DoctorSearchResModel.DropdownValueBean doctorEntity;
     private SalesOriginResModel.DropdownValueBean salesEntity;
+    private ArrayList<DoctorSearchResModel.DropdownValueBean> doctorCustomerEntity;
     private int NEW_DOCTOR_SEARCH_ACTIVITY_CODE = 104;
     String strFont = null;
 
@@ -66,6 +65,9 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
 
     @Override
     protected void setUp() {
+        doctorDetailsBinding.siteDataInfo.siteName.setText(mPresenter.getStoreName());
+        doctorDetailsBinding.siteDataInfo.siteId.setText(mPresenter.getStoreId());
+        doctorDetailsBinding.siteDataInfo.terminalId.setText(mPresenter.getTerminalId());
         doctorDetailsBinding.setCallback(mPresenter);
         allDoctorsArrayList = new ArrayList<>();
         mPresenter.getDoctorsList();
@@ -89,7 +91,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     public void getDoctorSearchList(DoctorSearchResModel model) {
 
         doctorDetailsBinding.selectDoctor.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<DoctorSearchResModel.DropdownValueBean> adapter = new ArrayAdapter<DoctorSearchResModel.DropdownValueBean>(getContext(), android.R.layout.simple_spinner_item, model.get_DropdownValue()){
+        ArrayAdapter<DoctorSearchResModel.DropdownValueBean> adapter = new ArrayAdapter<DoctorSearchResModel.DropdownValueBean>(getContext(), android.R.layout.simple_spinner_item, model.get_DropdownValue()) {
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -99,7 +101,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -140,7 +142,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     @Override
     public void getSalesOriginList(SalesOriginResModel model) {
         doctorDetailsBinding.selectDoctor.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SalesOriginResModel.DropdownValueBean> adapter = new ArrayAdapter<SalesOriginResModel.DropdownValueBean>(getContext(), android.R.layout.simple_spinner_item, model.getGetSalesOriginResult().get_DropdownValue()){
+        ArrayAdapter<SalesOriginResModel.DropdownValueBean> adapter = new ArrayAdapter<SalesOriginResModel.DropdownValueBean>(getContext(), android.R.layout.simple_spinner_item, model.getGetSalesOriginResult().get_DropdownValue()) {
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -150,7 +152,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -210,8 +212,11 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         finish();
     }
 
+
     @Override
-    public void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean) {
+    public void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorList) {
+        allDoctorsArrayList.clear();
+        allDoctorsArrayList = doctorList;
         customDoctorItem = dropdownValueBean;
         doctorDetailsBinding.customDoctorSearchLayout.setVisibility(View.GONE);
         doctorDetailsBinding.selectDoctor.setVisibility(View.GONE);

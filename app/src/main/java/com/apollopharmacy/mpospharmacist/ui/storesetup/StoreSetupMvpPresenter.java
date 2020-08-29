@@ -17,4 +17,7 @@ public interface StoreSetupMvpPresenter <V extends StoreSetupMvpView> extends Mv
     void insertAdminLoginDetails();
 
     void checkConfingApi();
+
+    void onVerifyClick();
+
 }

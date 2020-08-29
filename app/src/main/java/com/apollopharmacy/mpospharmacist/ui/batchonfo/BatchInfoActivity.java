@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,16 +24,19 @@ import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.adapter.BatchInfoAdapter;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.expirymodel.ExpiryChangeRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.lstener.BatchAdapterListener;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -53,6 +57,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     private int manualSelectedPosition = 0;
     private int batchServiceCall = 0;
     private int existingBatchServiceCall = 0;
+    private ArrayList<ExpiryChangeRes.ExpiryResBatchList> expiryResBatchLists = new ArrayList<>();
 
     private ArrayList<SalesLineEntity> batchInfoProducts = new ArrayList<>();
     private ArrayList<SalesLineEntity> existingProductBatch = new ArrayList<>();
@@ -79,6 +84,9 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     @Override
     protected void setUp() {
+        batchInfoBinding.siteName.setText(mPresenter.getStoreName());
+        batchInfoBinding.siteId.setText(mPresenter.getStoreId());
+        batchInfoBinding.terminalId.setText(mPresenter.getTerminalId());
         batchInfoBinding.setCallback(mPresenter);
         TransactionIDResModel transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
         batchInfoBinding.setTransaction(transactionIdModel);
@@ -87,6 +95,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         batchInfoBinding.batchInfoRecycler.setLayoutManager(mLayoutManager);
         batchInfoBinding.setProduct(selectedItem);
+//        grandTotal(arrBatchList);
 //        ((SimpleItemAnimator) batchInfoBinding.batchInfoRecycler.getItemAnimator()).setSupportsChangeAnimations(false);
 //        batchInfoBinding.batchInfoRecycler.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         batchInfoBinding.batchInfoRecycler.setAdapter(batchInfoAdapter);
@@ -131,9 +140,10 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 return false;
             }
         });
+//        grandTotal();
     }
 
-    private void unSelectAll(){
+    private void unSelectAll() {
         for (int i = 0; i < arrBatchList.size(); i++) {
             if (arrBatchList.get(i).isSelected()) {
                 arrBatchList.get(i).setSelected(false);
@@ -177,10 +187,10 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         if (Singletone.getInstance().itemsArrayList.size() > 0) {
             if (isProductExitsOrNot()) {
                 productAllReadyExitsDialog();
-            }else{
+            } else {
                 checkBatches();
             }
-        }else{
+        } else {
             checkBatches();
         }
 //        if(TextUtils.isEmpty(batchInfoBinding.inputQty.getText().toString())){
@@ -228,48 +238,48 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 //        }
     }
 
-    private void checkBatches(){
-        if(TextUtils.isEmpty(batchInfoBinding.inputQty.getText().toString())){
-            if(selectedBatches()){
+    private void checkBatches() {
+        if (TextUtils.isEmpty(batchInfoBinding.inputQty.getText().toString())) {
+            if (selectedBatches()) {
                 doneBatchSelect();
             }
-        }else {
-            if(globalBatches()){
+        } else {
+            if (globalBatches()) {
                 doneBatchSelect();
-            }else{
+            } else {
                 alertQuantityError("Please Check The QTY & Expiry Date!!");
             }
         }
     }
 
-    private boolean selectedBatches(){
+    private boolean selectedBatches() {
         selectedBatches.clear();
-        for(GetBatchInfoRes.BatchListObj obj : arrBatchList){
-            if(obj.isSelected()) {
+        for (GetBatchInfoRes.BatchListObj obj : arrBatchList) {
+            if (obj.isSelected()) {
                 if (isValidQuantity(obj) && obj.getREQQTY() != 0)
                     selectedBatches.add(obj);
                 else {
-                    if(obj.getREQQTY() != 0) {
+                    if (obj.getREQQTY() != 0) {
                         alertQuantityError("Qty Can't greater than QOH!!");
                         return false;
                     }
                 }
             }
         }
-        if(selectedBatches.size() == 0){
+        if (selectedBatches.size() == 0) {
             alertQuantityError("Please Enter Valid Required Qty!!");
             return false;
         }
         return true;
     }
 
-    private boolean globalBatches(){
+    private boolean globalBatches() {
         selectedBatches.clear();
         int totalQuantity = Integer.valueOf(batchInfoBinding.inputQty.getText().toString());
-        for(GetBatchInfoRes.BatchListObj obj : arrBatchList){
-            if(totalQuantity != 0 && !obj.getNearByExpiry()) {
+        for (GetBatchInfoRes.BatchListObj obj : arrBatchList) {
+            if (totalQuantity != 0 && !obj.getNearByExpiry()) {
                 if (Double.valueOf(obj.getQ_O_H()) < totalQuantity) {
-                    obj.setREQQTY((int)(Double.parseDouble(obj.getQ_O_H())));
+                    obj.setREQQTY((int) (Double.parseDouble(obj.getQ_O_H())));
                     selectedBatches.add(obj);
                 } else {
                     obj.setREQQTY(totalQuantity);
@@ -296,6 +306,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         if (body.getBatchList().size() > 0) {
             batchInfoBinding.bathNotFoundText.setVisibility(View.GONE);
             arrBatchList.addAll(body.getBatchList());
+            grandTotalQoh(arrBatchList);
             Collections.sort(arrBatchList, new Comparator<GetBatchInfoRes.BatchListObj>() {
                 @Override
                 public int compare(GetBatchInfoRes.BatchListObj o1, GetBatchInfoRes.BatchListObj o2) {
@@ -305,8 +316,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 }
             });
             batchInfoAdapter.notifyDataSetChanged();
-          //  isSelectedBatch = true;
-          //  selectBatch(0);
+            //  isSelectedBatch = true;
+            //  selectBatch(0);
         } else {
             batchInfoBinding.bathNotFoundText.setVisibility(View.VISIBLE);
         }
@@ -324,19 +335,109 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     }
 
     @Override
-    public void onItemClick(int position, int quantity) {
+    public void batchItemInfo(GetBatchInfoRes.BatchListObj batchListObj) {
+        batchInfoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public List<GetBatchInfoRes.BatchListObj> getbatchInfoRes() {
+        return arrBatchList;
+    }
+
+    @Override
+    public void checkExpiryDateChangeSuccess(ExpiryChangeRes expiryChangeRes) {
+        if (expiryChangeRes.getBatchList().size() > 0) {
+            batchInfoBinding.bathNotFoundText.setVisibility(View.GONE);
+            for (int i = 0; i < arrBatchList.size(); i++) {
+                arrBatchList.get(i).setBatchNo(expiryChangeRes.getBatchList().get(i).getBatchNo());
+                arrBatchList.get(i).setCESSPerc(expiryChangeRes.getBatchList().get(i).getCESSPerc());
+                arrBatchList.get(i).setCESSTaxCode(expiryChangeRes.getBatchList().get(i).getCESSTaxCode());
+                arrBatchList.get(i).setCGSTPerc(expiryChangeRes.getBatchList().get(i).getCGSTPerc());
+                arrBatchList.get(i).setCGSTTaxCode(expiryChangeRes.getBatchList().get(i).getCGSTTaxCode());
+                arrBatchList.get(i).setIGSTPerc(expiryChangeRes.getBatchList().get(i).getIGSTPerc());
+                arrBatchList.get(i).setIGSTTaxCode(expiryChangeRes.getBatchList().get(i).getIGSTTaxCode());
+                arrBatchList.get(i).setISMRPChange(expiryChangeRes.getBatchList().get(i).isISMRPChange());
+                arrBatchList.get(i).setItemID(expiryChangeRes.getBatchList().get(i).getItemID());
+                arrBatchList.get(i).setExpDate(expiryChangeRes.getBatchList().get(i).getExpDate());
+                arrBatchList.get(i).setMRP(expiryChangeRes.getBatchList().get(i).getMRP());
+                arrBatchList.get(i).setTotalTax(expiryChangeRes.getBatchList().get(i).getTotalTax());
+                arrBatchList.get(i).setNearByExpiry(expiryChangeRes.getBatchList().get(i).isNearByExpiry());
+                arrBatchList.get(i).setPrice(expiryChangeRes.getBatchList().get(i).getPrice());
+                arrBatchList.get(i).setQ_O_H(expiryChangeRes.getBatchList().get(i).getQ_O_H());
+                arrBatchList.get(i).setREQQTY(expiryChangeRes.getBatchList().get(i).getREQQTY());
+                arrBatchList.get(i).setSGSTPerc(expiryChangeRes.getBatchList().get(i).getSGSTPerc());
+                arrBatchList.get(i).setSGSTTaxCode(expiryChangeRes.getBatchList().get(i).getSGSTTaxCode());
+                arrBatchList.get(i).setSNO(expiryChangeRes.getBatchList().get(i).getSNO());
+            }
+            grandTotalQoh(arrBatchList);
+            Collections.sort(arrBatchList, new Comparator<GetBatchInfoRes.BatchListObj>() {
+                @Override
+                public int compare(GetBatchInfoRes.BatchListObj o1, GetBatchInfoRes.BatchListObj o2) {
+                    boolean b1 = o1.getNearByExpiry();
+                    boolean b2 = o2.getNearByExpiry();
+                    return Boolean.compare(b1, b2);
+                }
+            });
+            batchInfoAdapter.notifyDataSetChanged();
+            //  isSelectedBatch = true;
+            //  selectBatch(0);
+        } else {
+            batchInfoBinding.bathNotFoundText.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @Override
+    public void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj) {
+
         isSelectedBatch = true;
         manualSelectedPosition = position;
         enteredQuantity = quantity;
-      //  selectBatch(quantity);
+        //  selectBatch(quantity);
         for (int i = 0; i < arrBatchList.size(); i++) {
-            if (arrBatchList.get(i).isSelected() && arrBatchList.get(i).getREQQTY() == 0 ) {
+            if (arrBatchList.get(i).isSelected() && arrBatchList.get(i).getREQQTY() == 0) {
                 arrBatchList.get(i).setSelected(false);
                 batchInfoAdapter.notifyItemChanged(i);
             }
         }
         arrBatchList.get(position).setSelected(true);
         batchInfoAdapter.notifyItemChanged(position);
+
+//        DateChangeDialog dialog = DateChangeDialog.newInstance();
+//        dialog.setBatchInfoMvpView(this);
+//        dialog.setBachInfoItem(arrBatchList.get(position));
+//        dialog.show(getSupportFragmentManager(), "");
+    }
+
+    public void onClickExpireDate(int position) {
+
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
+
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        final DatePickerDialog dialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
+            String selectedDate;
+            c.set(year, monthOfYear, dayOfMonth);
+            selectedDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(c.getTime());
+            arrBatchList.get(position).setExpDate(selectedDate);
+            arrBatchList.get(position).setNearByExpiry(false);
+            arrBatchList.get(position).setISMRPChange(true);
+            batchInfoAdapter.notifyDataSetChanged();
+            mPresenter.expiryChangeApi();
+        }, mYear, mMonth, mDay);
+        dialog.getDatePicker().setMinDate((long) (System.currentTimeMillis()));// - (1000 * 60 * 60 * 24 * 365.25 * 18)
+        dialog.show();
+    }
+
+    @Override
+    public void onItemExpiryClick(int position, int quantity) {
+//        DateChangeDialog dialog = DateChangeDialog.newInstance();
+//        dialog.setBatchInfoMvpView(this);
+//        dialog.setBachInfoItem(arrBatchList.get(position));
+//        dialog.show(getSupportFragmentManager(), "");
+        onClickExpireDate(position);
     }
 
     @Override
@@ -365,8 +466,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             batchServiceCall++;
             doneBatchSelect();
         } else {
-            for(GetBatchInfoRes.BatchListObj batchListObj : selectedBatches){
-                    addBatch(batchListObj);
+            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatches) {
+                addBatch(batchListObj);
             }
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
@@ -377,16 +478,16 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         }
     }
 
-    private void addBatch(GetBatchInfoRes.BatchListObj batchListObj){
+    private void addBatch(GetBatchInfoRes.BatchListObj batchListObj) {
         boolean isUpdateExistBatch = false;
-        for (int j=0; j<Singletone.getInstance().itemsArrayList.size(); j++ ) {
+        for (int j = 0; j < Singletone.getInstance().itemsArrayList.size(); j++) {
             SalesLineEntity s = Singletone.getInstance().itemsArrayList.get(j);
             if (selectedItem.getItemId().equalsIgnoreCase(s.getItemId()) && batchListObj.getBatchNo().equalsIgnoreCase(s.getInventBatchId())) {
                 if (!s.getIsVoid()) {
                     Singletone.getInstance().itemsArrayList.get(j).setQty((batchListObj.getREQQTY() + s.getQty()));
                     isUpdateExistBatch = true;
                     break;
-                }else{
+                } else {
                     Singletone.getInstance().itemsArrayList.get(j).setQty(batchListObj.getREQQTY());
                     Singletone.getInstance().itemsArrayList.get(j).setVoid(false);
                     isUpdateExistBatch = true;
@@ -396,8 +497,8 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             }
         }
 
-        if(!isUpdateExistBatch)
-            batchInfoProducts.add(newSalesLineEntity(batchListObj , batchInfoProducts.size() > 0 ? (selectedItem.getLineNo()+batchInfoProducts.size()): selectedItem.getLineNo()));
+        if (!isUpdateExistBatch)
+            batchInfoProducts.add(newSalesLineEntity(batchListObj, batchInfoProducts.size() > 0 ? (selectedItem.getLineNo() + batchInfoProducts.size()) : selectedItem.getLineNo()));
     }
 
     @Override
@@ -420,12 +521,12 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 //        if(existingProductBatch.size() > 0 ){
 //         //   mPresenter.checkBatchInventory(existingProductBatch.get(existingBatchServiceCall));
 //        }else
-            if (selectedBatches.size() > 0) {
+        if (selectedBatches.size() > 0) {
             mPresenter.checkBatchInventory(selectedBatches.get(batchServiceCall));
         }
     }
 
-    private SalesLineEntity newSalesLineEntity(GetBatchInfoRes.BatchListObj batch,int lineNumber){
+    private SalesLineEntity newSalesLineEntity(GetBatchInfoRes.BatchListObj batch, int lineNumber) {
         SalesLineEntity salesLineEntity = new SalesLineEntity();
         salesLineEntity.setAdditionaltax(0);
         salesLineEntity.setApplyDiscount(false);
@@ -534,7 +635,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-               checkBatches();
+                checkBatches();
             }
         });
         dialogView.setNegativeLabel("No");
@@ -549,30 +650,30 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
 
     private void selectDynamicBatches(double totalQuantity) {
         batchQuantity = 0;
-       // enteredQuantity = Integer.valueOf(getRequiredQuantity());
+        // enteredQuantity = Integer.valueOf(getRequiredQuantity());
         batchInfoProducts.clear();
         existingProductBatch.clear();
-        if(isSelectedBatch){
+        if (isSelectedBatch) {
             double qoh = Double.parseDouble(arrBatchList.get(manualSelectedPosition).getQ_O_H());
             boolean isUpdateExistBatch = false;
-            for (int j=0; j<Singletone.getInstance().itemsArrayList.size(); j++ ) {
+            for (int j = 0; j < Singletone.getInstance().itemsArrayList.size(); j++) {
                 SalesLineEntity s = Singletone.getInstance().itemsArrayList.get(j);
                 if (selectedItem.getItemId().equalsIgnoreCase(s.getItemId()) && arrBatchList.get(manualSelectedPosition).getBatchNo().equalsIgnoreCase(s.getInventBatchId())) {
                     if (!s.getIsVoid()) {
                         //  qoh = Double.parseDouble(s.getStockQty());
-                       // existItemQTY = (int)s.getQty();
+                        // existItemQTY = (int)s.getQty();
                         if (qoh <= totalQuantity)
                             Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh + s.getQty()));
                         else
-                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity+ s.getQty()) );
+                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity + s.getQty()));
                         isUpdateExistBatch = true;
                         break;
                         // it.remove();
-                    }else{
+                    } else {
                         if (qoh <= totalQuantity)
-                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh ));
+                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh));
                         else
-                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity) );
+                            Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity));
                         Singletone.getInstance().itemsArrayList.get(j).setVoid(false);
                         isUpdateExistBatch = true;
                         break;
@@ -586,20 +687,20 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                 arrBatchList.get(manualSelectedPosition).setEnterReqQuantity((int) totalQuantity);
 
             totalQuantity = totalQuantity - qoh;
-            if(!isUpdateExistBatch)
+            if (!isUpdateExistBatch)
                 batchInfoProducts.add(updateBatchDetails(manualSelectedPosition, selectedItem.getLineNo()));
             else
                 existingProductBatch.add(updateBatchDetails(manualSelectedPosition, selectedItem.getLineNo()));
 
         }
-        if(totalQuantity > 0) {
+        if (totalQuantity > 0) {
             int lineNumber = selectedItem.getLineNo();
             for (int i = 0; i < arrBatchList.size(); i++) {
-                if(isSelectedBatch){
-                    if(manualSelectedPosition != i){
+                if (isSelectedBatch) {
+                    if (manualSelectedPosition != i) {
                         double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
                         boolean isUpdateExistBatch = false;
-                        for (int j=0; j<Singletone.getInstance().itemsArrayList.size(); j++ ) {
+                        for (int j = 0; j < Singletone.getInstance().itemsArrayList.size(); j++) {
                             SalesLineEntity s = Singletone.getInstance().itemsArrayList.get(j);
                             if (selectedItem.getItemId().equalsIgnoreCase(s.getItemId()) && arrBatchList.get(manualSelectedPosition).getBatchNo().equalsIgnoreCase(s.getInventBatchId())) {
                                 if (!s.getIsVoid()) {
@@ -608,15 +709,15 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                                     if (qoh <= totalQuantity)
                                         Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh + s.getQty()));
                                     else
-                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity+ s.getQty()) );
+                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity + s.getQty()));
                                     isUpdateExistBatch = true;
                                     break;
                                     // it.remove();
-                                }else{
+                                } else {
                                     if (qoh <= totalQuantity)
-                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh ));
+                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh));
                                     else
-                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity) );
+                                        Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity));
                                     Singletone.getInstance().itemsArrayList.get(j).setVoid(false);
                                     isUpdateExistBatch = true;
                                     break;
@@ -631,19 +732,19 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                                 arrBatchList.get(i).setEnterReqQuantity((int) totalQuantity);
 
                             totalQuantity = totalQuantity - qoh;
-                            if(!isUpdateExistBatch) {
+                            if (!isUpdateExistBatch) {
                                 lineNumber++;
                                 batchInfoProducts.add(updateBatchDetails(i, lineNumber));
-                            }else{
+                            } else {
                                 existingProductBatch.add(updateBatchDetails(i, lineNumber));
                             }
                             batchQuantity += arrBatchList.get(i).getEnterReqQuantity();
                         }
                     }
-                }else{
+                } else {
                     double qoh = Double.parseDouble(arrBatchList.get(i).getQ_O_H());
                     boolean isUpdateExistBatch = false;
-                    for (int j=0; j<Singletone.getInstance().itemsArrayList.size(); j++ ) {
+                    for (int j = 0; j < Singletone.getInstance().itemsArrayList.size(); j++) {
                         SalesLineEntity s = Singletone.getInstance().itemsArrayList.get(j);
                         if (selectedItem.getItemId().equalsIgnoreCase(s.getItemId()) && arrBatchList.get(i).getBatchNo().equalsIgnoreCase(s.getInventBatchId())) {
                             if (!s.getIsVoid()) {
@@ -652,15 +753,15 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                                 if (qoh <= totalQuantity)
                                     Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh + s.getQty()));
                                 else
-                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity+ s.getQty()));
+                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity + s.getQty()));
                                 isUpdateExistBatch = true;
                                 break;
                                 // it.remove();
-                            }else{
+                            } else {
                                 if (qoh <= totalQuantity)
-                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh ));
+                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (qoh));
                                 else
-                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity) );
+                                    Singletone.getInstance().itemsArrayList.get(j).setQty((int) (totalQuantity));
                                 Singletone.getInstance().itemsArrayList.get(j).setVoid(false);
                                 isUpdateExistBatch = true;
                                 break;
@@ -675,36 +776,57 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
                             arrBatchList.get(i).setEnterReqQuantity((int) totalQuantity);
 
                         totalQuantity = totalQuantity - qoh;
-                        if(i!=0) {
-                            if(!isUpdateExistBatch) {
+                        if (i != 0) {
+                            if (!isUpdateExistBatch) {
                                 lineNumber++;
                                 batchInfoProducts.add(updateBatchDetails(i, lineNumber));
-                            }else{
+                            } else {
                                 existingProductBatch.add(updateBatchDetails(i, lineNumber));
                             }
-                        }else{
-                            if(!isUpdateExistBatch) {
+                        } else {
+                            if (!isUpdateExistBatch) {
                                 batchInfoProducts.add(updateBatchDetails(i, selectedItem.getLineNo()));
-                            }else{
+                            } else {
                                 existingProductBatch.add(updateBatchDetails(i, lineNumber));
                             }
                         }
                         batchQuantity += arrBatchList.get(i).getEnterReqQuantity();
                     }
                 }
-                if(totalQuantity <= 0){
+                if (totalQuantity <= 0) {
                     break;
                 }
             }
         }
-        if(totalQuantity > 0){
+        if (totalQuantity > 0) {
             alertQuantityError("Please Check The QTY & Expiry Date!!");
-        }else {
+        } else {
             doneBatchSelect();
         }
     }
 
-    private SalesLineEntity updateBatchDetails(int i,int lineNumber){
+    private String grandTotal(ArrayList<GetBatchInfoRes.BatchListObj> items) {
+
+        String totalPrice = "0";
+        for (int i = 0; i < items.size(); i++) {
+            totalPrice += items.get(i).getQ_O_H();
+        }
+        batchInfoBinding.qohCoount.setText(totalPrice);
+        return totalPrice;
+    }
+
+
+    public void grandTotalQoh(ArrayList<GetBatchInfoRes.BatchListObj> items) {
+        double totalPrice = 0.0;
+//        for (GetBatchInfoRes.BatchListObj item : items) {  for each
+        for (int i = 0; i < items.size(); i++) {
+            totalPrice += Double.valueOf(items.get(i).getQ_O_H());
+        }
+        batchInfoBinding.qohCoount.setText(String.valueOf(totalPrice));
+    }
+
+
+    private SalesLineEntity updateBatchDetails(int i, int lineNumber) {
         SalesLineEntity salesLineEntity = new SalesLineEntity();
         salesLineEntity.setAdditionaltax(0);
         salesLineEntity.setApplyDiscount(false);
@@ -795,7 +917,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         return salesLineEntity;
     }
 
-    private void alertQuantityError(String message){
+    private void alertQuantityError(String message) {
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle("");
         dialogView.setPositiveLabel("OK");

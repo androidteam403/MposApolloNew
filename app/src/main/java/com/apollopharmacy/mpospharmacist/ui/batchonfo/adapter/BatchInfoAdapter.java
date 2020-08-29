@@ -12,16 +12,16 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.BatchInfoListAdapterBinding;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpView;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.ViewHolder> {
 
@@ -47,10 +47,18 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
         GetBatchInfoRes.BatchListObj item = arrBatchList.get(position);
         holder.batchInfoListAdapterBinding.setBatchInfo(item);
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                batchInfoMvpView.onItemExpiryClick(position, item.getEnterReqQuantity());
+                return false;
+            }
+        });
+
         holder.itemView.setOnClickListener(v -> {
             if (batchInfoMvpView != null) {
-                if(!item.getNearByExpiry()) {
-                    batchInfoMvpView.onItemClick(position, item.getEnterReqQuantity());
+                if (!item.getNearByExpiry()) {
+                    batchInfoMvpView.onItemClick(position, item.getEnterReqQuantity(), item);
                     holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
                 }
             }
@@ -69,16 +77,16 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
-                    editable.delete(0,1);
+                    editable.delete(0, 1);
                 }
 //                else if(TextUtils.isEmpty(editable)){
 //                    editable.append("0");
 //                }
-                else if(!TextUtils.isEmpty(editable)){
+                else if (!TextUtils.isEmpty(editable)) {
                     if (batchInfoMvpView != null) {
                         item.setREQQTY(Integer.parseInt(editable.toString()));
 //                        if (!item.getNearByExpiry() && !TextUtils.isEmpty(editable) && !editable.toString().equalsIgnoreCase("0"))
-                        //    batchInfoMvpView.onBatchQTYChange(position, Integer.parseInt(editable.toString()));
+//                            batchInfoMvpView.onBatchQTYChange(position, Integer.parseInt(editable.toString()));
                     }
                 }
                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(editable.length());
@@ -89,7 +97,7 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if(batchInfoMvpView != null){
+                    if (batchInfoMvpView != null) {
                         batchInfoMvpView.onNavigateNextActivity();
                     }
                     return true;
@@ -100,16 +108,16 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
         holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.hasFocus()){
-                        if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().equalsIgnoreCase("0")){
-                            holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setText("");
-                        }
-                    InputMethodManager imm = (InputMethodManager)holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getContext(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (holder.batchInfoListAdapterBinding.batchWiseQtyEdit.hasFocus()) {
+                    if (holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().equalsIgnoreCase("0")) {
+                        holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setText("");
+                    }
+                    InputMethodManager imm = (InputMethodManager) holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm != null) {
                         imm.showSoftInput(holder.batchInfoListAdapterBinding.batchWiseQtyEdit, InputMethodManager.SHOW_IMPLICIT);
                     }
-                }else{
-                    if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().isEmpty()){
+                } else {
+                    if (holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().isEmpty()) {
                         holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setText("0");
                     }
                 }

@@ -4,8 +4,12 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
+import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CouponDiscount;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
@@ -13,16 +17,17 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffAPIReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.expirymodel.ExpiryChangeReq;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.expirymodel.ExpiryChangeRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
-import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -30,12 +35,10 @@ import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqM
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineReq;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.SalesTrackingDataReq;
+import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.SalesTrackingDataRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
@@ -78,7 +81,7 @@ public interface ApiInterface {
     Call<CampaignDetailsRes> CAMPAIGN_DETAILS_RES_CALL(@Path("storeId") String storeId);
 
     @POST("LoginService.svc/GetLoginUser/{storeId}/{DataAreaId}")
-    Call<UserModel> getUserIds(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
+    Call<UserModel> getUserIds(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("LoginService.svc/GetLoginDetail")
     Call<LoginResModel> LOGIN_RES_MODEL_CALL(@Body LoginReqModel loginReqModel);
@@ -90,37 +93,40 @@ public interface ApiInterface {
     Call<GetItemDetailsRes> GET_ITEM_DETAILS_RES_CALL(@Body GetItemDetailsReq itemDetailsReq);
 
     @POST("SalesTransactionService.svc/GetTrackingRefence/{storeId}/{DataAreaId}")
-    Call<CorporateModel> getCorporateList(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
+    Call<CorporateModel> getCorporateList(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/GetDoctorList/{storeId}/{DataAreaId}")
-    Call<DoctorSearchResModel> getDoctorsList(@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body DoctorSearchReqModel doctorSearchReqModel);
+    Call<DoctorSearchResModel> getDoctorsList(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body DoctorSearchReqModel doctorSearchReqModel);
 
     @POST("SalesTransactionService.svc/GetSalesOrigin/{DataAreaId}")
-    Call<SalesOriginResModel> getSalesOriginList(@Path("DataAreaId") String dataAreaId,@Body Object o);
+    Call<SalesOriginResModel> getSalesOriginList(@Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/GetTransactionId")
     Call<TransactionIDResModel> GET_TRANSACTION_ID(@Body TransactionIDReqModel transactionIDReqModel);
 
     @POST("SalesTransactionService.svc/GetBatchDetails")
-    Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL (@Body GetBatchInfoReq getBatchInfoReq);
+    Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL(@Body GetBatchInfoReq getBatchInfoReq);
 
     @POST("SalesTransactionService.svc/CheckBatchInventory")
-    Call<CheckBatchInventoryRes> CHECK_BATCH_INVENTORY_RES_CALL (@Body CheckBatchInventoryReq batchInventoryReq);
+    Call<CheckBatchInventoryRes> CHECK_BATCH_INVENTORY_RES_CALL(@Body CheckBatchInventoryReq batchInventoryReq);
+
+    @POST("SalesTransactionService.svc/ExpiryChange")
+    Call<ExpiryChangeRes> EXPIRY_CHANGE_RES_CALL(@Body ExpiryChangeReq expiryChangeReq);
 
     @POST("SalesTransactionService.svc/GenerateTenderLine/{totalAmount}")
-    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL (@Path("totalAmount") double amount,@Body GenerateTenderLineReq tenderLineReq);
+    Call<GenerateTenderLineRes> GENERATE_TENDER_LINE_RES_CALL(@Path("totalAmount") double amount, @Body GenerateTenderLineReq tenderLineReq);
 
     @POST("WalletService.svc/GetPharmacyStaffAPIDetails")
-    Call<PharmacyStaffApiRes> PHARMACY_STAFF_API_RES_CALL (@Body PharmacyStaffAPIReq tenderLineReq);
+    Call<PharmacyStaffApiRes> PHARMACY_STAFF_API_RES_CALL(@Body PharmacyStaffAPIReq tenderLineReq);
 
     @POST("SalesTransactionService.svc/SaveRetailTransaction")
-    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes tenderLineReq);
+    Call<SaveRetailsTransactionRes> SAVE_RETAILS_TRANSACTION_RES_CALL(@Body CalculatePosTransactionRes tenderLineReq);
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{DataAreaId}")
-    Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body Object o);
+    Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/GetTrackingWiseConfigration/{storeId}/{DataAreaId}")
-    Call<GetTrackingWiseConfing> GET_TRACKING_WISE_CONFING_CALL (@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
+    Call<GetTrackingWiseConfing> GET_TRACKING_WISE_CONFING_CALL(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/DoctorCreation")
     Call<AddDoctorResModel> ADD_DOCTOR_SERVICE(@Body AddDoctorReqModel addDoctorReqModel);
@@ -129,63 +135,67 @@ public interface ApiInterface {
     Call<AddCustomerResModel> ADD_CUSTOMER_SERVICE(@Body AddCustomerReqModel addCustomerReqModel);
 
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
-    Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL (@Body POSTransactionEntity posTransactionReq);
+    Call<CalculatePosTransactionRes> CALCULATE_POS_TRANSACTION_RES_CALL(@Body POSTransactionEntity posTransactionReq);
 
     @POST("SalesTransactionService.svc/ChangeQty/{lineNumber}/{quantity}")
-    Call<CalculatePosTransactionRes> CHANGE_QUANTITY_RES_CALL (@Path("lineNumber") int lineNumber, @Path("quantity") int quantity, @Body POSTransactionEntity posTransactionReq);
+    Call<CalculatePosTransactionRes> CHANGE_QUANTITY_RES_CALL(@Path("lineNumber") int lineNumber, @Path("quantity") int quantity, @Body POSTransactionEntity posTransactionReq);
 
     @POST("SalesTransactionService.svc/CheckProductTrackingWise")
-    Call<CalculatePosTransactionRes> CHECK_PRODUCT_TRACKING_WISE_RES_CALL (@Body POSTransactionEntity posTransactionReq);
+    Call<CalculatePosTransactionRes> CHECK_PRODUCT_TRACKING_WISE_RES_CALL(@Body POSTransactionEntity posTransactionReq);
 
     @POST("SalesTransactionService.svc/VoidTransaction")
-    Call<CalculatePosTransactionRes> VOID_TRANSACTION (@Body CalculatePosTransactionRes posTransactionReq);
+    Call<CalculatePosTransactionRes> VOID_TRANSACTION(@Body CalculatePosTransactionRes posTransactionReq);
 
     @POST("SalesTransactionService.svc/VoidProduct/{Item_line}")
-    Call<CalculatePosTransactionRes> VOID_PRODUCT (@Path("Item_line") int line,@Body CalculatePosTransactionRes posTransactionReq);
+    Call<CalculatePosTransactionRes> VOID_PRODUCT(@Path("Item_line") int line, @Body CalculatePosTransactionRes posTransactionReq);
 
     @POST("SalesTransactionService.svc/GetUnpostedTransaction/{storeId}/{terminalId}/{DataAreaId}")
-    Call<CalculatePosTransactionRes> GET_UNPOSTED_TRANSACTION (@Path("storeId") String storeId,@Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId,@Body  Object o );
+    Call<CalculatePosTransactionRes> GET_UNPOSTED_TRANSACTION(@Path("storeId") String storeId, @Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("WalletService.svc/OneApolloAPITransaction")
     Call<ValidatePointsResModel> VALIDATE_ONE_APOLLO_POINTS(@Body ValidatePointsReqModel validatePointsReqModel);
 
     @POST("WalletService.svc/OneApolloAPITransaction")
-    Call<ValidatePointsResModel> ONE_APOLLO_SEND_OTP_RES_CALL (@Body ValidatePointsReqModel oneApolloSendOtpReq);
+    Call<ValidatePointsResModel> ONE_APOLLO_SEND_OTP_RES_CALL(@Body ValidatePointsReqModel oneApolloSendOtpReq);
 
     @POST("LoginService.svc/CheckUserConfig")
-    Call<ConfingRes> CONFING_RES_CALL (@Body ConfingReq confingReq);
+    Call<ConfingRes> CONFING_RES_CALL(@Body ConfingReq confingReq);
 
     @POST("SalesTransactionService.svc/GetTransactionDetails")
-    Call<ArrayList<CalculatePosTransactionRes>> ORDER_LIST_RES_CALL (@Body OrderListReq orderListReq);
+    Call<ArrayList<CalculatePosTransactionRes>> ORDER_LIST_RES_CALL(@Body OrderListReq orderListReq);
 
     @POST("SalesTransactionService.svc/GetTenderType/{storeId}/{DataAreaId}")
-    Call<GetTenderTypeRes>  GET_TENDER_TYPE_RES_CALL (@Path("storeId") String storeId,@Path("DataAreaId") String dataAreaId,@Body  Object o);
+    Call<GetTenderTypeRes> GET_TENDER_TYPE_RES_CALL(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/AllowedPaymentMode/{storeId}/{terminalId}/{DataAreaId}")
-    Call<AllowedPaymentModeRes>  ALLOWED_PAYMENT_MODE_RES_CALL (@Path("storeId") String storeId, @Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body  Object o);
+    Call<AllowedPaymentModeRes> ALLOWED_PAYMENT_MODE_RES_CALL(@Path("storeId") String storeId, @Path("terminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/ApplyMannualDiscount")
-    Call<ManualDiscCheckRes> MANUAL_DISC_CHECK_RES_CALL (@Body ManualDiscCheckReq manualDiscCheckReq);
+    Call<ManualDiscCheckRes> MANUAL_DISC_CHECK_RES_CALL(@Body ManualDiscCheckReq manualDiscCheckReq);
 
     @POST
-    Call<OTPRes> GENERATE_OTP_RES_CALL (@Url String url);
+    Call<OTPRes> GENERATE_OTP_RES_CALL(@Url String url);
 
     @POST
     Call<VendorCheckRes> VENDOR_CHECK_RES_CALL(@Url String url, @Body VendorValidationReq requestBody);
 
     @POST("WalletService.svc/GetWalletDetails/{storeId}/{state}")
-    Call<WalletServiceRes>  WALLET_SERVICE_RES_CALL (@Path("storeId") String storeId, @Path("state") String state, @Body WalletServiceReq walletServiceReq);
+    Call<WalletServiceRes> WALLET_SERVICE_RES_CALL(@Path("storeId") String storeId, @Path("state") String state, @Body WalletServiceReq walletServiceReq);
 
     @POST("SalesTransactionService.svc/CancelPOSTransaction")
-    Call<CalculatePosTransactionRes> CANCEL_POS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes posTransactionReq);
+    Call<CalculatePosTransactionRes> CANCEL_POS_TRANSACTION_RES_CALL(@Body CalculatePosTransactionRes posTransactionReq);
 
     @POST("SalesTransactionService.svc/ApplyMannualDiscount")
-    Call<CouponDiscount> COUPON_DISCOUNT_CALL (@Body CouponDiscount couponDiscount);
+    Call<CouponDiscount> COUPON_DISCOUNT_CALL(@Body CouponDiscount couponDiscount);
 
     @POST("SalesTransactionService.svc/TrackingWiseReturnAllowed/{corpId}")
-    Call<TrackingWiseReturnAllowedRes>  TRACKING_WISE_RETURN_ALLOWED_RES_CALL (@Path("corpId") String corpId);
+    Call<TrackingWiseReturnAllowedRes> TRACKING_WISE_RETURN_ALLOWED_RES_CALL(@Path("corpId") String corpId);
 
     @POST("SalesTransactionService.svc/ReturnPOSTransaction")
-    Call<CalculatePosTransactionRes> RETURN_POS_TRANSACTION_RES_CALL (@Body CalculatePosTransactionRes posTransactionReq);
+    Call<CalculatePosTransactionRes> RETURN_POS_TRANSACTION_RES_CALL(@Body CalculatePosTransactionRes posTransactionReq);
+
+    @POST("SalesTransactionService.svc/SalesTrackingData")
+    Call<SalesTrackingDataRes> SALES_TRACKING_DATA_RES_CALL(@Body SalesTrackingDataReq salesTrackingDataReq);
+
 
 }

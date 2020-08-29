@@ -7,4 +7,9 @@ public interface AllDoctorsDialogMvpPresenter<V extends AllDoctorsDialogMvpView>
     void dismissDialog();
 
     void onAddDoctorClick();
+
+    void searchDoctorDetailsByName();
+
+    void defaultDoctorList();
+
 }

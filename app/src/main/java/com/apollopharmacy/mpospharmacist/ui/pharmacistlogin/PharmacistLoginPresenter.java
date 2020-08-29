@@ -59,7 +59,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<UserModel> call = api.getUserIds(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
 
             call.enqueue(new Callback<UserModel>() {
@@ -68,14 +68,15 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if(response.body()!= null && response.body().getGetLoginUserResult().getRequestStatus() == 0) {
-                            getMvpView().getUserIds(response.body());
-                        }else{
-                            if (response.body() != null) {
-                                getMvpView().showMessage(response.body().getGetLoginUserResult().getReturnMessage());
-                            }else{
-                                getMvpView().showMessage(R.string.some_error);
-                            }
+                                if (response.body() != null && response.body().getGetLoginUserResult().getRequestStatus() == 0) {
+                                    getMvpView().getUserIds(response.body());
+                                    getDataManager().storeEposUrl(true);
+                                } else {
+                                    if (response.body() != null) {
+                                        getMvpView().showMessage(response.body().getGetLoginUserResult().getReturnMessage());
+                                    } else {
+                                        getMvpView().showMessage(R.string.some_error);
+                                    }
                         }
                     }
                 }
@@ -126,7 +127,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());
             loginReqModel.setStoreID(getDataManager().getStoreId());
@@ -167,7 +168,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             LoginReqModel loginReqModel = new LoginReqModel();
             loginReqModel.setUserID(getMvpView().getUserId());
             loginReqModel.setStoreID(getDataManager().getStoreId());
@@ -208,7 +209,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<GetGlobalConfingRes>() {
                 @Override
@@ -247,7 +248,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void getTenderTypeApi() {
         if (getMvpView().isNetworkConnected()) {
             //   getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
             Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<GetTenderTypeRes>() {
@@ -283,7 +284,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void getAllowedPaymentMode() {
         if (getMvpView().isNetworkConnected()) {
             //   getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
             Call<AllowedPaymentModeRes> call = api.ALLOWED_PAYMENT_MODE_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<AllowedPaymentModeRes>() {
@@ -319,7 +320,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void getGetTrackingWiseConfiguration() {
         if (getMvpView().isNetworkConnected()) {
             //   getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
             Call<GetTrackingWiseConfing> call = api.GET_TRACKING_WISE_CONFING_CALL(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<GetTrackingWiseConfing>() {

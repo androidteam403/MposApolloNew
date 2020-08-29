@@ -20,4 +20,10 @@ public interface DoctorDetailsMvpPresenter<V extends DoctorDetailsMvpView> exten
     void onSubmitClick();
 
     void onCustomDoctorLayoutClick();
+
+    String getStoreName();
+
+    String getStoreId();
+
+    String getTerminalId();
 }

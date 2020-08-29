@@ -69,7 +69,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
     public void getTenderTypeApi() {
         if (getMvpView().isNetworkConnected()) {
          //   getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
             Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
             call.enqueue(new Callback<GetTenderTypeRes>() {
@@ -105,7 +105,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
 
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             VendorValidationReq validationReq = new VendorValidationReq();
             validationReq.setDEVICEID("");
             validationReq.setKEY("");
@@ -149,7 +149,7 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
         if (getMvpView().isNetworkConnected()) {
             //Creating an object of our api interface
           //  getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(),getDataManager().getDataAreaId(),new Object());
             call.enqueue(new Callback<GetGlobalConfingRes>() {
                 @Override

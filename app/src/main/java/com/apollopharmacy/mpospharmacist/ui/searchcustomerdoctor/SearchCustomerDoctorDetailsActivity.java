@@ -102,7 +102,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     @Override
     public void onContinueBtnClick() {
         if(searchCutomerDetailsBinding.getCustomer() != null) {
-            startActivity(AddItemActivity.getStartIntent(this, searchCutomerDetailsBinding.getCustomer(), searchCutomerDetailsBinding.getDoctor(), searchCutomerDetailsBinding.getCorporate(), transactionIdItem,corporateModel));
+            startActivity(AddItemActivity.getStartIntent(this,true, searchCutomerDetailsBinding.getCustomer(), searchCutomerDetailsBinding.getDoctor(), searchCutomerDetailsBinding.getCorporate(), transactionIdItem,corporateModel));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }

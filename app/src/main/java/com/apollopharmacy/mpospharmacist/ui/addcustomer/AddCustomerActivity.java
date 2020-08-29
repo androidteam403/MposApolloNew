@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityAddCustomerBinding;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
@@ -20,21 +22,16 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
-import com.tiper.MaterialSpinner;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import androidx.databinding.DataBindingUtil;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
 
@@ -47,9 +44,9 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     private String requiredDOBFormat = "";
     private GetCustomerResponse.CustomerEntity userInputNumber;
 
-    public static Intent getStartIntent(Context context, boolean isEdit,GetCustomerResponse.CustomerEntity inputNumber) {
+    public static Intent getStartIntent(Context context, boolean isEdit, GetCustomerResponse.CustomerEntity inputNumber) {
         Intent intent = new Intent(context, AddCustomerActivity.class);
-        intent.putExtra("is_edit_mode",isEdit);
+        intent.putExtra("is_edit_mode", isEdit);
         intent.putExtra("customer_number", inputNumber);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
@@ -67,9 +64,11 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     protected void setUp() {
         addCustomerBinding.setCallback(mPresenter);
-
+        addCustomerBinding.siteData.siteName.setText(mPresenter.getStoreName());
+        addCustomerBinding.siteData.siteId.setText(mPresenter.getStoreId());
+        addCustomerBinding.siteData.terminalId.setText(mPresenter.getTerminalId());
         if (getIntent() != null) {
-             userInputNumber = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_number");
+            userInputNumber = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_number");
             addCustomerBinding.setCustomerDetails(userInputNumber);
 
 //            if (userInputNumber != null) {
@@ -82,7 +81,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 //        addCustomerBinding.dateOfRegistration.setText(df.format(c));
         addCustomerBinding.gender.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         addCustomerBinding.gender.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_item, getGender()){
+        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getContext(), android.R.layout.simple_spinner_item, getGender()) {
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -92,7 +91,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -115,7 +114,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 //        addCustomerBinding.districtSpinner.setFocusableInTouchMode(false);
         addCustomerBinding.maritalStatusSpinner.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         addCustomerBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getApplicationContext(), android.R.layout.simple_spinner_item, getMarital()){
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getApplicationContext(), android.R.layout.simple_spinner_item, getMarital()) {
 
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -125,7 +124,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -174,15 +173,15 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
     @Override
     public void onSubmitClick() {
         if (validate()) {
-            boolean isEditMode = getIntent().getBooleanExtra("is_edit_mode",false);
-            if(isEditMode)
+            boolean isEditMode = getIntent().getBooleanExtra("is_edit_mode", false);
+            if (isEditMode)
                 submitEditMode();
             else
                 mPresenter.handleCustomerAddService();
         }
     }
 
-    private void submitEditMode(){
+    private void submitEditMode() {
         GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
         customerEntity.setSearchId(userInputNumber.getSearchId());
         customerEntity.setCustId(userInputNumber.getCustId());
@@ -371,9 +370,9 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
 
     @Override
     public String getDOB() {
-        if(TextUtils.isEmpty(requiredDOBFormat)){
+        if (TextUtils.isEmpty(requiredDOBFormat)) {
             return CommonUtils.getCurrentDate("dd-MMM-yyyy");
-        }else {
+        } else {
             return requiredDOBFormat;
         }
     }
@@ -458,7 +457,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             addCustomerBinding.cardNumber.setError("Card Number Minimum 10 characters");
             addCustomerBinding.cardNumber.requestFocus();
             return false;
-        }else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
+        } else if (!email.isEmpty() && !CommonUtils.isValidEmail(email)) {
             addCustomerBinding.email.setError("Enter Valid Email");
             addCustomerBinding.email.requestFocus();
             return false;
@@ -470,7 +469,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
             addCustomerBinding.mobile.setError("Invalid Mobile Number");
             addCustomerBinding.mobile.requestFocus();
             return false;
-        }else if(!zipCode.isEmpty() && zipCode.length() < 6){
+        } else if (!zipCode.isEmpty() && zipCode.length() < 6) {
             addCustomerBinding.zipCode.setError("Enter Valid ZipCode");
             addCustomerBinding.zipCode.requestFocus();
             return false;

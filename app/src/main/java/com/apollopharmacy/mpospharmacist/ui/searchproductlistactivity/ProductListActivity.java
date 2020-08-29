@@ -32,7 +32,6 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.adapter.ProductListAdapter;
@@ -87,6 +86,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
     @Override
     protected void setUp() {
+        productListActivityBinding.siteName.setText(productListMvpPresenter.getStoreName());
+        productListActivityBinding.siteId.setText(productListMvpPresenter.getStoreId());
+        productListActivityBinding.terminalId.setText(productListMvpPresenter.getTerminalId());
         productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
         productListActivityBinding.pdialog.setMax(100);
         productListActivityBinding.pdialog.setProgress(20);
@@ -111,12 +113,13 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         productListActivityBinding.productRecycler.setLayoutManager(mLayoutManager);
         productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
         productListActivityBinding.productRecycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-       // productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
+        // productListActivityBinding.productRecycler.setItemAnimator(new DefaultItemAnimator());
         productListAdapter.setClickListiner(this);
         productListActivityBinding.productRecycler.setAdapter(productListAdapter);
         productListActivityBinding.searchProductEditText.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         productListActivityBinding.searchProductEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,11 +133,11 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() >= 3 ) {
+                if (s.length() >= 3) {
                     productListMvpPresenter.getProductDetails();
                     productListActivityBinding.pdialog.setVisibility(View.VISIBLE);
                     isListFiltered = false;
-                }else{
+                } else {
                     productListActivityBinding.setProductCount(0);
                     itemsArrayList.clear();
                     productListAdapter.clearDate();
@@ -202,7 +205,7 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
         salesLineEntity.setISStockAvailable(true);
         salesLineEntity.setItemId(items.getArtCode());
         salesLineEntity.setItemName(items.getDescription());
-        salesLineEntity.setLineNo(Singletone.getInstance().itemsArrayList.size()+1);
+        salesLineEntity.setLineNo(Singletone.getInstance().itemsArrayList.size() + 1);
         salesLineEntity.setLineDiscPercentage(0);
         salesLineEntity.setLinedscAmount(0);
         salesLineEntity.setLineManualDiscountAmount(0);
@@ -280,9 +283,9 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
             itemsArrayList.addAll(itemDetailsRes.getItemList());
             productListAdapter.clearDate();
             productListAdapter.add(itemDetailsRes.getItemList());
-         //   productListAdapter.notifyDataSetChanged();
+            //   productListAdapter.notifyDataSetChanged();
             isLoadApi = false;
-         //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
+            //   productListAdapter.getFilter().filter(productListActivityBinding.searchProductEditText.getText().toString());
         } else {
             productListAdapter.clearDate();
             productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
@@ -305,10 +308,10 @@ public class ProductListActivity extends BaseActivity implements ProductListMvpV
 //                itemsArrayList.clear();
 //                productListAdapter.notifyDataSetChanged();
 //            } else {
-               // hideKeyboard();
-                productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
-                productListActivityBinding.itemNotFound.setVisibility(View.VISIBLE);
-          //  }
+            // hideKeyboard();
+            productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);
+            productListActivityBinding.itemNotFound.setVisibility(View.VISIBLE);
+            //  }
         } else {
             productListActivityBinding.itemNotFound.setVisibility(View.GONE);
             productListActivityBinding.pdialog.setVisibility(View.INVISIBLE);

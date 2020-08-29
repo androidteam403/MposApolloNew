@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.additem.model;
 
-public class OrderPriceInfoModel {
+import java.io.Serializable;
+
+public class OrderPriceInfoModel implements Serializable {
 
     public String DiscType = "---";
     public double PharmaTotalAmount;

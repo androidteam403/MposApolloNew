@@ -58,7 +58,7 @@ public class AddCustomerPresenter<V extends AddCustomerMvpView> extends BasePres
     public void handleCustomerAddService() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             AddCustomerReqModel addCustomerReqModel = new AddCustomerReqModel();
             addCustomerReqModel.setFirstName(getMvpView().getFirstName());
             addCustomerReqModel.setMiddleName(getMvpView().getMiddleName());
@@ -114,4 +114,20 @@ public class AddCustomerPresenter<V extends AddCustomerMvpView> extends BasePres
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getGlobalJson().getStoreName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 }

@@ -9,7 +9,6 @@ import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
-import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +22,7 @@ import retrofit2.Response;
 
 public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresenter<V>
         implements StoreSetupMvpPresenter<V> {
+
     @Inject
     public StoreSetupPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -64,13 +64,13 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                 public void onResponse(@NotNull Call<DeviceSetupResModel> call, @NotNull Response<DeviceSetupResModel> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
-                        if(response.body().isStatus()){
+                        if (response.body().isStatus()) {
                             getDataManager().setStoreId(getMvpView().getStoreId());
                             getDataManager().setTerminalId(getMvpView().getTerminalId());
                             getDataManager().setDataAreaId(getMvpView().getStoreDetails().getDataAreaId());
                             getDataManager().setAdminSetUpFinish(true);
                             getMvpView().storeSetupSuccess(response.body());
-                        }else{
+                        } else {
                             getMvpView().showMessage(response.body().getMessage());
                         }
                     }
@@ -126,35 +126,50 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
     public void checkConfingApi() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getMvpView().getEposURL());
             ConfingReq confingReq = new ConfingReq();
             confingReq.setDataAreaID(getMvpView().getStoreDetails().getDataAreaId());
             confingReq.setRequestStatus(0);
             confingReq.setStoreID(getMvpView().getStoreDetails().getStoreId());
             confingReq.setTerminalID(getMvpView().getTerminalId());
-            Call<ConfingRes> call = api.CONFING_RES_CALL(confingReq);
-            call.enqueue(new Callback<ConfingRes>() {
-                @Override
-                public void onResponse(@NotNull Call<ConfingRes> call, @NotNull Response<ConfingRes> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        if(response.body() != null && response.body().getRequestStatus() == 0){
-                            handleStoreSetupService();
-                        }else{
-                            getMvpView().showMessage(response.body().getReturnMessage());
+            if (api != null) {
+                Call<ConfingRes> call = api.CONFING_RES_CALL(confingReq);
+                call.enqueue(new Callback<ConfingRes>() {
+                    @Override
+                    public void onResponse(@NotNull Call<ConfingRes> call, @NotNull Response<ConfingRes> response) {
+                        if (response.isSuccessful()) {
+                            getDataManager().setEposURL(getMvpView().getEposURL());
+                            getDataManager().storeEposUrl(true);
+                            getMvpView().hideLoading();
+                            if (response.body() != null && response.body().getRequestStatus() == 0) {
+                                handleStoreSetupService();
+                            } else {
+                                getMvpView().showMessage(response.body().getReturnMessage());
+                            }
+                        } else {
+                            getMvpView().hideLoading();
+                            getMvpView().showMessage("Unable to communicate");
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(@NotNull Call<ConfingRes> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
+                    @Override
+                    public void onFailure(@NotNull Call<ConfingRes> call, @NotNull Throwable t) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        handleApiError(t);
+                    }
+                });
+            } else {
+                getMvpView().hideLoading();
+                getMvpView().showMessage("not a valid url");
+            }
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void onVerifyClick() {
+        getMvpView().onVerifyClick();
     }
 }

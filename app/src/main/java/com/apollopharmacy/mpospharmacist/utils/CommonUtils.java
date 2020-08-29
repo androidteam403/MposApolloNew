@@ -61,6 +61,7 @@ public class CommonUtils {
         return false;
     }
 
+
     public static boolean mobileValidate(String mobile) {
         if (mobile.length() < 10) {
             return false;

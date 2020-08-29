@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="no_doctor"
             type="Boolean" />
@@ -46,9 +48,13 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/doc_sez"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"
-            android:layout_margin="@dimen/ten_dp">
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/ten_dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/EditTextInputLayoutStyle"
@@ -63,8 +69,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
                     android:hint="@string/label_search_by_doctor_name"
-                    android:inputType="text"
                     android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:padding="@dimen/ten_dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
@@ -79,6 +85,16 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_search" />
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/pdialog"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/doc_sez"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:indeterminate="true" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/all_doctors_recyclerView"

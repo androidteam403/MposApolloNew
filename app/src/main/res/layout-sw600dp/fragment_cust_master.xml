@@ -196,7 +196,8 @@
                 android:layout_margin="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_gender"
-                app:spinnerMode="bottomsheet"/>
+                app:spinnerMode="bottomsheet"
+                android:textSize="6sp"/>
 
             <com.tiper.MaterialSpinner
                 android:id="@+id/marital_status_spinner"
@@ -206,7 +207,8 @@
                 android:layout_margin="@dimen/five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_marital_status"
-                app:spinnerMode="bottomsheet"/>
+                app:spinnerMode="bottomsheet"
+                android:textSize="6sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/EditTextInputLayoutStyle"
@@ -412,7 +414,7 @@
                 android:textColor="@color/black"
                 tools:ignore="MissingConstraints"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold" />
+                android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
     </ScrollView>
 </layout>

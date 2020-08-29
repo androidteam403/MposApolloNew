@@ -1,7 +1,6 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -15,6 +14,7 @@ import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ViewDoctorSearchItemBinding;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 
 import java.util.ArrayList;
 
@@ -61,6 +61,7 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
     @Override
     public int getItemCount() {
         return doctorFilteredArrayList.size();
+
     }
 
     public void onClickListener(AllDoctorsDialogMvpView mvpView) {
@@ -73,14 +74,37 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    doctorFilteredArrayList = doctorArrayList;
-                } else {
+                if (!charString.isEmpty()) {
                     ArrayList<DoctorSearchResModel.DropdownValueBean> filteredList = new ArrayList<>();
                     for (DoctorSearchResModel.DropdownValueBean row : doctorArrayList) {
-                        if (row.getDisplayText().contains(charString.toUpperCase()) || row.getCode().contains(charString.toUpperCase())) {
-                            filteredList.add(row);
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+//                        String searchKey = Pattern.compile("[ ](?=[ ])|[^-_,A-Za-z0-9 ]+", Pattern.MULTILINE).matcher(charString.toUpperCase()).replaceAll("");
+//                        if (row.getArtCode().contains(charString.toUpperCase()) || row.getDescription().contains(charString.toUpperCase())) {
+//                            filteredList.add(row);
+//                        }
+
+                        if (charString.toUpperCase().contains("%")) {
+                            String[] splitKey = charString.toUpperCase().split("%");
+                            if(splitKey.length > 1) {
+                                for (int i = 0; i < splitKey.length; i++) {
+                                    if (i != 0) {
+                                        if (!filteredList.contains(row) && (row.getCode().contains(splitKey[i]) || row.getDisplayText().contains(splitKey[i]))) {
+                                            filteredList.add(row);
+                                        }
+                                    }
+                                }
+                            }else{
+                                if (!filteredList.contains(row) && (row.getCode().contains(charString.toUpperCase().replace("%","")) || row.getDisplayText().contains(charString.toUpperCase().replace("%","")))) {
+                                    filteredList.add(row);
+                                }
+                            }
+                        } else {
+                            if (!filteredList.contains(row) && (row.getCode().contains(charString.toUpperCase()) || row.getDisplayText().contains(charString.toUpperCase()))) {
+                                filteredList.add(row);
+                            }
                         }
+
                     }
                     doctorFilteredArrayList = filteredList;
                 }
@@ -93,8 +117,19 @@ public class AllDoctorsListAdapter extends RecyclerView.Adapter<AllDoctorsListAd
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 doctorFilteredArrayList = (ArrayList<DoctorSearchResModel.DropdownValueBean>) filterResults.values;
                 notifyDataSetChanged();
-                doctorsMvpView.updateNoDoctorView(doctorFilteredArrayList.size());
             }
         };
+    }
+
+    public void clearDate(){
+        doctorFilteredArrayList.clear();
+        doctorArrayList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void add(ArrayList<DoctorSearchResModel.DropdownValueBean> productListFiltered){
+        this.doctorFilteredArrayList = productListFiltered;
+        this.doctorArrayList = productListFiltered;
+        //  notifyDataSetChanged();
     }
 }

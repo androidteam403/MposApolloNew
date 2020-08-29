@@ -47,7 +47,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     public void getDoctorsList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
             doctorSearchModel.setISAX(false);
             doctorSearchModel.setDoctorID("");
@@ -78,7 +78,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     @Override
     public void getSalesOrigin() {
         if (getMvpView().isNetworkConnected()) {
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<SalesOriginResModel> call = api.getSalesOriginList(getDataManager().getDataAreaId(),new JsonObject());
             call.enqueue(new Callback<SalesOriginResModel>() {
                 @Override
@@ -103,7 +103,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     @Override
     public void getAllDoctorsList() {
         if (getMvpView().isNetworkConnected()) {
-            ApiInterface api = ApiClient.getApiService();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
             doctorSearchModel.setISAX(false);
             doctorSearchModel.setDoctorID("0");
@@ -137,5 +137,21 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     @Override
     public void onCustomDoctorLayoutClick() {
         getMvpView().onCustomDoctorLayoutClick();
+    }
+
+
+    @Override
+    public String getStoreName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
     }
 }

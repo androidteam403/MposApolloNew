@@ -13,6 +13,7 @@
         <variable
             name="customerDetails"
             type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+
         <variable
             name="model"
             type="com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerModel" />
@@ -51,6 +52,10 @@
                 android:textSize="@dimen/text_dimen_18" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/site_data"
+            layout="@layout/activity_site_data" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -77,14 +82,14 @@
                         android:id="@+id/first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_first_name"
                         android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.cardName}"/>
+                        android:text="@{customerDetails.cardName}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,14 +103,14 @@
                         android:id="@+id/middle_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_middle_name"
                         android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.middleName}"/>
+                        android:text="@{customerDetails.middleName}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -119,14 +124,14 @@
                         android:id="@+id/last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_last_name"
                         android:inputType="textPersonName"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.lastName}" />
+                        android:text="@{customerDetails.lastName}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -143,12 +148,12 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_card_number"
                         android:inputType="number"
-                        android:padding="@dimen/ten_dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
                         android:maxLength="10"
                         android:minLines="10"
-                        android:text="@{customerDetails.cardNo}"/>
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:text="@{customerDetails.cardNo}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -167,8 +172,8 @@
                         android:inputType="textEmailAddress"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.email}" />
+                        android:text="@{customerDetails.email}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -189,8 +194,8 @@
                         android:maxLength="10"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.mobileNo}"/>
+                        android:text="@{customerDetails.mobileNo}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -209,8 +214,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.telephoneNo}"/>
+                        android:text="@{customerDetails.telephoneNo}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -230,8 +235,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.age}" />
+                        android:text="@{customerDetails.age}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.tiper.MaterialSpinner
@@ -288,11 +293,11 @@
                         android:id="@+id/district_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="top"
                         android:hint="@string/label_district"
                         android:inputType="text"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:text="@{customerDetails.district}"
@@ -311,11 +316,11 @@
                         android:id="@+id/city_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="top"
                         android:hint="@string/label_city"
                         android:inputType="text"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:text="@{customerDetails.city}"
@@ -333,11 +338,11 @@
                         android:id="@+id/state_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="top"
                         android:hint="@string/label_state"
                         android:inputType="text"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:text="@{customerDetails.state}"
@@ -359,11 +364,11 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/label_zip_code"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:maxLength="6"
-                        android:text="@{customerDetails.zipCode}"/>
+                        android:text="@{customerDetails.zipCode}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -406,8 +411,8 @@
                         android:onClick="@{()-> callback.onClickAnniversary()}"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.anniversary}" />
+                        android:text="@{customerDetails.anniversary}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -427,8 +432,8 @@
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.numberOfDependents}"/>
+                        android:text="@{customerDetails.numberOfDependents}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -449,8 +454,8 @@
                         android:inputType="date"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_dimen_15"
-                        android:text="@{customerDetails.dateOfRegistration}"/>
+                        android:text="@{customerDetails.dateOfRegistration}"
+                        android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -459,13 +464,13 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:background="@color/apollo_btn_color"
+                    android:fontFamily="@font/roboto_bold"
                     android:onClick="@{()-> callback.onClickSubmit()}"
                     android:padding="12dp"
                     android:text="@string/label_submit"
                     android:textColor="@color/black"
-                    tools:ignore="MissingConstraints"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"/>
+                    tools:ignore="MissingConstraints" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

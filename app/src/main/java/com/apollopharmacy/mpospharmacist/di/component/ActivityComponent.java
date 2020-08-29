@@ -7,6 +7,7 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerActivity;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorActivity;
 import com.apollopharmacy.mpospharmacist.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoActivity;
+import com.apollopharmacy.mpospharmacist.ui.batchonfo.dialog.DateChangeDialog;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacist.ui.customerdoctorinfo.CustomerDoctorInfoActivity;
@@ -92,4 +93,6 @@ public interface ActivityComponent {
     void inject(ScannerActivity scannerActivity);
 
     void inject(OrderSummaryActivity orderSummaryActivity);
+
+    void inject(DateChangeDialog dateChangeDialog);
 }

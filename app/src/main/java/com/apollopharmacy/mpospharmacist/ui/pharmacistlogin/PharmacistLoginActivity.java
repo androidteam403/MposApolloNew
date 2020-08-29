@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;

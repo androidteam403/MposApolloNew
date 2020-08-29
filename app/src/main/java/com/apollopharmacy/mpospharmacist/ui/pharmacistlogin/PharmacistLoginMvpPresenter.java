@@ -22,4 +22,6 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
     void userLoginCampaignApi();
 
     void getGlobalConfigration();
+
+
 }

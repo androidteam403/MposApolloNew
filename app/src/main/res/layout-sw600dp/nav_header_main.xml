@@ -25,7 +25,7 @@
         android:layout_marginTop="@dimen/ten_dp"
         android:text="C.Nagaraju\n11706"
         android:textColor="@color/white"
-        android:fontFamily="@font/roboto_regular" />
+        android:fontFamily="@font/roboto_regular"/>
 
     <TextView
         android:id="@+id/login_user_store"
@@ -35,7 +35,7 @@
         android:layout_marginStart="@dimen/twenty_dp"
         android:text="Apollo,J'Hills\n11705"
         android:textColor="@color/white"
-        android:fontFamily="@font/roboto_regular"/>
+        android:fontFamily="@font/roboto_regular" />
 
     <View
         android:layout_width="match_parent"

@@ -85,10 +85,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingEnd="@dimen/ten_dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18"
                 app:full_text="@{@string/label_generic_new_order(transaction.transactionID)}"
                 app:span_color="@{@color/white}"
                 app:span_font="@{`robotoRegular`}"
@@ -96,10 +96,86 @@
                 app:span_text="@{transaction.transactionID}" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/site_data"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_marginTop="@dimen/fifty_dp"
+            android:background="@color/cpb_yellow"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingEnd="@dimen/five_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Name: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="testing"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Site Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/site_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Terminal Id: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+
+            <TextView
+                android:id="@+id/terminal_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/three_dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="111"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_11" />
+        </LinearLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/action_bar_view">
+            android:layout_below="@+id/site_data">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,11 +186,12 @@
                     android:id="@+id/details_layout"
                     layout="@layout/view_customer_doctor_info"
                     app:call="@{call}"
+                    app:callback="@{callback}"
                     app:corporate="@{corporate}"
                     app:customer="@{customer}"
                     app:doctor="@{doctor}"
-                    app:payment="@{paymentMode}" />
-
+                    app:isPaymentMode="@{isPaymentMode}"
+                    app:paymentMode="@{paymentMode}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -208,14 +285,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/twenty_dp"
                                 android:layout_marginBottom="@dimen/three_dp"
-                                android:orientation="horizontal"
-                                android:weightSum="2">
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/ten_dp"
-                                    android:layout_weight="1.2"
+                                    android:layout_weight="1.25"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="@{@string/label_product_item_count(items_count)}"
                                     android:textColor="@color/black"
@@ -229,7 +305,7 @@
                                     android:gravity="center"
                                     android:text="MRP(₹)"
                                     android:textColor="@color/add_item_header"
-                                    android:textSize="@dimen/text_dimen_10" />
+                                    android:textSize="@dimen/text_dimen_9" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -239,7 +315,7 @@
                                     android:gravity="center"
                                     android:text="QTY"
                                     android:textColor="@color/add_item_header"
-                                    android:textSize="@dimen/text_dimen_10" />
+                                    android:textSize="@dimen/text_dimen_9" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -249,7 +325,17 @@
                                     android:gravity="center"
                                     android:text="TOTAL(₹)"
                                     android:textColor="@color/add_item_header"
-                                    android:textSize="@dimen/text_dimen_10" />
+                                    android:textSize="@dimen/text_dimen_9" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.3"
+                                    android:fontFamily="@font/price_regular"
+                                    android:gravity="center"
+                                    android:text="RDays"
+                                    android:textColor="@color/add_item_header"
+                                    android:textSize="@dimen/text_dimen_9" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -297,7 +383,8 @@
                                 android:layout_alignParentEnd="true"
                                 android:contentDescription="@string/app_name"
                                 android:onClick="@{()-> callback.onClickEditItemsList()}"
-                                android:src="@drawable/ic_edit_view" />
+                                android:src="@drawable/ic_edit_view"
+                                android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -1201,7 +1288,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="400dp"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:visibility="@{ product_count != 0 ? View.GONE : View.VISIBLE}">

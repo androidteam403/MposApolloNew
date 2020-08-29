@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +42,9 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -125,6 +128,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     }
 
     private boolean isShowDialog = false;
+
     @Override
     public void onSelectStoreSearch() {
         if (storeListObj != null) {
@@ -132,8 +136,8 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
                 GetStoresDialog dialog = GetStoresDialog.newInstance();
                 dialog.setStoreDetailsMvpView(this);
                 dialog.setStoreListArray(storeListObj.getStoreListArr());
-                if( !isShowDialog ) {
-                    isShowDialog =true;
+                if (!isShowDialog) {
+                    isShowDialog = true;
                     dialog.show(getSupportFragmentManager(), "");
                 }
             }
@@ -242,6 +246,48 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         isShowDialog = false;
     }
 
+    @Override
+    public void onVerifyClick() {
+        if (isValidate()) {
+            mPresenter.checkConfingApi();
+        }
+    }
+
+    @Override
+    public String getEposURL() {
+        return activityStoreSetupBinding.baseUrl.getText().toString();
+    }
+
+
+    //TODO for website validation
+    private boolean isValidate() {
+        String url = activityStoreSetupBinding.baseUrl.getText().toString().trim();
+        if (url.isEmpty()) {
+            activityStoreSetupBinding.baseUrl.setError("Please Enter Epos Url");
+            activityStoreSetupBinding.baseUrl.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+
+//    public static boolean isURL(String text) {
+//        String tempString = text;
+//
+//        if (!text.startsWith("http")) {
+//            tempString = "https://" + tempString + "/";
+//        }
+//
+//        try {
+//            new URL(tempString).toURI();
+//            return Patterns.WEB_URL.matcher(tempString).matches();
+//        } catch (MalformedURLException | URISyntaxException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+
+
     private void adminSetup() {
         Realm realm = RealmController.with(this).getRealm();
         StoreDetails book = new StoreDetails();
@@ -347,7 +393,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
         } else {
-          //  checkPermissions();
+            //  checkPermissions();
         }
     }
 
