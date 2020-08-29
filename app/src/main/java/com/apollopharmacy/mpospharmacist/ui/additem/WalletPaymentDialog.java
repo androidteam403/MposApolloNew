@@ -57,11 +57,13 @@ public class WalletPaymentDialog {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         walletPaymentBinding.walletAmountEdit.setText(walletPaymentBinding.walletAmountEdit.getText().toString().replace(".", ""));
                         walletPaymentBinding.walletAmountEdit.setSelection(walletPaymentBinding.walletAmountEdit.getText().length());
-                    } else if (text.indexOf("0") == 0) {
-                        walletPaymentBinding.walletAmountEdit.setText(walletPaymentBinding.walletAmountEdit.getText().toString().replace("0", ""));
                     }
+//                    else if (text.indexOf("0") == 0) {
+//                        digitEditText.setText(digitEditText.getText().toString().replace("0", ""));
+//                    }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
+                    if (text.contains(".") &&
+                            text.indexOf(".") != text.length() - 1 &&
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         walletPaymentBinding.walletAmountEdit.setText(text.substring(0, text.length() - 1));
                         walletPaymentBinding.walletAmountEdit.setSelection(walletPaymentBinding.walletAmountEdit.getText().length());
