@@ -225,6 +225,12 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getAllDoctorsList();
+    }
+
+    @Override
     public void onCustomDoctorLayoutClick() {
         AllDoctorsDialog dialog = AllDoctorsDialog.newInstance();
         dialog.setDoctorDetailsMvpView(this);

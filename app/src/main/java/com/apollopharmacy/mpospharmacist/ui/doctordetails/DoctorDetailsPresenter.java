@@ -4,7 +4,6 @@ import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacist.ui.doctordetails.dialog.AllDoctorsDialog;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
@@ -54,7 +53,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
             doctorSearchModel.setDoctorName("");
             doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
             doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
-            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),doctorSearchModel);
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), doctorSearchModel);
             call.enqueue(new Callback<DoctorSearchResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
@@ -79,7 +78,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     public void getSalesOrigin() {
         if (getMvpView().isNetworkConnected()) {
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<SalesOriginResModel> call = api.getSalesOriginList(getDataManager().getDataAreaId(),new JsonObject());
+            Call<SalesOriginResModel> call = api.getSalesOriginList(getDataManager().getDataAreaId(), new JsonObject());
             call.enqueue(new Callback<SalesOriginResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<SalesOriginResModel> call, @NotNull Response<SalesOriginResModel> response) {
@@ -103,6 +102,7 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
     @Override
     public void getAllDoctorsList() {
         if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
             doctorSearchModel.setISAX(false);
@@ -110,17 +110,19 @@ public class DoctorDetailsPresenter<V extends DoctorDetailsMvpView> extends Base
             doctorSearchModel.setDoctorName("");
             doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
             doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
-            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(),getDataManager().getDataAreaId(),doctorSearchModel);
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), doctorSearchModel);
             call.enqueue(new Callback<DoctorSearchResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
                     if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
                         getMvpView().getAllDoctorsSearchList(response.body());
                     }
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
                     handleApiError(t);
                 }
             });

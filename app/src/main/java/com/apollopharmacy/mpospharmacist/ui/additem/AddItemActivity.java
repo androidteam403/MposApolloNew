@@ -979,7 +979,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     String data="8";
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
-        posTransactionRes.setSalesOrigin(saleslistData);
+//        posTransactionRes.setSalesOrigin(saleslistData);
         calculatePosTransactionRes = posTransactionRes;
 //        txtSaving.Text = Convert.ToDecimal(Math.Round((POSSalesTransaction.DiscAmount / POSSalesTransaction.TotalMRP) * 100, 2)).ToString("#0.00");
 //        txtMRP.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.TotalMRP, 2)).ToString("#0.00");
@@ -1460,6 +1460,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             salesLineEntity.setRemainderDays(remDays);
         }
         medicinesDetailAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public String getSalesOrigin() {
+        return saleslistData;
     }
 
     @Override

@@ -164,6 +164,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onItemClick(int position, double quantity, SalesLineEntity salesLineEntity);
 
+    String getSalesOrigin();
+
     void onErrorshowOfRDays();
 
 //    boolean userDetails(String rDays);

@@ -643,7 +643,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             getMvpView().onFailedValidateOneApolloPoints(response.body());
                         }
                     }
-            }
+                }
 
                 @Override
                 public void onFailure(@NotNull Call<ValidatePointsResModel> call, @NotNull Throwable t) {
@@ -882,53 +882,54 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         paymentMethodModel.setCreditMode(false);
         if (getDataManager().getAllowedPaymentModeRes() != null && getDataManager().getAllowedPaymentModeRes().get_PaymentMethodList().size() > 0) {
             for (AllowedPaymentModeRes._PaymentMethodListEntity entity : getDataManager().getAllowedPaymentModeRes().get_PaymentMethodList()) {
-                if (getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())) {
-                    //Cash Tender
-                    if (!entity.getCombinationCode().contains("1")) {
-                        paymentMethodModel.setEnableCashBtn(false);
-                    } else {
-                        paymentMethodModel.setEnableCashBtn(true);
-                    }
-
-                    //Credit Tender
-                    if (!entity.getCombinationCode().contains("3")) {
-                        paymentMethodModel.setEnableCreaditBtn(false);
-                    } else {
-                        if (getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
-                            paymentMethodModel.setEnableCreaditBtn(false);
-                        } else if (!getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
-                            paymentMethodModel.setEnableCreaditBtn(true);
+                if (getMvpView().getCorporateModule().getPayMode() != null)
+                    if (getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())) {
+                        //Cash Tender
+                        if (!entity.getCombinationCode().contains("1")) {
+                            paymentMethodModel.setEnableCashBtn(false);
                         } else {
-                            paymentMethodModel.setEnableCreaditBtn(false);
+                            paymentMethodModel.setEnableCashBtn(true);
                         }
-                    }
 
-                    //Card Tender
-                    if (!entity.getCombinationCode().contains("2")) {
-                        paymentMethodModel.setEnableCardBtn(false);
-                    } else {
-                        paymentMethodModel.setEnableCardBtn(true);
-                    }
+                        //Credit Tender
+                        if (!entity.getCombinationCode().contains("3")) {
+                            paymentMethodModel.setEnableCreaditBtn(false);
+                        } else {
+                            if (getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
+                                paymentMethodModel.setEnableCreaditBtn(false);
+                            } else if (!getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
+                                paymentMethodModel.setEnableCreaditBtn(true);
+                            } else {
+                                paymentMethodModel.setEnableCreaditBtn(false);
+                            }
+                        }
 
-                    //Gift Tender
-                    if (!entity.getCombinationCode().contains("6")) {
-                        paymentMethodModel.setEnableApolloBtn(false);
-                    } else {
-                        paymentMethodModel.setEnableApolloBtn(true);
-                    }
+                        //Card Tender
+                        if (!entity.getCombinationCode().contains("2")) {
+                            paymentMethodModel.setEnableCardBtn(false);
+                        } else {
+                            paymentMethodModel.setEnableCardBtn(true);
+                        }
 
-                    //Vendor Payment Tender
+                        //Gift Tender
+                        if (!entity.getCombinationCode().contains("6")) {
+                            paymentMethodModel.setEnableApolloBtn(false);
+                        } else {
+                            paymentMethodModel.setEnableApolloBtn(true);
+                        }
+
+                        //Vendor Payment Tender
 //            if (!entity.getCombinationCode().contains("7"))
 //            { btnVendorPayment.Enabled = false; }
 //            else
 //            { btnVendorPayment.Enabled = true; }
 
-                    //Wallets Tender
-                    if (!entity.getCombinationCode().contains("5")) {
-                        paymentMethodModel.setEnableWalletBtn(false);
-                    } else {
-                        paymentMethodModel.setEnableWalletBtn(true);
-                    }
+                        //Wallets Tender
+                        if (!entity.getCombinationCode().contains("5")) {
+                            paymentMethodModel.setEnableWalletBtn(false);
+                        } else {
+                            paymentMethodModel.setEnableWalletBtn(true);
+                        }
 
 //            if (drpTrackingRef.EditValue.ToString() == "172")
 //            {
@@ -948,14 +949,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 btnWallets.Enabled = false;
                             }*/
 
-                    if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed()) {
-                        paymentMethodModel.setEnableCashBtn(false);
-                        paymentMethodModel.setEnableCardBtn(false);
-                        paymentMethodModel.setEnableApolloBtn(false);
-                        paymentMethodModel.setEnableWalletBtn(false);
-                        paymentMethodModel.setEnableCreaditBtn(false);
+                        if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed()) {
+                            paymentMethodModel.setEnableCashBtn(false);
+                            paymentMethodModel.setEnableCardBtn(false);
+                            paymentMethodModel.setEnableApolloBtn(false);
+                            paymentMethodModel.setEnableWalletBtn(false);
+                            paymentMethodModel.setEnableCreaditBtn(false);
+                        }
                     }
-                }
 
             }
         }
@@ -1243,12 +1244,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onResponse(@NotNull Call<PharmacyStaffApiRes> call, @NotNull Response<PharmacyStaffApiRes> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
-                        if (response.body() != null && response.body().getRequestStatus() == 0 && response.body().getMessage().equalsIgnoreCase("Data Founds")){
+                        if (response.body() != null && response.body().getRequestStatus() == 0 && response.body().getMessage().equalsIgnoreCase("Data Founds")) {
                             if (action.equalsIgnoreCase("ENQUIRY")) {
                                 getMvpView().onSucessStaffListData(response.body());
 
                             }
-                        }else {
+                        } else {
                             getMvpView().onFaliureStaffListData();
                         }
 
@@ -1516,7 +1517,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setReturnType(0);
         posTransactionEntity.setRoundedAmount(0);
         posTransactionEntity.setSalesLine(getMvpView().getSelectedProducts());// sales line object
-        posTransactionEntity.setSalesOrigin("");
+        posTransactionEntity.setSalesOrigin(getMvpView().getSalesOrigin());
         posTransactionEntity.setSEZ(0);
         posTransactionEntity.setShippingMethod("");
         posTransactionEntity.setStaff(getDataManager().getUserId());// terminal Id
