@@ -29,6 +29,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
@@ -58,6 +59,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -120,6 +122,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     double remaindValue = 0.0;
     SaveRetailsTransactionRes saveRetailsTransactionRes = new SaveRetailsTransactionRes();
     String saleslistData;
+    private String prgData = null;
 
 
     public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel) {
@@ -249,7 +252,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 double availableAmount = Double.parseDouble(pharmacyStaffApiRes.getTotalBalance()) - Double.parseDouble(pharmacyStaffApiRes.getUsedBalance());
                 addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
             }
-            String prgData = null;
             prgData = getIntent().getStringExtra("prg_track");
             addItemBinding.detailsLayout.prgTrackingEdit.setText(prgData);
 
@@ -410,11 +412,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
             }
         });
+        if (addItemBinding.getCorporate() != null) {
+            addItemBinding.getCorporate().setPrg_Tracking(prgData);
+        }
         addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
         mPresenter.checkAllowedPaymentMode(paymentMethodModel);
-//
-
-
     }
 
     @Override
@@ -432,11 +434,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 alertBackDialog();
             }
         } else {
-            if (mPresenter.getTenderLineEntities().getTenderLine().size() > 0) {
+            int partialVoid = 0;
+            for (int i = 0; i < mPresenter.getTenderLineEntities().getTenderLine().size(); i++) {
+                if (!mPresenter.getTenderLineEntities().getTenderLine().get(i).getIsVoid()) {
+                    partialVoid = 1;
+                }
+            }
+            if (partialVoid == 1) {
                 partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
             } else {
                 alertDialog();
             }
+
         }
     }
 
@@ -718,6 +727,15 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public CalculatePosTransactionRes getCalculatedPosTransactionRes() {
         calculatePosTransactionRes.setTrackingRef(getCorporateModule().getPrg_Tracking());
+        String salesCode;
+        String codeDes = calculatePosTransactionRes.getDoctorName();
+        String[] parts = codeDes.split("-");
+        if (parts.length > 1) {
+            salesCode = parts[1];
+        } else {
+            salesCode = codeDes;
+        }
+        calculatePosTransactionRes.setDoctorName(salesCode);
         return calculatePosTransactionRes;
     }
 
@@ -746,8 +764,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         showMessage(message);
     }
 
+    private boolean onCardMode;
+
     @Override
     public void onClickCardPaymentBtn() {
+        onWalletClick = false;
+        onCardMode = true;
+        onCashmode = false;
         if (flag == 0) {
             prescriptionMandatory();
             flag++;
@@ -775,8 +798,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     }
 
+    private boolean onCashmode;
+
     @Override
     public void onClickCashPaymentBtn() {
+        onWalletClick = false;
+        onCardMode = false;
+        onCashmode = true;
         if (flag == 0) {
             prescriptionMandatory();
             flag++;
@@ -819,6 +847,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onClickOneApolloBtn() {
+        onWalletClick = false;
+        onCardMode = false;
+        onCashmode = false;
         if (flag == 0) {
             prescriptionMandatory();
             flag++;
@@ -858,8 +889,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     }
 
+    private boolean onWalletClick;
+
     @Override
     public void onClickWalletPaymentBtn() {
+        onWalletClick = true;
+        onCardMode = false;
+        onCashmode = false;
         if (flag == 0) {
             prescriptionMandatory();
             flag++;
@@ -893,6 +929,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onClickCreditPaymentBtn() {
+        onWalletClick = false;
+        onCardMode = false;
+        onCashmode = false;
         paymentMethodModel.setCashMode(false);
         paymentMethodModel.setCardMode(false);
         paymentMethodModel.setOneApolloMode(false);
@@ -976,10 +1015,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     CalculatePosTransactionRes calculatePosTransactionRes;
-    String data="8";
+
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
 //        posTransactionRes.setSalesOrigin(saleslistData);
+
+//        if (parts.length>1){
+//             salesCode = parts[1];
+//        }else{
+//            salesCode=posTransactionRes.getDoctorName();
+//        }
         calculatePosTransactionRes = posTransactionRes;
 //        txtSaving.Text = Convert.ToDecimal(Math.Round((POSSalesTransaction.DiscAmount / POSSalesTransaction.TotalMRP) * 100, 2)).ToString("#0.00");
 //        txtMRP.Text = Convert.ToDecimal(Math.Round(POSSalesTransaction.TotalMRP, 2)).ToString("#0.00");
@@ -1143,9 +1188,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     private boolean isGeneratedBill = false;
+    private List<TenderLineEntity> tenderLineEntityList = new ArrayList<>();
+    private boolean amounttoAdd;
+    PayAdapterModel payAdapterModel;
 
     @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+        List<Boolean> isAmount = new ArrayList<Boolean>();
+        List<Integer> crossValue = new ArrayList<Integer>();
         isGeneratedBill = false;
         calculatePosTransactionRes = transactionRes;
         addItemBinding.cashPaymentAmountEdit.setText("");
@@ -1154,17 +1204,41 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.creditPaymentAmountEdit.setText("");
         if (transactionRes.getTenderLine().size() > 0) {
             paymentMethodModel.setPaymentInitiate(true);
+            if (arrPayAdapterModel.size() > 0) {
+                for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                    isAmount.add(arrPayAdapterModel.get(i).isAmountVoid());
+                    crossValue.add(arrPayAdapterModel.get(i).getCrossDis());
+                }
+            }
+
             arrPayAdapterModel.clear();
             paymentDoneAmount = 0.0;
+            if (methodCalling) {
+                transactionRes.getTenderLine().get(amountPosition).setAmountToBeVoid(amounttoAdd);
+                methodCalling = false;
+                tenderLineEntityList = transactionRes.getTenderLine();
+            } else {
+                if (tenderLineEntityList.size() > 0) {
+                    for (int i = 0; i < tenderLineEntityList.size(); i++) {
+                        transactionRes.getTenderLine().get(i).setAmountToBeVoid(tenderLineEntityList.get(i).isAmountToBeVoid());
+                    }
+                    tenderLineEntityList = transactionRes.getTenderLine();
+                }
+            }
             for (TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()) {
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
                     paymentDoneAmount += tenderLineEntity.getAmountTendered();
+                    payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
+                    arrPayAdapterModel.add(payAdapterModel);
                     if (paymentDoneAmount == orderTotalAmount()) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
                         isGeneratedBill = true;
                         paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                         paymentMethodModel.setBalanceAmount(false);
+                        for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                            arrPayAdapterModel.get(i).setCrossDis(1);
+                        }
                     } else {
                         double balanceAmt = orderTotalAmount() - paymentDoneAmount;
                         if (balanceAmt <= 0) {
@@ -1176,21 +1250,52 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                 paymentMethodModel.setBalanceAmount(false);
                             } else {
                                 paymentMethodModel.setBalanceAmount(true);
+                                for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                                    arrPayAdapterModel.get(i).setCrossDis(1);
+                                }
                             }
                         } else {
-                            paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
-                            paymentMethodModel.setBalanceAmount(true);
-                            paymentMethodModel.setPaymentDone(false);
-                            paymentMethodModel.setGenerateBill(false);
+                            if (tenderLineEntity.isAmountToBeVoid()) {
+                                paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (balanceAmt + tenderLineEntity.getAmountTendered()))));
+                                paymentDoneAmount = paymentDoneAmount - tenderLineEntity.getAmountTendered();
+                                paymentMethodModel.setBalanceAmount(true);
+                                paymentMethodModel.setPaymentDone(false);
+                                paymentMethodModel.setGenerateBill(false);
+                            } else {
+                                paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
+                                paymentMethodModel.setBalanceAmount(true);
+                                paymentMethodModel.setPaymentDone(false);
+                                paymentMethodModel.setGenerateBill(false);
+                            }
                         }
                     }
-
-                    PayAdapterModel payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                    arrPayAdapterModel.add(payAdapterModel);
 
                 } else {
                     showMessage("Tender Id null");
                     break;
+                }
+            }
+            if (arrPayAdapterModel.size() > 0) {
+                for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                    if (isAmount.size() - 1 >= i) {
+                        arrPayAdapterModel.get(i).setAmountVoid(isAmount.get(i));
+                        arrPayAdapterModel.get(i).setCrossDis(crossValue.get(i));
+                        if (paymentDoneAmount == orderTotalAmount()) {
+                            for (int j = 0; j < arrPayAdapterModel.size(); j++) {
+                                arrPayAdapterModel.get(j).setCrossDis(1);
+                            }
+                        } else {
+                            double balanceAmt = orderTotalAmount() - paymentDoneAmount;
+                            if (balanceAmt <= 0) {
+                                if (balanceAmt != 0) {
+                                    for (int k = 0; k < arrPayAdapterModel.size(); k++) {
+                                        arrPayAdapterModel.get(k).setCrossDis(1);
+                                    }
+                                }
+                            }
+                        }
+                        payActivityAdapter.notifyDataSetChanged();
+                    }
                 }
             }
             payActivityAdapter.notifyDataSetChanged();
@@ -1198,7 +1303,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentDoneAmount = 0;
             paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
             paymentMethodModel.setBalanceAmount(false);
-            paymentMethodModel.setPaymentInitiate(false);
             paymentMethodModel.setPaymentDone(false);
             paymentMethodModel.setGenerateBill(false);
             arrPayAdapterModel.clear();
@@ -1212,11 +1316,64 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public void toRemovePayedAmount(int position) {
+    public void getVoidUnVoidData(PaymentVoidRes paymentVoidRes) {
+
+    }
+
+    private int amountPosition;
+    private boolean methodCalling;
+
+    @Override
+    public void toAddPayedAmount(PayAdapterModel item, int pos) {
         if (calculatePosTransactionRes.getTenderLine().size() > 0) {
-            calculatePosTransactionRes.getTenderLine().remove(position);
+            calculatePosTransactionRes.getTenderLine().get(pos).setVoid(false);
+            amounttoAdd = false;
+            methodCalling = true;
+            amountPosition = pos;
+            updatePayedAmount(calculatePosTransactionRes);
+            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
         }
-        updatePayedAmount(calculatePosTransactionRes);
+    }
+
+    @Override
+    public void toRemovePayedAmount(PayAdapterModel item, int position) {
+        if (paymentMethodModel.isCashMode()) {
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+            methodCalling = true;
+            amounttoAdd = true;
+//            calculatePosTransactionRes.getTenderLine().remove(position);
+            amountPosition = position;
+            for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                if (arrPayAdapterModel.get(i).isAmountVoid()) {
+                    arrPayAdapterModel.get(i).setCrossDis(1);
+                }
+            }
+            updatePayedAmount(calculatePosTransactionRes);
+            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
+            mPresenter.cancelDSBilling(calculatePosTransactionRes);
+
+        } else if (paymentMethodModel.isCardMode()) {
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+            methodCalling = true;
+            amounttoAdd = true;
+//            calculatePosTransactionRes.getTenderLine().remove(position);
+            amountPosition = position;
+            for (int i = 0; i < arrPayAdapterModel.size(); i++) {
+                if (arrPayAdapterModel.get(i).isAmountVoid()) {
+                    arrPayAdapterModel.get(i).setCrossDis(1);
+                }
+            }
+            updatePayedAmount(calculatePosTransactionRes);
+            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
+        } else {
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+            methodCalling = true;
+            amounttoAdd = true;
+//            calculatePosTransactionRes.getTenderLine().remove(position);
+            amountPosition = position;
+            updatePayedAmount(calculatePosTransactionRes);
+            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
+        }
 //        paymentDoneAmount -= amount;
 //        if (paymentDoneAmount == 0.0) {
 //            paymentMethodModel.setBalanceAmount(orderTotalAmount() - paymentDoneAmount);
@@ -1255,7 +1412,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     mPresenter.toApplyManualDisc(body, manualDiscDialog.getDisplayListArrayList(), manualDiscDialog.getFixedDiscountCode());
                     manualDiscDialog.dismiss();
                 }
-
             }
         });
         manualDiscDialog.setCancelListener(new View.OnClickListener() {

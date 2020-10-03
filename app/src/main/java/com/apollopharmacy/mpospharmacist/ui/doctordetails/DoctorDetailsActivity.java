@@ -73,7 +73,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         mPresenter.getDoctorsList();
         mPresenter.getAllDoctorsList();
         doctorDetailsBinding.selectDoctor.setFocusableInTouchMode(false);
-        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
+//        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
     }
 
     @Override
@@ -159,26 +159,26 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
                 return v;
             }
         };
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        doctorDetailsBinding.selectSalesOrigin.setAdapter(adapter);
-        doctorDetailsBinding.selectSalesOrigin.setSelection(0);
-        doctorDetailsBinding.selectSalesOrigin.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        doctorDetailsBinding.selectSalesOrigin.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
-        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
-        doctorDetailsBinding.selectSalesOrigin.setOnItemClickListener((materialSpinner, view, i, l) -> {
-            materialSpinner.focusSearch(View.FOCUS_DOWN);
-            doctorDetailsBinding.selectSalesOrigin.setError(null);
-        });
-        if (getIntent() != null) {
-            salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
-            if (salesEntity != null) {
-                for (int i = 0; i < model.getGetSalesOriginResult().get_DropdownValue().size(); i++) {
-                    if (model.getGetSalesOriginResult().get_DropdownValue().get(i).getCode().equals(salesEntity.getCode())) {
-                        doctorDetailsBinding.selectSalesOrigin.setSelection(i);
-                    }
-                }
-            }
-        }
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        doctorDetailsBinding.selectSalesOrigin.setAdapter(adapter);
+//        doctorDetailsBinding.selectSalesOrigin.setSelection(0);
+//        doctorDetailsBinding.selectSalesOrigin.getEditText().setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+//        doctorDetailsBinding.selectSalesOrigin.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
+//        doctorDetailsBinding.selectSalesOrigin.setFocusableInTouchMode(false);
+//        doctorDetailsBinding.selectSalesOrigin.setOnItemClickListener((materialSpinner, view, i, l) -> {
+//            materialSpinner.focusSearch(View.FOCUS_DOWN);
+//            doctorDetailsBinding.selectSalesOrigin.setError(null);
+//        });
+//        if (getIntent() != null) {
+//            salesEntity = (SalesOriginResModel.DropdownValueBean) getIntent().getSerializableExtra("sales_info");
+//            if (salesEntity != null) {
+//                for (int i = 0; i < model.getGetSalesOriginResult().get_DropdownValue().size(); i++) {
+//                    if (model.getGetSalesOriginResult().get_DropdownValue().get(i).getCode().equals(salesEntity.getCode())) {
+//                        doctorDetailsBinding.selectSalesOrigin.setSelection(i);
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -206,7 +206,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
         } else {
             bundle.putSerializable("doctor_info", customDoctorItem);
         }
-        bundle.putSerializable("sales_info", (Serializable) doctorDetailsBinding.selectSalesOrigin.getSelectedItem());
+//        bundle.putSerializable("sales_info", (Serializable) doctorDetailsBinding.selectSalesOrigin.getSelectedItem());
         returnIntent.putExtras(bundle);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();

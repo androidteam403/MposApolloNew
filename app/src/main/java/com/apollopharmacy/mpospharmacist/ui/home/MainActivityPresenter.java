@@ -111,7 +111,6 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
                             getMvpView().hideLoading();
 //                        else
 //                            getMvpView().showMessage(response.body() != null ? response.body().getReturnMessage() : "");
-
                     }
                 }
 

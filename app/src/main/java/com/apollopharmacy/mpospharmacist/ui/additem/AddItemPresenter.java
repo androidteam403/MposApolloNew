@@ -16,10 +16,13 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffAPIReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.TenderLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.TypeEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
@@ -28,6 +31,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
@@ -39,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -1069,13 +1074,15 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public boolean validTenderLimit(double amount, String tenderName) {
-        for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
-            if (tenderTypeEntity.getTender().equalsIgnoreCase(tenderName)) {
-                if (tenderTypeEntity.getTenderLimit() < amount) {
-                    getMvpView().partialPaymentDialog("", "Allowed Tender Limit is " + tenderTypeEntity.getTenderLimit() + "!");
-                    return false;
-                } else {
-                    return true;
+        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType() != null) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+                if (tenderTypeEntity.getTender().equalsIgnoreCase(tenderName)) {
+                    if (tenderTypeEntity.getTenderLimit() < amount) {
+                        getMvpView().partialPaymentDialog("", "Allowed Tender Limit is " + tenderTypeEntity.getTenderLimit() + "!");
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
             }
         }
@@ -1268,6 +1275,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
+
     WalletPaymentDialog walletPaymentDialog;
 
     private void showWalletPaymentDialog(String title, boolean isEnableGenerateOtp, WalletServiceReq walletServiceReq) {
@@ -1319,6 +1327,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletPaymentDialog.show();
     }
 
+    private List<SalesLineEntity> salesLineEntityData = new ArrayList<SalesLineEntity>();
+//    private CalculatePosTransactionRes calculatePosTransactionResData=new CalculatePosTransactionRes();
+
     private void saveRetailTransaction() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -1332,6 +1343,21 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 }
             }
             posTransactionRes.setSalesLine(salesLineEntities);
+
+            List<TenderLineEntity> tenderLineEntitieList = new ArrayList<>();
+            for (TenderLineEntity tenderLineEntity : posTransactionRes.getTenderLine()) {
+                if (tenderLineEntity.getTenderName().equalsIgnoreCase("PhonePe") || tenderLineEntity.getTenderName().equalsIgnoreCase("PAYTM") || tenderLineEntity.getTenderName().equalsIgnoreCase("Airtel")) {
+                    tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
+                    tenderLineEntitieList.add(tenderLineEntity);
+                } else {
+                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("Cash") || tenderLineEntity.getTenderName().equalsIgnoreCase("card") || tenderLineEntity.getTenderName().equalsIgnoreCase("gift") || tenderLineEntity.getTenderName().equalsIgnoreCase("Credit")) {
+                        tenderLineEntity.setMobileNo("");
+                        tenderLineEntitieList.add(tenderLineEntity);
+                    }
+                }
+            }
+            posTransactionRes.setTenderLine(tenderLineEntitieList);
+//            calculatePosTransactionResData = posTransactionRes;
             Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);
             call.enqueue(new Callback<SaveRetailsTransactionRes>() {
                 @Override
@@ -1453,6 +1479,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         return typeEntity;
     }
 
+    private POSTransactionEntity posTransactionEntityData = new POSTransactionEntity();
+
     private POSTransactionEntity posTransactionEntity() {
         POSTransactionEntity posTransactionEntity = new POSTransactionEntity();
         posTransactionEntity.setAmounttoAccount(0);
@@ -1539,6 +1567,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setTransType(0);
         posTransactionEntity.setType(2);
         posTransactionEntity.setVendorId("");
+        posTransactionEntityData = posTransactionEntity;
         return posTransactionEntity;
     }
 
@@ -1648,7 +1677,15 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     private Wallet wallet(double amount, WalletServiceRes walletServiceRes) {
         Wallet wallet = new Wallet();
         if (walletServiceRes != null) {
-            wallet.setMobileNo(walletServiceRes.getMobileNo());
+            if (typeEntity().getTender().equalsIgnoreCase("Cash") || typeEntity().getTender().equalsIgnoreCase("card") ||
+                    typeEntity().getTender().equalsIgnoreCase("gift") || typeEntity().getTender().equalsIgnoreCase("Credit")) {
+                wallet.setMobileNo("");
+            } else {
+                if (typeEntity().getTender().equalsIgnoreCase("PhonePe") || typeEntity().getTender().equalsIgnoreCase("PAYTM") ||
+                        typeEntity().getTender().equalsIgnoreCase("Airtel")) {
+                    wallet.setMobileNo(walletServiceRes.getMobileNo());
+                }
+            }
             wallet.setOTP(walletServiceRes.getOTP());
             wallet.setOTPTransactionId(walletServiceRes.getOTPTransactionId());
             wallet.setPOSTerminal(walletServiceRes.getPOSTerminal());
@@ -1664,7 +1701,15 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setWalletRequestType(walletServiceRes.getWalletRequestType());
             wallet.setWalletTransactionID(walletServiceRes.getWalletTransactionID());
         } else {
-            wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
+            if (typeEntity().getTender().equalsIgnoreCase("Cash") || typeEntity().getTender().equalsIgnoreCase("card") ||
+                    typeEntity().getTender().equalsIgnoreCase("gift") || typeEntity().getTender().equalsIgnoreCase("Credit")) {
+                wallet.setMobileNo("");
+            } else {
+                if (typeEntity().getTender().equalsIgnoreCase("PhonePe") || typeEntity().getTender().equalsIgnoreCase("PAYTM") ||
+                        typeEntity().getTender().equalsIgnoreCase("Airtel")) {
+                    wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
+                }
+            }
             wallet.setOTP(getMvpView().getOneApolloOtp());
             wallet.setOTPTransactionId("");
             wallet.setPOSTerminal(getDataManager().getTerminalId());
@@ -1683,8 +1728,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             else
                 wallet.setWalletTransactionID("");
         }
-
-
         wallet.setWalletType(9);
         wallet.setWalletURL("");
         return wallet;
@@ -1774,6 +1817,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     /**
      * Wallet generate OTP Request
      */
+    private Response<WalletServiceRes> walletServiceResResponse;
+
     private void generateWalletOTP(WalletServiceReq walletServiceReq) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -1783,6 +1828,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             call.enqueue(new Callback<WalletServiceRes>() {
                 @Override
                 public void onResponse(@NotNull Call<WalletServiceRes> call, @NotNull Response<WalletServiceRes> response) {
+                    walletServiceResResponse = response;
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
@@ -1926,6 +1972,339 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         requestEntity.setSiteId(getDataManager().getStoreId());
         requestEntity.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
         return requestEntity;
+    }
+
+    @Override
+    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+
+            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(paymentVoidData(calculatePosTransactionRes));
+            call.enqueue(new Callback<PaymentVoidRes>() {
+                @Override
+                public void onResponse(@NotNull Call<PaymentVoidRes> call, @NotNull Response<PaymentVoidRes> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        getMvpView().hideLoading();
+                        getMvpView().getVoidUnVoidData(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<PaymentVoidRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    private PaymentVoidReq paymentVoidData(CalculatePosTransactionRes calculatePosTransactionResData) {
+        PaymentVoidReq paymentVoidReq = new PaymentVoidReq();
+        PaymentVoidReq.Wallet wallet = new PaymentVoidReq.Wallet();
+        if (walletServiceResResponse != null) {
+            wallet.setMobileNo(walletServiceResResponse.body().getMobileNo());
+            wallet.setPOSTerminal(walletServiceResResponse.body().getPOSTerminal());
+            wallet.setOTP(walletServiceResResponse.body().getOTP());
+            wallet.setPOSTransactionID(walletServiceResResponse.body().getPOSTransactionID());
+            wallet.setOTPTransactionId(walletServiceResResponse.body().getOTPTransactionId());
+            wallet.setRequestStatus(walletServiceResResponse.body().getRequestStatus());
+            wallet.setResponse(walletServiceResResponse.body().getResponse());
+            wallet.setRequestURL(walletServiceResResponse.body().getRequestURL());
+            wallet.setRewardsPoint(walletServiceResResponse.body().getRewardsPoint());
+            wallet.setReturnMessage(walletServiceResResponse.body().getReturnMessage());
+            wallet.setWalletAmount(walletServiceResResponse.body().getWalletAmount());
+            wallet.setWalletOrderID(walletServiceResResponse.body().getWalletOrderID());
+            wallet.setWalletRefundId(walletServiceResResponse.body().getWalletRefundId());
+            wallet.setWalletRequestType(walletServiceResResponse.body().getWalletRequestType());
+            wallet.setWalletTransactionID(walletServiceResResponse.body().getWalletTransactionID());
+            wallet.setWalletType(walletServiceResResponse.body().getWalletType());
+            wallet.setWalletURL(walletServiceResResponse.body().getWalletURL());
+            paymentVoidReq.setWallet(wallet);
+        }
+
+        PaymentVoidReq.POSTransaction posTransaction = new PaymentVoidReq.POSTransaction();
+        if (calculatePosTransactionResData != null) {
+            posTransaction.setAllowedTenderType("");
+            posTransaction.setAmounttoAccount((int) calculatePosTransactionResData.getAmounttoAccount());
+            posTransaction.setApprovedID("");
+            posTransaction.setAWBNo("");
+            posTransaction.setBatchTerminalid(calculatePosTransactionResData.getBatchTerminalid());
+            posTransaction.setBillingCity(calculatePosTransactionResData.getBillingCity());
+            posTransaction.setBusinessDate(calculatePosTransactionResData.getBusinessDate());
+            posTransaction.setCancelReasonCode(calculatePosTransactionResData.getCancelReasonCode());
+            posTransaction.setChannel(calculatePosTransactionResData.getChannel());
+            posTransaction.setComment(calculatePosTransactionResData.getComment());
+            posTransaction.setCorpCode(calculatePosTransactionResData.getCorpCode());
+            posTransaction.setCouponCode(calculatePosTransactionResData.getCouponCode());
+            posTransaction.setCreatedDateTime("");
+            posTransaction.setCreatedonPosTerminal(calculatePosTransactionResData.getCreatedonPosTerminal());
+            posTransaction.setCurrency(calculatePosTransactionResData.getCurrency());
+            posTransaction.setCurrentSalesLine(0);
+            posTransaction.setCustAccount(calculatePosTransactionResData.getCustAccount());
+            posTransaction.setCustAddress(calculatePosTransactionResData.getCustAddress());
+            posTransaction.setCustDiscamount((int) calculatePosTransactionResData.getCustDiscamount());
+            posTransaction.setCustomerID(calculatePosTransactionResData.getCustomerID());
+            posTransaction.setCustomerName(calculatePosTransactionResData.getCustomerName());
+            posTransaction.setCustomerState(calculatePosTransactionResData.getCustomerState());
+            posTransaction.setDataAreaId(calculatePosTransactionResData.getDataAreaId());
+            posTransaction.setDeliveryDate(calculatePosTransactionResData.getDeliveryDate());
+            posTransaction.setDiscAmount((int) calculatePosTransactionResData.getDiscAmount());
+            posTransaction.setDiscountRef("");
+            posTransaction.setDOB(calculatePosTransactionResData.getDOB());
+            posTransaction.setDoctorCode(calculatePosTransactionResData.getDoctorCode());
+            posTransaction.setDoctorName(calculatePosTransactionResData.getDoctorName());
+            posTransaction.setDSPCode("");
+            posTransaction.setEntryStatus((int) calculatePosTransactionResData.getEntryStatus());
+            posTransaction.setExpiryDays(0);
+            posTransaction.setGender((int) calculatePosTransactionResData.getGender());
+            posTransaction.setGrossAmount(calculatePosTransactionResData.getGrossAmount());
+            posTransaction.setIPNO(calculatePosTransactionResData.getIPNO());
+            posTransaction.setIPSerialNO(calculatePosTransactionResData.getIPSerialNO());
+            posTransaction.setISAdvancePayment(calculatePosTransactionResData.getISAdvancePayment());
+            posTransaction.setISBatchModifiedAllowed(calculatePosTransactionResData.getISBatchModifiedAllowed());
+            posTransaction.setISHBPStore(false);
+            posTransaction.setISHyperDelivered(false);
+            posTransaction.setISHyperLocalDelivery(false);
+            posTransaction.setManualBill(calculatePosTransactionResData.getIsManualBill());
+            posTransaction.setISOMSOrder(calculatePosTransactionResData.getISOMSOrder());
+            posTransaction.setISOMSValidate(false);
+            posTransaction.setISOnlineOrder(false);
+            posTransaction.setISPosted(calculatePosTransactionResData.getISPosted());
+            posTransaction.setISPrescibeDiscount(calculatePosTransactionResData.getISPrescibeDiscount());
+            posTransaction.setISReserved(calculatePosTransactionResData.getISReserved());
+            posTransaction.setReturn(calculatePosTransactionResData.getIsReturn());
+            posTransaction.setISReturnAllowed(calculatePosTransactionResData.getISReturnAllowed());
+            posTransaction.setStockCheck(calculatePosTransactionResData.getIsStockCheck());
+            posTransaction.setVoid(calculatePosTransactionResData.getIsVoid());
+            posTransaction.setMobileNO(calculatePosTransactionResData.getMobileNO());
+            posTransaction.setNetAmount(calculatePosTransactionResData.getNetAmount());
+            posTransaction.setNetAmountInclTax(calculatePosTransactionResData.getNetAmountInclTax());
+            posTransaction.setNumberofItemLines((int) calculatePosTransactionResData.getNumberofItemLines());
+            posTransaction.setNumberofItems((int) calculatePosTransactionResData.getNumberofItems());
+            posTransaction.setOMSCreditAmount(0);
+            posTransaction.setOrderPrescriptionURL("");
+            posTransaction.setOrderSource(calculatePosTransactionResData.getOrderSource());
+            posTransaction.setOrderType(calculatePosTransactionResData.getOrderType());
+            posTransaction.setPatientID("");
+            posTransaction.setPaymentSource(calculatePosTransactionResData.getPaymentSource());
+            posTransaction.setPincode(calculatePosTransactionResData.getPincode());
+            posTransaction.setPosEvent((int) calculatePosTransactionResData.getPosEvent());
+            posTransaction.setReciptId(calculatePosTransactionResData.getReciptId());
+            posTransaction.setREFNO(calculatePosTransactionResData.getREFNO());
+            posTransaction.setRegionCode(calculatePosTransactionResData.getRegionCode());
+            posTransaction.setRemainingamount(calculatePosTransactionResData.getRemainingamount());
+            posTransaction.setReminderDays((int) calculatePosTransactionResData.getReminderDays());
+            posTransaction.setRequestStatus((int) calculatePosTransactionResData.getRequestStatus());
+            posTransaction.setReturnMessage(calculatePosTransactionResData.getReturnMessage());
+            posTransaction.setReturnReceiptId(calculatePosTransactionResData.getReturnReceiptId());
+            posTransaction.setReturnStore(calculatePosTransactionResData.getReturnStore());
+            posTransaction.setReturnTerminal(calculatePosTransactionResData.getReturnTerminal());
+            posTransaction.setTransactionId(calculatePosTransactionResData.getTransactionId());
+            posTransaction.setReturnType(calculatePosTransactionResData.getReturnType());
+            posTransaction.setRoundedAmount((int) calculatePosTransactionResData.getRoundedAmount());
+            posTransaction.setSalesOrigin(calculatePosTransactionResData.getSalesOrigin());
+            posTransaction.setSEZ((int) calculatePosTransactionResData.getSEZ());
+            posTransaction.setShippingMethod(calculatePosTransactionResData.getShippingMethod());
+            posTransaction.setShippingMethodDesc("");
+            posTransaction.setStaff(calculatePosTransactionResData.getStaff());
+            posTransaction.setState(calculatePosTransactionResData.getState());
+            posTransaction.setStore(calculatePosTransactionResData.getStore());
+            posTransaction.setStoreName(calculatePosTransactionResData.getStoreName());
+            posTransaction.setTerminal(calculatePosTransactionResData.getTerminal());
+            posTransaction.setTimewhenTransClosed((int) calculatePosTransactionResData.getTimewhenTransClosed());
+            posTransaction.setTotalDiscAmount((int) calculatePosTransactionResData.getTotalDiscAmount());
+            posTransaction.setTotalManualDiscountAmount((int) calculatePosTransactionResData.getTotalManualDiscountAmount());
+            posTransaction.setTotalManualDiscountPercentage((int) calculatePosTransactionResData.getTotalManualDiscountPercentage());
+            posTransaction.setTotalMRP(calculatePosTransactionResData.getTotalMRP());
+            posTransaction.setTotalTaxAmount(calculatePosTransactionResData.getTotalTaxAmount());
+            posTransaction.setTrackingRef(calculatePosTransactionResData.getTrackingRef());
+            posTransaction.setTransactionId(calculatePosTransactionResData.getTransactionId());
+            posTransaction.setTransDate(calculatePosTransactionResData.getTransDate());
+            posTransaction.setTransType((int) calculatePosTransactionResData.getTransType());
+            posTransaction.setType((int) calculatePosTransactionResData.getType());
+            posTransaction.setVendorCode("");
+            posTransaction.setVendorId(calculatePosTransactionResData.getVendorId());
+            paymentVoidReq.setPosTransaction(posTransaction);
+        }
+
+        List<PaymentVoidReq.POSTransaction.SalesLine> salesLinelist = new ArrayList<>();
+
+        CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
+        ArrayList<SalesLineEntity> salesLineEntities = new ArrayList<>();
+        for (SalesLineEntity salesLineEntity : posTransactionRes.getSalesLine()) {
+            if (!salesLineEntity.getIsVoid()) {
+                salesLineEntities.add(salesLineEntity);
+            }
+        }
+        salesLineEntityData = salesLineEntities;
+
+        if (salesLineEntityData != null) {
+            for (int i = 0; i < salesLineEntityData.size(); i++) {
+                PaymentVoidReq.POSTransaction.SalesLine salesLine = new PaymentVoidReq.POSTransaction.SalesLine();
+                salesLine.setAdditionaltax((int) salesLineEntityData.get(i).getAdditionaltax());
+                salesLine.setApplyDiscount(salesLineEntityData.get(i).getApplyDiscount());
+                salesLine.setBarcode(salesLineEntityData.get(i).getBarcode());
+                salesLine.setBaseAmount((int) salesLineEntityData.get(i).getBaseAmount());
+                salesLine.setCategory(salesLineEntityData.get(i).getCategory());
+                salesLine.setCategoryCode(salesLineEntityData.get(i).getCategoryCode());
+                salesLine.setCategoryReference(salesLineEntityData.get(i).getCategoryReference());
+                salesLine.setCESSPerc((int) salesLineEntityData.get(i).getCESSPerc());
+                salesLine.setCESSTaxCode(salesLineEntityData.get(i).getCESSTaxCode());
+                salesLine.setCGSTPerc((int) salesLineEntityData.get(i).getCGSTPerc());
+                salesLine.setCGSTTaxCode(salesLineEntityData.get(i).getCGSTTaxCode());
+                salesLine.setComment(salesLineEntityData.get(i).getComment());
+                salesLine.setDiscAmount((int) salesLineEntityData.get(i).getDiscAmount());
+                salesLine.setDiscId(salesLineEntityData.get(i).getDiscId());
+                salesLine.setDiscOfferId(salesLineEntityData.get(i).getDiscOfferId());
+                salesLine.setDiscountStructureType((int) salesLineEntityData.get(i).getDiscountStructureType());
+                salesLine.setDiscountType(salesLineEntityData.get(i).getDiscountType());
+                salesLine.setDiseaseType(salesLineEntityData.get(i).getDiseaseType());
+                salesLine.setDPCO(salesLineEntityData.get(i).getDPCO());
+                salesLine.setExpiry(salesLineEntityData.get(i).getExpiry());
+                salesLine.setHsncode_In(salesLineEntityData.get(i).getHsncode_In());
+                salesLine.setIGSTPerc((int) salesLineEntityData.get(i).getIGSTPerc());
+                salesLine.setIGSTTaxCode(salesLineEntityData.get(i).getIGSTTaxCode());
+                salesLine.setInventBatchId(salesLineEntityData.get(i).getInventBatchId());
+                salesLine.setChecked(salesLineEntityData.get(i).getIsChecked());
+                salesLine.setGeneric(false);
+                salesLine.setISPrescribed((int) salesLineEntityData.get(i).getISPrescribed());
+                salesLine.setPriceOverride(salesLineEntityData.get(i).getIsPriceOverride());
+                salesLine.setISReserved(salesLineEntityData.get(i).getISReserved());
+                salesLine.setISStockAvailable(salesLineEntityData.get(i).getISStockAvailable());
+                salesLine.setSubsitute(salesLineEntityData.get(i).getIsSubsitute());
+                salesLine.setVoid(salesLineEntityData.get(i).getIsVoid());
+                salesLine.setItemId(salesLineEntityData.get(i).getItemId());
+                salesLine.setItemName(salesLineEntityData.get(i).getItemName());
+                salesLine.setLineDiscPercentage((int) salesLineEntityData.get(i).getLineDiscPercentage());
+                salesLine.setLinedscAmount((int) salesLineEntityData.get(i).getLinedscAmount());
+                salesLine.setLineManualDiscountAmount((int) salesLineEntityData.get(i).getLineManualDiscountAmount());
+                salesLine.setLineManualDiscountPercentage((int) salesLineEntityData.get(i).getLineManualDiscountPercentage());
+                salesLine.setLineNo(salesLineEntityData.get(i).getLineNo());
+                salesLine.setManufacturerCode(salesLineEntityData.get(i).getManufacturerCode());
+                salesLine.setManufacturerName(salesLineEntityData.get(i).getManufacturerName());
+                salesLine.setMixMode(salesLineEntityData.get(i).getMixMode());
+                salesLine.setMMGroupId(salesLineEntityData.get(i).getMMGroupId());
+                salesLine.setModifyBatchId(salesLineEntityData.get(i).getModifyBatchId());
+                salesLine.setMRP((int) salesLineEntityData.get(i).getMRP());
+                salesLine.setNetAmount(salesLineEntityData.get(i).getNetAmount());
+                salesLine.setNetAmountInclTax((int) salesLineEntityData.get(i).getNetAmountInclTax());
+                salesLine.setOfferAmount((int) salesLineEntityData.get(i).getOfferAmount());
+                salesLine.setOfferDiscountType((int) salesLineEntityData.get(i).getOfferDiscountType());
+                salesLine.setOfferDiscountValue((int) salesLineEntityData.get(i).getOfferDiscountValue());
+                salesLine.setOfferQty((int) salesLineEntityData.get(i).getOfferQty());
+                salesLine.setOfferType((int) salesLineEntityData.get(i).getOfferType());
+                salesLine.setOmsLineID((int) salesLineEntityData.get(i).getOmsLineID());
+                salesLine.setOmsLineRECID((int) salesLineEntityData.get(i).getOmsLineRECID());
+                salesLine.setOrderStatus((int) salesLineEntityData.get(i).getOrderStatus());
+                salesLine.setOriginalPrice((int) salesLineEntityData.get(i).getOriginalPrice());
+                salesLine.setPeriodicDiscAmount((int) salesLineEntityData.get(i).getPeriodicDiscAmount());
+                salesLine.setPhysicalBatchID("");
+                salesLine.setPhysicalExpiry("");
+                salesLine.setPhysicalMRP(0);
+                salesLine.setPreviewText(salesLineEntityData.get(i).getPreviewText());
+                salesLine.setPrice((int) salesLineEntityData.get(i).getPrice());
+                salesLine.setProductRecID(salesLineEntityData.get(i).getProductRecID());
+                salesLine.setQty(salesLineEntityData.get(i).getQty());
+                salesLine.setRemainderDays((int) salesLineEntityData.get(i).getRemainderDays());
+                salesLine.setRemainingQty((int) salesLineEntityData.get(i).getRemainingQty());
+                salesLine.setRetailCategoryRecID(salesLineEntityData.get(i).getRetailCategoryRecID());
+                salesLine.setRetailMainCategoryRecID(salesLineEntityData.get(i).getRetailMainCategoryRecID());
+                salesLine.setRetailSubCategoryRecID(salesLineEntityData.get(i).getRetailSubCategoryRecID());
+                salesLine.setReturnQty((int) salesLineEntityData.get(i).getReturnQty());
+                salesLine.setScheduleCategory(salesLineEntityData.get(i).getScheduleCategory());
+                salesLine.setScheduleCategoryCode(salesLineEntityData.get(i).getScheduleCategoryCode());
+                salesLine.setSGSTPerc((int) salesLineEntityData.get(i).getSGSTPerc());
+                salesLine.setSGSTTaxCode(salesLineEntityData.get(i).getSGSTTaxCode());
+                salesLine.setStockQty((int) salesLineEntityData.get(i).getStockQty());
+                salesLine.setSubCategory(salesLineEntityData.get(i).getSubCategory());
+                salesLine.setSubCategoryCode(salesLineEntityData.get(i).getSubCategoryCode());
+                salesLine.setSubClassification(salesLineEntityData.get(i).getSubClassification());
+                salesLine.setSubstitudeItemId(salesLineEntityData.get(i).getSubstitudeItemId());
+                salesLine.setTax((int) salesLineEntityData.get(i).getTax());
+                salesLine.setTaxAmount(salesLineEntityData.get(i).getTaxAmount());
+                salesLine.setTotal((int) salesLineEntityData.get(i).getTotal());
+                salesLine.setTotalDiscAmount((int) salesLineEntityData.get(i).getTotalDiscAmount());
+                salesLine.setTotalDiscPct((int) salesLineEntityData.get(i).getTotalDiscPct());
+                salesLine.setTotalRoundedAmount((int) salesLineEntityData.get(i).getTotalRoundedAmount());
+                salesLine.setTotalTax((int) salesLineEntityData.get(i).getTotalTax());
+                salesLine.setUnit(salesLineEntityData.get(i).getUnit());
+                salesLine.setUnitPrice((int) salesLineEntityData.get(i).getUnitPrice());
+                salesLine.setUnitQty((int) salesLineEntityData.get(i).getUnitQty());
+                salesLine.setVariantId(salesLineEntityData.get(i).getVariantId());
+                salesLinelist.add(salesLine);
+                paymentVoidReq.getPosTransaction().setSalesLines(salesLinelist);
+            }
+        }
+
+        List<PaymentVoidReq.POSTransaction.TenderLine> tenderLineslist = new ArrayList<>();
+        if (tenderLineEntities != null) {
+            for (int i = 0; i < tenderLineEntities.getTenderLine().size(); i++) {
+                PaymentVoidReq.POSTransaction.TenderLine tenderLine = new PaymentVoidReq.POSTransaction.TenderLine();
+                tenderLine.setPreviewText(tenderLineEntities.getTenderLine().get(i).getPreviewText());
+                tenderLine.setAmountCur((int) tenderLineEntities.getTenderLine().get(i).getAmountCur());
+                tenderLine.setAmountMst((int) tenderLineEntities.getTenderLine().get(i).getAmountMst());
+                tenderLine.setAmountTendered((int) tenderLineEntities.getTenderLine().get(i).getAmountTendered());
+                tenderLine.setBarCode(tenderLineEntities.getTenderLine().get(i).getBarCode());
+                tenderLine.setExchRate((int) tenderLineEntities.getTenderLine().get(i).getExchRate());
+                tenderLine.setExchRateMst((int) tenderLineEntities.getTenderLine().get(i).getExchRateMst());
+                tenderLine.setLineNo((int) tenderLineEntities.getTenderLine().get(i).getLineNo());
+                tenderLine.setMobileNo(tenderLineEntities.getTenderLine().get(i).getMobileNo());
+                tenderLine.setRewardsPoint(0);
+                tenderLine.setTenderId(tenderLineEntities.getTenderLine().get(i).getTenderId());
+                tenderLine.setTenderName(tenderLineEntities.getTenderLine().get(i).getTenderName());
+                tenderLine.setTenderType((int) tenderLineEntities.getTenderLine().get(i).getTenderType());
+                tenderLine.setVoid(tenderLineEntities.getTenderLine().get(i).getIsVoid());
+                tenderLine.setWalletOrderId(tenderLineEntities.getTenderLine().get(i).getWalletOrderId());
+                tenderLine.setWalletTransactionID(tenderLineEntities.getTenderLine().get(i).getWalletTransactionID());
+                tenderLine.setWalletType((int) tenderLineEntities.getTenderLine().get(i).getWalletType());
+                tenderLineslist.add(tenderLine);
+                paymentVoidReq.getPosTransaction().setTenderLines(tenderLineslist);
+            }
+        }
+        return paymentVoidReq;
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfing() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public void cancelDSBilling(CalculatePosTransactionRes posTransactionRes) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            posTransactionRes.setReturn(true);
+            posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
+            posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
+            posTransactionRes.setState(getGlobalConfing().getStateCode());
+            Call<CalculatePosTransactionRes> call = api.CANCEL_POS_TRANSACTION_RES_CALL(posTransactionRes);
+            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                        getMvpView().hideLoading();
+//                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+//                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 
 }

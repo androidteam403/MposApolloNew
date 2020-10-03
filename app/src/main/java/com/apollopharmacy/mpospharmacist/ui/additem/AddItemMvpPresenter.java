@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
 
@@ -108,5 +109,12 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onUploadApiCall();
 
     void getUplaodPharmacyStaffApiDetails(String action);
+
+    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes);
+
+    void cancelDSBilling(CalculatePosTransactionRes posTransactionRes);
+
+    GetGlobalConfingRes getGlobalConfing();
+
 
 }

@@ -7,10 +7,12 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -134,7 +136,9 @@ public interface AddItemMvpView extends MvpView {
 
     void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
 
-    void toRemovePayedAmount(int position);
+    void toRemovePayedAmount(PayAdapterModel item,int position);
+
+    void toAddPayedAmount(PayAdapterModel item,int pos);
 
     void openManualDiscDialog(ManualDiscCheckRes body);
 
@@ -168,5 +172,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onErrorshowOfRDays();
 
+    void getVoidUnVoidData(PaymentVoidRes paymentVoidRes);
+
 //    boolean userDetails(String rDays);
+
 }

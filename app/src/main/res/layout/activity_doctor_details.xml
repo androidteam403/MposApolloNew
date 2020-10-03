@@ -138,18 +138,18 @@
                         android:hint="@string/label_select_doctor"
                         app:spinnerMode="bottomsheet" />
 
-                    <com.tiper.MaterialSpinner
-                        android:id="@+id/selectSalesOrigin"
-                        style="@style/NewEditTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/ten_dp"
-                        android:descendantFocusability="beforeDescendants"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_sales_origin"
-                        app:spinnerMode="bottomsheet" />
+<!--                    <com.tiper.MaterialSpinner-->
+<!--                    android:id="@+id/selectSalesOrigin"-->
+<!--                    style="@style/NewEditTextInputLayoutStyle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="@dimen/ten_dp"-->
+<!--                    android:descendantFocusability="beforeDescendants"-->
+<!--                    android:focusable="true"-->
+<!--                    android:focusableInTouchMode="true"-->
+<!--                    android:fontFamily="@font/roboto_regular"-->
+<!--                    android:hint="@string/label_sales_origin"-->
+<!--                    app:spinnerMode="bottomsheet" />-->
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

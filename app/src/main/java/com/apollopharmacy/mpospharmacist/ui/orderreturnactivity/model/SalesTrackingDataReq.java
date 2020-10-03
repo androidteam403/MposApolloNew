@@ -32,7 +32,7 @@ public class SalesTrackingDataReq implements Serializable {
     private String BillingCity;
 
     @Expose
-    @SerializedName("BusinessDate")
+    @SerializedName("")
     private String BusinessDate;
 
     @Expose

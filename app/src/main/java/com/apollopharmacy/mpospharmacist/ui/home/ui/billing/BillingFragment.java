@@ -425,10 +425,10 @@ public class BillingFragment extends BaseFragment implements BillingMvpView {
                 if (doctorResult != null) {
                     fragmentBillingBinding.setDoctor(doctorResult);
                 }
-                SalesOriginResModel.DropdownValueBean salesResult = (SalesOriginResModel.DropdownValueBean) data.getSerializableExtra("sales_info");
-                if (salesResult != null) {
-                    fragmentBillingBinding.setSales(salesResult);
-                }
+//                SalesOriginResModel.DropdownValueBean salesResult = (SalesOriginResModel.DropdownValueBean) data.getSerializableExtra("sales_info");
+//                if (salesResult != null) {
+//                    fragmentBillingBinding.setSales(salesResult);
+//                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

@@ -58,6 +58,16 @@ public class TenderLineEntity implements Serializable {
         @SerializedName("AmountCur")
         private double AmountCur;
 
+        private boolean amountToBeVoid;
+
+        public boolean isAmountToBeVoid() {
+                return amountToBeVoid;
+        }
+
+        public void setAmountToBeVoid(boolean amountToBeVoid) {
+                this.amountToBeVoid = amountToBeVoid;
+        }
+
         public double getWalletType() {
             return WalletType;
         }
@@ -102,6 +112,10 @@ public class TenderLineEntity implements Serializable {
             return IsVoid;
         }
 
+        public void setVoid(boolean aVoid) {
+                IsVoid = aVoid;
+        }
+
         public double getExchRateMst() {
             return ExchRateMst;
         }
@@ -125,4 +139,8 @@ public class TenderLineEntity implements Serializable {
         public double getAmountCur() {
             return AmountCur;
         }
-    }
+
+        public void setMobileNo(String mobileNo) {
+                MobileNo = mobileNo;
+        }
+}

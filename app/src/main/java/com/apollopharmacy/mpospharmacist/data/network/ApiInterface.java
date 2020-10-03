@@ -15,6 +15,8 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OTPRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.POSTransactionEntity;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffAPIReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
@@ -197,5 +199,6 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/SalesTrackingData")
     Call<SalesTrackingDataRes> SALES_TRACKING_DATA_RES_CALL(@Body SalesTrackingDataReq salesTrackingDataReq);
 
-
+    @POST("SalesTransactionService.svc/VoidPayment/1")
+    Call<PaymentVoidRes> PAYMENT_VOID_RES_CALL(@Body PaymentVoidReq paymentVoidReq);
 }

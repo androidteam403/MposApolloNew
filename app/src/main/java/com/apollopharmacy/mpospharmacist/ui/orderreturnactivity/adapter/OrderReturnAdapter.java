@@ -90,14 +90,34 @@ public class OrderReturnAdapter extends RecyclerView.Adapter<OrderReturnAdapter.
                     if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
                         editable.delete(0, 1);
                     }
-                    if (item.getQty() >= Double.parseDouble(editable.toString())) {
-                        orderReturnModelArrayList.get(position).setReturnQty(Double.parseDouble(editable.toString()));
+                    if (item.getRemainingQty() >= Double.parseDouble(editable.toString())) {
+                        if (item.getQty() >= Double.parseDouble(editable.toString())) {
+                            orderReturnModelArrayList.get(position).setReturnQty(Double.parseDouble(editable.toString()));
+                        } else {
+                            ExitInfoDialog dialogView = new ExitInfoDialog(activity);
+                            dialogView.setTitle("Alert");
+                            dialogView.setPositiveLabel("OK");
+                            dialogView.setDialogDismiss();
+                            dialogView.setSubtitle("Return Quantity must be smaller or equal to Ordered Quantity");
+                            dialogView.setPositiveListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialogView.dismiss();
+                                    isDisplayDialog = false;
+                                    holder.orderReturnAdapterBinding.returnQuntitiyEdit.setText("0");
+                                }
+                            });
+                            if (!isDisplayDialog) {
+                                isDisplayDialog = true;
+                                dialogView.show();
+                            }
+                        }
                     } else {
                         ExitInfoDialog dialogView = new ExitInfoDialog(activity);
                         dialogView.setTitle("Alert");
                         dialogView.setPositiveLabel("OK");
                         dialogView.setDialogDismiss();
-                        dialogView.setSubtitle("Return Quantity must be smaller or equal to Ordered Quantity");
+                        dialogView.setSubtitle("Quantity should be greater than 0 !");
                         dialogView.setPositiveListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

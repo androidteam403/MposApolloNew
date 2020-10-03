@@ -171,7 +171,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     @Override
     public void onCancelCLick(CalculatePosTransactionRes posTransactionRes) {
         //  if (isAllowOrNot(posTransactionRes)) {
-        getMvpView().showInfoPopup("Cancel Order", "Do you want to Cancel Order?", true, false,getDataManager().getTerminalId());
+        getMvpView().showInfoPopup("Cancel Order", "Do you want to Cancel Order?", true, false, getDataManager().getTerminalId());
 //        }else{
 //            getMvpView().showCancelOrderSuccess("","Transaction Already Cancelled!!");
 //        }
@@ -180,7 +180,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     @Override
     public void onReOrderClick(CalculatePosTransactionRes posTransactionRes) {
         // if (isAllowOrNot(posTransactionRes)) {
-        getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false, true,getDataManager().getTerminalId());
+        getMvpView().showInfoPopup("Order Return All", "Do you want to Return order?", false, true, getDataManager().getTerminalId());
 //        } else {
 //            getMvpView().showCancelOrderSuccess("", "Transaction Already Return!!");
 //        }
@@ -216,7 +216,6 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-
                         getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
                     } else {
                         getMvpView().hideLoading();
