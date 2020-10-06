@@ -3,12 +3,15 @@ package com.apollopharmacy.mpospharmacist.ui.additem;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
+
+import retrofit2.Response;
 
 public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresenter<V> {
 
@@ -110,7 +113,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void getUplaodPharmacyStaffApiDetails(String action);
 
-    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes);
+    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet);
 
     void cancelDSBilling(CalculatePosTransactionRes posTransactionRes);
 

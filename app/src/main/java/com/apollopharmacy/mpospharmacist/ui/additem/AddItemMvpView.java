@@ -12,6 +12,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -21,6 +22,8 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWis
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import java.util.ArrayList;
+
+import retrofit2.Response;
 
 public interface AddItemMvpView extends MvpView {
 
@@ -171,6 +174,8 @@ public interface AddItemMvpView extends MvpView {
     String getSalesOrigin();
 
     void onErrorshowOfRDays();
+
+    void getWalletResponseData(Response<WalletServiceRes> walletServiceRes);
 
 //    boolean userDetails(String rDays);
 

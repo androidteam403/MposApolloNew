@@ -1830,6 +1830,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 @Override
                 public void onResponse(@NotNull Call<WalletServiceRes> call, @NotNull Response<WalletServiceRes> response) {
                     walletServiceResResponse = response;
+                    getMvpView().getWalletResponseData(response);
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
@@ -1976,12 +1977,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes) {
+    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes,PaymentVoidReq.Wallet wallet) {
 
 //        Gson gson=new Gson();
 //        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes));
 //        System.out.println("void data"+json);
-        PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes);
+        PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes,wallet);
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -2006,31 +2007,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
-    private PaymentVoidReq paymentVoidData(CalculatePosTransactionRes calculatePosTransactionResData) {
+    private PaymentVoidReq paymentVoidData(CalculatePosTransactionRes calculatePosTransactionResData,PaymentVoidReq.Wallet wallet) {
         PaymentVoidReq paymentVoidReq = new PaymentVoidReq();
-        PaymentVoidReq.Wallet wallet = new PaymentVoidReq.Wallet();
-        if (walletServiceResResponse != null) {
-            wallet.setMobileNo(walletServiceResResponse.body().getMobileNo());
-            wallet.setPOSTerminal(walletServiceResResponse.body().getPOSTerminal());
-            wallet.setOTP(walletServiceResResponse.body().getOTP());
-            wallet.setPOSTransactionID(walletServiceResResponse.body().getPOSTransactionID());
-            wallet.setOTPTransactionId("");
-            wallet.setRequestStatus(walletServiceResResponse.body().getRequestStatus());
-            wallet.setResponse(walletServiceResResponse.body().getResponse());
-            wallet.setRequestURL(walletServiceResResponse.body().getRequestURL());
-            wallet.setRewardsPoint(walletServiceResResponse.body().getRewardsPoint());
-            wallet.setReturnMessage(walletServiceResResponse.body().getReturnMessage());
-            wallet.setWalletAmount(walletServiceResResponse.body().getWalletAmount());
-            wallet.setWalletOrderID(walletServiceResResponse.body().getWalletOrderID());
-            wallet.setWalletRefundId(walletServiceResResponse.body().getWalletRefundId());
-            wallet.setWalletRequestType(2);
-            wallet.setWalletTransactionID(walletServiceResResponse.body().getWalletTransactionID());
-            wallet.setWalletType(walletServiceResResponse.body().getWalletType());
-            wallet.setWalletURL(walletServiceResResponse.body().getWalletURL());
-            wallet.setUHID("");
-            paymentVoidReq.setWallet(wallet);
-        }
-
+        paymentVoidReq.setWallet(wallet);
         PaymentVoidReq.POSTransaction posTransaction = new PaymentVoidReq.POSTransaction();
         if (calculatePosTransactionResData != null) {
             posTransaction.setAllowedTenderType("");
