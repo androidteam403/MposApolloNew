@@ -172,8 +172,6 @@ public interface AddItemMvpView extends MvpView {
 
     void onErrorshowOfRDays();
 
-    void getVoidUnVoidData(PaymentVoidRes paymentVoidRes);
-
 //    boolean userDetails(String rDays);
 
 }

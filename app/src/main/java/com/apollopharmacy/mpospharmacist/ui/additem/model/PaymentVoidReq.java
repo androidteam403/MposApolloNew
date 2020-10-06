@@ -83,6 +83,13 @@ public class PaymentVoidReq {
         @Expose
         @SerializedName("WalletType")
         private int WalletType;
+        @Expose
+        @SerializedName("UHID")
+        private String UHID;
+
+        public void setUHID(String UHID) {
+            this.UHID = UHID;
+        }
 
         public void setReturnMessage(String ReturnMessage) {
             this.ReturnMessage = ReturnMessage;

@@ -434,16 +434,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 alertBackDialog();
             }
         } else {
-            int partialVoid = 0;
-            for (int i = 0; i < mPresenter.getTenderLineEntities().getTenderLine().size(); i++) {
-                if (!mPresenter.getTenderLineEntities().getTenderLine().get(i).getIsVoid()) {
-                    partialVoid = 1;
-                }
-            }
-            if (partialVoid == 1) {
-                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
-            } else {
+            if (paymentDoneAmount == 0.0) {
                 alertDialog();
+            } else {
+                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
             }
 
         }
@@ -1315,18 +1309,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        }
     }
 
-    @Override
-    public void getVoidUnVoidData(PaymentVoidRes paymentVoidRes) {
-
-    }
-
     private int amountPosition;
     private boolean methodCalling;
 
     @Override
     public void toAddPayedAmount(PayAdapterModel item, int pos) {
         if (calculatePosTransactionRes.getTenderLine().size() > 0) {
-            calculatePosTransactionRes.getTenderLine().get(pos).setVoid(false);
+            calculatePosTransactionRes.getTenderLine().get(pos).setVoid(true);
             amounttoAdd = false;
             methodCalling = true;
             amountPosition = pos;
@@ -1337,8 +1326,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void toRemovePayedAmount(PayAdapterModel item, int position) {
-        if (paymentMethodModel.isCashMode()) {
-            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+        if (paymentMethodModel.isWalletMode()) {
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(false);
             methodCalling = true;
             amounttoAdd = true;
 //            calculatePosTransactionRes.getTenderLine().remove(position);
@@ -1349,24 +1338,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 }
             }
             updatePayedAmount(calculatePosTransactionRes);
+//
+//            calculatePosTransactionRes.setMobileNO("9959939659");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
-            mPresenter.cancelDSBilling(calculatePosTransactionRes);
-
+//            mPresenter.cancelDSBilling(calculatePosTransactionRes);
         } else if (paymentMethodModel.isCardMode()) {
-            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(false);
             methodCalling = true;
             amounttoAdd = true;
 //            calculatePosTransactionRes.getTenderLine().remove(position);
             amountPosition = position;
             for (int i = 0; i < arrPayAdapterModel.size(); i++) {
-                if (arrPayAdapterModel.get(i).isAmountVoid()) {
                     arrPayAdapterModel.get(i).setCrossDis(1);
-                }
             }
             updatePayedAmount(calculatePosTransactionRes);
-            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes);
         } else {
-            calculatePosTransactionRes.getTenderLine().get(position).setVoid(true);
+            calculatePosTransactionRes.getTenderLine().get(position).setVoid(false);
             methodCalling = true;
             amounttoAdd = true;
 //            calculatePosTransactionRes.getTenderLine().remove(position);
@@ -2102,7 +2089,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.cardPaymentAmountEditText.setText(text.substring(0, text.length() - 1));
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
-                        if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
+                        if (!TextUtils.isEmpty(text) && addItemBinding. getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
                             if (!mPresenter.validTenderLimit(Double.parseDouble(text), "card")) {
                                 addItemBinding.cardPaymentAmountEditText.setText("");
                             }

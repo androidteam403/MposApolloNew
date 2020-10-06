@@ -37,6 +37,7 @@ import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.eze.api.EzeAPI;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -1976,17 +1977,21 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes) {
+
+//        Gson gson=new Gson();
+//        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes));
+//        System.out.println("void data"+json);
+        PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes);
+
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-
-            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(paymentVoidData(calculatePosTransactionRes));
+            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(paymentVoidReq);
             call.enqueue(new Callback<PaymentVoidRes>() {
                 @Override
                 public void onResponse(@NotNull Call<PaymentVoidRes> call, @NotNull Response<PaymentVoidRes> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         getMvpView().hideLoading();
-                        getMvpView().getVoidUnVoidData(response.body());
                     }
                 }
 
@@ -2009,7 +2014,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setPOSTerminal(walletServiceResResponse.body().getPOSTerminal());
             wallet.setOTP(walletServiceResResponse.body().getOTP());
             wallet.setPOSTransactionID(walletServiceResResponse.body().getPOSTransactionID());
-            wallet.setOTPTransactionId(walletServiceResResponse.body().getOTPTransactionId());
+            wallet.setOTPTransactionId("");
             wallet.setRequestStatus(walletServiceResResponse.body().getRequestStatus());
             wallet.setResponse(walletServiceResResponse.body().getResponse());
             wallet.setRequestURL(walletServiceResResponse.body().getRequestURL());
@@ -2018,10 +2023,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setWalletAmount(walletServiceResResponse.body().getWalletAmount());
             wallet.setWalletOrderID(walletServiceResResponse.body().getWalletOrderID());
             wallet.setWalletRefundId(walletServiceResResponse.body().getWalletRefundId());
-            wallet.setWalletRequestType(walletServiceResResponse.body().getWalletRequestType());
+            wallet.setWalletRequestType(2);
             wallet.setWalletTransactionID(walletServiceResResponse.body().getWalletTransactionID());
             wallet.setWalletType(walletServiceResResponse.body().getWalletType());
             wallet.setWalletURL(walletServiceResResponse.body().getWalletURL());
+            wallet.setUHID("");
             paymentVoidReq.setWallet(wallet);
         }
 
@@ -2274,37 +2280,39 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void cancelDSBilling(CalculatePosTransactionRes posTransactionRes) {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            posTransactionRes.setReturn(true);
-            posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
-            posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
-            posTransactionRes.setState(getGlobalConfing().getStateCode());
-            Call<CalculatePosTransactionRes> call = api.CANCEL_POS_TRANSACTION_RES_CALL(posTransactionRes);
-            call.enqueue(new Callback<CalculatePosTransactionRes>() {
-                @Override
-                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
-                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
-                        getMvpView().hideLoading();
-//                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
-                    } else {
-                        getMvpView().hideLoading();
-                        if (response.body() != null) {
-//                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-        }
+//        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+//            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+//            posTransactionRes.setReturn(true);
+//            posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
+//            posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
+//            posTransactionRes.setState(getGlobalConfing().getStateCode());
+//            posTransactionRes.setAmounttoAccount(walletPaymentDialog.getWalletAmount());
+//            Call<CalculatePosTransactionRes> call = api.CANCEL_POS_TRANSACTION_RES_CALL(posTransactionRes);
+//
+//            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+//                @Override
+//                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+//                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+//                        getMvpView().hideLoading();
+////                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+//                    } else {
+//                        getMvpView().hideLoading();
+//                        if (response.body() != null) {
+////                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
     }
 
 }
