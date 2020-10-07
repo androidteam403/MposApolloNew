@@ -199,6 +199,6 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/SalesTrackingData")
     Call<SalesTrackingDataRes> SALES_TRACKING_DATA_RES_CALL(@Body SalesTrackingDataReq salesTrackingDataReq);
 
-    @POST("SalesTransactionService.svc/VoidPayment/1")
-    Call<PaymentVoidRes> PAYMENT_VOID_RES_CALL(@Body PaymentVoidReq paymentVoidReq);
+    @POST("SalesTransactionService.svc/VoidPayment/{Item_line}")
+    Call<PaymentVoidRes> PAYMENT_VOID_RES_CALL(@Path("Item_line") int line,@Body PaymentVoidReq paymentVoidReq);
 }

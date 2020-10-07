@@ -1977,17 +1977,17 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes,PaymentVoidReq.Wallet wallet) {
+    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes,PaymentVoidReq.Wallet wallet,int lineNo) {
 
 //        Gson gson=new Gson();
-//        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes));
+//        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes,wallet));
 //        System.out.println("void data"+json);
         PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes,wallet);
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(paymentVoidReq);
+            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(lineNo,paymentVoidReq);
             call.enqueue(new Callback<PaymentVoidRes>() {
                 @Override
                 public void onResponse(@NotNull Call<PaymentVoidRes> call, @NotNull Response<PaymentVoidRes> response) {

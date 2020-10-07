@@ -113,7 +113,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void getUplaodPharmacyStaffApiDetails(String action);
 
-    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet);
+    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet,int lineNo);
 
     void cancelDSBilling(CalculatePosTransactionRes posTransactionRes);
 

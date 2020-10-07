@@ -43,6 +43,7 @@ public class PayActivityAdapter extends RecyclerView.Adapter<PayActivityAdapter.
     public void onBindViewHolder(@NonNull PayActivityAdapter.ViewHolder holder, int position) {
         PayAdapterModel item = arrPayAdapterModel.get(position);
         holder.payAdapterBinding.setModel(item);
+        addItemMvpView.cardModePosition(position);
         holder.payAdapterBinding.closeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

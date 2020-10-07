@@ -179,4 +179,6 @@ public interface AddItemMvpView extends MvpView {
 
 //    boolean userDetails(String rDays);
 
+    void cardModePosition(int position);
+
 }
