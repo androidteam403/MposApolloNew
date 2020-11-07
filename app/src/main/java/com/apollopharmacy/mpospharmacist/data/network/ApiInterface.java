@@ -2,6 +2,8 @@ package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRequest;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -64,6 +66,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
@@ -200,5 +203,8 @@ public interface ApiInterface {
     Call<SalesTrackingDataRes> SALES_TRACKING_DATA_RES_CALL(@Body SalesTrackingDataReq salesTrackingDataReq);
 
     @POST("SalesTransactionService.svc/VoidPayment/{Item_line}")
-    Call<PaymentVoidRes> PAYMENT_VOID_RES_CALL(@Path("Item_line") int line,@Body PaymentVoidReq paymentVoidReq);
+    Call<PaymentVoidRes> PAYMENT_VOID_RES_CALL(@Path("Item_line") int line, @Body PaymentVoidReq paymentVoidReq);
+
+    @POST("rest/V1/billgeneration/generatebill")
+    Call<PayLoadRes> PAY_LOAD_RES_CALL(@Header("Authorization") String authKey, @Body PayLoadRequest payLoadRequest);
 }

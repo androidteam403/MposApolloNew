@@ -23,7 +23,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickBackPressed();
 
-    void onClickClearAllBtn();
 
     void onPayButtonClick();
 

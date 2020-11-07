@@ -17,6 +17,8 @@ import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -342,7 +344,19 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             salesTrackingDataReq.setType((int) getMvpView().calculations().getType());
             salesTrackingDataReq.setVendorCode("");
             salesTrackingDataReq.setVendorId(getMvpView().calculations().getVendorId());
-
+            ArrayList<SalesTrackingDataReq.SalesLine> salesLineArrayList = new ArrayList<>();
+            for (int i = 0; i < getMvpView().calculations().getSalesLine().size(); i++) {
+                SalesTrackingDataReq.SalesLine salesLine = new SalesTrackingDataReq.SalesLine();
+//                salesLine.setAdditionaltax();
+//                salesLine.setApplyDiscount();
+//                salesLine.setBarcode();
+//                salesLine.setBaseAmount();
+//                salesLine.setCategory();
+//                salesLine.setCategoryCode();
+//                salesLine.setCategoryReference();
+//                salesLine.setCESSPerc();
+//                salesLine.setCESSTaxCode();
+            }
 
             Call<SalesTrackingDataRes> call = api.SALES_TRACKING_DATA_RES_CALL(salesTrackingDataReq);
             call.enqueue(new Callback<SalesTrackingDataRes>() {

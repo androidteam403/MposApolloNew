@@ -31,6 +31,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidReq;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
@@ -228,6 +229,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.terminalId.setText(mPresenter.getTerminalId());
         addItemBinding.setCallback(mPresenter);
         addItemBinding.setCall(this);
+        addItemBinding.setClearMvpView(this);
         addItemBinding.setPaymentMode(paymentMethodModel);
         if (getIntent() != null) {
 
@@ -424,6 +426,15 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void onClickClearAllBtn() {
+        if (paymentDoneAmount == 0.0) {
+            onClearAll();
+        } else {
+            partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             addItemBinding.setIsPaymentMode(false);
@@ -501,6 +512,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
     }
 
+    private boolean clearItems;
+
     @Override
     public void onClearAll() {
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
@@ -512,6 +525,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             public void onClick(View view) {
                 dialogView.dismiss();
                 mPresenter.clearAllVoidTransaction();
+                deletePayAdapterData();
+                addItemBinding.detailsLayout.corpoEdit.setVisibility(View.VISIBLE);
             }
         });
         dialogView.setNegativeLabel("No");
@@ -523,6 +538,15 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         });
         dialogView.show();
 
+    }
+
+    private void deletePayAdapterData() {
+        if (arrPayAdapterModel.size() > 0) {
+            arrPayAdapterModel.clear();
+            calculatePosTransactionRes.getTenderLine().clear();
+            clearItems = true;
+            payActivityAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -1143,6 +1167,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             public void onClick(View view) {
                 if (dialogView.validateQuantity()) {
                     medicinesDetailAdapter.notifyDataSetChanged();
+                    medicinesDetailAdapter.notifyDataSetChanged();
                     dialogView.dismiss();
                     mPresenter.changeQuantity(item, dialogView.getEnteredQuantity());
                     //mPresenter.calculatePosTransaction();
@@ -1162,6 +1187,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onClickGenerateBill() {
         startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity, orderPriceInfoModel));
+//        Gson gson=new Gson();
+//        String json=gson.toJson( paymentMethodModel.getSaveRetailsTransactionRes());
+//        System.out.println("void data"+json);
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
@@ -1185,13 +1213,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount)));
     }
 
-    int cardModePosition;
-
-    @Override
-    public void cardModePosition(int position) {
-        cardModePosition = position;
-    }
-
     private boolean isGeneratedBill = false;
     private List<TenderLineEntity> tenderLineEntityList = new ArrayList<>();
     private boolean amounttoAdd;
@@ -1199,8 +1220,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+        if (clearItems){
+            transactionRes.getTenderLine().clear();
+            clearItems=false;
+        }
         List<Boolean> isAmount = new ArrayList<Boolean>();
         List<Integer> crossValue = new ArrayList<Integer>();
+        List<Integer> strikeTextData = new ArrayList<>();
         isGeneratedBill = false;
         calculatePosTransactionRes = transactionRes;
         addItemBinding.cashPaymentAmountEdit.setText("");
@@ -1213,6 +1239,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 for (int i = 0; i < arrPayAdapterModel.size(); i++) {
                     isAmount.add(arrPayAdapterModel.get(i).isAmountVoid());
                     crossValue.add(arrPayAdapterModel.get(i).getCrossDis());
+                    strikeTextData.add(arrPayAdapterModel.get(i).getStrikeThroughText());
                 }
             }
             arrPayAdapterModel.clear();
@@ -1234,10 +1261,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
                     paymentDoneAmount += tenderLineEntity.getAmountTendered();
                     payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
-                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("card")){
+                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("card")) {
                         payAdapterModel.setCrossDis(1);
                     }
                     arrPayAdapterModel.add(payAdapterModel);
+                    if (arrPayAdapterModel.size() >= 1) {
+                        addItemBinding.detailsLayout.corpoEdit.setVisibility(View.GONE);
+                    }
                     if (paymentDoneAmount == orderTotalAmount()) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
@@ -1263,7 +1293,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                                 }
                             }
                         } else {
-                            if (tenderLineEntity.isAmountToBeVoid()) {
+                            if (tenderLineEntity.isVoid()) {
                                 paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (balanceAmt + tenderLineEntity.getAmountTendered()))));
                                 paymentDoneAmount = paymentDoneAmount - tenderLineEntity.getAmountTendered();
                                 paymentMethodModel.setBalanceAmount(true);
@@ -1287,6 +1317,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 for (int i = 0; i < arrPayAdapterModel.size(); i++) {
                     if (isAmount.size() - 1 >= i) {
                         arrPayAdapterModel.get(i).setAmountVoid(isAmount.get(i));
+                        arrPayAdapterModel.get(i).setStrikeThroughText(strikeTextData.get(i));
                         arrPayAdapterModel.get(i).setCrossDis(crossValue.get(i));
                         if (paymentDoneAmount == orderTotalAmount()) {
                             for (int j = 0; j < arrPayAdapterModel.size(); j++) {
@@ -1323,20 +1354,103 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        }
     }
 
+    @Override
+    public void onSuccessPaymentVoidData(PaymentVoidRes paymentVoidRes) {
+        if (paymentVoidRes != null) {
+            if (paymentVoidRes.getTenderLine().get(amountPosition).isVoid) {
+                arrPayAdapterModel.get(amountPosition).setStrikeThroughText(1);
+            } else if (!paymentVoidRes.getTenderLine().get(amountPosition).isVoid) {
+                arrPayAdapterModel.get(amountPosition).setStrikeThroughText(0);
+            }
+            if (calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PhonePe") ||
+                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PAYTM") ||
+                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Airtel")) {
+                arrPayAdapterModel.get(amountPosition).setCrossDis(1);
+            }
+            List<TenderLineEntity> tenderLineEntities = new ArrayList<>();
+            for (int j = 0; j < paymentVoidRes.getTenderLine().size(); j++) {
+                TenderLineEntity tenderLineEntity = new TenderLineEntity();
+                tenderLineEntity.setAmountCur(paymentVoidRes.getTenderLine().get(j).getAmountCur());
+                tenderLineEntity.setAmountMst(paymentVoidRes.getTenderLine().get(j).getAmountMst());
+                tenderLineEntity.setAmountTendered(paymentVoidRes.getTenderLine().get(j).getAmountTendered());
+                tenderLineEntity.setBarCode(paymentVoidRes.getTenderLine().get(j).getBarCode());
+                tenderLineEntity.setExchRate(paymentVoidRes.getTenderLine().get(j).getExchRate());
+                tenderLineEntity.setExchRateMst(paymentVoidRes.getTenderLine().get(j).getExchRateMst());
+                tenderLineEntity.setVoid(paymentVoidRes.getTenderLine().get(j).getVoid());
+                tenderLineEntity.setLineNo(paymentVoidRes.getTenderLine().get(j).getLineNo());
+                tenderLineEntity.setMobileNo(paymentVoidRes.getTenderLine().get(j).getMobileNo());
+                tenderLineEntity.setPreviewText(paymentVoidRes.getTenderLine().get(j).getPreviewText());
+                tenderLineEntity.setRewardsPoint(paymentVoidRes.getTenderLine().get(j).getRewardsPoint());
+                tenderLineEntity.setTenderId(paymentVoidRes.getTenderLine().get(j).getTenderId());
+                tenderLineEntity.setTenderName(paymentVoidRes.getTenderLine().get(j).getTenderName());
+                tenderLineEntity.setTenderType(paymentVoidRes.getTenderLine().get(j).getTenderType());
+                tenderLineEntity.setWalletOrderId(paymentVoidRes.getTenderLine().get(j).getWalletOrderId());
+                tenderLineEntity.setWalletTransactionID(paymentVoidRes.getTenderLine().get(j).getWalletTransactionID());
+                tenderLineEntity.setWalletType(paymentVoidRes.getTenderLine().get(j).getWalletType());
+                tenderLineEntities.add(tenderLineEntity);
+            }
+            calculatePosTransactionRes.setTenderLine(tenderLineEntities);
+            updatePayedAmount(calculatePosTransactionRes);
+        }
+    }
+
     private int amountPosition;
     private boolean methodCalling;
 
     @Override
     public void toAddPayedAmount(PayAdapterModel item, int pos) {
         String phonepay = "";
-        if (calculatePosTransactionRes.getTenderLine().size() > 0) {
-            calculatePosTransactionRes.getTenderLine().get(pos).setVoid(true);
-            amounttoAdd = false;
+        cardmode = true;
+        if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PhonePe") ||
+                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PAYTM") ||
+                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Airtel")) {
             methodCalling = true;
+            amounttoAdd = false;
             amountPosition = pos;
-            updatePayedAmount(calculatePosTransactionRes);
-            if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash")||
-            calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
+
+//            updatePayedAmount(calculatePosTransactionRes);
+
+            if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PhonePe")) {
+                phonepay = "PhonePe";
+                wallet.setWalletType(4);
+            } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PAYTM")) {
+                phonepay = "PAYTM";
+                wallet.setWalletType(3);
+            } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Airtel")) {
+                phonepay = "Airtel";
+                wallet.setWalletType(2);
+            }
+            wallet.setMobileNo(calculatePosTransactionRes.getTenderLine().get(pos).getMobileNo());
+            wallet.setOTP("");
+            wallet.setOTPTransactionId("");
+            wallet.setRequestURL("");
+            wallet.setWalletRequestType(2);
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+                if (tenderTypeEntity.getTender().equalsIgnoreCase(phonepay)) {
+                    wallet.setWalletURL(tenderTypeEntity.getTenderURL());
+                }
+            }
+            wallet.setWalletAmount(calculatePosTransactionRes.getTenderLine().get(pos).getAmountCur());
+            wallet.setRequestURL("");
+            wallet.setResponse("");
+            wallet.setPOSTransactionID(calculatePosTransactionRes.getTransactionId());
+            wallet.setPOSTerminal(calculatePosTransactionRes.getTerminal());
+            wallet.setWalletRefundId("");
+            wallet.setWalletOrderID(calculatePosTransactionRes.getTenderLine().get(pos).getWalletOrderId());
+            wallet.setWalletTransactionID(calculatePosTransactionRes.getTenderLine().get(pos).getWalletTransactionID());
+            wallet.setRewardsPoint(0);
+            wallet.setUHID("");
+            wallet.setRequestStatus(0);
+            wallet.setReturnMessage("");
+            mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(pos).getLineNo());
+        } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") ||
+                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
+            methodCalling = true;
+            amounttoAdd = false;
+            amountPosition = pos;
+//            updatePayedAmount(calculatePosTransactionRes);
+            if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") ||
+                    calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
                 wallet.setWalletType(0);
             }
             wallet.setMobileNo("");
@@ -1358,6 +1472,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setRequestStatus(0);
             wallet.setReturnMessage("");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(pos).getLineNo());
+
         }
     }
 
@@ -1372,25 +1487,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     private boolean cardmode;
 
+
     @Override
-    public void toRemovePayedAmount(PayAdapterModel item, int position) {
+    public void toRemovePayedAmount(int position, PayActivityAdapter.ViewHolder holder) {
         String phonepay = "";
         cardmode = true;
         if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel")) {
-            calculatePosTransactionRes.getTenderLine().get(position).setVoid(false);
             methodCalling = true;
             amounttoAdd = true;
-//            calculatePosTransactionRes.getTenderLine().remove(position);
             amountPosition = position;
 
-            if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe") ||
-                    calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") ||
-                    calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel")) {
-                arrPayAdapterModel.get(position).setCrossDis(1);
-            }
-            updatePayedAmount(calculatePosTransactionRes);
+//            updatePayedAmount(calculatePosTransactionRes);
 
             if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe")) {
                 phonepay = "PhonePe";
@@ -1425,17 +1534,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setRequestStatus(0);
             wallet.setReturnMessage("");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(position).getLineNo());
-//            mPresenter.cancelDSBilling(calculatePosTransactionRes);
-        } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash")||
-        calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
-            calculatePosTransactionRes.getTenderLine().get(position).setVoid(false);
+        } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") ||
+                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
             methodCalling = true;
             amounttoAdd = true;
-//            calculatePosTransactionRes.getTenderLine().remove(position);
             amountPosition = position;
-            updatePayedAmount(calculatePosTransactionRes);
-            if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash")||
-            calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
+//            updatePayedAmount(calculatePosTransactionRes);
+            if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") ||
+                    calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
                 wallet.setWalletType(0);
             }
             wallet.setMobileNo("");
@@ -1457,6 +1563,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setRequestStatus(0);
             wallet.setReturnMessage("");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(position).getLineNo());
+
         }
 //        paymentDoneAmount -= amount;
 //        if (paymentDoneAmount == 0.0) {

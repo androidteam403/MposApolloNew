@@ -25,8 +25,8 @@ public class TenderLineEntity implements Serializable {
         @SerializedName("TenderId")
         private String TenderId;
         @Expose
-        @SerializedName("RewardsPodouble")
-        private double RewardsPodouble;
+        @SerializedName("RewardsPoint")
+        private int RewardsPoint;
         @Expose
         @SerializedName("PreviewText")
         private String PreviewText;
@@ -92,8 +92,8 @@ public class TenderLineEntity implements Serializable {
             return TenderId;
         }
 
-        public double getRewardsPodouble() {
-            return RewardsPodouble;
+        public double getRewardPoints() {
+            return RewardsPoint;
         }
 
         public String getPreviewText() {
@@ -142,5 +142,69 @@ public class TenderLineEntity implements Serializable {
 
         public void setMobileNo(String mobileNo) {
                 MobileNo = mobileNo;
+        }
+
+        public void setWalletType(double walletType) {
+                WalletType = walletType;
+        }
+
+        public void setWalletTransactionID(String walletTransactionID) {
+                WalletTransactionID = walletTransactionID;
+        }
+
+        public void setWalletOrderId(String walletOrderId) {
+                WalletOrderId = walletOrderId;
+        }
+
+        public void setTenderType(double tenderType) {
+                TenderType = tenderType;
+        }
+
+        public void setTenderName(String tenderName) {
+                TenderName = tenderName;
+        }
+
+        public void setTenderId(String tenderId) {
+                TenderId = tenderId;
+        }
+
+        public void setRewardsPoint(int rewardsPoint) {
+                rewardsPoint = rewardsPoint;
+        }
+
+        public void setPreviewText(String previewText) {
+                PreviewText = previewText;
+        }
+
+        public void setLineNo(double lineNo) {
+                LineNo = lineNo;
+        }
+
+        public boolean isVoid() {
+                return IsVoid;
+        }
+
+        public void setExchRateMst(double exchRateMst) {
+                ExchRateMst = exchRateMst;
+        }
+
+        public void setExchRate(double exchRate) {
+                ExchRate = exchRate;
+        }
+
+        public void setBarCode(String barCode) {
+                BarCode = barCode;
+        }
+
+        public void setAmountTendered(double amountTendered) {
+                AmountTendered = amountTendered;
+        }
+
+        public void setAmountMst(double amountMst) {
+                AmountMst = amountMst;
+        }
+
+        public void setAmountCur(double amountCur) {
+                AmountCur = amountCur;
         }
 }

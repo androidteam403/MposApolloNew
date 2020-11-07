@@ -39,6 +39,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_TRACKING_CONFIG = "PREF_KEY_TRACKING_CONFIG";
     private static final String PREF_KEY_EPOS_URL = "PREF_KEY_EPOS_URL";
     private static final String PREF_KEY_BOOLEAN_EPOS_URL = "PREF_KEY_BOOLEAN_EPOS_URL";
+    private static final String PREF_KEY_BRANCH_PHONE_NUMBER = "PREF_KEY_BRANCH_PHONE_NUMBER";
+
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -205,6 +207,16 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setStoreId(String id) {
         mAdminPrefs.edit().putString(PREF_KEY_STORE_ID, id).apply();
+    }
+
+    @Override
+    public String getBranchPhoneNumber() {
+        return mAdminPrefs.getString(PREF_KEY_BRANCH_PHONE_NUMBER, "");
+    }
+
+    @Override
+    public void setBranchPhoneNumber(String num) {
+        mAdminPrefs.edit().putString(PREF_KEY_BRANCH_PHONE_NUMBER, num).apply();
     }
 
     @Override

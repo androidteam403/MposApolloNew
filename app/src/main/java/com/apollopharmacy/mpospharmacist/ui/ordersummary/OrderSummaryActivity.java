@@ -31,6 +31,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     private ArrayList<SaveRetailsTransactionRes.TenderLineEntity> paidAmountArr = new ArrayList<>();
     private CorporateModel.DropdownValueBean corporateEntity;
     ViewPaymentInfoBinding childView;
+    SaveRetailsTransactionRes transactionRes;
 
     public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
@@ -60,7 +61,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 //        if (orderPriceInfoModel!=null){
 //            childView.setOrderAmount(orderPriceInfoModel);
 //        }
-        SaveRetailsTransactionRes transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
+        transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
         }
@@ -86,13 +87,16 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         if (transactionRes.getRemainingamount() != 0) {
             SaveRetailsTransactionRes.TenderLineEntity remainAmountLineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
             remainAmountLineEntity.setAmountTendered(transactionRes.getRemainingamount());
+            remainAmountLineEntity.setVoid(transactionRes.getIsVoid());
             remainAmountLineEntity.setTenderName("Pay Back Amount");
             paidAmountArr.add(remainAmountLineEntity);
         }
         for (int i = 0; i < paidAmountArr.size(); i++) {
-            childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
-            childView.setPaidbean(paidAmountArr.get(i));
-            orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
+            if (!paidAmountArr.get(i).getIsVoid()) {
+                childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
+                childView.setPaidbean(paidAmountArr.get(i));
+                orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
+            }
         }
 
 //        orderSummaryBinding.placeNewOrderBtn.setOnClickListener(new View.OnClickListener() {
@@ -128,5 +132,10 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         Singletone.getInstance().isOrderCompleted = false;
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public SaveRetailsTransactionRes transResData() {
+        return transactionRes;
     }
 }

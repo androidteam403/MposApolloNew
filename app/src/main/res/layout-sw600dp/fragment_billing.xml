@@ -431,18 +431,18 @@
                                     app:span_size="@{@dimen/small_size_text}"
                                     app:span_text="@{doctor.code}" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/ten_dp"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textColor="@color/customer_header_text"
-                                    android:textSize="@dimen/text_dimen_12"
-                                    app:full_text="@{@string/label_generic_sales_origin(sales.displayText)}"
-                                    app:span_color="@{@color/black}"
-                                    app:span_font="@{`robotoMedium`}"
-                                    app:span_size="@{@dimen/small_size_text}"
-                                    app:span_text="@{sales.displayText}" />
+                                <!--                                <TextView-->
+                                <!--                                    android:layout_width="wrap_content"-->
+                                <!--                                    android:layout_height="wrap_content"-->
+                                <!--                                    android:layout_marginTop="@dimen/ten_dp"-->
+                                <!--                                    android:fontFamily="@font/roboto_regular"-->
+                                <!--                                    android:textColor="@color/customer_header_text"-->
+                                <!--                                    android:textSize="@dimen/text_dimen_12"-->
+                                <!--                                    app:full_text="@{@string/label_generic_sales_origin(sales.displayText)}"-->
+                                <!--                                    app:span_color="@{@color/black}"-->
+                                <!--                                    app:span_font="@{`robotoMedium`}"-->
+                                <!--                                    app:span_size="@{@dimen/small_size_text}"-->
+                                <!--                                    app:span_text="@{sales.displayText}" />-->
                             </LinearLayout>
 
                             <TextView

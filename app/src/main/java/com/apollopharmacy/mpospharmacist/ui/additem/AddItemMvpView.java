@@ -13,6 +13,7 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
+import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayActivityAdapter;
 import com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -36,6 +37,9 @@ public interface AddItemMvpView extends MvpView {
     void onClickActionBarBack();
 
     void onClearAll();
+
+    void onClickClearAllBtn();
+
 
     void onSuccessClearAll();
 
@@ -139,9 +143,9 @@ public interface AddItemMvpView extends MvpView {
 
     void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
 
-    void toRemovePayedAmount(PayAdapterModel item,int position);
+    void toRemovePayedAmount(int position, PayActivityAdapter.ViewHolder holder);
 
-    void toAddPayedAmount(PayAdapterModel item,int pos);
+    void toAddPayedAmount(PayAdapterModel item, int pos);
 
     void openManualDiscDialog(ManualDiscCheckRes body);
 
@@ -179,6 +183,6 @@ public interface AddItemMvpView extends MvpView {
 
 //    boolean userDetails(String rDays);
 
-    void cardModePosition(int position);
+    void onSuccessPaymentVoidData(PaymentVoidRes paymentVoidRes);
 
 }

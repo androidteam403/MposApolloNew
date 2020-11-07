@@ -24,6 +24,8 @@ public interface StoreSetupMvpView extends MvpView {
 
     String getStoreId();
 
+    String getStoreContactNum();
+
     StoreListResponseModel.StoreListObj getStoreDetails();
 
     String getTerminalId();

@@ -13,4 +13,6 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
     String getStoreId();
 
     String getTerminalId();
+
+    void payLoadDataApi();
 }

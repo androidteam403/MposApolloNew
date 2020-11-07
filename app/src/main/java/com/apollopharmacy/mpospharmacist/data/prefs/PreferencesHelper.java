@@ -1,12 +1,9 @@
 package com.apollopharmacy.mpospharmacist.data.prefs;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
-import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
-
-import java.util.ArrayList;
 
 public interface PreferencesHelper {
 
@@ -37,6 +34,10 @@ public interface PreferencesHelper {
     String getStoreId();
 
     void setStoreId(String id);
+
+    String getBranchPhoneNumber();
+
+    void setBranchPhoneNumber(String num);
 
     String getDataAreaId();
 

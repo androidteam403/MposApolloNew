@@ -16,7 +16,9 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_close_view"
-            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{model.getCrossDis == 0? View.VISIBLE : View.GONE}" />
+        <!--            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}" -->
+
 
         <ImageView
             android:id="@+id/icon_cash"
@@ -44,21 +46,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:background="@{model.getStrikeThroughText == 0? @drawable/unstrike_through_text : @drawable/strike_through_text}"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/rupee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/three_dp"
-                android:fontFamily="@font/price_bold"
+                android:fontFamily="@font/price_regular"
                 android:text="₹"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
+                android:id="@+id/overall_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/three_dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@{@string/price_format(model.value)}"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>

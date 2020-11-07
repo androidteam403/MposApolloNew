@@ -65,6 +65,9 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.body().isStatus()) {
+                            if (getMvpView().getStoreContactNum() != null) {
+                                getDataManager().setBranchPhoneNumber(getMvpView().getStoreContactNum());
+                            }
                             getDataManager().setStoreId(getMvpView().getStoreId());
                             getDataManager().setTerminalId(getMvpView().getTerminalId());
                             getDataManager().setDataAreaId(getMvpView().getStoreDetails().getDataAreaId());

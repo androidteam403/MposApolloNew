@@ -290,14 +290,14 @@
                         tools:ignore="RelativeOverlap" />
 
                     <ImageView
+                        android:id="@+id/corpo_edit"
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/twenty_five_dp"
                         android:layout_alignParentEnd="true"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"
                         android:padding="@dimen/three_dp"
-                        android:src="@drawable/ic_edit_view"
-                        android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
+                        android:src="@drawable/ic_edit_view" />
                 </RelativeLayout>
 
                 <LinearLayout

@@ -216,6 +216,16 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public String getBranchPhoneNumber() {
+        return mPreferencesHelper.getBranchPhoneNumber();
+    }
+
+    @Override
+    public void setBranchPhoneNumber(String num) {
+        mPreferencesHelper.setBranchPhoneNumber(num);
+    }
+
+    @Override
     public String getDataAreaId() {
         return mPreferencesHelper.getDataAreaId();
     }

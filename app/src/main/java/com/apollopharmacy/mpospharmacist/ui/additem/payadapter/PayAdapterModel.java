@@ -5,8 +5,26 @@ public class PayAdapterModel {
     private String paymentType;
     private double value;
     private boolean amountVoid;
-    private int crossDis=0;
-    private int strikeoff=0;
+    private int crossDis = 0;
+    private int strikeoff = 0;
+    private boolean responseChecking;
+    private int strikeThroughText=0;
+
+    public int getStrikeThroughText() {
+        return strikeThroughText;
+    }
+
+    public void setStrikeThroughText(int strikeThroughText) {
+        this.strikeThroughText = strikeThroughText;
+    }
+
+    public boolean isResponseChecking() {
+        return responseChecking;
+    }
+
+    public void setResponseChecking(boolean responseChecking) {
+        this.responseChecking = responseChecking;
+    }
 
     public int getStrikeoff() {
         return strikeoff;

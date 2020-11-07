@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,9 +41,6 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +62,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     private String deviceId;
     private StoreListResponseModel storeListObj = null;
     private StoreListResponseModel.StoreListObj selectedStoreId = null;
+    private StoreListResponseModel.StoreListObj selectedStoreContactNum = null;
     private String deviceType = "";
     private String registerDate = "";
     private String userID = "";
@@ -182,6 +179,7 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     public void onSelectStore(StoreListResponseModel.StoreListObj item) {
         activityStoreSetupBinding.setStoreinfo(item);
         selectedStoreId = item;
+        selectedStoreContactNum = item;
     }
 
     @Override
@@ -197,6 +195,11 @@ public class StoreSetupActivity extends BaseActivity implements StoreSetupMvpVie
     @Override
     public String getStoreId() {
         return selectedStoreId.getStoreId();
+    }
+
+    @Override
+    public String getStoreContactNum() {
+        return selectedStoreContactNum.getContactNumber();
     }
 
     @Override

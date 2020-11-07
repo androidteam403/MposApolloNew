@@ -16,8 +16,7 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_close_view"
-            android:visibility="@{model.getCrossDis == 0? View.VISIBLE : View.GONE}"
-            />
+            android:visibility="@{model.getCrossDis == 0? View.VISIBLE : View.GONE}" />
         <!--            android:visibility="@{model.paymentType.equalsIgnoreCase(`CASH PAID`) ? View.VISIBLE : View.GONE}" -->
 
 
@@ -47,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:background="@{model.getStrikeThroughText == 0? @drawable/unstrike_through_text : @drawable/strike_through_text}"
             android:orientation="horizontal">
 
             <TextView

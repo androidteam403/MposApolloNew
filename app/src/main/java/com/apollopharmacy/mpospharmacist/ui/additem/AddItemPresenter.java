@@ -82,14 +82,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         getMvpView().onClickActionBarBack();
     }
 
-    @Override
-    public void onClickClearAllBtn() {
-        if (tenderLineEntities.getTenderLine().size() > 0) {
-            getMvpView().partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
-        } else {
-            getMvpView().onClearAll();
-        }
-    }
+
 
     @Override
     public void onPayButtonClick() {
@@ -1360,6 +1353,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             posTransactionRes.setTenderLine(tenderLineEntitieList);
 //            calculatePosTransactionResData = posTransactionRes;
             Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);
+//            Gson gson=new Gson();
+//            String json=gson.toJson(posTransactionRes);
+//            System.out.println("void data"+json);
             call.enqueue(new Callback<SaveRetailsTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
@@ -1982,6 +1978,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 //        Gson gson=new Gson();
 //        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes,wallet));
 //        System.out.println("void data"+json);
+
         PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes,wallet);
 
         if (getMvpView().isNetworkConnected()) {
@@ -1993,6 +1990,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 public void onResponse(@NotNull Call<PaymentVoidRes> call, @NotNull Response<PaymentVoidRes> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         getMvpView().hideLoading();
+                        getMvpView().onSuccessPaymentVoidData(response.body());
                     }
                 }
 

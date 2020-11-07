@@ -1219,7 +1219,7 @@ public class SalesTrackingDataReq implements Serializable {
         VendorId = vendorId;
     }
 
-    private class SalesLine {
+    public static class SalesLine {
         @Expose
         @SerializedName("Additionaltax")
         private int Additionaltax;
