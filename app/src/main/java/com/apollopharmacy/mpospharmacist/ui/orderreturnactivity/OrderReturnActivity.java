@@ -127,13 +127,6 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 //            mvpPresenter.orderReturnAll(orderHistoryItem);
         }
 
-        orderReturnActiivtyBinding.sentSms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(OrderReturnActivity.this, "smssent", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         payActivityAdapter = new PaidListAdapter(this, arrPayAdapterModel);
         RecyclerView.LayoutManager mLayoutManagerOne = new LinearLayoutManager(this);
         orderReturnActiivtyBinding.payAmount.setLayoutManager(mLayoutManagerOne);
