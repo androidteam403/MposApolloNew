@@ -93,6 +93,13 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                 }
                 mvpPresenter.trackingWiseReturnAllowed(orderHistoryItem.getCorpCode());
             }
+
+            orderReturnActiivtyBinding.smsSent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mvpPresenter.onSalesTrackingApiCall();
+                }
+            });
         }
 
 

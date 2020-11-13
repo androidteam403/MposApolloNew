@@ -1,10 +1,5 @@
 package com.apollopharmacy.mpospharmacist.data.network;
 
-import android.util.Patterns;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
@@ -26,7 +21,7 @@ public class ApiClient {
     /**
      * Get Retrofit Instance
      */
-    private static Retrofit getRetrofitInstance(String data)throws IllegalArgumentException {
+    private static Retrofit getRetrofitInstance(String data) throws IllegalArgumentException {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
@@ -67,7 +62,7 @@ public class ApiClient {
                 throw new IllegalArgumentException("");
             }
             return getRetrofitInstance(url).create(ApiInterface.class);
-        }catch (IllegalArgumentException i){
+        } catch (IllegalArgumentException i) {
 
         }
         return null;
@@ -76,4 +71,27 @@ public class ApiClient {
     public static ApiInterface getApiService2() {
         return getRetrofitInstance2().create(ApiInterface.class);
     }
+
+
+    private static final String ROOT_URL = "https://signage.apollopharmacy.app/zc-v3.1-user-svc/2.0/ads/api/";
+
+
+    private static Retrofit getRetrofitInstanceAds() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(ROOT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+    }
+
+    public static ApiInterface getApiServiceAds() {
+        return getRetrofitInstanceAds().create(ApiInterface.class);
+    }
+
 }

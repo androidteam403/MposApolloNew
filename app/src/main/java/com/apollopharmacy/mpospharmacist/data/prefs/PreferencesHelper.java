@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.data.prefs;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
@@ -88,4 +90,8 @@ public interface PreferencesHelper {
     VendorCheckRes getVendorRes();
 
     void adminLogOut();
+
+    ListDataEntity getlistDataEntity();
+
+    void setListDataEntity(ListDataEntity listDataEntity);
 }

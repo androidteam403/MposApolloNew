@@ -12,6 +12,8 @@ import com.apollopharmacy.mpospharmacist.data.prefs.PreferencesHelper;
 import com.apollopharmacy.mpospharmacist.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
@@ -268,6 +270,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public void adminLogOut() {
         mPreferencesHelper.adminLogOut();
+    }
+
+    @Override
+    public ListDataEntity getlistDataEntity() {
+        return mPreferencesHelper.getlistDataEntity();
+    }
+
+    @Override
+    public void setListDataEntity(ListDataEntity listDataEntity) {
+        mPreferencesHelper.setListDataEntity(listDataEntity);
     }
 
     @Override

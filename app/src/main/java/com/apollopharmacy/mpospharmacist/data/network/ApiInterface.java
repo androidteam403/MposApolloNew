@@ -2,8 +2,6 @@ package com.apollopharmacy.mpospharmacist.data.network;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorValidationReq;
-import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRequest;
-import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerReqModel;
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorReqModel;
@@ -38,12 +36,16 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListRequest;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListResponse;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.SalesTrackingDataReq;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.SalesTrackingDataRes;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRequest;
+import com.apollopharmacy.mpospharmacist.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -63,6 +65,8 @@ import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseMo
 
 import java.util.ArrayList;
 
+import io.reactivex.Single;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -207,4 +211,11 @@ public interface ApiInterface {
 
     @POST("rest/V1/billgeneration/generatebill")
     Call<PayLoadRes> PAY_LOAD_RES_CALL(@Header("Authorization") String authKey, @Body PayLoadRequest payLoadRequest);
+
+    @POST("playlist/list/mobile-getplaylist")
+    Call<ADSPlayListResponse> ADS_PLAY_LIST_RESPONSE_SINGLE(@Body ADSPlayListRequest adsPlayListRequest);
+
+    @GET
+    Call<ResponseBody> doDownloadFile(@Url String fileUrl);
+
 }

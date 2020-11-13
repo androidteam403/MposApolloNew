@@ -435,4 +435,5 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             tools.setTitle("Exit Kiosk");
         }
     }
+
 }

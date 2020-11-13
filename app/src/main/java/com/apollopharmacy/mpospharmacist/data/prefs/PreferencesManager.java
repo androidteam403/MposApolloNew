@@ -7,6 +7,7 @@ import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.di.PreferenceInfo;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
@@ -40,6 +41,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_EPOS_URL = "PREF_KEY_EPOS_URL";
     private static final String PREF_KEY_BOOLEAN_EPOS_URL = "PREF_KEY_BOOLEAN_EPOS_URL";
     private static final String PREF_KEY_BRANCH_PHONE_NUMBER = "PREF_KEY_BRANCH_PHONE_NUMBER";
+    private static final String PREF_KEY_ROE_ENTITY_DATA = "PREF_KEY_ROE_ENTITY_DATA";
 
 
     private final SharedPreferences mPrefs;
@@ -264,6 +266,21 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void adminLogOut() {
         mAdminPrefs.edit().clear().apply();
+    }
+
+
+    @Override
+    public ListDataEntity getlistDataEntity() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_ROE_ENTITY_DATA, "");
+        return gson.fromJson(json, ListDataEntity.class);
+    }
+
+    @Override
+    public void setListDataEntity(ListDataEntity listDataEntity) {
+        Gson gson = new Gson();
+        String json = gson.toJson(listDataEntity);
+        mPrefs.edit().putString(PREF_KEY_ROE_ENTITY_DATA, json).apply();
     }
 
     @Override

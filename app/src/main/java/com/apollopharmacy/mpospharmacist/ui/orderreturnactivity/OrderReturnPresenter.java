@@ -14,6 +14,7 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfi
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -285,24 +286,24 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             salesTrackingDataReq.setISHBPStore(false);
             salesTrackingDataReq.setISHyperDelivered(false);
             salesTrackingDataReq.setISHyperLocalDelivery(false);
-            salesTrackingDataReq.setManualBill(getMvpView().calculations().getIsManualBill());
+            salesTrackingDataReq.setIsManualBill(getMvpView().calculations().getIsManualBill());
             salesTrackingDataReq.setISOMSOrder(getMvpView().calculations().getISOMSOrder());
             salesTrackingDataReq.setISOMSValidate(false);
             salesTrackingDataReq.setISOnlineOrder(false);
             salesTrackingDataReq.setISPosted(getMvpView().calculations().getISPosted());
             salesTrackingDataReq.setISPrescibeDiscount(getMvpView().calculations().getISPrescibeDiscount());
             salesTrackingDataReq.setISReserved(getMvpView().calculations().getISReserved());
-            salesTrackingDataReq.setReturn(getMvpView().calculations().getIsReturn());
+            salesTrackingDataReq.setIsReturn(getMvpView().calculations().getIsReturn());
             salesTrackingDataReq.setISReturnAllowed(getMvpView().calculations().getISReturnAllowed());
-            salesTrackingDataReq.setStockCheck(getMvpView().calculations().getIsStockCheck());
-            salesTrackingDataReq.setVoid(getMvpView().calculations().getIsVoid());
+            salesTrackingDataReq.setIsStockCheck(getMvpView().calculations().getIsStockCheck());
+            salesTrackingDataReq.setIsVoid(getMvpView().calculations().getIsVoid());
             salesTrackingDataReq.setMobileNO(getMvpView().calculations().getMobileNO());
-            salesTrackingDataReq.setNetAmount(getMvpView().calculations().getNetAmount());
+            salesTrackingDataReq.setNetAmount((float) getMvpView().calculations().getNetAmount());
             salesTrackingDataReq.setNetAmountInclTax((int) getMvpView().calculations().getNetAmountInclTax());
             salesTrackingDataReq.setNumberofItemLines((int) getMvpView().calculations().getNumberofItemLines());
             salesTrackingDataReq.setNumberofItems((int) getMvpView().calculations().getNumberofItems());
             salesTrackingDataReq.setOMSCreditAmount(0);
-            salesTrackingDataReq.setOrderPrescriptionURL("");
+            salesTrackingDataReq.setOrderPrescriptionURL(null);
             salesTrackingDataReq.setOrderSource(getMvpView().calculations().getOrderSource());
             salesTrackingDataReq.setOrderType(getMvpView().calculations().getOrderType());
             salesTrackingDataReq.setPatientID("");
@@ -320,7 +321,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             salesTrackingDataReq.setReturnStore(getMvpView().calculations().getReturnStore());
             salesTrackingDataReq.setReturnTerminal(getMvpView().calculations().getReturnTerminal());
             salesTrackingDataReq.setReturnTransactionId(getMvpView().calculations().getReturnTransactionId());
-            salesTrackingDataReq.setReturnType(getMvpView().calculations().getReturnType());
+            salesTrackingDataReq.setReturnType((int) getMvpView().calculations().getReturnType());
             salesTrackingDataReq.setRoundedAmount((int) getMvpView().calculations().getRoundedAmount());
             salesTrackingDataReq.setSalesOrigin(getMvpView().calculations().getSalesOrigin());
             salesTrackingDataReq.setSEZ((int) getMvpView().calculations().getSEZ());
@@ -338,7 +339,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             salesTrackingDataReq.setTotalMRP((int) getMvpView().calculations().getTotalMRP());
             salesTrackingDataReq.setTotalTaxAmount((int) getMvpView().calculations().getTotalTaxAmount());
             salesTrackingDataReq.setTrackingRef(getMvpView().calculations().getTrackingRef());
-            salesTrackingDataReq.setTransactionId(getMvpView().calculations().getTransactionId());
+            salesTrackingDataReq.setTransactionId(getMvpView().calculations().getReturnTransactionId());
             salesTrackingDataReq.setTransDate(getMvpView().calculations().getTransDate());
             salesTrackingDataReq.setTransType((int) getMvpView().calculations().getTransType());
             salesTrackingDataReq.setType((int) getMvpView().calculations().getType());
@@ -347,38 +348,139 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             ArrayList<SalesTrackingDataReq.SalesLine> salesLineArrayList = new ArrayList<>();
             for (int i = 0; i < getMvpView().calculations().getSalesLine().size(); i++) {
                 SalesTrackingDataReq.SalesLine salesLine = new SalesTrackingDataReq.SalesLine();
-//                salesLine.setAdditionaltax();
-//                salesLine.setApplyDiscount();
-//                salesLine.setBarcode();
-//                salesLine.setBaseAmount();
-//                salesLine.setCategory();
-//                salesLine.setCategoryCode();
-//                salesLine.setCategoryReference();
-//                salesLine.setCESSPerc();
-//                salesLine.setCESSTaxCode();
+                salesLine.setAdditionaltax((int) getMvpView().calculations().getSalesLine().get(i).getAdditionaltax());
+                salesLine.setApplyDiscount(getMvpView().calculations().getSalesLine().get(i).getApplyDiscount());
+                salesLine.setBarcode(getMvpView().calculations().getSalesLine().get(i).getBarcode());
+                salesLine.setBaseAmount((int) getMvpView().calculations().getSalesLine().get(i).getBaseAmount());
+                salesLine.setCategory(getMvpView().calculations().getSalesLine().get(i).getCategory());
+                salesLine.setCategoryCode(getMvpView().calculations().getSalesLine().get(i).getCategoryCode());
+                salesLine.setCategoryReference(getMvpView().calculations().getSalesLine().get(i).getCategoryReference());
+                salesLine.setCESSPerc((float) getMvpView().calculations().getSalesLine().get(i).getCESSPerc());
+                salesLine.setCESSTaxCode(getMvpView().calculations().getSalesLine().get(i).getCESSTaxCode());
+                salesLine.setCGSTPerc((float) getMvpView().calculations().getSalesLine().get(i).getCGSTPerc());
+                salesLine.setCESSTaxCode(getMvpView().calculations().getSalesLine().get(i).getCESSTaxCode());
+                salesLine.setComment(getMvpView().calculations().getSalesLine().get(i).getComment());
+                salesLine.setDiscAmount((int) getMvpView().calculations().getSalesLine().get(i).getDiscAmount());
+                salesLine.setDiscId(getMvpView().calculations().getSalesLine().get(i).getDiscId());
+                salesLine.setDiscOfferId(getMvpView().calculations().getSalesLine().get(i).getDiscOfferId());
+                salesLine.setDiscountStructureType((int) getMvpView().calculations().getSalesLine().get(i).getDiscountStructureType());
+                salesLine.setDiscountType(getMvpView().calculations().getSalesLine().get(i).getDiscountType());
+                salesLine.setDiseaseType(getMvpView().calculations().getSalesLine().get(i).getDiseaseType());
+                salesLine.setDPCO(getMvpView().calculations().getSalesLine().get(i).getDPCO());
+                salesLine.setExpiry(getMvpView().calculations().getSalesLine().get(i).getExpiry());
+                salesLine.setHsncodeIn(getMvpView().calculations().getSalesLine().get(i).getHsncode_In());
+                salesLine.setIGSTPerc((float) getMvpView().calculations().getSalesLine().get(i).getIGSTPerc());
+                salesLine.setIGSTTaxCode(getMvpView().calculations().getSalesLine().get(i).getIGSTTaxCode());
+                salesLine.setInventBatchId(getMvpView().calculations().getSalesLine().get(i).getInventBatchId());
+                salesLine.setIsChecked(getMvpView().calculations().getSalesLine().get(i).getIsChecked());
+                salesLine.setIsGeneric(false);
+                salesLine.setISPrescribed((int) getMvpView().calculations().getSalesLine().get(i).getISPrescribed());
+                salesLine.setIsPriceOverride(getMvpView().calculations().getSalesLine().get(i).getIsPriceOverride());
+                salesLine.setISReserved(getMvpView().calculations().getSalesLine().get(i).getISReserved());
+                salesLine.setISStockAvailable(getMvpView().calculations().getSalesLine().get(i).getISStockAvailable());
+                salesLine.setIsSubsitute(getMvpView().calculations().getSalesLine().get(i).getIsSubsitute());
+                salesLine.setIsVoid(getMvpView().calculations().getSalesLine().get(i).getIsVoid());
+                salesLine.setItemId(getMvpView().calculations().getSalesLine().get(i).getItemId());
+                salesLine.setItemName(getMvpView().calculations().getSalesLine().get(i).getItemName());
+                salesLine.setLineDiscPercentage((int) getMvpView().calculations().getSalesLine().get(i).getLineDiscPercentage());
+                salesLine.setLinedscAmount((int) getMvpView().calculations().getSalesLine().get(i).getLinedscAmount());
+                salesLine.setLineManualDiscountAmount((int) getMvpView().calculations().getSalesLine().get(i).getLineManualDiscountAmount());
+                salesLine.setLineManualDiscountPercentage((int) getMvpView().calculations().getSalesLine().get(i).getLineManualDiscountPercentage());
+                salesLine.setLineNo((int) getMvpView().calculations().getSalesLine().get(i).getLineNo());
+                salesLine.setManufacturerCode(getMvpView().calculations().getSalesLine().get(i).getManufacturerCode());
+                salesLine.setManufacturerName(getMvpView().calculations().getSalesLine().get(i).getManufacturerName());
+                salesLine.setMixMode(getMvpView().calculations().getSalesLine().get(i).getMixMode());
+                salesLine.setMMGroupId(getMvpView().calculations().getSalesLine().get(i).getMMGroupId());
+                salesLine.setModifyBatchId(getMvpView().calculations().getSalesLine().get(i).getModifyBatchId());
+                salesLine.setMRP((float) getMvpView().calculations().getSalesLine().get(i).getMRP());
+                salesLine.setNetAmount((float) getMvpView().calculations().getSalesLine().get(i).getNetAmount());
+                salesLine.setNetAmountInclTax((float) getMvpView().calculations().getSalesLine().get(i).getNetAmountInclTax());
+                salesLine.setOfferAmount((int) getMvpView().calculations().getSalesLine().get(i).getOfferAmount());
+                salesLine.setOfferDiscountType((int) getMvpView().calculations().getSalesLine().get(i).getOfferDiscountType());
+                salesLine.setOfferDiscountValue((int) getMvpView().calculations().getSalesLine().get(i).getOfferDiscountValue());
+                salesLine.setOfferQty((int) getMvpView().calculations().getSalesLine().get(i).getOfferQty());
+                salesLine.setOfferType((int) getMvpView().calculations().getSalesLine().get(i).getOfferType());
+                salesLine.setOmsLineID((int) getMvpView().calculations().getSalesLine().get(i).getOmsLineID());
+                salesLine.setOmsLineRECID((int) getMvpView().calculations().getSalesLine().get(i).getOmsLineRECID());
+                salesLine.setOrderStatus((int) getMvpView().calculations().getSalesLine().get(i).getOrderStatus());
+                salesLine.setOriginalPrice((float) getMvpView().calculations().getSalesLine().get(i).getOriginalPrice());
+                salesLine.setPeriodicDiscAmount((int) getMvpView().calculations().getSalesLine().get(i).getPeriodicDiscAmount());
+                salesLine.setPreviewText(getMvpView().calculations().getSalesLine().get(i).getPreviewText());
+                salesLine.setPrice((float) getMvpView().calculations().getSalesLine().get(i).getPrice());
+                salesLine.setProductRecID(getMvpView().calculations().getSalesLine().get(i).getProductRecID());
+                salesLine.setQty((int) getMvpView().calculations().getSalesLine().get(i).getQty());
+                salesLine.setRemainderDays((int) getMvpView().calculations().getSalesLine().get(i).getRemainderDays());
+                salesLine.setRemainingQty((int) getMvpView().calculations().getSalesLine().get(i).getRemainingQty());
+                salesLine.setRetailCategoryRecID(getMvpView().calculations().getSalesLine().get(i).getRetailCategoryRecID());
+                salesLine.setRetailSubCategoryRecID(getMvpView().calculations().getSalesLine().get(i).getRetailSubCategoryRecID());
+                salesLine.setRetailMainCategoryRecID(getMvpView().calculations().getSalesLine().get(i).getRetailMainCategoryRecID());
+                salesLine.setReturnQty((int) getMvpView().calculations().getSalesLine().get(i).getReturnQty());
+                salesLine.setScheduleCategory(getMvpView().calculations().getSalesLine().get(i).getScheduleCategory());
+                salesLine.setScheduleCategoryCode(getMvpView().calculations().getSalesLine().get(i).getScheduleCategoryCode());
+                salesLine.setSGSTPerc((float) getMvpView().calculations().getSalesLine().get(i).getSGSTPerc());
+                salesLine.setSGSTTaxCode(getMvpView().calculations().getSalesLine().get(i).getSGSTTaxCode());
+                salesLine.setStockQty((int) getMvpView().calculations().getSalesLine().get(i).getStockQty());
+                salesLine.setSubCategory(getMvpView().calculations().getSalesLine().get(i).getSubCategory());
+                salesLine.setSubCategoryCode(getMvpView().calculations().getSalesLine().get(i).getSubCategoryCode());
+                salesLine.setSubClassification(getMvpView().calculations().getSalesLine().get(i).getSubClassification());
+                salesLine.setSubstitudeItemId(getMvpView().calculations().getSalesLine().get(i).getSubstitudeItemId());
+                salesLine.setTax((int) getMvpView().calculations().getSalesLine().get(i).getTax());
+                salesLine.setTaxAmount((float) getMvpView().calculations().getSalesLine().get(i).getTaxAmount());
+                salesLine.setTotal((int) getMvpView().calculations().getSalesLine().get(i).getTotal());
+                salesLine.setTotalDiscAmount((int) getMvpView().calculations().getSalesLine().get(i).getTotalDiscAmount());
+                salesLine.setTotalDiscPct((int) getMvpView().calculations().getSalesLine().get(i).getTotalDiscPct());
+                salesLine.setTotalRoundedAmount((int) getMvpView().calculations().getSalesLine().get(i).getTotalRoundedAmount());
+                salesLine.setTotalTax((int) getMvpView().calculations().getSalesLine().get(i).getTotalTax());
+                salesLine.setUnit(getMvpView().calculations().getSalesLine().get(i).getUnit());
+                salesLine.setUnitPrice((float) getMvpView().calculations().getSalesLine().get(i).getUnitPrice());
+                salesLine.setUnitQty((int) getMvpView().calculations().getSalesLine().get(i).getUnitQty());
+                salesLine.setVariantId(getMvpView().calculations().getSalesLine().get(i).getVariantId());
+                salesLineArrayList.add(salesLine);
+                salesTrackingDataReq.setSalesLine(salesLineArrayList);
             }
-
+            ArrayList<SalesTrackingDataReq.TenderLine> tenderLineArrayList = new ArrayList<>();
+            for (int i = 0; i < getMvpView().calculations().getTenderLine().size(); i++) {
+                SalesTrackingDataReq.TenderLine tenderLine = new SalesTrackingDataReq.TenderLine();
+                tenderLine.setAmountCur((int) getMvpView().calculations().getTenderLine().get(i).getAmountCur());
+                tenderLine.setAmountMst((int) getMvpView().calculations().getTenderLine().get(i).getAmountMst());
+                tenderLine.setAmountTendered((int) getMvpView().calculations().getTenderLine().get(i).getAmountTendered());
+                tenderLine.setBarCode(getMvpView().calculations().getTenderLine().get(i).getBarCode());
+                tenderLine.setExchRate((int) getMvpView().calculations().getTenderLine().get(i).getExchRate());
+                tenderLine.setExchRateMst((int) getMvpView().calculations().getTenderLine().get(i).getExchRateMst());
+                tenderLine.setIsVoid(getMvpView().calculations().getTenderLine().get(i).getIsVoid());
+                tenderLine.setLineNo((int) getMvpView().calculations().getTenderLine().get(i).getLineNo());
+                tenderLine.setPreviewText(getMvpView().calculations().getTenderLine().get(i).getPreviewText());
+                tenderLine.setMobileNo(getMvpView().calculations().getTenderLine().get(i).getMobileNo());
+                tenderLine.setRewardsPoint((int) getMvpView().calculations().getTenderLine().get(i).getRewardPoints());
+                tenderLine.setTenderId(getMvpView().calculations().getTenderLine().get(i).getTenderId());
+                tenderLine.setTenderName(getMvpView().calculations().getTenderLine().get(i).getTenderName());
+                tenderLine.setTenderType((int) getMvpView().calculations().getTenderLine().get(i).getTenderType());
+                tenderLine.setWalletOrderId(getMvpView().calculations().getTenderLine().get(i).getWalletOrderId());
+                tenderLine.setWalletTransactionID(getMvpView().calculations().getTenderLine().get(i).getWalletTransactionID());
+                tenderLine.setWalletType((int) getMvpView().calculations().getTenderLine().get(i).getWalletType());
+                tenderLineArrayList.add(tenderLine);
+                salesTrackingDataReq.setTenderLine(tenderLineArrayList);
+            }
+//            Gson gson = new Gson();
+//            String json = gson.toJson(salesTrackingDataReq);
+//            System.out.println("void data" + json);
             Call<SalesTrackingDataRes> call = api.SALES_TRACKING_DATA_RES_CALL(salesTrackingDataReq);
             call.enqueue(new Callback<SalesTrackingDataRes>() {
                 @Override
                 public void onResponse(@NotNull Call<SalesTrackingDataRes> call, @NotNull Response<SalesTrackingDataRes> response) {
-//                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
-//                        getMvpView().hideLoading();
-//
-//                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
-//                    } else {
-//                        getMvpView().hideLoading();
-//                        if (response.body() != null) {
-//                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
-//                            getMvpView().onAlreadyItemReturnedColor();
-//                        }
-//                    }
+                    if (response.isSuccessful() && response.body() != null) {
+                        getMvpView().hideLoading();
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                        }
+                    }
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<SalesTrackingDataRes> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                    handleApiError(t);
+//                    handleApiError(t);
                 }
             });
         } else {
