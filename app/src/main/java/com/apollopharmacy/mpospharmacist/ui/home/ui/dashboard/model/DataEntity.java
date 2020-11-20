@@ -15,4 +15,8 @@ public class DataEntity {
     public ListDataEntity getListData() {
         return listData;
     }
+
+    public void setListData(ListDataEntity listData) {
+        this.listData = listData;
+    }
 }

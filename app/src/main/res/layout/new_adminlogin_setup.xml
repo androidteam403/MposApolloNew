@@ -12,86 +12,101 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/app_login_bg"
-        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="@dimen/one_hundred_twenty_dp"
-            android:layout_height="@dimen/one_hundred_twenty_dp"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/app_shadow_logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/twenty_dp"
-            android:text="@string/label_admin_login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_dimen_16"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto_bold" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/NewEditTextInputLayoutStyle"
+            android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/five_dp"
-            android:fontFamily="@font/roboto_regular">
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@color/black"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/userId"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/app_login_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/one_hundred_twenty_dp"
+                android:layout_height="@dimen/one_hundred_twenty_dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/app_shadow_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/label_admin_login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_login_user"
-                android:drawablePadding="@dimen/ten_dp"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/label_enter_user_id"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="@dimen/text_dimen_15"
-                android:imeOptions="actionNext"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_margin="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_login_user"
+                    android:drawablePadding="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_enter_user_id"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_dimen_15" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/NewEditTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/five_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:layout_marginEnd="@dimen/five_dp"
-            android:fontFamily="@font/roboto_regular">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/NewEditTextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_login_password"
-                android:drawablePadding="@dimen/ten_dp"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/label_password"
-                android:inputType="text"
-                android:imeOptions="actionSend"
-                android:singleLine="true"
-                android:textSize="@dimen/text_dimen_15" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:fontFamily="@font/roboto_regular">
 
-        <Button
-            android:layout_width="@dimen/one_hundred_eighty_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/thirty_dp"
-            android:background="@drawable/rounded_corners"
-            android:onClick="@{()-> callback.onAdminLoginClick()}"
-            android:text="@string/login"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_dimen_16"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto_bold"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_login_password"
+                    android:drawablePadding="@dimen/ten_dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_password"
+                    android:imeOptions="actionSend"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_dimen_15" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:layout_width="@dimen/one_hundred_eighty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:background="@drawable/rounded_corners"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()-> callback.onAdminLoginClick()}"
+                android:text="@string/login"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_16"
+                android:textStyle="bold" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

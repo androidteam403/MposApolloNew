@@ -42,6 +42,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_BOOLEAN_EPOS_URL = "PREF_KEY_BOOLEAN_EPOS_URL";
     private static final String PREF_KEY_BRANCH_PHONE_NUMBER = "PREF_KEY_BRANCH_PHONE_NUMBER";
     private static final String PREF_KEY_ROE_ENTITY_DATA = "PREF_KEY_ROE_ENTITY_DATA";
+    private static final String PREF_KEY_POSIFLEXT_DATA = "PREF_KEY_POSIFLEXT_DATA";
+    private static final String PREF_KEY_INTIALIZE_FIRST = "PREF_KEY_INTIALIZE_FIRST";
 
 
     private final SharedPreferences mPrefs;
@@ -252,6 +254,16 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
+    public boolean isIntializePos() {
+        return mPrefs.getBoolean(PREF_KEY_INTIALIZE_FIRST, false);
+    }
+
+    @Override
+    public void setIntializePos(boolean intializePos) {
+        mPrefs.edit().putBoolean(PREF_KEY_INTIALIZE_FIRST, intializePos).apply();
+    }
+
+    @Override
     public void setVendorRes(String res) {
         mPrefs.edit().putString(PREF_KEY_VENDOR_RES, res).apply();
     }
@@ -281,6 +293,20 @@ public class PreferencesManager implements PreferencesHelper {
         Gson gson = new Gson();
         String json = gson.toJson(listDataEntity);
         mPrefs.edit().putString(PREF_KEY_ROE_ENTITY_DATA, json).apply();
+    }
+
+    @Override
+    public ListDataEntity getPosiflexlistDataEntity() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_POSIFLEXT_DATA, "");
+        return gson.fromJson(json, ListDataEntity.class);
+    }
+
+    @Override
+    public void setPosiflexListDataEntity(ListDataEntity posiflexListDataEntity) {
+        Gson gson = new Gson();
+        String json = gson.toJson(posiflexListDataEntity);
+        mPrefs.edit().putString(PREF_KEY_POSIFLEXT_DATA, json).apply();
     }
 
     @Override

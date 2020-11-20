@@ -239,6 +239,11 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
     }
 
     @Override
+    public void onSucessPlayList() {
+
+    }
+
+    @Override
     public CorporateModel.DropdownValueBean getCorporateModule() {
         return corporateEntity;
     }

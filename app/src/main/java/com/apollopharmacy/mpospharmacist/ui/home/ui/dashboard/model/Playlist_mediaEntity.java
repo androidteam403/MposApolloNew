@@ -32,4 +32,8 @@ public class Playlist_mediaEntity {
     public String getUid() {
         return uid;
     }
+
+    public void setMedia_library(Media_libraryEntity media_library) {
+        this.media_library = media_library;
+    }
 }

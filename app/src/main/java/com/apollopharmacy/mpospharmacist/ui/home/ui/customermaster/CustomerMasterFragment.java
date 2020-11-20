@@ -1,14 +1,28 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.FragmentCustMasterBinding;
@@ -16,26 +30,26 @@ import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResMode
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 
-import org.jetbrains.annotations.NotNull;
-
-import static com.apollopharmacy.mpospharmacist.root.ApolloMposApp.getContext;
-
-
-public class CustomerMasterFragment extends BaseFragment implements CustomerMasterMvpView {
+public class CustomerMasterFragment extends BaseFragment implements CustomerMasterMvpView, MainActivity.UserIneractionListener, MainActivity.OnBackPressedListener {
 
     @Inject
     CustomerMasterPresenter<CustomerMasterMvpView> mPresenter;
@@ -46,6 +60,9 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         fragmentCustMasterBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cust_master, container, false);
         getActivityComponent().inject(this);
         mPresenter.onAttach(CustomerMasterFragment.this);
+        ((MainActivity) Objects.requireNonNull(getActivity())).setOnUserIneractionListener(this);
+        ((MainActivity) Objects.requireNonNull(getActivity())).setOnBackPressedListener(this);
+
         return fragmentCustMasterBinding.getRoot();
     }
 
@@ -59,6 +76,8 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
         genderSpinner();
         maritalStatusSpinner();
+        mPresenter.onMposTabApiCall();
+        turnOnScreen();
     }
 
     @Override
@@ -270,9 +289,9 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
     @Override
     public String getDOB() {
-        if(TextUtils.isEmpty(requiredDOBFormat)){
+        if (TextUtils.isEmpty(requiredDOBFormat)) {
             return CommonUtils.getCurrentDate("dd-MMM-yyyy");
-        }else {
+        } else {
             return requiredDOBFormat;
         }
     }
@@ -357,7 +376,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
             fragmentCustMasterBinding.cardNumber.setError("Card Number Minimum 10 characters");
             fragmentCustMasterBinding.cardNumber.requestFocus();
             return false;
-        }else if(!email.isEmpty() && !CommonUtils.isValidEmail(email)){
+        } else if (!email.isEmpty() && !CommonUtils.isValidEmail(email)) {
             fragmentCustMasterBinding.email.setError("Enter Valid Email");
             fragmentCustMasterBinding.email.requestFocus();
             return false;
@@ -369,7 +388,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
             fragmentCustMasterBinding.mobile.setError("Invalid Mobile Number");
             fragmentCustMasterBinding.mobile.requestFocus();
             return false;
-        }else if(!zipCode.isEmpty() && zipCode.length() < 6){
+        } else if (!zipCode.isEmpty() && zipCode.length() < 6) {
             fragmentCustMasterBinding.zipCode.setError("Enter Valid ZipCode");
             fragmentCustMasterBinding.zipCode.requestFocus();
             return false;
@@ -377,11 +396,11 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         return true;
     }
 
-    private void genderSpinner(){
+    private void genderSpinner() {
         fragmentCustMasterBinding.gender.setSelection(0);
         fragmentCustMasterBinding.gender.getEditText().setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         fragmentCustMasterBinding.gender.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo>  genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()){
+        ArrayAdapter<SpinnerPojo> genderSpinnerPojo = new ArrayAdapter<SpinnerPojo>(getBaseActivity(), android.R.layout.simple_spinner_item, getGender()) {
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -391,7 +410,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -402,11 +421,11 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         fragmentCustMasterBinding.gender.setAdapter(genderSpinnerPojo);
     }
 
-    private void maritalStatusSpinner(){
+    private void maritalStatusSpinner() {
         fragmentCustMasterBinding.maritalStatusSpinner.setSelection(0);
         fragmentCustMasterBinding.maritalStatusSpinner.getEditText().setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
         fragmentCustMasterBinding.maritalStatusSpinner.setTypeface(Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf"));
-        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()){
+        ArrayAdapter<SpinnerPojo.MaritalStatus> maritalStatusPojo = new ArrayAdapter<SpinnerPojo.MaritalStatus>(getBaseActivity(), android.R.layout.simple_spinner_item, getMarital()) {
 
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
@@ -417,7 +436,7 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
             }
 
 
-            public View getDropDownView(int position, View convertView,@NotNull ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 Typeface externalFont = Typeface.createFromAsset(getBaseActivity().getAssets(), "font/roboto_regular.ttf");
                 ((TextView) v).setTypeface(externalFont);
@@ -427,5 +446,175 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
         maritalStatusPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fragmentCustMasterBinding.maritalStatusSpinner.setAdapter(maritalStatusPojo);
         fragmentCustMasterBinding.maritalStatusSpinner.setFocusableInTouchMode(false);
+    }
+
+    private List<RowsEntity> rowsEntitiesList;
+
+    @Override
+    public void onSucessPlayList() {
+        rowsEntitiesList = mPresenter.getDataListEntity();
+        for (int i = 0; i < rowsEntitiesList.size(); i++) {
+            if (rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                    rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                File file = new File(path);
+                if (!file.exists()) {
+                    mPresenter.onDownloadApiCall(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
+                            rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean stopLooping;
+
+    public void handelPlayList() {
+        if (rowsEntitiesList != null && rowsEntitiesList.size() > 0) {
+            if (!onPause) {
+                if (!stopLooping) {
+                    boolean isAllFilesExist = false;
+                    for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                        if (rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                                rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                            if (!rowsEntitiesList.get(i).isPlayed()) {
+                                String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                                File file = new File(path);
+                                if (file.exists()) {
+                                    playListData(path, i);
+                                    isAllFilesExist = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!isAllFilesExist) {
+                        for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                            rowsEntitiesList.get(i).setPlayed(false);
+                        }
+                        handelPlayList();
+                    }
+                }
+            }
+        }
+    }
+
+    public void playListData(String filePath, int pos) {
+        Bitmap myBitmap = BitmapFactory.decodeFile(filePath);
+        fragmentCustMasterBinding.imageView.setImageBitmap(myBitmap);
+        fragmentCustMasterBinding.imageView.setVisibility(View.VISIBLE);
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        fragmentCustMasterBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rowsEntitiesList.get(pos).setPlayed(true);
+                if (pos == rowsEntitiesList.size() - 1) {
+                    for (RowsEntity rowsEntity : rowsEntitiesList) {
+                        rowsEntity.setPlayed(false);
+                    }
+                }
+                handelPlayList();
+            }
+        }, 5000);
+    }
+
+    private boolean onPause;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onPause = false;
+        idealScreen();
+    }
+
+
+    private Handler handler;
+    private Runnable r;
+
+    public void idealScreen() {
+        handler = new Handler();
+        r = new Runnable() {
+            @Override
+            public void run() {
+                if (onPause) {
+                    stopLooping = true;
+                } else {
+                    stopLooping = false;
+                    getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    if (rowsEntitiesList != null && rowsEntitiesList.size() > 0) {
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                    }
+                }
+                handelPlayList();
+                fragmentCustMasterBinding.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        fragmentCustMasterBinding.imageView.setVisibility(View.GONE);
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+                        stopLooping = true;
+                    }
+                });
+
+            }
+        };
+        startHandler();
+    }
+
+    public void stopHandler() {
+        handler.removeCallbacks(r);
+    }
+
+    public void startHandler() {
+        handler.postDelayed(r, 60 * 1000);
+    }
+
+    @Override
+    public void userInteraction() {
+        stopHandler();
+        startHandler();
+    }
+
+    public void turnOnScreen() {
+        final Window win = getActivity().getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    }
+
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return getActivity();
+    }
+
+//    @Override
+//    public void userBackListenerInteraction() {
+//        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        fragmentCustMasterBinding.imageView.setVisibility(View.VISIBLE);
+//        getActivity().finish();
+//    }
+
+    @Override
+    public void doBack() {
+        getActivity().finish();
+        stopLooping = true;
     }
 }

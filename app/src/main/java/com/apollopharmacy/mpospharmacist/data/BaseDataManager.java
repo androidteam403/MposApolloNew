@@ -13,7 +13,6 @@ import com.apollopharmacy.mpospharmacist.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacist.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
@@ -258,6 +257,16 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public boolean isIntializePos() {
+        return mPreferencesHelper.isIntializePos();
+    }
+
+    @Override
+    public void setIntializePos(boolean intializePos) {
+        mPreferencesHelper.setIntializePos(intializePos);
+    }
+
+    @Override
     public void setVendorRes(String res) {
         mPreferencesHelper.setVendorRes(res);
     }
@@ -280,6 +289,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public void setListDataEntity(ListDataEntity listDataEntity) {
         mPreferencesHelper.setListDataEntity(listDataEntity);
+    }
+
+    @Override
+    public ListDataEntity getPosiflexlistDataEntity() {
+        return mPreferencesHelper.getPosiflexlistDataEntity();
+    }
+
+    @Override
+    public void setPosiflexListDataEntity(ListDataEntity posiflexListDataEntity) {
+        mPreferencesHelper.setPosiflexListDataEntity(posiflexListDataEntity);
     }
 
     @Override

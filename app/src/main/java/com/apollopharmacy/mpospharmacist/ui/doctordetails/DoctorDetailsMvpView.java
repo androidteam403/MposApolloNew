@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.doctordetails;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
@@ -24,4 +26,8 @@ public interface DoctorDetailsMvpView extends MvpView {
     void onSelectDoctor(DoctorSearchResModel.DropdownValueBean dropdownValueBean, ArrayList<DoctorSearchResModel.DropdownValueBean> doctorList);
 
     void onCustomDoctorLayoutClick();
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

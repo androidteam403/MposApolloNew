@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.batchonfo;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.expirymodel.ExpiryChangeRes;
 import com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes;
@@ -34,6 +36,10 @@ public interface BatchInfoMvpView extends MvpView {
     void batchItemInfo(GetBatchInfoRes.BatchListObj batchListObj);
 
     List<GetBatchInfoRes.BatchListObj> getbatchInfoRes();
-   void checkExpiryDateChangeSuccess(ExpiryChangeRes expiryChangeRes);
 
+    void checkExpiryDateChangeSuccess(ExpiryChangeRes expiryChangeRes);
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

@@ -3,10 +3,19 @@ package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,13 +28,17 @@ import com.apollopharmacy.mpospharmacist.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.OrderReturnAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.adapter.PaidListAdapter;
 import com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel;
 import com.apollopharmacy.mpospharmacist.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.apollopharmacy.mpospharmacist.utils.ViewAnimationUtils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -140,6 +153,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
         orderReturnActiivtyBinding.payAmount.setItemAnimator(new DefaultItemAnimator());
         orderReturnActiivtyBinding.payAmount.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         orderReturnActiivtyBinding.payAmount.setAdapter(payActivityAdapter);
+        mvpPresenter.onMposTabApiCall();
+        turnOnScreen();
     }
 
     private void getPaymentTypes() {
@@ -350,5 +365,163 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     @Override
     public void onBackPressed() {
         onClickActionBarBack();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        orderReturnActiivtyBinding.imageView.setVisibility(View.GONE);
+    }
+
+    private List<RowsEntity> rowsEntitiesList;
+
+    @Override
+    public void onSucessPlayList() {
+        rowsEntitiesList = mvpPresenter.getDataListEntity();
+        for (int i = 0; i < rowsEntitiesList.size(); i++) {
+            if (rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                    rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                File file = new File(path);
+                if (!file.exists()) {
+                    mvpPresenter.onDownloadApiCall(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
+                            rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean stopLooping;
+
+    public void handelPlayList() {
+        if (rowsEntitiesList != null && rowsEntitiesList.size() > 0) {
+            if (!onPause) {
+                if (!stopLooping) {
+                    boolean isAllFilesExist = false;
+                    for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                        if (rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                                rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                            if (!rowsEntitiesList.get(i).isPlayed()) {
+                                String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                                File file = new File(path);
+                                if (file.exists()) {
+                                    playListData(path, i);
+                                    isAllFilesExist = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!isAllFilesExist) {
+                        for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                            rowsEntitiesList.get(i).setPlayed(false);
+                        }
+                        handelPlayList();
+                    }
+                }
+            }
+        }
+    }
+
+    public void playListData(String filePath, int pos) {
+        Bitmap myBitmap = BitmapFactory.decodeFile(filePath);
+        orderReturnActiivtyBinding.imageView.setImageBitmap(myBitmap);
+        orderReturnActiivtyBinding.imageView.setVisibility(View.VISIBLE);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        orderReturnActiivtyBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rowsEntitiesList.get(pos).setPlayed(true);
+                if (pos == rowsEntitiesList.size() - 1) {
+                    for (RowsEntity rowsEntity : rowsEntitiesList) {
+                        rowsEntity.setPlayed(false);
+                    }
+                }
+                handelPlayList();
+            }
+        }, 5000);
+    }
+
+    private boolean onPause;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onPause = false;
+        idealScreen();
+    }
+
+
+    private Handler handler;
+    private Runnable r;
+
+    public void idealScreen() {
+        handler = new Handler();
+        r = new Runnable() {
+            @Override
+            public void run() {
+                if (onPause) {
+                    stopLooping = true;
+                } else {
+                    stopLooping = false;
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    getSupportActionBar().hide();
+                }
+                handelPlayList();
+                orderReturnActiivtyBinding.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        orderReturnActiivtyBinding.imageView.setVisibility(View.GONE);
+//                        getSupportActionBar().show();
+                        stopLooping = true;
+                    }
+                });
+
+            }
+        };
+        startHandler();
+    }
+
+    public void stopHandler() {
+        handler.removeCallbacks(r);
+    }
+
+    public void startHandler() {
+        handler.postDelayed(r, 60 * 1000);
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        stopHandler();
+        startHandler();
+    }
+
+    public void turnOnScreen() {
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    }
+
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

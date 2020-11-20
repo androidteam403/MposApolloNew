@@ -11,14 +11,22 @@ public interface DashBoardMvpPresenter<V extends DashBoardMvpView> extends MvpPr
 
     void onClickNewOrder();
 
-    void onPlayListApiCall();
-
-    void onDownloadApiCall(String filePath, String fileName,int pos);
-
-    void createFilePath(ResponseBody body, String fileName, boolean isFirstFile,int pos);
-
     void showLoader();
 
+    void onMposPosiflexApiCall();
+
+    List<RowsEntity> getPosiflextDataListEntity();
+
+    void onDownloadPosiflexCall(String filePath, String fileName, int pos);
+
+    void createPosiFlexFilePath(ResponseBody body, String fileName, boolean isFirstFile, int pos);
+
+    void onMposTabApiCall();
+
     List<RowsEntity> getDataListEntity();
+
+    void createFilePath(ResponseBody body, String fileName, boolean isFirstFile, int pos);
+
+    void onDownloadApiCall(String filePath, String fileName, int pos);
 
 }

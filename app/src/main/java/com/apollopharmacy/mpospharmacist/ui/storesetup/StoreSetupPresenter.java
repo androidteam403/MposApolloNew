@@ -1,24 +1,41 @@
 package com.apollopharmacy.mpospharmacist.ui.storesetup;
 
+import android.util.Log;
+import android.util.Pair;
+
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListRequest;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListResponse;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingReq;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresenter<V>
         implements StoreSetupMvpPresenter<V> {

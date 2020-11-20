@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.storesetup;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel;
@@ -47,4 +49,6 @@ public interface StoreSetupMvpView extends MvpView {
     void onVerifyClick();
 
     String getEposURL();
+
+
 }

@@ -1,32 +1,45 @@
 package com.apollopharmacy.mpospharmacist.ui.newadminloginsetup;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.NewAdminloginSetupBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.newadminloginsetup.model.AdminLoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupActivity;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 
 public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvpView {
 
@@ -121,6 +134,5 @@ public class NewAdminLoginSetUp extends BaseActivity implements NewAdminLoginMvp
         }
         return true;
     }
-
 
 }

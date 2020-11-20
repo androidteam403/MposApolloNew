@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacist.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;

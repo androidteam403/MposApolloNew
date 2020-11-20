@@ -57,4 +57,8 @@ public class ListDataEntity {
     public String getRecords() {
         return records;
     }
+
+    public void setRows(List<RowsEntity> rows) {
+        this.rows = rows;
+    }
 }

@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
@@ -26,4 +28,8 @@ public interface ProductListMvpView extends MvpView {
     void onVoiceSearchClick();
 
     void onBarCodeClick();
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

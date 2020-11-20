@@ -5,6 +5,11 @@ import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateMode
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
+
+import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresenter<V> {
 
@@ -42,5 +47,12 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
 
     void onUploadApiCall();
 
+    void onMposTabApiCall();
+
+    List<RowsEntity> getDataListEntity();
+
+    void createFilePath(ResponseBody body, String fileName, boolean isFirstFile, int pos);
+
+    void onDownloadApiCall(String filePath, String fileName, int pos);
 
 }

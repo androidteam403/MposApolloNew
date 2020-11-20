@@ -111,10 +111,12 @@ dependencies {
     implementation project(path: ':itemtouchhelperextension')
 
     // Recommended: Add the Firebase SDK for Google Analytics.
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+//    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
 
     // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+//    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
 
     //Loading ... animation lib
     implementation 'com.github.bhargavms:DotLoader:1.1.1'

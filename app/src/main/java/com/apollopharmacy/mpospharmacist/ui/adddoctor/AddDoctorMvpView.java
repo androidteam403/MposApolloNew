@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.adddoctor;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
@@ -25,4 +27,8 @@ public interface AddDoctorMvpView extends MvpView {
     String getAddress();
 
     String getPhoneNo();
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

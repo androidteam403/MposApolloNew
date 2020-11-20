@@ -185,4 +185,6 @@ public interface AddItemMvpView extends MvpView {
 
     void onSuccessPaymentVoidData(PaymentVoidRes paymentVoidRes);
 
+    void onSucessPlayList();
+
 }

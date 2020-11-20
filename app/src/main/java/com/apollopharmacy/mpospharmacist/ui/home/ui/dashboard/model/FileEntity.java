@@ -32,6 +32,14 @@ public class FileEntity {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public boolean getSaved() {
         return saved;
     }

@@ -36,6 +36,10 @@ public class ADSPlayListResponse {
         return data;
     }
 
+    public void setData(DataEntity data) {
+        this.data = data;
+    }
+
     public boolean getSuccess() {
         return success;
     }

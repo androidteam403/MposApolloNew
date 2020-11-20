@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.billing;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -49,5 +51,8 @@ public interface BillingMvpView extends MvpView {
 
     void onSucessStaffListData(PharmacyStaffApiRes res);
 
+    void onSucessPlayList();
+
+    Context getContext();
 
 }

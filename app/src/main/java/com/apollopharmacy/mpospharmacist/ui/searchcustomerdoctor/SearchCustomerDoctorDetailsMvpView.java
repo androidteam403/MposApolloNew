@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse;
@@ -28,4 +30,8 @@ public interface SearchCustomerDoctorDetailsMvpView extends MvpView {
     void showTransactionID(TransactionIDResModel model);
 
     void getCorporateList(CorporateModel corporateModel);
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

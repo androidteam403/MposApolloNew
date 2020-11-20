@@ -1,6 +1,11 @@
 package com.apollopharmacy.mpospharmacist.ui.storesetup;
 
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
+
+import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public interface StoreSetupMvpPresenter <V extends StoreSetupMvpView> extends MvpPresenter<V> {
 
@@ -19,5 +24,7 @@ public interface StoreSetupMvpPresenter <V extends StoreSetupMvpView> extends Mv
     void checkConfingApi();
 
     void onVerifyClick();
+
+
 
 }

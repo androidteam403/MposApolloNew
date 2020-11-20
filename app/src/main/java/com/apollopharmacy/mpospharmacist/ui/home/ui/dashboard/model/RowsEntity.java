@@ -37,6 +37,16 @@ public class RowsEntity {
 
     private boolean isPlayed;
 
+    private boolean isPosiflex;
+
+    public boolean isPosiflex() {
+        return isPosiflex;
+    }
+
+    public void setPosiflex(boolean posiflex) {
+        isPosiflex = posiflex;
+    }
+
     public boolean isPlayed() {
         return isPlayed;
     }
@@ -83,5 +93,9 @@ public class RowsEntity {
 
     public Playlist_display_center getPlaylist_display_center() {
         return playlist_display_center;
+    }
+
+    public void setPlaylist_media(Playlist_mediaEntity playlist_media) {
+        this.playlist_media = playlist_media;
     }
 }

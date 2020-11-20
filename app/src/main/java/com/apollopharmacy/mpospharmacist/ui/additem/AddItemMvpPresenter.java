@@ -7,11 +7,13 @@ import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentVoidReq;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import retrofit2.Response;
+import okhttp3.ResponseBody;
 
 public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresenter<V> {
 
@@ -66,6 +68,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickGenerateBill();
 
+    void onStaticGenerateBillForming();
+
     void getTenderTypeApi();
 
     void onClickManualDisc();
@@ -112,11 +116,19 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void getUplaodPharmacyStaffApiDetails(String action);
 
-    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet,int lineNo);
+    void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet, int lineNo);
 
     void cancelDSBilling(CalculatePosTransactionRes posTransactionRes);
 
     GetGlobalConfingRes getGlobalConfing();
+
+    void onMposTabApiCall();
+
+    List<RowsEntity> getDataListEntity();
+
+    void createFilePath(ResponseBody body, String fileName, boolean isFirstFile, int pos);
+
+    void onDownloadApiCall(String filePath, String fileName, int pos);
 
 
 }

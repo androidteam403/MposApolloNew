@@ -5,19 +5,29 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -38,14 +48,17 @@ import com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerRes
 import com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacist.ui.home.dialog.KioskExitClickListener;
 import com.apollopharmacy.mpospharmacist.ui.home.dialog.KioskExitDialog;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacist.utils.DownloadController;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.apollopharmacy.mpospharmacist.utils.MyAdmin;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.util.List;
 import java.util.Stack;
 
@@ -58,6 +71,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     private CorporateModel corporateModel;
     private NavigationView navigationView;
     private Stack<Fragment> fragmentStack = new Stack<>();
+    private ImageView imageView;
+    private DrawerLayout drawer;
 
     @Inject
     MainActivityMvpPresenter<MainActivityMvpView> mvpPresenter;
@@ -75,8 +90,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         toolbar.setTitleTextAppearance(this, R.style.RobotoBoldTextAppearance);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(MainActivity.this);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        imageView = findViewById(R.id.image_view);
         View view = navigationView.getHeaderView(0);
         userName = view.findViewById(R.id.login_user_name);
         userStoreLocation = view.findViewById(R.id.login_user_store);
@@ -160,6 +176,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
     @Override
     protected void setUp() {
+//        mvpPresenter.onMposTabApiCall();
+//        turnOnScreen();
+//        idealScreen();
         userName.setText(mvpPresenter.getLoginUserName());
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
         mvpPresenter.getCorporateList();
@@ -191,6 +210,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             Singletone.getInstance().isOrderCompleted = false;
         }
         updateMenuKiosk();
+        onPause = false;
+
     }
 
     @Override
@@ -435,5 +456,178 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             tools.setTitle("Exit Kiosk");
         }
     }
+
+    protected UserIneractionListener userIneractionListener;
+
+    public interface UserIneractionListener {
+        void userInteraction();
+    }
+
+    public void setOnUserIneractionListener(UserIneractionListener userIneractionListener) {
+        this.userIneractionListener = userIneractionListener;
+    }
+
+    protected OnBackPressedListener onBackPressedListener;
+
+    public interface OnBackPressedListener {
+        void doBack();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressedListener != null)
+            onBackPressedListener.doBack();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        userIneractionListener.userInteraction();
+//        stopHandler();
+//        startHandler();
+    }
+
+    private List<RowsEntity> rowsEntitiesList;
+
+    @Override
+    public void onSucessPlayList() {
+        rowsEntitiesList = mvpPresenter.getDataListEntity();
+        for (int i = 0; i < rowsEntitiesList.size(); i++) {
+            String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+            File file = new File(path);
+            if (!file.exists()) {
+                mvpPresenter.onDownloadApiCall(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
+                        rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                break;
+            }
+        }
+    }
+
+    private boolean stopLooping;
+
+    public void handelPlayList() {
+        if (rowsEntitiesList.size() > 0) {
+            if (!stopLooping) {
+                boolean isAllFilesExist = false;
+                for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                    if (!rowsEntitiesList.get(i).isPlayed()) {
+                        String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                        File file = new File(path);
+                        if (file.exists()) {
+                            playListData(path, i);
+                            isAllFilesExist = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isAllFilesExist) {
+                    for (int i = 0; i < rowsEntitiesList.size(); i++) {
+                        rowsEntitiesList.get(i).setPlayed(false);
+                    }
+                    handelPlayList();
+                }
+            }
+        }
+
+    }
+
+    public void playListData(String filePath, int pos) {
+        Bitmap myBitmap = BitmapFactory.decodeFile(filePath);
+        imageView.setImageBitmap(myBitmap);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_animation));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rowsEntitiesList.get(pos).setPlayed(true);
+                if (pos == rowsEntitiesList.size() - 1) {
+                    for (RowsEntity rowsEntity : rowsEntitiesList) {
+                        rowsEntity.setPlayed(false);
+                    }
+                }
+                handelPlayList();
+            }
+        }, 2000);
+    }
+
+    private boolean onPause;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onPause = true;
+    }
+
+
+    private Handler handler;
+    private Runnable r;
+
+    public void idealScreen() {
+        handler = new Handler();
+        r = new Runnable() {
+            @Override
+            public void run() {
+                if (onPause) {
+                    stopLooping = true;
+                } else {
+                    stopLooping = false;
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    getSupportActionBar().hide();
+                    imageView.setVisibility(View.VISIBLE);
+                }
+                handelPlayList();
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        imageView.setVisibility(View.GONE);
+//                        getSupportActionBar().show();
+                        stopLooping = true;
+                    }
+                });
+
+            }
+        };
+        startHandler();
+    }
+
+    public void stopHandler() {
+//        handler.removeCallbacks(r);
+    }
+
+    public void startHandler() {
+//        handler.postDelayed(r, 60 * 1000);
+    }
+
+    public void turnOnScreen() {
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    }
+
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+
+    public void closeDrawer() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(Gravity.LEFT);
+        }
+    }
+
 
 }

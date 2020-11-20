@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.orderreturnactivity;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
@@ -22,5 +24,9 @@ public interface OrederReturnMvpView extends MvpView {
     void onSalesTrackingClick();
 
     CalculatePosTransactionRes calculations();
+
+    void onSucessPlayList();
+
+    Context getContext();
 
 }

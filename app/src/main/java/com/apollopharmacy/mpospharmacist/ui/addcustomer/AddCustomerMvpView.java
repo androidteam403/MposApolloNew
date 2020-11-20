@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.addcustomer;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
@@ -56,4 +58,8 @@ public interface AddCustomerMvpView extends MvpView {
     String getCardNumber();
 
     String getDateOfReg();
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

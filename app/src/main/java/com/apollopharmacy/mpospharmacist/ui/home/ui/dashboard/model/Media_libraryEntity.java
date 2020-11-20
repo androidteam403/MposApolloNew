@@ -48,4 +48,8 @@ public class Media_libraryEntity {
     public String getUid() {
         return uid;
     }
+
+    public void setFile(List<FileEntity> file) {
+        this.file = file;
+    }
 }

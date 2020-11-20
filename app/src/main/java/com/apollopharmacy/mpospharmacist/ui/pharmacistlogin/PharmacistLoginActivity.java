@@ -6,25 +6,35 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.pt.MiniLcd;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.databinding.ActivityPharmacistLoginBinding;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -33,6 +43,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Inject
     PharmacistLoginMvpPresenter<PharmacistLoginMvpView> mPresenter;
     private ActivityPharmacistLoginBinding pharmacistLoginBinding;
+    MiniLcd miniLcd = null;
+    boolean open_flg = false;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, PharmacistLoginActivity.class);
@@ -50,6 +62,8 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     protected void setUp() {
+//        mPresenter.onMposTabApiCall();
+        turnOnScreen();
         pharmacistLoginBinding.setCallback(mPresenter);
         pharmacistLoginBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         pharmacistLoginBinding.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -58,6 +72,19 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         pharmacistLoginBinding.selectUser.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         pharmacistLoginBinding.selectCampaign.setTypeface(Typeface.createFromAsset(getAssets(), "font/roboto_regular.ttf"));
         mPresenter.getUserId();
+//        idealScreen();
+        if (!mPresenter.firstTimeFalse()) {
+            mPresenter.onMposPosiflexApiCall();
+
+            miniLcd = new MiniLcd();
+            if (miniLcd.open() == 0) {
+                open_flg = true;
+                //startTask();
+                show_result(0);
+            }
+            openMiniLcd();
+            mPresenter.secondTimeTrue();
+        }
     }
 
     private boolean validations() {
@@ -200,6 +227,142 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     public String getUserPassword() {
         return Objects.requireNonNull(pharmacistLoginBinding.password.getText()).toString();
+    }
+
+    public void turnOnScreen() {
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    }
+
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+
+    private List<RowsEntity> rowsPosiFlexEntitiesList;
+
+
+    @Override
+    public void onSucessMposPosiflex() {
+        rowsPosiFlexEntitiesList = mPresenter.getPosiflextDataListEntity();
+        boolean isLoop = false;
+        for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
+            if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                    rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                String path = String.valueOf(FileUtil.getMediaFilePath(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                File file = new File(path);
+                if (!file.exists()) {
+                    isLoop = true;
+                    mPresenter.onDownloadPosiflexCall(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
+                            rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                    break;
+                }
+            }
+        }
+        if (!isLoop) {
+            displayPicture();
+        }
+    }
+
+    public void handelPosiflextPlayListData() {
+        if (rowsPosiFlexEntitiesList != null && rowsPosiFlexEntitiesList.size() > 0) {
+            boolean isAllFilesExist = false;
+            for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
+                if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
+                        rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                    if (!rowsPosiFlexEntitiesList.get(i).isPosiflex()) {
+                        String path = String.valueOf(FileUtil.getMediaFilePath(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                        File file = new File(path);
+                        if (file.exists()) {
+                            playPosiflexListData(path, i);
+                            isAllFilesExist = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!isAllFilesExist) {
+                for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
+                    rowsPosiFlexEntitiesList.get(i).setPosiflex(false);
+                }
+                handelPosiflextPlayListData();
+            }
+        }
+    }
+
+    public void playPosiflexListData(String filePath, int pos) {
+        int ret;
+        ret = miniLcd.displayPictureByAbsolutePath(0, 0, filePath);
+        show_result(ret);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rowsPosiFlexEntitiesList.get(pos).setPosiflex(true);
+                if (pos == rowsPosiFlexEntitiesList.size() - 1) {
+                    for (RowsEntity rowsEntity : rowsPosiFlexEntitiesList) {
+                        rowsEntity.setPosiflex(false);
+                    }
+                }
+                handelPosiflextPlayListData();
+            }
+        }, 5000);
+    }
+
+    private void show_result(int ret) {
+        // TODO Auto-generated method stub
+        switch (ret) {
+            case 0:
+                show(getContext(), "success ");
+                break;
+            case -1:
+                show(getContext(), "fail");
+                break;
+            case -2:
+                show(getContext(), "time out");
+                break;
+            case -3:
+                show(getContext(), "in parameters error");
+                break;
+            default:
+                show(getContext(), "fail");
+                break;
+        }
+    }
+
+    public void show(Context context, String msg) {
+//        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void openMiniLcd() {
+        Log.i("guanjie", "openMiniLcd");
+        int ret = miniLcd.open();
+        if (ret != 0) {
+            show_result(ret);
+            return;
+        }
+        //startTask();
+        show_result(ret);
+        Log.i("guanjie", "ret:" + ret);
+    }
+
+
+    public void displayPicture() {
+
+        Log.i("guanjie", "displayPicture");
+        if (!open_flg) {
+            open_flg = true;
+            openMiniLcd();
+            show(getContext(), "Please open MiniLCD");
+            return;
+        }
+        handelPosiflextPlayListData();
     }
 
 }

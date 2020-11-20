@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.home.ui.orders;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.OrderListRes;
@@ -21,5 +23,9 @@ public interface OrdersMvpView extends MvpView {
     void noDataFound();
 
     void onClickApplyFilters();
+
+    void onSucessPlayList();
+
+    Context getContext();
 
 }

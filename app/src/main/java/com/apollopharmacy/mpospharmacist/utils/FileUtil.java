@@ -5,11 +5,10 @@ import android.content.Context;
 import java.io.File;
 
 public class FileUtil {
-
     public static String createMediaFilePath(String filename, Context context) {
 //        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
         String intStorageDirectory = context.getFilesDir().toString();
-        File folder = new File(intStorageDirectory, "SignageVideoFiles");
+        File folder = new File(intStorageDirectory, "signagevideofiles");
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -25,7 +24,7 @@ public class FileUtil {
         File resultFile = null;
         try {
             String intStorageDirectory = context.getFilesDir().toString();
-            File folder = new File(intStorageDirectory, "SignageVideoFiles");
+            File folder = new File(intStorageDirectory, "signagevideofiles");
             return new File(folder.getAbsolutePath(), filename);
         } catch (Exception e) {
             e.printStackTrace();

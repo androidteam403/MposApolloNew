@@ -2,7 +2,6 @@ package com.apollopharmacy.mpospharmacist.data.prefs;
 
 import com.apollopharmacy.mpospharmacist.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
-import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWiseConfing;
@@ -53,6 +52,10 @@ public interface PreferencesHelper {
 
     void setUserLogin(boolean firstTime);
 
+    boolean isIntializePos();
+
+    void setIntializePos(boolean intializePos);
+
     void logoutUser();
 
     void setUserMobile(String mobile);
@@ -94,4 +97,10 @@ public interface PreferencesHelper {
     ListDataEntity getlistDataEntity();
 
     void setListDataEntity(ListDataEntity listDataEntity);
+
+    ListDataEntity getPosiflexlistDataEntity();
+
+    void setPosiflexListDataEntity(ListDataEntity posiflexListDataEntity);
+
+
 }

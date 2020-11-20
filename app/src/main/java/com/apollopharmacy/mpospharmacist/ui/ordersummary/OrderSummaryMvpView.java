@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacist.ui.ordersummary;
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 
@@ -10,4 +12,8 @@ public interface OrderSummaryMvpView extends MvpView {
     void onNewPlaceOrderClicked();
 
     SaveRetailsTransactionRes transResData();
+
+    void onSucessPlayList();
+
+    Context getContext();
 }

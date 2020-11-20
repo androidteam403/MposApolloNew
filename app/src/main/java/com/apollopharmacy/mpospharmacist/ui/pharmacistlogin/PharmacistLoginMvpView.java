@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 
 
+import android.content.Context;
+
 import com.apollopharmacy.mpospharmacist.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
@@ -29,6 +31,8 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     String getUserPassword();
 
+    Context getContext();
 
+    void onSucessMposPosiflex();
 
 }

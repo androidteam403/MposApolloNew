@@ -1,11 +1,21 @@
 package com.apollopharmacy.mpospharmacist.ui.pharmacistlogin;
 
+import android.util.Log;
+import android.util.Pair;
+
 import com.apollopharmacy.mpospharmacist.R;
 import com.apollopharmacy.mpospharmacist.data.DataManager;
 import com.apollopharmacy.mpospharmacist.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacist.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListRequest;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ADSPlayListResponse;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.FileEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.Media_libraryEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.Playlist_mediaEntity;
+import com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -13,6 +23,7 @@ import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.GetTrackingWis
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.UserModel;
+import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
@@ -20,12 +31,23 @@ import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends BasePresenter<V>
         implements PharmacistLoginMvpPresenter<V> {
@@ -68,15 +90,15 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                                if (response.body() != null && response.body().getGetLoginUserResult().getRequestStatus() == 0) {
-                                    getMvpView().getUserIds(response.body());
-                                    getDataManager().storeEposUrl(true);
-                                } else {
-                                    if (response.body() != null) {
-                                        getMvpView().showMessage(response.body().getGetLoginUserResult().getReturnMessage());
-                                    } else {
-                                        getMvpView().showMessage(R.string.some_error);
-                                    }
+                        if (response.body() != null && response.body().getGetLoginUserResult().getRequestStatus() == 0) {
+                            getMvpView().getUserIds(response.body());
+                            getDataManager().storeEposUrl(true);
+                        } else {
+                            if (response.body() != null) {
+                                getMvpView().showMessage(response.body().getGetLoginUserResult().getReturnMessage());
+                            } else {
+                                getMvpView().showMessage(R.string.some_error);
+                            }
                         }
                     }
                 }
@@ -352,4 +374,173 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public void onMposPosiflexApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiServiceAds();
+            ADSPlayListRequest adsPlayListRequest = new ADSPlayListRequest();
+            adsPlayListRequest.setScreen_id("MPOS_POSIFLEX");
+            Call<ADSPlayListResponse> call = api.ADS_PLAY_LIST_RESPONSE_SINGLE(adsPlayListRequest);
+            call.enqueue(new Callback<ADSPlayListResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<ADSPlayListResponse> call, @NotNull Response<ADSPlayListResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        if (response.body().getData().getListData().getRows().size() > 0) {
+                            getDataManager().setPosiflexListDataEntity(response.body().getData().getListData());
+                            getMvpView().onSucessMposPosiflex();
+                            getDataManager().getPosiflexlistDataEntity();
+                            getMvpView().hideLoading();
+
+                        } else {
+
+                            ListDataEntity listDataEntity = new ListDataEntity();
+                            ArrayList<RowsEntity> rowsEntitiesList = new ArrayList<>();
+                            RowsEntity rowsEntity = new RowsEntity();
+                            Playlist_mediaEntity playlist_mediaEntity = new Playlist_mediaEntity();
+                            Media_libraryEntity media_libraryEntity = new Media_libraryEntity();
+                            ArrayList<FileEntity> fileEntitiesList = new ArrayList<>();
+                            FileEntity fileEntity = new FileEntity();
+                            fileEntity.setName("posiflex.jpg");
+                            fileEntity.setPath("3A145FD3EFB98955586B8206102DAA0F2815BCCEED0458D7E2D23677FA5FD2E14160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8F74D44EFC9EA3FC8DA2BDB995525098262865F82294905C5C5A8CFD6D40DCD6FC17726E2D538BB53BDD9638C8D1452F9C92E72BE621C97BC437B2B74199C79FD284196CE9CB7DFB050D02FC2329B00D81");
+                            fileEntitiesList.add(fileEntity);
+                            media_libraryEntity.setFile(fileEntitiesList);
+                            playlist_mediaEntity.setMedia_library(media_libraryEntity);
+                            rowsEntity.setPlaylist_media(playlist_mediaEntity);
+                            rowsEntitiesList.add(rowsEntity);
+
+                            RowsEntity rowsEntity1 = new RowsEntity();
+                            Playlist_mediaEntity playlist_mediaEntity1 = new Playlist_mediaEntity();
+                            Media_libraryEntity media_libraryEntity1 = new Media_libraryEntity();
+                            ArrayList<FileEntity> fileEntitiesList1 = new ArrayList<>();
+                            FileEntity fileEntity1 = new FileEntity();
+                            fileEntity1.setName("posiflex2.jpg");
+                            fileEntity1.setPath("C102577E35ED75475DDD1640251E18BF29FAB9510C639034CCA74AE1ADD2E20E4160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8F74D44EFC9EA3FC8DA2BDB995525098262865F82294905C5C5A8CFD6D40DCD6FC17726E2D538BB53BDD9638C8D1452F9C92E72BE621C97BC437B2B74199C79FD284196CE9CB7DFB050D02FC2329B00D81");
+                            fileEntitiesList1.add(fileEntity1);
+                            media_libraryEntity1.setFile(fileEntitiesList1);
+                            playlist_mediaEntity1.setMedia_library(media_libraryEntity1);
+                            rowsEntity1.setPlaylist_media(playlist_mediaEntity1);
+                            rowsEntitiesList.add(rowsEntity1);
+
+                            RowsEntity rowsEntity2 = new RowsEntity();
+                            Playlist_mediaEntity playlist_mediaEntity2 = new Playlist_mediaEntity();
+                            Media_libraryEntity media_libraryEntity2 = new Media_libraryEntity();
+                            ArrayList<FileEntity> fileEntitiesList2 = new ArrayList<>();
+                            FileEntity fileEntity2 = new FileEntity();
+                            fileEntity2.setName("posiflex3.jpg");
+                            fileEntity2.setPath("848AA5FCA31FFAD8D3375ECA3E0827DC4228B4BF399A206BEAD7694236AAB0204160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8F74D44EFC9EA3FC8DA2BDB995525098262865F82294905C5C5A8CFD6D40DCD6FC17726E2D538BB53BDD9638C8D1452F9C92E72BE621C97BC437B2B74199C79FD284196CE9CB7DFB050D02FC2329B00D81");
+                            fileEntitiesList2.add(fileEntity2);
+                            media_libraryEntity2.setFile(fileEntitiesList2);
+                            playlist_mediaEntity2.setMedia_library(media_libraryEntity2);
+                            rowsEntity2.setPlaylist_media(playlist_mediaEntity2);
+                            rowsEntitiesList.add(rowsEntity2);
+
+                            listDataEntity.setRows(rowsEntitiesList);
+                            response.body().getData().setListData(listDataEntity);
+                            getDataManager().setPosiflexListDataEntity(response.body().getData().getListData());
+                            getMvpView().onSucessMposPosiflex();
+                            getMvpView().hideLoading();
+                        }
+
+                    } else {
+                        getMvpView().hideLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ADSPlayListResponse> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void onDownloadPosiflexCall(String filePath, String fileName, int pos) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiServiceAds();
+            Call<ResponseBody> call = api.doDownloadFile("https://signage.apollopharmacy.app/zc-v3.1-fs-svc/2.0/ads/get/" + filePath);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        getMvpView().hideLoading();
+                        createPosiFlexFilePath(response.body(), fileName, true, pos);
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    public List<RowsEntity> getPosiflextDataListEntity() {
+        if (getDataManager().getPosiflexlistDataEntity().getRows().size() > 0) {
+            return getDataManager().getPosiflexlistDataEntity().getRows();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void createPosiFlexFilePath(ResponseBody body, String fileName, boolean isFirstFile, int pos) {
+        try {
+            File destinationFile = new File(FileUtil.createMediaFilePath(fileName, getMvpView().getContext()));
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(destinationFile);
+                byte data[] = new byte[4096];
+                int count;
+                int progress = 0;
+                long fileSize = body.contentLength();
+                Log.d(TAG, "File Size=" + fileSize);
+                while ((count = inputStream.read(data)) != -1) {
+                    outputStream.write(data, 0, count);
+                    progress += count;
+                }
+                outputStream.flush();
+                Log.d(TAG, destinationFile.getParent());
+//                getMvpView().checkFileAvailability();
+                getMvpView().onSucessMposPosiflex();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
+                Log.d(TAG, "Failed to save the file!");
+            } finally {
+                if (inputStream != null) inputStream.close();
+                if (outputStream != null) outputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Failed to save the file!");
+        }
+    }
+
+    @Override
+    public boolean firstTimeFalse() {
+        return getDataManager().isIntializePos();
+    }
+
+    @Override
+    public void secondTimeTrue() {
+        getDataManager().setIntializePos(true);
+    }
+
 }
