@@ -20,7 +20,7 @@ public interface BatchInfoMvpPresenter<V extends BatchInfoMvpView> extends MvpPr
 
     void getBatchDetailsApi(SalesLineEntity selected_item);
 
-    void checkBatchInventory(GetBatchInfoRes.BatchListObj items);
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj items,boolean isAlertDialog);
 
     String getStoreName();
 

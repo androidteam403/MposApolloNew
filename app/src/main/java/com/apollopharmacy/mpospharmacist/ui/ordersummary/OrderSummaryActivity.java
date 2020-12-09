@@ -22,6 +22,7 @@ import com.apollopharmacy.mpospharmacist.databinding.ActivityOrderSummaryBinding
 import com.apollopharmacy.mpospharmacist.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacist.databinding.ViewPaymentInfoBinding;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel;
+import com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacist.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel;
@@ -45,12 +46,14 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     private CorporateModel.DropdownValueBean corporateEntity;
     ViewPaymentInfoBinding childView;
     SaveRetailsTransactionRes transactionRes;
+    PaymentMethodModel paymentMethodModel;
 
-    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel) {
+    public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel, PaymentMethodModel paymentMethodModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
         intent.putExtra("transaction_details", saveRetailsTransactionRes);
         intent.putExtra("corporate_info", corporateEntity);
         intent.putExtra("order_data", orderPriceInfoModel);
+        intent.putExtra("payment_mathod_data", paymentMethodModel);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -74,6 +77,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 //        if (orderPriceInfoModel!=null){
 //            childView.setOrderAmount(orderPriceInfoModel);
 //        }
+        paymentMethodModel = (PaymentMethodModel) getIntent().getSerializableExtra("payment_mathod_data");
         transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
@@ -99,7 +103,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         paidAmountArr.addAll(transactionRes.getTenderLine());
         if (transactionRes.getRemainingamount() != 0) {
             SaveRetailsTransactionRes.TenderLineEntity remainAmountLineEntity = new SaveRetailsTransactionRes.TenderLineEntity();
-            remainAmountLineEntity.setAmountTendered(transactionRes.getRemainingamount());
+            remainAmountLineEntity.setAmountTendered(paymentMethodModel.getBalanceAmount());
             remainAmountLineEntity.setVoid(transactionRes.getIsVoid());
             remainAmountLineEntity.setTenderName("Pay Back Amount");
             paidAmountArr.add(remainAmountLineEntity);
@@ -214,7 +218,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         orderSummaryBinding.imageView.setVisibility(View.VISIBLE);
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -287,7 +291,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
     @Override

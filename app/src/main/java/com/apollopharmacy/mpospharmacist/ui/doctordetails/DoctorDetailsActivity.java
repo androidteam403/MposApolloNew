@@ -402,7 +402,7 @@ public class DoctorDetailsActivity extends BaseActivity implements DoctorDetails
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
     @Override

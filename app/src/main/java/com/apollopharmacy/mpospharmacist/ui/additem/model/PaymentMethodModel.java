@@ -4,7 +4,9 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-public class PaymentMethodModel extends BaseObservable {
+import java.io.Serializable;
+
+public class PaymentMethodModel extends BaseObservable implements Serializable {
 
     private boolean cashMode = false;
     private boolean cardMode = false;

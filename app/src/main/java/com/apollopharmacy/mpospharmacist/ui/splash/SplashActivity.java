@@ -59,7 +59,6 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     @Override
     public void openLoginActivity() {
         startActivity(PharmacistLoginActivity.getStartIntent(this));
-        finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 

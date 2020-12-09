@@ -276,6 +276,16 @@ public class CalculatePosTransactionRes implements Serializable {
     @SerializedName("AmounttoAccount")
     private double AmounttoAccount;
 
+    private double paymentDoneAmount = 0.0;
+
+    public double getPaymentDoneAmount() {
+        return paymentDoneAmount;
+    }
+
+    public void setPaymentDoneAmount(double paymentDoneAmount) {
+        this.paymentDoneAmount = paymentDoneAmount;
+    }
+
     public String getVendorId() {
         return VendorId;
     }
@@ -291,7 +301,6 @@ public class CalculatePosTransactionRes implements Serializable {
     public String getTransactionId() {
         return TransactionId;
     }
-
 
 
     public double getTransType() {

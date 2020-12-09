@@ -113,7 +113,7 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
     }
 
     @Override
-    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items,boolean isAlertDialog) {
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -137,7 +137,8 @@ public class BatchInfoPresenter<V extends BatchInfoMvpView> extends BasePresente
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
-                            getMvpView().checkBatchInventorySuccess();
+
+                            getMvpView().checkBatchInventorySuccess(isAlertDialog);
                         else
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }

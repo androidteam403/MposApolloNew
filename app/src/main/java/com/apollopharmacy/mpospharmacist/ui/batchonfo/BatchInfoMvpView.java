@@ -29,7 +29,7 @@ public interface BatchInfoMvpView extends MvpView {
 
     String getRequiredQuantity();
 
-    void checkBatchInventorySuccess();
+    void checkBatchInventorySuccess(boolean isAlertDialog);
 
     void checkBatchInventoryFailed(String returnMessage);
 

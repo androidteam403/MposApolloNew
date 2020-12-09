@@ -129,15 +129,15 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
-                    editable.delete(0, 1);
+//                    editable.delete(0, 1);
                 }
 //                else if(editable.toString().startsWith("0")){
 //                    editable.append("1");
 //                }
                 else if (!TextUtils.isEmpty(editable)) {
-                    unSelectAll();
+//                    unSelectAll();
                 }
-                batchInfoBinding.inputQty.setSelection(editable.length());
+//                batchInfoBinding.inputQty.setSelection(editable.length());
             }
         });
 
@@ -252,7 +252,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     }
 
     private void checkBatches() {
-        if (TextUtils.isEmpty(batchInfoBinding.inputQty.getText().toString())) {
+        if (TextUtils.isEmpty(batchInfoBinding.inputQty.getText().toString()) || batchInfoBinding.inputQty.getText().toString().equalsIgnoreCase("0")) {
             if (selectedBatches()) {
                 doneBatchSelect();
             }
@@ -471,25 +471,31 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     }
 
     @Override
-    public void checkBatchInventorySuccess() {
+    public void checkBatchInventorySuccess(boolean isAlertDialog) {
 //        if(existingProductBatch.size() > 0 && (existingProductBatch.size()-1) != existingBatchServiceCall) {
 //            existingProductBatch.remove(existingBatchServiceCall);
 //            existingBatchServiceCall++;
 //            doneBatchSelect();
 //        }else
-        if (selectedBatches.size() > 0 && (selectedBatches.size() - 1) != batchServiceCall) {
-            batchServiceCall++;
-            doneBatchSelect();
+        if (isAlertDialog) {
+            alertIvalidBatch("Invalid Batch");
         } else {
-            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatches) {
-                addBatch(batchListObj);
+            if (selectedBatches.size() > 0 && (selectedBatches.size() - 1) != batchServiceCall) {
+                batchServiceCall++;
+                doneBatchSelect();
+            } else {
+                for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatches) {
+                    if (batchListObj.getREQQTY() > 0) {
+                        addBatch(batchListObj);
+                    }
+                }
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selected_item", batchInfoProducts);
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
             }
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("selected_item", batchInfoProducts);
-            intent.putExtras(bundle);
-            setResult(RESULT_OK, intent);
-            finish();
         }
     }
 
@@ -532,14 +538,80 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         dialogView.show();
     }
 
+    private String batchNoTemp;
+    private String result;
+    private boolean navigate = false;
+
+
     private void doneBatchSelect() {
+        boolean alertForm = false;
+        boolean noalertForm = false;
+
 //        if(existingProductBatch.size() > 0 ){
 //         //   mPresenter.checkBatchInventory(existingProductBatch.get(existingBatchServiceCall));
 //        }else
         if (selectedBatches.size() > 0) {
-            mPresenter.checkBatchInventory(selectedBatches.get(batchServiceCall));
+            for (int i = 0; i < selectedBatches.size(); i++) {
+                if (selectedBatches.get(i).getREQQTY() > 0) {
+                    batchNoTemp = selectedBatches.get(i).getBatchNo();
+//                result=batchNoTemp.replaceFirst("^ *", "");
+                    result = batchNoTemp.trim();
+                    if (result.equalsIgnoreCase(selectedBatches.get(i).getBatchNo())) {
+                        noalertForm = true;
+                    } else {
+                        alertForm = true;
+                        selectedBatches.get(i).setREQQTY(0);
+                        arrBatchList.get(i).setREQQTY(0);
+                        batchInfoAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            if (alertForm && noalertForm) {
+                mPresenter.checkBatchInventory(selectedBatches.get(batchServiceCall), alertForm);
+            } else if (alertForm) {
+                navigate = true;
+                alertIvalidBatch("Invalid Batch");
+            } else if (noalertForm) {
+                mPresenter.checkBatchInventory(selectedBatches.get(batchServiceCall), alertForm);
+            }
+        } else {
+            alertQuantityError("Please Enter Valid Required Qty!!");
         }
     }
+
+    private void alertIvalidBatch(String message) {
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("");
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle(message);
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!navigate) {
+                    if (selectedBatches.size() > 0 && (selectedBatches.size() - 1) != batchServiceCall) {
+                        batchServiceCall++;
+                        doneBatchSelect();
+                    } else {
+                        for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatches) {
+                            if (batchListObj.getREQQTY() > 0) {
+                                addBatch(batchListObj);
+                            }
+                        }
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("selected_item", batchInfoProducts);
+                        intent.putExtras(bundle);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                }
+                dialogView.dismiss();
+                //finish();
+            }
+        });
+        dialogView.show();
+    }
+
 
     private SalesLineEntity newSalesLineEntity(GetBatchInfoRes.BatchListObj batch, int lineNumber) {
         SalesLineEntity salesLineEntity = new SalesLineEntity();
@@ -955,13 +1027,13 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         for (int i = 0; i < rowsEntitiesList.size(); i++) {
             if (rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
                     rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
-            String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
-            File file = new File(path);
-            if (!file.exists()) {
-                mPresenter.onDownloadApiCall(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
-                        rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
-                break;
-            }
+                String path = String.valueOf(FileUtil.getMediaFilePath(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                File file = new File(path);
+                if (!file.exists()) {
+                    mPresenter.onDownloadApiCall(rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
+                            rowsEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                    break;
+                }
             }
         }
     }
@@ -1004,7 +1076,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
         batchInfoBinding.imageView.setVisibility(View.VISIBLE);
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -1077,7 +1149,7 @@ public class BatchInfoActivity extends BaseActivity implements BatchInfoMvpView,
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
     @Override

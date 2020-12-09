@@ -269,8 +269,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 double availableAmount = Double.parseDouble(pharmacyStaffApiRes.getTotalBalance()) - Double.parseDouble(pharmacyStaffApiRes.getUsedBalance());
                 addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
             }
-            prgData = getIntent().getStringExtra("prg_track");
-            addItemBinding.detailsLayout.prgTrackingEdit.setText(prgData);
+            if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
+                prgData = getIntent().getStringExtra("prg_track");
+                if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
+                    addItemBinding.detailsLayout.prgTrackingEdit.setText(prgData);
+                }
+            }
 
             doctorEntity = (DoctorSearchResModel.DropdownValueBean) getIntent().getSerializableExtra("doctor_info");
             if (doctorEntity != null) {
@@ -434,8 +438,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         addItemBinding.detailsLayout.prgTrackingEdit.setSelection(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().length());
         mPresenter.checkAllowedPaymentMode(paymentMethodModel);
-        mPresenter.onMposTabApiCall();
-        turnOnScreen();
+//        mPresenter.onMposTabApiCall();
+//        turnOnScreen();
     }
 
     @Override
@@ -776,6 +780,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             salesCode = codeDes;
         }
         calculatePosTransactionRes.setDoctorName(salesCode);
+        calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
         return calculatePosTransactionRes;
     }
 
@@ -1008,8 +1013,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (!TextUtils.isEmpty(body.getReciptId())) {
             body.setReminderDays(remaindValue);
             paymentMethodModel.setSaveRetailsTransactionRes(body);
-//            onClickGenerateBill();
-            onBillGenerate();
+            onClickGenerateBill();
+//            onBillGenerate();
         } else {
             showMessage(body.getReturnMessage());
         }
@@ -1125,7 +1130,6 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         rotationAngle += 180;
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
-
         updatePayedAmount(calculatePosTransactionRes);
     }
 
@@ -1156,7 +1160,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onItemDeleted(int lineNumber) {
-        mPresenter.voidProduct(lineNumber);
+        if (paymentDoneAmount == 0.0) {
+            mPresenter.voidProduct(lineNumber);
+        } else {
+            partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+        }
     }
 
     @Override
@@ -1176,42 +1184,46 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onItemEdit(SalesLineEntity item) {
-        EditQuantityDialog dialogView = new EditQuantityDialog(this);
-        dialogView.setItemData(item);
-        dialogView.setTitle("Change Quantity");
-        dialogView.setPositiveLabel("Ok");
-        dialogView.setSubtitle("Actual Quantity " + item.getQty());
-        dialogView.setPositiveListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (dialogView.validateQuantity()) {
-                    medicinesDetailAdapter.notifyDataSetChanged();
-                    medicinesDetailAdapter.notifyDataSetChanged();
-                    dialogView.dismiss();
-                    mPresenter.changeQuantity(item, dialogView.getEnteredQuantity());
-                    //mPresenter.calculatePosTransaction();
+        if (paymentDoneAmount == 0.0) {
+            EditQuantityDialog dialogView = new EditQuantityDialog(this);
+            dialogView.setItemData(item);
+            dialogView.setTitle("Change Quantity");
+            dialogView.setPositiveLabel("Ok");
+            dialogView.setSubtitle("Actual Quantity " + item.getQty());
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (dialogView.validateQuantity()) {
+                        medicinesDetailAdapter.notifyDataSetChanged();
+                        medicinesDetailAdapter.notifyDataSetChanged();
+                        dialogView.dismiss();
+                        mPresenter.changeQuantity(item, dialogView.getEnteredQuantity());
+                        //mPresenter.calculatePosTransaction();
+                    }
                 }
-            }
-        });
-        dialogView.setNegativeLabel("Cancel");
-        dialogView.setNegativeListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogView.dismiss();
-            }
-        });
-        dialogView.show();
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+        } else {
+            partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+        }
     }
 
     @Override
     public void onClickGenerateBill() {
-        startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity, orderPriceInfoModel));
+        startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity, orderPriceInfoModel, paymentMethodModel));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     public void onBillGenerate() {
-        startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity, orderPriceInfoModel));
+        startActivity(OrderSummaryActivity.getStartIntent(this, paymentMethodModel.getSaveRetailsTransactionRes(), corporateEntity, orderPriceInfoModel, paymentMethodModel));
         finish();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
@@ -1278,13 +1290,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     tenderLineEntityList = transactionRes.getTenderLine();
                 }
             }
-
             for (TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()) {
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
-                    paymentDoneAmount += tenderLineEntity.getAmountTendered();
+                    if (!tenderLineEntity.isVoid()) {
+                        paymentDoneAmount += tenderLineEntity.getAmountTendered();
+                    }
                     payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                     if (tenderLineEntity.getTenderName().equalsIgnoreCase("card")) {
-                        payAdapterModel.setCrossDis(1);
+                        if (getItemsCount() > 0) {
+                            payAdapterModel.setCrossDis(1);
+                        }
                     }
                     arrPayAdapterModel.add(payAdapterModel);
                     if (arrPayAdapterModel.size() >= 1) {
@@ -1293,20 +1308,26 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     if (paymentDoneAmount == orderTotalAmount()) {
                         paymentMethodModel.setPaymentDone(true);
                         paymentMethodModel.setGenerateBill(true);
-                        mPresenter.onStaticGenerateBillForming();
                         isGeneratedBill = true;
+//                        if (tenderLineEntity.isVoid()) {
+//                            paymentDoneAmount -= tenderLineEntity.getAmountTendered();
+//                        }
                         paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                         paymentMethodModel.setBalanceAmount(false);
                         for (int i = 0; i < arrPayAdapterModel.size(); i++) {
-                            arrPayAdapterModel.get(i).setCrossDis(1);
+                            if (getItemsCount() > 0) {
+                                arrPayAdapterModel.get(i).setCrossDis(1);
+                            }
                         }
                     } else {
                         double balanceAmt = orderTotalAmount() - paymentDoneAmount;
                         if (balanceAmt <= 0) {
                             paymentMethodModel.setPaymentDone(true);
                             paymentMethodModel.setGenerateBill(true);
-                            mPresenter.onStaticGenerateBillForming();
                             isGeneratedBill = true;
+//                            if (tenderLineEntity.isVoid()) {
+//                                paymentDoneAmount -= tenderLineEntity.getAmountTendered();
+//                            }
                             paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (orderTotalAmount() - paymentDoneAmount))));
                             if (balanceAmt == 0) {
                                 paymentMethodModel.setBalanceAmount(false);
@@ -1318,8 +1339,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             }
                         } else {
                             if (tenderLineEntity.isVoid()) {
-                                paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (balanceAmt + tenderLineEntity.getAmountTendered()))));
-                                paymentDoneAmount = paymentDoneAmount - tenderLineEntity.getAmountTendered();
+                                paymentMethodModel.setBalanceAmount(Double.parseDouble(String.format("%.2f", (balanceAmt))));
+//                                paymentDoneAmount = paymentDoneAmount - tenderLineEntity.getAmountTendered();
                                 paymentMethodModel.setBalanceAmount(true);
                                 paymentMethodModel.setPaymentDone(false);
                                 paymentMethodModel.setGenerateBill(false);
@@ -1345,7 +1366,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         arrPayAdapterModel.get(i).setCrossDis(crossValue.get(i));
                         if (paymentDoneAmount == orderTotalAmount()) {
                             for (int j = 0; j < arrPayAdapterModel.size(); j++) {
-                                arrPayAdapterModel.get(j).setCrossDis(1);
+                                if (getItemsCount() > 0) {
+                                    arrPayAdapterModel.get(j).setCrossDis(1);
+                                }
                             }
                         } else {
                             double balanceAmt = orderTotalAmount() - paymentDoneAmount;
@@ -2633,7 +2656,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onResume() {
         super.onResume();
         onPause = false;
-        idealScreen();
+//        idealScreen();
     }
 
 
@@ -2666,7 +2689,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 });
             }
         };
-        startHandler();
+//        startHandler();
     }
 
     public void stopHandler() {
@@ -2674,16 +2697,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
 
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        stopHandler();
-        startHandler();
-    }
+//    @Override
+//    public void onUserInteraction() {
+//        super.onUserInteraction();
+//        stopHandler();
+//        startHandler();
+//    }
 
     public void turnOnScreen() {
         final Window win = getWindow();

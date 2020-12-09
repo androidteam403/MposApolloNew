@@ -322,7 +322,7 @@ public class AddDoctorActivity extends BaseActivity implements AddDoctorMvpView 
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
     @Override

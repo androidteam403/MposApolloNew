@@ -272,6 +272,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         entity.setCardName(body.getCustomerName());
         entity.setMobileNo(body.getMobileNO());
         entity.setSearchId(body.getMobileNO());
+        entity.setCardNo(body.getTrackingRef());
         DoctorSearchResModel.DropdownValueBean doctorModule = new DoctorSearchResModel.DropdownValueBean();
         doctorModule.setCode(body.getDoctorCode());
         doctorModule.setDisplayText(body.getDoctorName());
@@ -603,7 +604,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     }
 
     public void startHandler() {
-//        handler.postDelayed(r, 60 * 1000);
+//        handler.postDelayed(r, 180 * 1000);
     }
 
     public void turnOnScreen() {

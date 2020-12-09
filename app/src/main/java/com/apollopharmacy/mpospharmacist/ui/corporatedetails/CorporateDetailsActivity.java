@@ -284,7 +284,7 @@ public class CorporateDetailsActivity extends BaseActivity implements CorporateD
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 * 1000);
     }
 
     @Override

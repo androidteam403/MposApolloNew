@@ -376,7 +376,7 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView, MainA
     }
 
     public void startHandler() {
-        handler.postDelayed(r, 60 * 1000);
+        handler.postDelayed(r, 180 *  1000);
     }
 
     @Override

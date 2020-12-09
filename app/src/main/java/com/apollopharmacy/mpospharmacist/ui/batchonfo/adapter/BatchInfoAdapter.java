@@ -79,6 +79,9 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
                     editable.delete(0, 1);
                 }
+                if (editable.toString().isEmpty()) {
+                    item.setREQQTY(0);
+                }
 //                else if(TextUtils.isEmpty(editable)){
 //                    editable.append("0");
 //                }
@@ -137,5 +140,10 @@ public class BatchInfoAdapter extends RecyclerView.Adapter<BatchInfoAdapter.View
     @Override
     public int getItemCount() {
         return arrBatchList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

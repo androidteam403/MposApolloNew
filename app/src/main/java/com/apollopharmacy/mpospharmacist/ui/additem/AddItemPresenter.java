@@ -47,7 +47,6 @@ import com.apollopharmacy.mpospharmacist.utils.FileUtil;
 import com.apollopharmacy.mpospharmacist.utils.Singletone;
 import com.apollopharmacy.mpospharmacist.utils.rx.SchedulerProvider;
 import com.eze.api.EzeAPI;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -99,7 +98,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickBackPressed() {
         getMvpView().onClickActionBarBack();
     }
-
 
 
     @Override
@@ -446,7 +444,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void onStaticGenerateBillForming() {
-        saveRetailTransaction();
+        if (Singletone.getInstance().itemsArrayList.size() > 0) {
+            saveRetailTransaction();
+        }
     }
 
     // private GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
@@ -793,6 +793,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            if (getMvpView().getCalculatedPosTransactionRes().getTenderLine().size() > 0) {
+                getMvpView().getCalculatedPosTransactionRes().getTenderLine().clear();
+            }
+            if (tenderLineEntities.getTenderLine().size() > 0) {
+                tenderLineEntities.getTenderLine().clear();
+            }
             Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(getMvpView().getCalculatedPosTransactionRes());
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
@@ -1996,18 +2002,18 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes,PaymentVoidReq.Wallet wallet,int lineNo) {
+    public void getPaymentVoidApiCall(CalculatePosTransactionRes calculatePosTransactionRes, PaymentVoidReq.Wallet wallet, int lineNo) {
 
 //        Gson gson=new Gson();
 //        String json=gson.toJson(paymentVoidData(calculatePosTransactionRes,wallet));
 //        System.out.println("void data"+json);
 
-        PaymentVoidReq paymentVoidReq=paymentVoidData(calculatePosTransactionRes,wallet);
+        PaymentVoidReq paymentVoidReq = paymentVoidData(calculatePosTransactionRes, wallet);
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(lineNo,paymentVoidReq);
+            Call<PaymentVoidRes> call = api.PAYMENT_VOID_RES_CALL(lineNo, paymentVoidReq);
             call.enqueue(new Callback<PaymentVoidRes>() {
                 @Override
                 public void onResponse(@NotNull Call<PaymentVoidRes> call, @NotNull Response<PaymentVoidRes> response) {
@@ -2028,7 +2034,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
     }
 
-    private PaymentVoidReq paymentVoidData(CalculatePosTransactionRes calculatePosTransactionResData,PaymentVoidReq.Wallet wallet) {
+    private PaymentVoidReq paymentVoidData(CalculatePosTransactionRes calculatePosTransactionResData, PaymentVoidReq.Wallet wallet) {
         PaymentVoidReq paymentVoidReq = new PaymentVoidReq();
         paymentVoidReq.setWallet(wallet);
         PaymentVoidReq.POSTransaction posTransaction = new PaymentVoidReq.POSTransaction();
@@ -2246,26 +2252,26 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
 
         List<PaymentVoidReq.POSTransaction.TenderLine> tenderLineslist = new ArrayList<>();
-        if (tenderLineEntities != null) {
-            for (int i = 0; i < tenderLineEntities.getTenderLine().size(); i++) {
+        if (calculatePosTransactionResData.getTenderLine() != null) {
+            for (int i = 0; i < calculatePosTransactionResData.getTenderLine().size(); i++) {
                 PaymentVoidReq.POSTransaction.TenderLine tenderLine = new PaymentVoidReq.POSTransaction.TenderLine();
-                tenderLine.setPreviewText(tenderLineEntities.getTenderLine().get(i).getPreviewText());
-                tenderLine.setAmountCur((int) tenderLineEntities.getTenderLine().get(i).getAmountCur());
-                tenderLine.setAmountMst((int) tenderLineEntities.getTenderLine().get(i).getAmountMst());
-                tenderLine.setAmountTendered((int) tenderLineEntities.getTenderLine().get(i).getAmountTendered());
-                tenderLine.setBarCode(tenderLineEntities.getTenderLine().get(i).getBarCode());
-                tenderLine.setExchRate((int) tenderLineEntities.getTenderLine().get(i).getExchRate());
-                tenderLine.setExchRateMst((int) tenderLineEntities.getTenderLine().get(i).getExchRateMst());
-                tenderLine.setLineNo((int) tenderLineEntities.getTenderLine().get(i).getLineNo());
-                tenderLine.setMobileNo(tenderLineEntities.getTenderLine().get(i).getMobileNo());
+                tenderLine.setPreviewText(calculatePosTransactionResData.getTenderLine().get(i).getPreviewText());
+                tenderLine.setAmountCur((int) calculatePosTransactionResData.getTenderLine().get(i).getAmountCur());
+                tenderLine.setAmountMst((int) calculatePosTransactionResData.getTenderLine().get(i).getAmountMst());
+                tenderLine.setAmountTendered((int) calculatePosTransactionResData.getTenderLine().get(i).getAmountTendered());
+                tenderLine.setBarCode(calculatePosTransactionResData.getTenderLine().get(i).getBarCode());
+                tenderLine.setExchRate((int) calculatePosTransactionResData.getTenderLine().get(i).getExchRate());
+                tenderLine.setExchRateMst((int) calculatePosTransactionResData.getTenderLine().get(i).getExchRateMst());
+                tenderLine.setLineNo((int) calculatePosTransactionResData.getTenderLine().get(i).getLineNo());
+                tenderLine.setMobileNo(calculatePosTransactionResData.getTenderLine().get(i).getMobileNo());
                 tenderLine.setRewardsPoint(0);
-                tenderLine.setTenderId(tenderLineEntities.getTenderLine().get(i).getTenderId());
-                tenderLine.setTenderName(tenderLineEntities.getTenderLine().get(i).getTenderName());
-                tenderLine.setTenderType((int) tenderLineEntities.getTenderLine().get(i).getTenderType());
-                tenderLine.setVoid(tenderLineEntities.getTenderLine().get(i).getIsVoid());
-                tenderLine.setWalletOrderId(tenderLineEntities.getTenderLine().get(i).getWalletOrderId());
-                tenderLine.setWalletTransactionID(tenderLineEntities.getTenderLine().get(i).getWalletTransactionID());
-                tenderLine.setWalletType((int) tenderLineEntities.getTenderLine().get(i).getWalletType());
+                tenderLine.setTenderId(calculatePosTransactionResData.getTenderLine().get(i).getTenderId());
+                tenderLine.setTenderName(calculatePosTransactionResData.getTenderLine().get(i).getTenderName());
+                tenderLine.setTenderType((int) calculatePosTransactionResData.getTenderLine().get(i).getTenderType());
+                tenderLine.setVoid(calculatePosTransactionResData.getTenderLine().get(i).getIsVoid());
+                tenderLine.setWalletOrderId(calculatePosTransactionResData.getTenderLine().get(i).getWalletOrderId());
+                tenderLine.setWalletTransactionID(calculatePosTransactionResData.getTenderLine().get(i).getWalletTransactionID());
+                tenderLine.setWalletType((int) calculatePosTransactionResData.getTenderLine().get(i).getWalletType());
                 tenderLineslist.add(tenderLine);
                 paymentVoidReq.getPosTransaction().setTenderLines(tenderLineslist);
             }
@@ -2399,7 +2405,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     public List<RowsEntity> getDataListEntity() {
-        if (getDataManager().getlistDataEntity().getRows().size()>0) {
+        if (getDataManager().getlistDataEntity().getRows().size() > 0) {
             return getDataManager().getlistDataEntity().getRows();
         } else {
             return null;
