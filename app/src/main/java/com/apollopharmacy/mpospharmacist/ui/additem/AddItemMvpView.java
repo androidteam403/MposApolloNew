@@ -40,6 +40,7 @@ public interface AddItemMvpView extends MvpView {
 
     void onClickClearAllBtn();
 
+    String getPrgTracking();
 
     void onSuccessClearAll();
 
@@ -186,6 +187,5 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessPaymentVoidData(PaymentVoidRes paymentVoidRes);
 
     void onSucessPlayList();
-
 
 }

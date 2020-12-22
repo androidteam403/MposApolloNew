@@ -452,36 +452,36 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     // private GetTenderTypeRes.GetTenderTypeResultEntity tenderTypeResultEntity;
     @Override
     public void getTenderTypeApi() {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-
-            Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new Object());
-            call.enqueue(new Callback<GetTenderTypeRes>() {
-                @Override
-                public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
-                            //                    tenderTypeResultEntity = response.body().getGetTenderTypeResult();
-                        } else {
-                            if (response.body() != null) {
-                                getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-        }
+//        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+//            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+//
+//            Call<GetTenderTypeRes> call = api.GET_TENDER_TYPE_RES_CALL(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new Object());
+//            call.enqueue(new Callback<GetTenderTypeRes>() {
+//                @Override
+//                public void onResponse(@NotNull Call<GetTenderTypeRes> call, @NotNull Response<GetTenderTypeRes> response) {
+//                    if (response.isSuccessful()) {
+//                        getMvpView().hideLoading();
+//                        if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
+//                            //                    tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+//                        } else {
+//                            if (response.body() != null) {
+//                                getMvpView().showMessage(response.body().getGetTenderTypeResult().getReturnMessage());
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<GetTenderTypeRes> call, @NotNull Throwable t) {
+//                    //Dismiss Dialog
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
     }
 
     @Override
@@ -1379,6 +1379,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     }
                 }
             }
+            posTransactionRes.setTrackingRef(getMvpView().getPrgTracking());
             posTransactionRes.setTenderLine(tenderLineEntitieList);
 //            calculatePosTransactionResData = posTransactionRes;
             Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);

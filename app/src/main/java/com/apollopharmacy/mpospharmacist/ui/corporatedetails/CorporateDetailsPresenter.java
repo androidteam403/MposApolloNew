@@ -48,29 +48,29 @@ public class CorporateDetailsPresenter<V extends CorporateDetailsMvpView> extend
 
     @Override
     public void getCorporateList() {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
-            call.enqueue(new Callback<CorporateModel>() {
-                @Override
-                public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        getMvpView().getCorporateList(response.body());
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                    getMvpView().showNotFoundCorporate();
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-        }
+//        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+//            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+//            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
+//            call.enqueue(new Callback<CorporateModel>() {
+//                @Override
+//                public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
+//                    if (response.isSuccessful()) {
+//                        getMvpView().hideLoading();
+//                        getMvpView().getCorporateList(response.body());
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                    getMvpView().showNotFoundCorporate();
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
     }
 
     @Override

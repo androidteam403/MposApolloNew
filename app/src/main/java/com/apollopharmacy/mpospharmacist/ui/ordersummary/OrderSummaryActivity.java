@@ -109,7 +109,11 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             paidAmountArr.add(remainAmountLineEntity);
         }
         for (int i = 0; i < paidAmountArr.size(); i++) {
-            if (!paidAmountArr.get(i).getIsVoid()) {
+            if (!paidAmountArr.get(i).getIsVoid() && paidAmountArr.get(i).getAmountTendered() > 0) {
+                childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
+                childView.setPaidbean(paidAmountArr.get(i));
+                orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());
+            } else if (paidAmountArr.get(i).getTenderName().equalsIgnoreCase("Pay Back Amount")) {
                 childView = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.view_payment_info, orderSummaryBinding.paidAmountLayout, false);
                 childView.setPaidbean(paidAmountArr.get(i));
                 orderSummaryBinding.paidAmountLayout.addView(childView.getRoot());

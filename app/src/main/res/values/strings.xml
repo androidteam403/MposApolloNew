@@ -38,7 +38,7 @@
     <string name="label_generic_age">Age: \n%1$s</string>
     <string name="label_generic_gender"> Gender: \n%1$s</string>
     <string name="label_generic_phone_number"> Phone number: \n%1$s</string>
-    <string name="label_generic_phone_no"> Phone No.: \n%1$s</string>
+    <string name="label_generic_phone_no"> Phone No: \n%1$s</string>
     <string name="label_generic_dob"> DOB: \n%1$s</string>
     <string name="label_generic_dob_text"> Date of Birth: \n%1$s</string>
     <string name="label_generic_postal"> Postal Address: \n%1$s</string>

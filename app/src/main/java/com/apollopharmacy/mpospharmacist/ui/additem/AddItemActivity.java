@@ -452,6 +452,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public String getPrgTracking() {
+        return addItemBinding.detailsLayout.prgTrackingEdit.getText().toString();
+    }
+
+    @Override
     public void onBackPressed() {
         if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
             addItemBinding.setIsPaymentMode(false);
@@ -779,7 +784,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             salesCode = codeDes;
         }
+//        if (calculatePosTransactionRes.getTenderLine().size() > 0) {
+//            for (int i = 0; i < calculatePosTransactionRes.getTenderLine().size(); i++) {
+//                calculatePosTransactionRes.getTenderLine().get(i).setAmountTendered(calculatePosTransactionRes.getTotalMRP());
+//            }
+//        }
         calculatePosTransactionRes.setDoctorName(salesCode);
+        calculatePosTransactionRes.setMobileNO(customerEntity.getMobileNo());
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
         return calculatePosTransactionRes;
     }
@@ -1249,6 +1260,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     private boolean isGeneratedBill = false;
     private List<TenderLineEntity> tenderLineEntityList = new ArrayList<>();
+    private List<TenderLineEntity> tenderAddList = new ArrayList<>();
     private boolean amounttoAdd;
     PayAdapterModel payAdapterModel;
 
@@ -1396,6 +1408,35 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
 
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
+        tenderAddList = calculatePosTransactionRes.getTenderLine();
+        if (calculatePosTransactionRes.getRemainingamount() < 0) {
+            TenderLineEntity tenderLineEntity = new TenderLineEntity();
+            for (int i = 0; i < calculatePosTransactionRes.getTenderLine().size(); i++) {
+                if (calculatePosTransactionRes.getTenderLine().size() - 1 == i) {
+                    tenderLineEntity.setAmountCur(calculatePosTransactionRes.getRemainingamount());
+                    tenderLineEntity.setAmountTendered(calculatePosTransactionRes.getRemainingamount());
+                    tenderLineEntity.setAmountMst(calculatePosTransactionRes.getRemainingamount());
+                    tenderLineEntity.setTenderName(calculatePosTransactionRes.getTenderLine().get(i).getTenderName());
+                    tenderLineEntity.setBarCode(calculatePosTransactionRes.getTenderLine().get(i).getBarCode());
+                    tenderLineEntity.setExchRate(calculatePosTransactionRes.getTenderLine().get(i).getExchRate());
+                    tenderLineEntity.setExchRateMst(calculatePosTransactionRes.getTenderLine().get(i).getExchRateMst());
+                    tenderLineEntity.setVoid(calculatePosTransactionRes.getTenderLine().get(i).getIsVoid());
+                    tenderLineEntity.setLineNo(calculatePosTransactionRes.getTenderLine().get(i).getLineNo() + 1);
+                    tenderLineEntity.setMobileNo(calculatePosTransactionRes.getTenderLine().get(i).getMobileNo());
+                    tenderLineEntity.setPreviewText(calculatePosTransactionRes.getTenderLine().get(i).getPreviewText());
+                    tenderLineEntity.setRewardsPoint((int) calculatePosTransactionRes.getTenderLine().get(i).getRewardPoints());
+                    tenderLineEntity.setTenderId(calculatePosTransactionRes.getTenderLine().get(i).getTenderId());
+                    tenderLineEntity.setTenderType(calculatePosTransactionRes.getTenderLine().get(i).getTenderType());
+                    tenderLineEntity.setWalletOrderId(calculatePosTransactionRes.getTenderLine().get(i).getWalletOrderId());
+                    tenderLineEntity.setWalletTransactionID(calculatePosTransactionRes.getTenderLine().get(i).getWalletTransactionID());
+                    tenderLineEntity.setWalletType(calculatePosTransactionRes.getTenderLine().get(i).getWalletType());
+                }
+            }
+            tenderAddList.add(tenderLineEntity);
+            calculatePosTransactionRes.setTenderLine(tenderAddList);
+        }
+
+
 //        if (isGeneratedBill) {
 //            mPresenter.onClickGenerateBill();
 //        }
