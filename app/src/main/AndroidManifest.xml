@@ -145,11 +145,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
@@ -214,7 +209,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.pbas.selectappflow.SelectAppFlowActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".ui.pbas.login.LoginActivity"
             android:label="@string/app_name"
