@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <!--<data>
+        <variable
+            name="order"
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes" />
+        <variable
+            name="payment"
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel" />
+    </data>-->
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/dialog_background"
+            android:stateListAnimator="@null">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="16dp"
+                android:text="Customer Type"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:orientation="vertical"
+                android:stateListAnimator="@null"
+                android:layout_below="@id/title">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/customertypeFiltersview"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:background="@color/white"
+                    android:layout_height="@dimen/three_hundred_dp"
+                    android:layout_below="@+id/search_order_layout" />
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Transaction Id "
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/transactionid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        android:layout_weight="1"
+                        android:text="@{order.transactionId}"/>
+                </LinearLayout>-->
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Total Bill Amount"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/price_regular"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        android:layout_weight="1"
+                        android:text="@{@string/price_format((order.grossAmount - order.discAmount))}"/>
+                </LinearLayout>-->
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Enter Mobile Number"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+
+                    <EditText
+                        android:id="@+id/wallet_mobile_number"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginStart="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rounded_corners_white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        android:layout_weight="1"
+                        android:text="@{order.mobileNO}"
+                        android:maxLength="10"/>
+                </LinearLayout>-->
+
+               <!-- <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Enter Wallet Amount"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+
+                    <EditText
+                        android:id="@+id/wallet_amount_edit"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginStart="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rounded_corners_white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:inputType="number"
+                        android:digits="0123456789."
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        android:layout_weight="1"
+                        android:text="@{String.format(`%.2f`,payment.balanceAmount)}"/>
+                </LinearLayout>-->
+
+               <!-- <LinearLayout
+                    android:id="@+id/wallet_otp_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Enter OTP"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+
+                    <EditText
+                        android:id="@+id/wallet_otp_edit"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginStart="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:background="@drawable/rounded_corners_white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        android:layout_weight="1"/>
+                </LinearLayout>-->
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:background="#cdced2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dialogfiltersapplyBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:stateListAnimator="@null"
+                        android:text="Apply"
+                        android:textAlignment="center"
+                        android:textColor="#007aff"
+                        android:textSize="15dp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/dialogButtonCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:stateListAnimator="@null"
+                        android:text="Cancel"
+                        android:textAlignment="center"
+                        android:textColor="#007aff"
+                        android:textSize="19sp"
+                      />
+
+                  <!--  <View
+                        android:id="@+id/separator"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#cdced2" />
+
+                    <TextView
+                        android:id="@+id/dialogGenerateBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:stateListAnimator="@null"
+                        android:text="Generate Link"
+                        android:textAlignment="center"
+                        android:textColor="#007aff"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="visible" />
+
+                    <View
+                        android:id="@+id/separator1"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#cdced2" />
+
+                    <TextView
+                        android:id="@+id/dialogValidateBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:stateListAnimator="@null"
+                        android:text="Validate"
+                        android:textAlignment="center"
+                        android:textColor="#007aff"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="visible" />
+
+                    <View
+                        android:id="@+id/separator2"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#cdced2" />
+
+                    <TextView
+                        android:id="@+id/dialogCancelBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:stateListAnimator="@null"
+                        android:text="Cancel"
+                        android:textAlignment="center"
+                        android:textColor="#007aff"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="visible" />-->
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

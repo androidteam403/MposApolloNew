@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/ten_dp"
+        android:paddingTop="@dimen/two_dp"
+        android:paddingEnd="@dimen/ten_dp"
+        android:paddingBottom="@dimen/two_dp">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{status}"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="status"
+            type="String" />
+    </data>
+</layout>

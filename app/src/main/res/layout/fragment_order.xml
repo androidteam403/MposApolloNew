@@ -15,12 +15,14 @@
 
         <variable
             name="callbacks"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
         <ImageView
             android:id="@+id/image_view"

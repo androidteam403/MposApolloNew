@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.apollopharmacy.mpospharmacist.ui.scanner.ScannerPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerPresenter" />
 
     </data>
     <RelativeLayout
@@ -33,7 +33,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/roboto_regular"
-            android:text="hello this is barcode"
+            android:text="Keep the barcode in middle of Torch box"
             />
     </RelativeLayout>
 

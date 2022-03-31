@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen60dp"
+                android:background="@color/actionbar_color"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dimen10dp"
+                android:paddingEnd="@dimen/dimen10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <ImageView
+                        android:id="@+id/header_back"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickBack()}"
+                        android:src="@drawable/left_forward_white_arrow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/label_ready_for_pickup"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/yellow"
+                android:fontFamily="@font/roboto_regular"
+                android:padding="@dimen/five_dp"
+                android:text="Tag or Untag QR code / Barcode"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen_sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ready_for_pickup_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/fifteen_dp" />
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen45dp"-->
+<!--                android:layout_marginStart="@dimen/ten_dp"-->
+<!--                android:layout_marginTop="@dimen/ten_dp"-->
+<!--                android:layout_marginEnd="@dimen/ten_dp"-->
+<!--                android:onClick="@{()-> callback.onClickTakePrint()}"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="1">-->
+
+<!--                &lt;!&ndash;                    <ImageView&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:background="@color/black"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:src="@drawable/ic_white_printer"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:contentDescription="@string/app_name" />&ndash;&gt;-->
+<!--                <View-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight=".5" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/take_print"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="@dimen/dimen45dp"-->
+<!--                    android:layout_marginStart="@dimen/fifteen_dp"-->
+<!--                    android:layout_weight=".5"-->
+<!--                    android:background="@drawable/take_print_btn_bg"-->
+<!--                    android:fontFamily="@font/roboto_bold"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Take Print"-->
+<!--                    android:textAllCaps="true"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    tools:ignore="ButtonStyle" />-->
+<!--            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:background="@drawable/red_ripple_btn_bg"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:padding="@dimen/seven_dp"
+                    android:text="Cancel"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    tools:ignore="ButtonStyle" />
+
+
+                <Button
+                    android:id="@+id/start_Picking"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen45dp"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_weight=".5"
+                    android:background="@drawable/btn_ripple_effect_grey"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickStartPickup()}"
+                    android:padding="@dimen/seven_dp"
+                    android:text="Start picking"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_grey"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/start_Picking_without_qr_code"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen45dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@drawable/btn_green_ripple_bg"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickStartPickingWithoutQrCode()}"
+                android:padding="@dimen/seven_dp"
+                android:text="Start picking without qr code"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpPresenter" />
+    </data>
+</layout>

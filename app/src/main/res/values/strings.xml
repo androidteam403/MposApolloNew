@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ApolloMPOS</string>
 
-    <string name="some_error">Something went wrong</string>
+    <string name="some_error">Please Contact ITD Administrator</string>
     <string name="url_error">Unable to communicate</string>
     <string name="label_setup_process">Setup Process</string>
     <string name="label_please_login_to_complete_theprocess">Please login to complete the process</string>
@@ -12,10 +12,14 @@
     <string name="label_mobile">Mobile Number</string>
     <string name="label_next">Next</string>
     <string name="label_select_login_type">Select Login Type</string>
-
+    <string name="none_found">No devices found</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="label_connect">Connect</string>
     <string name="action_settings">Settings</string>
-
-
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="label_bluetooth_conn_header_err">Failed connecting to Device</string>
+    <string name="label_bluetooth_conn_err">Disconnect and connect again</string>
     <string name="label_span_desc">Desc: %1$s</string>
     <string name="label_span_artcode">Art Code: %1$s</string>
     <string name="label_span_batchno">Batch No: %1$s</string>
@@ -32,6 +36,11 @@
     <string name="label_span_mrp">MRP: %1$s</string>
     <string name="label_span_tax">TAX: %1$s</string>
     <string name="label_span_reqQty">ReqQty: %1$s</string>
+
+    <string name="select_bt_lbl">Search Devices</string>
+    <string name="true_stock_status">Completed</string>
+    <string name="false_stock_status">Pending</string>
+
 
     <string name="label_generic_name"> Name: \n%1$s</string>
     <string name="label_generic_lastName">Last Name: \n%1$s</string>
@@ -86,6 +95,8 @@
     <string name="label_tax">Tax</string>
     <string name="label_q_o_h">Q O H</string>
     <string name="label_req">Req. Qty</string>
+    <string name="label_phy_batch">Phy.Batch</string>
+    <string name="batch_pickup_check">PickUp</string>
     <string name="label_add_to_cart">ADD TO CART</string>
     <string name="label_batchno">BATCHNO.</string>
     <string name="label_searchproduct">SearchProduct</string>
@@ -118,6 +129,8 @@
     <string name="label_search">Search</string>
     <string name="label_register">Register</string>
     <string name="label_first_name">First Name*</string>
+    <string name="label_name_custmer">Name*</string>
+
     <string name="label_middle_name">Middle Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_age">Age</string>
@@ -197,8 +210,32 @@
     <string name="menu_customer_master">Customer Master</string>
     <string name="menu_billing">Billing</string>
     <string name="menu_orders">Orders</string>
+    <!--  <string name="menu_eprescriptionslict">Eprescription</string>
+      <string name="menu_eprescriptionPickingList">Picked List</string>
+      <string name="menu_eprescriptionPackingList">Packed List</string>-->
+
+    <string name="menu_eprescriptionslict">To Picked</string>
+    <string name="menu_eprescription">To Picked</string>
+    <string name="menu_eprescriptionPickingList">To Packed</string>
+    <string name="menu_eprescriptionPackingList">To Billing</string>
+
+    <string name="menu_eprescriptioninvoiceList">Invoice List</string>
     <string name="menu_manual_billing">Manual Billing</string>
+    <string name="menu_connect_barcodeprinter">Barcode Printer</string>
     <string name="menu_exit_kiosk">Exit Kiosk</string>
+    <string name="menu_open_screen">Open Screen</string>
+
+    <!--    <string name="label_generic_order_id"> Order ID: \n%1$s</string>-->
+    <!--    <string name="label_generic_fulfilment_id"> Fulfilment ID: \n%1$s</string>-->
+    <!--    <string name="label_generic_vendor_id"> Vendor ID: \n%1$s</string>-->
+    <!--    <string name="label_generic_order_source"> Order Source: \n%1$s</string>-->
+    <!--    <string name="label_generic_order_type"> Order Type: \n%1$s</string>-->
+    <!--    <string name="label_generic_order_date"> Order Date: \n%1$s</string>-->
+    <!--    <string name="label_generic_delivery_date"> Delivery Date: \n%1$s</string>-->
+    <!--    <string name="label_generic_shipping_method"> Shipping Method: \n%1$s</string>-->
+    <!--    <string name="label_generic_payment_source"> Payment Source: \n%1$s</string>-->
+    <!--    <string name="label_generic_stock_status"> Stock Status: \n%1$s</string>-->
+
 
     <string name="label_continue">Continue</string>
     <string name="label_select">Select</string>
@@ -215,6 +252,7 @@
     <string name="label_span_tracking_ref_no">Tracking Ref. No.:\n%1$s</string>
     <string name="label_nam">Name : </string>
     <string name="label_name">Name:\n%1$s</string>
+    <string name="label_reg_nnumber">Reg No :</string>
     <string name="label_reg_no">Reg. No.:\n%1$s</string>
     <string name="label_add_items">Add Items</string>
     <string name="label_3_items_found">3 items found</string>
@@ -333,6 +371,7 @@
     <string name="label_payment">Payment</string>
     <string name="label_order_flow">Order</string>
     <string name="label_place_new_order">Place New Order</string>
+    <string name="label_place_to_billing">To Packing</string>
     <string name="label_order_header">Order #</string>
     <string name="label_mrp_header">MRP(\u20B9)</string>
     <string name="label_total_header">TOTAL(\u20B9)</string>
@@ -350,6 +389,7 @@
     <string name="generic_receiptid">Receipt ID:\n %1$s</string>
     <string name="generic_transactionid">Transaction ID:\n %1$s</string>
     <string name="label_mobile_order_success">Mobile:</string>
+    <string name="label_fullfillmentid">Ref No:</string>
     <string name="label_code_order_success">Code:</string>
 
     <string name="label_order_id"> Order ID\n%1$s</string>
@@ -366,5 +406,146 @@
     <string name="label_rs_symbol">\u20B9</string>
     <string name="label_no_item_found">No Item Found</string>
 
+    <string name="label_no_order_found">No Orders Found</string>
+
     <string name="price_format">%,.2f</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Added By Raghavendra-->
+    <string name="label_generic_mobile_number"> Mobile number: \n%1$s</string>
+    <string name="label_generic_vendor_id"> Vendor ID: \n%1$s</string>
+    <string name="label_customer_type"> Customer Type: \n%1$s</string>
+    <string name="label_generic_order_date"> Order Date: \n%1$s</string>
+    <string name="label_generic_exp_delivery"> Exp Delivery: \n%1$s</string>
+    <string name="label_generic_cust_type"> Customer Type: \n%1$s</string>
+    <string name="label_generic_payment_source"> Payment Source: \n%1$s</string>
+    <string name="label_generic_shipping_method"> Shipping Method: \n%1$s</string>
+    <string name="label_generic_order_bill_value"> OrderBillValue: \n%1$s</string>
+    <string name="label_generic_order_type"> Order Type: \n%1$s</string>
+    <string name="label_generic_pincode"> Pincode: \n%1$s</string>
+    <string name="label_generic_state_code"> State Code: \n%1$s</string>
+    <string name="label_generic_address"> Address: \n%1$s</string>
+    <string name="label_FullFillmentid"> FullFillment ID: \n%1$s</string>
+    <string name="label_generic_comments"> Comments: \n%1$s</string>
+    <string name="label_generic_prescription_ref"> Prescription Ref: \n%1$s</string>
+    <string name="label_generic_order_id"> Order ID: \n%1$s</string>
+    <string name="label_generic_fulfilment_id"> Fulfilment ID: \n%1$s</string>
+    <string name="label_generic_order_source"> Order Source: \n%1$s</string>
+    <string name="label_generic_delivery_date"> Delivery Date: \n%1$s</string>
+    <string name="label_generic_stock_status"> Stock Status: \n%1$s</string>
+    <string name="label_order_pickup_status"> OrderPickup Status: \n%1$s</string>
+    <string name="label_order_packing_status"> OrderPacking Status: \n%1$s</string>
+    <string name="label_order_header_text">Order </string>
+    <string name="label_generic_receipt_id"> Receipt ID: \n%1$s</string>
+
+
+    <string name="enter_the_text_here">Enter the Text Here ...</string>
+    <string name="bar_code_generator">Bar Code Generator</string>
+    <string name="barcode_todo">TODO</string>
+
+    <!-- Picker application -->
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+
+
+    <string name="names">
+        <item>Partially Filled</item>
+        <item> Fully Filled</item>
+        <item>Not Available</item>
+    </string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="input_invalid">Email or password cannot be empty</string>
+    <string name="empty_screen">We do not have anything\nhere right now. Please Retry</string>
+    <string name="btn_retry">Retry</string>
+    <string name="title_home">Home</string>
+    <string name="label_open_orders">open orders</string>
+    <string name="label_select_fullfilment_to_start_pickup_process">Select fullfilment to start pickup process.</string>
+    <string name="label_fullfillment_id">Fullfillment ID: </string>
+    <string name="label_total_items">Total Items: </string>
+    <string name="label_space">\u00A0</string>
+    <string name="label_ready_for_pickup">Ready for pickup</string>
+    <string name="label_pickup_process">pickup process</string>
+    <string name="label_enter_batch_id">Enter Batch ID</string>
+
+    <string name="label_no">No</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_printer_disconnected_do_you_want_to_nre_connect_the_printer">Printer Disconnected! Do you want to \n Re-Connect the Printer</string>
+    <string name="label_printer_devices">Printer devices</string>
+    <string name="label_dashboard">dashboard</string>
+    <string name="label_welcome">Welcome</string>
+    <string name="label_from">From</string>
+    <string name="label_dd_mm_yyy">DD/MM/YYY</string>
+    <string name="label_to">To</string>
+    <string name="label_time_taken">Time Taken</string>
+    <string name="label_45_44_45">45:44:45</string>
+    <string name="label_today">Today</string>
+    <string name="label_weekly">Weekly</string>
+    <string name="label_monthly">Monthly</string>
+    <string name="label_yearly">Yearly</string>
+    <string name="label_full">Full</string>
+    <string name="label_partial">Partial</string>
+    <string name="label_not_available">Not Available</string>
+    <string name="label_36">36</string>
+    <string name="label_select_alternate_printer_from_the_list">Select alternate printer from the list</string>
+    <string name="label_orders">Orders</string>
+    <string name="shipping_method">Shipping method</string>
+    <string name="home_delivery">Home delivery</string>
+    <string name="payment_source">Payment source</string>
+    <string name="online">Online</string>
+    <string name="order_source">Order source</string>
+    <string name="apollo247">Apollo247</string>
+    <string name="delivery_date">Delivery Date</string>
+    <string name="_19_feb_2022_02_30_00">19 Feb, 2022 - 02:30:00</string>
+    <string name="stock_status">Stock status</string>
+    <string name="available">Available</string>
+    <string name="order_type">Order type</string>
+    <string name="cart">Cart</string>
+    <string name="order_details">ORDER DETAILS</string>
+    <string name="customer_type">Customer type</string>
+    <string name="normal_priority">Normal Priority</string>
+    <string name="order_date">order date</string>
+    <string name="_19_feb_2022_10_35_44">19 Feb, 2022 - 10:35:44</string>
+    <string name="select">Select</string>
+    <string name="total_items_5">Total Items: 5</string>
+    <string name="fullfillment_id">Fullfillment ID:</string>
+    <string name="products">Products</string>
+    <string name="qty">Qty</string>
+    <string name="ascoril_d_plus_syrup_sugar_free">Ascoril D plus Syrup Sugar Free</string>
+    <string name="rack_id">Rack ID</string>
+    <string name="_1">1</string>
+    <string name="batch_no">Batch No</string>
+    <string name="qty1">Qty.</string>
+    <string name="rack_id1">Rack ID:</string>
+    <string name="g098_98_786">G098–98-786</string>
+    <string name="packer">Packer</string>
+
+    <string name="biller">Biller</string>
+
+    <string name="sealer">Sealer</string>
+
+    <string name="admin">Admin</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+
+    <string name="deciderScreen2">deciderScreen</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="open" />
+    <string name="close" />
+    <string name="gallery">Gallery</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="home">Home</string>
+    <string name="label_2_6">2/6</string>
+    <string name="label_go_to_next_rack">Go to next Rack</string>
+
 </resources>

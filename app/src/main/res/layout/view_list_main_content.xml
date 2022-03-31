@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -7,11 +8,10 @@
 
         <variable
             name="product"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/view_list_main_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,6 +55,12 @@
                         android:text="@{product.itemId.concat(` - `+product.itemName)}"
                         android:textColor="@color/add_item_header"
                         android:textSize="@dimen/text_dimen_13" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black_transperent"
+                        android:visibility="@{product.isVoid ? View.VISIBLE : View.GONE}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -155,6 +161,7 @@
                             android:singleLine="true"
                             android:textSize="@dimen/text_dimen_12"
                             android:inputType="number"
+                            android:maxLength="3"
                             android:text="@{String.valueOf(product.remainderDays)}"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
@@ -170,7 +177,7 @@
                         android:gravity="center"
                         android:padding="@dimen/one_dp"
                         android:singleLine="true"
-                        android:text="@{`Tax : `+ @string/price_format(product.totalTax) +`%`}"
+                        android:text="@{`Tax : `+ @string/price_format(product.Tax) +`%`}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
                 </LinearLayout>
@@ -182,14 +189,6 @@
                 android:background="@color/search_customer_bg" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/item_view"
-            android:layout_alignBottom="@+id/item_view"
-            android:background="@color/black_transperent"
-            android:visibility="@{product.isVoid ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>

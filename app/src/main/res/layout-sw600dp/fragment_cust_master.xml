@@ -8,11 +8,11 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.CustomerMasterMvpPresenter" />
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.addcustomer.model.AddCustomerModel" />
     </data>
 
     <LinearLayout
@@ -56,14 +56,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/label_first_name"
+                        android:hint="@string/label_name_custmer"
                         android:inputType="textPersonName"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,9 +80,9 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -122,7 +122,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -162,7 +162,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -179,10 +179,10 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.tiper.MaterialSpinner
                     android:id="@+id/gender"
@@ -212,7 +212,7 @@
                     android:textSize="6sp"
                     app:spinnerMode="bottomsheet" />
 
-                <com.tiper.MaterialSpinner
+              <!--  <com.tiper.MaterialSpinner
                     android:id="@+id/marital_status_spinner"
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
@@ -221,9 +221,9 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_marital_status"
                     android:textSize="6sp"
-                    app:spinnerMode="bottomsheet" />
+                    app:spinnerMode="bottomsheet" />-->
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!--<com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -244,9 +244,9 @@
                         android:singleLine="true"
                         android:text="@{model.dob}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -265,10 +265,10 @@
                         android:singleLine="true"
                         android:text="@{model.district}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+             <!--   <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
                         android:singleLine="true"
                         android:text="@{model.city}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -353,7 +353,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -372,10 +372,10 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+             <!--   <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
                 <com.google.android.material.textfield.TextInputLayout

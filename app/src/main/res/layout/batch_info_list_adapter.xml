@@ -6,7 +6,7 @@
 
         <variable
             name="batchInfo"
-            type="com.apollopharmacy.mpospharmacist.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
     </data>
 
     <LinearLayout
@@ -94,9 +94,11 @@
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@{String.valueOf(batchInfo.rEQQTY)}"
+
                 android:textColor="@{batchInfo.isSelected ? @color/black :@color/black}"
                 android:textSize="@dimen/text_dimen_12" />
+
+
         </LinearLayout>
     </LinearLayout>
 </layout>

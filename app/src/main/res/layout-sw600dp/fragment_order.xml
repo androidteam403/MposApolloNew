@@ -15,7 +15,7 @@
 
         <variable
             name="callbacks"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
 
     <LinearLayout

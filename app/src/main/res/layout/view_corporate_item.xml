@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
     </data>
 
     <LinearLayout

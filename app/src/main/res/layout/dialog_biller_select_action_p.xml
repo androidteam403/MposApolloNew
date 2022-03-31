@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+
+        <ImageView
+            android:layout_width="@dimen/dimen18sp"
+            android:layout_height="@dimen/dimen18sp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/cross_icon"
+            android:layout_margin="@dimen/dimen7dp"
+            android:src="@drawable/newcrossblackicon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="@dimen/dimen5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Action"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginStart="@dimen/dimen15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select one of the below option for next process"
+                android:textColor="@color/text_color_grey"
+                android:textSize="@dimen/dimen_9_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginStart="@dimen/dimen14sp"/>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/checked_generate_bill"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dimen3dp"
+                android:layout_marginEnd="@dimen/dimen6dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:layout_marginTop="@dimen/dimen16sp"
+                android:background="@drawable/background_for_selectaction">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_circular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:src="@drawable/tick_mark" />
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:src="@drawable/bill_black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GENERATE BILL"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginStart="@dimen/dimen15dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/unchecked_generate_bill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:layout_marginTop="@dimen/dimen16sp"
+                android:layout_marginEnd="@dimen/dimen6dp"
+                android:layout_marginBottom="@dimen/dimen3dp"
+                android:background="@drawable/background_for_selectaction"
+                android:gravity="center_vertical"
+                android:onClick="@{()-> callback.onGenerateBill()}"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/fullfillment_select_icon"
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_circle_stroke" />
+
+                <ImageView
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:src="@drawable/icons_bill" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="GENERATE BILL"
+                    android:textColor="@color/text_color_grey" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:onClick="@{()-> callback.onPrintLabel()}"
+                android:id="@+id/unchecked_print_label"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_for_selectaction">
+
+
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_circle_stroke" />
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:src="@drawable/grey_printer"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRINT LABEL"
+                    android:textColor="@color/text_color_grey"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="@dimen/dimen15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/checked_print_label"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_for_select_activity">
+
+
+                <ImageView
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_circular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:src="@drawable/tick_mark" />
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:src="@drawable/black_printer"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRINT LABEL"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginStart="@dimen/dimen15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/unchecked_shipping_label"
+                android:onClick="@{()-> callback.onPrintShippingLabel()}"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_for_selectaction">
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_circle_stroke" />
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:src="@drawable/icons_bill"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRINT SHIPPING LABEL"
+                    android:textColor="@color/text_color_grey"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="@dimen/dimen15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/checked_shipping_label"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_for_select_activity">
+
+
+                <ImageView
+                    android:layout_width="@dimen/dimen18sp"
+                    android:layout_height="@dimen/dimen18sp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_circular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:src="@drawable/tick_mark" />
+
+                <ImageView
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_width="@dimen/dimen15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dimen15dp"
+                    android:src="@drawable/bill_black"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRINT SHIPPING LABEL"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginStart="@dimen/dimen15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/unchecked_send_to_packer"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:layout_marginEnd="@dimen/dimen6dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:layout_marginBottom="@dimen/dimen6dp"
+                android:background="@drawable/background_for_selectaction">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dimen5dp"
+                    android:onClick="@{()-> callback.onSendBacktoPackerLabel()}"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/dimen18sp"
+                        android:layout_height="@dimen/dimen18sp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_circle_stroke" />
+
+                    <ImageView
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:layout_width="@dimen/dimen15dp"
+                        android:layout_gravity="center"
+                        android:layout_height="@dimen/dimen15dp"
+                        android:src="@drawable/grey_persons"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SEND BACK TO PACKER"
+                        android:textColor="@color/text_color_grey"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginStart="@dimen/dimen15dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:padding="@dimen/dimen5dp"
+                android:id="@+id/checked_send_to_packer"
+                android:layout_marginBottom="@dimen/_4dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginStart="@dimen/dimen6dp"
+                android:background="@drawable/background_for_select_activity">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen18sp"
+                        android:layout_height="@dimen/dimen18sp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_circular_shape"
+                        android:contentDescription="@string/app_name"
+                        android:padding="2dp"
+                        android:layout_marginStart="@dimen/dimen6dp"
+                        android:src="@drawable/tick_mark" />
+
+                    <ImageView
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:layout_width="@dimen/dimen15dp"
+                        android:layout_gravity="center"
+                        android:layout_height="@dimen/dimen15dp"
+                        android:src="@drawable/black_persons"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SEND BACK TO PACKER"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_bold"
+                        android:layout_marginStart="@dimen/dimen15dp"/>
+                </LinearLayout>
+
+                <EditText
+                    android:background="@drawable/square_stroke_bg"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/dimen3dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen12sp"
+                    android:layout_marginStart="@dimen/dimen40dp"
+                    android:layout_marginEnd="@dimen/dimen30dp"
+                    android:layout_height="90dp"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/proccedactions"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen45dp"
+                android:background="@drawable/btn_signin_ripple_effect"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:text="Proceed Action"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpPresenter" />
+    </data>
+</layout>

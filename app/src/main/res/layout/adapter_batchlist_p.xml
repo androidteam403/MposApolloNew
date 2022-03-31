@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen35dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/five_dp"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/batch_id_select_icon"
+            android:layout_width="@dimen/dimen20dp"
+            android:layout_height="@dimen/dimen20dp"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/batch_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen16sp" />
+    </LinearLayout>
+</layout>

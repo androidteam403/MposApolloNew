@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/actionbar_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/apollo_logo"
+            android:layout_width="@dimen/one_hundred_dp"
+            android:layout_height="@dimen/one_hundred_dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/five_dp"
+            android:src="@drawable/newapollologo3"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="@dimen/two_dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/app_flow_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/forty_five_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/forty_five_dp" />
+
+        <Button
+            android:id="@+id/continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:background="@drawable/btn_continue_ripple_login"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:onClick="@{()-> callback.onClickContinue()}"
+            android:text="@string/label_continue"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowMvpPresenter" />
+    </data>
+</layout>

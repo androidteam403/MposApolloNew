@@ -5,7 +5,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.CorporateDetailsMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.CorporateDetailsMvpPresenter" />
     </data>
 
     <LinearLayout
@@ -115,7 +115,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+
+                >
 
                 <TextView
                     android:id="@+id/no_corporate_found"
@@ -131,7 +133,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/corporateRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+
+                    />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/five_dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/black_delete_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="@dimen/dimen150dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen80dp"
+                    android:layout_height="@dimen/dimen80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/forty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_printer" />
+
+                <ImageView
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_wifi_disconnect" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/label_printer_disconnected_do_you_want_to_nre_connect_the_printer"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen13sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_bg"
+                    android:backgroundTint="@color/red"
+                    android:fontFamily="@font/roboto_bold"
+                    android:paddingStart="@dimen/twenty_five_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingEnd="@dimen/twenty_five_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:text="@string/label_no"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:background="@drawable/rounded_corners_bg"
+                    android:backgroundTint="@color/green"
+                    android:fontFamily="@font/roboto_bold"
+                    android:paddingStart="@dimen/twenty_five_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingEnd="@dimen/twenty_five_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:text="@string/label_yes"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

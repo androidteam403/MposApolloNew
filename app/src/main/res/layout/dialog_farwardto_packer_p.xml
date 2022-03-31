@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/twenty_five_dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen30dp"
+            android:paddingBottom="@dimen/dimen30dp">
+
+            <ImageView
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:background="@drawable/ic_circular_shape"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/fifteen_dp"
+                android:src="@drawable/tick_mark" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="Forward to Packer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp" />
+
+            <TextView
+                android:id="@+id/goto_open_orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:background="@drawable/rounded_corners_bg"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingStart="@dimen/dimen10dp"
+                android:paddingTop="@dimen/dimen5dp"
+                android:paddingEnd="@dimen/dimen10dp"
+                android:paddingBottom="@dimen/dimen5dp"
+                android:text="Go to Open Orders"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

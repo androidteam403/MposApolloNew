@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_dashboard">
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard_p" />
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_slideshow"-->
+    <!--        android:name="com.thresholdsoft.mpospicker.ui.navigationActivity3.slideshowFragment.SlideshowFragment"-->
+    <!--        android:label="Slideshow"-->
+    <!--        tools:layout="@layout/fragment_slideshow" />-->
+</navigation>

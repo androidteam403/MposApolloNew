@@ -27,6 +27,6 @@
 
         <variable
             name="viewModel"
-            type="com.apollopharmacy.mpospharmacist.ui.splash.SplashMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.splash.SplashMvpPresenter" />
     </data>
 </layout>

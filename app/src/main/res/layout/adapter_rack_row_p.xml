@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="@dimen/dimen30dp"
+        android:layout_height="@dimen/dimen40dp"
+        android:layout_marginEnd="@dimen/dimen5dp"
+        android:background="@color/yellow"
+        android:orientation="vertical"
+        android:paddingBottom="0.1dp">
+
+        <TextView
+            android:id="@+id/rack_box_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen10sp" />
+
+        <TextView
+            android:id="@+id/rack_pro_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen14sp" />
+    </LinearLayout>
+</layout>

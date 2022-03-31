@@ -5,11 +5,11 @@
     <data>
         <variable
             name="orderDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes" />
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpPresenter" />
     </data>
 
 

@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
     </data>
 
     <LinearLayout

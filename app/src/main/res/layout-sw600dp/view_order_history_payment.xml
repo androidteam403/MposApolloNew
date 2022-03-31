@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.orderreturnactivity.model.OrderReturnModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.OrderReturnModel" />
     </data>
 
     <RelativeLayout

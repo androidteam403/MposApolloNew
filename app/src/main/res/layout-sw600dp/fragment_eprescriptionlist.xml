@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="noDataFound"
+            type="Boolean" />
+
+        <!--variable
+            name="count"
+            type="Integer" />-->
+
+        <variable
+            name="callbacks"
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionsListMvpPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@color/black"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/search_customer_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/search_order_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_below="@+id/custom_action_bar"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:weightSum="3">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.4"
+                        android:fontFamily="@font/roboto_regular">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/search_order_number_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Search by Order ID / Vendor ID"
+                            android:inputType="textCapCharacters"
+                            android:padding="@dimen/ten_dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_dimen_15" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:layout_weight="0.2"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> callbacks.onBarCodeClick()}"
+                        android:src="@drawable/ic_barcode" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/stockavailabilitybutton"
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/icon_unchecked_checkbox"
+                            android:gravity="center"></Button>
+
+                        <TextView
+                            android:id="@+id/stockvailabilitylabel"
+                            android:layout_width="@dimen/eighty_dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            android:gravity="center"
+                            android:text="Stock Availability"
+                            android:textSize="@dimen/fifteen_dp"></TextView>
+
+                        <Button
+                            android:id="@+id/customertypefilter"
+                            android:layout_width="@dimen/forty_dp"
+                            android:layout_height="31dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/filterimage"
+                            android:gravity="center"
+                            android:onClick="@{()-> callbacks.clickOnCustomertypeFilter()}"></Button>
+
+                        <!--<Button
+                            android:id="@+id/proritybutton"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:background="@drawable/icon_unchecked_checkbox">
+                        </Button>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.2"
+                            android:text="Prority"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            >
+                        </TextView>
+
+                        <Button
+                            android:id="@+id/Pickinglistbutton"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:background="@drawable/icon_unchecked_checkbox">
+                        </Button>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.6"
+                            android:text="Picked List"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            >
+                        </TextView>
+                        <Button
+                            android:id="@+id/packingListbutton"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:background="@drawable/icon_unchecked_checkbox">
+                        </Button>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.6"
+                            android:text="Packed List"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            >
+                        </TextView>-->
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/orderRecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_order_layout" />
+
+            </LinearLayout>
+
+            <!-- <LinearLayout
+                 android:id="@+id/filterslayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:background="@color/transperancy"
+                 android:visibility="gone"
+                 android:animateLayoutChanges="true"
+                 >-->
+            <RelativeLayout
+                android:id="@+id/filterslayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transperancy"
+                android:visibility="gone">
+
+                <ScrollView
+                    android:id="@+id/filtersscrollview"
+                    android:layout_width="400dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:fillViewport="true"
+                    android:layout_marginBottom="@dimen/forty_dp"
+
+                    >
+                    <LinearLayout
+                        android:id="@+id/chaild_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="@dimen/three_dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/text_dimen_30"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:text="Customer Type"
+                            android:textAlignment="textStart"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:textSize="@dimen/seventeen_dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/customertypeFiltersview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            />
+
+                        <TextView
+                            android:id="@+id/title_ordertype"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/text_dimen_30"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:text="Order Type"
+                            android:textAlignment="textStart"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:textSize="@dimen/seventeen_dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ordertypeFiltersview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_ordertype"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            android:layout_marginTop="@dimen/five_dp" />
+
+                        <TextView
+                            android:id="@+id/title_ordercategory"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/text_dimen_30"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:text="Order Category"
+                            android:textAlignment="textStart"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:textSize="@dimen/seventeen_dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ordercategoryFiltersview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            android:layout_below="@+id/title_ordercategory"
+                            android:layout_marginTop="@dimen/five_dp" />
+
+                        <TextView
+                            android:id="@+id/title_PaymentType"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/text_dimen_30"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:text="Payment Type"
+                            android:textAlignment="textStart"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:textSize="@dimen/seventeen_dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/paymenttypeFiltersview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            android:layout_below="@+id/title_PaymentType"
+                            android:layout_marginTop="@dimen/five_dp" />
+
+                        <TextView
+                            android:id="@+id/title_ordersource"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/text_dimen_30"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:text="Order Source"
+                            android:textAlignment="textStart"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:textSize="@dimen/seventeen_dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ordersourceFiltersview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            android:layout_below="@+id/title_ordersource"
+                            android:layout_marginTop="@dimen/five_dp" />
+                    </LinearLayout>
+                </ScrollView>
+
+                <LinearLayout
+                    android:layout_width="400dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:weightSum="2"
+                    android:layout_alignParentBottom="true"
+                    >
+                    <Button
+                        android:id="@+id/applybutton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/apollo_btn_color"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:text="Apply"
+                        android:onClick="@{() -> callbacks.clickOnApplyCommonfilter()}"
+                        >
+                    </Button>
+
+                    <Button
+                        android:id="@+id/cancelbutton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/apollo_btn_color"
+                        android:text="Cancel"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:onClick="@{() -> callbacks.clickOnCancelCommonfilter()}"
+                        >
+                    </Button>
+
+                </LinearLayout>
+            </RelativeLayout>
+            <!-- </LinearLayout>-->
+
+            <!--  <TextView
+                  android:id="@+id/order_not_found"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:fontFamily="@font/roboto_medium"
+                  android:text="@string/label_no_order_found"
+                  android:textColor="@color/no_customer_found"
+                  android:textSize="@dimen/text_dimen_14"
+                  android:visibility="gone" />-->
+
+            <TextView
+                android:id="@+id/order_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/label_no_order_found"
+                android:textColor="@color/no_customer_found"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>

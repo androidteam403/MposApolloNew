@@ -9,11 +9,11 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.CustomerDetailsMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.customerdetails.CustomerDetailsMvpPresenter" />
 
         <variable
             name="customer"
-            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
 
         <variable
             name="no_user"

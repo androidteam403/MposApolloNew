@@ -10,7 +10,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListMvpPresenter" />
 
         <variable
             name="product_count"
@@ -18,7 +18,7 @@
 
         <variable
             name="transaction"
-            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel" />
 
     </data>
     <LinearLayout

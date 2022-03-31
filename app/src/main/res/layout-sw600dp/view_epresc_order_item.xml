@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel.OMSHeaderObj" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_white"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingEnd="@dimen/two_dp"
+            android:layout_marginBottom="@dimen/three_dp"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_order_id(model.reciptId)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.reciptId}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_fulfilment_id(model.REFNO)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.REFNO}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_customer_type(model.CustomerType)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.CustomerType}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_order_source(model.orderSource)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.orderSource}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_order_type(model.orderType)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.orderType}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_order_date(model.businessDate)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.businessDate}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_delivery_date(model.deliveryDate)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.deliveryDate}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_shipping_method(model.shippingMethod)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.shippingMethod}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_payment_source(model.paymentSource)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.paymentSource}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="@{@string/label_generic_stock_status(model.stockStatus)}"
+                    app:span_color="@{@color/black}"
+                    app:span_font="@{`robotoBold`}"
+                    app:span_size="@{@dimen/small_size_text}"
+                    app:span_text="@{model.stockStatus}" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/two_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:text="OrderPickup Status"
+                        android:textSize="@dimen/thirteen_dp"
+                        />
+                    <TextView
+                        android:id="@+id/orderpickupstatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/two_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:maxLines="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/thirteen_dp"
+                        android:gravity="top"
+                        android:layout_gravity="top"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/two_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:text="OrderPacking Status"
+                        android:textSize="@dimen/thirteen_dp"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/orderpackingstatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/two_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:maxLines="2"
+                        android:textSize="@dimen/thirteen_dp"
+                        android:textColor="@color/black"
+                        android:gravity="top"
+                        android:layout_gravity="top"
+
+                        />
+                </LinearLayout>
+
+               <!-- <TextView
+                    android:id="@+id/orderpackingstatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two_dp"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:layout_weight="0.33"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_dimen_12"
+                    app:full_text="OrderPacking Status:"
+                     app:span_text="@{String.valueOf(model.orderPacked) }"
+
+                    />-->
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_dp"
+                android:background="@color/search_customer_bg" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

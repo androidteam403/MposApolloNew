@@ -10,7 +10,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.ProductListMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListMvpPresenter" />
 
         <variable
             name="product_count"
@@ -18,7 +18,7 @@
 
         <variable
             name="transaction"
-            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel" />
 
     </data>
     <LinearLayout
@@ -185,44 +185,44 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <View
+                <!--<View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.02" />
+                    android:layout_weight="0.01" />-->
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/fifty_dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.08"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.getProductDetails()}"
                     android:src="@drawable/ic_search_product" />
 
-                <View
+                <!--<View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.01" />
+                    android:layout_weight="0.01" />-->
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/fifty_dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.08"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{() -> callback.onVoiceSearchClick()}"
                     android:src="@drawable/ic_voice_search" />
 
-                <View
+                <!--<View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.01" />
+                    android:layout_weight="0.01" />-->
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.08"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{() -> callback.onBarCodeClick()}"
                     android:src="@drawable/ic_barcode" />

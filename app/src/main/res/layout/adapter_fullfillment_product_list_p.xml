@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_marginStart="@dimen/one_dp"
+        android:layout_marginEnd="@dimen/one_dp"
+        android:background="@color/lite_grey">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/two_dp"
+            android:layout_marginBottom="@dimen/two_dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="ID: "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/ten_sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="CER0015"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/ten_sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="RAN0008-RANTAC 150 MG TAB"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/ten_sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/ten_sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/text_color_grey" />
+    </RelativeLayout>
+</layout>

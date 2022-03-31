@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/order_child_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/four_dp"
+        android:background="@drawable/square_stroke_bg"
+        android:padding="@dimen/dimen5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Fullfillment ID : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/fullfillmentID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="887766"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Total Items : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/total_items"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="6"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Status: "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Partially Picked"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Note: "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/box_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Customer Requested"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <!--                    <TextView-->
+            <!--                        android:id="@+id/status"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:fontFamily="@font/roboto_bold"-->
+            <!--                        android:text=""-->
+            <!--                        android:textAllCaps="true"-->
+            <!--                        android:textColor="@color/black"-->
+            <!--                        android:textSize="@dimen/dimen10sp" />-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Partial"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/fifteen_dp"
+                        android:layout_height="@dimen/fifteen_dp"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270"
+                        android:src="@drawable/partialcirculargreeenorange" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/right_arrow"
+                    android:layout_width="@dimen/dimen30dp"
+                    android:layout_height="@dimen/dimen30dp"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/right_arrow_black" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

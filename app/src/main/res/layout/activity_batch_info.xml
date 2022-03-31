@@ -7,11 +7,11 @@
 
         <variable
             name="transaction"
-            type="com.apollopharmacy.mpospharmacist.ui.searchcustomerdoctor.model.TransactionIDResModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel" />
 
         <variable
             name="product"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity" />
 
         <import type="android.view.View" />
 
@@ -21,7 +21,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.batchonfo.BatchInfoMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.batchonfo.BatchInfoMvpPresenter" />
     </data>
 
     <LinearLayout
@@ -65,6 +65,7 @@
                     android:src="@drawable/ic_back_arrow" />
 
                 <TextView
+                    android:id="@+id/transaction_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

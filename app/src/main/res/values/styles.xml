@@ -106,7 +106,8 @@
         <item name="colorAccent">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont</item>
+        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont
+        </item>
     </style>
 
     <style name="LoginEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -117,7 +118,8 @@
         <item name="colorAccent">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont</item>
+        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont
+        </item>
     </style>
 
     <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -133,7 +135,8 @@
 
     <!-- region TextInputLayout & TextInputEditText styles -->
     <style name="TextInputLayout.OutlineBox.CustomFont" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont</item>
+        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont
+        </item>
     </style>
 
     <style name="ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
@@ -161,4 +164,33 @@
     <style name="TextInputLayoutErrorText" parent="TextAppearance.Design.Error">
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
+
+
+    <!-- picker application -->
+    <style name="fadeinandoutcustomDialog" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowAnimationStyle">@style/fadeinandoutDialogAnimation</item>
+    </style>
+
+    <style name="fadeinandoutDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_frag_fade_in_p</item>
+        <item name="android:windowExitAnimation">@anim/anim_frag_fade_out_p</item>
+    </style>
+
+    <style name="PickerNavigationActivityAppTheme" parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/actionbar_color</item>
+        <item name="colorPrimaryDark">@color/actionbar_color</item>
+        <item name="colorAccent">@color/actionbar_color</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.NavigationDrawerNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.NavigationDrawerNew.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

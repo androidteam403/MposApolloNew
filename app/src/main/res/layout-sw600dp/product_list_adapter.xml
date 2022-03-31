@@ -6,7 +6,7 @@
 
         <variable
             name="productlist"
-            type="com.apollopharmacy.mpospharmacist.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.model.GetItemDetailsRes.Items" />
     </data>
 
     <LinearLayout

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes" />
     </data>
 
     <LinearLayout

@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="com.apollopharmacy.mpospharmacist.utils.CommonUtils" />
+        <import type="com.apollopharmacy.mpospharmacistTest.utils.CommonUtils" />
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.PharmacistLoginMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginMvpPresenter" />
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.PharmacistLoginModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.PharmacistLoginModel" />
 
         <variable
             name="campaign"
-            type="com.apollopharmacy.mpospharmacist.ui.pharmacistlogin.model.CampaignDetailsRes.CampDetailsEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes.CampDetailsEntity" />
     </data>
 
     <LinearLayout

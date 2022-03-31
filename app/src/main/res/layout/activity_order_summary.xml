@@ -6,15 +6,15 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.ordersummary.OrderSummaryMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryMvpPresenter" />
 
         <variable
             name="orderDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes" />
 
         <variable
             name="corporate"
-            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
 
         <variable
             name="itemCount"
@@ -22,11 +22,11 @@
 
         <variable
             name="orderAmount"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.OrderPriceInfoModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.OrderPriceInfoModel" />
 
         <variable
             name="orderDiscount"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes" />
     </data>
 
     <LinearLayout
@@ -318,6 +318,35 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_dimen_11" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/five_dp"
+                                        android:layout_weight="0.3"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:text="@string/label_fullfillmentid"
+                                        android:textColor="@color/customer_info_header"
+                                        android:textSize="@dimen/text_dimen_11" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/five_dp"
+                                        android:layout_weight="0.7"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="@{orderDetails.REFNO}"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_dimen_11" />
+                                </LinearLayout>
+
+
                             </LinearLayout>
 
                             <View
@@ -383,7 +412,7 @@
                                         android:layout_marginEnd="@dimen/five_dp"
                                         android:layout_weight="0.3"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="@string/label_reg_no"
+                                        android:text="@string/label_reg_nnumber"
                                         android:textColor="@color/customer_info_header"
                                         android:textSize="@dimen/text_dimen_11" />
 
@@ -686,7 +715,7 @@
                 android:background="@color/colorPrimary"
                 android:fontFamily="@font/roboto_bold"
                 android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
-                android:text="@string/label_place_new_order"
+                android:text="@string/label_place_to_billing"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_14" />
         </RelativeLayout>

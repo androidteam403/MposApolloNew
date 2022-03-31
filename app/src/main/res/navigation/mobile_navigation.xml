@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_dash_board"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.DashBoardFragment"
         android:label="@string/menu_dashboard"
         tools:layout="@layout/fragment_dashboard"
         app:startDestination="@id/action_nav_dash_board_to_nav_billing2">
@@ -21,31 +21,61 @@
 
     <fragment
         android:id="@+id/nav_doc_master"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.docmaster.DoctorMasterFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.docmaster.DoctorMasterFragment"
         android:label="@string/menu_doct_master"
         tools:layout="@layout/fragment_doc_master" />
 
     <fragment
         android:id="@+id/nav_cust_master"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.customermaster.CustomerMasterFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.CustomerMasterFragment"
         android:label="@string/menu_customer_master"
         tools:layout="@layout/fragment_cust_master" />
 
     <fragment
         android:id="@+id/nav_billing"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.billing.BillingFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingFragment"
         android:label="@string/menu_billing"
         tools:layout="@layout/fragment_billing" />
 
     <fragment
         android:id="@+id/nav_order"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersFragment"
         android:label="@string/menu_orders"
         tools:layout="@layout/fragment_order" />
-
     <fragment
         android:id="@+id/nav_manual_billing"
-        android:name="com.apollopharmacy.mpospharmacist.ui.home.ui.manualbilling.ManualBillingFragment"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.manualbilling.ManualBillingFragment"
         android:label="@string/menu_manual_billing"
         tools:layout="@layout/fragment_manual_billing" />
+
+  <fragment
+        android:id="@+id/nav_eprescription"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
+      android:label="@string/menu_eprescriptionslict"
+      tools:layout="@layout/fragment_eprescriptionlist" />
+
+    <fragment
+        android:id="@+id/nav_Picking"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
+        android:label="@string/menu_eprescriptionPickingList"
+        tools:layout="@layout/fragment_eprescriptionlist" />
+
+    <fragment
+        android:id="@+id/nav_Packing"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
+        android:label="@string/menu_eprescriptionPackingList"
+        tools:layout="@layout/fragment_eprescriptionlist" />
+
+    <!--<fragment
+        android:id="@+id/nav_Invoice"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
+        android:label="@string/menu_eprescriptioninvoiceList"
+        tools:layout="@layout/fragment_eprescriptionlist" />-->
+
+    <fragment
+        android:id="@+id/nav_Invoice"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.home.SearchBTActivity"
+        android:label="@string/menu_connect_barcodeprinter"
+        tools:layout="@layout/activity_bluetooth_search" />
+
 </navigation>

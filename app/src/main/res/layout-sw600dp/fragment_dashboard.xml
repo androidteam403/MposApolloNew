@@ -7,11 +7,11 @@
 
         <variable
             name="callBack"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DashBoardMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.DashBoardMvpPresenter" />
 
         <variable
             name="device"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.dashboard.DeviceDetailsModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.DeviceDetailsModel" />
     </data>
 
     <LinearLayout

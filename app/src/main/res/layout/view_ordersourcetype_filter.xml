@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel.OMSHeaderObj" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingEnd="@dimen/two_dp"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/ten_dp"
+
+                    >
+
+                    <CheckBox
+                        android:id="@+id/statusview"
+                        android:layout_width="@dimen/forty_dp"
+                        android:layout_height="match_parent"
+                        android:button="@drawable/icon_unchecked_checkbox"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/customertype"
+                        android:text="Normal Priority"
+                        android:textSize="15dp"
+                        android:paddingRight="5dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_dp"
+                android:background="@color/search_customer_bg" />-->
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

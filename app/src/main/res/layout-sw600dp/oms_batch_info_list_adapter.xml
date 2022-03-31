@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="batchInfo"
+            type="com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{batchInfo.nearByExpiry ? @color/red : @color/white}"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/batchidbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            tools:ignore="UselessParent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="@{batchInfo.batchNo}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:text="@{batchInfo.expDate}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:textAlignment="center"
+                android:text="@{@string/price_format(batchInfo.mRP)}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+           <!-- <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:textAlignment="center"
+                android:text="@{@string/price_format(batchInfo.totalTax)}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />-->
+
+             <TextView
+                 android:id="@+id/Vendormrp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:textAlignment="center"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/five_dp"
+                android:textAlignment="center"
+                android:text="@{batchInfo.q_O_H}"
+                android:textColor="@{batchInfo.isSelected ? @color/red :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <EditText
+                android:id="@+id/batch_wise_qty_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_weight="0.2"
+                android:background="@{batchInfo.selected ? @drawable/rounded_corners_white : @drawable/bg_disble_edit}"
+                android:enabled="@{batchInfo.selected ? true : false}"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:singleLine="true"
+                android:textColor="@{batchInfo.isSelected ? @color/black :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+
+            <EditText
+                android:id="@+id/phisicalbatch_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_weight="0.25"
+                android:background="@{batchInfo.selected ? @drawable/rounded_corners_white : @drawable/bg_disble_edit}"
+                android:enabled="@{batchInfo.selected ? true : false}"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center_horizontal"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:singleLine="true"
+                android:text="@{batchInfo.physicalBatchID}"
+                android:textColor="@{batchInfo.isSelected ? @color/black :@color/black}"
+                android:textSize="@dimen/text_dimen_12" />
+
+
+            <Button
+                android:id="@+id/batch_pickup_status"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_weight="0.05"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@drawable/icon_unchecked_checkbox">
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</layout>

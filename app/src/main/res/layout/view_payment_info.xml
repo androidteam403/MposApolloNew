@@ -5,11 +5,11 @@
 
         <variable
             name="paidbean"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes.TenderLineEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes.TenderLineEntity" />
 
         <variable
             name="orderDiscount"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SaveRetailsTransactionRes" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes" />
     </data>
 
         <LinearLayout

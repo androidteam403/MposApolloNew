@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen50dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen60dp"
+                android:background="@color/actionbar_color"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dimen10dp"
+                android:paddingEnd="@dimen/dimen10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <ImageView
+                        android:id="@+id/header_back"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/left_forward_white_arrow" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="pickup summary"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ToggleButton
+                android:id="@+id/rack_order_toggle"
+                android:layout_width="@dimen/dimen150dp"
+                android:layout_height="@dimen/dimen30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:background="@drawable/toggle_btn_bg"
+                android:checked="true"
+                android:textOff=""
+                android:textOn=""
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:layout_marginEnd="@dimen/dimen10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Start time : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="9:45 AM"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Total Duration : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <TextView
+                        android:id="@+id/timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="0:35:33"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <Chronometer
+                        android:id="@+id/chrono"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rack_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen2dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:nestedScrollingEnabled="false" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/order_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/forward_to_packer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_five_dp"
+                android:background="@color/material_amber_accent_700"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="Forward to packer"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/five_dp"
+                android:background="@color/dark_yellow" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <data>
+    </data>
+</layout>

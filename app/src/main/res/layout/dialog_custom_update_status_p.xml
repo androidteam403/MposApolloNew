@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transperent_black_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifty_dp"
+            android:layout_marginTop="@dimen/eighty_dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Update status"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen16sp" />
+
+        <ImageView
+            android:id="@+id/dialogButtonNO"
+            android:layout_width="@dimen/twenty_five_dp"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/eighty_dp"
+            android:layout_marginEnd="@dimen/thirty_five_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/delete_white_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialogButtonNO"
+            android:layout_marginStart="@dimen/thirty_five_dp"
+            android:layout_marginTop="@dimen/eighty_dp"
+            android:layout_marginEnd="@dimen/thirty_five_dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/three_dp"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                android:padding="@dimen/ten_dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="FullFillment ID : "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <TextView
+                        android:id="@+id/id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="887766"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Box : "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <TextView
+                        android:id="@+id/box_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="B5"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Augmentin 625 Duo Tablet"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Quantity : "
+                    android:textColor="@color/jumbo"
+                    android:textSize="@dimen/dimen12sp" />
+
+                <TextView
+                    android:id="@+id/qty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="10"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/full_status_color_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/full_status_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/black"
+                        android:checked="false"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Full Verified"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_vertical"
+                        android:text="Full Verified"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:background="@drawable/ic_circular_shape"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/tick_mark" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/partial_status_color_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/partial_status_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/black"
+                        android:checked="false"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Partial Verified"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_vertical"
+                        android:text="Partial Verified"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:background="@drawable/ic_circular_partial"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/not_available_status_color_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/not_available_status_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/black"
+                        android:checked="false"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Not available"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_vertical"
+                        android:text="Not available"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:background="@drawable/ic_circular_shape"
+                        android:backgroundTint="@color/red"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/delete_white_icon" />
+                </LinearLayout>
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/dialogButtonOK"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_five_dp"
+                android:layout_gravity="center"
+                android:background="@color/material_amber_accent_700"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Update"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/five_dp"
+                android:background="@color/dark_yellow" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

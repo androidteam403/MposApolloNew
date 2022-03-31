@@ -3,10 +3,10 @@
 <data>
     <variable
         name="order"
-        type="com.apollopharmacy.mpospharmacist.ui.additem.model.CalculatePosTransactionRes" />
+        type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes" />
     <variable
         name="payment"
-        type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
+        type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel" />
 </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

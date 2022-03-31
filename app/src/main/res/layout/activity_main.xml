@@ -45,7 +45,7 @@
                 android:id="@+id/logout_btn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fifty_dp"
-                android:layout_marginTop="650dp"
+                android:layout_marginTop="720dp"
                 android:background="@color/cpb_yellow"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"

@@ -10,11 +10,11 @@
 
         <variable
             name="doctor"
-            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel" />
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.DoctorDetailsMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsMvpPresenter" />
     </data>
 
     <LinearLayout

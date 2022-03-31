@@ -8,15 +8,15 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.addcustomer.AddCustomerMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.addcustomer.AddCustomerMvpPresenter" />
 
         <variable
             name="customerDetails"
-            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.addcustomer.model.AddCustomerModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.addcustomer.model.AddCustomerModel" />
     </data>
 
     <LinearLayout
@@ -100,7 +100,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -119,9 +119,9 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.middleName}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.lastName}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -164,7 +164,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.email}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -206,7 +206,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,10 +224,10 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.telephoneNo}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -245,7 +245,7 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.age}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.tiper.MaterialSpinner
                     android:id="@+id/gender"
@@ -257,7 +257,7 @@
                     android:hint="@string/label_gender"
                     app:spinnerMode="bottomsheet" />
 
-                <com.tiper.MaterialSpinner
+              <!--  <com.tiper.MaterialSpinner
                     android:id="@+id/marital_status_spinner"
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
@@ -265,9 +265,9 @@
                     android:layout_margin="@dimen/five_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/label_marital_status"
-                    app:spinnerMode="bottomsheet" />
+                    app:spinnerMode="bottomsheet" />-->
 
-                <com.google.android.material.textfield.TextInputLayout
+               <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
                         android:textSize="@dimen/text_dimen_15" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -310,10 +310,10 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.district}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.city}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
@@ -401,7 +401,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -421,10 +421,10 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.anniversary}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                <com.google.android.material.textfield.TextInputLayout
+              <!--  <com.google.android.material.textfield.TextInputLayout
                     style="@style/EditTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -442,7 +442,7 @@
                         android:singleLine="true"
                         android:text="@{customerDetails.numberOfDependents}"
                         android:textSize="@dimen/text_dimen_15" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
                 <com.google.android.material.textfield.TextInputLayout

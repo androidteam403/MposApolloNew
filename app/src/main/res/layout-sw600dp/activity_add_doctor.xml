@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.adddoctor.model.AddDoctorModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.adddoctor.model.AddDoctorModel" />
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.adddoctor.AddDoctorMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.adddoctor.AddDoctorMvpPresenter" />
     </data>
 
     <LinearLayout

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/forty_dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/reason_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingStart="@dimen/eight_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:text="dsaffd"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen14sp" />
+
+    </RelativeLayout>
+</layout>

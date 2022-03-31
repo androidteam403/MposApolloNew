@@ -271,7 +271,7 @@ public class ItemTouchHelperExtension extends RecyclerView.ItemDecoration
         public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
             mGestureDetector.onTouchEvent(event);
             if (DEBUG) {
-                Log.d(TAG, "intercept: x:" + event.getX() + ",y:" + event.getY() + ", " + event);
+              //  Log.d(TAG, "intercept: x:" + event.getX() + ",y:" + event.getY() + ", " + event);
             }
             final int action = MotionEventCompat.getActionMasked(event);
             if (action == MotionEvent.ACTION_DOWN) {
@@ -308,7 +308,7 @@ public class ItemTouchHelperExtension extends RecyclerView.ItemDecoration
                 // can select the item
                 final int index = MotionEventCompat.findPointerIndex(event, mActivePointerId);
                 if (DEBUG) {
-                    Log.d(TAG, "pointer index " + index);
+                   // Log.d(TAG, "pointer index " + index);
                 }
                 if (index >= 0) {
                     checkSelectForSwipe(action, event, index);

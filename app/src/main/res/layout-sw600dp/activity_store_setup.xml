@@ -9,15 +9,15 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.storesetup.StoreSetupMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.storesetup.StoreSetupMvpPresenter" />
 
         <variable
             name="storemodel"
-            type="com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreSetupModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreSetupModel" />
 
         <variable
             name="storeinfo"
-            type="com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel.StoreListObj" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel.StoreListObj" />
     </data>
 
     <LinearLayout

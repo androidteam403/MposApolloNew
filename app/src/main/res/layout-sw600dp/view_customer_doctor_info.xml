@@ -9,23 +9,23 @@
 
         <variable
             name="call"
-            type="com.apollopharmacy.mpospharmacist.ui.presenter.CustDocEditMvpView" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.presenter.CustDocEditMvpView" />
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.AddItemMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemMvpPresenter" />
 
         <variable
             name="customer"
-            type="com.apollopharmacy.mpospharmacist.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse.CustomerEntity" />
 
         <variable
             name="doctor"
-            type="com.apollopharmacy.mpospharmacist.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel.DropdownValueBean" />
 
         <variable
             name="corporate"
-            type="com.apollopharmacy.mpospharmacist.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
 
         <variable
             name="isPaymentMode"
@@ -33,7 +33,7 @@
 
         <variable
             name="paymentMode"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.PaymentMethodModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel" />
 
 
     </data>
@@ -114,8 +114,9 @@
                             tools:ignore="RelativeOverlap" />
 
                         <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/twenty_five_dp"
+                            android:id="@+id/customereditclick"
+                            android:layout_width="@dimen/forty_dp"
+                            android:layout_height="@dimen/thirty_five_dp"
                             android:layout_alignParentEnd="true"
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onCustomerEditClick()}"
@@ -209,8 +210,8 @@
                             tools:ignore="RelativeOverlap" />
 
                         <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/twenty_five_dp"
+                            android:layout_width="@dimen/forty_dp"
+                            android:layout_height="@dimen/thirty_five_dp"
                             android:layout_alignParentEnd="true"
                             android:contentDescription="@string/app_name"
                             android:onClick="@{()->call.onDoctorEditClick()}"
@@ -291,8 +292,8 @@
 
                     <ImageView
                         android:id="@+id/corpo_edit"
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_width="@dimen/forty_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
                         android:layout_alignParentEnd="true"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->call.onCorporateEditClick()}"

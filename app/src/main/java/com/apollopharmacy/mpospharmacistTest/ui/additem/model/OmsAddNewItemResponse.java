@@ -1,0 +1,139 @@
+package com.apollopharmacy.mpospharmacistTest.ui.additem.model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class OmsAddNewItemResponse {
+    @SerializedName("fullfillmentOrderID")
+    @Expose
+    private String fullfillmentOrderID;
+    @SerializedName("itemID")
+    @Expose
+    private String itemID;
+    @SerializedName("qty")
+    @Expose
+    private Double qty;
+    @SerializedName("discPer")
+    @Expose
+    private Double discPer;
+    @SerializedName("omsLineID")
+    @Expose
+    private Integer omsLineID;
+    @SerializedName("omsLineRECID")
+    @Expose
+    private Integer omsLineRECID;
+    @SerializedName("storeID")
+    @Expose
+    private String storeID;
+    @SerializedName("terminalID")
+    @Expose
+    private String terminalID;
+    @SerializedName("dataAreaID")
+    @Expose
+    private String dataAreaID;
+    @SerializedName("stockQty")
+    @Expose
+    private Double stockQty;
+    @SerializedName("requestStatus")
+    @Expose
+    private Integer requestStatus;
+    @SerializedName("returnMessage")
+    @Expose
+    private String returnMessage;
+
+    public String getFullfillmentOrderID() {
+        return fullfillmentOrderID;
+    }
+
+    public void setFullfillmentOrderID(String fullfillmentOrderID) {
+        this.fullfillmentOrderID = fullfillmentOrderID;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public Double getQty() {
+        return qty;
+    }
+
+    public void setQty(Double qty) {
+        this.qty = qty;
+    }
+
+    public Double getDiscPer() {
+        return discPer;
+    }
+
+    public void setDiscPer(Double discPer) {
+        this.discPer = discPer;
+    }
+
+    public Integer getOmsLineID() {
+        return omsLineID;
+    }
+
+    public void setOmsLineID(Integer omsLineID) {
+        this.omsLineID = omsLineID;
+    }
+
+    public Integer getOmsLineRECID() {
+        return omsLineRECID;
+    }
+
+    public void setOmsLineRECID(Integer omsLineRECID) {
+        this.omsLineRECID = omsLineRECID;
+    }
+
+    public String getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(String storeID) {
+        this.storeID = storeID;
+    }
+
+    public String getTerminalID() {
+        return terminalID;
+    }
+
+    public void setTerminalID(String terminalID) {
+        this.terminalID = terminalID;
+    }
+
+    public String getDataAreaID() {
+        return dataAreaID;
+    }
+
+    public void setDataAreaID(String dataAreaID) {
+        this.dataAreaID = dataAreaID;
+    }
+
+    public Double getStockQty() {
+        return stockQty;
+    }
+
+    public void setStockQty(Double stockQty) {
+        this.stockQty = stockQty;
+    }
+
+    public Integer getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(Integer requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getReturnMessage() {
+        return returnMessage;
+    }
+
+    public void setReturnMessage(String returnMessage) {
+        this.returnMessage = returnMessage;
+    }
+}

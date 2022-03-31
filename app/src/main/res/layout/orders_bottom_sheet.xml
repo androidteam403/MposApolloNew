@@ -5,10 +5,10 @@
 
         <variable
             name="filters"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.model.FiltersReq" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.model.FiltersReq" />
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.home.ui.orders.OrdersMvpView" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpView" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

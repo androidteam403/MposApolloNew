@@ -8,7 +8,7 @@
 
         <variable
             name="product"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.model.SalesLineEntity" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.storesetup.model.StoreListResponseModel.StoreListObj" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel.StoreListObj" />
     </data>
 
     <LinearLayout

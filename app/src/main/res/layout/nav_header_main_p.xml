@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="165dp"
+    android:orientation="vertical"
+    android:background="@color/actionbar_color">
+<LinearLayout
+    android:layout_height="165dp"
+    android:paddingTop="@dimen/dimen20dp"
+    android:paddingStart="@dimen/dimen20dp"
+    android:paddingEnd="@dimen/dimen20dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/nature"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="M. Srivardhini"
+        android:id="@+id/name"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_marginTop="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/white"
+        android:id="@+id/email_address"
+        android:text="Srivardhini@gmail.com"/>
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/dimen1dp"/>
+
+</RelativeLayout>

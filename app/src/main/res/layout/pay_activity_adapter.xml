@@ -75,10 +75,10 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterListener" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.payadapter.PayAdapterListener" />
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacist.ui.additem.payadapter.PayAdapterModel" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.additem.payadapter.PayAdapterModel" />
     </data>
 </layout>

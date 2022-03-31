@@ -95,4 +95,19 @@
     <style name="RobotoBoldTextAppearance">
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
+
+
+    <!-- picker application -->
+    <style name="fadeinandoutcustomDialog" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowAnimationStyle">@style/fadeinandoutDialogAnimation</item>
+    </style>
+
+    <style name="fadeinandoutDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_frag_fade_in_p</item>
+        <item name="android:windowExitAnimation">@anim/anim_frag_fade_out_p</item>
+    </style>
 </resources>
