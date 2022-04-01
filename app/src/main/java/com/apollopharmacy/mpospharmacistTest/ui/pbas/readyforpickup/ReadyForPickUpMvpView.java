@@ -14,4 +14,6 @@ public interface ReadyForPickUpMvpView extends MvpView {
     void onClickTakePrint();
 
     void onClickStartPickingWithoutQrCode();
+
+    void onClickScanCode();
 }

@@ -23,6 +23,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.Fullfilm
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,12 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         filterDialog.setCancelable(false);
         dialogFilterBinding.filterCloseIcon.setOnClickListener(view -> filterDialog.dismiss());
         filterDialog.show();
+    }
+
+    @Override
+    public void onClickScanCode() {
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
     @Override
