@@ -64,12 +64,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     long startTime;
     long countUp;
     Chronometer stopWatch;
-    private static String asText1;
+
 
     public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
         intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
-        intent.putExtra("stopWatch", (Serializable) asText1);
         return intent;
     }
 
@@ -145,7 +144,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
                 String asText = (countUp / 60) + ":" + (countUp % 60);
 //                pickupProcessBinding.timer.setText(asText);
-                 asText1 = stopWatch.getFormat();
+//                 asText1 = stopWatch.getFormat();
 //                int h = (int)(countUp /3600000);
 //                int m = (int)(countUp - h*3600000)/60000;
 //                int s= (int)(countUp - h*3600000- m*60000);
