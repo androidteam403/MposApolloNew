@@ -90,13 +90,15 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
                 }
             }
-            for (int i = 0; i < rackIdList.size(); i++) {
-                for (int j = 0; j < rackIdList.size(); j++) {
-                    if (i != j && rackIdList.get(i).getRackId().equals(rackIdList.get(j).getRackId())) {
-                        rackIdList.remove(j);
-                    }
-                }
-            }
+            pickupProcessBinding.headerOrdersCount.setText("Total " + racksDataResponse.size() + " Orders");
+
+//            for (int i = 0; i < rackIdList.size(); i++) {
+//                for (int j = 0; j < rackIdList.size(); j++) {
+//                    if (i != j && rackIdList.get(i).getRackId().equals(rackIdList.get(j).getRackId())) {
+//                        rackIdList.remove(i);
+//                    }
+//                }
+//            }
 
 //        rackIdList.get(0).setExpandStatus(1);
 //        racksDataResponse.getFullfillmentDetails().get(0).setExpandStatus(1);
