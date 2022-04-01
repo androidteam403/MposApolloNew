@@ -23,6 +23,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.io.Serializable;
 import java.util.List;
@@ -63,7 +65,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     protected void setUp() {
-
+        activityPickUpSummaryBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             racksDataResponse = (List<RacksDataResponse.FullfillmentDetail>) getIntent().getSerializableExtra("rackDataResponse");
 
@@ -143,6 +145,12 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     @Override
     public void onClickItem(int pos) {
         startActivity(PickupSummaryDetailsActivity.getStartIntent(this, racksDataResponse.get(pos)));
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onClickScanCode() {
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 

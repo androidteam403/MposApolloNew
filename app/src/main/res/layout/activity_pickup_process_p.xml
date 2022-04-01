@@ -193,12 +193,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="0:35:33"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen12sp" />
 
                     <Chronometer
                         android:id="@+id/chrono"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:visibility="visible" />
 
