@@ -286,6 +286,12 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
+    @Override
+    public void onClickScanCode() {
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
     public class FullfillmentData {
         private String fullfillmentId;
         private String totalItems;
