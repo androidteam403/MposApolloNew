@@ -65,5 +65,10 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         getMvpView().onClickFilterIcon();
     }
 
+    @Override
+    public void onClickScanCode() {
+        getMvpView().onClickScanCode();
+    }
+
 
 }
