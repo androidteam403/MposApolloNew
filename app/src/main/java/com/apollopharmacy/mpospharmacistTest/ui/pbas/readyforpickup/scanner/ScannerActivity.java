@@ -33,11 +33,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
-        if (!BillerOrdersActivity.isBillerActivity) {
-            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
-        } else {
-            barcodeCount.setVisibility(View.GONE);
-        }
+//        if (!BillerOrdersActivity.isBillerActivity) {
+//            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
+//        } else {
+//            barcodeCount.setVisibility(View.GONE);
+//        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
