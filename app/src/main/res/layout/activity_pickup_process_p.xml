@@ -189,8 +189,6 @@
                         android:textSize="@dimen/dimen12sp"
                         android:textColor="@color/black"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textSize="@dimen/dimen12sp"
                         android:visibility="visible" />
 
                 </LinearLayout>

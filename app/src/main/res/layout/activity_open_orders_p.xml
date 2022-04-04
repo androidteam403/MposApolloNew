@@ -69,9 +69,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="16dp"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
                         android:contentDescription="@string/app_name"
+                        android:layout_marginEnd="@dimen/five_dp"
                         android:onClick="@{()-> callback.onClickFilterIcon()}"
                         android:src="@drawable/ic_filter_white" />
                 </LinearLayout>

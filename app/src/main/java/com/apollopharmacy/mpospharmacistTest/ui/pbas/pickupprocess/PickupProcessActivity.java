@@ -309,7 +309,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickContinue() {
-        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, racksDataResponse, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.timer.getText().toString()));
+        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, racksDataResponse, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.chrono.getText().toString()));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
