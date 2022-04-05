@@ -3,9 +3,10 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TransactionHeaderResponse {
+public class TransactionHeaderResponse implements Serializable {
 
 
     @SerializedName("OMSHeader")
@@ -105,6 +106,27 @@ public class TransactionHeaderResponse {
         @SerializedName("VendorId")
         @Expose
         private String vendorId;
+
+        private boolean isSelected;
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+        private int expandStatus = 0;
+
+        public int getExpandStatus() {
+            return expandStatus;
+        }
+
+        public void setExpandStatus(int expandStatus) {
+            this.expandStatus = expandStatus;
+        }
+
+
 
         public String getBusinessDate() {
             return businessDate;

@@ -339,7 +339,7 @@
         <LinearLayout
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen50dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="@color/continue_unselect_color"
             android:gravity="center"
@@ -348,13 +348,13 @@
 
             <TextView
                 android:id="@+id/selected_item_count"
-                android:layout_width="@dimen/dimen35dp"
-                android:layout_height="@dimen/dimen35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginEnd="@dimen/dimen5dp"
                 android:background="@drawable/ic_circle_lite_yellow_bg"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:padding="@dimen/dimen5dp"
+                android:padding="7dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen12sp"
                 android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />

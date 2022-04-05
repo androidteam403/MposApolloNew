@@ -26,19 +26,19 @@ import java.util.List;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> {
     private final Context context;
-    private final List<TransactionHeaderResponse.OMSHeader> fullfilmentModelList;
+    private final List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
     private final OpenOrdersMvpView mvpView;
-    List<RackAdapter.RackBoxModel.ProductData> listOfList;
-    private RacksDataResponse racksDataResponse;
+//    List<RackAdapter.RackBoxModel.ProductData> listOfList;
+//    private RacksDataResponse racksDataResponse;
    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
     private boolean firstAccessCheck;
 
-    public FullfilmentAdapter(Context context, List<TransactionHeaderResponse> fullfilmentModelList, OpenOrdersMvpView mvpView, List<RackAdapter.RackBoxModel.ProductData> listOfList, RacksDataResponse racksDataResponse,   List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
+    public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView,  List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
         this.context = context;
-        this.fullfilmentModelList = fullfilmentModelList;
+       this.omsHeaderList = omsHeaderList;
         this.mvpView = mvpView;
-        this.listOfList = listOfList;
-        this.racksDataResponse = racksDataResponse;
+//        this.listOfList = listOfList;
+//        this.racksDataResponse = racksDataResponse;
         this.getOMSTransactionResponseList=getOMSTransactionResponseList;
     }
 
@@ -55,11 +55,12 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        TransactionHeaderResponse.OMSHeader omsHeader = fullfilmentModelList.get(position);
+        TransactionHeaderResponse.OMSHeader omsHeader = omsHeaderList.get(position);
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getVendorId());
-holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size()));
+        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeaderList.size()));
+        holder.fullfilmentBinding.status.setText(omsHeader.getStockStatus());
 //        switch (fullfilmentModel.getRequestStatus()) {
-//
+
 //            case 0:
 ////                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_grey));
 //                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
@@ -122,15 +123,16 @@ holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size
          public void onClick(View v) {
          if (mvpView != null)
             mvpView.onFullfillmentItemClick(position);
+             notifyDataSetChanged();
     }
         });
 
-        switch (fullfilmentModel.getExpandStatus()) {
+        switch (omsHeaderList.get(position).getExpandStatus()) {
 
             case 0:
-                if(fullfilmentModel.getExpandStatus()==1){
+                if(omsHeaderList.get(position).getExpandStatus()==1){
                     holder.fullfilmentBinding.rightArrow.setRotation(0);
-                    fullfilmentModel.setExpandStatus(0);
+                    omsHeaderList.get(position).setExpandStatus(0);
                 }
 //                fullfilmentModel.setExpandStatus(0);
 //                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_grey));
@@ -174,7 +176,7 @@ holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size
         }
 
 
-        if (fullfilmentModel.isSelected) {
+        if (omsHeaderList.get(position).isSelected()) {
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
         } else {
@@ -204,11 +206,11 @@ holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size
             public void onClick(View view) {
                 notifyDataSetChanged();
 
-                if(mvpView!=null && fullfilmentModel.getExpandStatus()==0){
+                if(mvpView!=null && omsHeaderList.get(position).getExpandStatus()==0){
                     mvpView.ondownArrowClicked(position);
                 }
 
-                for(FullfilmentAdapter.FullfilmentModel fullfilmentModel : fullfilmentModelList){
+                for(TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList){
                     if(fullfilmentModel.getExpandStatus()==1){
                         fullfilmentModel.setExpandStatus(0);
                         holder.fullfilmentBinding.rightArrow.setRotation(0);
@@ -224,7 +226,7 @@ holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size
 
     @Override
     public int getItemCount() {
-        return fullfilmentModelList.size();
+        return omsHeaderList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -236,42 +238,42 @@ holder.fullfilmentBinding.items.setText(String.valueOf(fullfilmentModelList.size
         }
     }
 
-    public static class FullfilmentModel implements Serializable {
-        private String fullfilmentId;
-        private String totalItems;
-        private boolean isSelected;
-        private int expandStatus = 0;
-
-        public int getExpandStatus() {
-            return expandStatus;
-        }
-
-        public void setExpandStatus(int expandStatus) {
-            this.expandStatus = expandStatus;
-        }
-
-        public String getFullfilmentId() {
-            return fullfilmentId;
-        }
-
-        public void setFullfilmentId(String fullfilmentId) {
-            this.fullfilmentId = fullfilmentId;
-        }
-
-        public String getTotalItems() {
-            return totalItems;
-        }
-
-        public void setTotalItems(String totalItems) {
-            this.totalItems = totalItems;
-        }
-
-        public boolean isSelected() {
-            return isSelected;
-        }
-
-        public void setSelected(boolean selected) {
-            isSelected = selected;
-        }
-    }
+//    public static class FullfilmentModel implements Serializable {
+//        private String fullfilmentId;
+//        private String totalItems;
+//        private boolean isSelected;
+//        private int expandStatus = 0;
+//
+//        public int getExpandStatus() {
+//            return expandStatus;
+//        }
+//
+//        public void setExpandStatus(int expandStatus) {
+//            this.expandStatus = expandStatus;
+//        }
+//
+////        public String getFullfilmentId() {
+////            return fullfilmentId;
+////        }
+////
+////        public void setFullfilmentId(String fullfilmentId) {
+////            this.fullfilmentId = fullfilmentId;
+////        }
+////
+////        public String getTotalItems() {
+////            return totalItems;
+////        }
+////
+////        public void setTotalItems(String totalItems) {
+////            this.totalItems = totalItems;
+////        }
+//
+//        public boolean isSelected() {
+//            return isSelected;
+//        }
+//
+//        public void setSelected(boolean selected) {
+//            isSelected = selected;
+//        }
+//    }
 }

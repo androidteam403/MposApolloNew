@@ -38,10 +38,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Inject
     OpenOrdersMvpPresenter<OpenOrdersMvpView> mPresenter;
     private ActivityOpenOrdersPBinding openOrdersBinding;
-    private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
+//    private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
     private FullfilmentAdapter fullfilmentAdapter;
-    public List<RackAdapter.RackBoxModel.ProductData> productDataList;
+//    public List<RackAdapter.RackBoxModel.ProductData> productDataList;
     public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
+    public List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
 
     private boolean isContinueEnable;
     //    private AppBarConfiguration mAppBarConfiguration;
@@ -62,9 +63,9 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         getActivityComponent().inject(this);
         mPresenter.onAttach(OpenOrdersActivity.this);
         setUp();
-        if (getIntent() != null) {
-            productDataList = (List<RackAdapter.RackBoxModel.ProductData>) getIntent().getSerializableExtra("productDataList");
-        }
+//        if (getIntent() != null) {
+//            productDataList = (List<RackAdapter.RackBoxModel.ProductData>) getIntent().getSerializableExtra("productDataList");
+//        }
 
 
     }
@@ -73,10 +74,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     protected void setUp() {
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
-
-
-
-
     }
 
     int getPos;
@@ -89,7 +86,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     }
 
 
-    private RacksDataResponse racksDataResponse;
+//    private RacksDataResponse racksDataResponse;
 
     @Override
     public void onSuccessRackApi(RacksDataResponse racksDataResponse) {
@@ -112,20 +109,45 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //        }
 
     }
+
+    @Override
+    public void onClickFilterIcon() {
+        Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
+        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter_p, null, false);
+        filterDialog.setContentView(dialogFilterBinding.getRoot());
+        filterDialog.setCancelable(false);
+        dialogFilterBinding.filterCloseIcon.setOnClickListener(view -> filterDialog.dismiss());
+        filterDialog.show();
+    }
+
+
+//    public TransactionHeaderResponse omsHeader;
+    @Override
+    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
+
+        this.omsHeaderList = omsHeader.getOMSHeader();
+        openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+        FullfilmentAdapter fullfilmentAdapter=new FullfilmentAdapter(this,omsHeader.getOMSHeader(), this, null);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+    }
+
+
     @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
 
-        openOrdersBinding.headerOrdersCount.setText("Total " + fullfilmentModelList.size() + " orders");
-        fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse, body);
+        fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, body);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
 
-        if (fullfilmentModelList.get(getPos).getExpandStatus() == 0 && fullfilmentAdapter!=null) {
+        if (omsHeaderList.get(getPos).getExpandStatus() == 0 && fullfilmentAdapter!=null) {
             fullfilmentAdapter.notifyDataSetChanged();
-            fullfilmentModelList.get(getPos).setExpandStatus(1);
+            omsHeaderList.get(getPos).setExpandStatus(1);
+
         }else {
-            fullfilmentModelList.get(getPos).setExpandStatus(0);
+            omsHeaderList.get(getPos).setExpandStatus(0);
             fullfilmentAdapter.notifyDataSetChanged();
         }
 
@@ -139,25 +161,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     }
     @Override
-    public void onClickFilterIcon() {
-        Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter_p, null, false);
-        filterDialog.setContentView(dialogFilterBinding.getRoot());
-        filterDialog.setCancelable(false);
-        dialogFilterBinding.filterCloseIcon.setOnClickListener(view -> filterDialog.dismiss());
-        filterDialog.show();
-    }
-
-    @Override
-    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        FullfilmentAdapter fullfilmentAdapter=new FullfilmentAdapter(this,omsHeader.getOMSHeader());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-    }
-
-
-    @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
@@ -169,15 +172,15 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     @Override
     public void onClickStausIcon(int fullFillmentPos, int pos) {
-        Dialog statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-        DialogUpdateStatusPBinding dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
-        statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-        statusUpdateDialog.setCancelable(false);
-        dialogUpdateStatusBinding.dismissDialog.setOnClickListener(view -> statusUpdateDialog.dismiss());
-
-        racksDataResponse.getFullfillmentDetails().get(0).getProducts().get(0).getItemStatus();
-
-        statusUpdateDialog.show();
+//        Dialog statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
+//        DialogUpdateStatusPBinding dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
+//        statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+//        statusUpdateDialog.setCancelable(false);
+//        dialogUpdateStatusBinding.dismissDialog.setOnClickListener(view -> statusUpdateDialog.dismiss());
+//
+//        omsHeaderList.get(pos).getFullfillmentDetails().get(0).getProducts().get(0).getItemStatus();
+//
+//        statusUpdateDialog.show();
     }
 
 
@@ -189,31 +192,31 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onFullfillmentItemClick(int pos) {
         this.pos = pos;
-        if (fullfilmentModelList != null && fullfilmentModelList.size() > 0) {
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
             int selectedCount = 0;
-            for (FullfilmentAdapter.FullfilmentModel fullfilmentModel : fullfilmentModelList) {
+            for (TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList) {
                 if (fullfilmentModel.isSelected()) {
                     selectedCount++;
                 }
             }
-            if (selectedCount < 5) {
-                fullfilmentModelList.get(pos).setSelected(!fullfilmentModelList.get(pos).isSelected());
+            if (selectedCount < omsHeaderList.size()) {
+                omsHeaderList.get(pos).setSelected(!omsHeaderList.get(pos).isSelected());
             } else {
-                if (fullfilmentModelList.get(pos).isSelected())
-                    fullfilmentModelList.get(pos).setSelected(false);
+                if (omsHeaderList.get(pos).isSelected())
+                    omsHeaderList.get(pos).setSelected(false);
             }
             if (fullfilmentAdapter != null)
                 fullfilmentAdapter.notifyDataSetChanged();
             boolean isAnyoneSelect = false;
             int selectedItemCount = 0;
-            for (FullfilmentAdapter.FullfilmentModel fullfilmentModel : fullfilmentModelList)
+            for (TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList)
                 if (fullfilmentModel.isSelected()) {
                     isAnyoneSelect = true;
                     selectedItemCount++;
                 }
             this.isContinueEnable = isAnyoneSelect;
             if (isAnyoneSelect) {
-                openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/5.");
+                openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/"+ omsHeaderList.size() );
                 openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
                 openOrdersBinding.setIsContinueSelect(true);
             } else {
@@ -221,33 +224,32 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
                 openOrdersBinding.setIsContinueSelect(false);
             }
-            openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/5");
+            openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        selectedRacksDataResponse = new ArrayList<>();
+       selectedRacksDataResponse = new ArrayList<>();
     }
-
-    private List<RacksDataResponse.FullfillmentDetail> selectedRacksDataResponse;
+    public List<TransactionHeaderResponse.OMSHeader> selectedRacksDataResponse;
 
     @Override
     public void onClickContinue() {
         if (isContinueEnable) {
 
-            for (int i = 0; i < fullfilmentModelList.size(); i++) {
-                if (fullfilmentModelList.get(i).isSelected()) {
-                    racksDataResponse.getFullfillmentDetails().get(i).setSelectedBoxesData(fullfilmentModelList.get(i).isSelected());
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).isSelected()) {
+                    omsHeaderList.get(pos).setSelected(omsHeaderList.get(i).isSelected());
                 } else {
-                    racksDataResponse.getFullfillmentDetails().get(i).setSelectedBoxesData(fullfilmentModelList.get(i).isSelected());
+                    omsHeaderList.get(i).setSelected(omsHeaderList.get(i).isSelected());
                 }
             }
 
-            for (int i = 0; i < racksDataResponse.getFullfillmentDetails().size(); i++) {
-                if (racksDataResponse.getFullfillmentDetails().get(i).isSelectedBoxesData()) {
-                    selectedRacksDataResponse.add(racksDataResponse.getFullfillmentDetails().get(i));
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).isSelected()) {
+                    selectedRacksDataResponse.add(omsHeaderList.get(i));
                 }
             }
 
@@ -260,7 +262,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     @Override
     public void onRightArrowClickedContinue(int position) {
-        if (racksDataResponse.getFullfillmentDetails() != null && racksDataResponse.getFullfillmentDetails().size() > 0 && racksDataResponse.getFullfillmentDetails().size() > pos) {
+//        if (racksDataResponse.getFullfillmentDetails() != null && racksDataResponse.getFullfillmentDetails().size() > 0 && racksDataResponse.getFullfillmentDetails().size() > pos) {
 
 
             //            Intent i = new Intent(OpenOrdersActivity.this, OrderDetailsActivity.class);
@@ -276,7 +278,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
 
         }
-    }
+//    }
 
     int gotId;
     boolean isAnyoneSelect = false;
@@ -288,22 +290,22 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             RacksDataResponse.FullfillmentDetail fullfillmentIdNew = (RacksDataResponse.FullfillmentDetail) data.getSerializableExtra("FullfillmentID");
             boolean isSelect = (Boolean) data.getSerializableExtra("isSelect");
             if (fullfillmentIdNew != null) {
-                for (int i = 0; i < fullfilmentModelList.size(); i++) {
-                    if (fullfillmentIdNew.getFullfillmentId().equals(fullfilmentModelList.get(i).getFullfilmentId())) {
-                        fullfilmentModelList.get(i).setSelected(isSelect);
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    if (fullfillmentIdNew.getFullfillmentId().equals(omsHeaderList.get(i).getVendorId())) {
+                        omsHeaderList.get(i).setSelected(isSelect);
                         fullfilmentAdapter.notifyDataSetChanged();
                         break;
                     }
                 }
                 int selectedItemCount = 0;
-                for (FullfilmentAdapter.FullfilmentModel fullfilmentModel : fullfilmentModelList)
+                for (TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList)
                     if (fullfilmentModel.isSelected()) {
                         isAnyoneSelect = true;
                         selectedItemCount++;
                     }
                 this.isContinueEnable = isAnyoneSelect;
                 if (isAnyoneSelect) {
-                    openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/5.");
+                    openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/"+ omsHeaderList.size() );
                     openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
                     openOrdersBinding.setIsContinueSelect(true);
                 } else {
@@ -311,7 +313,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                     openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
                     openOrdersBinding.setIsContinueSelect(false);
                 }
-                openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/5");
+                openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
             }
         }else{
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

@@ -79,7 +79,7 @@
                             android:id="@+id/items"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -103,8 +103,7 @@
                             android:id="@+id/status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Partial"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen10sp" />
 
