@@ -8,4 +8,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onRackApiCall();
 
     void onClickFilterIcon();
+    void fetchFulfilmentOrderList();
+    void onClickScanCode();
 }

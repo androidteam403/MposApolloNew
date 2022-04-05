@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class PickupProcessActivity extends BaseActivity implements PickupProcessMvpView {
+
 
     @Inject
     PickupProcessMvpPresenter<PickupProcessMvpView> mPresenter;
@@ -62,6 +64,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     long startTime;
     long countUp;
     Chronometer stopWatch;
+
 
     public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
@@ -90,13 +93,15 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
                 }
             }
-            for (int i = 0; i < rackIdList.size(); i++) {
-                for (int j = 0; j < rackIdList.size(); j++) {
-                    if (i != j && rackIdList.get(i).getRackId().equals(rackIdList.get(j).getRackId())) {
-                        rackIdList.remove(j);
-                    }
-                }
-            }
+            pickupProcessBinding.headerOrdersCount.setText("Total " + racksDataResponse.size() + " Orders");
+
+//            for (int i = 0; i < rackIdList.size(); i++) {
+//                for (int j = 0; j < rackIdList.size(); j++) {
+//                    if (i != j && rackIdList.get(i).getRackId().equals(rackIdList.get(j).getRackId())) {
+//                        rackIdList.remove(i);
+//                    }
+//                }
+//            }
 
 //        rackIdList.get(0).setExpandStatus(1);
 //        racksDataResponse.getFullfillmentDetails().get(0).setExpandStatus(1);
@@ -138,8 +143,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             @Override
             public void onChronometerTick(Chronometer arg0) {
                 countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
+
                 String asText = (countUp / 60) + ":" + (countUp % 60);
-                pickupProcessBinding.timer.setText(asText);
+//                pickupProcessBinding.timer.setText(asText);
+//                 asText1 = stopWatch.getFormat();
+//                int h = (int)(countUp /3600000);
+//                int m = (int)(countUp - h*3600000)/60000;
+//                int s= (int)(countUp - h*3600000- m*60000);
             }
         });
         stopWatch.start();
@@ -255,6 +265,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     }
 
+
     @Override
     public List<List<RackAdapter.RackBoxModel.ProductData>> productList() {
         return rackListOfListFiltered;
@@ -298,7 +309,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickContinue() {
-        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, racksDataResponse, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.timer.getText().toString()));
+        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, racksDataResponse, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.chrono.getText().toString()));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
@@ -448,4 +459,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
     }
+
+
 }
