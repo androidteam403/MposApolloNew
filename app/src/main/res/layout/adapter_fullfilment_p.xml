@@ -19,12 +19,15 @@
                 android:layout_marginBottom="@dimen/dimen4dp"
                 android:background="@drawable/square_stroke_bg"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/dimen7dp">
+                android:padding="@dimen/dimen2dp"
+                android:orientation="horizontal">
+
+
 
                 <ImageView
                     android:id="@+id/fullfillment_select_icon"
                     android:layout_width="@dimen/dimen20dp"
+                    android:layout_marginStart="@dimen/dimen2dp"
                     android:layout_height="@dimen/dimen20dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_circle_stroke" />
@@ -48,7 +51,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/label_fullfillment_id"
                             android:textColor="#b6b4af"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen10sp" />
 
                         <TextView
                             android:id="@+id/fullfilment_id"
@@ -56,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen10sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -78,7 +81,32 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen10sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                              android:text="Status: "
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Partial"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
 
 
                     </LinearLayout>
@@ -86,27 +114,21 @@
                     <!--            android:onClick="@{()-> callback.onRightArrowClickedContinue()}"-->
                 </LinearLayout>
 
-                <ImageView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+
+                    <ImageView
                     android:id="@+id/right_arrow"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="130dp"
+                    android:layout_gravity="end"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/black_right_arroww"
                     android:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/down_arrow"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="130dp"
-                    android:contentDescription="@string/app_name"
-                    android:rotation="90"
-                    android:src="@drawable/black_right_arroww"
-                    android:visibility="gone" />
-
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -148,9 +170,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Normal Priority"
+                        android:id="@+id/customer_type"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -164,9 +186,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="19 Feb, 2020-10:10:44"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:id="@+id/order_date"
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,15 +202,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Home delivery"
+
+                        android:id="@+id/shipping_method_type"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Payment source"
+
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
 
@@ -196,9 +220,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Online"
+
+                        android:id="@+id/payment_source"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                 </LinearLayout>
 
@@ -220,9 +245,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Apollo247"
+                        android:id="@+id/ordersource"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -230,15 +255,15 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="Delivery date"
                         android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="19 Feb, 2020-02:30:00"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:id="@+id/delivery_date"
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -252,9 +277,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Available"
+                        android:id="@+id/stock_status"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -268,9 +293,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/price_bold"
-                        android:text="Cart"
+                        android:id="@+id/order_type"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen_9_sp" />
 
                 </LinearLayout>
 
@@ -288,7 +313,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/price_bold"
-
                     android:text="Product Items :"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen10sp" />
@@ -328,6 +352,7 @@
                 android:layout_height="@dimen/dimen40dp"
                 android:background="@color/yellow"
                 android:text="SELECT"
+                android:id="@+id/selectbutton"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/black" />
 

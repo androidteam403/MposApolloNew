@@ -10,4 +10,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onClickFilterIcon();
 
     void onClickScanCode();
+
+    void onGetOmsTransaction();
 }

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFullfilmentPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
@@ -27,15 +29,18 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     private final OpenOrdersMvpView mvpView;
     List<RackAdapter.RackBoxModel.ProductData> listOfList;
     private RacksDataResponse racksDataResponse;
+   public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
     private boolean firstAccessCheck;
 
-    public FullfilmentAdapter(Context context, List<FullfilmentModel> fullfilmentModelList, OpenOrdersMvpView mvpView, List<RackAdapter.RackBoxModel.ProductData> listOfList, RacksDataResponse racksDataResponse) {
+    public FullfilmentAdapter(Context context, List<FullfilmentModel> fullfilmentModelList, OpenOrdersMvpView mvpView, List<RackAdapter.RackBoxModel.ProductData> listOfList, RacksDataResponse racksDataResponse,   List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
         this.context = context;
         this.fullfilmentModelList = fullfilmentModelList;
         this.mvpView = mvpView;
         this.listOfList = listOfList;
         this.racksDataResponse = racksDataResponse;
+        this.getOMSTransactionResponseList=getOMSTransactionResponseList;
     }
+
 
     @NonNull
     @Override
@@ -52,48 +57,59 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getFullfilmentId());
         holder.fullfilmentBinding.items.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getTotalItems());
         holder.fullfilmentBinding.productItems.setText("" + fullfilmentModel.totalItems);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+         if (mvpView != null)
+            mvpView.onFullfillmentItemClick(position);
+    }
+        });
+
         switch (fullfilmentModel.getExpandStatus()) {
 
             case 0:
+                if(fullfilmentModel.getExpandStatus()==1){
+                    holder.fullfilmentBinding.rightArrow.setRotation(0);
+                    fullfilmentModel.setExpandStatus(0);
+                }
+//                fullfilmentModel.setExpandStatus(0);
 //                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_grey));
                 holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
                 break;
             case 1:
+                if(getOMSTransactionResponseList!=null && getOMSTransactionResponseList.size()>0){
+
+                holder.fullfilmentBinding.rightArrow.setRotation(90);
+                holder.fullfilmentBinding.customerType.setText(getOMSTransactionResponseList.get(0).getCustomerType());
+                holder.fullfilmentBinding.ordersource.setText(getOMSTransactionResponseList.get(0).getOrderSource());
+                holder.fullfilmentBinding.orderDate.setText(getOMSTransactionResponseList.get(0).getCreatedDateTime());
+                holder.fullfilmentBinding.deliveryDate.setText(getOMSTransactionResponseList.get(0).getDeliveryDate());
+                holder.fullfilmentBinding.shippingMethodType.setText(getOMSTransactionResponseList.get(0).getShippingMethod());
+                holder.fullfilmentBinding.stockStatus.setText(getOMSTransactionResponseList.get(0).getStockStatus());
+                holder.fullfilmentBinding.paymentSource.setText(getOMSTransactionResponseList.get(0).getPaymentSource());
+                holder.fullfilmentBinding.orderType.setText(getOMSTransactionResponseList.get(0).getOrderType());
+                }
+                if(getOMSTransactionResponseList!=null && getOMSTransactionResponseList.size()>0) {
+
+
+//        FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, racksDataResponse.getFullfillmentDetails().get(position).getProducts(), mvpView, position);
+                    FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());
+                    new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+                    holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
+                    holder.itemView.setOnClickListener(v -> {
+
+
+
+                    });
+
+                }
 //                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.orderChildLayout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.yellow_stroke_bg));
-                break;
-            case 3:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-
-            case 4:
-
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 5:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 6:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 7:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 8:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 9:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
                 break;
             default:
         }
@@ -107,24 +123,17 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
 
         }
-
-
-        FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, racksDataResponse.getFullfillmentDetails().get(position).getProducts(), mvpView, position);
-        new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
-        holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
-        holder.itemView.setOnClickListener(v -> {
-            if (mvpView != null)
-                mvpView.onFullfillmentItemClick(position);
-
-        });
-
+            holder.fullfilmentBinding.selectbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mvpView != null)
+                        mvpView.onFullfillmentItemClick(position);
+                }
+            });
 
         holder.fullfilmentBinding.fullfillmentSelectIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 if (mvpView != null)
                     mvpView.onRightArrowClickedContinue(position);
             }
@@ -134,33 +143,22 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                firstAccessCheck = true;
-//                holder.fullfilmentBinding.rightArrow.setVisibility(View.GONE);
+                notifyDataSetChanged();
 
-                if (fullfilmentModel.getExpandStatus() == 0) {
-                    fullfilmentModel.setExpandStatus(1);
-                    holder.fullfilmentBinding.rightArrow.setVisibility(View.GONE);
-                    holder.fullfilmentBinding.downArrow.setVisibility(View.VISIBLE);
-
-                    notifyDataSetChanged();
-
-
+                if(mvpView!=null && fullfilmentModel.getExpandStatus()==0){
+                    mvpView.ondownArrowClicked(position);
                 }
 
-            }
-        });
-
-        holder.fullfilmentBinding.downArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fullfilmentModel.getExpandStatus() == 1) {
-                    fullfilmentModel.setExpandStatus(0);
-                    holder.fullfilmentBinding.downArrow.setVisibility(View.GONE);
-                    holder.fullfilmentBinding.rightArrow.setVisibility(View.VISIBLE);
-
-                    notifyDataSetChanged();
-
+                for(FullfilmentAdapter.FullfilmentModel fullfilmentModel : fullfilmentModelList){
+                    if(fullfilmentModel.getExpandStatus()==1){
+                        fullfilmentModel.setExpandStatus(0);
+                        holder.fullfilmentBinding.rightArrow.setRotation(0);
+                    }
                 }
+
+
+
+
             }
         });
     }

@@ -20,6 +20,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBind
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -39,6 +40,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
     private FullfilmentAdapter fullfilmentAdapter;
     public List<RackAdapter.RackBoxModel.ProductData> productDataList;
+    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
     private boolean isContinueEnable;
     //    private AppBarConfiguration mAppBarConfiguration;
@@ -72,6 +74,16 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         mPresenter.onRackApiCall();
 
 
+
+    }
+
+    int getPos;
+
+    @Override
+    public void ondownArrowClicked(int position)
+    {
+        this.getPos=position;
+        mPresenter.onGetOmsTransaction();
     }
 
 
@@ -91,11 +103,39 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
 
             openOrdersBinding.headerOrdersCount.setText("Total " + fullfilmentModelList.size() + " orders");
-            fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse);
+            fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse, null);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
         }
+    }
+
+
+    @Override
+    public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
+
+        openOrdersBinding.headerOrdersCount.setText("Total " + fullfilmentModelList.size() + " orders");
+        fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse, body);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+
+        if (fullfilmentModelList.get(getPos).getExpandStatus() == 0 && fullfilmentAdapter!=null) {
+            fullfilmentAdapter.notifyDataSetChanged();
+            fullfilmentModelList.get(getPos).setExpandStatus(1);
+                }else {
+            fullfilmentModelList.get(getPos).setExpandStatus(0);
+            fullfilmentAdapter.notifyDataSetChanged();
+                }
+
+
+//     this.getOMSTransactionResponseList=body;
+
+//        for (int i = 0; i <body.size(); i++){
+//            getOMSTransactionResponseList.get(getPos).setCustomerType(body.get(i).getCustomerType());
+//        }
+
+
     }
 
     @Override
@@ -127,6 +167,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
         statusUpdateDialog.show();
     }
+
+
 
 
     int pos;
