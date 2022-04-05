@@ -20,6 +20,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBi
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.PrinterDeviceListAdapter;
@@ -48,7 +49,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
 
-    public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> racksDataResponse) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
         intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
         return intent;

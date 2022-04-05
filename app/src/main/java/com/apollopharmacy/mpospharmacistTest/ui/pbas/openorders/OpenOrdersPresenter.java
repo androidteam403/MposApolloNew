@@ -6,13 +6,21 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.model.OMSTransactionHeaderReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresenter<V>
@@ -28,7 +36,6 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
 
-
     @Override
     public void onRackApiCall() {
         if (getMvpView().isNetworkConnected()) {
@@ -42,7 +49,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
                             getMvpView().hideLoading();
-                            getMvpView().onSuccessRackApi(response.body());
+//                            getMvpView().onSuccessRackApi(response.body());
                         }
                     }
                     Log.e("TAG", response.code() + "");
@@ -66,9 +73,89 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
+    public void fetchFulfilmentOrderList() {
+
+        com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiInterface apiInterface = com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiClient.getRetrofitInstance().create(com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiInterface.class);
+
+        TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
+        reqModel.setTransactionID("");
+        reqModel.setRefID("");
+        reqModel.setExpiryDays(90);
+        reqModel.setStoreID(getDataManager().getStoreId());
+        reqModel.setTerminalID(getDataManager().getTerminalId());
+        reqModel.setDataAreaID(getDataManager().getDataAreaId());
+
+
+        Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER(reqModel);
+        call.enqueue(new Callback<TransactionHeaderResponse>() {
+            @Override
+            public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null)
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
+                handleApiError(t);
+            }
+        });
+
+           /* Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
+            call.enqueue(new Callback<OMSTransactionHeaderResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null)
+                        getMvpView().onSuccessGetOMSTransactionList(response.body());
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });*/
+    }
+
+
+    @Override
     public void onClickScanCode() {
         getMvpView().onClickScanCode();
     }
 
+    @Override
+    public void onGetOmsTransaction() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
+            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setExpiryDays(90);
+            getOmsTransactionRequest.setRefID("");
+            getOmsTransactionRequest.setStoreID("16001");
+            getOmsTransactionRequest.setTerminalID("005");
+            getOmsTransactionRequest.setTransactionID("FL20210720000014");
+            Call<List<GetOMSTransactionResponse>> call = apiInterface.getOmsApiCall(getOmsTransactionRequest);
+            call.enqueue(new Callback<List<GetOMSTransactionResponse>>() {
+                @Override
+                public void onResponse(Call<List<GetOMSTransactionResponse>> call, Response<List<GetOMSTransactionResponse>> response) {
+                    if (response.isSuccessful()) {
+                            getMvpView().hideLoading();
+                            getMvpView().onSucessGetOmsTransaction(response.body());
+                        }
+                }
 
+                @Override
+                public void onFailure(Call<List<GetOMSTransactionResponse>> call, Throwable t) {
+                    getMvpView().hideLoading();
+                }
+            });
+        }
 }
+
+    }
+
+

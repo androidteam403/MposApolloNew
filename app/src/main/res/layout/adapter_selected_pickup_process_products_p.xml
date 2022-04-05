@@ -198,6 +198,7 @@
             android:layout_marginTop="7dp"
             android:fontFamily="@font/price_bold"
             android:text="1"
+            android:id="@+id/quantity"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen_11sp" />
         <ImageView
