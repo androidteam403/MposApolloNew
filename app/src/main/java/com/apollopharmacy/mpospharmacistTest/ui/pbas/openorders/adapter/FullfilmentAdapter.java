@@ -65,36 +65,6 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 holder.fullfilmentBinding.orderChildLayout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.yellow_stroke_bg));
                 break;
-            case 3:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-
-            case 4:
-
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 5:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 6:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 7:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 8:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 9:
-                holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
-                break;
             default:
         }
 
