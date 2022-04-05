@@ -141,7 +141,7 @@
             android:layout_marginTop="@dimen/dimen60dp"
             android:background="@drawable/stroke_yellow_bg"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <LinearLayout

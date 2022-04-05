@@ -19,6 +19,8 @@ public class ApiClient {
     private static final String ROOT_URL_2 = "http://lms.apollopharmacy.org:8033/APK/";
 
     private static final String ROOT_URL_3 = "http://online.apollopharmacy.org:51/OMSSERVICE/";
+    private static final String ROOT_URL_4 = "http://online.apollopharmacy.org:51/EPOS/";
+
 
     /**
      * Get Retrofit Instance
@@ -66,6 +68,21 @@ public class ApiClient {
                 .client(client)
                 .build();
     }
+    private static Retrofit getRetrofitInstance4() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(ROOT_URL_4)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+    }
+
+
 
     /**
      * Get API Service
@@ -93,6 +110,10 @@ public class ApiClient {
     public static ApiInterface getApiService3() {
         return getRetrofitInstance3().create(ApiInterface.class);
     }
+    public static ApiInterface getApiService4() {
+        return getRetrofitInstance4().create(ApiInterface.class);
+    }
+
 
 
     private static final String ROOT_URL = "https://signage.apollopharmacy.app/zc-v3.1-user-svc/2.0/ads/api/";

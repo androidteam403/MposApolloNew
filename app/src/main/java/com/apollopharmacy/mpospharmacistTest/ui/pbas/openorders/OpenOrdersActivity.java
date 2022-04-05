@@ -21,6 +21,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -71,7 +72,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     protected void setUp() {
         openOrdersBinding.setCallback(mPresenter);
-        mPresenter.onRackApiCall();
+        mPresenter.fetchFulfilmentOrderList();
+
 
 
 
@@ -91,26 +93,25 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     @Override
     public void onSuccessRackApi(RacksDataResponse racksDataResponse) {
-        this.racksDataResponse = racksDataResponse;
-        if (racksDataResponse != null && racksDataResponse.getFullfillmentDetails() != null && racksDataResponse.getFullfillmentDetails().size() > 0) {
-            fullfilmentModelList = new ArrayList<>();
-            for (int i = 0; i < racksDataResponse.getFullfillmentDetails().size(); i++) {
-                FullfilmentAdapter.FullfilmentModel fullfilmentModel = new FullfilmentAdapter.FullfilmentModel();
-                fullfilmentModel.setFullfilmentId(racksDataResponse.getFullfillmentDetails().get(i).getFullfillmentId());
-                fullfilmentModel.setTotalItems(racksDataResponse.getFullfillmentDetails().get(i).getTotalItems());
-                fullfilmentModel.setSelected(false);
-                fullfilmentModelList.add(fullfilmentModel);
-            }
+//        this.racksDataResponse = racksDataResponse;
+//        if (racksDataResponse != null && racksDataResponse.getFullfillmentDetails() != null && racksDataResponse.getFullfillmentDetails().size() > 0) {
+//            fullfilmentModelList = new ArrayList<>();
+//            for (int i = 0; i < racksDataResponse.getFullfillmentDetails().size(); i++) {
+//                FullfilmentAdapter.FullfilmentModel fullfilmentModel = new FullfilmentAdapter.FullfilmentModel();
+//                fullfilmentModel.setFullfilmentId(racksDataResponse.getFullfillmentDetails().get(i).getFullfillmentId());
+//                fullfilmentModel.setTotalItems(racksDataResponse.getFullfillmentDetails().get(i).getTotalItems());
+//                fullfilmentModel.setSelected(false);
+//                fullfilmentModelList.add(fullfilmentModel);
+//            }
+//
+//            openOrdersBinding.headerOrdersCount.setText("Total " + fullfilmentModelList.size() + " orders");
+//            fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse);
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+//            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+//        }
 
-            openOrdersBinding.headerOrdersCount.setText("Total " + fullfilmentModelList.size() + " orders");
-            fullfilmentAdapter = new FullfilmentAdapter(this, fullfilmentModelList, this, productDataList, racksDataResponse, null);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-        }
     }
-
-
     @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
 
@@ -123,10 +124,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         if (fullfilmentModelList.get(getPos).getExpandStatus() == 0 && fullfilmentAdapter!=null) {
             fullfilmentAdapter.notifyDataSetChanged();
             fullfilmentModelList.get(getPos).setExpandStatus(1);
-                }else {
+        }else {
             fullfilmentModelList.get(getPos).setExpandStatus(0);
             fullfilmentAdapter.notifyDataSetChanged();
-                }
+        }
 
 
 //     this.getOMSTransactionResponseList=body;
@@ -137,7 +138,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
 
     }
-
     @Override
     public void onClickFilterIcon() {
         Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
@@ -149,10 +149,22 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     }
 
     @Override
+    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
+        FullfilmentAdapter fullfilmentAdapter=new FullfilmentAdapter(this,omsHeader.getOMSHeader());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+    }
+
+
+    @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+
+
     }
 
     @Override
@@ -308,6 +320,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                     Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                    openOrdersBinding.searchByfulfimentid.setText(Result.getContents());
                    BillerOrdersActivity.isBillerActivity = false;
                 }
             } else {
