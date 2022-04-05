@@ -20,6 +20,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBi
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.PrinterDeviceListAdapter;
@@ -48,7 +49,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
 
-    public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> racksDataResponse) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
         intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
         return intent;
@@ -176,24 +177,28 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-                if (data != null) {
-                    List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
-                    for (int i = 0; i < fullfillmentDataList.size(); i++) {
-                        fullfillmentDataList.get(i).setTagBox(true);
-                        fullfillmentDataList.get(i).setScanView(true);
+                if (!BillerOrdersActivity.isBillerActivity) {
+                    if (data != null) {
+                        List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
+                        for (int i = 0; i < fullfillmentDataList.size(); i++) {
+                            fullfillmentDataList.get(i).setTagBox(true);
+                            fullfillmentDataList.get(i).setScanView(true);
+                        }
+                        readyForPickUpAdapter.notifyDataSetChanged();
+                        boolean isAlltagBox = true;
+                        for (FullfillmentData fullfillmentData : fullfillmentDataList)
+                            if (!fullfillmentData.isTagBox())
+                                isAlltagBox = false;
+                        if (isAlltagBox) {
+                            activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
+                            activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
+                        } else {
+                            activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
+                            activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
+                        }
                     }
-                    readyForPickUpAdapter.notifyDataSetChanged();
-                    boolean isAlltagBox = true;
-                    for (FullfillmentData fullfillmentData : fullfillmentDataList)
-                        if (!fullfillmentData.isTagBox())
-                            isAlltagBox = false;
-                    if (isAlltagBox) {
-                        activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
-                        activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
-                    } else {
-                        activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
-                        activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
-                    }
+                } else {
+                    BillerOrdersActivity.isBillerActivity = false;
                 }
             }
         } else {
@@ -283,6 +288,13 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     public void onClickStartPickingWithoutQrCode() {
         startActivity(PickupProcessActivity.getStartActivity(this, racksDataResponse));
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onClickScanCode() {
+        BillerOrdersActivity.isBillerActivity = true;
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
