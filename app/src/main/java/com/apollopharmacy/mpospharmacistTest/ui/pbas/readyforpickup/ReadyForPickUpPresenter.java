@@ -37,4 +37,9 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     public void onClickStartPickingWithoutQrCode() {
         getMvpView().onClickStartPickingWithoutQrCode();
     }
+
+    @Override
+    public void onClickScanCode() {
+        getMvpView().onClickScanCode();
+    }
 }

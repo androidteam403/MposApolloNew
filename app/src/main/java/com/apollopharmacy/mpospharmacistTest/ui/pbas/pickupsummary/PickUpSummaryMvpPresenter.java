@@ -16,4 +16,6 @@ public interface PickUpSummaryMvpPresenter<V extends PickUpSummaryMvpView> exten
     void setListOfListFullfillmentData(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullfillmentDetailList);
 
     List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList();
+
+    void onClickScanCode();
 }

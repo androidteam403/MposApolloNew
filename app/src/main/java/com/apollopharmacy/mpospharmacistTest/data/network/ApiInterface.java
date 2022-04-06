@@ -67,6 +67,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesT
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
@@ -86,6 +90,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.DeviceSetupResM
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -317,4 +322,10 @@ public interface ApiInterface {
 
     @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")//907253572044079104
     Call<RacksDataResponse> doRackApiCall();
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransaction")
+    Call<List<GetOMSTransactionResponse>> getOmsApiCall(@Body GetOmsTransactionRequest omsTransactionRequest);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransactionHeader")
+    Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 }
