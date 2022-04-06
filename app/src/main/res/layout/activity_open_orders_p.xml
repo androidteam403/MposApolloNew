@@ -69,8 +69,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="16dp"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginEnd="@dimen/five_dp"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickFilterIcon()}"
                         android:src="@drawable/ic_filter_white" />
@@ -89,6 +90,70 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen10sp"
                 tools:ignore="RtlSymmetry" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/seven_dp"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/search_byfulfimentid"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Search by Fullfillment ID"
+                    android:padding="@dimen/five_dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/search_icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:backgroundTint="@color/green"
+                    android:onClick="@{()->callback.onClickScanCode()}"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/tag_box"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_rectangular_shape"
+                        android:backgroundTint="@color/green"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Scan code"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/ten_sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -274,7 +339,7 @@
         <LinearLayout
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen50dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="@color/continue_unselect_color"
             android:gravity="center"
@@ -283,15 +348,15 @@
 
             <TextView
                 android:id="@+id/selected_item_count"
-                android:layout_width="@dimen/dimen35dp"
-                android:layout_height="@dimen/dimen35dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginEnd="@dimen/dimen5dp"
                 android:background="@drawable/ic_circle_lite_yellow_bg"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:padding="@dimen/dimen5dp"
+                android:padding="5dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen12sp"
+                android:textSize="@dimen/text_dimen_9"
                 android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
 
             <TextView

@@ -54,9 +54,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Un-tag the fullfillment id: "
                         android:textAlignment="center"
+                        android:textSize="@dimen/dimen12sp"
                         android:textColor="@color/red" />
 
                     <TextView
@@ -64,8 +65,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="121323"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textAlignment="center"
                         android:textColor="@color/black" />
 
@@ -75,9 +77,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="with the current QR code"
                     android:textAlignment="center"
+                    android:textSize="@dimen/text_dimen_12"
                     android:textColor="@color/red" />
 
                 <LinearLayout

@@ -85,7 +85,7 @@ public class CaptureManager {
                 @Override
                 public void run() {
                     barcodeList.add(result.toString());
-                    if (ReadyForPickUpActivity.fullfillmentDetailList != null && barcodeList.size() == ReadyForPickUpActivity.fullfillmentDetailList.size())
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && barcodeList.size() == ReadyForPickUpActivity.selectedOmsHeaderListTest.size())
                         returnResult(result, barcodeList);
                     else {
                         if (!BillerOrdersActivity.isBillerActivity) {

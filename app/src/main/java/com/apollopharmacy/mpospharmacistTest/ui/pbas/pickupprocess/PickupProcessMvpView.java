@@ -47,4 +47,8 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickRightArrow(RacksDataResponse.FullfillmentDetail fullfillmentDetail);
 
+
+    //new Callbacks
+    void onClickOrderItem(int pos);
+
 }
