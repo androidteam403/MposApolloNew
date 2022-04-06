@@ -379,9 +379,9 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //        statusUpdateDialog.show();
     }
 
-
+    boolean isAnyoneSelect = false;
     int pos;
-
+    int selectedItemCount = 0;
     @SuppressLint("SetTextI18n")
     @Override
     public void onFullfillmentItemClick(int pos) {
@@ -392,6 +392,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
                         selectedOmsHeaderList.remove(i);
+                        selectedItemCount--;
                         break;
                     }
                 }
@@ -401,7 +402,27 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         } else {
             mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
+            isAnyoneSelect = true;
+            selectedItemCount++;
         }
+        this.isContinueEnable = isAnyoneSelect;
+        if(isAnyoneSelect && selectedOmsHeaderList!=null) {
+            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
+            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
+            openOrdersBinding.setIsContinueSelect(true);
+
+        } else if(selectedOmsHeaderList.size()==0){
+            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pickup process.");
+            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+            openOrdersBinding.setIsContinueSelect(false);
+        }
+        openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
+        if (fullfilmentAdapter != null) {
+            fullfilmentAdapter.notifyItemChanged(pos);
+        }
+
+//        }
+
 //        this.pos = pos;
 //        if (omsHeaderList != null && omsHeaderList.size() > 0) {
 //            int selectedCount = 0;
@@ -449,12 +470,32 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     @Override
     public void onClickContinue() {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+        if (isContinueEnable) {
             startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedOmsHeaderList));
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             Toast.makeText(this, "No Orders Selected.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+//        if (isContinueEnable && selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+//            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
+//            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
+//            openOrdersBinding.setIsContinueSelect(true);
+//            startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedOmsHeaderList));
+//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//        } else if(selectedOmsHeaderList.size()==0){
+//            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
+//            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+//            openOrdersBinding.setIsContinueSelect(false);
+//            Toast.makeText(this, "No Orders Selected.", Toast.LENGTH_SHORT).show();
+//        }
+//        openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
+//        }
+//
+
+
+
 
 
 //        if (isContinueEnable) {
@@ -475,7 +516,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //        } else {
 //            Toast.makeText(this, "Please Select Orders", Toast.LENGTH_SHORT).show();
 //        }
-    }
+
 
     @Override
     public void onRightArrowClickedContinue(int position) {
@@ -498,7 +539,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //    }
 
     int gotId;
-    boolean isAnyoneSelect = false;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
