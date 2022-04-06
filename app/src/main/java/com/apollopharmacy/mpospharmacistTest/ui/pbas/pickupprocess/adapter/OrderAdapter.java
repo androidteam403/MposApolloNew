@@ -91,7 +91,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.status.setText("In progress");
             holder.orderBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.in_progress));
             holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-            holder.orderBinding.rightArrow.setRotation(0);
+            holder.orderBinding.rightArrow.setRotation(-90);
             holder.orderBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.yellow_stroke_bg));
             holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
             holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);

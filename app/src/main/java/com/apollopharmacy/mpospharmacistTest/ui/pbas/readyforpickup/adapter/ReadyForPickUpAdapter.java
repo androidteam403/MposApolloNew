@@ -64,6 +64,11 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
                 readyForPickUpMvpView.onTagBoxClick(omsHeader.getRefno(), position);
             }
         });
+        holder.adapterReadyForPickupBinding.takePrint1.setOnClickListener(view -> {
+            if (readyForPickUpMvpView != null) {
+                readyForPickUpMvpView.onClickTakePrint();
+            }
+        });
 
 
     }

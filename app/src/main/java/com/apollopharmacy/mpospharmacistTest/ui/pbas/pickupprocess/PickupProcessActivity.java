@@ -25,6 +25,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
@@ -80,17 +81,23 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         setUp();
     }
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "SetTextI18n"})
     @Override
     protected void setUp() {
         pickupProcessBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+            pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
+            pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
+            pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+            pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+
             orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
             pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
             pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+
 //            for (int i = 0; i < racksDataResponse.size(); i++) {
 //                for (int j = 0; j < racksDataResponse.get(i).getProducts().size(); j++) {
 //                    rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
@@ -112,8 +119,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 //            ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(PickupProcessActivity.this, android.R.layout.simple_spinner_item, items);
 //            pickupProcessBinding.autoincomplete.setAdapter(myAdapter);
-            pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-            pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
 
 
 //            if (rackListOfListFiltered != null)
@@ -129,7 +134,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
 //            pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
 
-            pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/5");
+
         }
 //        mPresenter.onRackApiCall();
         rackOrderCheckedListener();
