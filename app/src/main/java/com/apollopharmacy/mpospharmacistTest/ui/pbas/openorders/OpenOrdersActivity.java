@@ -44,6 +44,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
     public List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
+    public static String TOTAL_ORDERS = null;
 
     private boolean isContinueEnable;
     private List<FilterModel> customerTypeFilterList;
@@ -85,6 +86,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             if (fullfilmentAdapter != null) {
                 fullfilmentAdapter.notifyDataSetChanged();
             }
+            onContinueBtnEnable();
         } else {
             mPresenter.onGetOmsTransaction(omsHeaderList.get(position).getRefno(), false);
         }
@@ -317,6 +319,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+        TOTAL_ORDERS = String.valueOf(omsHeaderList.size());
     }
 
 
@@ -332,6 +335,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
         openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
+        onContinueBtnEnable();
     }
 
     @Override
@@ -354,6 +358,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             if (fullfilmentAdapter != null) {
                 fullfilmentAdapter.notifyItemChanged(getPos);
             }
+            onContinueBtnEnable();
         }
     }
 
@@ -379,9 +384,9 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //        statusUpdateDialog.show();
     }
 
-    boolean isAnyoneSelect = false;
+
     int pos;
-    int selectedItemCount = 0;
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onFullfillmentItemClick(int pos) {
@@ -392,7 +397,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
                         selectedOmsHeaderList.remove(i);
-                        selectedItemCount--;
                         break;
                     }
                 }
@@ -400,77 +404,20 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             if (fullfilmentAdapter != null) {
                 fullfilmentAdapter.notifyItemChanged(pos);
             }
+            onContinueBtnEnable();
         } else {
             mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
-            isAnyoneSelect = true;
-            selectedItemCount++;
         }
-        this.isContinueEnable = isAnyoneSelect;
-        if(isAnyoneSelect && selectedOmsHeaderList!=null) {
-            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
-            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
-            openOrdersBinding.setIsContinueSelect(true);
-
-        } else if(selectedOmsHeaderList.size()==0){
-            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pickup process.");
-            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
-            openOrdersBinding.setIsContinueSelect(false);
-        }
-        openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
-        if (fullfilmentAdapter != null) {
-            fullfilmentAdapter.notifyItemChanged(pos);
-        }
-
-//        }
-
-//        this.pos = pos;
-//        if (omsHeaderList != null && omsHeaderList.size() > 0) {
-//            int selectedCount = 0;
-//            for (TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList) {
-//                if (fullfilmentModel.isSelected()) {
-//                    selectedCount++;
-//                }
-//            }
-//            if (selectedCount < omsHeaderList.size()) {
-//                omsHeaderList.get(pos).setSelected(!omsHeaderList.get(pos).isSelected());
-//            } else {
-//                if (omsHeaderList.get(pos).isSelected())
-//                    omsHeaderList.get(pos).setSelected(false);
-//            }
-//            if (fullfilmentAdapter != null)
-//                fullfilmentAdapter.notifyDataSetChanged();
-//            boolean isAnyoneSelect = false;
-//            int selectedItemCount = 0;
-//            for (TransactionHeaderResponse.OMSHeader fullfilmentModel : omsHeaderList)
-//                if (fullfilmentModel.isSelected()) {
-//                    isAnyoneSelect = true;
-//                    selectedItemCount++;
-//                }
-//            this.isContinueEnable = isAnyoneSelect;
-//            if (isAnyoneSelect) {
-//                openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
-//                openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
-//                openOrdersBinding.setIsContinueSelect(true);
-//            } else {
-//                openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
-//                openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
-//                openOrdersBinding.setIsContinueSelect(false);
-//            }
-//            openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
-//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        selectedRacksDataResponse = new ArrayList<>();
     }
-
-    public List<TransactionHeaderResponse.OMSHeader> selectedRacksDataResponse;
 
     @Override
     public void onClickContinue() {
-        if (isContinueEnable) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedOmsHeaderList));
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
@@ -478,68 +425,25 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         }
     }
 
-//        if (isContinueEnable && selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-//            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
-//            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
-//            openOrdersBinding.setIsContinueSelect(true);
-//            startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedOmsHeaderList));
-//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//        } else if(selectedOmsHeaderList.size()==0){
-//            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
-//            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
-//            openOrdersBinding.setIsContinueSelect(false);
-//            Toast.makeText(this, "No Orders Selected.", Toast.LENGTH_SHORT).show();
-//        }
-//        openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
-//        }
-//
-
-
-
-
-
-//        if (isContinueEnable) {
-//            for (int i = 0; i < omsHeaderList.size(); i++) {
-//                if (omsHeaderList.get(i).isSelected()) {
-//                    omsHeaderList.get(pos).setSelected(omsHeaderList.get(i).isSelected());
-//                } else {
-//                    omsHeaderList.get(i).setSelected(omsHeaderList.get(i).isSelected());
-//                }
-//            }
-//            for (int i = 0; i < omsHeaderList.size(); i++) {
-//                if (omsHeaderList.get(i).isSelected()) {
-//                    selectedRacksDataResponse.add(omsHeaderList.get(i));
-//                }
-//            }
-//            startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedRacksDataResponse));
-//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//        } else {
-//            Toast.makeText(this, "Please Select Orders", Toast.LENGTH_SHORT).show();
-//        }
-
-
     @Override
     public void onRightArrowClickedContinue(int position) {
 //        if (racksDataResponse.getFullfillmentDetails() != null && racksDataResponse.getFullfillmentDetails().size() > 0 && racksDataResponse.getFullfillmentDetails().size() > pos) {
-
-
-        //            Intent i = new Intent(OpenOrdersActivity.this, OrderDetailsActivity.class);
+//
+//            Intent i = new Intent(OpenOrdersActivity.this, OrderDetailsActivity.class);
 //            i.putExtra("fullfillmentDetails", racksDataResponse.getFullfillmentDetails().get(position));
 //            startActivityForResult(i, 999);
 //            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
+//
 //            openOrdersBinding.layoutFulfilment.setVisibility(View.VISIBLE);
-//            FulfimentDetailsAdapter fulfimentDetailsAdapter=new FulfimentDetailsAdapter(productDataList,this);
+//            FulfimentDetailsAdapter fulfimentDetailsAdapter = new FulfimentDetailsAdapter(productDataList, this);
 //            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
 //            openOrdersBinding.rackRecycler.setLayoutManager(mLayoutManager);
 //            openOrdersBinding.rackRecycler.setAdapter(fulfimentDetailsAdapter);
-
-
+//        }
     }
-//    }
 
     int gotId;
-
+    boolean isAnyoneSelect = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -586,6 +490,19 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
+        }
+    }
+
+    private void onContinueBtnEnable() {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedOmsHeaderList.size() + "/" + omsHeaderList.size());
+            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
+            openOrdersBinding.setIsContinueSelect(true);
+            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + omsHeaderList.size());
+        } else {
+            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
+            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+            openOrdersBinding.setIsContinueSelect(false);
         }
     }
 }

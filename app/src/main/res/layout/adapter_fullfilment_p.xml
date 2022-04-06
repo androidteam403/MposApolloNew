@@ -289,31 +289,25 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen6dp"
+                    android:layout_marginEnd="@dimen/dimen6dp"
                     android:background="@drawable/newyellowstrok"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_weight=".85"
                         android:fontFamily="@font/price_bold"
                         android:text="Product Items :"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
 
                     <TextView
-                        android:id="@+id/product_items"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:fontFamily="@font/price_bold"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="207dp"
+                        android:layout_weight=".15"
                         android:fontFamily="@font/price_bold"
                         android:text="Qty"
                         android:textColor="@color/text_color_grey"

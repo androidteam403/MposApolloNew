@@ -51,70 +51,6 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/seven_dp"
-                android:weightSum="1">
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_weight="0.7"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:focusable="false"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Search by Fullfillment ID"
-                    android:padding="@dimen/five_dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="@dimen/twelve_sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:contentDescription="@string/app_name"
-                    android:padding="@dimen/five_dp"
-                    android:src="@drawable/search_icon" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:backgroundTint="@color/green"
-                    android:onClick="@{()->callback.onClickScanCode()}"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/twenty_five_dp"
-                        android:layout_height="@dimen/twenty_five_dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/three_dp"
-                        android:contentDescription="@string/app_name"
-                        android:padding="@dimen/five_dp"
-                        android:src="@drawable/tag_box"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/ic_rectangular_shape"
-                        android:backgroundTint="@color/green"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Scan code"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/ten_sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
             <ToggleButton
                 android:id="@+id/rack_order_toggle"
                 android:layout_width="@dimen/dimen150dp"
@@ -127,17 +63,19 @@
                 android:textOn=""
                 android:visibility="gone" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
                 android:layout_marginTop="@dimen/dimen20dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
                 android:layout_marginEnd="@dimen/dimen10dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_weight=".6"
                     android:orientation="horizontal">
 
                     <TextView
@@ -160,9 +98,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_weight=".4"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -196,7 +134,7 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rack_recycler"
