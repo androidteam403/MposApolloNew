@@ -25,16 +25,17 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,8 +43,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class PickupProcessActivity extends BaseActivity implements PickupProcessMvpView {
-
-
     @Inject
     PickupProcessMvpPresenter<PickupProcessMvpView> mPresenter;
     private ActivityPickupProcessPBinding pickupProcessBinding;
@@ -52,7 +51,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public AdapterOrderPBinding orderBinding;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
 
-
     public String[] items;
     private List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfList = new ArrayList<>();
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
@@ -60,15 +58,16 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private static List<RacksDataResponse.FullfillmentDetail.Product> rackIdList = new ArrayList<>();
     private ArrayList<String> boxStringList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
 
     long startTime;
     long countUp;
     Chronometer stopWatch;
 
 
-    public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
-        intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
+        intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
         return intent;
     }
 
@@ -86,14 +85,18 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     protected void setUp() {
         pickupProcessBinding.setCallback(mPresenter);
         if (getIntent() != null) {
-            racksDataResponse = (List<RacksDataResponse.FullfillmentDetail>) getIntent().getSerializableExtra("rackDataResponse");
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+            orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+            pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+//            for (int i = 0; i < racksDataResponse.size(); i++) {
+//                for (int j = 0; j < racksDataResponse.get(i).getProducts().size(); j++) {
+//                    rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
+//                }
+//            }
 
-            for (int i = 0; i < racksDataResponse.size(); i++) {
-                for (int j = 0; j < racksDataResponse.get(i).getProducts().size(); j++) {
-                    rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
-                }
-            }
-            pickupProcessBinding.headerOrdersCount.setText("Total " + racksDataResponse.size() + " Orders");
 
 //            for (int i = 0; i < rackIdList.size(); i++) {
 //                for (int j = 0; j < rackIdList.size(); j++) {
@@ -113,20 +116,20 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
 
 
-            if (rackListOfListFiltered != null)
-                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-            else
-                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-            pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+//            if (rackListOfListFiltered != null)
+//                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
+//            else
+//                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+//            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+//            pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 
 //            rackAdapter = new RackAdapter(this, rackIdList, racksDataResponse, this, rackListOfList, false);
 //            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
 //            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
 //            pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
 
-            pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + racksDataResponse.size() + "/5");
+            pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/5");
         }
 //        mPresenter.onRackApiCall();
         rackOrderCheckedListener();
@@ -182,11 +185,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     private void rackOrderCheckedListener() {
         pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
             if (isChecked) {
-
                 pickupProcessBinding.continueOrders.setVisibility(View.GONE);
-
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
                 if (rackListOfListFiltered != null)
                     rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
@@ -210,16 +210,19 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
                 pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-
-
-                if (rackListOfListFiltered != null)
-                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-                else
-                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+                orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
                 pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
                 pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+
+//                if (rackListOfListFiltered != null)
+//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
+//                else
+//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+//                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+//                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -303,13 +306,28 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     @Override
+    public void onClickOrderItem(int pos) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            if (selectedOmsHeaderList.get(pos).getExpandStatus() == 1) {
+                selectedOmsHeaderList.get(pos).setExpandStatus(0);
+            } else {
+                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                    selectedOmsHeaderList.get(i).setExpandStatus(i == pos ? 1 : 0);
+                }
+            }
+            if (orderAdapter != null)
+                orderAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void onClickBack() {
         onBackPressed();
     }
 
     @Override
     public void onClickContinue() {
-        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, racksDataResponse, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.chrono.getText().toString()));
+        startActivity(PickUpSummmaryActivityNew.getStartActivity(this, selectedOmsHeaderList, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.chrono.getText().toString()));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 

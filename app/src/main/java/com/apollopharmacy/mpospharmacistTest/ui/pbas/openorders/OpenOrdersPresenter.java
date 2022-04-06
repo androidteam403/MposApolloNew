@@ -6,11 +6,10 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.model.OMSTransactionHeaderReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -34,7 +33,6 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     public void onClickContinue() {
         getMvpView().onClickContinue();
     }
-
 
     @Override
     public void onRackApiCall() {
@@ -74,49 +72,35 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
 
     @Override
     public void fetchFulfilmentOrderList() {
-
-        com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiInterface apiInterface = com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiClient.getRetrofitInstance().create(com.apollopharmacy.mpospharmacistTest.ui.pbas.pojo.ApiInterface.class);
-
-        TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
-        reqModel.setTransactionID("");
-        reqModel.setRefID("");
-        reqModel.setExpiryDays(90);
-        reqModel.setStoreID(getDataManager().getStoreId());
-        reqModel.setTerminalID(getDataManager().getTerminalId());
-        reqModel.setDataAreaID(getDataManager().getDataAreaId());
-
-
-        Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER(reqModel);
-        call.enqueue(new Callback<TransactionHeaderResponse>() {
-            @Override
-            public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null)
-                        getMvpView().onSucessfullFulfilmentIdList(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
-                handleApiError(t);
-            }
-        });
-
-           /* Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
-            call.enqueue(new Callback<OMSTransactionHeaderResModel>() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
+            reqModel.setTransactionID("");
+            reqModel.setRefID("");
+            reqModel.setExpiryDays(90);
+            reqModel.setStoreID(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
+            call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
-                public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
+                public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     getMvpView().hideLoading();
-                    if (response.isSuccessful() && response.body() != null)
-                        getMvpView().onSuccessGetOMSTransactionList(response.body());
+                    if (response.isSuccessful()) {
+                        if (response.body() != null)
+                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    }
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Throwable t) {
+                public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }
-            });*/
+            });
+        }
     }
 
 
@@ -126,7 +110,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
-    public void onGetOmsTransaction() {
+    public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
@@ -137,15 +121,19 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             getOmsTransactionRequest.setRefID("");
             getOmsTransactionRequest.setStoreID("16001");
             getOmsTransactionRequest.setTerminalID("005");
-            getOmsTransactionRequest.setTransactionID("FL20210720000014");
+            getOmsTransactionRequest.setTransactionID(fulfilmentId);
             Call<List<GetOMSTransactionResponse>> call = apiInterface.getOmsApiCall(getOmsTransactionRequest);
             call.enqueue(new Callback<List<GetOMSTransactionResponse>>() {
                 @Override
                 public void onResponse(Call<List<GetOMSTransactionResponse>> call, Response<List<GetOMSTransactionResponse>> response) {
                     if (response.isSuccessful()) {
-                            getMvpView().hideLoading();
+                        getMvpView().hideLoading();
+                        if (isItemClick)
+                            getMvpView().onSuccessGetOmsTransactionItemClick(response.body());
+                        else
                             getMvpView().onSucessGetOmsTransaction(response.body());
-                        }
+
+                    }
                 }
 
                 @Override
@@ -154,8 +142,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 }
             });
         }
-}
-
     }
+}
 
 
