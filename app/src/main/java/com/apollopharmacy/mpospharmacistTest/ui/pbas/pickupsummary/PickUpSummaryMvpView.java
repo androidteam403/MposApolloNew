@@ -20,4 +20,6 @@ public interface PickUpSummaryMvpView extends MvpView {
     String notAvailable(String notAvailableCount);
 
     void onClickItem(int pos);
+
+    void onClickScanCode();
 }

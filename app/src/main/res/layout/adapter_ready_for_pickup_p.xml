@@ -31,15 +31,15 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Fullfillment ID : "
-                        android:textColor="@color/jumbo"
+                        android:textColor="#b6b4af"
                         android:textSize="@dimen/thirteen_sp" />
 
                     <TextView
                         android:id="@+id/filment_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/dimen14sp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="@dimen/dimen12sp"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
@@ -53,16 +53,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Total Items : "
-                        android:textColor="@color/aluminum"
+                        android:textColor="#b6b4af"
                         android:textSize="@dimen/ten_sp" />
 
                     <TextView
                         android:id="@+id/total_items"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
 
             </LinearLayout>
