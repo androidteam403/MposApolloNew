@@ -72,12 +72,33 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/status_update_icon"
                     android:layout_width="@dimen/twenty_dp"
                     android:layout_height="@dimen/twenty_dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="270"
                     android:src="@drawable/partialcirculargreeenorange" />
+
+                <TextView
+                    android:id="@+id/start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:background="@drawable/rounded_corners_bg"
+                    android:backgroundTint="@color/green"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/dimen6dp"
+                    android:paddingTop="@dimen/dimen1dp"
+                    android:paddingEnd="@dimen/dimen6dp"
+                    android:paddingBottom="@dimen/dimen1dp"
+                    android:text="start"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen10sp" />
 
             </RelativeLayout>
 

@@ -126,6 +126,8 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/statusandicon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -137,13 +139,15 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Partial"
+                            android:id="@+id/status_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_11sp" />
 
 
                         <ImageView
-                            android:layout_width="@dimen/dimen15dp"
-                            android:layout_height="@dimen/dimen20dp"
+                            android:id="@+id/status_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dimen3dp"
                             android:layout_marginEnd="@dimen/_8dp"
                             android:contentDescription="@string/app_name"
