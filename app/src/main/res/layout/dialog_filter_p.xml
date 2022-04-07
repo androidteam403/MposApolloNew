@@ -206,11 +206,12 @@
                     android:layout_marginStart="@dimen/dimen5dp" />
 
                 <Button
+                    android:id="@+id/apply_filters"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen50dp"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:background="#fdb813"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="APPLY FILTERS"
                     android:textAlignment="center"
                     android:textColor="@color/black" />

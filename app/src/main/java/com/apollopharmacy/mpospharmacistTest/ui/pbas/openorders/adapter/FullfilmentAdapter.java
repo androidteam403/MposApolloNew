@@ -2,9 +2,13 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -17,17 +21,21 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpVie
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> {
+public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
     private final Context context;
-    private final List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
+    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private final OpenOrdersMvpView mvpView;
     public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
     public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
         this.context = context;
         this.omsHeaderList = omsHeaderList;
+        this.filteredOmsHeaderList = omsHeaderList;
         this.mvpView = mvpView;
         this.getOMSTransactionResponseList = getOMSTransactionResponseList;
     }
@@ -45,14 +53,19 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        TransactionHeaderResponse.OMSHeader omsHeader = omsHeaderList.get(position);
+        TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText("-");
-        holder.fullfilmentBinding.status.setText("Pending");
-        switch (omsHeaderList.get(position).getExpandStatus()) {
+        if (omsHeader.getOrderPickup()) {
+            holder.fullfilmentBinding.pickupStatus.setText("Completed");
+
+        } else {
+            holder.fullfilmentBinding.pickupStatus.setText("Pending");
+        }
+        switch (filteredOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
                 holder.fullfilmentBinding.rightArrow.setRotation(0);
-                omsHeaderList.get(position).setExpandStatus(0);
+                filteredOmsHeaderList.get(position).setExpandStatus(0);
                 holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.GONE);
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
                 break;
@@ -80,7 +93,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 break;
             default:
         }
-        if (omsHeaderList.get(position).isSelected()) {
+        if (filteredOmsHeaderList.get(position).isSelected()) {
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
         } else {
@@ -88,12 +101,20 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
         holder.itemView.setOnClickListener(v -> {
-            if (mvpView != null)
-                mvpView.onFullfillmentItemClick(position);
+            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
+                if (mvpView != null)
+                    mvpView.onFullfillmentItemClick(position);
+            } else {
+                Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
+            }
         });
         holder.fullfilmentBinding.selectbutton.setOnClickListener(v -> {
-            if (mvpView != null)
-                mvpView.onFullfillmentItemClick(position);
+            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
+                if (mvpView != null)
+                    mvpView.onFullfillmentItemClick(position);
+            } else {
+                Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
+            }
         });
         holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
             if (mvpView != null) {
@@ -104,7 +125,52 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 
     @Override
     public int getItemCount() {
-        return omsHeaderList.size();
+        int count = 0;
+        if (filteredOmsHeaderList != null && filteredOmsHeaderList.size() > 0) {
+            count = filteredOmsHeaderList.size();
+        }
+        return count;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredOmsHeaderList = omsHeaderList;
+                } else {
+                    filteredList.clear();
+                    for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
+                        if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
+                            filteredList.add(row);
+                        }
+
+                    }
+                    filteredOmsHeaderList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredOmsHeaderList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                if (filteredOmsHeaderList != null && !filteredOmsHeaderList.isEmpty()) {
+                    filteredOmsHeaderList = (ArrayList<TransactionHeaderResponse.OMSHeader>) filterResults.values;
+                    try {
+                        mvpView.noOrderFound(filteredOmsHeaderList.size());
+                        notifyDataSetChanged();
+                    } catch (Exception e) {
+                        Log.e("FullfilmentAdapter", e.getMessage());
+                    }
+                } else {
+                    mvpView.noOrderFound(0);
+                    notifyDataSetChanged();
+                }
+            }
+        };
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
