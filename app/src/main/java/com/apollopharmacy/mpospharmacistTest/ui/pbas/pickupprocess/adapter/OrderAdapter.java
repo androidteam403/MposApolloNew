@@ -15,6 +15,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogItemStatusDropdownPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -22,7 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback {
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback, StatusUpdateCallback {
     private Context mContext;
     private List<RacksDataResponse.FullfillmentDetail> fullfillmentList;
     private FullfillmentProductListAdapter productListAdapter;
@@ -30,11 +31,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     private boolean firstAccessCheck;
+    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
+    private int getOrderPos;
+    private int getPos;
+    private String status;
 
     public OrderAdapter(Context mContext, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickupProcessMvpView pickupProcessMvpView) {
         this.mContext = mContext;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
+
     }
 
 
@@ -70,11 +76,47 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
         holder.orderBinding.orderType.setText(omsHeader.getOrderType());
 
+        if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")){
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.orderBinding.statusText.setText("PARTIAL");
+        }else if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.orderBinding.statusText.setText("NOT AVAILABLE");
+        }else if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.orderBinding.statusText.setText("FULL");
+        }
 
-        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView);
+
+        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position);
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
+
+
+        holder.itemView.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null)
+                pickupProcessMvpView.onClickOrderItem(position);
+        });
+
+//        if(omsHeader.getExpandStatus() == 1 &&  omsHeader.getGetOMSTransactionResponse().getSalesLine().get(getPos).getStatus().equalsIgnoreCase("PARTIAL AVAILABLE")){
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//            holder.orderBinding.statusText.setText("PARTIAL AVAILABLE");
+//        }else if(omsHeader.getExpandStatus() == 1 && omsHeader.getGetOMSTransactionResponse().getSalesLine().get(getPos).getStatus().equalsIgnoreCase("NOT AVAILABLE")){
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+//            holder.orderBinding.statusText.setText("NOT AVAILABLE");
+//        }else if(omsHeader.getExpandStatus() == 1 && omsHeader.getGetOMSTransactionResponse().getSalesLine().get(getPos).getStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+//            holder.orderBinding.statusText.setText("STOCK AVAILABLE");
+//        }
+
+
 
         if (omsHeader.getExpandStatus() == 0) {
             holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
@@ -97,10 +139,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
         }
 
-        holder.itemView.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null)
-                pickupProcessMvpView.onClickOrderItem(position);
-        });
+
         holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
             BottomSheetDialog itemStatusDropdownDialog = new BottomSheetDialog(mContext);
             DialogItemStatusDropdownPBinding itemStatusDropdownBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_item_status_dropdown_p, null, false);
@@ -763,6 +802,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 itemStatusDropdownDialog.dismiss();
                 break;
             default:
+        }
+    }
+
+    @Override
+    public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
+        if (pickupProcessMvpView != null){
+            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
         }
     }
 

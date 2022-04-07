@@ -395,6 +395,17 @@ public class GetOMSTransactionResponse implements Serializable {
         @SerializedName("ISReserved")
         @Expose
         private Boolean iSReserved;
+
+        private String status = "";
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         @SerializedName("ISRestricted")
         @Expose
         private Boolean iSRestricted;

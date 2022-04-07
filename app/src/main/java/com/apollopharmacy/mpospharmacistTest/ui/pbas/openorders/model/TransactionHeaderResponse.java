@@ -110,6 +110,7 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isTagBox;
         private boolean isSelected;
         private boolean scanView;
+        private String itemStatus = "";
         private GetOMSTransactionResponse getOMSTransactionResponse;
 
 
@@ -314,6 +315,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setScanView(boolean scanView) {
             this.scanView = scanView;
+        }
+
+        public String getItemStatus() {
+            return itemStatus;
+        }
+
+        public void setItemStatus(String itemStatus) {
+            this.itemStatus = itemStatus;
         }
     }
 }
