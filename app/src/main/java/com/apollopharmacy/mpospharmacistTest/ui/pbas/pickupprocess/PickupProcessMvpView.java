@@ -29,6 +29,7 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickSkip();
 
 
+
     void onClickDropDown(Spinner spinner);
 
     void onSuccessRackApi(RacksDataResponse racksDataResponse);
@@ -47,4 +48,11 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickRightArrow(RacksDataResponse.FullfillmentDetail fullfillmentDetail);
 
+
+    //new Callbacks
+    void onClickOrderItem(int pos);
+
+    void onClickSalesLine(int position, String status);
+
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
 }

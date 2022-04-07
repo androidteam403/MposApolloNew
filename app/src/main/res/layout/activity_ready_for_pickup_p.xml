@@ -65,7 +65,7 @@
                 android:id="@+id/ready_for_pickup_recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/fifteen_dp" />
+                android:layout_marginTop="@dimen/ten_dp" />
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
