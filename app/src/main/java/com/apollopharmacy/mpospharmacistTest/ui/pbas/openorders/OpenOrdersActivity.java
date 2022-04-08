@@ -29,6 +29,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.Scan
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +49,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     //    private AppBarConfiguration mAppBarConfiguration;
 
     public static Intent getStartActivity(Context context) {
-        return new Intent(context, OpenOrdersActivity.class);
+     return new Intent(context, OpenOrdersActivity.class);
     }
+
+
 
 
 //    public static Intent getStartActivity(DashboardFragment dashboardFragment) {
@@ -231,9 +234,9 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     protected void onResume() {
         super.onResume();
-       selectedRacksDataResponse = new ArrayList<>();
+        selectedRacksDataResponse = new ArrayList<>();
     }
-    public List<TransactionHeaderResponse.OMSHeader> selectedRacksDataResponse;
+    private   List<TransactionHeaderResponse.OMSHeader> selectedRacksDataResponse;
 
     @Override
     public void onClickContinue() {

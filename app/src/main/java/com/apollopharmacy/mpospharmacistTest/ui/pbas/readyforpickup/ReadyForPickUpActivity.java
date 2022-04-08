@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityReadyForPickupP
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
@@ -45,8 +46,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private FullfillmentData fullfillmentData;
     private ReadyForPickUpAdapter readyForPickUpAdapter;
     List<FullfillmentData> fullfillmentDataList;
-    public static List<RacksDataResponse.FullfillmentDetail> fullfillmentDetailList;
-    private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
+//    public List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
+    public List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
+
+//  private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> racksDataResponse) {
@@ -68,16 +71,16 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     protected void setUp() {
         activityReadyForPickupBinding.setCallback(mPresenter);
 
-        if (getIntent() != null) {
-            racksDataResponse = (List<RacksDataResponse.FullfillmentDetail>) getIntent().getSerializableExtra("rackDataResponse");
+        if(getIntent()!=null){
+            racksDataResponse = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("rackDataResponse");
         }
         if (racksDataResponse != null && racksDataResponse.size() > 0) {
             fullfillmentDataList = new ArrayList<>();
 
             for (int i = 0; i < racksDataResponse.size(); i++) {
                 fullfillmentData = new FullfillmentData();
-                fullfillmentData.setFullfillmentId(racksDataResponse.get(i).getFullfillmentId());
-                fullfillmentData.setTotalItems(racksDataResponse.get(i).getTotalItems());
+                fullfillmentData.setFullfillmentId(racksDataResponse.get(position).getVendorId());
+                fullfillmentData.setTotalItems(String.valueOf(racksDataResponse.size()));
                 fullfillmentDataList.add(fullfillmentData);
             }
         }
@@ -92,7 +95,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     ScanQrCodeDialog scanQrCodeDialog;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     int position;
-
+    public static List<TransactionHeaderResponse.OMSHeader> fullfillmentDetailList;
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
         this.position = pos;

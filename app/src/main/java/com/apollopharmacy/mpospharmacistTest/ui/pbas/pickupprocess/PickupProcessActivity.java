@@ -25,6 +25,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -34,7 +35,6 @@ import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -66,7 +66,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     Chronometer stopWatch;
 
 
-    public static Intent getStartActivity(Context context, List<RacksDataResponse.FullfillmentDetail> racksDataResponse) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> racksDataResponse) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
         intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
         return intent;
