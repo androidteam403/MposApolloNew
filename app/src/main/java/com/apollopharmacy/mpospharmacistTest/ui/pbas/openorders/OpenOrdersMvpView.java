@@ -30,4 +30,6 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
 
+    void noOrderFound(int count);
+
 }

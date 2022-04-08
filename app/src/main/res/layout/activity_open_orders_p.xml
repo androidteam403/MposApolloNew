@@ -159,12 +159,22 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
                 android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="@dimen/five_dp" />
 
+            <TextView
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:text="No Order Found"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp" />
 
             <LinearLayout
                 android:id="@+id/layout_fulfilment"

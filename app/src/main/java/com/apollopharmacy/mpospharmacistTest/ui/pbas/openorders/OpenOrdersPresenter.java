@@ -143,6 +143,16 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             });
         }
     }
+
+    @Override
+    public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        getDataManager().setTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        return getDataManager().getTotalOmsHeaderList();
+    }
 }
 
 

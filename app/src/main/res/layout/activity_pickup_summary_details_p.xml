@@ -101,7 +101,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".5"
+                                android:layout_weight=".6"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -123,8 +123,9 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="887766"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/twelve_sp" />
+                                        android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -146,8 +147,9 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="5"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/twelve_sp" />
+                                        android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -168,8 +170,9 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="9:45 AM"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/twelve_sp" />
+                                        android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -177,7 +180,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".5"
+                                android:layout_weight=".4"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -225,6 +228,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="0:25:20"
+                                        android:layout_marginStart="@dimen/dimen5dp"
+                                        android:textSize="@dimen/dimen10sp"
                                         android:textColor="@color/black" />
                                 </LinearLayout>
                             </LinearLayout>

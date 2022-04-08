@@ -58,7 +58,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
 
 
-
     List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private static List<RacksDataResponse.FullfillmentDetail.Product> rackIdList = new ArrayList<>();
     private ArrayList<String> boxStringList = new ArrayList<>();
@@ -89,7 +88,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickOrderItem(int pos) {
-        this.getOrderPos=pos;
+        this.getOrderPos = pos;
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             if (selectedOmsHeaderList.get(pos).getExpandStatus() == 1) {
                 selectedOmsHeaderList.get(pos).setExpandStatus(0);
@@ -105,6 +104,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     int getPos;
     String status;
+
     @Override
     public void onClickSalesLine(int position, String status) {
 //        this.getPos=position;
@@ -118,37 +118,36 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size()>0){
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
-     boolean isNotAvailable =true;
-     boolean isFull = true;
-     boolean isPartial = false;
-     boolean isNull = false;
-       for (int i = 0; i<selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size();i++){
-          if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus() != null){
-              if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("NOT AVAILABLE")){
-                  isNotAvailable=false;
+            boolean isNotAvailable = true;
+            boolean isFull = true;
+            boolean isNull = false;
+            for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
 
-              }
-              if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("FULL")){
-                  isFull=false;
-              }
-          }else{
-              isNull = true;
-          }
-
-
-       }
-       if (!isNull && isNotAvailable){
-           selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
-           orderAdapter.notifyItemChanged(orderAdapterPos);
-       }else if (!isNull &&isFull){
-           selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("FULL");
-           orderAdapter.notifyItemChanged(orderAdapterPos);
-       }else if (!isNull && isPartial){
-           selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
-           orderAdapter.notifyItemChanged(orderAdapterPos);
-       }
+                if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus() != null) {
+                    if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("NOT AVAILABLE")) {
+                        isNotAvailable = false;
+                    }
+                    if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("FULL")) {
+                        isFull = false;
+                    }
+                }else{
+                    isNull = true;
+                }
+            }
+            if (!isNull) {
+                if (isNotAvailable) {
+                    selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                } else if (isFull) {
+                    selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("FULL");
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                } else if (!isNotAvailable && !isFull) {
+                    selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                }
+            }
         }
     }
 
