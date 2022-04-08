@@ -60,10 +60,17 @@ private int orderAdapterPos;
 
         if(salesLine.getStatus()!=null &&salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {

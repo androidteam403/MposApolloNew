@@ -195,10 +195,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
-        for (int i = 0; i < omsHeaderList.size(); i++) {
-            for (int j = 0; j < orderTypeOMSHeaderFilter.size(); j++) {
-                if (omsHeaderList.get(i).getRefno().equals(orderTypeOMSHeaderFilter.get(j).getRefno())) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                     omsHeaderList.remove(i);
+                    i--;
                 }
             }
         }
@@ -214,10 +215,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
-        for (int i = 0; i < omsHeaderList.size(); i++) {
-            for (int j = 0; j < orderCategoryOMSHeaderFilter.size(); j++) {
-                if (omsHeaderList.get(i).getRefno().equals(orderCategoryOMSHeaderFilter.get(j).getRefno())) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : orderCategoryOMSHeaderFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                     omsHeaderList.remove(i);
+                    i--;
                 }
             }
         }
@@ -233,10 +235,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
-        for (int i = 0; i < omsHeaderList.size(); i++) {
-            for (int j = 0; j < paymentTypeOMSHeaderFilter.size(); j++) {
-                if (omsHeaderList.get(i).getRefno().equals(paymentTypeOMSHeaderFilter.get(j).getRefno())) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : paymentTypeOMSHeaderFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                     omsHeaderList.remove(i);
+                    i--;
                 }
             }
         }
@@ -252,10 +255,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
-        for (int i = 0; i < omsHeaderList.size(); i++) {
-            for (int j = 0; j < orderSourceOMSHeaderFilter.size(); j++) {
-                if (omsHeaderList.get(i).getRefno().equals(orderSourceOMSHeaderFilter.get(j).getRefno())) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : orderSourceOMSHeaderFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                     omsHeaderList.remove(i);
+                    i--;
                 }
             }
         }
@@ -271,10 +275,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
-        for (int i = 0; i < omsHeaderList.size(); i++) {
-            for (int j = 0; j < stockAvailabilityOMSHeaderFilter.size(); j++) {
-                if (omsHeaderList.get(i).getRefno().equals(stockAvailabilityOMSHeaderFilter.get(j).getRefno())) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                     omsHeaderList.remove(i);
+                    i--;
                 }
             }
         }

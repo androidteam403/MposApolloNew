@@ -76,15 +76,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
         holder.orderBinding.orderType.setText(omsHeader.getOrderType());
 
-        if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")){
+        if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.orderBinding.statusText.setText("PARTIAL");
-        }else if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
+        } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
             holder.orderBinding.statusText.setText("NOT AVAILABLE");
-        }else if(omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+        } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+            holder.orderBinding.statusImage.setRotation(0);
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.orderBinding.statusText.setText("FULL");
@@ -115,7 +116,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.orderBinding.statusText.setText("STOCK AVAILABLE");
 //        }
-
 
 
         if (omsHeader.getExpandStatus() == 0) {
@@ -807,7 +807,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
-        if (pickupProcessMvpView != null){
+        if (pickupProcessMvpView != null) {
             pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
         }
     }
