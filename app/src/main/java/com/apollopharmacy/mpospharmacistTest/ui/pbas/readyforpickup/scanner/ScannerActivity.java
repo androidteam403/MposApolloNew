@@ -43,7 +43,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        this.racksDataResponse = ReadyForPickUpActivity.fullfillmentDetailList;
+        this.racksDataResponse = ReadyForPickUpActivity.selectedOmsHeaderListTest;
 
 
         //Initialize barcode scanner view
@@ -133,7 +133,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     @Override
     public void scannedListener(List<String> barcodeList) {
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
-        barcodeCount.setText(barcodeList.size() + "/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
+        barcodeCount.setText(barcodeList.size() + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         capture = new CaptureManager(this, barcodeScannerView);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);

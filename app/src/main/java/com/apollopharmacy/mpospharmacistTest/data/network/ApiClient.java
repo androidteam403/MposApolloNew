@@ -68,6 +68,7 @@ public class ApiClient {
                 .client(client)
                 .build();
     }
+
     private static Retrofit getRetrofitInstance4() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -81,7 +82,6 @@ public class ApiClient {
                 .client(client)
                 .build();
     }
-
 
 
     /**
@@ -110,10 +110,10 @@ public class ApiClient {
     public static ApiInterface getApiService3() {
         return getRetrofitInstance3().create(ApiInterface.class);
     }
+
     public static ApiInterface getApiService4() {
         return getRetrofitInstance4().create(ApiInterface.class);
     }
-
 
 
     private static final String ROOT_URL = "https://signage.apollopharmacy.app/zc-v3.1-user-svc/2.0/ads/api/";
@@ -183,7 +183,11 @@ public class ApiClient {
     public static Retrofit getClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(interceptor).build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

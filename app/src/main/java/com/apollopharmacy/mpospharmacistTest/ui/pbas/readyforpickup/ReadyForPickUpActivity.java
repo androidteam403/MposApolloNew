@@ -19,7 +19,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityReadyForPickupP
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
@@ -29,11 +28,11 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.Read
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.ScanQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.UnTagQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,18 +42,20 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Inject
     ReadyForPickUpMvpPresenter<ReadyForPickUpMvpView> mPresenter;
     ActivityReadyForPickupPBinding activityReadyForPickupBinding;
-    private FullfillmentData fullfillmentData;
+    //    private FullfillmentData fullfillmentData;
     private ReadyForPickUpAdapter readyForPickUpAdapter;
-    List<FullfillmentData> fullfillmentDataList;
-//    public List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
-    public List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
-
-//  private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
+    //    List<FullfillmentData> fullfillmentDataList;
+    public static List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderListTest;
+    private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
 
-    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> racksDataResponse) {
+
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
+
+
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
-        intent.putExtra("rackDataResponse", (Serializable) racksDataResponse);
+        intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
         return intent;
     }
 
@@ -70,32 +71,22 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     protected void setUp() {
         activityReadyForPickupBinding.setCallback(mPresenter);
-
-        if(getIntent()!=null){
-            racksDataResponse = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("rackDataResponse");
-        }
-        if (racksDataResponse != null && racksDataResponse.size() > 0) {
-            fullfillmentDataList = new ArrayList<>();
-
-            for (int i = 0; i < racksDataResponse.size(); i++) {
-                fullfillmentData = new FullfillmentData();
-                fullfillmentData.setFullfillmentId(racksDataResponse.get(position).getVendorId());
-                fullfillmentData.setTotalItems(String.valueOf(racksDataResponse.size()));
-                fullfillmentDataList.add(fullfillmentData);
+        if (getIntent() != null) {
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                readyForPickUpAdapter = new ReadyForPickUpAdapter(this, selectedOmsHeaderList, this);
+                RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                activityReadyForPickupBinding.readyForPickupRecycleView.setLayoutManager(mLayoutManager1);
+                activityReadyForPickupBinding.readyForPickupRecycleView.setItemAnimator(new DefaultItemAnimator());
+                activityReadyForPickupBinding.readyForPickupRecycleView.setAdapter(readyForPickUpAdapter);
             }
         }
-
-        readyForPickUpAdapter = new ReadyForPickUpAdapter(this, fullfillmentDataList, this);
-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        activityReadyForPickupBinding.readyForPickupRecycleView.setLayoutManager(mLayoutManager1);
-        activityReadyForPickupBinding.readyForPickupRecycleView.setItemAnimator(new DefaultItemAnimator());
-        activityReadyForPickupBinding.readyForPickupRecycleView.setAdapter(readyForPickUpAdapter);
     }
 
     ScanQrCodeDialog scanQrCodeDialog;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     int position;
-    public static List<TransactionHeaderResponse.OMSHeader> fullfillmentDetailList;
+
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
         this.position = pos;
@@ -146,7 +137,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //        intentIntegrator.setBarcodeImageEnabled(false);
 //        intentIntegrator.initiateScan();
         BillerOrdersActivity.isBillerActivity = false;
-        this.fullfillmentDetailList = racksDataResponse;
+        this.selectedOmsHeaderListTest = selectedOmsHeaderList;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -183,14 +174,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 if (!BillerOrdersActivity.isBillerActivity) {
                     if (data != null) {
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
-                        for (int i = 0; i < fullfillmentDataList.size(); i++) {
-                            fullfillmentDataList.get(i).setTagBox(true);
-                            fullfillmentDataList.get(i).setScanView(true);
+                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                            selectedOmsHeaderList.get(i).setTagBox(true);
+                            selectedOmsHeaderList.get(i).setScanView(true);
                         }
                         readyForPickUpAdapter.notifyDataSetChanged();
                         boolean isAlltagBox = true;
-                        for (FullfillmentData fullfillmentData : fullfillmentDataList)
-                            if (!fullfillmentData.isTagBox())
+                        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                            if (!omsHeader.isTagBox())
                                 isAlltagBox = false;
                         if (isAlltagBox) {
                             activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
@@ -217,12 +208,12 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             @Override
             public void onClick(View v) {
                 unTagQrCodeDialog.dismiss();
-                fullfillmentDataList.get(pos).setTagBox(false);
-                fullfillmentDataList.get(pos).setScanView(false);
+                selectedOmsHeaderList.get(pos).setTagBox(false);
+                selectedOmsHeaderList.get(pos).setScanView(false);
                 readyForPickUpAdapter.notifyDataSetChanged();
                 boolean isAlltagBox = true;
-                for (FullfillmentData fullfillmentData : fullfillmentDataList)
-                    if (!fullfillmentData.isTagBox())
+                for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                    if (!omsHeader.isTagBox())
                         isAlltagBox = false;
                 if (isAlltagBox) {
                     activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
@@ -245,11 +236,11 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     public void onClickStartPickup() {
         boolean isAlltagBox = true;
-        for (FullfillmentData fullfillmentData : fullfillmentDataList)
-            if (!fullfillmentData.isTagBox())
+        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+            if (!omsHeader.isTagBox())
                 isAlltagBox = false;
         if (isAlltagBox) {
-            startActivity(PickupProcessActivity.getStartActivity(this, racksDataResponse));
+            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
@@ -290,7 +281,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onClickStartPickingWithoutQrCode() {
-        startActivity(PickupProcessActivity.getStartActivity(this, racksDataResponse));
+        startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 

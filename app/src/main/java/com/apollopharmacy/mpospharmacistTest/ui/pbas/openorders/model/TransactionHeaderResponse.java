@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model;
 
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -44,7 +45,7 @@ public class TransactionHeaderResponse implements Serializable {
     }
 
 
-    public class OMSHeader {
+    public class OMSHeader implements Serializable {
 
         @SerializedName("BusinessDate")
         @Expose
@@ -106,8 +107,12 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("VendorId")
         @Expose
         private String vendorId;
-
+        private boolean isTagBox;
         private boolean isSelected;
+        private boolean scanView;
+        private String itemStatus = "";
+        private GetOMSTransactionResponse getOMSTransactionResponse;
+
 
         public boolean isSelected() {
             return isSelected;
@@ -116,6 +121,7 @@ public class TransactionHeaderResponse implements Serializable {
         public void setSelected(boolean selected) {
             isSelected = selected;
         }
+
         private int expandStatus = 0;
 
         public int getExpandStatus() {
@@ -125,7 +131,6 @@ public class TransactionHeaderResponse implements Serializable {
         public void setExpandStatus(int expandStatus) {
             this.expandStatus = expandStatus;
         }
-
 
 
         public String getBusinessDate() {
@@ -288,6 +293,37 @@ public class TransactionHeaderResponse implements Serializable {
             this.vendorId = vendorId;
         }
 
+        public GetOMSTransactionResponse getGetOMSTransactionResponse() {
+            return getOMSTransactionResponse;
+        }
+
+        public void setGetOMSTransactionResponse(GetOMSTransactionResponse getOMSTransactionResponse) {
+            this.getOMSTransactionResponse = getOMSTransactionResponse;
+        }
+
+        public boolean isTagBox() {
+            return isTagBox;
+        }
+
+        public void setTagBox(boolean tagBox) {
+            isTagBox = tagBox;
+        }
+
+        public boolean isScanView() {
+            return scanView;
+        }
+
+        public void setScanView(boolean scanView) {
+            this.scanView = scanView;
+        }
+
+        public String getItemStatus() {
+            return itemStatus;
+        }
+
+        public void setItemStatus(String itemStatus) {
+            this.itemStatus = itemStatus;
+        }
     }
 }
 

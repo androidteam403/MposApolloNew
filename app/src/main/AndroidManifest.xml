@@ -152,6 +152,7 @@
             </intent-filter>
 
         </activity>
+
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -223,7 +224,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.pbas.openorders.OpenOrdersActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />`
         <activity
             android:name=".ui.pbas.readyforpickup.ReadyForPickUpActivity"
             android:screenOrientation="portrait" />

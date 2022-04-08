@@ -2,16 +2,14 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.apollopharmacy.mpospharmacistTest.R;
-import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSelectedPickupProcessProductsPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFulfilmentDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -33,7 +31,7 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
         this.context = context;
         this.mvpView = mvpView;
         this.fullFillmentPos = fullFillmentPos;
-        this.salesLineList=salesLineList;
+        this.salesLineList = salesLineList;
 
     }
 
@@ -41,40 +39,20 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        AdapterSelectedPickupProcessProductsPBinding pickupSummaryDetailsProductsBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.adapter_selected_pickup_process_products_p, parent, false);
-        return new FulfilmentDetailsAdapter.ViewHolder(pickupSummaryDetailsProductsBinding);
+        AdapterFulfilmentDetailsBinding fulfilmentDetailsBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.adapter_fulfilment_details, parent, false);
+        return new FulfilmentDetailsAdapter.ViewHolder(fulfilmentDetailsBinding);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        RacksDataResponse.FullfillmentDetail.Product dataResponse = products.get(position);
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
-
-
-        holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(view -> {
-            mvpView.onClickStausIcon(fullFillmentPos, position);
-        });
-
-//
-//        if (dataResponse.getItemStatus().equals("FULL VERIFIED")) {
-//            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.GONE);
-////                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.));
-//        } else if (dataResponse.getItemStatus().equals("PARTIAL VERIFIED")) {
-//            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.GONE);
-//        } else if (dataResponse.getItemStatus().equals("NOT AVAILABLE")) {
-//            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-//
-
-//        }
-
-
-        holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLineList.get(position).getItemName());
-        holder.pickupSummaryDetailsProductsBinding.batchNo.setText("-");
-        holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLineList.get(position).getPrice()));
-        holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLineList.get(position).getRackId());
-        holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLineList.get(position).getQty()));
-        holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
+        holder.fulfilmentDetailsBinding.productName.setText(salesLine.getItemName());
+        holder.fulfilmentDetailsBinding.batchNo.setText("-");
+        holder.fulfilmentDetailsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
+        holder.fulfilmentDetailsBinding.rackId.setText(salesLine.getRackId());
+        holder.fulfilmentDetailsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
+        holder.fulfilmentDetailsBinding.apolloMrp.setText("-");
 
     }
 
@@ -84,13 +62,11 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        AdapterFulfilmentDetailsBinding fulfilmentDetailsBinding;
 
-        public AdapterSelectedPickupProcessProductsPBinding pickupSummaryDetailsProductsBinding;
-        public DialogUpdateStatusPBinding updateStatusBinding;
-
-        public ViewHolder(@NonNull AdapterSelectedPickupProcessProductsPBinding pickupSummaryDetailsProductsBinding) {
-            super(pickupSummaryDetailsProductsBinding.getRoot());
-            this.pickupSummaryDetailsProductsBinding = pickupSummaryDetailsProductsBinding;
+        public ViewHolder(@NonNull AdapterFulfilmentDetailsBinding fulfilmentDetailsBinding) {
+            super(fulfilmentDetailsBinding.getRoot());
+            this.fulfilmentDetailsBinding = fulfilmentDetailsBinding;
         }
     }
 }
