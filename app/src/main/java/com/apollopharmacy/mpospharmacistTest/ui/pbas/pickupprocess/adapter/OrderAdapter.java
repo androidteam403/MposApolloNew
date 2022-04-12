@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback, StatusUpdateCallback {
     private Context mContext;
@@ -75,6 +76,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.stockStatus.setText(omsHeader.getStockStatus());
         holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
         holder.orderBinding.orderType.setText(omsHeader.getOrderType());
+        holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+        holder.orderBinding.vendorId.setText(omsHeader.getVendorId());
+        holder.orderBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+//       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
+        holder.orderBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+        holder.orderBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
+        holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+        holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+        holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
 
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
@@ -92,7 +102,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
 
 
-        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position);
+        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno());
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);

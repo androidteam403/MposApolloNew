@@ -54,6 +54,9 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
         holder.fulfilmentDetailsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.fulfilmentDetailsBinding.apolloMrp.setText("-");
 
+
+
+
     }
 
     @Override

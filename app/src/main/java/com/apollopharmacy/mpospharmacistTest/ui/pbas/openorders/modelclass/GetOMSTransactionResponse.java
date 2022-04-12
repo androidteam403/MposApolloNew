@@ -317,6 +317,7 @@ public class GetOMSTransactionResponse implements Serializable {
 
     public class SalesLine implements Serializable {
 
+
         @SerializedName("Additionaltax")
         @Expose
         private Integer additionaltax;

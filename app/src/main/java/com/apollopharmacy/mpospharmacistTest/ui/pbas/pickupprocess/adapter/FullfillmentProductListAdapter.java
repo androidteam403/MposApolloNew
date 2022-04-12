@@ -23,7 +23,7 @@ public class FullfillmentProductListAdapter extends RecyclerView.Adapter<Fullfil
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     String fullfillmentId;
 
-    public FullfillmentProductListAdapter(Context context, List<RackAdapter.RackBoxModel.ProductData> productListModelList, PickupProcessMvpView pickupProcessMvpView, boolean isRackFlow, List<List<RackAdapter.RackBoxModel.ProductData>> listOfList, String fullfillmentId) {
+    public FullfillmentProductListAdapter(Context context, List<RackAdapter.RackBoxModel.ProductData> productListModelList, PickupProcessMvpView pickupProcessMvpView, boolean isRackFlow, List<List<RackAdapter.RackBoxModel.ProductData>> listOfList) {
         this.context = context;
         this.productListModelList = productListModelList;
         this.pickupProcessMvpView = pickupProcessMvpView;
