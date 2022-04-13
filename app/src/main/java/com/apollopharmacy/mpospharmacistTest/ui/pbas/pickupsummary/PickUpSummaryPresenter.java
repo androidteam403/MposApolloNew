@@ -44,4 +44,9 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
     public List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList() {
         return getDataManager().getfullFillListOfListFiltered();
     }
+
+    @Override
+    public void onClickScanCode() {
+        getMvpView().onClickScanCode();
+    }
 }
