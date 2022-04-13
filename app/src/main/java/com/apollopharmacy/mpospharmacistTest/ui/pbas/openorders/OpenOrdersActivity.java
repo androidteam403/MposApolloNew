@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -325,27 +326,27 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
         customerTypeFilterAdapter = new FilterItemAdapter(this, customerTypeFilterList);
-        dialogFilterBinding.customerTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
         orderTypeFilterAdapter = new FilterItemAdapter(this, orderTypeFilterList);
-        dialogFilterBinding.orderTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.orderTypeFilter.setAdapter(orderTypeFilterAdapter);
 
         orderCategoryFilterAdapter = new FilterItemAdapter(this, orderCategoryFilterList);
-        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.orderCategoryFilter.setAdapter(orderCategoryFilterAdapter);
 
         paymentTypeFilterAdapter = new FilterItemAdapter(this, paymentTypeFilterList);
-        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.paymentTypeFilter.setAdapter(paymentTypeFilterAdapter);
 
         orderSourceFilterAdapter = new FilterItemAdapter(this, orderSourceFilterList);
-        dialogFilterBinding.orderSourceFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
         stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
-        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 //        customerTypeFilterList = new ArrayList<>();

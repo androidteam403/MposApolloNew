@@ -16,11 +16,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAdapter.ViewHolder> {
 
     private Activity activity;
+
     private List<ReadyForPickUpActivity.FullfillmentData> fullfillmentDataList;
     private ReadyForPickUpMvpView readyForPickUpMvpView;
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
@@ -29,6 +31,9 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         this.activity = activity;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.readyForPickUpMvpView = readyForPickUpMvpView;
+
+
+
     }
 
     @NonNull
@@ -44,6 +49,13 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
     public void onBindViewHolder(@NonNull ReadyForPickUpAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
+            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
+        }
+
+//  holder.adapterReadyForPickupBinding.filmentIdNum.setText(lastFourDigits(String.valueOf(omsHeader.getFulfilId())));
+
+
         holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
         if (omsHeader.isTagBox()) {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
@@ -91,5 +103,17 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             super(adapterReadyForPickupBinding.getRoot());
             this.adapterReadyForPickupBinding = adapterReadyForPickupBinding;
         }
+    }
+
+    public static String lastFourDigits(String data) {
+        String lastFourDigits ="";   //substring containing last 4 characters
+
+        if (data.length() > 4) {
+            lastFourDigits = data.substring(data.length() - 4);
+        } else {
+            lastFourDigits = data;
+        }
+
+        return lastFourDigits;
     }
 }

@@ -29,6 +29,11 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     }
 
     @Override
+    public void cancel() {
+getMvpView().cancel();
+    }
+
+    @Override
     public void onClickTakePrint() {
         getMvpView().onClickTakePrint();
     }

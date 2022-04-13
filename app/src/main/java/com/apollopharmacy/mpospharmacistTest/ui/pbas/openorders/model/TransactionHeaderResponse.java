@@ -13,12 +13,15 @@ public class TransactionHeaderResponse implements Serializable {
     @SerializedName("OMSHeader")
     @Expose
     private List<OMSHeader> oMSHeader = null;
+
     @SerializedName("RequestStatus")
     @Expose
     private Integer requestStatus;
     @SerializedName("ReturnMessage")
     @Expose
     private String returnMessage;
+
+
 
     public List<OMSHeader> getOMSHeader() {
         return oMSHeader;
@@ -50,6 +53,11 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("BusinessDate")
         @Expose
         private String businessDate;
+
+        @SerializedName("FulfilId")
+        @Expose
+        private String FulfilId;
+
         @SerializedName("CategoryType")
         @Expose
         private String categoryType;
@@ -103,6 +111,8 @@ public class TransactionHeaderResponse implements Serializable {
         private Object transactionId;
         @SerializedName("VendorCode")
         @Expose
+
+
         private Object vendorCode;
         @SerializedName("VendorId")
         @Expose
@@ -111,8 +121,17 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isSelected;
         private boolean scanView;
         private String itemStatus = "";
+        private String scannedBarcode;
         private GetOMSTransactionResponse getOMSTransactionResponse;
 
+        public String getFulfilId() {
+            return FulfilId;
+        }
+
+        public String setFulfilId(String fulfilId) {
+            FulfilId = fulfilId;
+            return fulfilId;
+        }
 
         public boolean isSelected() {
             return isSelected;
@@ -323,6 +342,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setItemStatus(String itemStatus) {
             this.itemStatus = itemStatus;
+        }
+
+        public String getScannedBarcode() {
+            return scannedBarcode;
+        }
+
+        public void setScannedBarcode(String scannedBarcode) {
+            this.scannedBarcode = scannedBarcode;
         }
     }
 }
