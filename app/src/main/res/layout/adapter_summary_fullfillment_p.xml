@@ -161,7 +161,7 @@
                         android:id="@+id/status_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginStart="@dimen/dimen2dp"
                         android:contentDescription="@string/app_name"
                         android:rotation="270" />
 

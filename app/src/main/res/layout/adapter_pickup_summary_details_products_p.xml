@@ -77,7 +77,7 @@
                     android:layout_height="@dimen/twenty_dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="270"
-                    android:src="@drawable/partialcirculargreeenorange" />
+                    />
 
             </RelativeLayout>
 

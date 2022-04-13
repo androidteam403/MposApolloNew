@@ -203,8 +203,7 @@
                                         android:layout_marginStart="@dimen/five_dp"
                                         android:contentDescription="@string/app_name"
                                         android:id="@+id/status_update_icon"
-                                        android:rotation="270"
-                                        android:src="@drawable/partialcirculargreeenorange" />
+                                        android:rotation="270" />
 
                                 </LinearLayout>
 
