@@ -6,8 +6,11 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+
+import java.util.List;
 
 import javax.inject.Inject;
 

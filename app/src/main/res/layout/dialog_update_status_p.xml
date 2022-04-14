@@ -68,11 +68,12 @@
                             android:textColor="@color/white" />
 
                         <TextView
-                            android:id="@+id/id"
+                            android:id="@+id/fullfillmentId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:text="887766"
+                            android:textSize="@dimen/text_dimen_12"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -136,7 +137,7 @@
                             android:checked="false"
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Full Verified"
+                            android:text="Fully Picked"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
@@ -326,7 +327,7 @@
                             android:checked="false"
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Partial Verified"
+                            android:text="Partially Picked"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
