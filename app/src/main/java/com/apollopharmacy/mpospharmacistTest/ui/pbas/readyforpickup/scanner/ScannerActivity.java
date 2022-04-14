@@ -37,11 +37,10 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
 
-
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
 
-        Intent intent = getIntent();
-        int position=intent.getExtras().getInt("position");
+//        Intent intent = getIntent();
+//        int position=intent.getExtras().getInt("position");
 
 
 
@@ -65,8 +64,8 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
 
 
-        textView= findViewById(R.id.fullfillmentIdscanner);
-        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
+//        textView= findViewById(R.id.fullfillmentIdscanner);
+//        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
 
 
 

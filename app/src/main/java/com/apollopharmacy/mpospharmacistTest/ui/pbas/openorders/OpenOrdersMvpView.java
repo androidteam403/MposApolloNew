@@ -22,6 +22,7 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onClickScanCode();
 
+
     void onClickStausIcon(int fullFillmentPos, int pos);
 
     void ondownArrowClicked(int position);
