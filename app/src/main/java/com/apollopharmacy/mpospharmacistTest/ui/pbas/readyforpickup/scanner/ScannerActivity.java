@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -28,12 +29,21 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
     Bundle savedInstanceState;
     private List<String> barcodeList = new ArrayList<>();
+//    String fullfillmentId;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
+
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
+
+//        Intent intent = getIntent();
+//        int position=intent.getExtras().getInt("position");
+
+
+
 //        if (!BillerOrdersActivity.isBillerActivity) {
 //            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
 //        } else {
@@ -45,12 +55,19 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         this.racksDataResponse = ReadyForPickUpActivity.selectedOmsHeaderListTest;
 
-
+//        racksDataResponse.get(0).getRefno();
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanner);
 
         //set torch listener
         barcodeScannerView.setTorchListener(this);
+
+
+
+//        textView= findViewById(R.id.fullfillmentIdscanner);
+//        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
+
+
 
         //switch flashlight button
         switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);

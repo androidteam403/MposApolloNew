@@ -56,6 +56,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText("-");
+
+
         if (omsHeader.getOrderPickup()) {
             holder.fullfilmentBinding.pickupStatus.setText("Completed");
 
@@ -80,6 +82,15 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                     holder.fullfilmentBinding.stockStatus.setText(getOMSTransactionResponseList.get(0).getStockStatus());
                     holder.fullfilmentBinding.paymentSource.setText(getOMSTransactionResponseList.get(0).getPaymentSource());
                     holder.fullfilmentBinding.orderType.setText(getOMSTransactionResponseList.get(0).getOrderType());
+                    holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+                    holder.fullfilmentBinding.vendorId.setText(omsHeader.getVendorId());
+                    holder.fullfilmentBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+//       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
+                    holder.fullfilmentBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+                    holder.fullfilmentBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
+                    holder.fullfilmentBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+                    holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+                    holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
                 }
                 if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
                     FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());

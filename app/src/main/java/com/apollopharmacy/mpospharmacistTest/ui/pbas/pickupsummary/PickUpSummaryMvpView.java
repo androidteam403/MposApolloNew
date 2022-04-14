@@ -15,6 +15,7 @@ public interface PickUpSummaryMvpView extends MvpView {
 
     String fullCount(String fullCount);
 
+
     String partialCount(String partialCount);
 
     String notAvailable(String notAvailableCount);

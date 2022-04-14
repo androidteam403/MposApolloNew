@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrderAdapter.ViewHolder> implements NewSelectedOrderAdapterCallback {
     private PickupProcessMvpView pickupProcessMvpView;
@@ -30,13 +31,15 @@ private StatusUpdateCallback mCallback;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     private OrderAdapter orderAdapter;
+    String refNo;
 private int orderAdapterPos;
-    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos ) {
+    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos, String refno) {
         this.context = context;
         this.salesLineList = salesLineList;
         this.pickupProcessMvpView = pickupProcessMvpView;
         this.mCallback = mCallback;
         this.orderAdapterPos = orderAdapterPos;
+        this.refNo=refno;
     }
 
     @NonNull
@@ -58,20 +61,26 @@ private int orderAdapterPos;
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
 
+
+
         if(salesLine.getStatus()!=null &&salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+
         }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+
         }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }
+//
+
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
@@ -79,8 +88,12 @@ private int orderAdapterPos;
             dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
             statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
             statusUpdateDialog.setCancelable(false);
+            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
+            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
+            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
             dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
             dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
+
                 if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
                     holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
                     holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
@@ -90,6 +103,7 @@ private int orderAdapterPos;
                     holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
                     statusUpdateDialog.dismiss();
                 } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
+
                     holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
                     holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
                     if (mCallback != null)
