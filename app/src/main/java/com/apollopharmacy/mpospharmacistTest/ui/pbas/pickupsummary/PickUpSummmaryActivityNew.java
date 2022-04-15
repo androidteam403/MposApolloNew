@@ -1,3 +1,4 @@
+
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary;
 
 import android.app.Dialog;
@@ -19,20 +20,26 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickUpSummaryPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,8 +52,11 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     long countUp;
     Chronometer stopWatchs;
     private SummaryFullfillmentAdapter summaryFullfillmentAdapter;
+    public ForwardToPickerRequest request;
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
+    ArrayList<SalesLineEntity> salesentity = new ArrayList<>();
+
     List<List<OrderAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered;
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     String time, stopWatch;
@@ -159,9 +169,43 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
+    public void OmsOrderUpdateSuccess(ForwardToPickerResponse response) {
+
+    }
+
+    @Override
+    public void OmsOrderUpdateFailure(ForwardToPickerResponse response) {
+
+    }
+
+    @Override
     public String partialCount(String partialCount) {
         this.partialCount = partialCount;
         return partialCount;
+    }
+
+    @Override
+    public void Forward_To_Pickerconfirmation() {
+        request = new ForwardToPickerRequest();
+        request.setRequestType("3");
+        request.setFulfillmentID("FL20211217113000001");
+//        ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+//        int lineno = 0;
+//        System.out.println("Salesentity lines:-->" + new Gson().toJson(salesentity));
+//        for (SalesLineEntity item : salesentity) {
+//            if (item.getModifyBatchId().length() > 0) {
+//                item.setLineNo(lineno);
+//                if (item.getPrice() == 0) {
+//                    item.setPrice(item.getMRP());
+//                }
+//                System.out.println("Salesentity lines:-->" + new Gson().toJson(item));
+//                pick_pack_list.add(item);
+//            }
+//            lineno++;
+//
+//        }
+//        request.setReservedSalesLine(pick_pack_list);
+
     }
 
     @Override
@@ -185,6 +229,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void forwardtoPacker() {
+
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerAlertBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_alert, null, false);
@@ -210,6 +255,8 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         updateStatusBinding.yes.setOnClickListener(v -> {
             dialog.dismiss();
             dialog.cancel();
+
+            mPresenter.ForwardToPickerRequest(request);
             gotoOpenOrder();
         });
         dialog.show();
