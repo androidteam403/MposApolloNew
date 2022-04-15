@@ -60,7 +60,8 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:text="Scan QR / barCode to tagbox for\nFullfillment ID: 887766"
+                    android:visibility="gone"
+                    android:id="@+id/fullfillmentIdscanner"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dimen16sp" />
 
