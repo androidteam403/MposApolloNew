@@ -320,7 +320,8 @@ public interface ApiInterface {
     Call<OmsAddNewItemResponse> GET_OMS_ADD_New_item(@Body OmsAddNewItemRequest request);
 
 
-    @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")//907253572044079104
+    @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
+//907253572044079104
     Call<RacksDataResponse> doRackApiCall();
 
     @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransaction")
