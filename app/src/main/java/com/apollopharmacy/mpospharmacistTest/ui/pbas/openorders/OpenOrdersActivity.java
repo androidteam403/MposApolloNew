@@ -49,7 +49,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList;
     //    public List<RackAdapter.RackBoxModel.ProductData> productDataList;
     public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
-    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
+    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
     public static String TOTAL_ORDERS = null;
 
@@ -59,8 +59,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    private List<FilterModel> pickupStatusFilterList = new ArrayList<>();
 
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
+
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter,pickupStatusFilterAdapter;
 
 
     public static Intent getStartActivity(Context context) {
@@ -285,6 +287,26 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         }
         omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
+        //pickUpStatusFilter
+        List<TransactionHeaderResponse.OMSHeader> pickUpStatusFilter = mPresenter.getTotalOmsHeaderList();
+        for (FilterModel pickUpStatusFilters: paymentTypeFilterList){
+            for (int i=0;i<paymentTypeFilterList.size();i++){
+                if (!pickUpStatusFilters.isSelected()&& (pickUpStatusFilters.getName().equals(stockAvailabilityOMSHeaderFilter.get(i)))){
+                    stockAvailabilityOMSHeaderFilter.remove(i);
+                    i--;
+                }
+            }
+
+        }
+        for (TransactionHeaderResponse.OMSHeader omsHeader : pickUpStatusFilter) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                    omsHeaderList.remove(i);
+                    i--;
+                }
+            }
+        }
+        omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
 
         if (omsHeaderList != null && omsHeaderList.size() == 0) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
@@ -348,6 +370,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
         dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(this, 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
+
+
+        pickupStatusFilterAdapter = new FilterItemAdapter(this, pickupStatusFilterList);
+        dialogFilterBinding.pickupStatus.setLayoutManager(new GridLayoutManager(this, 3));
+        dialogFilterBinding.pickupStatus.setAdapter(pickupStatusFilterAdapter);
 
 //        customerTypeFilterList = new ArrayList<>();
 //        FilterModel filterModel = new FilterModel();
@@ -505,8 +532,14 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     //    public TransactionHeaderResponse omsHeader;
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        omsHeaderList = omsHeader.getOMSHeader();
-        mPresenter.setTotalOmsHeaderList(omsHeader.getOMSHeader());
+        for (int i =0; i<omsHeader.getOMSHeader().size();i++){
+            if (!omsHeader.getOMSHeader().get(i).getOrderPickup()){
+                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+            }
+        }
+
+//        omsHeaderList = omsHeader.getOMSHeader();
+        mPresenter.setTotalOmsHeaderList(omsHeaderList);
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
         fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -527,6 +560,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 boolean isPaymentTypeContain = false;
                 boolean isOrderSourceContain = false;
                 boolean isStockAvailabilityContain = false;
+                boolean isPickUpStatusContain = false;
+
 
                 // customer type filter list.
                 FilterModel filterModel = new FilterModel();
@@ -592,10 +627,27 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 if (!isOrderSourceContain) {
                     orderSourceFilterList.add(filterModel);
                 }
+//pickupstatusfilter
+//
+
+                filterModel = new FilterModel();
+                filterModel.setName("Pending");
+                filterModel.setName("Completed");
+                filterModel.setSelected(false);
+                for (int j = 0; j < pickupStatusFilterList.size(); j++) {
+                    if (pickupStatusFilterList.get(j).getName().equals(filterModel.getName())) {
+                        isPickUpStatusContain = true;
+                    }
+                }
+                if (!isPickUpStatusContain) {
+                    pickupStatusFilterList.add(filterModel);
+                }
+
 
                 // stock availability filter list.
                 filterModel = new FilterModel();
                 filterModel.setName(omsHeaderList.get(i).getStockStatus());
+
                 filterModel.setSelected(false);
                 for (int j = 0; j < stockAvailabilityFilterList.size(); j++) {
                     if (stockAvailabilityFilterList.get(j).getName().equals(filterModel.getName())) {

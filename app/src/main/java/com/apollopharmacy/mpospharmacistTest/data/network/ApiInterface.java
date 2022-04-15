@@ -72,6 +72,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -303,6 +305,9 @@ public interface ApiInterface {
 
     @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
     Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
+    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
+    Call<ForwardToPickerResponse> UPDATE_OMS_ORDER(@Body ForwardToPickerRequest request);
+
 
 //    @POST("OMSService.svc/MPOSOrderUpdate")
 //    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
