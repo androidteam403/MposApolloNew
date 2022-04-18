@@ -537,7 +537,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
         }
-
 //        omsHeaderList = omsHeader.getOMSHeader();
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");

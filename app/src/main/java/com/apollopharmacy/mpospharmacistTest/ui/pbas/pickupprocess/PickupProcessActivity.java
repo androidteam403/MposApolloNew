@@ -167,7 +167,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
-        this.orderAdapterPos =orderAdapterPos;
+        this.orderAdapterPos = orderAdapterPos;
         if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
             statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
             dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
@@ -212,10 +212,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
             dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
                 if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
+                    int requiredQty = salesLine.getQty();
                     for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
-                        if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= salesLine.getQty()) {
-                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), salesLine.getQty());
+                        if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= requiredQty) {
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
                             break;
+                        } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
+                            requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
                         }
                     }
                     onClickItemStatusUpdate(orderAdapterPos, position, "FULL");
