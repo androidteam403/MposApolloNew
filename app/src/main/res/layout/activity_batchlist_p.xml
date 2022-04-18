@@ -51,7 +51,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Augmentin 625 Duo Tablet"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -70,37 +69,69 @@
                 android:layout_height="@dimen/dimen3dp"
                 android:background="#A9A9A9" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Not found Batch ID"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
 
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+               >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Not found Batch ID"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:text="Req Qty:"/>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+
+                <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="@dimen/dimen40dp"
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_weight="0.8"
+                    android:id="@+id/batchlayout"
                 android:layout_marginEnd="@dimen/five_dp"
                 android:background="#e6e6e6"
                 android:gravity="center_vertical">
 
-                <EditText
-                    android:layout_width="350dp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Enter Batch ID"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="@dimen/five_dp"
-                    android:textColor="@color/text_color_grey" />
+                    <EditText
+                        android:layout_width="300dp"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Enter Batch ID"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:padding="@dimen/five_dp"
+                        android:textColor="@color/text_color_grey" />
 
-                <ImageView
+                    <ImageView
                     android:id="@+id/search_batchlistitem"
                     android:layout_width="@dimen/dimen25dp"
                     android:layout_height="@dimen/dimen25dp"
@@ -110,6 +141,33 @@
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/next_order" />
             </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen40dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_weight="0.2"
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:background="#e6e6e6"
+                    android:gravity="center_vertical">
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:padding="@dimen/five_dp"
+                        android:textColor="@color/text_color_grey" />
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -128,13 +186,103 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen14sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/batch_list"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:background="@color/batch_header_bg"
+                android:orientation="horizontal"
+                android:padding="@dimen/ten_dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/label_batch_no"
+                    android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:textSize="@dimen/ten_dp" />
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.3"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/label_q_o_h"
+                    android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_gravity="center"
+                    android:text="@string/label_req"
+                    android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:textSize="@dimen/ten_dp" />
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/batch_pickup_check"
+                    android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:textSize="@dimen/ten_dp" />
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/batch_list_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
+                android:fadeScrollbars="false"
+                android:focusableInTouchMode="true"
+                android:scrollbars="vertical"
+                android:scrollingCache="true"
+                android:smoothScrollbar="true"
                 android:layout_marginTop="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp" />
+                />
+
+            <TextView
+                android:onClick="@{()-> callback.onAddItemsPressed()}"
+                android:id="@+id/add_items"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:background="@drawable/bg_cancel_btn"
+                android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="Add Items"
+                android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>
+    <data>
+
+    <variable
+        name="callback"
+        type="com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpPresenter" />
+    </data>
 </layout>

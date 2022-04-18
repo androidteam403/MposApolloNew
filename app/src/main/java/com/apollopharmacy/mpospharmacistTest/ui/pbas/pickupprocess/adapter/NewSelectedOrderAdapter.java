@@ -17,13 +17,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrderAdapter.ViewHolder> implements NewSelectedOrderAdapterCallback {
     private PickupProcessMvpView pickupProcessMvpView;
     private boolean isRackFlow;
     String fullfillmentId;
     int fullFillmentPos;
+    String medicineName;
 private StatusUpdateCallback mCallback;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     public List<RackAdapter.RackBoxModel.ProductData> racksDataResponse;
@@ -61,7 +61,7 @@ private int orderAdapterPos;
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
 
-
+        medicineName = salesLine.getItemName();
 
         if(salesLine.getStatus()!=null &&salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
@@ -140,7 +140,7 @@ private int orderAdapterPos;
     @Override
     public void onClickBatchDetails() {
         if (pickupProcessMvpView != null) {
-            pickupProcessMvpView.onClickBatchDetails();
+            pickupProcessMvpView.onClickBatchDetails(medicineName);
         }
 //        startActivity(BatchListActivity.getStartIntent(context));
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

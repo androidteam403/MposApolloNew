@@ -167,8 +167,8 @@ public class SelectedOrderPickupProcessActivity extends BaseActivity implements 
 
     @Override
     public void onClickBatchDetails() {
-        startActivity(BatchListActivity.getStartIntent(this));
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//        startActivity(BatchListActivity.getStartIntent(this));
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
     @Override

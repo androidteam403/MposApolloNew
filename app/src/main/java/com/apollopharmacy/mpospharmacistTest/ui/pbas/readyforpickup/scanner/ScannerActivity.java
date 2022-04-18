@@ -42,6 +42,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         Intent intent = getIntent();
         int position=intent.getExtras().getInt("position");
+        boolean isReadyforPickup = intent.getExtras().getBoolean("isReadyforPickup");
 
 
 
@@ -64,9 +65,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         barcodeScannerView.setTorchListener(this);
 
 
+            if(isReadyforPickup){
+                textView= findViewById(R.id.fullfillmentIdscanner);
+                textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
+            }
 
-        textView= findViewById(R.id.fullfillmentIdscanner);
-        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
 
 
 

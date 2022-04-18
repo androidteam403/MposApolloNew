@@ -22,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback, StatusUpdateCallback {
     private Context mContext;
@@ -819,6 +818,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
         if (pickupProcessMvpView != null) {
             pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
+                    ;
         }
     }
 

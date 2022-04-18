@@ -30,7 +30,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -661,7 +661,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+//        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+        Intent intent= new Intent(OpenOrdersActivity.this, ScannerActivity.class);
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 

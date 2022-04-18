@@ -115,7 +115,6 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
 
             } else {
                 holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_unchecked_checkbox);
-                ;
                 holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.white);
 
             }

@@ -113,7 +113,24 @@ public class GetBatchInfoRes {
         private boolean physicalbatchstatus;
 
         private  boolean updatezeroqtystatus;
+        private String batchId;
+        private boolean isBatchidSelect;
 
+        public String getBatchId() {
+            return batchId;
+        }
+
+        public void setBatchId(String batchId) {
+            this.batchId = batchId;
+        }
+
+        public boolean isBatchidSelect() {
+            return isBatchidSelect;
+        }
+
+        public void setBatchidSelect(boolean batchidSelect) {
+            isBatchidSelect = batchidSelect;
+        }
 
         private  String PhysicalBatchID;
 

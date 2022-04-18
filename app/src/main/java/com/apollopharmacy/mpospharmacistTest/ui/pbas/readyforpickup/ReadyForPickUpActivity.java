@@ -100,7 +100,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     ScanQrCodeDialog scanQrCodeDialog;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     int position;
-
+    boolean isReadyforPickup=true;
     String fullfillmentId;
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
@@ -159,6 +159,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
         i.putExtra("position", position);
         i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
+        i.putExtra("isReadyforPickup", isReadyforPickup);
         startActivity(i);
 
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);

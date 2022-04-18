@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 
@@ -22,9 +23,9 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void onClickNotAvailable();
 
-    void onClickBatchDetails();
 
     void onClickSkip();
+
 
 
 }

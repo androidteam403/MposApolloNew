@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +27,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     BatchListMvpPresenter<BatchListMvpView> mPresenter;
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
-    private List<BatchListModel> batchListModelList;
 
-    public static Intent getStartIntent(Context mContext) {
-        return new Intent(mContext, BatchListActivity.class);
+    private ArrayList<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
+//    private List<BatchListModel> batchListModelList;
+//private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
+    public static Intent getStartIntent(Context mContext, String itemId, String itemName1) {
+       Intent i = new Intent(mContext, BatchListActivity.class);
+        i.putExtra("itemId", (Serializable) itemId);
+        i.putExtra("itemName", (Serializable)itemName1);
+        return i;
     }
 
     @Override
@@ -41,51 +49,97 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     protected void setUp() {
-        this.batchListModelList = getBatchList();
-        batchListAdapter = new BatchListAdapter(this, batchListModelList, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
-        batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+
+        Intent intent = getIntent();
+        String itemId =intent.getExtras().getString("itemId");
+        String itemName1 = intent.getExtras().getString("itemName");
+
+        batchlistBinding.tabletName.setText(itemName1);
+//        this.batchListModelList = getBatchList();
+        mPresenter.getBatchDetailsApi(itemId);
+
     }
 
-    private List<BatchListModel> getBatchList() {
-        List<BatchListModel> batchListModelList = new ArrayList<>();
-        BatchListModel batchListModel = new BatchListModel();
-        batchListModel.setBatchId("95374664110");
-        batchListModel.setBatchidSelect(false);
-        batchListModelList.add(batchListModel);
+//    private List<BatchListModel> getBatchList() {
 
-        batchListModel = new BatchListModel();
-        batchListModel.setBatchId("77537464110");
-        batchListModel.setBatchidSelect(false);
-        batchListModelList.add(batchListModel);
+//        batchListModel.setBatchId("95374664110");
+//        batchListModel.setBatchidSelect(false);
+//        batchListModelList.add(batchListModel);
+//
+//        batchListModel = new BatchListModel();
+//        batchListModel.setBatchId("77537464110");
+//        batchListModel.setBatchidSelect(false);
+//        batchListModelList.add(batchListModel);
+//
+//        batchListModel = new BatchListModel();
+//        batchListModel.setBatchId("95357764110");
+//        batchListModel.setBatchidSelect(false);
+//        batchListModelList.add(batchListModel);
+//
+//        batchListModel = new BatchListModel();
+//        batchListModel.setBatchId("95374667548");
+//        batchListModel.setBatchidSelect(false);
+//        batchListModelList.add(batchListModel);
+//
+//        batchListModel = new BatchListModel();
+//        batchListModel.setBatchId("95376645345");
+//        batchListModel.setBatchidSelect(false);
+//        batchListModelList.add(batchListModel);
+//
+//        return batchListModelList;
+//    }
 
-        batchListModel = new BatchListModel();
-        batchListModel.setBatchId("95357764110");
-        batchListModel.setBatchidSelect(false);
-        batchListModelList.add(batchListModel);
 
-        batchListModel = new BatchListModel();
-        batchListModel.setBatchId("95374667548");
-        batchListModel.setBatchidSelect(false);
-        batchListModelList.add(batchListModel);
+    GetBatchInfoRes body;
+    @Override
+    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
 
-        batchListModel = new BatchListModel();
-        batchListModel.setBatchId("95376645345");
-        batchListModel.setBatchidSelect(false);
-        batchListModelList.add(batchListModel);
-
-        return batchListModelList;
+        if (body.size() > 0) {
+            batchListAdapter = new BatchListAdapter(this, body, this);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
+            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+        }
     }
 
     @Override
-    public void onClickItem(int pos) {
-        if (batchListModelList.get(pos).isBatchidSelect())
-            batchListModelList.get(pos).setBatchidSelect(false);
-        else
-            batchListModelList.get(pos).setBatchidSelect(true);
-        batchListAdapter.notifyDataSetChanged();
+    public void onFailedBatchInfo(GetBatchInfoRes body) {
+
     }
+    boolean batchSelected;
+    int batchSelectedPosition;
+    double reqqty;
+    String batchNo;
+    String itemID;
+    @Override
+    public void onCheckBoxClick(int position, boolean batchSelected, double reqqty, String batchNo, String itemID) {
+        this.batchSelected=batchSelected;
+        this.batchSelectedPosition=position;
+        this.reqqty=reqqty;
+        this.batchNo=batchNo;
+        this.itemID=itemID;
+    }
+
+    @Override
+    public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
+
+    }
+
+    @Override
+    public void checkBatchInventoryFailed(CheckBatchInventoryRes body) {
+
+    }
+
+
+    @Override
+    public void onAddItemsPressed() {
+        mPresenter.checkBatchInventory(batchNo, itemID, reqqty);
+    }
+
+
+
+
+
 
     public class BatchListModel {
         private String batchId;

@@ -20,15 +20,13 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickStausIcon();
 
-    void onClickBatchDetails();
+    void onClickBatchDetails(String itemName);
 
     void onClickPartialPicked();
 
     void onClickNotAvailable();
 
     void onClickSkip();
-
-
 
     void onClickDropDown(Spinner spinner);
 

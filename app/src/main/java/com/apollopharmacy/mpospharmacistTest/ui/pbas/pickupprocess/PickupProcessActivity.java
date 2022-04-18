@@ -52,7 +52,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     private RackAdapter rackAdapter;
     public AdapterOrderPBinding orderBinding;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
-    private List<GetOMSTransactionResponse.SalesLine> salesLineList;
+   private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     public String[] items;
     private List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfList = new ArrayList<>();
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
@@ -115,7 +115,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        if (orderAdapter != null)
 //            orderAdapter.notifyDataSetChanged();
     }
-
+    int orderAdapterPos;
+    int newSelectedOrderAdapterPos;
+    String itemName;
     @Override
     public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -443,10 +445,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickStausIcon() {
 
     }
-
+    String itemId;
     @Override
-    public void onClickBatchDetails() {
-        startActivity(BatchListActivity.getStartIntent(this));
+    public void onClickBatchDetails(String itemName1) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            itemId =  selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getItemId();
+        }
+        startActivity(BatchListActivity.getStartIntent(this, itemId, itemName1));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
@@ -464,6 +469,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickSkip() {
 
     }
+
 
     @Override
     public void onClickDropDown(Spinner spinner) {

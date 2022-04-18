@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterBatchlistPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpView;
 import com.bumptech.glide.Glide;
@@ -19,13 +20,14 @@ import java.util.List;
 
 public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.ViewHolder> {
     private Context mContext;
-    private List<BatchListActivity.BatchListModel> batchListModelList;
-    private BatchListMvpView mvpView;
+    private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
+    private BatchListMvpView batchListMvpView;
+    boolean batchSelected=false;
 
-    public BatchListAdapter(Context mContext, List<BatchListActivity.BatchListModel> batchListModelList, BatchListMvpView mvpView) {
+    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView) {
         this.mContext = mContext;
-        this.batchListModelList = batchListModelList;
-        this.mvpView = mvpView;
+        this.batchListModelListl = batchListModelList1;
+        this.batchListMvpView = mvpView;
     }
 
     @NonNull
@@ -38,25 +40,58 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BatchListActivity.BatchListModel batchListModel = batchListModelList.get(position);
-        holder.adapterBatchlistBinding.batchId.setText(batchListModel.getBatchId());
-        if (batchListModel.isBatchidSelect())
-            Glide.with(mContext).load(R.drawable.ic_circle_tick).into(holder.adapterBatchlistBinding.batchIdSelectIcon);
-        else
-            Glide.with(mContext).load(R.drawable.ic_circle_stroke).into(holder.adapterBatchlistBinding.batchIdSelectIcon);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        GetBatchInfoRes.BatchListObj batchListModel = batchListModelListl.get(position);
+        holder.adapterBatchlistBinding.batchNo.setText(batchListModel.getBatchNo());
+        holder.adapterBatchlistBinding.qohCoount.setText(batchListModel.getQ_O_H());
+      if (batchListModel.getREQQTY() == (double) batchListModel.getREQQTY()) {
+                double d = batchListModel.getREQQTY();
+                int value = Integer.valueOf((int) batchListModel.getREQQTY());
+                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(value));
+            } else {
+                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()));
+            }
+
+        holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (mvpView != null)
-                    mvpView.onClickItem(position);
+            public void onClick(View v) {
+                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
+                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
+                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
+                batchSelected=true;
+                batchListMvpView.onCheckBoxClick(position, batchSelected, batchListModel.getREQQTY(), batchListModel.getBatchNo(), batchListModel.getItemID());
+
             }
         });
+
+        holder.adapterBatchlistBinding.iconPointsAllow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
+                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
+                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
+
+
+            }
+        });
+
+
+//        if (batchListModel.isBatchidSelect())
+//            Glide.with(mContext).load(R.drawable.ic_circle_tick).into(holder.adapterBatchlistBinding.batchIdSelectIcon);
+//        else
+//            Glide.with(mContext).load(R.drawable.ic_circle_stroke).into(holder.adapterBatchlistBinding.batchIdSelectIcon);
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (mvpView != null)
+//                    mvpView.onClickItem(position);
+//            }
+//        });
     }
 
 
     @Override
     public int getItemCount() {
-        return batchListModelList.size();
+        return batchListModelListl.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
