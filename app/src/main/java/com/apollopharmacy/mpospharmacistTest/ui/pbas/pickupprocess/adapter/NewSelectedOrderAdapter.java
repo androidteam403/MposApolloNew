@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrderAdapter.ViewHolder> implements NewSelectedOrderAdapterCallback {
     private PickupProcessMvpView pickupProcessMvpView;
@@ -25,6 +26,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     int fullFillmentPos;
     String medicineName;
 private StatusUpdateCallback mCallback;
+    private StatusUpdateCallback mCallback;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     public List<RackAdapter.RackBoxModel.ProductData> racksDataResponse;
     public Context context;
@@ -83,16 +85,10 @@ private int orderAdapterPos;
 
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
-            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
-            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
-            dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
-            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-            statusUpdateDialog.setCancelable(false);
-            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
-            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
-            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
-            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
-            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
+
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position);
+            }
 
                 if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
                     holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);

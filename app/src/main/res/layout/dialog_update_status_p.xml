@@ -73,8 +73,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:text="887766"
-                            android:textSize="@dimen/text_dimen_12"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12" />
 
                     </LinearLayout>
 
@@ -250,7 +250,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_minus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                                 <EditText
                                     android:id="@+id/qty_edit_full"
@@ -276,7 +277,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_plus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 
@@ -290,11 +292,11 @@
                             android:layout_marginTop="@dimen/dimen5dp"
                             android:layout_marginEnd="@dimen/dimen5dp"
                             android:background="@drawable/edit_box_grey_bg"
+                            android:clickable="true"
                             android:focusable="false"
                             android:fontFamily="@font/roboto_medium"
                             android:hint="@string/label_enter_batch_id"
                             android:importantForAutofill="no"
-                            android:clickable="true"
                             android:inputType="text"
                             android:onClick="@{()-> callback.onClickBatchDetails()}"
                             android:padding="@dimen/dimen5dp"
@@ -533,6 +535,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/skip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen10dp"

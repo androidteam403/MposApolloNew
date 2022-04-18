@@ -16,6 +16,7 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
 
     void onClickScanCode();
 
+
     void onGetOmsTransaction(String fulfilmentId, boolean isItemClick);
 
     void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);

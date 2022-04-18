@@ -43,6 +43,8 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         Intent intent = getIntent();
         int position=intent.getExtras().getInt("position");
         boolean isReadyforPickup = intent.getExtras().getBoolean("isReadyforPickup");
+//        Intent intent = getIntent();
+//        int position=intent.getExtras().getInt("position");
 
 
 
