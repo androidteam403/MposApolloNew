@@ -35,7 +35,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private List<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
-
+int i=0;
 
 //    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
 //       Intent i = new Intent(mContext, BatchListActivity.class);
