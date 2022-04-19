@@ -22,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback, StatusUpdateCallback {
     private Context mContext;
@@ -66,7 +65,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
-        holder.orderBinding.orderStatus.setText("Pending");
+        if (omsHeader.getOrderPickup()) {
+            holder.orderBinding.orderStatus.setText("Completed");
+        } else {
+            holder.orderBinding.orderStatus.setText("Pending");
+        }
 
         holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
         holder.orderBinding.orderSource.setText(omsHeader.getOrderSource());

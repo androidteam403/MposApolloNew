@@ -537,7 +537,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
         }
-
 //        omsHeaderList = omsHeader.getOMSHeader();
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
@@ -694,7 +693,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
             if (fullfilmentAdapter != null) {
-                fullfilmentAdapter.notifyItemChanged(getPos);
+                fullfilmentAdapter.notifyItemChanged(itemPos);
             }
             onContinueBtnEnable();
         }
@@ -732,12 +731,13 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     }
 
 
-    int pos;
+    int itemPos;
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onFullfillmentItemClick(int pos) {
+    public void onFullfillmentItemClick(int pos, int itemPos) {
         this.getPos = pos;
+        this.itemPos = itemPos;
         if (omsHeaderList.get(pos).isSelected()) {
             omsHeaderList.get(pos).setSelected(false);
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -749,7 +749,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
             if (fullfilmentAdapter != null) {
-                fullfilmentAdapter.notifyItemChanged(pos);
+                fullfilmentAdapter.notifyItemChanged(itemPos);
             }
             onContinueBtnEnable();
         } else {

@@ -2,10 +2,12 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,7 +25,9 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupProcessPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -56,7 +60,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public String[] items;
     private List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfList = new ArrayList<>();
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
-
+    private List<SalesLineEntity> salesentity = new ArrayList<>();
 
     List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private static List<RacksDataResponse.FullfillmentDetail.Product> rackIdList = new ArrayList<>();
@@ -147,10 +151,115 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
                     orderAdapter.notifyItemChanged(orderAdapterPos);
                 }
+            } else {
+                orderAdapter.notifyItemChanged(orderAdapterPos);
             }
         }
     }
 
+    @Override
+    public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
+        mPresenter.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position);
+    }
+
+    private Dialog statusUpdateDialog;
+    int orderAdapterPos, position;
+
+    @Override
+    public void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
+        this.orderAdapterPos = orderAdapterPos;
+        if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
+            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
+            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+            statusUpdateDialog.setCancelable(false);
+            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
+            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
+            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
+            double totalBatchDetailsQuantity = 0.0;
+            for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
+                totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H());
+            }
+            if (totalBatchDetailsQuantity >= salesLine.getQty()) {
+
+
+                checkAllFalse();
+                dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
+                dialogUpdateStatusBinding.availableProFull.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+                dialogUpdateStatusBinding.requiredProFull.setText(String.valueOf(salesLine.getQty()));
+                dialogUpdateStatusBinding.qtyEditFull.setText(String.valueOf(salesLine.getQty()));
+                dialogUpdateStatusBinding.fullDetails.setVisibility(View.VISIBLE);
+            } else if (totalBatchDetailsQuantity > 0.0) {
+                checkAllFalse();
+                dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
+                dialogUpdateStatusBinding.availableProPartial.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+                dialogUpdateStatusBinding.requiredProPartial.setText(String.valueOf(salesLine.getQty()));
+                dialogUpdateStatusBinding.qtyEditFull.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+                dialogUpdateStatusBinding.partialDetails.setVisibility(View.VISIBLE);
+            } else {
+                checkAllFalse();
+                dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
+            }
+
+
+            dialogUpdateStatusBinding.skip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkAllFalse();
+                    dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
+                }
+            });
+            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
+            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
+                if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
+                    int requiredQty = salesLine.getQty();
+                    for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
+                        if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= requiredQty) {
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
+                            break;
+                        } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
+                            requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
+                        }
+                    }
+                    onClickItemStatusUpdate(orderAdapterPos, position, "FULL");
+                    statusUpdateDialog.dismiss();
+                } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
+                    onClickItemStatusUpdate(orderAdapterPos, position, "PARTIAL");
+                    statusUpdateDialog.dismiss();
+                } else if (dialogUpdateStatusBinding.notAvailableRadio.isChecked()) {
+                    onClickItemStatusUpdate(orderAdapterPos, position, "NOT AVAILABLE");
+                    statusUpdateDialog.dismiss();
+                } else if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
+                    statusUpdateDialog.dismiss();
+                }
+            });
+            statusUpdateDialog.show();
+        } else {
+            Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void checkBatchInventorySuccess() {
+
+    }
+
+    @Override
+    public void checkBatchInventoryFailed(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkAllFalse() {
+        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
+        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
+        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
+        dialogUpdateStatusBinding.skipRadioBtn.setChecked(false);
+
+        dialogUpdateStatusBinding.fullDetails.setVisibility(View.GONE);
+        dialogUpdateStatusBinding.partialDetails.setVisibility(View.GONE);
+
+    }
 
     @SuppressLint({"WrongViewCast", "SetTextI18n"})
     @Override
