@@ -369,39 +369,32 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
     }
 
-
     private void rackOrderCheckedListener() {
         pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
             if (isChecked) {
+
                 pickupProcessBinding.continueOrders.setVisibility(View.GONE);
+
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
+
+
+
+            } else {
+                pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
+
+                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+
                 if (rackListOfListFiltered != null)
-                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
+                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
                 else
-                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
                 pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-                pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
-                Toast.makeText(PickupProcessActivity.this, "true", Toast.LENGTH_SHORT).show();
-            } else {
-
-
-//                if (fullfillmentListOfListFiltered != null)
-//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullfillmentListOfListFiltered);
-//                else
-//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullListOfList);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-//                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
-
-//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-//                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-//                orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-
+                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+//
 //                if (rackListOfListFiltered != null)
 //                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
 //                else
@@ -410,10 +403,57 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
 //                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 //                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+//            }
             }
         });
 
     }
+
+
+//    private void rackOrderCheckedListener() {
+//        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
+//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
+//                if (rackListOfListFiltered != null)
+//                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
+//                else
+//                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+//                pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
+//                Toast.makeText(PickupProcessActivity.this, "true", Toast.LENGTH_SHORT).show();
+//            } else {
+//
+//
+////                if (fullfillmentListOfListFiltered != null)
+////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullfillmentListOfListFiltered);
+////                else
+////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullListOfList);
+////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+////                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+//
+////                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+////                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+////                orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
+////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+//
+////                if (rackListOfListFiltered != null)
+////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
+////                else
+////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+////                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
 
