@@ -602,9 +602,18 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             itemId =  selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getItemId();
         }
-        startActivity(BatchListActivity.getStartIntent(this, itemId, itemName1, qty));
+//        startActivityForResult(BatchListActivity.getStartIntent(this, itemId, itemName1, qty));
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+        Intent i=new Intent(PickupProcessActivity.this, BatchListActivity.class);
+        i.putExtra("itemId", (Serializable) itemId);
+        i.putExtra("itemName", (Serializable)itemName1);
+        i.putExtra("reqqty", (Serializable) qty);
+        startActivityForResult(i, 777);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
+
+
 
     @Override
     public void onClickPartialPicked() {

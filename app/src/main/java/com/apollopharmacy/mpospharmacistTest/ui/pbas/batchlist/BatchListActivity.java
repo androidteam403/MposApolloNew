@@ -32,17 +32,18 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
     double requiredqty;
-
     private ArrayList<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
-    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
-       Intent i = new Intent(mContext, BatchListActivity.class);
-        i.putExtra("itemId", (Serializable) itemId);
-        i.putExtra("itemName", (Serializable)itemName1);
-        i.putExtra("reqqty", (Serializable) reqqty);
-        return i;
-    }
+
+
+//    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
+//       Intent i = new Intent(mContext, BatchListActivity.class);
+//        i.putExtra("itemId", (Serializable) itemId);
+//        i.putExtra("itemName", (Serializable)itemName1);
+//        i.putExtra("reqqty", (Serializable) reqqty);
+//        return i;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,10 +134,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
-        Intent i = new Intent(BatchListActivity.this, PickupProcessActivity.class);
         Toast.makeText(getApplicationContext(), "BatchList is added", Toast.LENGTH_LONG).show();
-        startActivity(i);
-
 
     }
 
