@@ -37,7 +37,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                 batchInfoReq.setExpiryDays(90);
                 batchInfoReq.setSEZ(0);
                 batchInfoReq.setSearchType(1);
-                batchInfoReq.setStoreId(String.valueOf(16001));
+                batchInfoReq.setStoreId("16001");
                 batchInfoReq.setStoreState("AP");
                 batchInfoReq.setTerminalId("005");
 
@@ -67,12 +67,12 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
         }
 
     @Override
-    public void onAddItemsPressed() {
-      getMvpView().onAddItemsPressed();
+    public void onAddItemsClicked() {
+        getMvpView().onAddItemsClicked();
     }
 
-    public void checkBatchInventory(String reqqty, String batchNo, double itemID) {
-
+    @Override
+    public void checkBatchInventory(double reqqty, String batchNo, String itemID) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
@@ -82,7 +82,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             inventoryReq.setItemID(String.valueOf(itemID));
             inventoryReq.setRequestStatus(0);
             inventoryReq.setReturnMessage("");
-            inventoryReq.setStock(Double.parseDouble(reqqty));
+            inventoryReq.setStock(reqqty);
             inventoryReq.setStoreID("16001");
             inventoryReq.setTerminalID("005");
 
@@ -93,7 +93,6 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
-
                             getMvpView().checkBatchInventorySuccess(response.body());
                         else
                             getMvpView().checkBatchInventoryFailed(response.body());
@@ -111,5 +110,6 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
         }
     }
     }
+
 
 

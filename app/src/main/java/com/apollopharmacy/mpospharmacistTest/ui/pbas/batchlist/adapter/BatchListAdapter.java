@@ -23,11 +23,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
     private BatchListMvpView batchListMvpView;
     boolean batchSelected=false;
+    double reqqty;
 
-    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView) {
+    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, double reqqty, BatchListMvpView mvpView) {
         this.mContext = mContext;
         this.batchListModelListl = batchListModelList1;
         this.batchListMvpView = mvpView;
+        this.reqqty=reqqty;
+
     }
 
     @NonNull
@@ -43,12 +46,13 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         GetBatchInfoRes.BatchListObj batchListModel = batchListModelListl.get(position);
         holder.adapterBatchlistBinding.batchNo.setText(batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.qohCoount.setText(batchListModel.getQ_O_H());
-      if (batchListModel.getREQQTY() == (double) batchListModel.getREQQTY()) {
-                double d = batchListModel.getREQQTY();
-                int value = Integer.valueOf((int) batchListModel.getREQQTY());
+//        holder.adapterBatchlistBinding.requiredQuantity.setText(reqqty);
+      if (reqqty == (double) reqqty) {
+                double d = reqqty;
+                int value = Integer.valueOf((int) reqqty);
                 holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(value));
             } else {
-                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()));
+                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(reqqty));
             }
 
         holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +62,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
                 holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
                 batchSelected=true;
-                batchListMvpView.onCheckBoxClick(position, batchSelected, batchListModel.getREQQTY(), batchListModel.getBatchNo(), batchListModel.getItemID());
+                batchListMvpView.onCheckBoxClick(position, batchSelected, Double.parseDouble(String.valueOf(holder.adapterBatchlistBinding.requiredQuantity.getText())), batchListModel.getBatchNo(), batchListModel.getItemID());
 
             }
         });

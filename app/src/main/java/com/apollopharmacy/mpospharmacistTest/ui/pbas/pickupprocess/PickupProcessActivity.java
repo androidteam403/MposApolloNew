@@ -56,7 +56,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     private RackAdapter rackAdapter;
     public AdapterOrderPBinding orderBinding;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
-   private List<GetOMSTransactionResponse.SalesLine> salesLineList;
+    private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     public String[] items;
     private List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfList = new ArrayList<>();
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
@@ -119,7 +119,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        if (orderAdapter != null)
 //            orderAdapter.notifyDataSetChanged();
     }
-    int orderAdapterPos;
+
     int newSelectedOrderAdapterPos;
     String itemName;
     @Override
@@ -555,12 +555,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     }
     String itemId;
+
     @Override
-    public void onClickBatchDetails(String itemName1) {
+    public void onClickBatchDetails(String itemName1, double qty) {
+
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             itemId =  selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getItemId();
         }
-        startActivity(BatchListActivity.getStartIntent(this, itemId, itemName1));
+        startActivity(BatchListActivity.getStartIntent(this, itemId, itemName1, qty));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 

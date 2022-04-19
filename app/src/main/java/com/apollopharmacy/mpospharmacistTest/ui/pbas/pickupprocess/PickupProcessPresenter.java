@@ -96,6 +96,11 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
     @Override
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty) {
+
+    }
+
+    @Override
     public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -138,9 +143,5 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
 
-    @Override
-    public void onClickBatchDetails() {
-        getMvpView().onClickBatchDetails();
-    }
 }
 

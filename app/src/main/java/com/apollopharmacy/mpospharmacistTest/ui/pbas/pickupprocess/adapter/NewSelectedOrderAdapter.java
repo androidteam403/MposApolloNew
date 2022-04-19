@@ -24,17 +24,17 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     private boolean isRackFlow;
     String fullfillmentId;
     int fullFillmentPos;
-    String medicineName;
-private StatusUpdateCallback mCallback;
     private StatusUpdateCallback mCallback;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     public List<RackAdapter.RackBoxModel.ProductData> racksDataResponse;
     public Context context;
+    double reqqty;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     private OrderAdapter orderAdapter;
     String refNo;
-private int orderAdapterPos;
+    GetOMSTransactionResponse.SalesLine position;
+    private int orderAdapterPos;
     public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos, String refno) {
         this.context = context;
         this.salesLineList = salesLineList;
@@ -53,6 +53,7 @@ private int orderAdapterPos;
 
     @Override
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
+
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
 //        RackAdapter.RackBoxModel.ProductData dataResponse = racksDataResponse.get(position);
 //        pickupProcessMvpView.productsNextPosReturn(racksDataResponse);
@@ -62,8 +63,10 @@ private int orderAdapterPos;
         holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
+        this.reqqty=salesLine.getQty();
 
-        medicineName = salesLine.getItemName();
+
+
 
         if(salesLine.getStatus()!=null &&salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
@@ -85,10 +88,16 @@ private int orderAdapterPos;
 
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
-
-            if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position);
-            }
+            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
+            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
+            dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
+            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+            statusUpdateDialog.setCancelable(false);
+            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
+            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
+            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
+            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
+            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
 
                 if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
                     holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
@@ -135,9 +144,8 @@ private int orderAdapterPos;
 
     @Override
     public void onClickBatchDetails() {
-        if (pickupProcessMvpView != null) {
-            pickupProcessMvpView.onClickBatchDetails(medicineName);
-        }
+        if (pickupProcessMvpView != null)
+            pickupProcessMvpView.onClickBatchDetails(salesLineList.get(orderAdapterPos).getItemName(),(reqqty));
 //        startActivity(BatchListActivity.getStartIntent(context));
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 

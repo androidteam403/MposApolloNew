@@ -6,7 +6,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPresenter<V> {
     void getBatchDetailsApi(String itemId);
 
-    void onAddItemsPressed();
+    void onAddItemsClicked();
 
-    void checkBatchInventory(String reqqty, String batchNo, double itemID);
+    void checkBatchInventory(double reqqty, String batchNo, String itemID);
 }

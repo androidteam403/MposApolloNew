@@ -18,5 +18,5 @@ public interface BatchListMvpView extends MvpView {
 
     void checkBatchInventoryFailed(CheckBatchInventoryRes body);
 
-    void onAddItemsPressed();
+    void onAddItemsClicked();
 }

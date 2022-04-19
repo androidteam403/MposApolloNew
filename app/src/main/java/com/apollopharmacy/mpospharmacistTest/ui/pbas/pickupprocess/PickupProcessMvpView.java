@@ -22,7 +22,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickStausIcon();
 
-    void onClickBatchDetails(String itemName);
+    void onClickBatchDetails(String itemName, double qty);
 
     void onClickPartialPicked();
 

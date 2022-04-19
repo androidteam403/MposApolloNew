@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +17,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,14 +31,16 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     BatchListMvpPresenter<BatchListMvpView> mPresenter;
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
+    double requiredqty;
 
     private ArrayList<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
-    public static Intent getStartIntent(Context mContext, String itemId, String itemName1) {
+    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
        Intent i = new Intent(mContext, BatchListActivity.class);
         i.putExtra("itemId", (Serializable) itemId);
         i.putExtra("itemName", (Serializable)itemName1);
+        i.putExtra("reqqty", (Serializable) reqqty);
         return i;
     }
 
@@ -49,14 +55,18 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     protected void setUp() {
-
+        batchlistBinding.setCallback(mPresenter);
         Intent intent = getIntent();
         String itemId =intent.getExtras().getString("itemId");
         String itemName1 = intent.getExtras().getString("itemName");
+         requiredqty=intent.getExtras().getDouble("reqqty");
 
         batchlistBinding.tabletName.setText(itemName1);
 //        this.batchListModelList = getBatchList();
         mPresenter.getBatchDetailsApi(itemId);
+
+
+
 
     }
 
@@ -95,7 +105,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
 
         if (body.size() > 0) {
-            batchListAdapter = new BatchListAdapter(this, body, this);
+            batchListAdapter = new BatchListAdapter(this, body,requiredqty, this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
@@ -118,10 +128,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         this.reqqty=reqqty;
         this.batchNo=batchNo;
         this.itemID=itemID;
+
     }
 
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
+        Intent i = new Intent(BatchListActivity.this, PickupProcessActivity.class);
+        Toast.makeText(getApplicationContext(), "BatchList is added", Toast.LENGTH_LONG).show();
+        startActivity(i);
+
 
     }
 
@@ -130,15 +145,11 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     }
 
-
     @Override
-    public void onAddItemsPressed() {
-        mPresenter.checkBatchInventory(batchNo, itemID, reqqty);
+    public void onAddItemsClicked() {
+
+        mPresenter.checkBatchInventory(reqqty, batchNo, itemID);
     }
-
-
-
-
 
 
     public class BatchListModel {
