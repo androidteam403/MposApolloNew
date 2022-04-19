@@ -32,7 +32,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
     double requiredqty;
-    private ArrayList<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
+    private List<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
 
