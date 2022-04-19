@@ -123,6 +123,18 @@
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/black_right_arroww"
                             android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/down_arrow"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="130dp"
+                            android:contentDescription="@string/app_name"
+                            android:rotation="90"
+                            android:src="@drawable/black_right_arroww"
+                            android:visibility="gone" />
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

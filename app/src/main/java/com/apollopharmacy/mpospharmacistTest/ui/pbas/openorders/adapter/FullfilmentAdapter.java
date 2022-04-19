@@ -57,7 +57,12 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText("-");
 
-
+        if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
+            FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());
+            new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+            holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
+        }
         if (omsHeader.getOrderPickup()) {
             holder.fullfilmentBinding.pickupStatus.setText("Completed");
 
@@ -82,28 +87,36 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                     holder.fullfilmentBinding.stockStatus.setText(getOMSTransactionResponseList.get(0).getStockStatus());
                     holder.fullfilmentBinding.paymentSource.setText(getOMSTransactionResponseList.get(0).getPaymentSource());
                     holder.fullfilmentBinding.orderType.setText(getOMSTransactionResponseList.get(0).getOrderType());
-                    holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
-                    holder.fullfilmentBinding.vendorId.setText(omsHeader.getVendorId());
-                    holder.fullfilmentBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+
+                    holder.fullfilmentBinding.customerName.setText(getOMSTransactionResponseList.get(0).getCustomerName());
+                    holder.fullfilmentBinding.vendorId.setText(getOMSTransactionResponseList.get(0).getVendorId());
+                    holder.fullfilmentBinding.mobileNumber.setText(getOMSTransactionResponseList.get(0).getMobileNO());
 //       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
-                    holder.fullfilmentBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
-                    holder.fullfilmentBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
-                    holder.fullfilmentBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
-                    holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
-                    holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
+                    holder.fullfilmentBinding.doctorName.setText(getOMSTransactionResponseList.get(0).getDoctorName());
+                    holder.fullfilmentBinding.statecode.setText(getOMSTransactionResponseList.get(0).getState());
+                    holder.fullfilmentBinding.city.setText(getOMSTransactionResponseList.get(0).getBillingCity());
+                    holder.fullfilmentBinding.address.setText(getOMSTransactionResponseList.get(0).getCustAddress());
+                    holder.fullfilmentBinding.pincode.setText(getOMSTransactionResponseList.get(0).getPincode());
+
+
+//                    holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+//                    holder.fullfilmentBinding.vendorId.setText(omsHeader.getVendorId());
+//                    holder.fullfilmentBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+////       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
+//                    holder.fullfilmentBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+//                    holder.fullfilmentBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
+//                    holder.fullfilmentBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+//                    holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+//                    holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
                 }
-                if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
-                    FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());
-                    new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
-                    holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
-                }
+
                 holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.orderChildLayout.setVisibility(View.VISIBLE);
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.yellow_stroke_bg));
                 break;
             default:
         }
+
         if (filteredOmsHeaderList.get(position).isSelected()) {
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
@@ -111,6 +124,11 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_stroke));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
+        holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
+            if (mvpView != null) {
+                mvpView.ondownArrowClicked(position);
+            }
+        });
         holder.itemView.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
                 if (mvpView != null)
@@ -127,11 +145,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
             }
         });
-        holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
-            if (mvpView != null) {
-                mvpView.ondownArrowClicked(position);
-            }
-        });
+
     }
 
     @Override
