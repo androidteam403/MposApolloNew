@@ -59,13 +59,6 @@
                             android:layout_marginStart="@dimen/dimen10dp"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_total"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/twelve_sp" />
 
                             <TextView
                                 android:id="@+id/header_orders_count"
@@ -77,14 +70,6 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sixteen_sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/three_dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_orders"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/twelve_sp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -150,6 +135,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -193,12 +180,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="0:35:33"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen12sp" />
 
                     <Chronometer
                         android:id="@+id/chrono"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:visibility="visible" />
 
@@ -317,8 +308,8 @@
 
                 <TextView
                     android:id="@+id/selected_item_count"
-                    android:layout_width="@dimen/dimen35dp"
-                    android:layout_height="@dimen/dimen35dp"
+                    android:layout_width="@dimen/dimen40dp"
+                    android:layout_height="@dimen/dimen40dp"
                     android:layout_marginEnd="@dimen/dimen5dp"
                     android:background="@drawable/ic_circle_lite_yellow_bg"
                     android:fontFamily="@font/roboto_medium"
@@ -326,7 +317,7 @@
                     android:padding="@dimen/dimen5dp"
                     android:text="1/5"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen12sp" />
+                    android:textSize="9sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
