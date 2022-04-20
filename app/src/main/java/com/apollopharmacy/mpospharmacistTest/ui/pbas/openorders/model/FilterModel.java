@@ -19,4 +19,7 @@ public class FilterModel {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public void setName(Boolean pickupStatus) {
+    }
 }

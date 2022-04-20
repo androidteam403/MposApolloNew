@@ -46,7 +46,9 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
                 filterModelList.get(position).setSelected(true);
             notifyItemChanged(position);
         });
-    }
+
+        }
+
 
 
     @Override

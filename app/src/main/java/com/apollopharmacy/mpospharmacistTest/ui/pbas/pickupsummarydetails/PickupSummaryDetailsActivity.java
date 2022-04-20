@@ -27,6 +27,7 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     private ActivityPickupSummaryDetailsPBinding pickupSummaryDetailsBinding;
     private TransactionHeaderResponse.OMSHeader selectedOmsHeader;
 
+
     public static Intent getStartIntent(Context context, TransactionHeaderResponse.OMSHeader selectedOmsHeader) {
         Intent intent = new Intent(context, PickupSummaryDetailsActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDER, (Serializable) selectedOmsHeader);
@@ -55,10 +56,18 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             pickupSummaryDetailsBinding.stockStatus.setText(selectedOmsHeader.getStockStatus());
             pickupSummaryDetailsBinding.paymentSource.setText(selectedOmsHeader.getPaymentSource());
             pickupSummaryDetailsBinding.orderType.setText(selectedOmsHeader.getOrderType());
+            pickupSummaryDetailsBinding.customerName.setText(selectedOmsHeader.getGetOMSTransactionResponse().getCustomerName());
+            pickupSummaryDetailsBinding.vendorId.setText(selectedOmsHeader.getGetOMSTransactionResponse().getVendorId());
+            pickupSummaryDetailsBinding.mobileNumber.setText(selectedOmsHeader.getGetOMSTransactionResponse().getMobileNO());
+//       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
+            pickupSummaryDetailsBinding.doctorName.setText(selectedOmsHeader.getGetOMSTransactionResponse().getDoctorName());
+            pickupSummaryDetailsBinding.statecode.setText(selectedOmsHeader.getGetOMSTransactionResponse().getState());
+            pickupSummaryDetailsBinding.city.setText(selectedOmsHeader.getGetOMSTransactionResponse().getBillingCity());
+            pickupSummaryDetailsBinding.address.setText(selectedOmsHeader.getGetOMSTransactionResponse().getCustAddress());
+            pickupSummaryDetailsBinding.pincode.setText(selectedOmsHeader.getGetOMSTransactionResponse().getPincode());
 
             pickupSummaryDetailsBinding.fullfilmentIdnumber.setText(selectedOmsHeader.getRefno());
             pickupSummaryDetailsBinding.totalItems.setText(String.valueOf(selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
-
 
             if(selectedOmsHeader.getItemStatus()!=null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
                 pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
@@ -68,12 +77,10 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             }  if(selectedOmsHeader.getItemStatus()!=null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
                 pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             }
-
             PickUpSummaryDetailsProductsAdapter pickUpSummaryAdapter = new PickUpSummaryDetailsProductsAdapter(this, selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupSummaryDetailsActivity.this);
             pickupSummaryDetailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
             pickupSummaryDetailsBinding.productListRecycler.setAdapter(pickUpSummaryAdapter);
-
         }
     }
 

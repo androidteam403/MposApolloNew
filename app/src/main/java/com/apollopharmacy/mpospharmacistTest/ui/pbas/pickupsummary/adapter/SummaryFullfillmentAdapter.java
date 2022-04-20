@@ -71,17 +71,18 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             holder.orderBinding.statusText.setText("PARTIAL");
 
         }
-        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
-            full = full + 1;
-            pickupProcessMvpView.fullCount(String.valueOf(full));
-        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
-            par = par + 1;
-            pickupProcessMvpView.partialCount(String.valueOf(par));
-        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
-            not = not + 1;
-            pickupProcessMvpView.notAvailable(String.valueOf(not));
-        }
 
+            if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
+                full = full + 1;
+                pickupProcessMvpView.fullCount(String.valueOf(full));
+            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
+                par = par + 1;
+                pickupProcessMvpView.partialCount(String.valueOf(par));
+            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
+                not = not + 1;
+                pickupProcessMvpView.notAvailable(String.valueOf(not));
+            }
+//        }
 
 
 
@@ -192,19 +193,19 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 //        if (position == fullfillmentList.size() - 1) {
 ////            holder.orderBinding.gotoNextRack.setVisibility(View.GONE);
 //        }
-////        if (!firstAccessCheck) {
-////            if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Full")) {
-////                full = full + 1;
-////                pickupProcessMvpView.fullCount(String.valueOf(full));
-////            } else if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Partial")) {
-////                par = par + 1;
-////                pickupProcessMvpView.partialCount(String.valueOf(par));
-////            } else if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Not Available")) {
-////                not = not + 1;
-////                pickupProcessMvpView.notAvailable(String.valueOf(not));
-////            }
-////        }
-    }
+//        if (!firstAccessCheck) {
+//            if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Full")) {
+//                full = full + 1;
+//                pickupProcessMvpView.fullCount(String.valueOf(full));
+//            } else if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Partial")) {
+//                par = par + 1;
+//                pickupProcessMvpView.partialCount(String.valueOf(par));
+//            } else if (holder.orderBinding.status.getText().toString().equalsIgnoreCase("Not Available")) {
+//                not = not + 1;
+//                pickupProcessMvpView.notAvailable(String.valueOf(not));
+//            }
+//       }
+   }
 
     private void multipleStatusCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position) {
         boolean full = false;

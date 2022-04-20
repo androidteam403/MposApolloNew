@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityReadyForPickupPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.AdapterReadyForPickupPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -33,6 +37,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,11 +47,18 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Inject
     ReadyForPickUpMvpPresenter<ReadyForPickUpMvpView> mPresenter;
     ActivityReadyForPickupPBinding activityReadyForPickupBinding;
+    AdapterReadyForPickupPBinding adapterReadyForPickupBinding;
     //    private FullfillmentData fullfillmentData;
     private ReadyForPickUpAdapter readyForPickUpAdapter;
     //    List<FullfillmentData> fullfillmentDataList;
     public static List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderListTest;
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
+    public IntentResult Result;
+    public int pos;
+
+    public static String RefId;
+    private List<String> barcodeList;
+    private List<String> list = new ArrayList<>();
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
 
 
@@ -71,12 +83,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     protected void setUp() {
         activityReadyForPickupBinding.setCallback(mPresenter);
+
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                 readyForPickUpAdapter = new ReadyForPickUpAdapter(this, selectedOmsHeaderList, this);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 activityReadyForPickupBinding.readyForPickupRecycleView.setLayoutManager(mLayoutManager1);
+
                 activityReadyForPickupBinding.readyForPickupRecycleView.setItemAnimator(new DefaultItemAnimator());
                 activityReadyForPickupBinding.readyForPickupRecycleView.setAdapter(readyForPickUpAdapter);
             }
@@ -87,8 +101,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     int position;
 
+    String fullfillmentId;
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
+        this.fullfillmentId=fullfillmentId;
         this.position = pos;
 //        scanQrCodeDialog = new ScanQrCodeDialog(ReadyForPickUpActivity.this, fullfillmentId);
 //        scanQrCodeDialog.setPositiveListener(new View.OnClickListener() {
@@ -138,10 +154,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //        intentIntegrator.initiateScan();
         BillerOrdersActivity.isBillerActivity = false;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
-        Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
-        i.putExtra("position", position);
-        i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
-        startActivity(i);
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+
+//        Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
+//        i.putExtra("position", position);
+//        i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
+//        startActivity(i);
+
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
 //    @Override
@@ -166,23 +186,33 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
         if (Result != null) {
             if (Result.getContents() == null) {
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+
+
                 if (!BillerOrdersActivity.isBillerActivity) {
                     if (data != null) {
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
+
                         for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                            if (i<barcodeList.size()){
+                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
+                            }
+
                             selectedOmsHeaderList.get(i).setTagBox(true);
                             selectedOmsHeaderList.get(i).setScanView(true);
                         }
                         readyForPickUpAdapter.notifyDataSetChanged();
                         boolean isAlltagBox = true;
                         for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+
                             if (!omsHeader.isTagBox())
                                 isAlltagBox = false;
                         if (isAlltagBox) {
@@ -255,6 +285,38 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     }
 
     @Override
+    public void cancel() {
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+
+
+    @Override
     public void onClickTakePrint() {
         Dialog takePrintDialog = new Dialog(this);
         DialogTakePrintPBinding takePrintBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_take_print_p, null, false);
@@ -298,7 +360,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         private String fullfillmentId;
         private String totalItems;
         private boolean tagBox;
+        private String id;
         private boolean scanView;
+
 
         public boolean isScanView() {
             return scanView;

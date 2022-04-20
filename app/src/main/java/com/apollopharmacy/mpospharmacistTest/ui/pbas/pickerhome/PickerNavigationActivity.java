@@ -42,22 +42,29 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         setUp();
 
 
+
+
     }
 
     @Override
     protected void setUp() {
-
 //        activityNavigation3Binding.setCallback(mPresenter);
         setSupportActionBar(activityNavigation3Binding.appBarMain.toolbar);
+
+
+
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_dashboard)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
 
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(activityNavigation3Binding.navView, navController);
+
+
     }
 
     @Override
@@ -70,6 +77,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         userName.setText(mPresenter.getLoginUserName());
         userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
+
+
     }
 
     @Override
@@ -77,5 +86,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+
+
     }
 }

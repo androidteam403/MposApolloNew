@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 import android.widget.Spinner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -27,8 +29,6 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickNotAvailable();
 
     void onClickSkip();
-
-
 
     void onClickDropDown(Spinner spinner);
 
@@ -55,4 +55,12 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickSalesLine(int position, String status);
 
     void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
+
+    void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position);
+
+    void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position);
+
+    void checkBatchInventorySuccess(String status);
+
+    void checkBatchInventoryFailed(String message);
 }

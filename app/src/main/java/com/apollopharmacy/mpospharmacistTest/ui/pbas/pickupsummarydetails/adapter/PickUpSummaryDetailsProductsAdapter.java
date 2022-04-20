@@ -17,6 +17,7 @@ import java.util.List;
 public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<PickUpSummaryDetailsProductsAdapter.ViewHolder> {
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     public Context context;
+   private String itemStatus;
 
     public PickUpSummaryDetailsProductsAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList) {
         this.context = context;
@@ -39,7 +40,20 @@ public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<Pi
         holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
+//
+
+
+        if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+        }if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("FULL")){
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
+        }  if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+        }
+
     }
+
 
     @Override
     public int getItemCount() {

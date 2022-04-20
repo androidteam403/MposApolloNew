@@ -418,6 +418,7 @@ public class CaptureManager {
     protected void returnResult(BarcodeResult rawResult, List<String> barcodeList) {
 
         Intent intent = resultIntent(rawResult, getBarcodeImagePath(rawResult), barcodeList);
+
         activity.setResult(Activity.RESULT_OK, intent);
         closeAndFinish();
     }

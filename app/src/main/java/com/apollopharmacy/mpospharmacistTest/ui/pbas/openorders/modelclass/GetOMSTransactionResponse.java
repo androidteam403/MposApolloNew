@@ -224,7 +224,10 @@ public class GetOMSTransactionResponse implements Serializable {
     @SerializedName("OrderPrescriptionURL")
     @Expose
     private List<Object> orderPrescriptionURL = null;
-    @SerializedName("OrderSource")
+    @SerializedName("fulid")
+    @Expose
+    private String fulid = null;
+    @SerializedName("FulId")
     @Expose
     private String orderSource;
     @SerializedName("OrderType")
@@ -308,6 +311,15 @@ public class GetOMSTransactionResponse implements Serializable {
     @SerializedName("RoundedAmount")
     @Expose
     private Integer roundedAmount;
+
+    public String getFulid() {
+        return fulid;
+    }
+
+    public void setFulid(String fulid) {
+        this.fulid = fulid;
+    }
+
     @SerializedName("SEZ")
     @Expose
     private Integer sez;
@@ -316,6 +328,7 @@ public class GetOMSTransactionResponse implements Serializable {
     private List<SalesLine> salesLine = null;
 
     public class SalesLine implements Serializable {
+
 
         @SerializedName("Additionaltax")
         @Expose

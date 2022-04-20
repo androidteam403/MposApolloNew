@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +22,23 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     private boolean isRackFlow;
     String fullfillmentId;
     int fullFillmentPos;
-private StatusUpdateCallback mCallback;
+    private StatusUpdateCallback mCallback;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     public List<RackAdapter.RackBoxModel.ProductData> racksDataResponse;
     public Context context;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     private OrderAdapter orderAdapter;
-private int orderAdapterPos;
-    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos ) {
+    String refNo;
+    private int orderAdapterPos;
+
+    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos, String refno) {
         this.context = context;
         this.salesLineList = salesLineList;
         this.pickupProcessMvpView = pickupProcessMvpView;
         this.mCallback = mCallback;
         this.orderAdapterPos = orderAdapterPos;
+        this.refNo = refno;
     }
 
     @NonNull
@@ -58,49 +60,72 @@ private int orderAdapterPos;
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
 
-        if(salesLine.getStatus()!=null &&salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
+
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-        }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-        }else if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }
+//
+
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
-            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
-            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
-            dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
-            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-            statusUpdateDialog.setCancelable(false);
-            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
-            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
-                if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
-                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-                    if (mCallback != null)
-                        mCallback.onClickUpdate(orderAdapterPos,position, "FULL");
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
-                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-                    if (mCallback != null)
-                        mCallback.onClickUpdate(orderAdapterPos,position, "PARTIAL");
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.notAvailableRadio.isChecked()) {
-                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-                    if (mCallback != null)
-                        mCallback.onClickUpdate(orderAdapterPos,position, "NOT AVAILABLE");
-                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
-                    statusUpdateDialog.dismiss();
-                }
-            });
-            statusUpdateDialog.show();
+
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position);
+            }
+
+
+//            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
+//            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
+//            dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
+//            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+//            statusUpdateDialog.setCancelable(false);
+//            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
+//            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
+//            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
+//            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
+//            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
+//
+//                if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos, position, "FULL");
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
+//
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos, position, "PARTIAL");
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.notAvailableRadio.isChecked()) {
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos, position, "NOT AVAILABLE");
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
+//                    statusUpdateDialog.dismiss();
+//                }
+//            });
+//            statusUpdateDialog.show();
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

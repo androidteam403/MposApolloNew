@@ -26,3 +26,4 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
         return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
     }
 }
+

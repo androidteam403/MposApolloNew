@@ -8,7 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import java.util.List;
 
 public interface OpenOrdersMvpView extends MvpView {
-    void onFullfillmentItemClick(int pos);
+    void onFullfillmentItemClick(int pos, int itemPos);
 
     void onRightArrowClickedContinue(int pos);
 
@@ -22,6 +22,7 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onClickScanCode();
 
+
     void onClickStausIcon(int fullFillmentPos, int pos);
 
     void ondownArrowClicked(int position);
@@ -29,5 +30,7 @@ public interface OpenOrdersMvpView extends MvpView {
     void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body);
 
     void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
+
+    void noOrderFound(int count);
 
 }
