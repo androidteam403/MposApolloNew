@@ -584,6 +584,17 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        }
 
     }
+    ArrayList<GetOMSTransactionResponse.SalesLine>  batchListModelListlNew = new ArrayList<>();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==777 && resultCode== RESULT_OK){
+            if(data!=null)
+            batchListModelListlNew = (ArrayList<GetOMSTransactionResponse.SalesLine>) data.getSerializableExtra("batchListModelListl");
+
+
+        }
+    }
 
     @Override
     public void onClickFullPicked() {

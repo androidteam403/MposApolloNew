@@ -14,13 +14,14 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterBatchlistPBindin
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.ViewHolder> {
     private Context mContext;
-    private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
+    private List<GetBatchInfoRes.BatchListObj> batchListModelListl;
     private BatchListMvpView batchListMvpView;
     boolean batchSelected=false;
     double reqqty;
@@ -62,6 +63,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
                 holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
                 batchSelected=true;
+                batchListModelListl.get(position).setBatchNo(batchListModel.getBatchNo());
+                batchListModelListl.get(position).setREQQTY(reqqty);
+//                batchListModelListl.get(position).set
                 batchListMvpView.onCheckBoxClick(position, batchSelected, Double.parseDouble(String.valueOf(holder.adapterBatchlistBinding.requiredQuantity.getText())), batchListModel.getBatchNo(), batchListModel.getItemID());
 
             }

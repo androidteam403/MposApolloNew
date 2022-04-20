@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
 
@@ -32,7 +33,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
     double requiredqty;
-    private List<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
+
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
 int i=0;
@@ -132,10 +133,23 @@ int i=0;
 
     }
 
+   ArrayList<GetOMSTransactionResponse.SalesLine> batchListModelListl = new ArrayList<>();
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
-        Toast.makeText(getApplicationContext(), "BatchList is added", Toast.LENGTH_LONG).show();
 
+        GetOMSTransactionResponse.SalesLine batchListObj = new GetOMSTransactionResponse.SalesLine();
+        batchListObj.setInventBatchId(body.getInventBatchID());
+        batchListObj.setStockQty(body.getStock());
+        batchListObj.setItemId(body.getItemID());
+        batchListModelListl.add(batchListObj);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra("batchListModelListl", (Serializable)batchListModelListl);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
     @Override
