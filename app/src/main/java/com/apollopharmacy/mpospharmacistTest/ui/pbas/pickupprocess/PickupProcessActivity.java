@@ -180,9 +180,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
                 totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H());
             }
+            String status = "";
             if (totalBatchDetailsQuantity >= salesLine.getQty()) {
-
-
+                status = "FULL";
                 checkAllFalse();
                 dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
                 dialogUpdateStatusBinding.availableProFull.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
@@ -190,6 +190,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 dialogUpdateStatusBinding.qtyEditFull.setText(String.valueOf(salesLine.getQty()));
                 dialogUpdateStatusBinding.fullDetails.setVisibility(View.VISIBLE);
             } else if (totalBatchDetailsQuantity > 0.0) {
+                status = "PARTIAL";
                 checkAllFalse();
                 dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
                 dialogUpdateStatusBinding.availableProPartial.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
@@ -197,42 +198,32 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 dialogUpdateStatusBinding.qtyEditFull.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
                 dialogUpdateStatusBinding.partialDetails.setVisibility(View.VISIBLE);
             } else {
+                status = "NOT AVAILABLE";
                 checkAllFalse();
                 dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
             }
-
-
-            dialogUpdateStatusBinding.skip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    checkAllFalse();
-                    dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
-                }
+            dialogUpdateStatusBinding.skip.setOnClickListener(view -> {
+                checkAllFalse();
+                dialogUpdateStatusBinding.skipRadioBtn.setChecked(true);
             });
             dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
+            String finalStatus = status;
             dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
-                if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
+                if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
+                    statusUpdateDialog.dismiss();
+                } else {
                     int requiredQty = salesLine.getQty();
                     for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
                         if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= requiredQty) {
-                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
                             break;
                         } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
-                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty);
+                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
                             requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
                         }
                     }
-                    onClickItemStatusUpdate(orderAdapterPos, position, "FULL");
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
-                    onClickItemStatusUpdate(orderAdapterPos, position, "PARTIAL");
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.notAvailableRadio.isChecked()) {
-                    onClickItemStatusUpdate(orderAdapterPos, position, "NOT AVAILABLE");
-                    statusUpdateDialog.dismiss();
-                } else if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
-                    statusUpdateDialog.dismiss();
                 }
+                statusUpdateDialog.dismiss();
             });
             statusUpdateDialog.show();
         } else {
@@ -241,8 +232,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     @Override
-    public void checkBatchInventorySuccess() {
-
+    public void checkBatchInventorySuccess(String status) {
+        if (status != null && !status.isEmpty())
+            onClickItemStatusUpdate(orderAdapterPos, position, status);
     }
 
     @Override

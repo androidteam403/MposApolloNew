@@ -60,7 +60,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position);
 
-    void checkBatchInventorySuccess();
+    void checkBatchInventorySuccess(String status);
 
     void checkBatchInventoryFailed(String message);
 }

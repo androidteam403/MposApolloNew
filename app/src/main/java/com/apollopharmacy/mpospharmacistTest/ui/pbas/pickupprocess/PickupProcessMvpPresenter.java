@@ -27,5 +27,5 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position);
 
-    void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty);
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String status);
 }
