@@ -1,7 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,34 +12,25 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.transition.Slide;
-import android.transition.TransitionManager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -50,18 +39,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentEprescriptionlistBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.SmsPaymentDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.EprescriptionOrderListActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.adaptor.EprescriptionListRecycleAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.DashBoardFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.adapter.CategorytypeFilter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.adapter.CustomertypeFilter;
@@ -71,7 +55,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.adapt
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.adapter.PaymenttypeFilter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.CategorytypeModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.CustomerTypeModel;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.FiltersModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.Ordersourcetypemodel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OrdertypeModel;
@@ -80,34 +63,23 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.BottomSheetFragme
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.model.FiltersReq;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.CustomTypeface;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.printf.manager.BluetoothManager;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import static android.app.Activity.RESULT_OK;
-
-import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
 public class EprescriptionslistFragment extends BaseFragment implements EprescriptionsListMvpView, MainActivity.UserIneractionListener, MainActivity.OnBackPressedListener {
     @Inject
@@ -197,7 +169,7 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
         fragmentEprescriptionlistBinding.setNoDataFound(false);
         setHasOptionsMenu(true);
         Constant.getInstance().frompickpakconform = false;
-      //  Constant.getInstance().Customertypearraylist.clear();
+        //  Constant.getInstance().Customertypearraylist.clear();
         Constant.getInstance().filtersModel.setStockstatus(false);
         Constant.getInstance().isomsorder_check = false;
 
@@ -263,6 +235,7 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
 
     @Override
     public void clickOnCancelCommonfilter() {
+        isFilterScreen = false;
         filterslayoutvisibility = false;
         TranslateAnimation animate;
         if (fragmentEprescriptionlistBinding.filterslayout.getHeight() == 0) {
@@ -278,13 +251,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
         fragmentEprescriptionlistBinding.filtersscrollview.setVisibility(View.GONE);
         fragmentEprescriptionlistBinding.filterslayout.setVisibility(View.GONE);
 
-       // orderListRecycleAdapter.notifyDataSetChanged();
-        if(ordersArrayList.size() ==0 )
-        {
-             fragmentEprescriptionlistBinding.orderNotFound.setVisibility(View.VISIBLE);
+        // orderListRecycleAdapter.notifyDataSetChanged();
+        if (ordersArrayList.size() == 0) {
+            fragmentEprescriptionlistBinding.orderNotFound.setVisibility(View.VISIBLE);
         }
-
-
 
 
     }
@@ -496,43 +466,33 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
             }
         } else {
             if (mixedfullfillmentid.size() > 0) {
-                if(mixedfullfillmentid.get(0).size() > 0)
-                {
+                if (mixedfullfillmentid.get(0).size() > 0) {
                     commonfullfillmentid.addAll(mixedfullfillmentid.get(0));
                     for (ListIterator<List<String>> iter = mixedfullfillmentid.listIterator(0); iter.hasNext(); ) {
                         commonfullfillmentid.retainAll(iter.next());
                     }
-                }
-                else if(mixedfullfillmentid.get(1).size() > 0)
-                {
+                } else if (mixedfullfillmentid.get(1).size() > 0) {
                     commonfullfillmentid.addAll(mixedfullfillmentid.get(1));
                     for (ListIterator<List<String>> iter = mixedfullfillmentid.listIterator(1); iter.hasNext(); ) {
                         commonfullfillmentid.retainAll(iter.next());
                     }
 
-                }
-                else if(mixedfullfillmentid.get(2).size() > 0)
-                {
+                } else if (mixedfullfillmentid.get(2).size() > 0) {
                     commonfullfillmentid.addAll(mixedfullfillmentid.get(2));
                     for (ListIterator<List<String>> iter = mixedfullfillmentid.listIterator(2); iter.hasNext(); ) {
                         commonfullfillmentid.retainAll(iter.next());
                     }
-                }
-                else if(mixedfullfillmentid.get(3).size() > 0)
-                {
+                } else if (mixedfullfillmentid.get(3).size() > 0) {
                     commonfullfillmentid.addAll(mixedfullfillmentid.get(3));
                     for (ListIterator<List<String>> iter = mixedfullfillmentid.listIterator(3); iter.hasNext(); ) {
                         commonfullfillmentid.retainAll(iter.next());
                     }
-                }
-                else
-                {
+                } else {
                     commonfullfillmentid.addAll(mixedfullfillmentid.get(4));
                     for (ListIterator<List<String>> iter = mixedfullfillmentid.listIterator(4); iter.hasNext(); ) {
                         commonfullfillmentid.retainAll(iter.next());
                     }
                 }
-
 
 
                 if (commonfullfillmentid.size() > 0) {
@@ -543,9 +503,7 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
                     }
 
                 }
-            }
-            else
-            {
+            } else {
                 for (OMSTransactionHeaderResModel.OMSHeaderObj obj : globaltemporderlist) {
                     if (Constant.getInstance().filtersModel.getStockstatus()) {
                         if (obj.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
@@ -688,6 +646,16 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
             }
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 16908332) {
+            doBack();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -909,13 +877,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
                 customerTypeModel.setCheckstatus(false);
                 customertypearray.add(customerTypeModel);
             }
-            if(Constant.getInstance().Customertypearraylist != null && Constant.getInstance().Customertypearraylist.size() > 0)
-            {
-                for(String tempcustomertype:Constant.getInstance().Customertypearraylist)
-                {
-                    if(!customertype.contains(tempcustomertype))
-                    {
-                      //  Constant.getInstance().Customertypearraylist.remove(tempcustomertype);
+            if (Constant.getInstance().Customertypearraylist != null && Constant.getInstance().Customertypearraylist.size() > 0) {
+                for (String tempcustomertype : Constant.getInstance().Customertypearraylist) {
+                    if (!customertype.contains(tempcustomertype)) {
+                        //  Constant.getInstance().Customertypearraylist.remove(tempcustomertype);
                        /* CustomerTypeModel customerTypeModel = new CustomerTypeModel();
                         customerTypeModel.setCustomertype(tempcustomertype);
                         customerTypeModel.setCheckstatus(true);
@@ -957,13 +922,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
                 categorytpearray.add(categorytypeModel);
             }
 
-            if(Constant.getInstance().Categorytypearraylist != null && Constant.getInstance().Categorytypearraylist.size() > 0)
-            {
-                for(String tempcategorytype:Constant.getInstance().Categorytypearraylist)
-                {
-                    if(!categorytype.contains(tempcategorytype))
-                    {
-                       // Constant.getInstance().Categorytypearraylist.remove(tempcategorytype);
+            if (Constant.getInstance().Categorytypearraylist != null && Constant.getInstance().Categorytypearraylist.size() > 0) {
+                for (String tempcategorytype : Constant.getInstance().Categorytypearraylist) {
+                    if (!categorytype.contains(tempcategorytype)) {
+                        // Constant.getInstance().Categorytypearraylist.remove(tempcategorytype);
                        /* CategorytypeModel categorytypeModel = new CategorytypeModel();
                         categorytypeModel.setCategorytype(tempcategorytype);
                         categorytypeModel.setCheckstatus(true);
@@ -1003,13 +965,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
                 ordersourcetypearray.add(ordersourcetypemodel);
             }
 
-            if(Constant.getInstance().Ordersorcetypearraylist != null && Constant.getInstance().Ordersorcetypearraylist.size() > 0)
-            {
-                for(String tempordersourcetype:Constant.getInstance().Ordersorcetypearraylist)
-                {
-                    if(!ordersourcetype.contains(tempordersourcetype))
-                    {
-                       // Constant.getInstance().Ordersorcetypearraylist.remove(tempordersourcetype);
+            if (Constant.getInstance().Ordersorcetypearraylist != null && Constant.getInstance().Ordersorcetypearraylist.size() > 0) {
+                for (String tempordersourcetype : Constant.getInstance().Ordersorcetypearraylist) {
+                    if (!ordersourcetype.contains(tempordersourcetype)) {
+                        // Constant.getInstance().Ordersorcetypearraylist.remove(tempordersourcetype);
                         /*Ordersourcetypemodel ordersourcetypemodel = new Ordersourcetypemodel();
                         ordersourcetypemodel.setOrdersourcetype(tempordersourcetype);
                         ordersourcetypemodel.setCheckstatus(true);
@@ -1049,13 +1008,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
                 ordertypearray.add(ordertypeModel);
             }
 
-            if(Constant.getInstance().Ordertypearraylist != null && Constant.getInstance().Ordertypearraylist.size() > 0)
-            {
-                for(String tempordertype:Constant.getInstance().Ordertypearraylist)
-                {
-                    if(!ordertype.contains(tempordertype))
-                    {
-                       // Constant.getInstance().Ordertypearraylist.remove(tempordertype);
+            if (Constant.getInstance().Ordertypearraylist != null && Constant.getInstance().Ordertypearraylist.size() > 0) {
+                for (String tempordertype : Constant.getInstance().Ordertypearraylist) {
+                    if (!ordertype.contains(tempordertype)) {
+                        // Constant.getInstance().Ordertypearraylist.remove(tempordertype);
                        /* OrdertypeModel ordertypeModel = new OrdertypeModel();
                         ordertypeModel.setOrdertype(tempordertype);
                         ordertypeModel.setCheckstatus(true);
@@ -1095,13 +1051,10 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
             }
 
 
-            if(Constant.getInstance().paymenttypearraylist != null && Constant.getInstance().paymenttypearraylist.size() > 0)
-            {
-                for(String temppaymenttype:Constant.getInstance().paymenttypearraylist)
-                {
-                    if(!paymenttypetype.contains(temppaymenttype))
-                    {
-                      //  Constant.getInstance().paymenttypearraylist.remove(temppaymenttype);
+            if (Constant.getInstance().paymenttypearraylist != null && Constant.getInstance().paymenttypearraylist.size() > 0) {
+                for (String temppaymenttype : Constant.getInstance().paymenttypearraylist) {
+                    if (!paymenttypetype.contains(temppaymenttype)) {
+                        //  Constant.getInstance().paymenttypearraylist.remove(temppaymenttype);
                        /* PaymenttypeModel paymenttypeModel = new PaymenttypeModel();
                         paymenttypeModel.setPaymenttype(temppaymenttype);
                         paymenttypeModel.setCheckstatus(true);
@@ -1122,13 +1075,14 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
     }
 
     CustomertypeFilterDialog customertypeFilterDialog;
+    boolean isFilterScreen = false;
 
     @Override
     public void customertypefilter() {
-
+        isFilterScreen = true;
         filterslayoutvisibility = true;
         TranslateAnimation animate;
-        if(fragmentEprescriptionlistBinding.filterslayout.getHeight() == 0) {
+        if (fragmentEprescriptionlistBinding.filterslayout.getHeight() == 0) {
             fragmentEprescriptionlistBinding.parentLayout.getHeight(); // parent layout
             animate = new TranslateAnimation(-400,
                     0, 0, 0);
@@ -1211,7 +1165,6 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
 
     }
 
-
     @Nullable
     @Override
     public Context getContext() {
@@ -1220,13 +1173,35 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
 
     @Override
     public void doBack() {
-      //  Constant.getInstance().Customertypearraylist.clear();
-        Constant.getInstance().filtersModel.setStockstatus(false);
-       // getActivity().finish();
-        stopLooping = true;
+        if (isFilterScreen) {
+            isFilterScreen = false;
+            filterslayoutvisibility = false;
+            TranslateAnimation animate;
+            if (fragmentEprescriptionlistBinding.filterslayout.getHeight() == 0) {
+                fragmentEprescriptionlistBinding.parentLayout.getHeight(); // parent layout
+                animate = new TranslateAnimation(0,
+                        -1000, 0, 0);
+            } else {
+                animate = new TranslateAnimation(0, -1000, 0, 0); // View for animation
+            }
+            animate.setDuration(500);
+            animate.setFillAfter(true);
+            fragmentEprescriptionlistBinding.filterslayout.startAnimation(animate);
+            fragmentEprescriptionlistBinding.filtersscrollview.setVisibility(View.GONE);
+            fragmentEprescriptionlistBinding.filterslayout.setVisibility(View.GONE);
 
-        Navigation.findNavController(fragmentEprescriptionlistBinding.stockvailabilitylabel).navigate(R.id.nav_dash_board);
+            // orderListRecycleAdapter.notifyDataSetChanged();
+            if (ordersArrayList.size() == 0) {
+                fragmentEprescriptionlistBinding.orderNotFound.setVisibility(View.VISIBLE);
+            }
+        } else {
+            //  Constant.getInstance().Customertypearraylist.clear();
+            Constant.getInstance().filtersModel.setStockstatus(false);
+            // getActivity().finish();
+            stopLooping = true;
 
+            Navigation.findNavController(fragmentEprescriptionlistBinding.stockvailabilitylabel).navigate(R.id.nav_dash_board);
+        }
     }
 
 
@@ -1301,9 +1276,9 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
             }
             // if(Constant.getInstance().Customertypearraylist.size() > 0)
             //  {
-           // mPresenter.clickOnCustomertypeFilter();
-             customertypefilers();
-          //  multplefilter_function();
+            // mPresenter.clickOnCustomertypeFilter();
+            customertypefilers();
+            //  multplefilter_function();
             // }
             // Constant.getInstance().globamultplefilter_functionl_ordersArrayList.clear();
             //  Constant.getInstance().global_ordersArrayList=ordersArrayList;

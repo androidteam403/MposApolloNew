@@ -39,7 +39,6 @@
             android:id="@+id/inner_box"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:background="@color/white"
             android:padding="@dimen/dimen5dp">
 
@@ -305,7 +304,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -540,9 +538,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:layout_marginBottom="@dimen/dimen10dp"
-                    android:clickable="true"
                     android:gravity="center_vertical"
-                    android:onClick="@{()-> callback.onClickSkip()}"
                     android:orientation="horizontal">
 
                     <RadioButton

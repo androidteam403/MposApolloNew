@@ -1,9 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,15 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
-import com.apollopharmacy.mpospharmacistTest.databinding.BatchInfoListAdapterBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.OmsBatchInfoListAdapterBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.EditQuantityDialog;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.BatchInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.CheckReservedQtyDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
@@ -40,12 +33,12 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
 
     private EPrescriptionInfoMvpView ePrescriptionInfoMvpView;
     Context mcontext;
-    boolean alertcheck=true;
+    boolean alertcheck = true;
 
     public BatchInfoRecycleAdapter(ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList, Context context) {
         this.arrBatchList = arrBatchList;
         this.ePrescriptionInfoMvpView = ePrescriptionInfoMvpView;
-        this.mcontext=context;
+        this.mcontext = context;
     }
 
     @NonNull
@@ -59,23 +52,22 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
 
     @Override
     public void onBindViewHolder(@NonNull BatchInfoRecycleAdapter.ViewHolder holder, int position) {
-        if(arrBatchList.size() >= position) {
+        if (arrBatchList.size() >= position) {
             GetBatchInfoRes.BatchListObj item = arrBatchList.get(position);
             holder.batchInfoListAdapterBinding.setBatchInfo(item);
 
            /* if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.isSelected()) {
                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
+            }*/
+            if (Constant.getInstance().manualSelectedPosition == position) {
+                holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
+                holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
+                InputMethodManager imm = (InputMethodManager) holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.showSoftInput(holder.batchInfoListAdapterBinding.batchWiseQtyEdit, InputMethodManager.SHOW_IMPLICIT);
+                }
             }
-*/
-             if(Constant.getInstance().manualSelectedPosition== position) {
-                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
-                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
-                 InputMethodManager imm = (InputMethodManager) holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                 if (imm != null) {
-                     imm.showSoftInput(holder.batchInfoListAdapterBinding.batchWiseQtyEdit, InputMethodManager.SHOW_IMPLICIT);
-                 }
-             }
 
             holder.batchInfoListAdapterBinding.Vendormrp.setText(String.valueOf(item.getVendormrp()));
             if (item.getREQQTY() == (double) item.getREQQTY()) {
@@ -100,18 +92,54 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
                     if (!item.getNearByExpiry()) {
                         // item.setPhysicalBatchID(holder.batchInfoListAdapterBinding.phisicalbatchEdit.getText().toString());
                         ePrescriptionInfoMvpView.onItemClick(position, item.getEnterReqQuantity(), item);
-                       // holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setEnabled(true);
+                        // holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setEnabled(true);
                         holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
-                      //  holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
-                       //notifyDataSetChanged();
+                        //  holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
+                        //notifyDataSetChanged();
                     }
                 }
             });
+            holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!holder.batchInfoListAdapterBinding.batchWiseQtyEdit.isFocusable()) {
+                        if (ePrescriptionInfoMvpView != null) {
 
+                            if (!item.getNearByExpiry()) {
+                                // item.setPhysicalBatchID(holder.batchInfoListAdapterBinding.phisicalbatchEdit.getText().toString());
+                                ePrescriptionInfoMvpView.onItemClick(position, item.getEnterReqQuantity(), item);
+                                // holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setEnabled(true);
+                                holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
+                                //  holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
+                                //notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            });
+            holder.batchInfoListAdapterBinding.phisicalbatchEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!holder.batchInfoListAdapterBinding.phisicalbatchEdit.isFocusable()) {
+                        if (ePrescriptionInfoMvpView != null) {
+
+                            if (!item.getNearByExpiry()) {
+                                // item.setPhysicalBatchID(holder.batchInfoListAdapterBinding.phisicalbatchEdit.getText().toString());
+                                ePrescriptionInfoMvpView.onItemClick(position, item.getEnterReqQuantity(), item);
+                                // holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setEnabled(true);
+                                holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
+                                //  holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
+                                //notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            });
             if (item.getPhysicalbatchstatus()) {
                 //item.setPhysicalbatchstatus(false);
-                holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_points_allow);;
-                  holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
+                holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_points_allow);
+                ;
+                holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
 
             } else {
                 holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_unchecked_checkbox);
@@ -161,13 +189,12 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
                                                 Constant.getInstance().arrBatchList.get(position).setPhysicalBatchID(pisicalbatch_str);
                                             }
 
-                                            if(Constant.getInstance().arrBatchList.size() == 1 )
-                                            {
-                                               // ePrescriptionInfoMvpView.addsaleslineautomatically();
+                                            if (Constant.getInstance().arrBatchList.size() == 1) {
+                                                // ePrescriptionInfoMvpView.addsaleslineautomatically();
                                                 ePrescriptionInfoMvpView.onNavigateNextActivity();
-                                                Constant.getInstance().pickupstatus=false;
-                                              //  Constant.getInstance().requestqty=item.getQty();
-                                               // ePrescriptionInfoMvpView.onNavigateNextActivity();
+                                                Constant.getInstance().pickupstatus = false;
+                                                //  Constant.getInstance().requestqty=item.getQty();
+                                                // ePrescriptionInfoMvpView.onNavigateNextActivity();
                                             }
                                         }
                                     } else {
@@ -246,7 +273,7 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
                         item.setPhysicalbatchstatus(false);
 
                         holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_unchecked_checkbox);
-                       // holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.white);
+                        // holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.white);
                         holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundColor(mcontext.getResources().getColor(R.color.white));
 
                     } else if (!TextUtils.isEmpty(editable)) {
@@ -334,7 +361,7 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
         public ViewHolder(@NonNull OmsBatchInfoListAdapterBinding batchInfoListAdapterBinding) {
             super(batchInfoListAdapterBinding.getRoot());
             this.batchInfoListAdapterBinding = batchInfoListAdapterBinding;
-            this.batchitemview=batchInfoListAdapterBinding.batchidbackground;
+            this.batchitemview = batchInfoListAdapterBinding.batchidbackground;
         }
     }
 
