@@ -138,8 +138,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //        intentIntegrator.initiateScan();
         BillerOrdersActivity.isBillerActivity = false;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
+        i.putExtra("position", position);
+        i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
+        startActivity(i);
     }
 
 //    @Override

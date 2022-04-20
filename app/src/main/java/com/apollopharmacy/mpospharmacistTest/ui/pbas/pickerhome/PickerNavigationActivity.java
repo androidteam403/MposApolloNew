@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
@@ -23,6 +24,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     PickerNavigationMvpPresenter<PickerNavigationMvpView> mPresenter;
     ActivityNavigation3PBinding activityNavigation3Binding;
     private AppBarConfiguration mAppBarConfiguration;
+    TextView userName;
+    TextView userStore;
 
     public static Intent getStartIntent(Context mContext) {
         Intent intent = new Intent(mContext, PickerNavigationActivity.class);
@@ -61,6 +64,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_p, menu);
+        userName = findViewById(R.id.user_name);
+        userStore = findViewById(R.id.user_store);
+
+        userName.setText(mPresenter.getLoginUserName());
+        userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
     }
 

@@ -59,6 +59,16 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             pickupSummaryDetailsBinding.fullfilmentIdnumber.setText(selectedOmsHeader.getRefno());
             pickupSummaryDetailsBinding.totalItems.setText(String.valueOf(selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 
+
+            if(selectedOmsHeader.getItemStatus()!=null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
+                pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
+            }else if(selectedOmsHeader.getItemStatus()!=null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+                pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
+                pickupSummaryDetailsBinding.statusUpdateIcon.setRotation(0);
+            }  if(selectedOmsHeader.getItemStatus()!=null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
+                pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            }
+
             PickUpSummaryDetailsProductsAdapter pickUpSummaryAdapter = new PickUpSummaryDetailsProductsAdapter(this, selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupSummaryDetailsActivity.this);
             pickupSummaryDetailsBinding.productListRecycler.setLayoutManager(mLayoutManager);

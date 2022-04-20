@@ -154,6 +154,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Partial"
+                        android:id="@+id/status_text"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 

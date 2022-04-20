@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -28,6 +29,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
     Bundle savedInstanceState;
     private List<String> barcodeList = new ArrayList<>();
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 //        } else {
 //            barcodeCount.setVisibility(View.GONE);
 //        }
+
+        Intent intent = getIntent();
+        int position=intent.getExtras().getInt("position");
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
@@ -51,6 +58,10 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         //set torch listener
         barcodeScannerView.setTorchListener(this);
+
+        textView= findViewById(R.id.fullfillmentIdscanner);
+        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
+
 
         //switch flashlight button
         switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
