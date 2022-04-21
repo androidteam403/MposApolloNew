@@ -85,7 +85,7 @@ public class CaptureManager {
                 @Override
                 public void run() {
                     barcodeList.add(result.toString());
-                    if (ReadyForPickUpActivity.fullfillmentDetailList != null && barcodeList.size() == ReadyForPickUpActivity.fullfillmentDetailList.size())
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && barcodeList.size() == ReadyForPickUpActivity.selectedOmsHeaderListTest.size())
                         returnResult(result, barcodeList);
                     else {
                         if (!BillerOrdersActivity.isBillerActivity) {
@@ -418,6 +418,7 @@ public class CaptureManager {
     protected void returnResult(BarcodeResult rawResult, List<String> barcodeList) {
 
         Intent intent = resultIntent(rawResult, getBarcodeImagePath(rawResult), barcodeList);
+
         activity.setResult(Activity.RESULT_OK, intent);
         closeAndFinish();
     }
