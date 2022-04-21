@@ -1,17 +1,12 @@
 package com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo;
 
 import android.animation.ObjectAnimator;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,10 +28,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.addcustomer.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLine;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.BatchInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
@@ -45,19 +37,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearch
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.adapter.MedicineInfoRecycleAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.dialog.EPrescriptionDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.dialog.StockNotVailableDialog;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.dialog.StocknotAvailableDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
-//import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
-
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.ReservedSalesLine;
-import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.model.GetItemDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.PhotoPopupWindow;
@@ -66,16 +52,8 @@ import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.ViewAnimationUtils;
 import com.bixolon.labelprinter.BixolonLabelPrinter;
 import com.google.gson.Gson;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.printf.manager.BluetoothManager;
 import com.printf.manager.PrintfTSPLManager;
-
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -83,18 +61,15 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
 import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
+
+//import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 
 public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPrescriptionInfoMvpView {
 
@@ -286,7 +261,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
             Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
         }
-       // generatebarcode(orderInfoItem.getREFNO());
+        // generatebarcode(orderInfoItem.getREFNO());
 
     }
 
@@ -309,9 +284,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     public void generatebarcode(String refnumber) {
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
             Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
+        } else {
             PrintfTSPLManager instance = PrintfTSPLManager.getInstance(EPrescriptionInfoInfoActivity.this);
             instance.clearCanvas();
             instance.initCanvas(90, 23);
@@ -356,25 +329,38 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 //        }
 //        else
 //        {
-            OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
-            request.setRequestType("1");
-            request.setFulfillmentID(orderInfoItem.getREFNO());
-            ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
-            for (SalesLineEntity item : salesentity) {
-                if (item.getModifyBatchId().length() > 0) {
-                    pick_pack_list.add(item);
-                }
 
+        if (itemsArrayList != null && itemsArrayList.size() > 0) {
+            boolean isAllItemsSelecetd = true;
+            for (int i = 0; i < itemsArrayList.size(); i++) {
+                if (itemsArrayList.get(i).getReqQty() <= 0) {
+                    isAllItemsSelecetd = false;
+                }
             }
-            request.setReservedSalesLine(pick_pack_list);
-            if (pick_pack_list.size() > 0) {
-                salesentity.clear();
-                salesentity = pick_pack_list;
-                mPresenter.UpdateOmsOrder(request);
-            } else {
-                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
-            }
+            if (isAllItemsSelecetd) {
+                OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+                request.setRequestType("1");
+                request.setFulfillmentID(orderInfoItem.getREFNO());
+                ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+                for (SalesLineEntity item : salesentity) {
+                    if (item.getModifyBatchId().length() > 0) {
+                        pick_pack_list.add(item);
+                    }
+
+                }
+                request.setReservedSalesLine(pick_pack_list);
+                if (pick_pack_list.size() > 0) {
+                    salesentity.clear();
+                    salesentity = pick_pack_list;
+                    mPresenter.UpdateOmsOrder(request);
+                } else {
+                    UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+                }
 //        }
+            } else {
+                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
+            }
+        }
     }
 
     @Override
@@ -470,8 +456,8 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 @Override
                 public void onClick(View view) {
                     dialogView.dismiss();
-                     startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 }
 
             });
@@ -486,11 +472,9 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
             //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
             // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-           // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-           // return;
-        }
-        else
-        {
+            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            // return;
+        } else {
             generatebarcode(orderInfoItem.getREFNO());
         }
 
@@ -813,7 +797,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean response) {
         // showMessage(response.getReturnMessage());
-      //  showMessage("Stock Not Available");
+        //  showMessage("Stock Not Available");
         String message = response.getReturnMessage();
         message = message + "Stock Partial Available \n Do you want Continue this bill";
 
@@ -1276,7 +1260,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         }
     }
 
-
     @Override
     public void onSuccessBatchInfo(GetBatchInfoRes body, double mrp) {
         if (body.getBatchList().size() > 0) {
@@ -1310,7 +1293,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                                     batch_index++;
                                 }
                             }
-
                         }
 
                         double pickupqty = 0;
@@ -1377,8 +1359,16 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
                 }
             }
-
-            Constant.getInstance().arrBatchList = arrBatchList;
+            Constant.getInstance().arrBatchList.clear();
+            if (arrBatchList != null && arrBatchList.size() > 0) {
+                for (int i = 0; i < arrBatchList.size(); i++) {
+                    Constant.getInstance().arrBatchList.add(arrBatchList.get(i));
+                    if (i >= 14) {
+                        break;
+                    }
+                }
+            }
+//            Constant.getInstance().arrBatchList = arrBatchList;
             if (shippingcharges) {
                 if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
                     shippingcharges = false;
@@ -1389,8 +1379,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                     updateitemline();
                 }
             }
-
-
             medicinesDetailAdapter.notifyDataSetChanged();
 
             if (arrBatchList.size() == 0) {
@@ -1399,7 +1387,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
 
         } else {
-
             arrBatchList.clear();
             List<PickPackReservation> pickupreservation = new ArrayList<>();
             pickupreservation = customerDataResBean.getPickPackReservation();
@@ -1419,21 +1406,16 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                         item.setItemID(pickPackReservation.getPickupItemId());
                         item.setTotalTax(Double.parseDouble(pickPackReservation.getTaxCode()));
                         item.setVendormrp(mrp);
-
                         arrBatchList.add(item);
                     }
-
                 }
                 Constant.getInstance().arrBatchList = arrBatchList;
                 medicinesDetailAdapter.notifyDataSetChanged();
-
                 if (arrBatchList.size() == 0) {
                     UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Batch Id's Not Found");
                 }
-
             } else {
                 UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Batch Id's Not Found");
-
             }
         }
     }
@@ -1551,7 +1533,14 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         Constant.getInstance().manualSelectedPosition = position;
         Constant.getInstance().enteredQuantity = quantity;
         Constant.getInstance().isSelectedBatch = true;
-
+        if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+            for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+                if (!Constant.getInstance().arrBatchList.get(i).getPhysicalbatchstatus()) {
+                    Constant.getInstance().arrBatchList.get(i).setREQQTY(0);
+                    Constant.getInstance().arrBatchList.get(i).setSelected(i == position);
+                }
+            }
+        }
         medicinesDetailAdapter.notifyItemChanged(Constant.getInstance().selected_position);
     }
 
@@ -1651,7 +1640,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
     @Override
     public void addsaleslineautomatically() {
-     //  mPresenter.
+        //  mPresenter.
 
     }
 
@@ -1784,7 +1773,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                     }
                 }
 
-
+                double totalamountAddItem = 0.0;
                 SalesLineEntity salesLineEntitylist = salesentity.get(Constant.getInstance().selected_position);
                 double pickupqty = 0;
                 for (SalesLineEntity entity : salesentity) {
@@ -1798,6 +1787,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                             pickupqty = pickupqty + entity.getQty();
                             double total = entity.getPrice() * entity.getQty();
                             totalamount = totalamount + total;
+                            totalamountAddItem = totalamountAddItem + total;
                         }
                     }
                 }
@@ -1828,7 +1818,8 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                String total_amt = String.format("%.2f", totalamount);
+//                String total_amt = String.format("%.2f", totalamount);
+                String total_amt = String.format("%.2f", totalamountAddItem);
                 activityEPrescriptionInfoBinding.totalAmount.setText("Total Amount: " + Rupeestring + " " + total_amt);
             }
         }
