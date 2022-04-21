@@ -12,7 +12,9 @@ public interface BatchListMvpView extends MvpView {
 
     void onFailedBatchInfo(GetBatchInfoRes body);
 
-    void onCheckBoxClick(int position, boolean batchSelected, double reqqty, String batchNo, String itemID);
+    void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position, double reqqty);
+
+    void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty, int position);
 
     void checkBatchInventorySuccess(CheckBatchInventoryRes body);
 

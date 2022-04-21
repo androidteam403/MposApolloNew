@@ -61,7 +61,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     private List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfList = new ArrayList<>();
     private List<List<OrderAdapter.RackBoxModel.ProductData>> fullListOfList = new ArrayList<>();
     private List<SalesLineEntity> salesentity = new ArrayList<>();
-
+    int positionStart;
     List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     private static List<RacksDataResponse.FullfillmentDetail.Product> rackIdList = new ArrayList<>();
     private ArrayList<String> boxStringList = new ArrayList<>();
@@ -120,10 +120,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //            orderAdapter.notifyDataSetChanged();
     }
 
-    int newSelectedOrderAdapterPos;
-    String itemName;
+    int newSelectedOrderAdapterPos1;
+    int orderAdapterPos1;
+    String itemId1;
     @Override
-    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
+    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId, String status) {
+        this.newSelectedOrderAdapterPos1=newSelectedOrderAdapterPos;
+        this.orderAdapterPos1=orderAdapterPos;
+        this.itemId1=itemId;
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
             boolean isNotAvailable = true;
@@ -166,10 +170,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     private Dialog statusUpdateDialog;
     int orderAdapterPos, position;
+    GetOMSTransactionResponse.SalesLine positionpos;
 
     @Override
     public void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
         this.orderAdapterPos = orderAdapterPos;
+        this.positionpos=salesLine;
+
         if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
             statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
             dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
@@ -235,9 +242,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void checkBatchInventorySuccess(String status) {
-        if (status != null && !status.isEmpty())
-            onClickItemStatusUpdate(orderAdapterPos, position, status);
+
     }
+
+//    @Override
+//    public void checkBatchInventorySuccess() {
+//
+//    }
 
     @Override
     public void checkBatchInventoryFailed(String message) {
@@ -261,6 +272,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         pickupProcessBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
@@ -576,14 +588,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        }
 
     }
-    ArrayList<GetOMSTransactionResponse.SalesLine>  batchListModelListlNew = new ArrayList<>();
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==777 && resultCode== RESULT_OK){
             if(data!=null)
-            batchListModelListlNew = (ArrayList<GetOMSTransactionResponse.SalesLine>) data.getSerializableExtra("batchListModelListl");
-
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
 
         }
     }
@@ -597,25 +608,23 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickStausIcon() {
 
     }
-    String itemId;
 
     @Override
-    public void onClickBatchDetails(String itemName1, double qty) {
-
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            itemId =  selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getItemId();
-        }
-//        startActivityForResult(BatchListActivity.getStartIntent(this, itemId, itemName1, qty));
-//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
+    public void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine salesLine, int adapterPosition) {
         Intent i=new Intent(PickupProcessActivity.this, BatchListActivity.class);
-        i.putExtra("itemId", (Serializable) itemId);
-        i.putExtra("itemName", (Serializable)itemName1);
-        i.putExtra("reqqty", (Serializable) qty);
+        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+        i.putExtra("orderAdapterPos", (Serializable) orderAdapterPos);
+        i.putExtra("newSelectedOrderAdapterPos1", (Serializable) positionStart);
+        i.putExtra("salesLine", (Serializable) salesLine);
         startActivityForResult(i, 777);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
     }
 
+    @Override
+    public void onClickStart(int position) {
+        this.positionStart=position;
+    }
 
 
     @Override

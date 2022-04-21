@@ -2,11 +2,13 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist;
 
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPresenter<V> {
-    void getBatchDetailsApi(String itemId);
+    void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId);
 
     void onAddItemsClicked();
 
-    void checkBatchInventory(double reqqty, String batchNo, String itemID);
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj item);
 }

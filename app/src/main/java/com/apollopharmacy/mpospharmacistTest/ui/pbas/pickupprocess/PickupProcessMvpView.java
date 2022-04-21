@@ -22,7 +22,9 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickStausIcon();
 
-    void onClickBatchDetails(String itemName, double qty);
+    void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine position, int adapterPosition);
+
+    void onClickStart(int position);
 
     void onClickPartialPicked();
 
@@ -54,7 +56,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSalesLine(int position, String status);
 
-    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId, String status);
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position);
 

@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,12 +27,12 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
         super(manager, schedulerProvider, compositeDisposable);
     }
         @Override
-        public void getBatchDetailsApi(String itemId){
+        public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId){
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
                 ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
                 GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
-                batchInfoReq.setArticleCode(itemId);
+                batchInfoReq.setArticleCode(itemId.getItemId());
                 batchInfoReq.setCustomerState("");
                 batchInfoReq.setDataAreaId("ahel");
                 batchInfoReq.setExpiryDays(90);
@@ -72,17 +73,17 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     }
 
     @Override
-    public void checkBatchInventory(double reqqty, String batchNo, String itemID) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj item) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID("ahel");
-            inventoryReq.setInventBatchID(batchNo);
-            inventoryReq.setItemID(String.valueOf(itemID));
+            inventoryReq.setInventBatchID(item.getBatchNo());
+            inventoryReq.setItemID(String.valueOf(item.getBatchId()));
             inventoryReq.setRequestStatus(0);
             inventoryReq.setReturnMessage("");
-            inventoryReq.setStock(reqqty);
+            inventoryReq.setStock(item.getREQQTY());
             inventoryReq.setStoreID("16001");
             inventoryReq.setTerminalID("005");
 
@@ -110,6 +111,3 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
         }
     }
     }
-
-
-

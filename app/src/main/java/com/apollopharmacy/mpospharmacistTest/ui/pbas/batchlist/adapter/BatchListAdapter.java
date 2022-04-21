@@ -63,10 +63,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
                 holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
                 batchSelected=true;
-                batchListModelListl.get(position).setBatchNo(batchListModel.getBatchNo());
-                batchListModelListl.get(position).setREQQTY(reqqty);
-//                batchListModelListl.get(position).set
-                batchListMvpView.onCheckBoxClick(position, batchSelected, Double.parseDouble(String.valueOf(holder.adapterBatchlistBinding.requiredQuantity.getText())), batchListModel.getBatchNo(), batchListModel.getItemID());
+                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                batchListModel.setREQQTY(reqqty);
+                batchListMvpView.onCheckBoxClick(batchListModel, position, reqqty);
 
             }
         });
@@ -77,6 +76,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
                 holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
                 holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
+                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                batchListModel.setREQQTY(reqqty);
+                batchListMvpView.onUncheckBoxClick(batchListModel, reqqty, position);
 
 
             }

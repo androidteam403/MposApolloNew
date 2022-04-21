@@ -1,9 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,10 +14,15 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistPBindi
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.GetBatchDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.Constant;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +36,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
     double requiredqty;
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
+    int orderAdapterPos, newSelectedOrderAdapterPos;
+    GetOMSTransactionResponse.SalesLine salesLine;
 
 //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -61,11 +67,14 @@ int i=0;
         Intent intent = getIntent();
         String itemId =intent.getExtras().getString("itemId");
         String itemName1 = intent.getExtras().getString("itemName");
-         requiredqty=intent.getExtras().getDouble("reqqty");
+        selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
+        orderAdapterPos = intent.getExtras().getInt("orderAdapterPos");
+        salesLine = (GetOMSTransactionResponse.SalesLine) intent.getExtras().getSerializable("salesLine");
+         requiredqty=salesLine.getQty();
+         batchlistBinding.tabletName.setText(salesLine.getItemName());
+        newSelectedOrderAdapterPos=intent.getExtras().getInt("newSelectedOrderAdapterPos1");
+         mPresenter.getBatchDetailsApi(salesLine);
 
-        batchlistBinding.tabletName.setText(itemName1);
-//        this.batchListModelList = getBatchList();
-        mPresenter.getBatchDetailsApi(itemId);
 
 
 
@@ -102,10 +111,10 @@ int i=0;
 //    }
 
 
-    GetBatchInfoRes body;
+    List<GetBatchInfoRes.BatchListObj> body;
     @Override
     public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
-
+        this.body=body;
         if (body.size() > 0) {
             batchListAdapter = new BatchListAdapter(this, body,requiredqty, this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -118,38 +127,47 @@ int i=0;
     public void onFailedBatchInfo(GetBatchInfoRes body) {
 
     }
-    boolean batchSelected;
-    int batchSelectedPosition;
-    double reqqty;
-    String batchNo;
-    String itemID;
+
+    ArrayList< GetBatchInfoRes.BatchListObj> batchListObjsList = new ArrayList<>();
+    int position;
     @Override
-    public void onCheckBoxClick(int position, boolean batchSelected, double reqqty, String batchNo, String itemID) {
-        this.batchSelected=batchSelected;
-        this.batchSelectedPosition=position;
-        this.reqqty=reqqty;
-        this.batchNo=batchNo;
-        this.itemID=itemID;
+    public void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position, double reqqty) {
+        this.position=position;
+        batchListObjsList.add(item);
+
 
     }
 
-   ArrayList<GetOMSTransactionResponse.SalesLine> batchListModelListl = new ArrayList<>();
+    @Override
+    public void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty, int position) {
+        batchListObjsList.remove(batchListModel);
+    }
+
+
+    @Override
+    public void onAddItemsClicked() {
+
+        for (int i = 0; i < batchListObjsList.size(); i++){
+            mPresenter.checkBatchInventory(batchListObjsList.get(i));
+        }
+    }
+
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
-
-        GetOMSTransactionResponse.SalesLine batchListObj = new GetOMSTransactionResponse.SalesLine();
-        batchListObj.setInventBatchId(body.getInventBatchID());
-        batchListObj.setStockQty(body.getStock());
-        batchListObj.setItemId(body.getItemID());
-        batchListModelListl.add(batchListObj);
+        GetBatchInfoRes o = new GetBatchInfoRes();
+        o.setBatchList(batchListObjsList);
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+        Intent i = new Intent();
+        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent();
-        i.putExtra("batchListModelListl", (Serializable)batchListModelListl);
-        setResult(RESULT_OK, i);
-        finish();
+        super.onBackPressed();
+
+
     }
 
     @Override
@@ -157,11 +175,7 @@ int i=0;
 
     }
 
-    @Override
-    public void onAddItemsClicked() {
 
-        mPresenter.checkBatchInventory(reqqty, batchNo, itemID);
-    }
 
 
     public class BatchListModel {
