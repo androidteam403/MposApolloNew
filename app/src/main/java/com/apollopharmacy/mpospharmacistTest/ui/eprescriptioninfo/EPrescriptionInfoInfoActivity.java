@@ -329,25 +329,38 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 //        }
 //        else
 //        {
-        OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
-        request.setRequestType("1");
-        request.setFulfillmentID(orderInfoItem.getREFNO());
-        ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
-        for (SalesLineEntity item : salesentity) {
-            if (item.getModifyBatchId().length() > 0) {
-                pick_pack_list.add(item);
-            }
 
-        }
-        request.setReservedSalesLine(pick_pack_list);
-        if (pick_pack_list.size() > 0) {
-            salesentity.clear();
-            salesentity = pick_pack_list;
-            mPresenter.UpdateOmsOrder(request);
-        } else {
-            UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
-        }
+        if (itemsArrayList != null && itemsArrayList.size() > 0) {
+            boolean isAllItemsSelecetd = true;
+            for (int i = 0; i < itemsArrayList.size(); i++) {
+                if (itemsArrayList.get(i).getReqQty() <= 0) {
+                    isAllItemsSelecetd = false;
+                }
+            }
+            if (isAllItemsSelecetd) {
+                OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+                request.setRequestType("1");
+                request.setFulfillmentID(orderInfoItem.getREFNO());
+                ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+                for (SalesLineEntity item : salesentity) {
+                    if (item.getModifyBatchId().length() > 0) {
+                        pick_pack_list.add(item);
+                    }
+
+                }
+                request.setReservedSalesLine(pick_pack_list);
+                if (pick_pack_list.size() > 0) {
+                    salesentity.clear();
+                    salesentity = pick_pack_list;
+                    mPresenter.UpdateOmsOrder(request);
+                } else {
+                    UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+                }
 //        }
+            } else {
+                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
+            }
+        }
     }
 
     @Override
@@ -1366,8 +1379,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                     updateitemline();
                 }
             }
-
-
             medicinesDetailAdapter.notifyDataSetChanged();
 
             if (arrBatchList.size() == 0) {
@@ -1376,7 +1387,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
 
         } else {
-
             arrBatchList.clear();
             List<PickPackReservation> pickupreservation = new ArrayList<>();
             pickupreservation = customerDataResBean.getPickPackReservation();
@@ -1401,14 +1411,11 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 }
                 Constant.getInstance().arrBatchList = arrBatchList;
                 medicinesDetailAdapter.notifyDataSetChanged();
-
                 if (arrBatchList.size() == 0) {
                     UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Batch Id's Not Found");
                 }
-
             } else {
                 UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Batch Id's Not Found");
-
             }
         }
     }
