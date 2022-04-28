@@ -324,11 +324,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     //Update OMS Order
     @Override
     public void UpdateOmsOrder_Pickingconfirmation() {
-//        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-//            Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
-//        }
-//        else
-//        {
 
         if (itemsArrayList != null && itemsArrayList.size() > 0) {
             boolean isAllItemsSelecetd = true;
@@ -356,7 +351,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 } else {
                     UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
                 }
-//        }
             } else {
                 UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
             }
@@ -435,7 +429,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 if (item.getModifyBatchId().length() > 0) {
                     pick_pack_list.add(item);
                 }
-
             }
             request.setReservedSalesLine(pick_pack_list);
             mPresenter.UpdateOmsOrder(request);

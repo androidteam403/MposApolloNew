@@ -1,13 +1,12 @@
-package com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model;
+package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model;
 
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class OMSOrderUpdateRequest
-{
+public class OMSOrderForwardRequest {
     @SerializedName("RequestType")
     @Expose
     private String requestType;
@@ -22,7 +21,7 @@ public class OMSOrderUpdateRequest
 
     @SerializedName("ReservedSalesLine")
     @Expose
-    private ArrayList<SalesLineEntity> reservedSalesLine = null;
+    private ArrayList<GetOMSTransactionResponse.SalesLine> reservedSalesLine = null;
 
     public String getRequestType() {
         return requestType;
@@ -49,12 +48,11 @@ public class OMSOrderUpdateRequest
         this.terminalId = terminalId1;
     }
 
-    public ArrayList<SalesLineEntity> getReservedSalesLine() {
+    public ArrayList<GetOMSTransactionResponse.SalesLine> getReservedSalesLine() {
         return reservedSalesLine;
     }
 
-    public void setReservedSalesLine(ArrayList<SalesLineEntity> reservedSalesLine) {
+    public void setReservedSalesLine(ArrayList<GetOMSTransactionResponse.SalesLine> reservedSalesLine) {
         this.reservedSalesLine = reservedSalesLine;
     }
-
 }

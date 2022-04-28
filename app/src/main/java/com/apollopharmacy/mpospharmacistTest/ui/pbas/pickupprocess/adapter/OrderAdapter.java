@@ -36,6 +36,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private int getPos;
     private String status;
 
+
     public OrderAdapter(Context mContext, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickupProcessMvpView pickupProcessMvpView) {
         this.mContext = mContext;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
@@ -89,6 +90,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
         holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
 
+
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
@@ -104,11 +106,34 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.statusText.setText("FULL");
         }
 
+        if (omsHeader.getExpandStatus() == 0) {
+            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
+            holder.orderBinding.start.setVisibility(View.GONE);
+            holder.orderBinding.statusLayout.setVisibility(View.GONE);
+            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+            holder.orderBinding.rackChild2Layout.setBackground(null);
+            holder.orderBinding.rightArrow.setRotation(90);
+            holder.orderBinding.itemStatusDropdown.setVisibility(View.GONE);
+            holder.orderBinding.presentStatus.setVisibility(View.GONE);
+        } else {
+            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
+            holder.orderBinding.start.setVisibility(View.GONE);
+            holder.orderBinding.status.setText("In progress");
+            holder.orderBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.in_progress));
+            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+            holder.orderBinding.rightArrow.setRotation(-90);
+            holder.orderBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.yellow_stroke_bg));
+            holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
+            holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+        }
 
-        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno());
+
+        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList.get(position));
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
+
 
 
         holder.itemView.setOnClickListener(view -> {
@@ -131,26 +156,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //        }
 
 
-        if (omsHeader.getExpandStatus() == 0) {
-            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
-            holder.orderBinding.start.setVisibility(View.GONE);
-            holder.orderBinding.statusLayout.setVisibility(View.GONE);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-            holder.orderBinding.rackChild2Layout.setBackground(null);
-            holder.orderBinding.rightArrow.setRotation(90);
-            holder.orderBinding.itemStatusDropdown.setVisibility(View.GONE);
-            holder.orderBinding.presentStatus.setVisibility(View.GONE);
-        } else {
-            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
-            holder.orderBinding.start.setVisibility(View.GONE);
-            holder.orderBinding.status.setText("In progress");
-            holder.orderBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.in_progress));
-            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-            holder.orderBinding.rightArrow.setRotation(-90);
-            holder.orderBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.yellow_stroke_bg));
-            holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
-            holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
-        }
 
 
         holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
@@ -821,10 +826,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId) {
         if (pickupProcessMvpView != null) {
-            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos,itemId, status);
+            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
                     ;
         }
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterOrderPBinding orderBinding;

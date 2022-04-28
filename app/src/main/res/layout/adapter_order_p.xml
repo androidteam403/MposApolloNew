@@ -138,7 +138,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Partial"
                             android:id="@+id/status_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_11sp" />
@@ -152,7 +151,7 @@
                             android:layout_marginEnd="@dimen/_8dp"
                             android:contentDescription="@string/app_name"
                             android:rotation="270"
-                            android:src="@drawable/partialcirculargreeenorange" />
+                            />
 
 
                     </LinearLayout>

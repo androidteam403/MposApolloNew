@@ -12,13 +12,19 @@ public interface BatchListMvpView extends MvpView {
 
     void onFailedBatchInfo(GetBatchInfoRes body);
 
-    void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position, double reqqty);
+    void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position);
 
-    void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty, int position);
+    void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty);
 
     void checkBatchInventorySuccess(CheckBatchInventoryRes body);
 
     void checkBatchInventoryFailed(CheckBatchInventoryRes body);
 
     void onAddItemsClicked();
+
+    void noOrderFound(int count);
+
+    void onNavigateNextActivity();
+
+    void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj);
 }

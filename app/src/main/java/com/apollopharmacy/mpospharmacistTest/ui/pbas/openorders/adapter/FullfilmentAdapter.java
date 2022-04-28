@@ -26,8 +26,8 @@ import java.util.List;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
     private final Context context;
-    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private final OpenOrdersMvpView mvpView;
     public List<GetOMSTransactionResponse> getOMSTransactionResponseList;

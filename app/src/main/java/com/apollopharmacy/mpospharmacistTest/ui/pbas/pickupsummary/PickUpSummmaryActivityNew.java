@@ -22,18 +22,24 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerAl
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -56,18 +62,24 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
     ArrayList<SalesLineEntity> salesentity = new ArrayList<>();
-
+    ArrayList<GetOMSTransactionResponse.SalesLine> salesLines = new ArrayList<>();
+    TransactionHeaderResponse.OMSHeader omsHeader;
+    GetOMSTransactionResponse.SalesLine salesLineEntit;
     List<List<OrderAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered;
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     String time, stopWatch;
+    int orderAdapterPos, newSelectedOrderAdapterPos;
+    ArrayList<GetOMSTransactionResponse.SalesLine> salesEntity = new ArrayList<>();
 
-    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch, TransactionHeaderResponse.OMSHeader omsHeader, GetOMSTransactionResponse.SalesLine salesLine, int orderAdapterPos, int position) {
         Intent intent = new Intent(context, PickUpSummmaryActivityNew.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
-//        intent.putExtra("rackListOfListFiltered", myJson);
-//        intent.putExtra("fullListOfListFiltered", fullFillJson);
         intent.putExtra("time", time);
         intent.putExtra("stopWatch", stopWatch);
+        intent.putExtra("omsHeader" ,(Serializable) omsHeader);
+        intent.putExtra("salesLine", (Serializable) salesLine);
+        intent.putExtra("orderAdapterPos", orderAdapterPos);
+        intent.putExtra("newSelectedOrderAdapterPos1", position);
         return intent;
 
     }
@@ -83,9 +95,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     protected void setUp() {
+
         activityPickUpSummaryBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("omsHeader");
+            salesLineEntit = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
+
 
 //            Gson gson = new Gson();
 //            String json = getIntent().getStringExtra("rackListOfListFiltered");
@@ -133,9 +149,6 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             stopWatchs.start();
         }
 
-        activityPickUpSummaryBinding.forwardToPacker.setOnClickListener(v -> {
-            forwardtoPacker();
-        });
 
 //        if (rackListOfListFiltered != null)
         summaryFullfillmentAdapter = new SummaryFullfillmentAdapter(PickUpSummmaryActivityNew.this, selectedOmsHeaderList, PickUpSummmaryActivityNew.this);
@@ -169,14 +182,16 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
-    public void OmsOrderUpdateSuccess(ForwardToPickerResponse response) {
+    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
+        Toast.makeText(getApplicationContext(), "SUCCESS!!", Toast.LENGTH_LONG).show();
 
     }
 
     @Override
-    public void OmsOrderUpdateFailure(ForwardToPickerResponse response) {
+    public void OmsOrderUpdateFailure(OMSOrderForwardResponse response) {
 
     }
+
 
     @Override
     public String partialCount(String partialCount) {
@@ -215,6 +230,16 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
+    public void OmsOrderUpdateSuccess(OMSOrderUpdateResponse response) {
+        Toast.makeText(getApplicationContext(), "Success!!" , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OmsOrderUpdateFailure(OMSOrderUpdateResponse response) {
+
+    }
+
+    @Override
     public void onClickItem(int pos) {
         startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -226,9 +251,51 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
-
+    ArrayList<GetOMSTransactionResponse.SalesLine> pick_pack_list = new ArrayList<>();
     @Override
-    public void forwardtoPacker() {
+    public void onClickUpdateOMSOrder_pickingconfirmation() {
+
+        if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+            boolean isAllItemsSelecetd = true;
+            for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty() <= 0) {
+                    isAllItemsSelecetd = false;
+                }
+            }
+            if (isAllItemsSelecetd) {
+                OMSOrderForwardRequest request = new OMSOrderForwardRequest();
+                request.setRequestType("1");
+                for(int j=0;j<selectedOmsHeaderList.size();j++) {
+                    request.setFulfillmentID(selectedOmsHeaderList.get(j).getRefno());
+
+
+
+                    for (GetOMSTransactionResponse.SalesLine salesLine : selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine()) {
+                        if (salesLine.getGetBatchInfoRes() != null) {
+                            pick_pack_list.add(salesLine);
+                        }
+                    }
+                }
+                    request.setReservedSalesLine(pick_pack_list);
+                    if (pick_pack_list.size() > 0) {
+                        mPresenter.UpdateOmsOrder(request);
+                    }
+
+
+            }
+
+    }
+
+//    @Override
+//    public void forwardtoPacker() {
+//        OMSOrderUpdateRequest omsOrderUpdateRequest = new OMSOrderUpdateRequest();
+//
+//        for(int i =0; i<selectedOmsHeaderList.size();i++){
+//            omsOrderUpdateRequest.setRequestType("1");
+//            omsOrderUpdateRequest.setFulfillmentID(selectedOmsHeaderList.get(i).getRefno());
+//        }
+//
+//        mPresenter.UpdateOmsOrder(omsOrderUpdateRequest);
 
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerAlertBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
@@ -256,7 +323,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             dialog.dismiss();
             dialog.cancel();
 
-            mPresenter.ForwardToPickerRequest(request);
+//            mPresenter.ForwardToPickerRequest(request);
             gotoOpenOrder();
         });
         dialog.show();
