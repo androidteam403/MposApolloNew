@@ -87,25 +87,7 @@ public class SelectedOrderPickupProcessActivity extends BaseActivity implements 
             }
         };
         genderSpinnerPojo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        selectedOrderPickupProcessBinding.statusSpinner.setAdapter(genderSpinnerPojo);
-//        selectedOrderPickupProcessBinding.statusSpinner.setSelection(0);
 
-
-//        StatusSpinnerAdapter customAdapter = new StatusSpinnerAdapter(this, statusSpinnerList, null);
-//        selectedOrderPickupProcessBinding.statusSpinner.setAdapter(customAdapter);
-//        selectedOrderPickupProcessBinding.statusSpinner.setSelection(0);
-//
-//        selectedOrderPickupProcessBinding.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                SelectedOrderPickupProcessActivity.this.statusSpinnerSelected = statusSpinnerList[position];
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
     }
 
     @Override

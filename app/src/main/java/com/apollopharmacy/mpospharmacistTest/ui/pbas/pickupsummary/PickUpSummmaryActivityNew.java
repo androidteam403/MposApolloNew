@@ -189,22 +189,6 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         request = new ForwardToPickerRequest();
         request.setRequestType("3");
         request.setFulfillmentID("FL20211217113000001");
-//        ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
-//        int lineno = 0;
-//        System.out.println("Salesentity lines:-->" + new Gson().toJson(salesentity));
-//        for (SalesLineEntity item : salesentity) {
-//            if (item.getModifyBatchId().length() > 0) {
-//                item.setLineNo(lineno);
-//                if (item.getPrice() == 0) {
-//                    item.setPrice(item.getMRP());
-//                }
-//                System.out.println("Salesentity lines:-->" + new Gson().toJson(item));
-//                pick_pack_list.add(item);
-//            }
-//            lineno++;
-//
-//        }
-//        request.setReservedSalesLine(pick_pack_list);
 
     }
 

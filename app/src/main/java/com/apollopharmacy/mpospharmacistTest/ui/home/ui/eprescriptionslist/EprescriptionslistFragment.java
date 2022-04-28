@@ -169,7 +169,6 @@ public class EprescriptionslistFragment extends BaseFragment implements Eprescri
         fragmentEprescriptionlistBinding.setNoDataFound(false);
         setHasOptionsMenu(true);
         Constant.getInstance().frompickpakconform = false;
-        //  Constant.getInstance().Customertypearraylist.clear();
         Constant.getInstance().filtersModel.setStockstatus(false);
         Constant.getInstance().isomsorder_check = false;
 

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -102,87 +103,17 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     int position;
 
     String fullfillmentId;
+
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
-        this.fullfillmentId=fullfillmentId;
+        this.fullfillmentId = fullfillmentId;
         this.position = pos;
-//        scanQrCodeDialog = new ScanQrCodeDialog(ReadyForPickUpActivity.this, fullfillmentId);
-//        scanQrCodeDialog.setPositiveListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                scanQrCodeDialog.dismiss();
-//                fullfillmentDataList.get(pos).setTagBox(true);
-//                fullfillmentDataList.get(pos).setScanView(true);
-//                readyForPickUpAdapter.notifyDataSetChanged();
-//                boolean isAlltagBox = true;
-//                for (FullfillmentData fullfillmentData : fullfillmentDataList)
-//                    if (!fullfillmentData.isTagBox())
-//                        isAlltagBox = false;
-//                if (isAlltagBox) {
-//                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
-//                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
-//                } else {
-//                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
-//                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
-//                }
-//            }
-//        });
-//        scanQrCodeDialog.setCameraClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-////                startActivityForResult(takePicture, 0);
-//
-//                startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_IMAGE_CAPTURE);
-//            }
-//        });
-//        scanQrCodeDialog.setNegativeListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                scanQrCodeDialog.dismiss();
-//            }
-//        });
-//        scanQrCodeDialog.show();
-
-
-//        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-//        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
-//        intentIntegrator.setBeepEnabled(false);
-//        intentIntegrator.setCameraId(0);
-//        intentIntegrator.setPrompt("SCAN");
-//        intentIntegrator.setBarcodeImageEnabled(false);
-//        intentIntegrator.initiateScan();
-        BillerOrdersActivity.isBillerActivity = false;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
+        BillerOrdersActivity.isBillerActivity = false;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-
-//        Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
-//        i.putExtra("position", position);
-//        i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
-//        startActivity(i);
-
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-//
-//            switch (resultCode) {
-//                case RESULT_OK:
-//                    if (data != null) {
-//                        Bitmap bitmap = data.getParcelableExtra("data");
-//                        scanQrCodeDialog.visibilyHandlings();
-//                        scanQrCodeDialog.setCameraImage(bitmap);
-//                    }
-//                    break;
-//                case RESULT_CANCELED:
-//                    break;
-//            }
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -202,7 +133,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
 
                         for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
-                            if (i<barcodeList.size()){
+                            if (i < barcodeList.size()) {
                                 selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
                             }
 
@@ -312,8 +243,6 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         });
 
     }
-
-
 
 
     @Override

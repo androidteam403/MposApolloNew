@@ -79,8 +79,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         }
 //
 
-
-        holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
+ holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
 
             if (pickupProcessMvpView != null) {
                 pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position);
