@@ -58,7 +58,6 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
         System.out.println("check item quantity-->" + item.getReqQty());
         Constant.getInstance().requestqty = item.getQty();
 
-
         holder.listItemMainBinding.requestqtyText.setText(String.valueOf(item.getReqQty()));
 
         if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) > 0) {

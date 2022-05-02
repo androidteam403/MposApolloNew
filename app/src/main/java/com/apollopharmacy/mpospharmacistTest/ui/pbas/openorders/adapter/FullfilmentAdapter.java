@@ -99,15 +99,6 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                     holder.fullfilmentBinding.pincode.setText(getOMSTransactionResponseList.get(0).getPincode());
 
 
-//                    holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
-//                    holder.fullfilmentBinding.vendorId.setText(omsHeader.getVendorId());
-//                    holder.fullfilmentBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
-////       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
-//                    holder.fullfilmentBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
-//                    holder.fullfilmentBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
-//                    holder.fullfilmentBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
-//                    holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
-//                    holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
                 }
 
                 holder.fullfilmentBinding.rackChild2Layout.setVisibility(View.VISIBLE);

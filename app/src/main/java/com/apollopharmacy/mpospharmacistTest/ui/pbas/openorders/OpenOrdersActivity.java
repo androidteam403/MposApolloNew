@@ -60,10 +60,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
-    private List<FilterModel> pickupStatusFilterList = new ArrayList<>();
 
 
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter,pickupStatusFilterAdapter;
+
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
 
     public static Intent getStartActivity(Context context) {
@@ -289,25 +289,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         }
         omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
         //pickUpStatusFilter
-        List<TransactionHeaderResponse.OMSHeader> pickUpStatusFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel pickUpStatusFilters: paymentTypeFilterList){
-            for (int i=0;i<paymentTypeFilterList.size();i++){
-                if (!pickUpStatusFilters.isSelected()&& (pickUpStatusFilters.getName().equals(stockAvailabilityOMSHeaderFilter.get(i)))){
-                    stockAvailabilityOMSHeaderFilter.remove(i);
-                    i--;
-                }
-            }
-
-        }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : pickUpStatusFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
-                }
-            }
-        }
-        omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
 
         if (omsHeaderList != null && omsHeaderList.size() == 0) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
@@ -373,159 +354,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
-        pickupStatusFilterAdapter = new FilterItemAdapter(this, pickupStatusFilterList);
-        dialogFilterBinding.pickupStatus.setLayoutManager(new GridLayoutManager(this, 3));
-        dialogFilterBinding.pickupStatus.setAdapter(pickupStatusFilterAdapter);
 
-//        customerTypeFilterList = new ArrayList<>();
-//        FilterModel filterModel = new FilterModel();
-//        filterModel.setName("Normal Priority 2H-HYD");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Normal Priority");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Repeat User");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("OK");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Medium Priority");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Medium Priority 2H-HYD");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Normal Priority 2H-BLR");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("CIRCLEPlan");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("VIP");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        filterModel = new FilterModel();
-//        filterModel.setName("Circle_Half Yearly, HDFC Platinum");
-//        filterModel.setSelected(false);
-//        customerTypeFilterList.add(filterModel);
-//
-//        orderTypeFilterList = new ArrayList<>();
-//        FilterModel filterModel1 = new FilterModel();
-//        filterModel1.setSelected(false);
-//        filterModel1.setName("Priority");
-//        orderTypeFilterList.add(filterModel1);
-//
-//        orderCategoryFilterList = new ArrayList<>();
-//        FilterModel filterModel2 = new FilterModel();
-//        filterModel2.setName("FMCG");
-//        filterModel2.setSelected(false);
-//        orderCategoryFilterList.add(filterModel2);
-//
-//        filterModel2 = new FilterModel();
-//        filterModel2.setName("PHARMA");
-//        filterModel2.setSelected(false);
-//        orderCategoryFilterList.add(filterModel2);
-//
-//        paymentTypeFilterList = new ArrayList<>();
-//        FilterModel filterModel3 = new FilterModel();
-//        filterModel3.setName("PREPAID");
-//        filterModel3.setSelected(false);
-//        paymentTypeFilterList.add(filterModel3);
-//
-//        filterModel3 = new FilterModel();
-//        filterModel3.setName("COD");
-//        filterModel3.setSelected(false);
-//        paymentTypeFilterList.add(filterModel3);
-//
-//        orderSourceFilterList = new ArrayList<>();
-//        FilterModel filterModel4 = new FilterModel();
-//        filterModel4.setName("OMSOA");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        filterModel4 = new FilterModel();
-//        filterModel4.setName("OMSSR");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        filterModel4 = new FilterModel();
-//        filterModel4.setName("E SHOP");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        filterModel4 = new FilterModel();
-//        filterModel4.setName("APOLLO247");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        filterModel4 = new FilterModel();
-//        filterModel4.setName("OMS CIRCLE");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        filterModel4 = new FilterModel();
-//        filterModel4.setName("OMS");
-//        filterModel4.setSelected(false);
-//        orderSourceFilterList.add(filterModel4);
-//
-//        stockAvailabilityFilterList = new ArrayList<>();
-//        FilterModel filterModel5 = new FilterModel();
-//        filterModel5.setName("Full");
-//        filterModel5.setSelected(false);
-//        stockAvailabilityFilterList.add(filterModel5);
-//
-//        filterModel5 = new FilterModel();
-//        filterModel5.setName("Partial");
-//        filterModel5.setSelected(false);
-//        stockAvailabilityFilterList.add(filterModel5);
-//
-//        filterModel5 = new FilterModel();
-//        filterModel5.setName("Not Available");
-//        filterModel5.setSelected(false);
-//        stockAvailabilityFilterList.add(filterModel5);
-//
-//        customerTypeFilterAdapter = new FilterItemAdapter(this, customerTypeFilterList);
-//        dialogFilterBinding.customerTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
-//
-//        orderTypeFilterAdapter = new FilterItemAdapter(this, orderTypeFilterList);
-//        dialogFilterBinding.orderTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.orderTypeFilter.setAdapter(orderTypeFilterAdapter);
-//
-//        orderCategoryFilterAdapter = new FilterItemAdapter(this, orderCategoryFilterList);
-//        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.orderCategoryFilter.setAdapter(orderCategoryFilterAdapter);
-//
-//        paymentTypeFilterAdapter = new FilterItemAdapter(this, paymentTypeFilterList);
-//        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.paymentTypeFilter.setAdapter(paymentTypeFilterAdapter);
-//
-//        orderSourceFilterAdapter = new FilterItemAdapter(this, orderSourceFilterList);
-//        dialogFilterBinding.orderSourceFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
-//
-//        stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
-//        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
+
 
     }
 
@@ -630,18 +460,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //pickupstatusfilter
 //
 
-                filterModel = new FilterModel();
-                filterModel.setName("Pending");
-                filterModel.setName("Completed");
-                filterModel.setSelected(false);
-                for (int j = 0; j < pickupStatusFilterList.size(); j++) {
-                    if (pickupStatusFilterList.get(j).getName().equals(filterModel.getName())) {
-                        isPickUpStatusContain = true;
-                    }
-                }
-                if (!isPickUpStatusContain) {
-                    pickupStatusFilterList.add(filterModel);
-                }
+
 
 
                 // stock availability filter list.

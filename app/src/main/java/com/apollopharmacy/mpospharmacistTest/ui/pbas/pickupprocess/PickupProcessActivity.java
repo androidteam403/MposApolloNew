@@ -280,46 +280,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
             pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 
-//            for (int i = 0; i < racksDataResponse.size(); i++) {
-//                for (int j = 0; j < racksDataResponse.get(i).getProducts().size(); j++) {
-//                    rackIdList.add(racksDataResponse.get(i).getProducts().get(j));
-//                }
-//            }
-
-
-//            for (int i = 0; i < rackIdList.size(); i++) {
-//                for (int j = 0; j < rackIdList.size(); j++) {
-//                    if (i != j && rackIdList.get(i).getRackId().equals(rackIdList.get(j).getRackId())) {
-//                        rackIdList.remove(i);
-//                    }
-//                }
-//            }
-
-//        rackIdList.get(0).setExpandStatus(1);
-//        racksDataResponse.getFullfillmentDetails().get(0).setExpandStatus(1);
-
-
-//            ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(PickupProcessActivity.this, android.R.layout.simple_spinner_item, items);
-//            pickupProcessBinding.autoincomplete.setAdapter(myAdapter);
-
-
-//            if (rackListOfListFiltered != null)
-//                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-//            else
-//                orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
-//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//            pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-
-//            rackAdapter = new RackAdapter(this, rackIdList, racksDataResponse, this, rackListOfList, false);
-//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-//            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//            pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
-
-
         }
 //        mPresenter.onRackApiCall();
-        rackOrderCheckedListener();
+//        rackOrderCheckedListener();
         Glide.with(this).load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9").circleCrop().into(pickupProcessBinding.pickerImg);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm a");
@@ -369,91 +332,37 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
     }
 
-    private void rackOrderCheckedListener() {
-        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
-            if (isChecked) {
-
-                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
-
-                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
-
-
-
-            } else {
-                pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
-
-                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-
-                if (rackListOfListFiltered != null)
-                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-                else
-                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
+//    private void rackOrderCheckedListener() {
+//        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
+//            if (isChecked) {
+//
+//                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
+//
+//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
+//
+//
+//
+//            } else {
+//                pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
+//
+//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+//                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
 //
 //                if (rackListOfListFiltered != null)
 //                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
 //                else
-//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
+//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
 //                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
 //                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
 //                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 //                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
 //            }
-            }
-        });
-
-    }
-
-
-//    private void rackOrderCheckedListener() {
-//        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
-//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
-//                if (rackListOfListFiltered != null)
-//                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-//                else
-//                    rackAdapter = new RackAdapter(PickupProcessActivity.this, rackIdList, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//                pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
-//                Toast.makeText(PickupProcessActivity.this, "true", Toast.LENGTH_SHORT).show();
-//            } else {
-//
-//
-////                if (fullfillmentListOfListFiltered != null)
-////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullfillmentListOfListFiltered);
-////                else
-////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, fullListOfList);
-////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-////                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
-//
-////                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-////                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-////                orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-//
-////                if (rackListOfListFiltered != null)
-////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-////                else
-////                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfList, false);
-////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-////                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-////                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-////                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
-//            }
 //        });
 //
 //    }
+
+
 
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
 
@@ -658,8 +567,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine salesLine, int adapterPosition) {
         Intent i=new Intent(PickupProcessActivity.this, BatchListActivity.class);
         i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-        i.putExtra("orderAdapterPos", (Serializable) this.orderAdapterPos);
-        i.putExtra("newSelectedOrderAdapterPos1", (Serializable) position);
+        i.putExtra("omsHeader", (Serializable) omsHeaderObj);
         i.putExtra("salesLine", (Serializable) salesLinee);
         startActivityForResult(i, 777);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
