@@ -26,46 +26,47 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public BatchListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
-        @Override
-        public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId){
-            if (getMvpView().isNetworkConnected()) {
-                getMvpView().showLoading();
-                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-                GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
-                batchInfoReq.setArticleCode(itemId.getItemId());
-                batchInfoReq.setCustomerState("");
-                batchInfoReq.setDataAreaId("ahel");
-                batchInfoReq.setExpiryDays(90);
-                batchInfoReq.setSEZ(0);
-                batchInfoReq.setSearchType(1);
-                batchInfoReq.setStoreId("16001");
-                batchInfoReq.setStoreState("AP");
-                batchInfoReq.setTerminalId("005");
 
-                Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
-                call.enqueue(new Callback<GetBatchInfoRes>() {
-                    @Override
-                    public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
-                        if (response.isSuccessful()) {
-                            //Dismiss Dialog
-                            getMvpView().hideLoading();
-                            if (response.isSuccessful() && response.body().getBatchList()!= null && response.body().getBatchList().size()>0)
-                                getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                            else
-                                getMvpView().onFailedBatchInfo(response.body());
-                        }
-                    }
+    @Override
+    public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
+            batchInfoReq.setArticleCode(itemId.getItemId());
+            batchInfoReq.setCustomerState("");
+            batchInfoReq.setDataAreaId("ahel");
+            batchInfoReq.setExpiryDays(90);
+            batchInfoReq.setSEZ(0);
+            batchInfoReq.setSearchType(1);
+            batchInfoReq.setStoreId("16001");
+            batchInfoReq.setStoreState("AP");
+            batchInfoReq.setTerminalId("005");
 
-                    @Override
-                    public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
+            Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
+            call.enqueue(new Callback<GetBatchInfoRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
                         getMvpView().hideLoading();
-                        handleApiError(t);
+                        if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0)
+                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
+                        else
+                            getMvpView().onFailedBatchInfo(response.body());
                     }
-                });
-            } else {
-                getMvpView().onError("Internet Connection Not Available");
-            }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
         }
+    }
 
     @Override
     public void onAddItemsClicked() {
@@ -73,7 +74,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     }
 
     @Override
-    public void checkBatchInventory(GetBatchInfoRes.BatchListObj item) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
@@ -94,9 +95,10 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
-                            getMvpView().checkBatchInventorySuccess(response.body());
-                        else
-                            getMvpView().checkBatchInventoryFailed(response.body());
+                            if (isLastPos)
+                                getMvpView().checkBatchInventorySuccess(response.body());
+                            else
+                                getMvpView().checkBatchInventoryFailed(response.body());
                     }
                 }
 
@@ -110,4 +112,4 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             getMvpView().onError("InternetConnection Not Available");
         }
     }
-    }
+}

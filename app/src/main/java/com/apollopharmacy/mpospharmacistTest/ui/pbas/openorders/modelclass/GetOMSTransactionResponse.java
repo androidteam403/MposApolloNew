@@ -2,8 +2,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
+import com.apollopharmacy.mpospharmacistTest.BR;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -426,6 +426,36 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        private boolean Resqtyflag;
+
+        public boolean getResqtyflag() {
+            return Resqtyflag;
+        }
+
+        public void setResqty(boolean resqtyflag) {
+            Resqtyflag= resqtyflag;
+        }
+
+        private boolean isReturnClick = false;
+
+        public boolean isReturnClick() {
+            return isReturnClick;
+        }
+
+        public void setReturnClick(boolean returnClick) {
+            isReturnClick = returnClick;
+        }
+
+        private boolean isSelectedReturnItem = false;
+
+        public boolean isSelectedReturnItem() {
+            return isSelectedReturnItem;
+        }
+
+        public void setSelectedReturnItem(boolean selectedReturnItem) {
+            isSelectedReturnItem = selectedReturnItem;
         }
 
         @SerializedName("ISRestricted")

@@ -17,7 +17,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistPBindi
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.CheckReservedQtyDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -40,9 +39,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     GetOMSTransactionResponse.SalesLine salesLine;
     String itemName;
 
-//    private List<BatchListModel> batchListModelList;
+    //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
-int i=0;
+    int i = 0;
 
 //    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
 //       Intent i = new Intent(mContext, BatchListActivity.class);
@@ -68,15 +67,15 @@ int i=0;
         Intent intent = getIntent();
         selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
         orderAdapterPos = intent.getExtras().getInt("orderAdapterPos");
-        newSelectedOrderAdapterPos=intent.getExtras().getInt("newSelectedOrderAdapterPos1");
-        salesLine= (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
+        newSelectedOrderAdapterPos = intent.getExtras().getInt("newSelectedOrderAdapterPos1");
+        salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
-      batchlistBinding.tabletName.setText(salesLine.getItemName());
-      batchlistBinding.availableQty.setText("Required Quantity : " +(salesLine.getQty()));
+        batchlistBinding.tabletName.setText(salesLine.getItemName());
+        batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
         searchByBatchId();
     }
 
-    public void searchByBatchId(){
+    public void searchByBatchId() {
         batchlistBinding.searchbybatchId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,9 +132,10 @@ int i=0;
 
 
     List<GetBatchInfoRes.BatchListObj> body;
+
     @Override
     public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
-        this.body=body;
+        this.body = body;
         if (body.size() > 0) {
             batchListAdapter = new BatchListAdapter(this, body, this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -149,14 +149,15 @@ int i=0;
 
     }
 
-    ArrayList< GetBatchInfoRes.BatchListObj> batchListObjsList = new ArrayList<>();
+    ArrayList<GetBatchInfoRes.BatchListObj> batchListObjsList = new ArrayList<>();
     int position;
     double requiredQty;
     GetBatchInfoRes.BatchListObj item;
+
     @Override
     public void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position) {
-        this.item=item;
-        this.position=position;
+        this.item = item;
+        this.position = position;
         batchListObjsList.add(item);
 
 
@@ -166,21 +167,20 @@ int i=0;
     public void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty) {
         batchListObjsList.remove(batchListModel);
     }
-    double requireddetailsqty=0.0;
+
+    double requireddetailsqty = 0.0;
     double totalBatchDetailsQuantity = 0.0;
     String statusBatchlist;
+
     @Override
     public void onAddItemsClicked() {
+        for (int i = 0; i < batchListObjsList.size(); i++) {
+            totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(batchListObjsList.get(i).getQ_O_H());
+            double batchdetailsQty = batchListObjsList.get(i).getREQQTY();
+            requireddetailsqty = requireddetailsqty + batchdetailsQty;
 
-        for (int i = 0; i < batchListObjsList.size(); i++){
-
-
-                totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(batchListObjsList.get(i).getQ_O_H());
-                double batchdetailsQty= batchListObjsList.get(i).getREQQTY();
-            requireddetailsqty=requireddetailsqty+ batchdetailsQty;
-
-                String status = "";
-            if (totalBatchDetailsQuantity >=requireddetailsqty) {
+            String status = "";
+            if (totalBatchDetailsQuantity >= requireddetailsqty) {
                 status = "FULL";
             } else if (totalBatchDetailsQuantity > 0.0) {
                 status = "PARTIAL";
@@ -189,10 +189,12 @@ int i=0;
 
             }
             statusBatchlist = status;
-            mPresenter.checkBatchInventory(batchListObjsList.get(i));
+            boolean isLastPos = false;
+            if (batchListObjsList.size()-1 == i){
+                isLastPos = true;
+            }
+            mPresenter.checkBatchInventory(batchListObjsList.get(i), isLastPos);
         }
-
-
 
 
     }
@@ -225,18 +227,16 @@ int i=0;
     }
 
 
-
-
     @Override
     public void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj) {
         Constant.getInstance().manualSelectedPosition = position;
         Constant.getInstance().enteredQuantity = quantity;
         Constant.getInstance().isSelectedBatch = true;
-        if (body!= null && body.size() > 0) {
+        if (body != null && body.size() > 0) {
             for (int i = 0; i < body.size(); i++) {
                 if (!body.get(i).getPhysicalbatchstatus()) {
-                   body.get(i).setREQQTY(0);
-                   body.get(i).setSelected(i == position);
+                    body.get(i).setREQQTY(0);
+                    body.get(i).setSelected(i == position);
                 }
             }
         }
@@ -245,14 +245,20 @@ int i=0;
 
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
-        GetBatchInfoRes o = new GetBatchInfoRes();
-        o.setBatchList(batchListObjsList);
-        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-        Intent i = new Intent();
-        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-        i.putExtra("finalStatus", (String) statusBatchlist);
-        setResult(RESULT_OK, i);
-        finish();
+        try {
+            GetBatchInfoRes o = new GetBatchInfoRes();
+            if (batchListObjsList != null && batchListObjsList.size() > 0)
+                o.setBatchList(batchListObjsList);
+            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+            Intent i = new Intent();
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("finalStatus", (String) statusBatchlist);
+            setResult(RESULT_OK, i);
+            finish();
+        }catch(Exception e){
+            System.out.println("==============================================="+e.getMessage());
+        }
+
     }
 
     @Override
@@ -267,8 +273,6 @@ int i=0;
     public void checkBatchInventoryFailed(CheckBatchInventoryRes body) {
 
     }
-
-
 
 
     public class BatchListModel {

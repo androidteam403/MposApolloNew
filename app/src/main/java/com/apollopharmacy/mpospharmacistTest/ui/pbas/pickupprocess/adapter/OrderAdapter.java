@@ -66,11 +66,52 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+
+        holder.orderBinding.rightArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.orderBinding.rightArrow.setVisibility(View.GONE);
+                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+                holder.orderBinding.backArrow.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.orderBinding.backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.orderBinding.backArrow.setVisibility(View.GONE);
+                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+                holder.orderBinding.rightArrow.setVisibility(View.VISIBLE);
+            }
+        });
+
+//
+//        if (omsHeader.getExpandStatus() == 0) {
+//            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
+//            holder.orderBinding.start.setVisibility(View.GONE);
+//            holder.orderBinding.statusLayout.setVisibility(View.GONE);
+//            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+//            holder.orderBinding.rackChild2Layout.setBackground(null);
+//            holder.orderBinding.rightArrow.setRotation(90);
+//            holder.orderBinding.itemStatusDropdown.setVisibility(View.GONE);
+////            holder.orderBinding.presentStatus.setVisibility(View.GONE);
+//        } else {
+//            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
+//            holder.orderBinding.start.setVisibility(View.GONE);
+//            holder.orderBinding.status.setText("In progress");
+//            holder.orderBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.in_progress));
+//            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+//            holder.orderBinding.rightArrow.setRotation(-90);
+////            holder.orderBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.yellow_stroke_bg));
+//            holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
+////            holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
+//        }
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
         } else {
             holder.orderBinding.orderStatus.setText("Pending");
         }
+
 
         holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
         holder.orderBinding.orderSource.setText(omsHeader.getOrderSource());
@@ -90,26 +131,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
         holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
 
-        if (omsHeader.getExpandStatus() == 0) {
-            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
-            holder.orderBinding.start.setVisibility(View.GONE);
-            holder.orderBinding.statusLayout.setVisibility(View.GONE);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-            holder.orderBinding.rackChild2Layout.setBackground(null);
-            holder.orderBinding.rightArrow.setRotation(90);
-            holder.orderBinding.itemStatusDropdown.setVisibility(View.GONE);
-            holder.orderBinding.presentStatus.setVisibility(View.GONE);
-        } else {
-            holder.orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
-            holder.orderBinding.start.setVisibility(View.GONE);
-            holder.orderBinding.status.setText("In progress");
-            holder.orderBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.in_progress));
-            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-            holder.orderBinding.rightArrow.setRotation(-90);
-            holder.orderBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.yellow_stroke_bg));
-            holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
-            holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
-        }
+
 
 
 

@@ -53,7 +53,6 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     long countUp;
     Chronometer stopWatchs;
     private SummaryFullfillmentAdapter summaryFullfillmentAdapter;
-    public ForwardToPickerRequest request;
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
     ArrayList<SalesLineEntity> salesentity = new ArrayList<>();
@@ -194,9 +193,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void Forward_To_Pickerconfirmation() {
-        request = new ForwardToPickerRequest();
-        request.setRequestType("3");
-        request.setFulfillmentID("FL20211217113000001");
+//        request = new ForwardToPickerRequest();
+//        request.setRequestType("3");
+//        request.setFulfillmentID("FL20211217113000001");
 
     }
 
@@ -232,123 +231,118 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     List<GetOMSTransactionResponse.SalesLine> pick_pack_list = new ArrayList<>();
     List<OMSOrderForwardRequest.ReservedSalesLine> salesLines = new ArrayList<>();
     OMSOrderForwardRequest.ReservedSalesLine reservedSalesLine = new OMSOrderForwardRequest.ReservedSalesLine();
-
+    OMSOrderForwardRequest omsOrderForwardRequest = new OMSOrderForwardRequest();
     @Override
     public void onClickUpdateOMSOrder_pickingconfirmation() {
         if (selectedOmsHeaderList.size() > 0) {
-            OMSOrderForwardRequest request = new OMSOrderForwardRequest();
-            request.setRequestType("1");
+
             for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
                 for (int k = 0; k < selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().size(); k++) {
-                    request.setFulfillmentID(selectedOmsHeaderList.get(j).getRefno());
+                    for (int l = 0; l < selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().size(); l++) {
 
 
-                    reservedSalesLine.setAdditionaltax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getAdditionaltax());
-                    reservedSalesLine.setApplyDiscount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getApplyDiscount());
-                    reservedSalesLine.setBarcode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getBarcode());
-                    reservedSalesLine.setBaseAmount(Double.valueOf(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getBaseAmount()));
-                    reservedSalesLine.setCESSPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCESSPerc());
-                    reservedSalesLine.setCESSTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCESSTaxCode());
-                    reservedSalesLine.setCGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTPerc());
-                    reservedSalesLine.setCGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTTaxCode());
-                    reservedSalesLine.setCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategory());
-                    reservedSalesLine.setCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryCode());
-                    reservedSalesLine.setCategoryReference(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryReference());
-                    reservedSalesLine.setComment(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getComment());
-                    reservedSalesLine.setDpco(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDpco());
-                    reservedSalesLine.setDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
-                    reservedSalesLine.setDiscOfferId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscOfferId());
-                    reservedSalesLine.setDiscountStructureType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountStructureType());
-                    reservedSalesLine.setDiscountType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
-                    reservedSalesLine.setDiseaseType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiseaseType());
-                    reservedSalesLine.setExpiry(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getExpiry());
-                    reservedSalesLine.setHsncodeIn(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getHsncodeIn());
-                    reservedSalesLine.setIGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTPerc());
-                    reservedSalesLine.setIGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTTaxCode());
-                    reservedSalesLine.setISPrescribed(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISPrescribed());
-                    reservedSalesLine.setISReserved(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISReserved());
-                    reservedSalesLine.setISStockAvailable(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISStockAvailable());
+                        omsOrderForwardRequest.setRequestType("1");
+                        omsOrderForwardRequest.setFulfillmentID(selectedOmsHeaderList.get(j).getRefno());
+                        reservedSalesLine.setAdditionaltax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getAdditionaltax());
+                        reservedSalesLine.setApplyDiscount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getApplyDiscount());
+                        reservedSalesLine.setBarcode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getBarcode());
+                        reservedSalesLine.setBaseAmount(Double.valueOf(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getBaseAmount()));
+                        reservedSalesLine.setCESSPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCESSPerc());
+                        reservedSalesLine.setCESSTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCESSTaxCode());
+                        reservedSalesLine.setCGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTPerc());
+                        reservedSalesLine.setCGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTTaxCode());
+                        reservedSalesLine.setCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategory());
+                        reservedSalesLine.setCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryCode());
+                        reservedSalesLine.setCategoryReference(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryReference());
+                        reservedSalesLine.setComment(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getComment());
+                        reservedSalesLine.setDpco(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDpco());
+                        reservedSalesLine.setDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
+                        reservedSalesLine.setDiscOfferId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscOfferId());
+                        reservedSalesLine.setDiscountStructureType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountStructureType());
+                        reservedSalesLine.setDiscountType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
+                        reservedSalesLine.setDiseaseType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiseaseType());
+                        reservedSalesLine.setExpiry(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getExpiry());
+                        reservedSalesLine.setHsncodeIn(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getHsncodeIn());
+                        reservedSalesLine.setIGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTPerc());
+                        reservedSalesLine.setIGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTTaxCode());
+                        reservedSalesLine.setISPrescribed(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISPrescribed());
+                        reservedSalesLine.setISReserved(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISReserved());
+                        reservedSalesLine.setISStockAvailable(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getISStockAvailable());
+                        reservedSalesLine.setInventBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getBatchNo());
+                        reservedSalesLine.setIsChecked(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsChecked());
+                        reservedSalesLine.setIsGeneric(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsGeneric());
+                        reservedSalesLine.setIsPriceOverride(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsPriceOverride());
+                        reservedSalesLine.setIsSubsitute(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsSubsitute());
+                        reservedSalesLine.setIsVoid(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsVoid());
+                        reservedSalesLine.setItemId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId());
+                        reservedSalesLine.setItemName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemName());
+                        reservedSalesLine.setLineDiscPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
+                        reservedSalesLine.setLineDiscPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
+                        reservedSalesLine.setLineManualDiscountAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountAmount());
+                        reservedSalesLine.setLineManualDiscountPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountPercentage());
+                        reservedSalesLine.setLineNo(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineNo());
+                        reservedSalesLine.setLinedscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
+                        reservedSalesLine.setMMGroupId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
+                        reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
+                        reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
+                        reservedSalesLine.setManufacturerName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
+                        reservedSalesLine.setMixMode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
+                        reservedSalesLine.setModifyBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getModifyBatchId());
+                        reservedSalesLine.setNetAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmount());
+                        reservedSalesLine.setNetAmountInclTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmountInclTax());
+                        reservedSalesLine.setOfferAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferAmount());
+                        reservedSalesLine.setDiscountType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
+                        reservedSalesLine.setOfferDiscountValue(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferDiscountValue());
+                        reservedSalesLine.setOfferQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferQty());
+                        reservedSalesLine.setOfferType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferType());
+                        reservedSalesLine.setOmsLineRECID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOmsLineRECID());
+                        reservedSalesLine.setOrderStatus(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOrderStatus());
+                        reservedSalesLine.setOriginalPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOriginalPrice());
+                        reservedSalesLine.setPeriodicDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPeriodicDiscAmount());
+                        reservedSalesLine.setPhysicalMRP(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPhysicalMRP());
+                        reservedSalesLine.setPreviewText(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPreviewText());
+                        reservedSalesLine.setPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPrice());
+                        reservedSalesLine.setProductRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getProductRecID());
+                        reservedSalesLine.setQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getQty());
+                        reservedSalesLine.setRemainderDays(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRemainderDays());
+                        reservedSalesLine.setRemainingQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRemainingQty());
+                        reservedSalesLine.setResqtyflag(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getResqtyflag());
+                        reservedSalesLine.setRetailCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailCategoryRecID());
+                        reservedSalesLine.setRetailMainCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailMainCategoryRecID());
+                        reservedSalesLine.setRetailSubCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailSubCategoryRecID());
+                        reservedSalesLine.setReturnQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getReturnQty());
+                        reservedSalesLine.setSGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTPerc());
+                        reservedSalesLine.setSGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTTaxCode());
+                        reservedSalesLine.setScheduleCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategory());
+                        reservedSalesLine.setScheduleCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategoryCode());
+                        reservedSalesLine.setStockQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getStockQty());
+                        reservedSalesLine.setSubCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategory());
+                        reservedSalesLine.setSubCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategoryCode());
+                        reservedSalesLine.setSubClassification(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
+                        reservedSalesLine.setSubClassification(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
+                        reservedSalesLine.setSubstitudeItemId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubstitudeItemId());
+                        reservedSalesLine.setTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTax());
+                        reservedSalesLine.setTaxAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTaxAmount());
+                        reservedSalesLine.setTotal(Double.valueOf(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotal()));
+                        reservedSalesLine.setTotalDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
+                        reservedSalesLine.setTotalDiscPct(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalDiscPct());
+                        reservedSalesLine.setTotalRoundedAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalRoundedAmount());
+                        reservedSalesLine.setTotalTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalTax());
+                        reservedSalesLine.setUnit(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnit());
+                        reservedSalesLine.setUnitPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnitPrice());
+                        reservedSalesLine.setUnitQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnitQty());
+                        reservedSalesLine.setVariantId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getVariantId());
+                        reservedSalesLine.setIsReturnClick(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).isReturnClick());
+                        reservedSalesLine.setIsSelectedReturnItem(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).isSelectedReturnItem());
+                        salesLines.add(reservedSalesLine);
+                        omsOrderForwardRequest.setReservedSalesLine(salesLines);
 
-
-                    if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().size() > 1) {
-                        for (int l = 0; l < selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().size(); l++) {
-                            reservedSalesLine.setInventBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getBatchNo());
-                        }
-                    } else {
-                        reservedSalesLine.setInventBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(0).getBatchNo());
                     }
 
-                    reservedSalesLine.setIsChecked(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsChecked());
-                    reservedSalesLine.setIsGeneric(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsGeneric());
-                    reservedSalesLine.setIsPriceOverride(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsPriceOverride());
-                    reservedSalesLine.setIsSubsitute(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsSubsitute());
-                    reservedSalesLine.setIsVoid(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsVoid());
-                    reservedSalesLine.setItemId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId());
-                    reservedSalesLine.setItemName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemName());
-                    reservedSalesLine.setLineDiscPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
-                    reservedSalesLine.setLineDiscPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
-                    reservedSalesLine.setLineManualDiscountAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountAmount());
-                    reservedSalesLine.setLineManualDiscountPercentage(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountPercentage());
-                    reservedSalesLine.setLineNo(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLineNo());
-                    reservedSalesLine.setLinedscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
-                    reservedSalesLine.setMMGroupId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
-                    reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
-                    reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
-                    reservedSalesLine.setManufacturerName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
-                    reservedSalesLine.setMixMode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
-                    reservedSalesLine.setModifyBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getModifyBatchId());
-                    reservedSalesLine.setNetAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmount());
-                    reservedSalesLine.setNetAmountInclTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmountInclTax());
-                    reservedSalesLine.setOfferAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferAmount());
-                    reservedSalesLine.setDiscountType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
-                    reservedSalesLine.setOfferDiscountValue(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferDiscountValue());
-                    reservedSalesLine.setOfferQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferQty());
-                    reservedSalesLine.setOfferType(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferType());
-                    reservedSalesLine.setOmsLineRECID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOmsLineRECID());
-                    reservedSalesLine.setOrderStatus(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOrderStatus());
-                    reservedSalesLine.setOriginalPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOriginalPrice());
-                    reservedSalesLine.setPeriodicDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPeriodicDiscAmount());
-                    reservedSalesLine.setPhysicalMRP(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPhysicalMRP());
-                    reservedSalesLine.setPreviewText(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPreviewText());
-                    reservedSalesLine.setPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPrice());
-                    reservedSalesLine.setProductRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getProductRecID());
-                    reservedSalesLine.setQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getQty());
-                    reservedSalesLine.setRemainderDays(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRemainderDays());
-                    reservedSalesLine.setRemainingQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRemainingQty());
-//                        reservedSalesLine.setResqtyflag(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).get
-                    reservedSalesLine.setRetailCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailCategoryRecID());
-                    reservedSalesLine.setRetailMainCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailMainCategoryRecID());
-                    reservedSalesLine.setRetailSubCategoryRecID(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRetailSubCategoryRecID());
-                    reservedSalesLine.setReturnQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getReturnQty());
-                    reservedSalesLine.setSGSTPerc(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTPerc());
-                    reservedSalesLine.setSGSTTaxCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTTaxCode());
-                    reservedSalesLine.setScheduleCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategory());
-                    reservedSalesLine.setScheduleCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategoryCode());
-                    reservedSalesLine.setStockQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getStockQty());
-                    reservedSalesLine.setSubCategory(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategory());
-                    reservedSalesLine.setSubCategoryCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategoryCode());
-                    reservedSalesLine.setSubClassification(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
-                    reservedSalesLine.setSubClassification(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
-                    reservedSalesLine.setSubstitudeItemId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getSubstitudeItemId());
-                    reservedSalesLine.setTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTax());
-                    reservedSalesLine.setTaxAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTaxAmount());
-                    reservedSalesLine.setTotal(Double.valueOf(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotal()));
-                    reservedSalesLine.setTotalDiscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
-                    reservedSalesLine.setTotalDiscPct(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalDiscPct());
-                    reservedSalesLine.setTotalRoundedAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalRoundedAmount());
-                    reservedSalesLine.setTotalTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getTotalTax());
-                    reservedSalesLine.setUnit(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnit());
-                    reservedSalesLine.setUnitPrice(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnitPrice());
-                    reservedSalesLine.setUnitQty(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getUnitQty());
-                    reservedSalesLine.setVariantId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getVariantId());
-//                        reservedSalesLine.setIsReturnClick(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getIsRe);
-//                        reservedSalesLine.setIsSelectedReturnItem(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOs);
-                    salesLines.add(reservedSalesLine);
-                    request.setReservedSalesLine(salesLines);
                 }
-
-                mPresenter.UpdateOmsOrder(request);
+                mPresenter.UpdateOmsOrder(omsOrderForwardRequest);
             }
+
         }
 
 

@@ -10,5 +10,5 @@ public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPr
 
     void onAddItemsClicked();
 
-    void checkBatchInventory(GetBatchInfoRes.BatchListObj item);
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos);
 }
