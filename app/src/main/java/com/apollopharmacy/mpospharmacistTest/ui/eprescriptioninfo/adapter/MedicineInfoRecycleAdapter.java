@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ViewEprescMedicineItemBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
@@ -92,7 +91,13 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
 //                }
 //            }
 //        }
-
+        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
+            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
+                }
+            }
+        }
         batchInfoRecycleAdapter = new BatchInfoRecycleAdapter(Constant.getInstance().arrBatchList, mContext);
         holder.batchinfolist.setAdapter(batchInfoRecycleAdapter);
         batchInfoRecycleAdapter.setClickListiner(ePrescriptionInfoMvpView);
@@ -150,12 +155,13 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
             public void onClick(View view) {
                 if (ePrescriptionInfoMvpView != null) {
                     //   holder.listItemMainBinding.itemView.removeAllViews();
-                    ePrescriptionInfoMvpView.onClickProductItem(position);
+//                    ePrescriptionInfoMvpView.onClickProductItem(position);
                     if (isItemselected == false && previous_selectedposition != position) {
                         isItemselected = true;
                         selected_position = position;
                         ePrescriptionInfoMvpView.onClickProductItem(position);
                     } else if (previous_selectedposition == position && isItemselected == true) {
+                        ePrescriptionInfoMvpView.onClickProductItem(position);
                         isItemselected = false;
                         selected_position = position;
                         notifyDataSetChanged();
