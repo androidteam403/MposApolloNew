@@ -211,22 +211,7 @@
                     android:background="#A9A9A9" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen10dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="Pickup Status"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dimen14sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/pickup_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen5dp" />
+             
 
 
                 <Button

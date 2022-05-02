@@ -56,6 +56,7 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
             GetBatchInfoRes.BatchListObj item = arrBatchList.get(position);
             holder.batchInfoListAdapterBinding.setBatchInfo(item);
 
+
            /* if(holder.batchInfoListAdapterBinding.batchWiseQtyEdit.isSelected()) {
                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.requestFocus();
                 holder.batchInfoListAdapterBinding.batchWiseQtyEdit.setSelection(0, holder.batchInfoListAdapterBinding.batchWiseQtyEdit.getText().toString().length());
@@ -143,7 +144,6 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
 
             } else {
                 holder.batchInfoListAdapterBinding.batchPickupStatus.setBackgroundResource(R.drawable.icon_unchecked_checkbox);
-                ;
                 holder.batchInfoListAdapterBinding.batchidbackground.setBackgroundResource(R.color.white);
 
             }

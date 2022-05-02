@@ -8,7 +8,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrder
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,10 +31,6 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
         super(manager, schedulerProvider, compositeDisposable);
     }
 
-    @Override
-    public void forwardtoPacker() {
-        getMvpView().forwardtoPacker();
-    }
 
     @Override
     public void setFullfillmentData(List<RacksDataResponse.FullfillmentDetail> fullfillmentDetailList) {
@@ -48,50 +45,59 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
     @Override
     public void ForwardToPickerRequest(ForwardToPickerRequest request) {
 
+    }
+
+    @Override
+    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderUpdateRequest) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            request.setTerminalID(getDataManager().getTerminalId());
+            omsOrderUpdateRequest.setTerminalID(getDataManager().getTerminalId());
+
             //ApiInterface api = ApiClient.getApiService(Constant.UPDATEOMSORDER);
             // text.replace("/"","");
-            String check_epos = getDataManager().getEposURL();
-            String replace_url = getDataManager().getEposURL();
-            if (check_epos.contains("EPOS/")) {
-                replace_url = check_epos.replace("EPOS/", "");
+            String check_epos=getDataManager().getEposURL();
+            String replace_url=getDataManager().getEposURL();
+            if(check_epos.contains("EPOS/"))
+            {
+                replace_url=check_epos.replace("EPOS/","");
 
             }
-            if (check_epos.contains("9880")) {
-                replace_url = check_epos.replace("9880", "9887");
+            if(check_epos.contains("9880"))
+            {
+                replace_url=check_epos.replace("9880","9887");
 
             }
             // ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<ForwardToPickerResponse> call = api.UPDATE_OMS_ORDER(request);
-
-            call.enqueue(new Callback<ForwardToPickerResponse>() {
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderUpdateRequest);
+            call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
-                public void onResponse(Call<ForwardToPickerResponse> call, Response<ForwardToPickerResponse> response) {
+                public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
                     getMvpView().hideLoading();
-                    if (response.body() != null && response.body().getRequestStatus() == 0) {
-                        getMvpView().OmsOrderUpdateSuccess(response.body());
-                    } else {
-                        getMvpView().OmsOrderUpdateFailure(response.body());
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().OmsOrderUpdateSuccess(response.body());
+
+                        } else {
+                            getMvpView().OmsOrderUpdateFailure(response.body());
+                        }
+
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ForwardToPickerResponse> call, Throwable t) {
+                public void onFailure(Call<OMSOrderForwardResponse> call, Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }
             });
-
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-
+                         }
         }
-    }
+
+
+
 
     @Override
     public void setListOfListFullfillmentData(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullfillmentDetailList) {
@@ -106,5 +112,10 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
     @Override
     public void onClickScanCode() {
         getMvpView().onClickScanCode();
+    }
+
+    @Override
+    public void onClickUpdateOMSOrder_pickingconfirmation() {
+        getMvpView().onClickUpdateOMSOrder_pickingconfirmation();
     }
 }

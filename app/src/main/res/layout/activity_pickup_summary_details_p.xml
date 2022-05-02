@@ -327,7 +327,7 @@
                                     android:id="@+id/customer_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -345,7 +345,7 @@
                                     android:id="@+id/mobile_number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -362,7 +362,7 @@
                                     android:id="@+id/doctor_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -396,7 +396,7 @@
                                     android:id="@+id/pincode"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -485,7 +485,7 @@
                                     android:id="@+id/vendor_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -502,7 +502,7 @@
                                     android:id="@+id/orderbillvalue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -519,7 +519,7 @@
                                     android:id="@+id/statecode"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -536,7 +536,7 @@
                                     android:id="@+id/address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -554,7 +554,7 @@
                                     android:text="---"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 

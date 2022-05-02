@@ -1,5 +1,10 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+import com.apollopharmacy.mpospharmacistTest.BR;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -327,7 +332,11 @@ public class GetOMSTransactionResponse implements Serializable {
     @Expose
     private List<SalesLine> salesLine = null;
 
-    public class SalesLine implements Serializable {
+
+
+
+
+    public static class SalesLine implements Serializable {
 
 
         @SerializedName("Additionaltax")
@@ -417,6 +426,36 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        private boolean Resqtyflag;
+
+        public boolean getResqtyflag() {
+            return Resqtyflag;
+        }
+
+        public void setResqty(boolean resqtyflag) {
+            Resqtyflag= resqtyflag;
+        }
+
+        private boolean isReturnClick = false;
+
+        public boolean isReturnClick() {
+            return isReturnClick;
+        }
+
+        public void setReturnClick(boolean returnClick) {
+            isReturnClick = returnClick;
+        }
+
+        private boolean isSelectedReturnItem = false;
+
+        public boolean isSelectedReturnItem() {
+            return isSelectedReturnItem;
+        }
+
+        public void setSelectedReturnItem(boolean selectedReturnItem) {
+            isSelectedReturnItem = selectedReturnItem;
         }
 
         @SerializedName("ISRestricted")
@@ -629,6 +668,17 @@ public class GetOMSTransactionResponse implements Serializable {
         @SerializedName("VariantId")
         @Expose
         private String variantId;
+
+        private GetBatchInfoRes getBatchInfoRes;
+
+        public GetBatchInfoRes getGetBatchInfoRes() {
+            return getBatchInfoRes;
+        }
+
+        public void setGetBatchInfoRes(GetBatchInfoRes getBatchInfoRes) {
+            this.getBatchInfoRes = getBatchInfoRes;
+        }
+
         private final static long serialVersionUID = 5013633861182688063L;
 
         public Integer getAdditionaltax() {

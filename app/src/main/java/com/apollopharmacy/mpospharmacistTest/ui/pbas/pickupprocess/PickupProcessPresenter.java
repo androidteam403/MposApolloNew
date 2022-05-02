@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
@@ -96,7 +97,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
     @Override
-    public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position) {
+    public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
@@ -119,7 +120,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
                             getMvpView().hideLoading();
-                            getMvpView().onSuccessGetBatchDetails(response.body(), salesLine, refNo, orderAdapterPos, position);
+                            getMvpView().onSuccessGetBatchDetails(response.body(), salesLine, refNo, orderAdapterPos, position, omsHeader);
                         }
                     }
                     Log.e("TAG", response.code() + "");
@@ -138,13 +139,13 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
 
-    @Override
-    public void onClickBatchDetails() {
-        getMvpView().onClickBatchDetails();
-    }
+//    @Override
+//    public void onClickBatchDetails() {
+//        getMvpView().onClickBatchDetails();
+//    }
 
     @Override
-    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String status) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -166,7 +167,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
-                            getMvpView().checkBatchInventorySuccess(status);
+                            getMvpView().checkBatchInventorySuccess(finalStatus);
                         else
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }
