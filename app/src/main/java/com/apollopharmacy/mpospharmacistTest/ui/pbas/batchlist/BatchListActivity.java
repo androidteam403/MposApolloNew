@@ -259,6 +259,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             System.out.println("==============================================="+e.getMessage());
         }
 
+
     }
 
     @Override
