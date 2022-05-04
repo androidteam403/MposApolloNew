@@ -160,8 +160,26 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
             activityEPrescriptionInfoBinding.cancelOnlineOrderBtn.setBackgroundColor(getResources().getColor(R.color.grey));
             activityEPrescriptionInfoBinding.changeSiteBtn.setBackgroundColor(getResources().getColor(R.color.grey));
             activityEPrescriptionInfoBinding.closeBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+            activityEPrescriptionInfoBinding.continueBillingBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+            activityEPrescriptionInfoBinding.orderStockFulfilmentBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.cancelOnlineOrderBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.changeSiteBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.closeBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.continueBillingBtn.setEnabled(true);
+
+        } else if (Constant.getInstance().Orders_type.equalsIgnoreCase("EPrescription")) {
+            activityEPrescriptionInfoBinding.orderStockFulfilmentBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+            activityEPrescriptionInfoBinding.cancelOnlineOrderBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+            activityEPrescriptionInfoBinding.changeSiteBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+            activityEPrescriptionInfoBinding.closeBtn.setBackgroundColor(getResources().getColor(R.color.grey));
             activityEPrescriptionInfoBinding.continueBillingBtn.setBackgroundColor(getResources().getColor(R.color.grey));
 
+            activityEPrescriptionInfoBinding.orderStockFulfilmentBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.cancelOnlineOrderBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.changeSiteBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.closeBtn.setEnabled(false);
+            activityEPrescriptionInfoBinding.continueBillingBtn.setEnabled(false);
 
         } else if (Constant.getInstance().Orders_type.equalsIgnoreCase("Packing")) {
             activityEPrescriptionInfoBinding.pickupConfirmation.setVisibility(View.GONE);
@@ -170,12 +188,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
             activityEPrescriptionInfoBinding.packingConfirmation.setVisibility(View.GONE);
             activityEPrescriptionInfoBinding.unpackingConformation.setVisibility(View.GONE);
 
-
-            activityEPrescriptionInfoBinding.orderStockFulfilmentBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            activityEPrescriptionInfoBinding.cancelOnlineOrderBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            activityEPrescriptionInfoBinding.changeSiteBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            activityEPrescriptionInfoBinding.closeBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            activityEPrescriptionInfoBinding.continueBillingBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         } else if (Constant.getInstance().Orders_type.equalsIgnoreCase("Invoice")) {
 
@@ -488,7 +500,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
             request.setReservedSalesLine(pick_pack_list);
             mPresenter.UpdateOmsOrder(request);
         } else {
-            if (Constant.getInstance().Orders_type.equalsIgnoreCase("Packing")) {
+            if (Constant.getInstance().Orders_type.equalsIgnoreCase("Picking")) {
                 UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Packing Not Confimed");
             } else {
                 UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Picking Not Confimed");

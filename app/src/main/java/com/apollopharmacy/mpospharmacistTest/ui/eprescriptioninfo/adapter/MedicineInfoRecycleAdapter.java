@@ -91,13 +91,13 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
 //                }
 //            }
 //        }
-        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
-            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
-                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
-                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
-                }
-            }
-        }
+//        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
+//            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+//                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+//                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
+//                }
+//            }
+//        }
         batchInfoRecycleAdapter = new BatchInfoRecycleAdapter(Constant.getInstance().arrBatchList, mContext);
         holder.batchinfolist.setAdapter(batchInfoRecycleAdapter);
         batchInfoRecycleAdapter.setClickListiner(ePrescriptionInfoMvpView);
