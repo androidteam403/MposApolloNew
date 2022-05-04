@@ -10,6 +10,16 @@
         android:orientation="vertical"
         android:padding="@dimen/dimen10dp">
 
+        <TextView
+            android:id="@+id/batchnavigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:background="@drawable/btn_continue_ripple_login"
+            android:padding="@dimen/ten_dp"
+            android:text="batch"
+            android:textColor="@color/white" />
+
         <RelativeLayout
             android:layout_width="290dp"
             android:layout_height="wrap_content"
@@ -39,7 +49,6 @@
             android:id="@+id/inner_box"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:background="@color/white"
             android:padding="@dimen/dimen5dp">
 
@@ -68,12 +77,13 @@
                             android:textColor="@color/white" />
 
                         <TextView
-                            android:id="@+id/id"
+                            android:id="@+id/fullfillmentId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:text="887766"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12" />
 
                     </LinearLayout>
 
@@ -136,7 +146,7 @@
                             android:checked="false"
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Full Verified"
+                            android:text="Fully Picked"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
@@ -164,7 +174,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -249,7 +259,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_minus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                                 <EditText
                                     android:id="@+id/qty_edit_full"
@@ -275,7 +286,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_plus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 
@@ -289,11 +301,11 @@
                             android:layout_marginTop="@dimen/dimen5dp"
                             android:layout_marginEnd="@dimen/dimen5dp"
                             android:background="@drawable/edit_box_grey_bg"
+                            android:clickable="true"
                             android:focusable="false"
                             android:fontFamily="@font/roboto_medium"
                             android:hint="@string/label_enter_batch_id"
                             android:importantForAutofill="no"
-                            android:clickable="true"
                             android:inputType="text"
                             android:onClick="@{()-> callback.onClickBatchDetails()}"
                             android:padding="@dimen/dimen5dp"
@@ -301,7 +313,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -326,7 +337,7 @@
                             android:checked="false"
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Partial Verified"
+                            android:text="Partially Picked"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
@@ -532,13 +543,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/skip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:layout_marginBottom="@dimen/dimen10dp"
-                    android:clickable="true"
                     android:gravity="center_vertical"
-                    android:onClick="@{()-> callback.onClickSkip()}"
                     android:orientation="horizontal">
 
                     <RadioButton
