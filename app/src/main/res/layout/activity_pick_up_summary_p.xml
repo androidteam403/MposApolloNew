@@ -165,6 +165,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="Forward to packer"
+                android:onClick="@{()-> callback.onClickUpdateOMSOrder_pickingconfirmation()}"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp" />

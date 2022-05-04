@@ -138,7 +138,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Partial"
                             android:id="@+id/status_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_11sp" />
@@ -152,7 +151,7 @@
                             android:layout_marginEnd="@dimen/_8dp"
                             android:contentDescription="@string/app_name"
                             android:rotation="270"
-                            android:src="@drawable/partialcirculargreeenorange" />
+                            />
 
 
                     </LinearLayout>
@@ -166,6 +165,16 @@
                         android:padding="@dimen/five_dp"
                         android:rotation="90"
                         android:src="@drawable/right_arrow_black" />
+
+                    <ImageView
+                        android:id="@+id/backArrow"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_gravity="end"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_arrow_drop_up"  />
 
                 </LinearLayout>
 
