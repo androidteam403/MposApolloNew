@@ -9,15 +9,17 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/dimen10dp">
-<TextView
-    android:id="@+id/batchnavigation"
-    android:textColor="@color/white"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/ten_dp"
-    android:layout_margin="@dimen/five_dp"
-    android:background="@drawable/btn_continue_ripple_login"
-    android:text="batch"/>
+
+        <TextView
+            android:id="@+id/batchnavigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five_dp"
+            android:background="@drawable/btn_continue_ripple_login"
+            android:padding="@dimen/ten_dp"
+            android:text="batch"
+            android:textColor="@color/white" />
+
         <RelativeLayout
             android:layout_width="290dp"
             android:layout_height="wrap_content"
