@@ -352,73 +352,202 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     @Override
     public void UpdateOmsOrder_Pickingconfirmation() {
 
-        if (itemsArrayList != null && itemsArrayList.size() > 0) {
-            boolean isAllItemsSelecetd = true;
-            for (int i = 0; i < itemsArrayList.size(); i++) {
-                if (itemsArrayList.get(i).getReqQty() <= 0) {
-                    isAllItemsSelecetd = false;
-                }
-            }
-            if (isAllItemsSelecetd) {
-                OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
-                request.setRequestType("1");
-                request.setFulfillmentID(orderInfoItem.getREFNO());
-                ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
-                for (SalesLineEntity item : salesentity) {
-                    if (item.getModifyBatchId().length() > 0) {
-                        pick_pack_list.add(item);
-                    }
 
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+            dialogView.setTitle("Please Connect to the Printer");
+            dialogView.setPositiveLabel("Ok");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 }
-                request.setReservedSalesLine(pick_pack_list);
-                if (pick_pack_list.size() > 0) {
-                    salesentity.clear();
-                    salesentity = pick_pack_list;
-                    mPresenter.UpdateOmsOrder(request);
+
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+
+            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            // return;
+        } else {
+            if (itemsArrayList != null && itemsArrayList.size() > 0) {
+                boolean isAllItemsSelecetd = true;
+                for (int i = 0; i < itemsArrayList.size(); i++) {
+                    if (itemsArrayList.get(i).getReqQty() <= 0) {
+                        isAllItemsSelecetd = false;
+                    }
+                }
+                if (isAllItemsSelecetd) {
+                    OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+                    request.setRequestType("1");
+                    request.setFulfillmentID(orderInfoItem.getREFNO());
+                    ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+                    for (SalesLineEntity item : salesentity) {
+                        if (item.getModifyBatchId().length() > 0) {
+                            pick_pack_list.add(item);
+                        }
+
+                    }
+                    request.setReservedSalesLine(pick_pack_list);
+                    if (pick_pack_list.size() > 0) {
+                        salesentity.clear();
+                        salesentity = pick_pack_list;
+                        mPresenter.UpdateOmsOrder(request);
+                    } else {
+                        UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+                    }
                 } else {
-                    UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
-                }
-            } else {
-                ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
-                dialogView.setTitle("You have not selected all Line Items! Do you still want to Continue");
-                dialogView.setPositiveLabel("YES");
-                dialogView.setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogView.dismiss();
-                        OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
-                        request.setRequestType("1");
-                        request.setFulfillmentID(orderInfoItem.getREFNO());
-                        ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
-                        for (SalesLineEntity item : salesentity) {
-                            if (item.getModifyBatchId().length() > 0) {
-                                pick_pack_list.add(item);
-                            }
+                    ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+                    dialogView.setTitle("You have not selected all Line Items! Do you still want to Continue");
+                    dialogView.setPositiveLabel("YES");
+                    dialogView.setPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogView.dismiss();
+                            OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+                            request.setRequestType("1");
+                            request.setFulfillmentID(orderInfoItem.getREFNO());
+                            ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+                            for (SalesLineEntity item : salesentity) {
+                                if (item.getModifyBatchId().length() > 0) {
+                                    pick_pack_list.add(item);
+                                }
 
+                            }
+                            request.setReservedSalesLine(pick_pack_list);
+                            if (pick_pack_list.size() > 0) {
+                                salesentity.clear();
+                                salesentity = pick_pack_list;
+                                mPresenter.UpdateOmsOrder(request);
+                            } else {
+                                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+                            }
                         }
-                        request.setReservedSalesLine(pick_pack_list);
-                        if (pick_pack_list.size() > 0) {
-                            salesentity.clear();
-                            salesentity = pick_pack_list;
-                            mPresenter.UpdateOmsOrder(request);
-                        } else {
-                            UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+                    });
+                    dialogView.setNegativeLabel("NO");
+                    dialogView.setNegativeListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogView.dismiss();
                         }
-                    }
-                });
-                dialogView.setNegativeLabel("NO");
-                dialogView.setNegativeListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogView.dismiss();
-                    }
-                });
-                dialogView.show();
+                    });
+                    dialogView.show();
 
 
 //                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
+                }
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        if (itemsArrayList != null && itemsArrayList.size() > 0) {
+//            boolean isAllItemsSelecetd = true;
+//            for (int i = 0; i < itemsArrayList.size(); i++) {
+//                if (itemsArrayList.get(i).getReqQty() <= 0) {
+//                    isAllItemsSelecetd = false;
+//                }
+//            }
+//            if (isAllItemsSelecetd) {
+//                OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+//                request.setRequestType("1");
+//                request.setFulfillmentID(orderInfoItem.getREFNO());
+//                ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+//                for (SalesLineEntity item : salesentity) {
+//                    if (item.getModifyBatchId().length() > 0) {
+//                        pick_pack_list.add(item);
+//                    }
+//
+//                }
+//                request.setReservedSalesLine(pick_pack_list);
+//                if (pick_pack_list.size() > 0) {
+//                    salesentity.clear();
+//                    salesentity = pick_pack_list;
+//                    mPresenter.UpdateOmsOrder(request);
+//                } else {
+//                    UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+//                }
+//            } else {
+//                ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+//                dialogView.setTitle("You have not selected all Line Items! Do you still want to Continue");
+//                dialogView.setPositiveLabel("YES");
+//                dialogView.setPositiveListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialogView.dismiss();
+//                        OMSOrderUpdateRequest request = new OMSOrderUpdateRequest();
+//                        request.setRequestType("1");
+//                        request.setFulfillmentID(orderInfoItem.getREFNO());
+//                        ArrayList<SalesLineEntity> pick_pack_list = new ArrayList<>();
+//                        for (SalesLineEntity item : salesentity) {
+//                            if (item.getModifyBatchId().length() > 0) {
+//                                pick_pack_list.add(item);
+//                            }
+//
+//                        }
+//                        request.setReservedSalesLine(pick_pack_list);
+//                        if (pick_pack_list.size() > 0) {
+//                            salesentity.clear();
+//                            salesentity = pick_pack_list;
+//                            mPresenter.UpdateOmsOrder(request);
+//                        } else {
+//                            UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Reserve the Qty");
+//                        }
+//                    }
+//                });
+//                dialogView.setNegativeLabel("NO");
+//                dialogView.setNegativeListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialogView.dismiss();
+//                    }
+//                });
+//                dialogView.show();
+//
+//
+////                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
+//            }
+//        }
     }
 
     @Override
