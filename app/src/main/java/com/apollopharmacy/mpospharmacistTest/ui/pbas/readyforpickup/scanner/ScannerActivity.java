@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -24,32 +26,56 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private DecoratedBarcodeView barcodeScannerView;
     private Button switchFlashlightButton;
     private boolean isFlashLightOn = false;
-    private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
+    private List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
     Bundle savedInstanceState;
+    int position;
     private List<String> barcodeList = new ArrayList<>();
+    //    String fullfillmentId;
+    TextView textView;
+    private int pos = 0;
+    TextView fulfilmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
+
+
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
-        if (!BillerOrdersActivity.isBillerActivity) {
-            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
-        } else {
-            barcodeCount.setVisibility(View.GONE);
-        }
+        fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
+
+        Intent intent = getIntent();
+        int position=intent.getExtras().getInt("position");
+        boolean isReadyforPickup = intent.getExtras().getBoolean("isReadyforPickup");
+//        Intent intent = getIntent();
+//        int position=intent.getExtras().getInt("position");
+
+
+
+//        if (!BillerOrdersActivity.isBillerActivity) {
+//            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
+//        } else {
+//            barcodeCount.setVisibility(View.GONE);
+//        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        this.racksDataResponse = ReadyForPickUpActivity.fullfillmentDetailList;
+        this.racksDataResponse = ReadyForPickUpActivity.selectedOmsHeaderListTest;
 
-
-        //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanner);
 
         //set torch listener
         barcodeScannerView.setTorchListener(this);
+
+
+            if(isReadyforPickup){
+                textView= findViewById(R.id.fullfillmentIdscanner);
+                textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
+            }
+
+
+
 
         //switch flashlight button
         switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
@@ -131,14 +157,16 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
     @Override
     public void scannedListener(List<String> barcodeList) {
+        pos++;
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
-        barcodeCount.setText(barcodeList.size() + "/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
+        barcodeCount.setText(barcodeList.size() + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
+        fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
         capture = new CaptureManager(this, barcodeScannerView);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
-        Toast.makeText(this, "naveen", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "naveen", Toast.LENGTH_SHORT).show();
     }
 
 //    @Override

@@ -3,6 +3,9 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 import android.widget.Spinner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -20,14 +23,15 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickStausIcon();
 
-    void onClickBatchDetails();
+    void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine position, int adapterPosition);
+
+    void onClickStart(int position);
 
     void onClickPartialPicked();
 
     void onClickNotAvailable();
 
     void onClickSkip();
-
 
     void onClickDropDown(Spinner spinner);
 
@@ -47,4 +51,20 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickRightArrow(RacksDataResponse.FullfillmentDetail fullfillmentDetail);
 
+
+    //new Callbacks
+    void onClickOrderItem(int pos);
+
+    void onClickSalesLine(int position, String status);
+
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos,  String status);
+
+
+    void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void checkBatchInventorySuccess(String status);
+
+    void checkBatchInventoryFailed(String message);
 }

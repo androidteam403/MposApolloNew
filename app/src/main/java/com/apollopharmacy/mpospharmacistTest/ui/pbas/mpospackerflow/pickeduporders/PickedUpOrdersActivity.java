@@ -178,9 +178,5 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        startActivity(DeciderScreen.getStartActivity(PickedUpOrdersActivity.this));
-//        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-//    }
+
 }
