@@ -33,6 +33,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipC
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OmsAddNewItemResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OrderPriceInfoModel;
@@ -59,7 +60,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsActiv
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.EprescriptionOrderListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
@@ -893,6 +893,59 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     }
 
+    private boolean onHdfcPayMode;
+
+    @Override
+    public void onClickHdfcPayBtn() {
+        System.out.println("yes it is coming paysms method." + "--");
+        onWalletClick = false;
+        onCardMode = false;
+        onHdfcPayMode = true;
+        onCashmode = false;
+        onSmspayMode = false;
+        onVendorPayMode = false;
+        onCodPayMode = false;
+        if (flag == 0) {
+            prescriptionMandatory();
+            flag++;
+        }
+        if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
+                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+                partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
+            } else {
+                paymentMethodModel.setCashMode(false);
+                paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(true);
+                paymentMethodModel.setOneApolloMode(false);
+                paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setCreditMode(false);
+                paymentMethodModel.setSmsPayMode(false);
+                paymentMethodModel.setVendorPayMode(false);
+                paymentMethodModel.setCodPayMode(false);
+                mPresenter.showHdfcPaymentDialog();
+                //showsms("PhonePe Transaction", true, walletServiceReq);
+
+                //addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f", (orderRemainingAmount())));
+            }
+        } else {
+            paymentMethodModel.setCashMode(false);
+            paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(true);
+            paymentMethodModel.setOneApolloMode(false);
+            paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setCreditMode(false);
+            paymentMethodModel.setSmsPayMode(false);
+            paymentMethodModel.setVendorPayMode(false);
+            paymentMethodModel.setCodPayMode(false);
+            mPresenter.showHdfcPaymentDialog();
+
+            // showsmsPaymentDialog();
+            // mPresenter.show
+            // addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f", (orderRemainingAmount())));
+        }
+    }
+
     private boolean onSmspayMode;
 
     //below changes made by gopal on 09-01-2021...
@@ -1136,15 +1189,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessSmsPayTransaction(GetSMSPayAPIResponse res) {
         if (res != null) {
             if (res.getStatus() == true) {
-                Toast.makeText(this, res.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
                 if (res.getStatus() == true) {
                     smspaylinkresponse = res;
                 }
 
             } else {
-                Toast.makeText(this, res.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         }
@@ -2263,6 +2314,28 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onFailedOmsAddNewItem(OmsAddNewItemResponse response) {
         showMessage(response.getReturnMessage());
+    }
+
+    private String hdfcTransactionMarchantId;
+
+    @Override
+    public void onSuccessHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse) {
+        if (hdfcLinkGenerateResponse.getErrorCode().equals("0")) {
+            this.hdfcTransactionMarchantId = hdfcLinkGenerateResponse.getTransactionMerchantID();
+            Toast.makeText(this, hdfcLinkGenerateResponse.getSuccessMsg(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, hdfcLinkGenerateResponse.getErrorDesc(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onFailureHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse) {
+
+    }
+
+    @Override
+    public String getHdfcTransactionId() {
+        return hdfcTransactionMarchantId;
     }
 
     @Override

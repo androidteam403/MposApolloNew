@@ -65,14 +65,6 @@ public class VerificationStatusDialog {
     }
 
 
-//    public void setPositiveLabel(String positive) {
-//        alertDialogBoxBinding.btnYes.setText(positive);
-//    }
-//
-//    public void setNegativeLabel(String negative) {
-//        negativeExist = true;
-//        alertDialogBoxBinding.btnNo.setText(negative);
-//    }
 
 
 }

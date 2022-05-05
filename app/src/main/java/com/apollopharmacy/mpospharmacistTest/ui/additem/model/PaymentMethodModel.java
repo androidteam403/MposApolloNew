@@ -12,14 +12,16 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
 
     private boolean cashMode = false;
     private boolean cardMode = false;
-    private boolean smspaymode=false;
-    private boolean vendorpaymode=false;
-    private boolean codpaymode=false;
+    private boolean hdfcPayMode = false;
+
+    private boolean smspaymode = false;
+    private boolean vendorpaymode = false;
+    private boolean codpaymode = false;
     private boolean oneApolloMode = false;
     private boolean walletMode = false;
     private boolean creditMode = false;
     private boolean phonePeMode = false;
-    private  boolean phonePeQrMode=false;
+    private boolean phonePeQrMode = false;
     private boolean paytmMode = false;
     private boolean airtelMode = false;
     private boolean hellingCardMode = false;
@@ -35,9 +37,12 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
     private boolean isPaymentInitiate = false;
     private boolean isEnableCashBtn = false;
     private boolean isEnableCardBtn = false;
+    private boolean isEnableHdfcPayBtn = true;
+
+
     private boolean isEnableSmsPayBtn = false;
-    private boolean isEnableVendorPayBtn=false;
-    private boolean isEnableCodPayBtn=false;
+    private boolean isEnableVendorPayBtn = false;
+    private boolean isEnableCodPayBtn = false;
 
     private boolean isEnableApolloBtn = false;
     private boolean isEnableWalletBtn = false;
@@ -62,6 +67,7 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         isLoadApolloPoints = loadApolloPoints;
         notifyPropertyChanged(BR.loadApolloPoints);
     }
+
     @Bindable
     public boolean isErrorApolloPoints() {
         return isErrorApolloPoints;
@@ -116,6 +122,16 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR.cardMode);
     }
 
+    @Bindable
+    public boolean isHdfcPayMode() {
+        return hdfcPayMode;
+    }
+
+    public void setHdfcPayMode(boolean hdfcPayMode) {
+        this.hdfcPayMode = hdfcPayMode;
+        notifyPropertyChanged(BR.hdfcPayMode);
+    }
+
     //These changes made by Gopal on 09-01-2021--SMsPay...............
     @Bindable
     public boolean isSmsPayMode() {
@@ -126,30 +142,26 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         this.smspaymode = smspaymode;
         notifyPropertyChanged(BR.smsPayMode);
     }
+
     @Bindable
-    public  boolean isVendorPayMode()
-    {
-        return  vendorpaymode;
+    public boolean isVendorPayMode() {
+        return vendorpaymode;
     }
 
-    public void  setVendorPayMode(boolean vendorpaymode)
-    {
-        this.vendorpaymode=vendorpaymode;
+    public void setVendorPayMode(boolean vendorpaymode) {
+        this.vendorpaymode = vendorpaymode;
         notifyPropertyChanged(BR.vendorPayMode);
     }
 
     @Bindable
-    public  boolean isCodPayMode()
-    {
-        return  codpaymode;
+    public boolean isCodPayMode() {
+        return codpaymode;
     }
 
-    public void  setCodPayMode(boolean codpaymode)
-    {
-        this.codpaymode=codpaymode;
+    public void setCodPayMode(boolean codpaymode) {
+        this.codpaymode = codpaymode;
         notifyPropertyChanged(BR.codPayMode);
     }
-
 
 
     @Bindable
@@ -251,19 +263,28 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
     }
 
     @Bindable
+    public boolean isEnableHdfcPayBtn() {
+        return isEnableHdfcPayBtn;
+    }
+
+    public void setEnableHdfcPayBtn(boolean enableHdfcPayBtn) {
+        isEnableHdfcPayBtn = enableHdfcPayBtn;
+        notifyPropertyChanged(BR.enableHdfcPayBtn);
+    }
+
+    @Bindable
     public boolean isEnableSmsPayBtn() {
         return isEnableSmsPayBtn;
     }
 
     @Bindable
-    public  boolean isEnableVendorPayBtn()
-    {
-        return  isEnableVendorPayBtn;
+    public boolean isEnableVendorPayBtn() {
+        return isEnableVendorPayBtn;
     }
+
     @Bindable
-    public  boolean isEnableCodPayBtn()
-    {
-        return  isEnableCodPayBtn;
+    public boolean isEnableCodPayBtn() {
+        return isEnableCodPayBtn;
     }
 
     @Bindable
@@ -296,15 +317,13 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR.enableSmsPayBtn);
     }
 
-    public void setEnableVendorPayBtn(boolean enableVendorPayBtn)
-    {
-        isEnableVendorPayBtn=enableVendorPayBtn;
+    public void setEnableVendorPayBtn(boolean enableVendorPayBtn) {
+        isEnableVendorPayBtn = enableVendorPayBtn;
         notifyPropertyChanged(BR.enableVendorPayBtn);
     }
 
-    public void setEnableCodPayBtn(boolean enableCodPayBtn)
-    {
-        isEnableCodPayBtn=enableCodPayBtn;
+    public void setEnableCodPayBtn(boolean enableCodPayBtn) {
+        isEnableCodPayBtn = enableCodPayBtn;
         notifyPropertyChanged(BR.enableCodPayBtn);
     }
 
@@ -322,6 +341,7 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         isEnableCreditBtn = enableCreditBtn;
         notifyPropertyChanged(BR.enableCreditBtn);
     }
+
     @Bindable
     public boolean isPhonePeMode() {
         return phonePeMode;
@@ -352,6 +372,7 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
         this.paytmMode = paytmMode;
         notifyPropertyChanged(BR.paytmMode);
     }
+
     @Bindable
     public boolean isAirtelMode() {
         return airtelMode;
