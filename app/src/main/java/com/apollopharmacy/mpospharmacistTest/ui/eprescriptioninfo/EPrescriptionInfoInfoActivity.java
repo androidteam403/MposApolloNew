@@ -351,8 +351,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     //Update OMS Order
     @Override
     public void UpdateOmsOrder_Pickingconfirmation() {
-
-
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
             ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
             dialogView.setTitle("Please Connect to the Printer");
@@ -448,37 +446,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //        if (itemsArrayList != null && itemsArrayList.size() > 0) {
