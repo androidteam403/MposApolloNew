@@ -14,6 +14,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLine
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OTPRes;
@@ -72,8 +74,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
@@ -305,14 +305,11 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/ValidateOMSOrder")
     Call<GenerateTenderLineRes> VALIDATE_OMS_ORDER(@Body GenerateTenderLineReq tenderLineReq);
 
-    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
-    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
-    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
-    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
-
-
-//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
 //    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
+
+    @POST("OMSService.svc/MPOSOrderUpdate")
+    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
     /*@POST("SalesTransactionService.svc/GetOMSSubstitute")
     Call<ArrayList<CustomerDataResBean>> GET_OMS_Substute(@Body CustomerDataReqBean customerDataReqBean);
@@ -326,6 +323,9 @@ public interface ApiInterface {
     @POST("AddNewLinePOS")
     Call<OmsAddNewItemResponse> GET_OMS_ADD_New_item(@Body OmsAddNewItemRequest request);
 
+    //These Changes made by Naveen on 09-01-2021
+    @POST("WalletService.svc/HDFCTransactionProcess")
+    Call<HdfcLinkGenerateResponse> HDFC_LINK_GENERATE_RESPONSE_API_CALL(@Body HdfcLinkGenerateRequest hdfcLinkGenerateRequest);
 
     @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
 //907253572044079104
@@ -336,4 +336,7 @@ public interface ApiInterface {
 
     @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
+
+    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
+    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
 }

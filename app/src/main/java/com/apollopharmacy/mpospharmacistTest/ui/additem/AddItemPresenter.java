@@ -1,12 +1,12 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.dialog.HdfcPaymentDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipCashbackPlanResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CouponDiscount;
@@ -15,6 +15,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLine
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OTPRes;
@@ -106,7 +108,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
 
-
     //unposted transaction.....
     @Override
     public void getUnpostedTransaction() {
@@ -136,6 +137,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
     @Override
     public void onPayButtonClick() {
         getMvpView().hideKeyboard();
@@ -145,6 +147,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickCardPayment() {
         doPayment(2);
+    }
+
+    @Override
+    public void onClickHdfcPay() {
+        doPayment(9);
     }
 
     @Override
@@ -168,7 +175,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
 
-
     @Override
     public void sendSmsservice(String mobilenumber) {
         if (getMvpView().isNetworkConnected()) {
@@ -185,8 +191,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             String[] separated = URl.split("SendSmsFortemplete?");
             String url = separated[0];
             // url=url+"SendSmsFortemplete?"+"to="+mobilenumber+"&message="+message;
-           //  Log.d("Mobile number-->", formatted);
-           // Log.d("Mobile number-->", url);
+            //  Log.d("Mobile number-->", formatted);
+            // Log.d("Mobile number-->", url);
 
             ApiInterface api = ApiClient.getApiServiceOTp(url);
             Call<ModelMobileNumVerify> call = api.verifyMobileNumber(mobilenumber, message);
@@ -213,6 +219,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
 
     }
+
     //Thes changes made by Gopal on 09-01-2021
     @Override
     public void onClickSmsPAyMode() {
@@ -815,7 +822,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void CircleplanCashbackapicall() {
         if (getMvpView().isNetworkConnected()) {
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-          //  Log.d("entity body-->", String.valueOf(api));
+            //  Log.d("entity body-->", String.valueOf(api));
             Call<CircleMemebershipCashbackPlanResponse> call = api.circleMembershipCashback(posTransactionEntity());
             call.enqueue(new Callback<CircleMemebershipCashbackPlanResponse>() {
                 @Override
@@ -996,16 +1003,15 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         // if (response.body() != null && response.body().getValidateOMSOrderResult().getRequestStatus() == 0) {
-                        if (response.body() != null ) {
+                        if (response.body() != null) {
 
                             tenderLineEntities = response.body().getValidateOMSOrderResult();
                             if (tenderLineEntities.getTenderLine().size() > 0) {
                                 getMvpView().updatePayedAmount(response.body().getValidateOMSOrderResult());
 
-                                if(Constant.getInstance().remainamount > 0)
-                                {
+                                if (Constant.getInstance().remainamount > 0) {
                                     getMvpView().omsremainamount(Constant.getInstance().remainamount);
-                                    Constant.getInstance().vendorcredit=true;
+                                    Constant.getInstance().vendorcredit = true;
                                 }
                                 //getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult());
 
@@ -1157,12 +1163,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         paymentMethodModel.setVendorPayMode(false);
         if (getDataManager().getAllowedPaymentModeRes() != null && getDataManager().getAllowedPaymentModeRes().get_PaymentMethodList().size() > 0) {
             for (AllowedPaymentModeRes._PaymentMethodListEntity entity : getDataManager().getAllowedPaymentModeRes().get_PaymentMethodList()) {
-               // System.out.println("Paymentmethod combination code--->" + entity.getCombinationCode());
-               // System.out.println("Payment mode--->1-->" + entity.getPaymentMode());
+                // System.out.println("Paymentmethod combination code--->" + entity.getCombinationCode());
+                // System.out.println("Payment mode--->1-->" + entity.getPaymentMode());
                 //System.out.println("Payment corprate mode--->2-->" + getMvpView().getCorporateModule().getPayMode());
                 if (getMvpView().getCorporateModule().getPayMode() != null)
                     if (getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())) {
-                       // System.out.println("Paymentmode--->3-->" + getMvpView().getCorporateModule().getPayMode());
+                        // System.out.println("Paymentmode--->3-->" + getMvpView().getCorporateModule().getPayMode());
                         //Cash Tender
                         if (!entity.getCombinationCode().contains("1")) {
                             paymentMethodModel.setEnableCashBtn(false);
@@ -1216,10 +1222,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                         //Smspay tender.......
                         if (!entity.getCombinationCode().contains("5")) {
-                          //  System.out.println("Smspay false--->" + entity.getCombinationCode());
+                            //  System.out.println("Smspay false--->" + entity.getCombinationCode());
                             paymentMethodModel.setEnableSmsPayBtn(false);
                         } else {
-                          //  System.out.println("smspay true--->" + entity.getCombinationCode());
+                            //  System.out.println("smspay true--->" + entity.getCombinationCode());
                             paymentMethodModel.setEnableSmsPayBtn(true);
                         }
 
@@ -1448,7 +1454,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             staffAPIReq.setUrl(getDataManager().getGlobalJson().getDSBillingURL());
             Call<PharmacyStaffApiRes> call = api.PHARMACY_STAFF_API_RES_CALL(staffAPIReq);
             Gson gson = new Gson();
-         //   System.out.println("requestforpharmacy_staff-->" + gson.toJson(staffAPIReq));
+            //   System.out.println("requestforpharmacy_staff-->" + gson.toJson(staffAPIReq));
             call.enqueue(new Callback<PharmacyStaffApiRes>() {
                 @Override
                 public void onResponse(@NotNull Call<PharmacyStaffApiRes> call, @NotNull Response<PharmacyStaffApiRes> response) {
@@ -1791,7 +1797,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     request.setMessage("");
                     request.setOrderId(getMvpView().getCalculatedPosTransactionRes().getStore() + smsPaymentDialog.getTransactionId());
                     request.setURL(getDataManager().getGlobalJson().SMSPayURL());
-                  //  System.out.println("CancelTransaction method-->" + request);
+                    //  System.out.println("CancelTransaction method-->" + request);
                     if (getMvpView().isNetworkConnected()) {
                         getMvpView().showLoading();
                         ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
@@ -1834,6 +1840,130 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
         smsPaymentDialog.show();
     }
+
+
+    //HDFC payment dialog
+    HdfcPaymentDialog hdfcPaymentDialog;
+
+    @Override
+    public void showHdfcPaymentDialog() {
+        hdfcPaymentDialog = new HdfcPaymentDialog(getMvpView().getContext());
+
+        hdfcPaymentDialog.setCalculatedPosTransaction(getMvpView().getCalculatedPosTransactionRes());
+        hdfcPaymentDialog.setPaymentMethod(getMvpView().getPaymentMethod());
+
+        hdfcPaymentDialog.setCloseListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hdfcPaymentDialog.dismiss();
+            }
+        });
+
+        hdfcPaymentDialog.setGenerateLinkListener(v -> {
+            if (hdfcPaymentDialog.isValidateAmount()) {
+                if (getMvpView().isNetworkConnected()) {
+                    getMvpView().showLoading();
+                    HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
+                    hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
+                    hdfcLinkGenerateRequest.setRequestType("GENOTP");
+                    hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
+                    hdfcLinkGenerateRequest.setCustEmailID("");
+                    hdfcLinkGenerateRequest.setCustMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
+                    hdfcLinkGenerateRequest.setPayAmount(Double.valueOf(hdfcPaymentDialog.getWalletAmount()));
+                    hdfcLinkGenerateRequest.setSiteID(getDataManager().getStoreId());
+                    hdfcLinkGenerateRequest.setTerminalID(getDataManager().getTerminalId());
+                    hdfcLinkGenerateRequest.setDocumentNo(getDataManager().getStoreId() + hdfcPaymentDialog.getTransactionId());
+                    hdfcLinkGenerateRequest.setOrderID(hdfcPaymentDialog.getTransactionId());
+                    hdfcLinkGenerateRequest.setTransactionMerchantID(null);
+                    ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+                    Call<HdfcLinkGenerateResponse> call = api.HDFC_LINK_GENERATE_RESPONSE_API_CALL(hdfcLinkGenerateRequest);
+                    call.enqueue(new Callback<HdfcLinkGenerateResponse>() {
+                        @Override
+                        public void onResponse(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Response<HdfcLinkGenerateResponse> response) {
+                            if (response.isSuccessful()) {
+                                //Dismiss Dialog
+                                getMvpView().hideLoading();
+                                if (response.isSuccessful() && response.body() != null) {
+                                    getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Throwable t) {
+                            //Dismiss Dialog
+                            getMvpView().hideLoading();
+                            handleApiError(t);
+                        }
+                    });
+                } else {
+                    getMvpView().onError("Internet Connection Not Available");
+                }
+            }
+
+        });
+        //Validate Link Button functionality.......
+        hdfcPaymentDialog.setValidateLinkListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hdfcPaymentDialog.isValidateAmount()) {
+                    if (getMvpView().isNetworkConnected()) {
+                        getMvpView().showLoading();
+                        HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
+                        hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
+                        hdfcLinkGenerateRequest.setRequestType("CHECKPAYMENTSTATUS");
+                        hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
+                        hdfcLinkGenerateRequest.setCustEmailID("");
+                        hdfcLinkGenerateRequest.setCustMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
+                        hdfcLinkGenerateRequest.setPayAmount(Double.valueOf(hdfcPaymentDialog.getWalletAmount()));
+                        hdfcLinkGenerateRequest.setSiteID(getDataManager().getStoreId());
+                        hdfcLinkGenerateRequest.setTerminalID(getDataManager().getTerminalId());
+                        hdfcLinkGenerateRequest.setDocumentNo(getDataManager().getStoreId() + hdfcPaymentDialog.getTransactionId());
+                        hdfcLinkGenerateRequest.setOrderID(hdfcPaymentDialog.getTransactionId());
+                        hdfcLinkGenerateRequest.setTransactionMerchantID(getMvpView().getHdfcTransactionId());
+                        ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+                        Call<HdfcLinkGenerateResponse> call = api.HDFC_LINK_GENERATE_RESPONSE_API_CALL(hdfcLinkGenerateRequest);
+                        call.enqueue(new Callback<HdfcLinkGenerateResponse>() {
+                            @Override
+                            public void onResponse(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Response<HdfcLinkGenerateResponse> response) {
+                                if (response.isSuccessful()) {
+                                    //Dismiss Dialog
+                                    getMvpView().hideLoading();
+                                    if (response.isSuccessful() && response.body() != null) {
+                                        getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
+                                        if (response.body().getErrorCode().equals("0")) {
+                                            hdfcPaymentDialog.dismiss();
+                                            generateTenterLineService(Double.parseDouble(hdfcPaymentDialog.getWalletAmount()), null);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Throwable t) {
+                                //Dismiss Dialog
+                                getMvpView().hideLoading();
+                                handleApiError(t);
+                            }
+                        });
+                    } else {
+                        getMvpView().onError("Internet Connection Not Available");
+                    }
+                }
+            }
+        });
+
+        //cancel button functionality.............
+        hdfcPaymentDialog.setCanceltransactionListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        hdfcPaymentDialog.show();
+
+    }
+
 
     //Phonepe QrCode payment Dialog.............................
     PhonepeQrPaymentDialog phonepeQrPaymentDialog;
@@ -2075,9 +2205,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             posTransactionRes.setTenderLine(tenderLineEntitieList);
 //            calculatePosTransactionResData = posTransactionRes;
 
-          //  Gson gson=new Gson();
-         //   String json=gson.toJson(posTransactionRes);
-          //  System.out.println("void data"+json);
+            //  Gson gson=new Gson();
+            //   String json=gson.toJson(posTransactionRes);
+            //  System.out.println("void data"+json);
 
             Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);
 
@@ -2112,12 +2242,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         tenderLineReq.setType(typeEntity());
         tenderLineReq.setPOSTransaction(getMvpView().getCalculatedPosTransactionRes());
 
-        if(Constant.getInstance().isomsorder)
-        {
+        if (Constant.getInstance().isomsorder) {
             tenderLineReq.setWallet(null);
-        }
-        else
-        {
+        } else {
             tenderLineReq.setWallet(wallet(amount, walletServiceRes));
 
         }
@@ -2131,7 +2258,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
         if (Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
             for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
-              //  System.out.println("TenderName-->" + tenderTypeEntity.getTender());
+                //  System.out.println("TenderName-->" + tenderTypeEntity.getTender());
 
                 if (getMvpView().getPaymentMethod().isCashMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("Cash")) {
@@ -2156,7 +2283,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                     }
                 } else if (getMvpView().getPaymentMethod().isSmsPayMode()) {
-                 //   System.out.println("TenderName-->" + tenderTypeEntity.getTender());
+                    //   System.out.println("TenderName-->" + tenderTypeEntity.getTender());
 
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("SMS PAY")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
@@ -2240,6 +2367,18 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     }
                 } else if (getMvpView().getPaymentMethod().isCodPayMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("COD")) {
+                        typeEntity.setTender(tenderTypeEntity.getTender());
+                        typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
+                        typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
+                        typeEntity.setTenderTypeId(tenderTypeEntity.getTenderTypeId());
+                        typeEntity.setPosOpereration(tenderTypeEntity.getPosOpereration());
+                        typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
+                        typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
+
+
+                    }
+                } else if (getMvpView().getPaymentMethod().isCodPayMode()) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("HDFC PAYMENT")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
                         typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
                         typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
@@ -2345,7 +2484,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setTransType(0);
         posTransactionEntity.setType(2);
         posTransactionEntity.setVendorId("");
-      //  System.out.println("isoms order status-->"+Constant.getInstance().isomsorder);
+        //  System.out.println("isoms order status-->"+Constant.getInstance().isomsorder);
         if (Constant.getInstance().isomsorder) {
             posTransactionEntity.setISOMSOrder(true);
             posTransactionEntity.setBillingCity(getMvpView().getCustomerDataResbean().getBillingCity());
@@ -2354,8 +2493,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             posTransactionEntity.setCustomerState(getMvpView().getCustomerDataResbean().getCustomerState());
             posTransactionEntity.setDeliveryDate(getMvpView().getCustomerDataResbean().getDeliveryDate());
             posTransactionEntity.setDOB(getMvpView().getCustomerDataResbean().getDOB());
-            double tempomsexpiry=getDataManager().getGlobalJson().getOMSExpiryDays();
-            int  omsexpiry =(int)tempomsexpiry;
+            double tempomsexpiry = getDataManager().getGlobalJson().getOMSExpiryDays();
+            int omsexpiry = (int) tempomsexpiry;
             posTransactionEntity.setExpiryDays(omsexpiry);
             posTransactionEntity.setGender(1);
             posTransactionEntity.setISAdvancePayment(false);
@@ -2372,7 +2511,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             posTransactionEntity.setVendorId(getMvpView().getCustomerDataResbean().getVendorId());
             posTransactionEntity.setCreatedonPosTerminal(getMvpView().getCustomerDataResbean().getCreatedonPosTerminal());
             posTransactionEntity.setTerminal(getMvpView().getCustomerDataResbean().getTerminal());
-           // posTransactionEntity.setTransactionId(getMvpView().getCustomerDataResbean().getREFNO());
+            // posTransactionEntity.setTransactionId(getMvpView().getCustomerDataResbean().getREFNO());
 
 
         } else {
@@ -2384,29 +2523,24 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         return posTransactionEntity;
     }
 
-    public  void omsaddnewitem(ArrayList<SalesLineEntity> itemsArrayList)
-    {
+    public void omsaddnewitem(ArrayList<SalesLineEntity> itemsArrayList) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
 
-            double qty=0;
-            for(SalesLineEntity entity:itemsArrayList)
-            {
-                qty=qty+entity.getQty();
+            double qty = 0;
+            for (SalesLineEntity entity : itemsArrayList) {
+                qty = qty + entity.getQty();
             }
 
-            String omsurl=getDataManager().getGlobalJson().getOMSUrl();
-            if(omsurl.endsWith("/"))
-            {
+            String omsurl = getDataManager().getGlobalJson().getOMSUrl();
+            if (omsurl.endsWith("/")) {
 
-            }
-            else
-            {
-                omsurl=omsurl+"/";
+            } else {
+                omsurl = omsurl + "/";
             }
 
             ApiInterface api = ApiClient.getApiServiceOTp(omsurl);
-            OmsAddNewItemRequest omsAddNewItemRequest=new OmsAddNewItemRequest();
+            OmsAddNewItemRequest omsAddNewItemRequest = new OmsAddNewItemRequest();
             omsAddNewItemRequest.setFullfillmentOrderID(getMvpView().getCalculatedPosTransactionRes().getREFNO());
             omsAddNewItemRequest.setItemID(itemsArrayList.get(0).getItemId());
             omsAddNewItemRequest.setQty(qty);
@@ -2427,7 +2561,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
-                            getMvpView().onSuccessOmsAddNewItem(response.body(),itemsArrayList);
+                            getMvpView().onSuccessOmsAddNewItem(response.body(), itemsArrayList);
                         else
                             getMvpView().onFailedOmsAddNewItem(response.body());
                     }
@@ -2440,8 +2574,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     handleApiError(t);
                 }
             });
-        }else
-        {
+        } else {
             getMvpView().onError("Internet Connection Not Available");
         }
     }
@@ -2568,6 +2701,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
             } else if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
                 wallet.setMobileNo(smsPaymentDialog.getWalletMobileNumber());
+            } else if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")) {
+                wallet.setMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
             }
             wallet.setOTP(walletServiceRes.getOTP());
             wallet.setOTPTransactionId(walletServiceRes.getOTPTransactionId());
@@ -2587,7 +2722,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
                 wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + smsPaymentDialog.getTransactionId());
                 wallet.setWalletOrderID(getMvpView().getGetSMSPayAPIResponse().getPaytmId());
-            } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
+            } else if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")){
+                wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + hdfcPaymentDialog.getTransactionId());
+                wallet.setWalletOrderID(getMvpView().getHdfcTransactionId());
+            }else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
             } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
@@ -2603,6 +2741,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
             } else if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
                 wallet.setMobileNo(smsPaymentDialog.getWalletMobileNumber());
+            } else if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")) {
+                wallet.setMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
             }
             wallet.setOTP(getMvpView().getOneApolloOtp());
             wallet.setOTPTransactionId("");
@@ -2632,6 +2772,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             }
 
 
+        }
+        if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")) {
+            wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + hdfcPaymentDialog.getTransactionId());
+            wallet.setWalletOrderID(getMvpView().getHdfcTransactionId());
         }
         if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
             wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + smsPaymentDialog.getTransactionId());
@@ -2805,7 +2949,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         getMvpView().hideKeyboard();
         if (!showErrorPharmaDocutor()) {
             if (checkTrackingWiseConfing(paymentType)) {
-             //   System.out.println("payment type--->" + paymentType);
+                //   System.out.println("payment type--->" + paymentType);
                 switch (paymentType) {
                     case 1:
                         getMvpView().onClickCashPaymentBtn();
@@ -2829,8 +2973,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         getMvpView().onClickVendorPayBtn();
                         break;
                     case 8:
-
                         getMvpView().onClickCodPayBtn();
+                        break;
+                    case 9:
+                        getMvpView().onClickHdfcPayBtn();
+                        break;
                 }
             }
         } else {
@@ -3130,7 +3277,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 salesLine.setPhysicalExpiry("");
                 salesLine.setPhysicalMRP(0);
                 salesLine.setPreviewText(salesLineEntityData.get(i).getPreviewText());
-              //  System.out.println("preview text-->" + salesLineEntityData.get(i).getPreviewText());
+                //  System.out.println("preview text-->" + salesLineEntityData.get(i).getPreviewText());
                 salesLine.setPrice((int) salesLineEntityData.get(i).getPrice());
                 salesLine.setProductRecID(salesLineEntityData.get(i).getProductRecID());
                 salesLine.setQty(salesLineEntityData.get(i).getQty());
