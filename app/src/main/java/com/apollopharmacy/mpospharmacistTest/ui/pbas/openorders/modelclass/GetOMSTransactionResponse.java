@@ -418,7 +418,7 @@ public class GetOMSTransactionResponse implements Serializable {
         @Expose
         private Boolean iSReserved;
 
-        private String status = "";
+        private String status;
 
         public String getStatus() {
             return status;

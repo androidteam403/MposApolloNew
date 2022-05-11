@@ -1,7 +1,6 @@
 
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +44,8 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         this.pickupProcessMvpView = pickupProcessMvpView;
         this.mCallback = mCallback;
         this.orderAdapterPos = orderAdapterPos;
-        this.refNo=refno;
-        this.omsHeader=omsHeader;
+        this.refNo = refno;
+        this.omsHeader = omsHeader;
     }
 
     @NonNull
@@ -55,11 +54,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         AdapterSelectedPickupProcessProductsPBinding pickupSummaryDetailsProductsBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.adapter_selected_pickup_process_products_p, parent, false);
         return new NewSelectedOrderAdapter.ViewHolder(pickupSummaryDetailsProductsBinding);
     }
+
     int adapterPosition;
+
     @Override
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
-        this.position=salesLineList.get(position);
+        this.position = salesLineList.get(position);
 
         holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLine.getItemName());
         holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
@@ -68,20 +69,20 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
-        this.reqqty=salesLine.getQty();
+        this.reqqty = salesLine.getQty();
 
 
-        if(salesLine.getStatus().equalsIgnoreCase("PARTIAL")){
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
 
-        }else if( salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
 
-        }else if(salesLine.getStatus().equalsIgnoreCase("FULL")) {
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
@@ -89,15 +90,14 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         }
 
 
-
-            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (pickupProcessMvpView != null) {
-                        pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
-                    }
+        holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pickupProcessMvpView != null) {
+                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
                 }
-            });
+            }
+        });
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
@@ -146,7 +146,6 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
 
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -163,7 +162,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     @Override
     public void onClickBatchDetails() {
         if (pickupProcessMvpView != null)
-            pickupProcessMvpView.onClickBatchDetails(orderAdapterPos, position,adapterPosition );
+            pickupProcessMvpView.onClickBatchDetails(orderAdapterPos, position, adapterPosition);
 //        startActivity(BatchListActivity.getStartIntent(context));
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 

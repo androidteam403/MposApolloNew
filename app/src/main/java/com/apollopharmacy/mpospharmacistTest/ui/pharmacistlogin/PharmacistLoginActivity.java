@@ -229,23 +229,23 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void userLoginSuccess() {
-//        BottomSheetDialog decideVersionFlowDialog = new BottomSheetDialog(this);
-//        DialogDecideVersionFlowBinding dialogDecideVersionFlowBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_decide_version_flow, null, false);
-//        decideVersionFlowDialog.setContentView(dialogDecideVersionFlowBinding.getRoot());
-//        decideVersionFlowDialog.setCancelable(false);
-//        dialogDecideVersionFlowBinding.mposOneUserFlow.setOnClickListener(v -> {
+        BottomSheetDialog decideVersionFlowDialog = new BottomSheetDialog(this);
+        DialogDecideVersionFlowBinding dialogDecideVersionFlowBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_decide_version_flow, null, false);
+        decideVersionFlowDialog.setContentView(dialogDecideVersionFlowBinding.getRoot());
+        decideVersionFlowDialog.setCancelable(false);
+        dialogDecideVersionFlowBinding.mposOneUserFlow.setOnClickListener(v -> {
             startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//            decideVersionFlowDialog.dismiss();
+            decideVersionFlowDialog.dismiss();
             finish();
-//        });
-//        dialogDecideVersionFlowBinding.mposMultipleUserFlow.setOnClickListener(v -> {
-//            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//            decideVersionFlowDialog.dismiss();
-//            finish();
-//        });
-//        decideVersionFlowDialog.show();
+        });
+        dialogDecideVersionFlowBinding.mposMultipleUserFlow.setOnClickListener(v -> {
+            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            decideVersionFlowDialog.dismiss();
+            finish();
+        });
+        decideVersionFlowDialog.show();
     }
 
     @Override
