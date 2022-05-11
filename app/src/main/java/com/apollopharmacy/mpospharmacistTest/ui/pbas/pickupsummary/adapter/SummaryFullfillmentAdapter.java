@@ -62,15 +62,18 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.orderBinding.statusText.setText("NOT AVAILABLE");
+            holder.orderBinding.statuss.setText("Not Available");
 
         }else if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.orderBinding.statusText.setText("FULL");
             holder.orderBinding.statusIcon.setRotation(0);
+            holder.orderBinding.statuss.setText("Full");
 
         }  if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.orderBinding.statusText.setText("PARTIAL");
+            holder.orderBinding.statuss.setText("Partial");
 
         }
 

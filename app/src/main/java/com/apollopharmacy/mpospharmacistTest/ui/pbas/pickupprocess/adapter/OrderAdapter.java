@@ -161,7 +161,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null)
-                pickupProcessMvpView.onClickOrderItem(position);
+                pickupProcessMvpView.onClickOrderItem(position, omsHeader);
         });
 
 

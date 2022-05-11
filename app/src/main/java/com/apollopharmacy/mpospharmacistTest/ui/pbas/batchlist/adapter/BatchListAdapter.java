@@ -41,6 +41,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     private BatchListMvpView batchListMvpView;
     boolean batchSelected=false;
     double reqqty;
+    double Reservedqty;
     boolean alertcheck = true;
 
     public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView) {
@@ -80,46 +81,8 @@ String requiredQty;
             } else {
                 holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(reqqty));
             }
-        holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
-                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
-                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
-                batchSelected=true;
-                batchListModel.setSelected(true);
-                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
-                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
-                batchListMvpView.onCheckBoxClick(batchListModel, position);
-            }
-        });
-
-        holder.adapterBatchlistBinding.iconPointsAllow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
-                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
-                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
-                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
-                batchListModel.setSelected(false);
-                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
-                batchListMvpView.onUncheckBoxClick(batchListModel, position);
 
 
-            }
-        });
-
-        if (batchListModelListl.get(position).isSelected()) {
-            holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
-            holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
-            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
-//            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
-        } else {
-            holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
-            holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
-            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
-//            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
-        }
 
        holder.adapterBatchlistBinding.requiredQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,6 +116,7 @@ String requiredQty;
 
             @Override
             public void afterTextChanged(Editable editable) {
+
                  if (!TextUtils.isEmpty(editable)) {
                     if (batchListMvpView != null) {
                         if (Double.parseDouble(editable.toString()) > Double.parseDouble(batchListModel.getQ_O_H())) {
@@ -163,8 +127,10 @@ String requiredQty;
                             dialogView.setPositiveListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                   Reservedqty = 0;
                                     batchListModel.setREQQTY(Double.parseDouble(editable.toString()));
                                     batchListModelListl.get(position).setREQQTY(Double.parseDouble(editable.toString()));
+                                    Reservedqty = Reservedqty + batchListModel.getREQQTY();
                                     dialogView.dismiss();
 //                                     notifyDataSetChanged();
                                 }
@@ -194,6 +160,50 @@ String requiredQty;
                 }
             }
         });
+
+                holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
+                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
+                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
+                batchSelected=true;
+                batchListModel.setSelected(true);
+                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                batchListMvpView.onCheckBoxClick(batchListModel, position, Reservedqty);
+            }
+        });
+
+        holder.adapterBatchlistBinding.iconPointsAllow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
+                holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
+                holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
+                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                batchListModel.setSelected(false);
+                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                batchListMvpView.onUncheckBoxClick(batchListModel, position);
+
+
+
+            }
+        });
+
+
+        if (batchListModelListl.get(position).isSelected()) {
+            holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
+            holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
+            holder.adapterBatchlistBinding.requiredQuantity.setText((String.valueOf(batchListModelListl.get(position).getREQQTY())));
+            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
+//            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
+        } else {
+            holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
+            holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
+            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
+//            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
+        }
 
         holder.adapterBatchlistBinding.requiredQuantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

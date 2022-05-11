@@ -165,15 +165,17 @@
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="9:45 AM"
-                                        android:layout_marginStart="@dimen/dimen5dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/starttime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="9:45 AM"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
 
                             </LinearLayout>
 

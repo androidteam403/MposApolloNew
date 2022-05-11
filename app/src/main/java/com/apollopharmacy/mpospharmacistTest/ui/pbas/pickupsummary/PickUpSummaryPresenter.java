@@ -4,7 +4,6 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
@@ -48,10 +47,10 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
     }
 
     @Override
-    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderUpdateRequest) {
+    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            omsOrderUpdateRequest.setTerminalID(getDataManager().getTerminalId());
+            omsOrderForwardRequest.setTerminalID(getDataManager().getTerminalId());
 
             //ApiInterface api = ApiClient.getApiService(Constant.UPDATEOMSORDER);
             // text.replace("/"","");
@@ -71,7 +70,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderUpdateRequest);
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {

@@ -19,7 +19,7 @@ public interface PickUpSummaryMvpPresenter<V extends PickUpSummaryMvpView> exten
 
     List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList();
 
-    void UpdateOmsOrder(OMSOrderForwardRequest request);
+    void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
 
     void onClickScanCode();
 

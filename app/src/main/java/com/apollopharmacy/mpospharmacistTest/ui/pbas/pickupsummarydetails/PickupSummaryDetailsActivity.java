@@ -26,12 +26,16 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     PickUpSummaryDetailsMvpPresenter<PickUpSummaryDetailsMvpView> mPresenter;
     private ActivityPickupSummaryDetailsPBinding pickupSummaryDetailsBinding;
     private TransactionHeaderResponse.OMSHeader selectedOmsHeader;
+    String time, stopWatch;
 
 
-    public static Intent getStartIntent(Context context, TransactionHeaderResponse.OMSHeader selectedOmsHeader) {
+    public static Intent getStartActivity(Context context, TransactionHeaderResponse.OMSHeader selectedOmsHeader, String time, String stopWatch) {
         Intent intent = new Intent(context, PickupSummaryDetailsActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDER, (Serializable) selectedOmsHeader);
+        intent.putExtra("time", time);
+        intent.putExtra("stopWatch", stopWatch);
         return intent;
+
     }
 
     @Override
@@ -47,6 +51,11 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     protected void setUp() {
         pickupSummaryDetailsBinding.setCallback(mPresenter);
         if (getIntent() != null) {
+            Intent i=getIntent();
+            time = (String) i.getStringExtra("time");
+            stopWatch = (String) i.getStringExtra("stopWatch");
+            pickupSummaryDetailsBinding.starttime.setText(time);
+            pickupSummaryDetailsBinding.duration.setText(stopWatch);
             selectedOmsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDER);
             pickupSummaryDetailsBinding.customerType.setText(selectedOmsHeader.getCustomerType());
             pickupSummaryDetailsBinding.orderSource.setText(selectedOmsHeader.getOrderSource());

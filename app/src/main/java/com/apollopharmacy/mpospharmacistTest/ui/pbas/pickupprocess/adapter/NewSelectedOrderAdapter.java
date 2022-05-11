@@ -90,6 +90,15 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
 
 
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pickupProcessMvpView != null) {
+                        pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+                    }
+                }
+            });
+
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
                 pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
@@ -135,6 +144,8 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 //            });
 //            statusUpdateDialog.show();
         });
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 

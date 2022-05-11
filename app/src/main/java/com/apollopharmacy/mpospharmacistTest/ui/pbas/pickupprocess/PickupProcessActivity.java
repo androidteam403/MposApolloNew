@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
@@ -89,9 +90,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 
     int getOrderPos;
+    String itemStatus;
 
     @Override
-    public void onClickOrderItem(int pos) {
+    public void onClickOrderItem(int pos, TransactionHeaderResponse.OMSHeader itemStatus) {
         this.getOrderPos = pos;
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             if (selectedOmsHeaderList.get(pos).getExpandStatus() == 1) {
@@ -105,6 +107,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 orderAdapter.notifyDataSetChanged();
         }
     }
+
 
     int getPos;
     String status;
@@ -125,6 +128,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
+            orderAdapter.notifyDataSetChanged();
             boolean isNotAvailable = true;
             boolean isFull = true;
             boolean isNull = false;
@@ -141,6 +145,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     isNull = true;
                 }
             }
+
             if (!isNull) {
                 if (isNotAvailable) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
@@ -156,13 +161,31 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 orderAdapter.notifyItemChanged(orderAdapterPos);
             }
         }
-    }
+            boolean isAllStatusUpdated = true;
+
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for(int j =0 ; j<selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size();j++){
+                    if (selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus() == null || selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus().isEmpty()) {
+                        isAllStatusUpdated = false;
+                }
+                }
+            }
+            if (isAllStatusUpdated) {
+                pickupProcessBinding.continueOrder.setVisibility(View.GONE);
+                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+
 
 
     private Dialog statusUpdateDialog;
     int orderAdapterPos, position;
     GetOMSTransactionResponse.SalesLine salesLinee;
     TransactionHeaderResponse.OMSHeader omsHeaderObj;
+    ArrayList<GetBatchInfoRes.BatchListObj>  batchListObjsList;
+
 
     @Override
     public void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
@@ -216,20 +239,38 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     onClickBatchDetails(orderAdapterPos, null, position);
                 }
             });
+
+            dialogUpdateStatusBinding.batchnavigation1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickBatchDetails(orderAdapterPos, null, position);
+                }
+            });
             String finalStatus = status;
+            String finalStatus1 = status;
             dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
                 if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
                     statusUpdateDialog.dismiss();
                 } else {
                     int requiredQty = salesLine.getQty();
+                    batchListObjsList = new ArrayList<>();
                     for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
                         if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= requiredQty) {
+
+                            batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setStatus(finalStatus1);
+                            GetBatchInfoRes o =new GetBatchInfoRes();
+                            o.setBatchList(batchListObjsList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setGetBatchInfoRes(o);
                             mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
                             break;
                         } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
+                            batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
                             mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, "");
                             requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
+
                         }
+
                     }
                 }
                 statusUpdateDialog.dismiss();
@@ -239,11 +280,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
-    public void checkBatchInventorySuccess(String status) {
-        if (status != null && !status.isEmpty())
-            onClickItemStatusUpdate(orderAdapterPos, position, status);
+    public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
+        if (body != null && !status.isEmpty())
+        onClickItemStatusUpdate(orderAdapterPos, position, status);
+
+
     }
 
     @Override
@@ -271,18 +313,25 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
-            pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-            pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+            pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
+            pickupProcessBinding.continueOrders.setVisibility(View.GONE);
 
             orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
             pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
             pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 
+            pickupProcessBinding.continueOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "Please select all the orders", Toast.LENGTH_LONG).show();
+                }
+            });
+
         }
 //        mPresenter.onRackApiCall();
 //        rackOrderCheckedListener();
-        Glide.with(this).load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9").circleCrop().into(pickupProcessBinding.pickerImg);
+//        Glide.with(this).load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9").circleCrop().into(pickupProcessBinding.pickerImg);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm a");
         String strDate = mdformat.format(calendar.getTime());
@@ -499,46 +548,66 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
                 statusBatchlist = (String) data.getStringExtra("finalStatus");
 
-                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                    for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
-                        salesLinee.setStatus(statusBatchlist);
-                        orderAdapter.notifyDataSetChanged();
-                        if (salesLinee.getStatus() != null) {
-                            if (!salesLinee.getStatus().equals("NOT AVAILABLE")) {
-                                isNotAvailable = false;
-                            }
-                            if (!salesLinee.getStatus().equals("FULL")) {
-                                isFull = false;
-                            }
-                        } else {
-                            isNull = true;
-                        }
-                    }
-                }
-                if (!isNull) {
-                    if (isNotAvailable) {
-                        omsHeaderObj.setItemStatus("NOT AVAILABLE");
-                        selectedOmsHeaderList.get(orderAdapterPos).getItemStatus();
-                        orderAdapter.notifyItemChanged(orderAdapterPos);
+                onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist);
 
-                    } else if (isFull) {
-                        omsHeaderObj.setItemStatus("FULL");
-                        selectedOmsHeaderList.get(orderAdapterPos).getItemStatus();
-                        orderAdapter.notifyItemChanged(orderAdapterPos);
 
-                    } else if (!isNotAvailable && !isFull) {
-                        omsHeaderObj.setItemStatus("PARTIAL");
-                        orderAdapter.notifyItemChanged(orderAdapterPos);
+//                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+//                    for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+//                        salesLinee.setStatus(statusBatchlist);
+//                        orderAdapter.notifyDataSetChanged();
+//                        if (salesLinee.getStatus() != null) {
+//                            if (!salesLinee.getStatus().equals("NOT AVAILABLE")) {
+//                                isNotAvailable = false;
+//                            }
+//                            if (!salesLinee.getStatus().equals("FULL")) {
+//                                isFull = false;
+//                            }
+//                        } else {
+//                            isNull = true;
+//                        }
+//                    }
+//
+//                if (!isNull) {
+//                    if (isNotAvailable) {
+//                        omsHeaderObj.setItemStatus("NOT AVAILABLE");
+//                        orderAdapter.notifyItemChanged(orderAdapterPos);
+//
+//                    } else if (isFull) {
+//                        omsHeaderObj.setItemStatus("FULL");
+//                        orderAdapter.notifyItemChanged(orderAdapterPos);
+//
+//                    } else if (!isNotAvailable && !isFull) {
+//                        omsHeaderObj.setItemStatus("PARTIAL");
+//                        orderAdapter.notifyItemChanged(orderAdapterPos);
+//
+//                    }
+//                }
+//                }
+//                else {
+//                    orderAdapter.notifyItemChanged(orderAdapterPos);
+//                }
+//            }
+//            boolean isAllStatusUpdated = true;
+//
+//            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                for(int j =0 ; j<selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size();j++){
+//                    if (selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus() == null || selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus().isEmpty()) {
+//                        isAllStatusUpdated = false;
+//                    }
+//                }
+//            }
+//            if (isAllStatusUpdated) {
+//                pickupProcessBinding.continueOrder.setVisibility(View.GONE);
+//                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+//
 
-                    }
-                } else {
-                    orderAdapter.notifyItemChanged(orderAdapterPos);
-                }
+//            }
+            }
+        }
+
             }
 
 
-        }
-    }
 
 
     @Override

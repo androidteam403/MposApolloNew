@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistPBindi
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.CheckReservedQtyDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -41,7 +42,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
-    int i = 0;
+
 
 //    public static Intent getStartIntent(Context mContext, String itemId, String itemName1, double reqqty) {
 //       Intent i = new Intent(mContext, BatchListActivity.class);
@@ -153,9 +154,11 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     int position;
     double requiredQty;
     GetBatchInfoRes.BatchListObj item;
+    double reservedqty;
 
     @Override
-    public void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position) {
+    public void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position, double reservedqty) {
+        this.reservedqty=reservedqty;
         this.item = item;
         this.position = position;
         batchListObjsList.add(item);
@@ -168,19 +171,23 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchListObjsList.remove(batchListModel);
     }
 
+
+
     double requireddetailsqty = 0.0;
     double totalBatchDetailsQuantity = 0.0;
     String statusBatchlist;
+    boolean isLastPos;
+    int k;
 
     @Override
     public void onAddItemsClicked() {
-        for (int i = 0; i < batchListObjsList.size(); i++) {
+        for ( int i = 0; i < batchListObjsList.size(); i++) {
             totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(batchListObjsList.get(i).getQ_O_H());
             double batchdetailsQty = batchListObjsList.get(i).getREQQTY();
             requireddetailsqty = requireddetailsqty + batchdetailsQty;
 
             String status = "";
-            if (totalBatchDetailsQuantity >= requireddetailsqty) {
+            if (totalBatchDetailsQuantity >= salesLine.getQty()) {
                 status = "FULL";
             } else if (totalBatchDetailsQuantity > 0.0) {
                 status = "PARTIAL";
@@ -189,12 +196,67 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
             }
             statusBatchlist = status;
-            boolean isLastPos = false;
+           isLastPos = false;
             if (batchListObjsList.size()-1 == i){
                 isLastPos = true;
+                k=i;
             }
-            mPresenter.checkBatchInventory(batchListObjsList.get(i), isLastPos);
         }
+
+
+
+            if(requireddetailsqty > salesLine.getQty()){
+                    CheckReservedQtyDialog dialogView = new CheckReservedQtyDialog(this);
+                    dialogView.setTitle("You have entered more than Request Qty");
+                    dialogView.setPositiveLabel("Ok");
+                    dialogView.setPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            mPresenter.checkBatchInventory(batchListObjsList.get(k), isLastPos);
+                            dialogView.dismiss();
+                        }
+
+
+                    });
+                    dialogView.setNegativeLabel("Cancel");
+                    dialogView.setNegativeListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogView.dismiss();
+                        }
+                    });
+                    dialogView.show();
+
+                }
+            else if(requireddetailsqty < salesLine.getQty()){
+                CheckReservedQtyDialog dialogView = new CheckReservedQtyDialog(this);
+                dialogView.setTitle("You have entered less than Request Qty");
+                dialogView.setPositiveLabel("Ok");
+                dialogView.setPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.checkBatchInventory(batchListObjsList.get(k), isLastPos);
+                        dialogView.dismiss();
+
+                    }
+
+                });
+                dialogView.setNegativeLabel("Cancel");
+                dialogView.setNegativeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogView.dismiss();
+                    }
+                });
+                dialogView.show();
+
+            }
+            else if(requireddetailsqty==salesLine.getQty()){
+                mPresenter.checkBatchInventory(batchListObjsList.get(k), isLastPos);
+
+    }
+
 
 
     }
