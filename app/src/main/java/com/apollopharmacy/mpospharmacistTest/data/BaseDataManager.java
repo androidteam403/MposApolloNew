@@ -13,6 +13,7 @@ import com.apollopharmacy.mpospharmacistTest.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacistTest.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
@@ -337,5 +338,15 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<List<RackAdapter.RackBoxModel.ProductData>> getfullFillListOfListFiltered() {
         return mPreferencesHelper.getfullFillListOfListFiltered();
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPreferencesHelper.setTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        return mPreferencesHelper.getTotalOmsHeaderList();
     }
 }
