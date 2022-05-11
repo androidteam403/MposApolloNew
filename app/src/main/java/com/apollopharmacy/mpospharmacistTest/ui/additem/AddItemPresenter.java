@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
@@ -136,6 +137,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void getGlobalConfig() {
+        getMvpView().getGlobalConfig(getDataManager().getGlobalJson());
     }
 
     @Override
@@ -1844,6 +1850,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     //HDFC payment dialog
     HdfcPaymentDialog hdfcPaymentDialog;
+    private boolean isHdfcLinkGenerated = false;
 
     @Override
     public void showHdfcPaymentDialog() {
@@ -1851,13 +1858,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
         hdfcPaymentDialog.setCalculatedPosTransaction(getMvpView().getCalculatedPosTransactionRes());
         hdfcPaymentDialog.setPaymentMethod(getMvpView().getPaymentMethod());
-
-        hdfcPaymentDialog.setCloseListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hdfcPaymentDialog.dismiss();
-            }
-        });
+        hdfcPaymentDialog.setDialogGenerateLinkBtnEnable();
+        hdfcPaymentDialog.setWalletAmountEnable();
+        hdfcPaymentDialog.setDialogCloseEnable();
+        hdfcPaymentDialog.setCloseListener(v -> hdfcPaymentDialog.dismiss());
 
         hdfcPaymentDialog.setGenerateLinkListener(v -> {
             if (hdfcPaymentDialog.isValidateAmount()) {
@@ -1884,6 +1888,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 //Dismiss Dialog
                                 getMvpView().hideLoading();
                                 if (response.isSuccessful() && response.body() != null) {
+                                    if (response.body().getErrorCode().equals("0")) {
+                                        isHdfcLinkGenerated = true;
+                                        hdfcPaymentDialog.setDialogGenerateLinkBtnDisable();
+                                        hdfcPaymentDialog.setWalletAmountdisable();
+                                        hdfcPaymentDialog.setDialogClosedisable();
+                                    }
                                     getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
                                 }
                             }
@@ -1906,49 +1916,53 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         hdfcPaymentDialog.setValidateLinkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hdfcPaymentDialog.isValidateAmount()) {
-                    if (getMvpView().isNetworkConnected()) {
-                        getMvpView().showLoading();
-                        HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
-                        hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
-                        hdfcLinkGenerateRequest.setRequestType("CHECKPAYMENTSTATUS");
-                        hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
-                        hdfcLinkGenerateRequest.setCustEmailID("");
-                        hdfcLinkGenerateRequest.setCustMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
-                        hdfcLinkGenerateRequest.setPayAmount(Double.valueOf(hdfcPaymentDialog.getWalletAmount()));
-                        hdfcLinkGenerateRequest.setSiteID(getDataManager().getStoreId());
-                        hdfcLinkGenerateRequest.setTerminalID(getDataManager().getTerminalId());
-                        hdfcLinkGenerateRequest.setDocumentNo(getDataManager().getStoreId() + hdfcPaymentDialog.getTransactionId());
-                        hdfcLinkGenerateRequest.setOrderID(hdfcPaymentDialog.getTransactionId());
-                        hdfcLinkGenerateRequest.setTransactionMerchantID(getMvpView().getHdfcTransactionId());
-                        ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-                        Call<HdfcLinkGenerateResponse> call = api.HDFC_LINK_GENERATE_RESPONSE_API_CALL(hdfcLinkGenerateRequest);
-                        call.enqueue(new Callback<HdfcLinkGenerateResponse>() {
-                            @Override
-                            public void onResponse(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Response<HdfcLinkGenerateResponse> response) {
-                                if (response.isSuccessful()) {
-                                    //Dismiss Dialog
-                                    getMvpView().hideLoading();
-                                    if (response.isSuccessful() && response.body() != null) {
-                                        getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
-                                        if (response.body().getErrorCode().equals("0")) {
-                                            hdfcPaymentDialog.dismiss();
-                                            generateTenterLineService(Double.parseDouble(hdfcPaymentDialog.getWalletAmount()), null);
+                if (isHdfcLinkGenerated) {
+                    if (hdfcPaymentDialog.isValidateAmount()) {
+                        if (getMvpView().isNetworkConnected()) {
+                            getMvpView().showLoading();
+                            HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
+                            hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
+                            hdfcLinkGenerateRequest.setRequestType("CHECKPAYMENTSTATUS");
+                            hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
+                            hdfcLinkGenerateRequest.setCustEmailID("");
+                            hdfcLinkGenerateRequest.setCustMobileNo(hdfcPaymentDialog.getWalletMobileNumber());
+                            hdfcLinkGenerateRequest.setPayAmount(Double.valueOf(hdfcPaymentDialog.getWalletAmount()));
+                            hdfcLinkGenerateRequest.setSiteID(getDataManager().getStoreId());
+                            hdfcLinkGenerateRequest.setTerminalID(getDataManager().getTerminalId());
+                            hdfcLinkGenerateRequest.setDocumentNo(getDataManager().getStoreId() + hdfcPaymentDialog.getTransactionId());
+                            hdfcLinkGenerateRequest.setOrderID(hdfcPaymentDialog.getTransactionId());
+                            hdfcLinkGenerateRequest.setTransactionMerchantID(getMvpView().getHdfcTransactionId());
+                            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+                            Call<HdfcLinkGenerateResponse> call = api.HDFC_LINK_GENERATE_RESPONSE_API_CALL(hdfcLinkGenerateRequest);
+                            call.enqueue(new Callback<HdfcLinkGenerateResponse>() {
+                                @Override
+                                public void onResponse(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Response<HdfcLinkGenerateResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        //Dismiss Dialog
+                                        getMvpView().hideLoading();
+                                        if (response.isSuccessful() && response.body() != null) {
+                                            getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
+                                            if (response.body().getErrorCode().equals("0")) {
+                                                hdfcPaymentDialog.dismiss();
+                                                generateTenterLineService(Double.parseDouble(hdfcPaymentDialog.getWalletAmount()), null);
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Throwable t) {
-                                //Dismiss Dialog
-                                getMvpView().hideLoading();
-                                handleApiError(t);
-                            }
-                        });
-                    } else {
-                        getMvpView().onError("Internet Connection Not Available");
+                                @Override
+                                public void onFailure(@NotNull Call<HdfcLinkGenerateResponse> call, @NotNull Throwable t) {
+                                    //Dismiss Dialog
+                                    getMvpView().hideLoading();
+                                    handleApiError(t);
+                                }
+                            });
+                        } else {
+                            getMvpView().onError("Internet Connection Not Available");
+                        }
                     }
+                } else {
+                    Toast.makeText(getMvpView().getContext(), "Generate hdfc link before validate", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -2196,8 +2210,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("SMS PAY")) {
                     tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
                     tenderLineEntitieList.add(tenderLineEntity);
-                } else {
-
+                } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("HDFC PAYMENT")) {
+                    tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
+                    tenderLineEntitieList.add(tenderLineEntity);
                 }
 
             }
@@ -2377,7 +2392,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
 
                     }
-                } else if (getMvpView().getPaymentMethod().isCodPayMode()) {
+                } else if (getMvpView().getPaymentMethod().isHdfcPayMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("HDFC PAYMENT")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
                         typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
@@ -2722,10 +2737,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
                 wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + smsPaymentDialog.getTransactionId());
                 wallet.setWalletOrderID(getMvpView().getGetSMSPayAPIResponse().getPaytmId());
-            } else if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")){
+            } else if (typeEntity().getTender().equalsIgnoreCase("HDFC PAYMENT")) {
                 wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + hdfcPaymentDialog.getTransactionId());
                 wallet.setWalletOrderID(getMvpView().getHdfcTransactionId());
-            }else if (typeEntity().getTender().equalsIgnoreCase("card")) {
+            } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
             } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {

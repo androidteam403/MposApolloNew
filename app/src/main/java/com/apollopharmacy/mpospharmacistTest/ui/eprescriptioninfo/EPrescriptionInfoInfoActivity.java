@@ -2042,8 +2042,10 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
 
                     pickPackReservations = customerDataResBean.getPickPackReservation();
                     if (entity.getModifyBatchId().length() > 0) {
+                        if (salesLineEntitylist.getItemId().equalsIgnoreCase(entity.getItemId())) {
 
-                        pickupqty = pickupqty + entity.getQty();
+                            pickupqty = pickupqty + entity.getQty();
+                        }
                         double total = entity.getPrice() * entity.getQty();
 //                        totalamount = totalamount + total;
                         totalamountAddItem = totalamountAddItem + total;

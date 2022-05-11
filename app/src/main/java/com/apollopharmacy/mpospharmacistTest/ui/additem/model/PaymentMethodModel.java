@@ -37,7 +37,7 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
     private boolean isPaymentInitiate = false;
     private boolean isEnableCashBtn = false;
     private boolean isEnableCardBtn = false;
-    private boolean isEnableHdfcPayBtn = true;
+    private boolean isEnableHdfcPayBtn = false;
 
 
     private boolean isEnableSmsPayBtn = false;

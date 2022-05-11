@@ -758,9 +758,8 @@
                                     android:nestedScrollingEnabled="false">
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
                                         android:orientation="horizontal">
 
                                         <LinearLayout
@@ -827,7 +826,7 @@
                                             android:background="@{paymentMode.isHdfcPayMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickHdfcPay()}"
                                             android:orientation="vertical"
-                                            android:visibility="gone">
+                                            android:visibility="@{paymentMode.enableHdfcPayBtn ? View.VISIBLE : View.GONE}">
 
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
@@ -842,7 +841,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="@dimen/three_dp"
                                                 android:fontFamily="@font/roboto_regular"
-                                                android:text="Hdfc Pay"
+                                                android:text="Sms Pay"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
@@ -857,8 +856,8 @@
                                             android:background="@{paymentMode.isSmsPayMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickSmsPAyMode()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{paymentMode.enableSmsPayBtn ? View.VISIBLE : View.GONE}">
-
+                                            android:visibility="gone">
+                                            <!--                                            android:visibility="@{paymentMode.enableSmsPayBtn ? View.VISIBLE : View.GONE}"-->
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
                                                 android:layout_height="@dimen/thirty_dp"

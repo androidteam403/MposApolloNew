@@ -409,6 +409,10 @@ public class GetGlobalConfingRes {
         return ISEzetapActive;
     }
 
+    public void setISHBPStore(boolean ISHBPStore) {
+        this.ISHBPStore = ISHBPStore;
+    }
+
     public boolean isISHBPStore() {
         return ISHBPStore;
     }

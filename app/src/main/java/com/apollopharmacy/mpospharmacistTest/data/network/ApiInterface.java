@@ -305,11 +305,11 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/ValidateOMSOrder")
     Call<GenerateTenderLineRes> VALIDATE_OMS_ORDER(@Body GenerateTenderLineReq tenderLineReq);
 
-//    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
-//    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
-
-    @POST("OMSService.svc/MPOSOrderUpdate")
+    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
     Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
+
+//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
     /*@POST("SalesTransactionService.svc/GetOMSSubstitute")
     Call<ArrayList<CustomerDataResBean>> GET_OMS_Substute(@Body CustomerDataReqBean customerDataReqBean);

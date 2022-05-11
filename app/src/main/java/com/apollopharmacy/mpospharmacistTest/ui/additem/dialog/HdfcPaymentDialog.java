@@ -10,21 +10,22 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogHdfcpayPaymentBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogSmspayPaymentBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacistTest.utils.DecimalDigitsInputFilter;
 
-public class HdfcPaymentDialog
-{
+public class HdfcPaymentDialog {
     private Dialog dialog;
     private Context context;
     private DialogHdfcpayPaymentBinding hdfcpayPaymentBinding;
+    private CalculatePosTransactionRes posTransaction;
+    private PaymentMethodModel paymentMethod;
 
     public HdfcPaymentDialog(Context context) {
 
@@ -36,7 +37,7 @@ public class HdfcPaymentDialog
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setUp();
-      //  setDialogDismiss();
+        //  setDialogDismiss();
 
     }
 
@@ -79,6 +80,7 @@ public class HdfcPaymentDialog
 
     public void setCalculatedPosTransaction(CalculatePosTransactionRes posTransaction) {
         hdfcpayPaymentBinding.setOrder(posTransaction);
+        this.posTransaction = posTransaction;
         hdfcpayPaymentBinding.walletMobileNumber.setSelection(hdfcpayPaymentBinding.walletMobileNumber.getText().length());
         hdfcpayPaymentBinding.walletAmountEdit.setSelection(hdfcpayPaymentBinding.walletAmountEdit.getText().length());
     }
@@ -97,15 +99,18 @@ public class HdfcPaymentDialog
     }
 
     public void setPaymentMethod(PaymentMethodModel paymentMethod) {
+        this.paymentMethod = paymentMethod;
         hdfcpayPaymentBinding.setPayment(paymentMethod);
     }
 
     public void setCloseListener(View.OnClickListener okListener) {
         hdfcpayPaymentBinding.dialogCloseBtn.setOnClickListener(okListener);
     }
+
     public void setGenerateLinkListener(View.OnClickListener otpListener) {
         hdfcpayPaymentBinding.dialogGenerateBtn.setOnClickListener(otpListener);
     }
+
     public void setValidateLinkListener(View.OnClickListener otpListener) {
         hdfcpayPaymentBinding.dialogValidateBtn.setOnClickListener(otpListener);
     }
@@ -114,6 +119,29 @@ public class HdfcPaymentDialog
         hdfcpayPaymentBinding.dialogCancelBtn.setOnClickListener(otpListener);
     }
 
+    public void setDialogGenerateLinkBtnEnable() {
+        hdfcpayPaymentBinding.dialogGenerateBtn.setEnabled(true);
+    }
+
+    public void setDialogGenerateLinkBtnDisable() {
+        hdfcpayPaymentBinding.dialogGenerateBtn.setEnabled(false);
+    }
+
+    public void setWalletAmountEnable() {
+        hdfcpayPaymentBinding.walletAmountEdit.setEnabled(true);
+    }
+
+    public void setWalletAmountdisable() {
+        hdfcpayPaymentBinding.walletAmountEdit.setEnabled(false);
+    }
+
+    public void setDialogCloseEnable() {
+        hdfcpayPaymentBinding.dialogCloseBtn.setEnabled(true);
+    }
+
+    public void setDialogClosedisable() {
+        hdfcpayPaymentBinding.dialogCloseBtn.setEnabled(false);
+    }
 
     public boolean isValidateAmount() {
         if (TextUtils.isEmpty(hdfcpayPaymentBinding.walletMobileNumber.getText().toString())) {
@@ -126,9 +154,13 @@ public class HdfcPaymentDialog
         if (TextUtils.isEmpty(hdfcpayPaymentBinding.walletAmountEdit.getText().toString())) {
             hdfcpayPaymentBinding.walletAmountEdit.setError("Enter Amount");
             return false;
+        } else if (Double.parseDouble(hdfcpayPaymentBinding.walletAmountEdit.getText().toString()) > this.paymentMethod.getBalanceAmount()) {
+            Toast.makeText(context, "Amount should not be greater than "+ this.paymentMethod.getBalanceAmount(), Toast.LENGTH_SHORT).show();
+//            hdfcpayPaymentBinding.walletAmountEdit.setError("Amount should not be greater than "+ this.paymentMethod.getBalanceAmount());
+            return false;
         }
-
         return true;
+
     }
 
     public void dismiss() {
@@ -138,4 +170,5 @@ public class HdfcPaymentDialog
     public void show() {
         dialog.show();
     }
+
 }

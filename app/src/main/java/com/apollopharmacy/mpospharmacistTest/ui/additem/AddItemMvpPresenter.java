@@ -134,4 +134,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
 
     void getUnpostedTransaction();
+
+    void getGlobalConfig();
 }
