@@ -51,6 +51,10 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
             holder.adapterReadyForPickupBinding.scannedCode.setText(lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
+        }else
+        {
+            holder.adapterReadyForPickupBinding.scannedCode.setText("");
+
         }
 
 //  holder.adapterReadyForPickupBinding.filmentIdNum.setText(lastFourDigits(String.valueOf(omsHeader.getFulfilId())));
@@ -68,7 +72,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
         }
         holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
-            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno());
+            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
         });
 
         holder.adapterReadyForPickupBinding.tagBox.setOnClickListener(v -> {

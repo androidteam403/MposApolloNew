@@ -40,23 +40,15 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
 
-
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
         fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
 
-        Intent intent = getIntent();
-        int position=intent.getExtras().getInt("position");
-        boolean isReadyforPickup = intent.getExtras().getBoolean("isReadyforPickup");
-//        Intent intent = getIntent();
-//        int position=intent.getExtras().getInt("position");
+        if (!BillerOrdersActivity.isBillerActivity) {
+            if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && ReadyForPickUpActivity.selectedOmsHeaderListTest.size() > 0) {
+                fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
 
-
-
-//        if (!BillerOrdersActivity.isBillerActivity) {
-//            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
-//        } else {
-//            barcodeCount.setVisibility(View.GONE);
-//        }
+            }
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
@@ -67,14 +59,6 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         //set torch listener
         barcodeScannerView.setTorchListener(this);
-
-
-            if(isReadyforPickup){
-                textView= findViewById(R.id.fullfillmentIdscanner);
-                textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
-            }
-
-
 
 
         //switch flashlight button

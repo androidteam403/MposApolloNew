@@ -10,15 +10,6 @@
         android:orientation="vertical"
         android:padding="@dimen/dimen10dp">
 
-        <TextView
-            android:id="@+id/batchnavigation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/five_dp"
-            android:background="@drawable/btn_continue_ripple_login"
-            android:padding="@dimen/ten_dp"
-            android:text="batch"
-            android:textColor="@color/white" />
 
         <RelativeLayout
             android:layout_width="290dp"
@@ -293,23 +284,17 @@
 
                         </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/batch_id_full"
+                        <TextView
+                            android:id="@+id/batchnavigation"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen40dp"
-                            android:layout_marginStart="@dimen/dimen5dp"
-                            android:layout_marginTop="@dimen/dimen5dp"
-                            android:layout_marginEnd="@dimen/dimen5dp"
-                            android:background="@drawable/edit_box_grey_bg"
-                            android:clickable="true"
-                            android:focusable="false"
-                            android:fontFamily="@font/roboto_medium"
-                            android:hint="@string/label_enter_batch_id"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:onClick="@{()-> callback.onClickBatchDetails()}"
-                            android:padding="@dimen/dimen5dp"
-                            android:textColor="@color/black" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:background="@drawable/btn_continue_ripple_login"
+                            android:padding="@dimen/ten_dp"
+                            android:text="Select Batches"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -482,22 +467,16 @@
 
                         </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/batch_id_partial"
+                        <TextView
+                            android:id="@+id/batchnavigation1"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen40dp"
-                            android:layout_marginStart="@dimen/dimen5dp"
-                            android:layout_marginTop="@dimen/dimen5dp"
-                            android:layout_marginEnd="@dimen/dimen5dp"
-                            android:background="@drawable/edit_box_grey_bg"
-                            android:focusable="false"
-                            android:fontFamily="@font/roboto_medium"
-                            android:hint="@string/label_enter_batch_id"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:onClick="@{()-> callback.onClickBatchDetails()}"
-                            android:padding="@dimen/dimen5dp"
-                            android:textColor="@color/black" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/five_dp"
+                            android:background="@drawable/btn_continue_ripple_login"
+                            android:padding="@dimen/ten_dp"
+                            android:text="Select Batches"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
 

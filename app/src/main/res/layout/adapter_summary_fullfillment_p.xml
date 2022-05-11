@@ -82,10 +82,10 @@
                         android:textSize="@dimen/dimen10sp" />
 
                     <TextView
+                        android:id="@+id/statuss"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partially Picked"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
                 </LinearLayout>

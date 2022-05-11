@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -101,22 +100,17 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     ScanQrCodeDialog scanQrCodeDialog;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     int position;
-    boolean isReadyforPickup=true;
+    String s;
     String fullfillmentId;
 
     @Override
     public void onTagBoxClick(String fullfillmentId, int pos) {
         this.fullfillmentId = fullfillmentId;
         this.position = pos;
+        this.s=s;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
-//        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-
-        Intent i = new Intent(ReadyForPickUpActivity.this, ScannerActivity.class);
-        i.putExtra("position", position);
-        i.putExtra("FullfillmentId", (Serializable) fullfillmentId);
-        i.putExtra("isReadyforPickup", isReadyforPickup);
-        startActivity(i);
-
+        BillerOrdersActivity.isBillerActivity = false;
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
@@ -171,7 +165,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
 
     @Override
-    public void onDeleteClick(int pos, String fullfillmentId) {
+    public void onDeleteClick(int pos, String fullfillmentId, String s) {
         UnTagQrCodeDialog unTagQrCodeDialog = new UnTagQrCodeDialog(ReadyForPickUpActivity.this, fullfillmentId);
         unTagQrCodeDialog.setPositiveListener(new View.OnClickListener() {
             @Override
@@ -179,6 +173,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 unTagQrCodeDialog.dismiss();
                 selectedOmsHeaderList.get(pos).setTagBox(false);
                 selectedOmsHeaderList.get(pos).setScanView(false);
+               selectedOmsHeaderList.get(pos).setScannedBarcode("");
                 readyForPickUpAdapter.notifyDataSetChanged();
                 boolean isAlltagBox = true;
                 for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
