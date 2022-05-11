@@ -59,13 +59,6 @@
                             android:layout_marginStart="@dimen/dimen10dp"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_total"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/twelve_sp" />
 
                             <TextView
                                 android:id="@+id/header_orders_count"
@@ -77,14 +70,6 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sixteen_sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/three_dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_orders"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/twelve_sp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -126,16 +111,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/eleven_sp" />
 
-            <ToggleButton
-                android:id="@+id/rack_order_toggle"
-                android:layout_width="@dimen/dimen150dp"
-                android:layout_height="@dimen/dimen30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:background="@drawable/toggle_btn_bg"
-                android:checked="false"
-                android:textOff=""
-                android:textOn="" />
+<!--            <ToggleButton-->
+<!--                android:id="@+id/rack_order_toggle"-->
+<!--                android:layout_width="@dimen/dimen150dp"-->
+<!--                android:layout_height="@dimen/dimen30dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginTop="@dimen/ten_dp"-->
+<!--                android:background="@drawable/toggle_btn_bg"-->
+<!--                android:checked="false"-->
+<!--                android:textOff=""-->
+<!--                android:textOn="" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,6 +134,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
                     android:layout_weight=".5"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -194,12 +181,16 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="0:35:33"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen12sp" />
+                        android:textSize="@dimen/dimen12sp"
+                        android:visibility="gone" />
 
                     <Chronometer
                         android:id="@+id/chrono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
                         android:visibility="visible" />
 
                 </LinearLayout>
@@ -284,6 +275,48 @@
         <!--&lt;!&ndash;                android:src="@drawable/ic_baseline_arrow_back_ios_24" />&ndash;&gt;-->
 
         <!--        </LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/continue_order"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".6"
+                android:background="@color/continue_unselect_color"
+                android:fontFamily="@font/roboto_regular"
+                android:padding="@dimen/five_dp"
+                android:paddingStart="@dimen/ten_dp"
+                android:text="Collect the A24/7 Packets/Boxes whic\nhave QR code printed on it and proceed\nfurther for tagging the FLIDs."
+                android:textColor="@color/black"
+                android:textSize="@dimen/ten_sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:background="@color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".4"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dimen10dp"
+                android:text="Continue"
+                android:background="@color/continue_unselect_color"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/text_color_grey"
+                android:textSize="@dimen/dimen16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/continue_orders"
             android:layout_width="match_parent"
@@ -317,8 +350,8 @@
 
                 <TextView
                     android:id="@+id/selected_item_count"
-                    android:layout_width="@dimen/dimen35dp"
-                    android:layout_height="@dimen/dimen35dp"
+                    android:layout_width="@dimen/dimen40dp"
+                    android:layout_height="@dimen/dimen40dp"
                     android:layout_marginEnd="@dimen/dimen5dp"
                     android:background="@drawable/ic_circle_lite_yellow_bg"
                     android:fontFamily="@font/roboto_medium"
@@ -326,7 +359,7 @@
                     android:padding="@dimen/dimen5dp"
                     android:text="1/5"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen12sp" />
+                    android:textSize="9sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -343,6 +376,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/farwar_to_packer_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
