@@ -58,7 +58,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSalesLine(int position, String status);
 
-    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos,  String status);
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
 
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
@@ -68,4 +68,6 @@ public interface PickupProcessMvpView extends MvpView {
     void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body);
 
     void checkBatchInventoryFailed(String message);
+
+    void onClickOrderAdapterArrow(int pos);
 }

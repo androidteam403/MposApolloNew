@@ -127,7 +127,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status) {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
-//            orderAdapter.notifyDataSetChanged();
             boolean isNotAvailable = true;
             boolean isFull = true;
             boolean isNull = false;
@@ -148,16 +147,20 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             if (!isNull) {
                 if (isNotAvailable) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
-//                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                    orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
                 } else if (isFull) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("FULL");
-//                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                    orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
                 } else if (!isNotAvailable && !isFull) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
-//                    orderAdapter.notifyItemChanged(orderAdapterPos);
+                    orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
+                    orderAdapter.notifyItemChanged(orderAdapterPos);
                 }
             } else {
-//                orderAdapter.notifyItemChanged(orderAdapterPos);
+                orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
+                orderAdapter.notifyItemChanged(orderAdapterPos);
             }
         }
         boolean isAllStatusUpdated = true;
@@ -173,10 +176,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.continueOrder.setVisibility(View.GONE);
             pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
         }
-        orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-        pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-        pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+//        orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
+//        pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+//        pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
 
     }
 
@@ -295,6 +298,19 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onClickOrderAdapterArrow(int pos) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                selectedOmsHeaderList.get(i).setExpanded(i == pos);
+            }
+            if (orderAdapter != null) {
+                orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
+                orderAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     private void checkAllFalse() {
         dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
         dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
@@ -314,7 +330,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.selectedFullfillment.setText("Selected Fullfillment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
-            pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
+            pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + selectedOmsHeaderList.size());
             pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
             pickupProcessBinding.continueOrders.setVisibility(View.GONE);
 

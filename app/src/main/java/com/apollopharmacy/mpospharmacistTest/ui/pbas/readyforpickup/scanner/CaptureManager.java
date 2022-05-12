@@ -72,7 +72,7 @@ public class CaptureManager {
     private BeepManager beepManager;
 
     private Handler handler;
-
+    private int orderPos;
     private boolean finishWhenClosed = false;
     private List<String> barcodeList = new ArrayList<>();
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -80,22 +80,39 @@ public class CaptureManager {
         public void barcodeResult(final BarcodeResult result) {
             barcodeView.pause();
             beepManager.playBeepSoundAndVibrate();
-
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    barcodeList.add(result.toString());
-                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && barcodeList.size() == ReadyForPickUpActivity.selectedOmsHeaderListTest.size())
-                        returnResult(result, barcodeList);
-                    else {
-                        if (!BillerOrdersActivity.isBillerActivity) {
-                            barcodeView.resume();
-                            mCallback.scannedListener(barcodeList);
-                        } else {
-                            returnResult(result, barcodeList);
+            handler.post(() -> {
+                barcodeList.add(result.toString());
+                ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());
+                boolean isAllBarcodeScanned = true;
+                if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null) {
+                    for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                        if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                            isAllBarcodeScanned = false;
                         }
                     }
                 }
+                if (isAllBarcodeScanned) {
+                    returnResult(result, barcodeList);
+                } else {
+                    if (!BillerOrdersActivity.isBillerActivity) {
+                        barcodeView.resume();
+                        mCallback.scannedListener(barcodeList);
+                    } else {
+                        returnResult(result, barcodeList);
+                    }
+                }
+
+
+//                if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && barcodeList.size() == ReadyForPickUpActivity.selectedOmsHeaderListTest.size())
+//                    returnResult(result, barcodeList);
+//                else {
+//                    if (!BillerOrdersActivity.isBillerActivity) {
+//                        barcodeView.resume();
+//                        mCallback.scannedListener(barcodeList);
+//                    } else {
+//                        returnResult(result, barcodeList);
+//                    }
+//                }
             });
         }
 
@@ -107,6 +124,10 @@ public class CaptureManager {
 
     public void setCaptureManagerCallback(CaptureManagerCallback mCallback) {
         this.mCallback = mCallback;
+    }
+
+    public void setOrderPos(int orderPos) {
+        this.orderPos = orderPos;
     }
 
     public void setBarcodeList(List<String> barcodeList) {
