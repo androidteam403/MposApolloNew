@@ -107,7 +107,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     public void onTagBoxClick(String fullfillmentId, int pos) {
         this.fullfillmentId = fullfillmentId;
         this.position = pos;
-        this.s=s;
+        this.s = s;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
         BillerOrdersActivity.isBillerActivity = false;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
@@ -132,14 +132,25 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                     if (data != null) {
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
 
-                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
-                            if (i < barcodeList.size()) {
-                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
-                            }
+//                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                            if (i < barcodeList.size()) {
+//                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
+//                            }
+//                            selectedOmsHeaderList.get(i).setTagBox(true);
+//                            selectedOmsHeaderList.get(i).setScanView(true);
+//                        }
 
-                            selectedOmsHeaderList.get(i).setTagBox(true);
-                            selectedOmsHeaderList.get(i).setScanView(true);
+                        this.selectedOmsHeaderList = ReadyForPickUpActivity.selectedOmsHeaderListTest;
+                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                            if (selectedOmsHeaderList.get(i).getScannedBarcode() != null && !selectedOmsHeaderList.get(i).getScannedBarcode().isEmpty()) {
+                                selectedOmsHeaderList.get(i).setTagBox(true);
+                                selectedOmsHeaderList.get(i).setScanView(true);
+                            } else {
+                                selectedOmsHeaderList.get(i).setTagBox(false);
+                                selectedOmsHeaderList.get(i).setScanView(false);
+                            }
                         }
+
                         readyForPickUpAdapter.notifyDataSetChanged();
                         boolean isAlltagBox = true;
                         for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
@@ -167,33 +178,25 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     public void onDeleteClick(int pos, String fullfillmentId, String s) {
         UnTagQrCodeDialog unTagQrCodeDialog = new UnTagQrCodeDialog(ReadyForPickUpActivity.this, fullfillmentId);
-        unTagQrCodeDialog.setPositiveListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unTagQrCodeDialog.dismiss();
-                selectedOmsHeaderList.get(pos).setTagBox(false);
-                selectedOmsHeaderList.get(pos).setScanView(false);
-               selectedOmsHeaderList.get(pos).setScannedBarcode("");
-                readyForPickUpAdapter.notifyDataSetChanged();
-                boolean isAlltagBox = true;
-                for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-                    if (!omsHeader.isTagBox())
-                        isAlltagBox = false;
-                if (isAlltagBox) {
-                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
-                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
-                } else {
-                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
-                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
-                }
+        unTagQrCodeDialog.setPositiveListener(v -> {
+            unTagQrCodeDialog.dismiss();
+            selectedOmsHeaderList.get(pos).setTagBox(false);
+            selectedOmsHeaderList.get(pos).setScanView(false);
+            selectedOmsHeaderList.get(pos).setScannedBarcode("");
+            readyForPickUpAdapter.notifyDataSetChanged();
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                if (!omsHeader.isTagBox())
+                    isAlltagBox = false;
+            if (isAlltagBox) {
+                activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
+                activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
+            } else {
+                activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
+                activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
             }
         });
-        unTagQrCodeDialog.setNegativeListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unTagQrCodeDialog.dismiss();
-            }
-        });
+        unTagQrCodeDialog.setNegativeListener(v -> unTagQrCodeDialog.dismiss());
         unTagQrCodeDialog.show();
     }
 

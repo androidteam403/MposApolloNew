@@ -91,7 +91,6 @@
                     android:textColor="@color/black"
                     android:imeOptions="actionSend"
                     android:inputType="text"
-                    android:text="Apollo@123"
                     android:singleLine="true"
                     android:textSize="@dimen/text_dimen_15" />
             </com.google.android.material.textfield.TextInputLayout>
