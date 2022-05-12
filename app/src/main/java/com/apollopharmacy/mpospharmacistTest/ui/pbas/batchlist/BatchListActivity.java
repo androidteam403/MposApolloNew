@@ -73,18 +73,19 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
-        searchByBatchId();
+        searchByFulfilmentId();
+
     }
 
-    public void searchByBatchId() {
+    private void searchByFulfilmentId() {
         batchlistBinding.searchbybatchId.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
@@ -102,6 +103,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
         });
     }
+
+
+
 //    private List<BatchListModel> getBatchList() {
 
 //        batchListModel.setBatchId("95374664110");

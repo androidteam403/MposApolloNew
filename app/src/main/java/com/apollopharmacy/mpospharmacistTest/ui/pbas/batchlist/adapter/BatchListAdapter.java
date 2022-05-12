@@ -66,7 +66,7 @@ String requiredQty;
         GetBatchInfoRes.BatchListObj batchListModel = batchListModelListl.get(position);
 
         holder.adapterBatchlistBinding.batchno.setText(batchListModel.getBatchNo());
-        holder.adapterBatchlistBinding.qohCoount.setText(batchListModel.getQ_O_H());
+        holder.adapterBatchlistBinding.qohCoount.setText(batchListModelListl.get(position).getQ_O_H());
         holder.adapterBatchlistBinding.expiryDate.setText(batchListModel.getExpDate());
         holder.adapterBatchlistBinding.phisicalbatchEdit.setText(batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
@@ -308,6 +308,9 @@ String requiredQty;
             }
         };
     }
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         AdapterBatchlistPBinding adapterBatchlistBinding;
