@@ -82,6 +82,9 @@ public class GetGlobalConfingRes {
     @SerializedName("MPOSMaxOrderAllowed")
     private int MPOSMaxOrderAllowed;
     @Expose
+    @SerializedName("MPOSVersion")
+    private String MPOSVersion;
+    @Expose
     @SerializedName("LooseDamagAmount")
     private int LooseDamagAmount;
     @Expose
@@ -372,6 +375,14 @@ public class GetGlobalConfingRes {
 
     public void setMPOSMaxOrderAllowed(int MPOSMaxOrderAllowed) {
         this.MPOSMaxOrderAllowed = MPOSMaxOrderAllowed;
+    }
+
+    public String getMPOSVersion() {
+        return MPOSVersion;
+    }
+
+    public void setMPOSVersion(String MPOSVersion) {
+        this.MPOSVersion = MPOSVersion;
     }
 
     public int getLooseDamagAmount() {
