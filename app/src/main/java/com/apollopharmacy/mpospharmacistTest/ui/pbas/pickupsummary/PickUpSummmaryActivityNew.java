@@ -171,17 +171,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         this.fullCount = fullCount;
         return fullCount;
     }
-int count =0;
-    @Override
-    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
-        count++;
-        if (count == omsOrderForwardRequests.size()){
-            Toast.makeText(getApplicationContext(), "SUCCESS!!" + response.getReservedSalesLine().size(), Toast.LENGTH_LONG).show();
 
-        }
-
-
-    }
 
     @Override
     public void OmsOrderUpdateFailure(OMSOrderForwardResponse response) {
@@ -432,6 +422,19 @@ int count =0;
             dialog.dismiss();
         });
         dialog.show();
+    }
+
+
+    int count =0;
+    @Override
+    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
+        count++;
+        if (count == omsOrderForwardRequests.size()){
+            Toast.makeText(getApplicationContext(), "SUCCESS!!" + omsOrderForwardRequests.size(), Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
 
     public static class SummaryProductsData {
