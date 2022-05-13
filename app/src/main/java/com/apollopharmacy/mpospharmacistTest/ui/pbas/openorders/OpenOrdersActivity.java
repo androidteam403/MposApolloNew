@@ -546,12 +546,12 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-//        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
-        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
-        startActivity(intent);
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+//        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
     }

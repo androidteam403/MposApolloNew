@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -221,30 +222,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void cancel() {
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
-        dialog.setContentView(dialogCancelBinding.getRoot());
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-        dialogCancelBinding.dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialogCancelBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        dialogCancelBinding.dialogButtonNot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        onBackPressed();
 
     }
 
@@ -333,6 +311,34 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onBackPressed() {
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doBackPressed();
+                dialog.dismiss();
+            }
+        });
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void doBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
     }

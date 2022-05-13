@@ -30,11 +30,11 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.Order
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -120,27 +120,26 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
             stopWatchs = (Chronometer) findViewById(R.id.chrono);
-            startTime = SystemClock.elapsedRealtime();
+//            startTime = SystemClock.elapsedRealtime();
 
             String[] sw = stopWatch.split(":");
             stopWatchs.setBase(SystemClock.elapsedRealtime() - (Integer.parseInt(sw[0]) * 60000 + Integer.parseInt(sw[1]) * 1000));
+//
+//            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+//                @Override
+//                public void onChronometerTick(Chronometer arg0) {
+//                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
 
-            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer arg0) {
-                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
-
-                    String asText = (countUp / 60) + ":" + (countUp % 60);
+//                    String asText = (countUp / 60) + ":" + (countUp % 60);
 //                pickupProcessBinding.timer.setText(asText);
 //                 asText1 = stopWatch.getFormat();
 //                int h = (int)(countUp /3600000);
 //                int m = (int)(countUp - h*3600000)/60000;
 //                int s= (int)(countUp - h*3600000- m*60000);
-                }
-            });
-            stopWatchs.start();
+//                }
+//            });
+//            stopWatchs.start();
         }
-
 //        selectedOmsHeaderList.get(orderAdapterPos).setItemStatus(omsHeader.getItemStatus());
 
 //        if (rackListOfListFiltered != null)
@@ -174,6 +173,16 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         return fullCount;
     }
 
+    int count = 0;
+
+    @Override
+    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
+        count++;
+        if (count == omsOrderForwardRequests.size()) {
+            gotoOpenOrder();
+            Toast.makeText(getApplicationContext(), "SUCCESS!!" + response.getReservedSalesLine().size(), Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void OmsOrderUpdateFailure(OMSOrderForwardResponse response) {
@@ -213,7 +222,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void onClickItem(int pos) {
-        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos),activityPickUpSummaryBinding.time.getText().toString(),activityPickUpSummaryBinding.chrono.getText().toString()));
+        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -226,15 +235,51 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     List<OMSOrderForwardRequest.ReservedSalesLine> pick_pack_list = new ArrayList<>();
-   List<OMSOrderForwardRequest.ReservedSalesLine> salesLines = new ArrayList<>();
+    List<OMSOrderForwardRequest.ReservedSalesLine> salesLines = new ArrayList<>();
     OMSOrderForwardRequest omsOrderForwardRequest;
     List<OMSOrderForwardRequest> omsOrderForwardRequests = new ArrayList<>();
     OMSOrderForwardRequest.ReservedSalesLine reservedSalesLine;
 
     int p;
+
     @Override
     public void onClickUpdateOMSOrder_pickingconfirmation() {
 
+
+//    @Override
+//    public void forwardtoPacker() {
+//        OMSOrderUpdateRequest omsOrderUpdateRequest = new OMSOrderUpdateRequest();
+//
+//        for(int i =0; i<selectedOmsHeaderList.size();i++){
+//            omsOrderUpdateRequest.setRequestType("1");
+//            omsOrderUpdateRequest.setFulfillmentID(selectedOmsHeaderList.get(i).getRefno());
+//        }
+//
+//        mPresenter.UpdateOmsOrder(omsOrderUpdateRequest);
+
+        Dialog dialog = new Dialog(this);
+        DialogFarwardtoPackerAlertBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                R.layout.dialog_farwardto_packer_alert, null, false);
+        dialog.setContentView(updateStatusBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        if (fullCount != null)
+            updateStatusBinding.fullCount.setText(fullCount);
+        else
+            updateStatusBinding.fullCount.setText("0");
+        if (partialCount != null)
+            updateStatusBinding.partialCount.setText(partialCount);
+        else
+            updateStatusBinding.partialCount.setText("0");
+        if (notCount != null)
+            updateStatusBinding.notAvailableCount.setText(notCount);
+        else
+            updateStatusBinding.notAvailableCount.setText("0");
+
+        updateStatusBinding.no.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        updateStatusBinding.yes.setOnClickListener(v -> {
             for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
                 omsOrderForwardRequest = new OMSOrderForwardRequest();
                 omsOrderForwardRequest.setRequestType("1");
@@ -339,64 +384,22 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
                             reservedSalesLineArrayList.add(reservedSalesLine);
                         }
-                     }
+                    }
                 }
                 omsOrderForwardRequest.setReservedSalesLine(reservedSalesLineArrayList);
                 omsOrderForwardRequests.add(omsOrderForwardRequest);
             }
 
-        for( p=0;p<omsOrderForwardRequests.size();p++){
+            for (p = 0; p < omsOrderForwardRequests.size(); p++) {
 //            OMSOrderForwardResponse o = new OMSOrderForwardResponse();
 //            OmsOrderUpdateSuccess(o);
 //            Toast.makeText(this, "oms update", Toast.LENGTH_SHORT).show();
-            mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
-        }
-
-
-
-
-
-
-
-//    @Override
-//    public void forwardtoPacker() {
-//        OMSOrderUpdateRequest omsOrderUpdateRequest = new OMSOrderUpdateRequest();
-//
-//        for(int i =0; i<selectedOmsHeaderList.size();i++){
-//            omsOrderUpdateRequest.setRequestType("1");
-//            omsOrderUpdateRequest.setFulfillmentID(selectedOmsHeaderList.get(i).getRefno());
-//        }
-//
-//        mPresenter.UpdateOmsOrder(omsOrderUpdateRequest);
-
-        Dialog dialog = new Dialog(this);
-        DialogFarwardtoPackerAlertBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
-                R.layout.dialog_farwardto_packer_alert, null, false);
-        dialog.setContentView(updateStatusBinding.getRoot());
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-        if (fullCount != null)
-            updateStatusBinding.fullCount.setText(fullCount);
-        else
-            updateStatusBinding.fullCount.setText("0");
-        if (partialCount != null)
-            updateStatusBinding.partialCount.setText(partialCount);
-        else
-            updateStatusBinding.partialCount.setText("0");
-        if (notCount != null)
-            updateStatusBinding.notAvailableCount.setText(notCount);
-        else
-            updateStatusBinding.notAvailableCount.setText("0");
-
-        updateStatusBinding.no.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-        updateStatusBinding.yes.setOnClickListener(v -> {
+                mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
+            }
             dialog.dismiss();
             dialog.cancel();
 
 //            mPresenter.ForwardToPickerRequest(request);
-            gotoOpenOrder();
         });
         dialog.show();
 
@@ -417,26 +420,14 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
             mPresenter.setFullfillmentData(racksDataResponse);
             mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
-            Intent i = new Intent(PickUpSummmaryActivityNew.this, BillerOrdersActivity.class);
-            i.putExtra("rackDataResponse", (Serializable) racksDataResponse);
-            startActivity(i);
+            Intent intent = new Intent(PickUpSummmaryActivityNew.this, SelectAppFlowActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
             dialog.dismiss();
         });
         dialog.show();
-    }
-
-
-    int count =0;
-    @Override
-    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
-        count++;
-        if (count == omsOrderForwardRequests.size()){
-            Toast.makeText(getApplicationContext(), "SUCCESS!!" + omsOrderForwardRequests.size(), Toast.LENGTH_LONG).show();
-
-        }
-
-
     }
 
     public static class SummaryProductsData {
