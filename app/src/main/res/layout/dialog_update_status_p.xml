@@ -435,7 +435,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_minus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                                 <EditText
                                     android:id="@+id/qty_edit_partial"
@@ -443,11 +444,11 @@
                                     android:layout_height="@dimen/twenty_five_dp"
                                     android:layout_marginStart="@dimen/dimen5dp"
                                     android:background="@drawable/edit_box_grey_bg"
+                                    android:enabled="false"
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:importantForAutofill="no"
                                     android:inputType="number"
-                                    android:text="1"
                                     android:textColor="@color/black"
                                     android:textSize="13sp"
                                     tools:ignore="LabelFor" />
@@ -461,7 +462,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:src="@drawable/ic_plus"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 

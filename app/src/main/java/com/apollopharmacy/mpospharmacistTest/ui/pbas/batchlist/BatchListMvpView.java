@@ -27,4 +27,6 @@ public interface BatchListMvpView extends MvpView {
     void onNavigateNextActivity();
 
     void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj);
+
+    void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel);
 }
