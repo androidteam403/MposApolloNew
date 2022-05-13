@@ -232,7 +232,7 @@ public class GetOMSTransactionResponse implements Serializable {
     @SerializedName("fulid")
     @Expose
     private String fulid = null;
-    @SerializedName("FulId")
+    @SerializedName("OrderSource")
     @Expose
     private String orderSource;
     @SerializedName("OrderType")
@@ -649,7 +649,7 @@ public class GetOMSTransactionResponse implements Serializable {
         private double totalDiscAmount;
         @SerializedName("TotalDiscPct")
         @Expose
-        private Integer totalDiscPct;
+        private double totalDiscPct;
         @SerializedName("TotalRoundedAmount")
         @Expose
         private Integer totalRoundedAmount;
@@ -1393,11 +1393,11 @@ public class GetOMSTransactionResponse implements Serializable {
             this.totalDiscAmount = totalDiscAmount;
         }
 
-        public Integer getTotalDiscPct() {
+        public double getTotalDiscPct() {
             return totalDiscPct;
         }
 
-        public void setTotalDiscPct(Integer totalDiscPct) {
+        public void setTotalDiscPct(double totalDiscPct) {
             this.totalDiscPct = totalDiscPct;
         }
 
