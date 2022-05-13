@@ -82,6 +82,22 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
+
+        openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrdersBinding.searchByfulfimentid.setText("");
+                openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        if(openOrdersBinding.searchByfulfimentid.getText().toString().equals("")){
+            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+        }
     }
 
     private void searchByFulfilmentId() {
@@ -99,6 +115,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    openOrdersBinding.searchIcon.setVisibility(View.GONE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
@@ -110,6 +128,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         });
     }
+
+
 
     int getPos;
 
