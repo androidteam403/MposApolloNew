@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentDashboardPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -36,6 +37,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -44,6 +46,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
     @Inject
     DashboardMvpPresenter<DashboardMvpView> mPresenter;
     private FragmentDashboardPBinding fragmentDashboardBinding;
+   List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, DashboardFragment.class);
