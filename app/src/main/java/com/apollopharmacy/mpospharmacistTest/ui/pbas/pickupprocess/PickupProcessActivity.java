@@ -224,7 +224,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
                 dialogUpdateStatusBinding.availableProPartial.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
                 dialogUpdateStatusBinding.requiredProPartial.setText(String.valueOf(salesLine.getQty()));
-                dialogUpdateStatusBinding.qtyEditFull.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+                dialogUpdateStatusBinding.qtyEditPartial.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
                 dialogUpdateStatusBinding.partialDetails.setVisibility(View.VISIBLE);
             } else {
                 status = "NOT AVAILABLE";
@@ -269,9 +269,21 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                             mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
                             break;
                         } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
-                            batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
-                            mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, "");
-                            requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
+
+                            if (i == getBatchDetailsResponse.getBatchList().size() - 1) {
+                                batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setStatus(finalStatus1);
+                                GetBatchInfoRes o = new GetBatchInfoRes();
+                                o.setBatchList(batchListObjsList);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setGetBatchInfoRes(o);
+                                mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
+                                requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
+                            } else {
+                                batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
+                                mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, "");
+                                requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
+                            }
+
 
                         }
 
