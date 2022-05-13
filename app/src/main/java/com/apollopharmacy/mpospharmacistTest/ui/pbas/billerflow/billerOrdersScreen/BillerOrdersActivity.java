@@ -60,7 +60,8 @@ public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMv
 
     @Override
     public void onclickScanCode() {
-
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
 
