@@ -73,7 +73,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
-        searchByFulfilmentId();
+       searchByFulfilmentId();
 
     }
 

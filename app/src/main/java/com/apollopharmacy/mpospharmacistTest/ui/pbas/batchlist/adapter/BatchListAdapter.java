@@ -66,7 +66,7 @@ String requiredQty;
         GetBatchInfoRes.BatchListObj batchListModel = batchListModelListl.get(position);
 
         holder.adapterBatchlistBinding.batchno.setText(batchListModel.getBatchNo());
-        holder.adapterBatchlistBinding.qohCoount.setText(batchListModelListl.get(position).getQ_O_H());
+        holder.adapterBatchlistBinding.qohCoount.setText(batchListModel.getQ_O_H());
         holder.adapterBatchlistBinding.expiryDate.setText(batchListModel.getExpDate());
         holder.adapterBatchlistBinding.phisicalbatchEdit.setText(batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
@@ -74,13 +74,7 @@ String requiredQty;
 
 
 //        holder.adapterBatchlistBinding.requiredQuantity.setText(reqqty);
-      if (reqqty == (double) reqqty) {
-                double d = reqqty;
-                int value = Integer.valueOf((int) reqqty);
-                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(value));
-            } else {
-                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(reqqty));
-            }
+
 
 
 
@@ -148,18 +142,26 @@ String requiredQty;
                             dialogView.show();
 
                         }
-                       else {
-                            batchListModel.setREQQTY(Double.parseDouble(editable.toString()));
-                            if (batchListModelListl.size() >= position) {
-                                batchListModelListl.get(position).setREQQTY(Double.parseDouble((editable.toString())));
-                            }
-
-                        }
+//                       else {
+//                            batchListModel.setREQQTY(Double.parseDouble(editable.toString()));
+//                            if (batchListModelListl.size() >= position) {
+//                                batchListModelListl.get(position).setREQQTY(Double.parseDouble((editable.toString())));
+//                            }
+//
+//                        }
 
                     }
                 }
             }
         });
+
+              if (reqqty == (double) reqqty) {
+                double d = reqqty;
+                int value = Integer.valueOf((int) reqqty);
+                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(value));
+            } else {
+                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(reqqty));
+            }
 
                 holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,9 +310,6 @@ String requiredQty;
             }
         };
     }
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         AdapterBatchlistPBinding adapterBatchlistBinding;
