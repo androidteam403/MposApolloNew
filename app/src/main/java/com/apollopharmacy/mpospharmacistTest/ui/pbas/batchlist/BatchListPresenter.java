@@ -96,7 +96,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null)
 //                            if (isLastPos)
-                                getMvpView().checkBatchInventorySuccess(response.body());
+                            getMvpView().checkBatchInventorySuccess(response.body());
 //                            else
 //                                getMvpView().checkBatchInventoryFailed(response.body());
                     }
