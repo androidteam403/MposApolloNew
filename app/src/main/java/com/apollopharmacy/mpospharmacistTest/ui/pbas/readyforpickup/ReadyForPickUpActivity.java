@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -32,6 +30,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.Prin
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.ReadyForPickUpAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.ScanQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.UnTagQrCodeDialog;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -208,8 +207,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             if (!omsHeader.isTagBox())
                 isAlltagBox = false;
         if (isAlltagBox) {
-            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
-            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+//            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
         }
@@ -256,8 +256,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onClickStartPickingWithoutQrCode() {
-        startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+//        startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
     @Override
@@ -265,6 +266,18 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 1) {
+            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+                startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            }
+        } else if (requestType == 2) {
+            doBackPressed();
+        }
     }
 
     public class FullfillmentData {
@@ -317,25 +330,12 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
-        dialogCancelBinding.dialogButtonNO.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
+            dialog.dismiss();
         });
-        dialogCancelBinding.dialogButtonOK.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doBackPressed();
-                dialog.dismiss();
-            }
-        });
-        dialogCancelBinding.dialogButtonNot.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void doBackPressed() {

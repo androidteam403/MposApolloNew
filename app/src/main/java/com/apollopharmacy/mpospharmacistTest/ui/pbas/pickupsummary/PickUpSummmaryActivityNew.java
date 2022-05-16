@@ -34,6 +34,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
@@ -120,25 +121,25 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
             stopWatchs = (Chronometer) findViewById(R.id.chrono);
-            startTime = SystemClock.elapsedRealtime();
+//            startTime = SystemClock.elapsedRealtime();
 
             String[] sw = stopWatch.split(":");
             stopWatchs.setBase(SystemClock.elapsedRealtime() - (Integer.parseInt(sw[0]) * 60000 + Integer.parseInt(sw[1]) * 1000));
+//
+//            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+//                @Override
+//                public void onChronometerTick(Chronometer arg0) {
+//                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
 
-            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer arg0) {
-                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
-
-                    String asText = (countUp / 60) + ":" + (countUp % 60);
+//                    String asText = (countUp / 60) + ":" + (countUp % 60);
 //                pickupProcessBinding.timer.setText(asText);
 //                 asText1 = stopWatch.getFormat();
 //                int h = (int)(countUp /3600000);
 //                int m = (int)(countUp - h*3600000)/60000;
 //                int s= (int)(countUp - h*3600000- m*60000);
-                }
-            });
-            stopWatchs.start();
+//                }
+//            });
+//            stopWatchs.start();
         }
 //        selectedOmsHeaderList.get(orderAdapterPos).setItemStatus(omsHeader.getItemStatus());
 
@@ -179,8 +180,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
         count++;
         if (count == omsOrderForwardRequests.size()) {
-            gotoOpenOrder();
+            mPresenter.mposPickPackOrderReservationApiCall(3, selectedOmsHeaderList);
             Toast.makeText(getApplicationContext(), "SUCCESS!!" + response.getReservedSalesLine().size(), Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -222,7 +224,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void onClickItem(int pos) {
-        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos),  activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString()));
+        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -411,12 +413,20 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
-    private void
-    gotoOpenOrder() {
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 3) {
+            if (mposPickPackOrderReservationResponse != null)
+                gotoOpenOrder();
+        }
+    }
+
+    private void gotoOpenOrder() {
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_p, null, false);
         dialog.setContentView(updateStatusBinding.getRoot());
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
             mPresenter.setFullfillmentData(racksDataResponse);

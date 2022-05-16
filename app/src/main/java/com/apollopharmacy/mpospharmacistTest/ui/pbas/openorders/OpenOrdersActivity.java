@@ -583,7 +583,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
                         selectedOmsHeaderList.remove(i);
-                        break;
                     }
                 }
             }

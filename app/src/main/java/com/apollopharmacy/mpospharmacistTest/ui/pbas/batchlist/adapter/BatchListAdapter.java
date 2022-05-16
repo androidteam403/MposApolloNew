@@ -60,6 +60,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
 
 
+        if (batchListModel.isSelected()) {
+            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
+        } else {
+            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
+        }
+
 //        holder.adapterBatchlistBinding.requiredQuantity.setText(reqqty);
 //        if (reqqty == (double) reqqty) {
 //            double d = reqqty;

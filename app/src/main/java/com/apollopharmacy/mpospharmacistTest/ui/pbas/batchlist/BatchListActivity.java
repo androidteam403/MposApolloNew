@@ -367,9 +367,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj) {
-        Constant.getInstance().manualSelectedPosition = position;
-        Constant.getInstance().enteredQuantity = quantity;
-        Constant.getInstance().isSelectedBatch = true;
+//        Constant.getInstance().manualSelectedPosition = position;
+//        Constant.getInstance().enteredQuantity = quantity;
+//        Constant.getInstance().isSelectedBatch = true;
         if (body != null && body.size() > 0) {
             for (int i = 0; i < body.size(); i++) {
                 if (!body.get(i).getPhysicalbatchstatus()) {
