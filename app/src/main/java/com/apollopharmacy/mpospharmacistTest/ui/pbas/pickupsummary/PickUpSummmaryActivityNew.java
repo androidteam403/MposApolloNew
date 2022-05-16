@@ -112,7 +112,6 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //            }
 //            fullfillmentListOfListFiltered = gson1.fromJson(json1, type1);
 
-
             time = (String) getIntent().getStringExtra("time");
             stopWatch = (String) getIntent().getStringExtra("stopWatch");
 
@@ -120,25 +119,25 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
             stopWatchs = (Chronometer) findViewById(R.id.chrono);
-//            startTime = SystemClock.elapsedRealtime();
+            startTime = SystemClock.elapsedRealtime();
 
             String[] sw = stopWatch.split(":");
             stopWatchs.setBase(SystemClock.elapsedRealtime() - (Integer.parseInt(sw[0]) * 60000 + Integer.parseInt(sw[1]) * 1000));
-//
-//            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-//                @Override
-//                public void onChronometerTick(Chronometer arg0) {
-//                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
 
-//                    String asText = (countUp / 60) + ":" + (countUp % 60);
+            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer arg0) {
+                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
+
+                    String asText = (countUp / 60) + ":" + (countUp % 60);
 //                pickupProcessBinding.timer.setText(asText);
 //                 asText1 = stopWatch.getFormat();
 //                int h = (int)(countUp /3600000);
 //                int m = (int)(countUp - h*3600000)/60000;
 //                int s= (int)(countUp - h*3600000- m*60000);
-//                }
-//            });
-//            stopWatchs.start();
+                }
+            });
+            stopWatchs.start();
         }
 //        selectedOmsHeaderList.get(orderAdapterPos).setItemStatus(omsHeader.getItemStatus());
 
@@ -222,7 +221,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void onClickItem(int pos) {
-        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString()));
+        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos),  activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -411,7 +410,8 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
-    private void gotoOpenOrder() {
+    private void
+    gotoOpenOrder() {
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_p, null, false);

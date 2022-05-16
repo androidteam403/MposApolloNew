@@ -29,8 +29,10 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     private ActivityPickupSummaryDetailsPBinding pickupSummaryDetailsBinding;
     private TransactionHeaderResponse.OMSHeader selectedOmsHeader;
     String time, stopWatch;
-    Chronometer stopWatchs;
+    long startTime;
     long countUp;
+    Chronometer stopWatchs;
+
 
     public static Intent getStartActivity(Context context, TransactionHeaderResponse.OMSHeader selectedOmsHeader, String time, String stopWatch) {
         Intent intent = new Intent(context, PickupSummaryDetailsActivity.class);
@@ -54,38 +56,40 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     protected void setUp() {
         pickupSummaryDetailsBinding.setCallback(mPresenter);
         if (getIntent() != null) {
-            Intent i=getIntent();
-            time = (String) i.getStringExtra("time");
-            stopWatch = (String) i.getStringExtra("stopWatch");
+
+            selectedOmsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDER);
+            time = (String) getIntent().getStringExtra("time");
+            stopWatch = (String) getIntent().getStringExtra("stopWatch");
+
 
             pickupSummaryDetailsBinding.starttime.setText(time);
-            pickupSummaryDetailsBinding.duration.setText(stopWatch);
-
-
-
-//            stopWatchs = (Chronometer) findViewById(R.id.chrono);
-//            String[] sw = stopWatch.split(":");
-//            stopWatchs.setBase(SystemClock.elapsedRealtime() - (Integer.parseInt(sw[0]) * 60000 + Integer.parseInt(sw[1]) * 1000));
-//
-//            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-//                @Override
-//                public void onChronometerTick(Chronometer arg0) {
-//                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
-//
-//                    String asText = (countUp / 60) + ":" + (countUp % 60);
-////                pickupProcessBinding.timer.setText(asText);
-////                 asText1 = stopWatch.getFormat();
-////                int h = (int)(countUp /3600000);
-////                int m = (int)(countUp - h*3600000)/60000;
-////                int s= (int)(countUp - h*3600000- m*60000);
-//                }
-//            });
-//            stopWatchs.start();
-//
 //            pickupSummaryDetailsBinding.duration.setText(stopWatch);
-//
-            selectedOmsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDER);
-            pickupSummaryDetailsBinding.customerType.setText(selectedOmsHeader.getCustomerType());
+            stopWatchs = (Chronometer) findViewById(R.id.duration);
+
+
+
+        }
+        String[] sw = stopWatch.split(":");
+        startTime = SystemClock.elapsedRealtime();
+        stopWatchs.setBase(SystemClock.elapsedRealtime() - (Integer.parseInt(sw[0]) * 60000 + Integer.parseInt(sw[1]) * 1000));
+
+        stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer arg0) {
+                countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
+
+                String asText = (countUp / 60) + ":" + (countUp % 60);
+//                pickupProcessBinding.timer.setText(asText);
+//                 asText1 = stopWatch.getFormat();
+//                int h = (int)(countUp /3600000);
+//                int m = (int)(countUp - h*3600000)/60000;
+//                int s= (int)(countUp - h*3600000- m*60000);
+            }
+        });
+        stopWatchs.start();
+
+
+        pickupSummaryDetailsBinding.customerType.setText(selectedOmsHeader.getCustomerType());
             pickupSummaryDetailsBinding.orderSource.setText(selectedOmsHeader.getOrderSource());
             pickupSummaryDetailsBinding.orderDate.setText(selectedOmsHeader.getCreatedDateTime());
             pickupSummaryDetailsBinding.deliveryDate.setText(selectedOmsHeader.getDeliveryDate());
@@ -119,7 +123,7 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             pickupSummaryDetailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
             pickupSummaryDetailsBinding.productListRecycler.setAdapter(pickUpSummaryAdapter);
         }
-    }
+
 
     @Override
     public void onClickBack() {

@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Fully Packed: "
+                    android:text="Fully Picked: "
                     android:textColor="@color/black" />
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Partially Packed : "
+                    android:text="Partially Picked : "
                     android:textColor="@color/black" />
 
                 <TextView
