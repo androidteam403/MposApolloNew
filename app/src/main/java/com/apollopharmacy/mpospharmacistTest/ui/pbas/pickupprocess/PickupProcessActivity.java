@@ -263,7 +263,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     batchListObjsList = new ArrayList<>();
                     for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
                         if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) >= requiredQty) {
-
+                            getBatchDetailsResponse.getBatchList().get(i).setSelected(true);
+                            getBatchDetailsResponse.getBatchList().get(i).setREQQTY(requiredQty);
                             batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
                             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setStatus(finalStatus1);
                             GetBatchInfoRes o = new GetBatchInfoRes();
@@ -274,6 +275,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         } else if (Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()) < requiredQty) {
 
                             if (i == getBatchDetailsResponse.getBatchList().size() - 1) {
+                                getBatchDetailsResponse.getBatchList().get(i).setSelected(true);
+                                getBatchDetailsResponse.getBatchList().get(i).setREQQTY(Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
                                 batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
                                 selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setStatus(finalStatus1);
                                 GetBatchInfoRes o = new GetBatchInfoRes();
