@@ -160,12 +160,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                     if (batchListMvpView != null) {
                         batchListMvpView.onClickSelectedBatch(batchListModel);
                     }
-                } else {
-                    Toast.makeText(mContext, "You have entered more than available qty", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(mContext, "required qty should not be empty", Toast.LENGTH_SHORT).show();
-            }
+               }
+//                else {
+////                    Toast.makeText(mContext, "You have entered more than available qty", Toast.LENGTH_SHORT).show();
+////                }
+           }
+//                else {
+//                Toast.makeText(mContext, "required qty should not be empty", Toast.LENGTH_SHORT).show();
+//            }
         });
 
         holder.adapterBatchlistBinding.iconPointsAllow.setOnClickListener(new View.OnClickListener() {

@@ -72,10 +72,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_p, menu);
         userName = findViewById(R.id.user_name);
-        userStore = findViewById(R.id.user_store);
+//        userStore = findViewById(R.id.user_store);
 
         userName.setText(mPresenter.getLoginUserName());
-        userStore.setText(mPresenter.getLoinStoreLocation());
+//        userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
 
 
