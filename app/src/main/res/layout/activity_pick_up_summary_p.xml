@@ -67,21 +67,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen20dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_marginEnd="@dimen/dimen10dp">
+                android:weightSum="1">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Start time : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen12sp" />
@@ -90,7 +93,7 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="9:45 AM"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen12sp" />
@@ -100,15 +103,15 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="center"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Total Duration : "
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Pickup Duration : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen12sp" />
 
@@ -116,20 +119,19 @@
                         android:id="@+id/timer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="0:35:33"
-                        android:visibility="gone"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen12sp" />
+                        android:textSize="@dimen/dimen12sp"
+                        android:visibility="gone" />
 
                     <Chronometer
                         android:id="@+id/chrono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:textSize="@dimen/text_dimen_12"
                         android:textColor="@color/black"
-                        android:textAlignment="center"
+                        android:textSize="@dimen/dimen12sp"
                         android:visibility="visible" />
 
                 </LinearLayout>
