@@ -285,6 +285,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                                 mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, finalStatus);
                                 requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
                             } else {
+                                getBatchDetailsResponse.getBatchList().get(i).setSelected(true);
+                                getBatchDetailsResponse.getBatchList().get(i).setREQQTY(Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
                                 batchListObjsList.add(getBatchDetailsResponse.getBatchList().get(i));
                                 mPresenter.checkBatchInventory(getBatchDetailsResponse.getBatchList().get(i), requiredQty, "");
                                 requiredQty = (int) (requiredQty - Double.parseDouble(getBatchDetailsResponse.getBatchList().get(i).getQ_O_H()));
