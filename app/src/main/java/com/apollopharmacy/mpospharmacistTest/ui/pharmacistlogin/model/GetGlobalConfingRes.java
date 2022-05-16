@@ -79,6 +79,12 @@ public class GetGlobalConfingRes {
     @SerializedName("LooseDamagSite")
     private String LooseDamagSite;
     @Expose
+    @SerializedName("MPOSMaxOrderAllowed")
+    private int MPOSMaxOrderAllowed;
+    @Expose
+    @SerializedName("MPOSVersion")
+    private String MPOSVersion;
+    @Expose
     @SerializedName("LooseDamagAmount")
     private int LooseDamagAmount;
     @Expose
@@ -237,27 +243,24 @@ public class GetGlobalConfingRes {
     @SerializedName("CircleplanCorpCode")
     private String CircleplanCorpCode;
 
-    public  String getCircleplanCorpCode()
-    {
+    public String getCircleplanCorpCode() {
         return CircleplanCorpCode;
 
     }
 
     @Expose
     @SerializedName("POSExpiryDays")
-    private  double POSExpiryDays;
+    private double POSExpiryDays;
 
-    public  double getPOSExpiryDays()
-    {
+    public double getPOSExpiryDays() {
         return POSExpiryDays;
     }
 
     @Expose
     @SerializedName("OMSExpiryDays")
-    private  double OMSExpiryDays;
+    private double OMSExpiryDays;
 
-    public  double getOMSExpiryDays()
-    {
+    public double getOMSExpiryDays() {
         return OMSExpiryDays;
     }
 
@@ -269,6 +272,7 @@ public class GetGlobalConfingRes {
     public boolean DigitalReceiptRequired() {
         return DigitalReceiptRequired;
     }
+
     public int getSuspendDeleteDays() {
         return SuspendDeleteDays;
     }
@@ -365,6 +369,22 @@ public class GetGlobalConfingRes {
         return LooseDamagSite;
     }
 
+    public int getMPOSMaxOrderAllowed() {
+        return MPOSMaxOrderAllowed;
+    }
+
+    public void setMPOSMaxOrderAllowed(int MPOSMaxOrderAllowed) {
+        this.MPOSMaxOrderAllowed = MPOSMaxOrderAllowed;
+    }
+
+    public String getMPOSVersion() {
+        return MPOSVersion;
+    }
+
+    public void setMPOSVersion(String MPOSVersion) {
+        this.MPOSVersion = MPOSVersion;
+    }
+
     public int getLooseDamagAmount() {
         return LooseDamagAmount;
     }
@@ -407,6 +427,10 @@ public class GetGlobalConfingRes {
 
     public boolean isISEzetapActive() {
         return ISEzetapActive;
+    }
+
+    public void setISHBPStore(boolean ISHBPStore) {
+        this.ISHBPStore = ISHBPStore;
     }
 
     public boolean isISHBPStore() {

@@ -49,4 +49,6 @@ public class DashboardPresenter<V extends DashboardMvpView> extends BasePresente
     public void onClickYearly() {
         getMvpView().onClickYearly();
     }
+
+
 }

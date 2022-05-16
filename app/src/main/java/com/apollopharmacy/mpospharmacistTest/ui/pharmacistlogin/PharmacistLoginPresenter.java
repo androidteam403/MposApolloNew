@@ -235,7 +235,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             //Creating an object of our api interface
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(),getDataManager().getDataAreaId(), new Object());
+            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<GetGlobalConfingRes>() {
                 @Override
                 public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {
@@ -318,9 +318,9 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().get_PaymentMethodList() != null && response.body().getRequestStatus() == 0) {
-                            Gson gson=new Gson();
+                            Gson gson = new Gson();
 
-                            System.out.println("paymentallowed--->"+gson.toJson( response.body()));
+                            System.out.println("paymentallowed--->" + gson.toJson(response.body()));
                             getDataManager().storeAllowedPaymentMethod(response.body());
                             getGetTrackingWiseConfiguration();
                         } else {
@@ -516,26 +516,26 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-               // Log.d(TAG, "File Size=" + fileSize);
+                // Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-              //  Log.d(TAG, destinationFile.getParent());
+                //  Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessMposPosiflex();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-           // Log.d(TAG, "Failed to save the file!");
+            // Log.d(TAG, "Failed to save the file!");
         }
     }
 
@@ -550,8 +550,12 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     }
 
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigurationObj() {
+        return getDataManager().getGlobalJson();
     }
 }

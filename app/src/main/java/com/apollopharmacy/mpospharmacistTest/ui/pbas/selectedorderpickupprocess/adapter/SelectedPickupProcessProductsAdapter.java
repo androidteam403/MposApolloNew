@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -36,9 +37,11 @@ public class SelectedPickupProcessProductsAdapter extends RecyclerView.Adapter<S
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RacksDataResponse.FullfillmentDetail.Product product = productList.get(position);
-        holder.selectedPickupProcessProductsBinding.statusUpdateIcon.setOnClickListener(view -> {
+        holder.selectedPickupProcessProductsBinding.start.setOnClickListener(view -> {
             if (mvpView != null) {
                 mvpView.onClickStausIcon();
+//                holder.selectedPickupProcessProductsBinding.start.setVisibility(View.GONE);
+//                holder.selectedPickupProcessProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             }
         });
 

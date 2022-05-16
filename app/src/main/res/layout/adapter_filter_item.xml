@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/parent"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen35dp"
+        android:layout_margin="@dimen/five_dp">
+
+        <TextView
+            android:id="@+id/filter_name"
+            android:layout_width="@dimen/dimen150dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dimen10dp"
+            android:paddingRight="@dimen/dimen10dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen12sp" />
+
+    </RelativeLayout>
+</layout>
