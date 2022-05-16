@@ -296,7 +296,7 @@ public class OMSOrderForwardResponse implements Serializable {
         private Integer total;
         @SerializedName("TotalDiscAmount")
         @Expose
-        private Integer totalDiscAmount;
+        private double totalDiscAmount;
         @SerializedName("TotalDiscPct")
         @Expose
         private Integer totalDiscPct;
@@ -939,11 +939,11 @@ public class OMSOrderForwardResponse implements Serializable {
             this.total = total;
         }
 
-        public Integer getTotalDiscAmount() {
+        public double getTotalDiscAmount() {
             return totalDiscAmount;
         }
 
-        public void setTotalDiscAmount(Integer totalDiscAmount) {
+        public void setTotalDiscAmount(double totalDiscAmount) {
             this.totalDiscAmount = totalDiscAmount;
         }
 

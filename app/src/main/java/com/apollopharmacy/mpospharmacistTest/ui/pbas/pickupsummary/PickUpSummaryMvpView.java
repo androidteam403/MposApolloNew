@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrder
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
 
@@ -35,4 +36,8 @@ public interface PickUpSummaryMvpView extends MvpView {
     void onClickScanCode();
 
     void onClickUpdateOMSOrder_pickingconfirmation();
+
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
+
+
 }

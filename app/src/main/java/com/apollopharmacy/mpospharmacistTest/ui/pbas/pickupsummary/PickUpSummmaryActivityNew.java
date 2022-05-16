@@ -33,6 +33,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
@@ -178,8 +179,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
         count++;
         if (count == omsOrderForwardRequests.size()) {
-            gotoOpenOrder();
+            mPresenter.mposPickPackOrderReservationApiCall(3, selectedOmsHeaderList);
             Toast.makeText(getApplicationContext(), "SUCCESS!!" + response.getReservedSalesLine().size(), Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -410,11 +412,20 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 3) {
+            if (mposPickPackOrderReservationResponse != null)
+                gotoOpenOrder();
+        }
+    }
+
     private void gotoOpenOrder() {
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_p, null, false);
         dialog.setContentView(updateStatusBinding.getRoot());
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
             mPresenter.setFullfillmentData(racksDataResponse);

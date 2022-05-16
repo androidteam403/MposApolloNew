@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupProcessPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -37,6 +40,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.Order
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
@@ -86,7 +90,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         mPresenter.onAttach(PickupProcessActivity.this);
         setUp();
     }
-
 
     int getOrderPos;
     String itemStatus;
@@ -320,6 +323,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
                 orderAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 2) {
+            if (mposPickPackOrderReservationResponse != null)
+                doBackPressed();
         }
     }
 
@@ -766,9 +777,22 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onBackPressed() {
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(PickupProcessActivity.this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
+            dialog.dismiss();
+        });
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    private void doBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
     }
-
-
 }

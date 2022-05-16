@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
 
@@ -70,4 +71,7 @@ public interface PickupProcessMvpView extends MvpView {
     void checkBatchInventoryFailed(String message);
 
     void onClickOrderAdapterArrow(int pos);
+
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
+
 }
