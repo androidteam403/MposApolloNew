@@ -780,11 +780,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //
 //
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBackPressed() {
         Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(PickupProcessActivity.this), R.layout.dialog_cancel, null, false);
         dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.dialogMessage.setText("Do you really want to cancel orders");
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();

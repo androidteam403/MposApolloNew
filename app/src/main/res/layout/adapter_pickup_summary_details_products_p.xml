@@ -35,7 +35,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -46,7 +47,6 @@
                         android:textSize="@dimen/ten_sp" />
 
                     <TextView
-                        android:id="@+id/rack_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -76,8 +76,7 @@
                     android:layout_width="@dimen/twenty_dp"
                     android:layout_height="@dimen/twenty_dp"
                     android:contentDescription="@string/app_name"
-                    android:rotation="270"
-                    />
+                    android:rotation="270" />
 
             </RelativeLayout>
 
@@ -109,12 +108,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Batch No"
+                        android:text="Rack No"
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/eight_sp" />
 
                     <TextView
-                        android:id="@+id/batch_no"
+                        android:id="@+id/rack_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -127,7 +126,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
                         android:textSize="@dimen/eight_sp" />
 
                     <TextView
-                        android:id="@+id/strip_mrp"
+                        android:id="@+id/apollo_mrp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -162,7 +162,7 @@
                         android:textSize="@dimen/eight_sp" />
 
                     <TextView
-                        android:id="@+id/apollo_mrp"
+                        android:id="@+id/strip_mrp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -181,6 +181,57 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dimen1dp"
                 android:layout_weight=".15" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="Batch No."
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="Exp.Date"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="Mrp"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="QOH"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="req.Qty"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
 
         </LinearLayout>
 

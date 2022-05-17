@@ -72,6 +72,7 @@
                                         android:textColor="@color/black" />
 
                                     <TextView
+                                        android:id="@+id/box_id"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
@@ -121,9 +122,9 @@
                                         android:id="@+id/fullfilment_idnumber"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="887766"
-                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
@@ -145,9 +146,9 @@
                                         android:id="@+id/total_items"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="5"
-                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
@@ -201,11 +202,11 @@
                                         android:textSize="@dimen/dimen10sp" />
 
                                     <ImageView
+                                        android:id="@+id/status_update_icon"
                                         android:layout_width="@dimen/twenty_dp"
                                         android:layout_height="@dimen/twenty_dp"
                                         android:layout_marginStart="@dimen/five_dp"
                                         android:contentDescription="@string/app_name"
-                                        android:id="@+id/status_update_icon"
                                         android:rotation="270" />
 
                                 </LinearLayout>
@@ -229,11 +230,11 @@
                                         android:id="@+id/duration"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="0:25:20"
-                                        android:layout_marginStart="@dimen/dimen5dp"
-                                        android:textSize="@dimen/dimen10sp"
-                                        android:textColor="@color/black" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -320,9 +321,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Name"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -338,9 +339,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Mobile Number"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -355,9 +356,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Doctor Name"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -372,9 +373,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="City"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -389,9 +390,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Pincode"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -478,9 +479,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Vendor ID"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -495,9 +496,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="OrderBillValue"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -512,9 +513,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="State Code"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -529,9 +530,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Address"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -546,18 +547,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Comments"
-                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
                                 <TextView
                                     android:id="@+id/comments"
-                                    android:text="---"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
+                                    android:text="---"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 
@@ -620,54 +621,54 @@
                             android:padding="@dimen/five_dp" />
                     </LinearLayout>
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="@dimen/five_dp"-->
-<!--                        android:fontFamily="@font/roboto_regular"-->
-<!--                        android:text="Present Status"-->
-<!--                        android:textColor="@color/text_color_grey"-->
-<!--                        android:textSize="@dimen/twelve_sp" />-->
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/five_dp"-->
+                    <!--                        android:fontFamily="@font/roboto_regular"-->
+                    <!--                        android:text="Present Status"-->
+                    <!--                        android:textColor="@color/text_color_grey"-->
+                    <!--                        android:textSize="@dimen/twelve_sp" />-->
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="@dimen/five_dp"-->
-<!--                        android:layout_marginEnd="@dimen/five_dp"-->
-<!--                        android:layout_marginBottom="@dimen/fifty_dp"-->
-<!--                        android:background="@drawable/dashboard_edit_bg"-->
-<!--                        android:gravity="center_vertical"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:padding="@dimen/five_dp">-->
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="@dimen/five_dp"-->
+                    <!--                        android:layout_marginEnd="@dimen/five_dp"-->
+                    <!--                        android:layout_marginBottom="@dimen/fifty_dp"-->
+                    <!--                        android:background="@drawable/dashboard_edit_bg"-->
+                    <!--                        android:gravity="center_vertical"-->
+                    <!--                        android:orientation="horizontal"-->
+                    <!--                        android:padding="@dimen/five_dp">-->
 
-<!--                        <ImageView-->
-<!--                            android:layout_width="@dimen/fifteen_dp"-->
-<!--                            android:layout_height="@dimen/fifteen_dp"-->
-<!--                            android:contentDescription="@string/app_name"-->
-<!--                            android:rotation="270"-->
-<!--                            android:src="@drawable/partialcirculargreeenorange" />-->
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="@dimen/fifteen_dp"-->
+                    <!--                            android:layout_height="@dimen/fifteen_dp"-->
+                    <!--                            android:contentDescription="@string/app_name"-->
+                    <!--                            android:rotation="270"-->
+                    <!--                            android:src="@drawable/partialcirculargreeenorange" />-->
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/five_dp"-->
-<!--                            android:fontFamily="@font/roboto_medium"-->
-<!--                            android:text="Partially Filled"-->
-<!--                            android:textColor="@color/black" />-->
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_marginStart="@dimen/five_dp"-->
+                    <!--                            android:fontFamily="@font/roboto_medium"-->
+                    <!--                            android:text="Partially Filled"-->
+                    <!--                            android:textColor="@color/black" />-->
 
-<!--                        <RelativeLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content">-->
+                    <!--                        <RelativeLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content">-->
 
-<!--                            <ImageView-->
-<!--                                android:layout_width="@dimen/dimen15dp"-->
-<!--                                android:layout_height="@dimen/dimen15dp"-->
-<!--                                android:layout_alignParentEnd="true"-->
-<!--                                android:contentDescription="@string/app_name"-->
-<!--                                android:rotation="270"-->
-<!--                                android:src="@drawable/ic_baseline_arrow_back_ios_24" />-->
-<!--                        </RelativeLayout>-->
-<!--                    </LinearLayout>-->
+                    <!--                            <ImageView-->
+                    <!--                                android:layout_width="@dimen/dimen15dp"-->
+                    <!--                                android:layout_height="@dimen/dimen15dp"-->
+                    <!--                                android:layout_alignParentEnd="true"-->
+                    <!--                                android:contentDescription="@string/app_name"-->
+                    <!--                                android:rotation="270"-->
+                    <!--                                android:src="@drawable/ic_baseline_arrow_back_ios_24" />-->
+                    <!--                        </RelativeLayout>-->
+                    <!--                    </LinearLayout>-->
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>

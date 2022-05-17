@@ -4,8 +4,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transperent_black_color"
-        >
+        android:background="@color/transperent_black_color">
 
 
         <LinearLayout
@@ -28,11 +27,12 @@
 
 
             <TextView
+                android:id="@+id/dialog_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/roboto_bold"
                 android:layout_marginTop="@dimen/dimen30dp"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Do You Really Want to Exit?"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_dimen_14" />
