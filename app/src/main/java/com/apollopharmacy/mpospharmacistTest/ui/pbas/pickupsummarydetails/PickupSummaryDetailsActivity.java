@@ -1,8 +1,11 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.widget.Chronometer;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +30,8 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
     private ActivityPickupSummaryDetailsPBinding pickupSummaryDetailsBinding;
     private TransactionHeaderResponse.OMSHeader selectedOmsHeader;
     String time, stopWatch;
-
+    Chronometer stopWatchs;
+    long countUp;
 
     public static Intent getStartActivity(Context context, TransactionHeaderResponse.OMSHeader selectedOmsHeader, String time, String stopWatch) {
         Intent intent = new Intent(context, PickupSummaryDetailsActivity.class);
@@ -47,6 +51,7 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
         setUp();
     }
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void setUp() {
         pickupSummaryDetailsBinding.setCallback(mPresenter);
@@ -55,7 +60,26 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             time = (String) i.getStringExtra("time");
             stopWatch = (String) i.getStringExtra("stopWatch");
             pickupSummaryDetailsBinding.starttime.setText(time);
-            pickupSummaryDetailsBinding.duration.setText(stopWatch);
+//            pickupSummaryDetailsBinding.duration.setText(stopWatch);
+stopWatchs=(Chronometer) findViewById(R.id.duration);
+
+
+            stopWatchs.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer arg0) {
+                    countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
+
+                    String asText = (countUp / 60) + ":" + (countUp % 60);
+//                pickupProcessBinding.timer.setText(asText);
+//                 asText1 = stopWatch.getFormat();
+//                int h = (int)(countUp /3600000);
+//                int m = (int)(countUp - h*3600000)/60000;
+//                int s= (int)(countUp - h*3600000- m*60000);
+                }
+            });
+            stopWatchs.start();
+
+
             selectedOmsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDER);
             pickupSummaryDetailsBinding.customerType.setText(selectedOmsHeader.getCustomerType());
             pickupSummaryDetailsBinding.orderSource.setText(selectedOmsHeader.getOrderSource());
@@ -91,6 +115,9 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
             pickupSummaryDetailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
             pickupSummaryDetailsBinding.productListRecycler.setAdapter(pickUpSummaryAdapter);
         }
+
+
+
     }
 
     @Override

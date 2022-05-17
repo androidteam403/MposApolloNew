@@ -69,6 +69,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesT
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -289,7 +291,8 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<OMSTransactionHeaderResModel> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionHeaderReqModel omsTransactionHeaderReqModel);
-
+    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
+    Call<OMSTransactionResponse> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionRequest omsTransactionHeaderReq);
     @POST("SalesTransactionService.svc/GetOMSTransaction")
     Call<ArrayList<CustomerDataResBean>> GET_OMS_TRANSACTION(@Body CustomerDataReqBean customerDataReqBean);
 

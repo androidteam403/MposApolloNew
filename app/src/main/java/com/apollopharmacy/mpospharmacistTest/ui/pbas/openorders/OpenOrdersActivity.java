@@ -101,6 +101,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 if (editable.length() >= 2) {
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
+
                     }
                 } else {
                     if (fullfilmentAdapter != null) {
@@ -528,10 +529,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         BillerOrdersActivity.isBillerActivity = true;
 //        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
         Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
 
 
     }
