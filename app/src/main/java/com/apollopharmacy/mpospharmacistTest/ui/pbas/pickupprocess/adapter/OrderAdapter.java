@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogItemStatusDropdownPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -35,23 +37,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private int getOrderPos;
     private int getPos;
     private String status;
+    List<GetBatchInfoRes.BatchListObj> batchList;
 
 
     public OrderAdapter(Context mContext, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickupProcessMvpView pickupProcessMvpView) {
         this.mContext = mContext;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
+        this.batchList =  batchList;
 
     }
 
 
-    public OrderAdapter(Context context, List<RacksDataResponse.FullfillmentDetail> fullfillmentList, PickupProcessMvpView pickupProcessMvpView, List<List<RackAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered, boolean acessCheck) {
-        this.mContext = context;
-        this.fullfillmentList = fullfillmentList;
-        this.pickupProcessMvpView = pickupProcessMvpView;
-        this.listOfList = fullfillmentListOfListFiltered;
-        this.firstAccessCheck = acessCheck;
-    }
+//    public OrderAdapter(Context context, List<RacksDataResponse.FullfillmentDetail> fullfillmentList, PickupProcessMvpView pickupProcessMvpView, List<List<RackAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered, boolean acessCheck) {
+//        this.mContext = context;
+//        this.fullfillmentList = fullfillmentList;
+//        this.pickupProcessMvpView = pickupProcessMvpView;
+//        this.listOfList = fullfillmentListOfListFiltered;
+//        this.firstAccessCheck = acessCheck;
+//    }
+
 
     public void setSelectedOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         this.selectedOmsHeaderList = selectedOmsHeaderList;
@@ -117,7 +122,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
 
 
-        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList.get(position));
+        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);

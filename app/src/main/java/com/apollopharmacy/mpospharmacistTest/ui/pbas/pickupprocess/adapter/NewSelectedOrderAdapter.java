@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSelectedPickupProcessProductsPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
@@ -36,16 +38,20 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     GetOMSTransactionResponse.SalesLine position;
     private int orderAdapterPos;
     TransactionHeaderResponse.OMSHeader omsHeader;
+    List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
+    List<GetBatchInfoRes.BatchListObj> batchList;
 
 
-    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos, String refno, TransactionHeaderResponse.OMSHeader omsHeader) {
+    public NewSelectedOrderAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView pickupProcessMvpView, StatusUpdateCallback mCallback, int orderAdapterPos, String refno, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
         this.context = context;
         this.salesLineList = salesLineList;
         this.pickupProcessMvpView = pickupProcessMvpView;
         this.mCallback = mCallback;
         this.orderAdapterPos = orderAdapterPos;
         this.refNo = refno;
-        this.omsHeader = omsHeader;
+        this.omsHeader = this.omsHeader;
+        this.omsHeaderList=omsHeaderList;
+
     }
 
     @NonNull
@@ -61,6 +67,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
         this.position = salesLineList.get(position);
+
 
         holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLine.getItemName());
         holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
@@ -88,6 +95,8 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }
+
+
 
 
         holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -146,12 +155,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        if(salesLine.getGetBatchInfoRes()!=null){
+              holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
+            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter( context, salesLine.getGetBatchInfoRes().getBatchList());
+            new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+            holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
+            holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
+        }
     }
 
     @Override

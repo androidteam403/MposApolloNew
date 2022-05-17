@@ -32,11 +32,10 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
     int full = 0, par = 0, not = 0;
     String itemStatus;
 
-    public SummaryFullfillmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickUpSummaryMvpView pickupProcessMvpView, String itemStatus) {
+    public SummaryFullfillmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickUpSummaryMvpView pickupProcessMvpView) {
         this.context = context;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
-        this.itemStatus=itemStatus;
     }
 
     @NonNull
