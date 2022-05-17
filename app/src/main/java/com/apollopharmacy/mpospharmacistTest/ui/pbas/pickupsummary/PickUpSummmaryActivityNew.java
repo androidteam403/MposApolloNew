@@ -143,10 +143,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //        selectedOmsHeaderList.get(orderAdapterPos).setItemStatus(omsHeader.getItemStatus());
 
 //        if (rackListOfListFiltered != null)
-        summaryFullfillmentAdapter = new SummaryFullfillmentAdapter(PickUpSummmaryActivityNew.this, selectedOmsHeaderList, PickUpSummmaryActivityNew.this, omsHeader.getItemStatus());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickUpSummmaryActivityNew.this);
-        activityPickUpSummaryBinding.rackRecycler.setLayoutManager(mLayoutManager);
-        activityPickUpSummaryBinding.rackRecycler.setAdapter(summaryFullfillmentAdapter);
+        if(selectedOmsHeaderList!=null && selectedOmsHeaderList.size()>0){
+            summaryFullfillmentAdapter = new SummaryFullfillmentAdapter(PickUpSummmaryActivityNew.this, selectedOmsHeaderList, PickUpSummmaryActivityNew.this);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickUpSummmaryActivityNew.this);
+            activityPickUpSummaryBinding.rackRecycler.setLayoutManager(mLayoutManager);
+            activityPickUpSummaryBinding.rackRecycler.setAdapter(summaryFullfillmentAdapter);
+        }
+
         activityPickUpSummaryBinding.headerBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,15 +2,18 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.adapt
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPickupSummaryDetailsProductsPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.SelectedBatchListAdapter;
 
 import java.util.List;
 
@@ -51,7 +54,13 @@ public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<Pi
         }  if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
         }
-
+        if(salesLine.getGetBatchInfoRes()!=null){
+            holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
+            PickUpSummaryBatchesAdapter pickUpSummaryBatchesAdapter = new PickUpSummaryBatchesAdapter( context, salesLine.getGetBatchInfoRes().getBatchList());
+            new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+            holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
+            holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(pickUpSummaryBatchesAdapter);
+        }
     }
 
 
