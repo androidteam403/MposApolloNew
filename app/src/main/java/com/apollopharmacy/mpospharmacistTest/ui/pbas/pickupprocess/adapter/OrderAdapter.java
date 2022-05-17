@@ -97,7 +97,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
         holder.orderBinding.vendorId.setText(omsHeader.getVendorId());
         holder.orderBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
-//       holder.orderBinding.orderbillvalue.setText(omsHeader.getGetOMSTransactionResponse().getRoundedAmount());
+        holder.orderBinding.orderbillvalue.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getNetAmount()));
         holder.orderBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
         holder.orderBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
         holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
