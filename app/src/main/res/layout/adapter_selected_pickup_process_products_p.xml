@@ -63,6 +63,7 @@
                 android:layout_weight=".15"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1/1"
+                android:textSize="13dp"
                 android:textColor="@color/black" />
 
             <RelativeLayout

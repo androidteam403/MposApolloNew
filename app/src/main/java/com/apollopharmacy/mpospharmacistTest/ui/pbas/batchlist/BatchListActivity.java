@@ -74,18 +74,19 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
-        searchByBatchId();
+       searchByFulfilmentId();
+
     }
 
-    public void searchByBatchId() {
+    private void searchByFulfilmentId() {
         batchlistBinding.searchbybatchId.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
@@ -103,6 +104,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
         });
     }
+
+
+
 //    private List<BatchListModel> getBatchList() {
 
 //        batchListModel.setBatchId("95374664110");
@@ -363,9 +367,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj) {
-        Constant.getInstance().manualSelectedPosition = position;
-        Constant.getInstance().enteredQuantity = quantity;
-        Constant.getInstance().isSelectedBatch = true;
+//        Constant.getInstance().manualSelectedPosition = position;
+//        Constant.getInstance().enteredQuantity = quantity;
+//        Constant.getInstance().isSelectedBatch = true;
         if (body != null && body.size() > 0) {
             for (int i = 0; i < body.size(); i++) {
                 if (!body.get(i).getPhysicalbatchstatus()) {

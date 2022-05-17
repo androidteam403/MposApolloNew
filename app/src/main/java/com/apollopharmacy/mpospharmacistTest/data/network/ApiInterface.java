@@ -78,6 +78,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOm
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -342,4 +344,10 @@ public interface ApiInterface {
 
     @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
     Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
+
+
+    //created by naveen
+    @POST("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")
+    Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Body MPOSPickPackOrderReservationRequest request);
+
 }

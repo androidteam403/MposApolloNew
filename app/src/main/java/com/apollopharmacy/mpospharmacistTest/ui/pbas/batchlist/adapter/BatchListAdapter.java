@@ -60,6 +60,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
 
 
+        if (batchListModel.isSelected()) {
+            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
+        } else {
+            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
+        }
+
 //        holder.adapterBatchlistBinding.requiredQuantity.setText(reqqty);
 //        if (reqqty == (double) reqqty) {
 //            double d = reqqty;
@@ -160,12 +166,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                     if (batchListMvpView != null) {
                         batchListMvpView.onClickSelectedBatch(batchListModel);
                     }
-                } else {
-                    Toast.makeText(mContext, "You have entered more than available qty", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(mContext, "required qty should not be empty", Toast.LENGTH_SHORT).show();
-            }
+               }
+//                else {
+////                    Toast.makeText(mContext, "You have entered more than available qty", Toast.LENGTH_SHORT).show();
+////                }
+           }
+//                else {
+//                Toast.makeText(mContext, "required qty should not be empty", Toast.LENGTH_SHORT).show();
+//            }
         });
 
         holder.adapterBatchlistBinding.iconPointsAllow.setOnClickListener(new View.OnClickListener() {

@@ -82,6 +82,22 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
+
+        openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrdersBinding.searchByfulfimentid.setText("");
+                openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        if(openOrdersBinding.searchByfulfimentid.getText().toString().equals("")){
+            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+        }
     }
 
     private void searchByFulfilmentId() {
@@ -99,9 +115,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    openOrdersBinding.searchIcon.setVisibility(View.GONE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
-
                     }
                 } else {
                     if (fullfilmentAdapter != null) {
@@ -111,6 +128,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         });
     }
+
+
 
     int getPos;
 
@@ -527,12 +546,12 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-//        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
-        startActivity(intent);
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
+//        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
     }
@@ -564,7 +583,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
                         selectedOmsHeaderList.remove(i);
-                        break;
                     }
                 }
             }
