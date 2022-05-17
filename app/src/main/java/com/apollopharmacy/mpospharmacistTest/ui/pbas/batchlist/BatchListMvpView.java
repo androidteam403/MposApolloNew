@@ -12,7 +12,7 @@ public interface BatchListMvpView extends MvpView {
 
     void onFailedBatchInfo(GetBatchInfoRes body);
 
-    void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position);
+    void onCheckBoxClick(GetBatchInfoRes.BatchListObj item, int position, double reservedqty);
 
     void onUncheckBoxClick(GetBatchInfoRes.BatchListObj batchListModel, double reqqty);
 
@@ -27,4 +27,6 @@ public interface BatchListMvpView extends MvpView {
     void onNavigateNextActivity();
 
     void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj);
+
+    void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel);
 }

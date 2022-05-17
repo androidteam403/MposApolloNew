@@ -22,7 +22,6 @@ public class TransactionHeaderResponse implements Serializable {
     private String returnMessage;
 
 
-
     public List<OMSHeader> getOMSHeader() {
         return oMSHeader;
     }
@@ -122,6 +121,7 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean scanView;
         private String itemStatus = "";
         private String scannedBarcode;
+        private boolean isExpanded;
         private GetOMSTransactionResponse getOMSTransactionResponse;
 
         public String getFulfilId() {
@@ -350,6 +350,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setScannedBarcode(String scannedBarcode) {
             this.scannedBarcode = scannedBarcode;
+        }
+
+        public boolean isExpanded() {
+            return isExpanded;
+        }
+
+        public void setExpanded(boolean expanded) {
+            isExpanded = expanded;
         }
     }
 }

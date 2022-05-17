@@ -27,7 +27,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.Fullfilm
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
@@ -62,7 +61,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
 
 
-
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
 
@@ -84,6 +82,22 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
+
+        openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrdersBinding.searchByfulfimentid.setText("");
+                openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        if(openOrdersBinding.searchByfulfimentid.getText().toString().equals("")){
+            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+        }
     }
 
     private void searchByFulfilmentId() {
@@ -101,6 +115,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    openOrdersBinding.searchIcon.setVisibility(View.GONE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
@@ -112,6 +128,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         });
     }
+
+
 
     int getPos;
 
@@ -354,20 +372,19 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
-
-
-
     }
 
 
     //    public TransactionHeaderResponse omsHeader;
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i =0; i<omsHeader.getOMSHeader().size();i++){
-            if (!omsHeader.getOMSHeader().get(i).getOrderPickup()){
+        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
+            if (!omsHeader.getOMSHeader().get(i).getOrderPickup()) {
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
         }
+
+
 //        omsHeaderList = omsHeader.getOMSHeader();
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
@@ -461,8 +478,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 //
 
 
-
-
                 // stock availability filter list.
                 filterModel = new FilterModel();
                 filterModel.setName(omsHeaderList.get(i).getStockStatus());
@@ -531,12 +546,12 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-//        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
-        Intent intent= new Intent(OpenOrdersActivity.this, ScannerActivity.class);
-        startActivity(intent);
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+//        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
     }
@@ -568,7 +583,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
                         selectedOmsHeaderList.remove(i);
-                        break;
                     }
                 }
             }
@@ -577,7 +591,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
             onContinueBtnEnable();
         } else {
-            mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
+            if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > selectedOmsHeaderList.size()) {
+                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
+            } else {
+                Toast.makeText(this, "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -666,10 +684,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedOmsHeaderList.size() + "/" + omsHeaderList.size());
+            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
             openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
             openOrdersBinding.setIsContinueSelect(true);
-            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + omsHeaderList.size());
+            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         } else {
             openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
             openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));

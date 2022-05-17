@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -91,13 +92,13 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
 //                }
 //            }
 //        }
-        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
-            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
-                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
-                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
-                }
-            }
-        }
+//        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
+//            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+//                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+//                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
+//                }
+//            }
+//        }
         batchInfoRecycleAdapter = new BatchInfoRecycleAdapter(Constant.getInstance().arrBatchList, mContext);
         holder.batchinfolist.setAdapter(batchInfoRecycleAdapter);
         batchInfoRecycleAdapter.setClickListiner(ePrescriptionInfoMvpView);
@@ -145,9 +146,18 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
         holder.listItemMainBinding.addItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Constant.getInstance().pickupstatus = false;
-                Constant.getInstance().requestqty = item.getQty();
-                ePrescriptionInfoMvpView.onNavigateNextActivity();
+                double totalBatchSelectedQty = 0.0;
+                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+                    totalBatchSelectedQty = totalBatchSelectedQty + Constant.getInstance().arrBatchList.get(i).getREQQTY();
+                }
+                if (totalBatchSelectedQty > item.getQty()) {
+//                    Toast.makeText(mContext, "You have enter more than request Qty", Toast.LENGTH_SHORT).show();
+                    ePrescriptionInfoMvpView.showtoastmessage("You have enter more than request Qty");
+                } else {
+                    Constant.getInstance().pickupstatus = false;
+                    Constant.getInstance().requestqty = item.getQty();
+                    ePrescriptionInfoMvpView.onNavigateNextActivity();
+                }
             }
         });
         holder.listItemMainBinding.itemView.setOnClickListener(new View.OnClickListener() {

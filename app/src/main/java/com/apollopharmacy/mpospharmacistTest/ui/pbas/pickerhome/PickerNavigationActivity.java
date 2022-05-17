@@ -42,8 +42,6 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         setUp();
 
 
-
-
     }
 
     @Override
@@ -52,12 +50,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         setSupportActionBar(activityNavigation3Binding.appBarMain.toolbar);
 
 
-
-
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_dashboard)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
-
 
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -72,13 +67,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_p, menu);
         userName = findViewById(R.id.user_name);
-        userStore = findViewById(R.id.user_store);
+//        userStore = findViewById(R.id.user_store);
 
         userName.setText(mPresenter.getLoginUserName());
-        userStore.setText(mPresenter.getLoinStoreLocation());
+//        userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
-
-
     }
 
     @Override
@@ -86,7 +79,5 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-
-
     }
 }

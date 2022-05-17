@@ -36,7 +36,7 @@ public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<Pi
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
         holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLine.getItemName());
         holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
-        holder.pickupSummaryDetailsProductsBinding.batchNo.setText("-");
+//        holder.pickupSummaryDetailsProductsBinding.batchNo.setText("-");
         holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
         holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");

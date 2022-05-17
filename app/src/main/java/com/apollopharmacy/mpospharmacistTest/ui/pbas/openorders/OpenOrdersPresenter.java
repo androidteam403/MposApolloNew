@@ -11,6 +11,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -83,6 +84,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            reqModel.setIsMPOS(getDataManager().getGlobalJson().getMPOSVersion());
+            reqModel.setUserName(getDataManager().getUserName());
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
@@ -152,6 +155,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
         return getDataManager().getTotalOmsHeaderList();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfiguration() {
+        return getDataManager().getGlobalJson();
     }
 }
 

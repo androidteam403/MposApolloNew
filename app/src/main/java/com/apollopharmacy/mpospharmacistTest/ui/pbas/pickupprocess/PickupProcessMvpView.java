@@ -3,12 +3,14 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 import android.widget.Spinner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
 
@@ -53,18 +55,23 @@ public interface PickupProcessMvpView extends MvpView {
 
 
     //new Callbacks
-    void onClickOrderItem(int pos);
+    void onClickOrderItem(int pos, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onClickSalesLine(int position, String status);
 
-    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos,  String status);
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
 
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
 
-    void checkBatchInventorySuccess(String status);
+    void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body);
 
     void checkBatchInventoryFailed(String message);
+
+    void onClickOrderAdapterArrow(int pos);
+
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
+
 }

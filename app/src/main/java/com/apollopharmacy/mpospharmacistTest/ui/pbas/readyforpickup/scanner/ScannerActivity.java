@@ -1,20 +1,17 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
@@ -40,23 +37,27 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
 
-
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
         fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
+        int scannedOrdersCount = 0;
+        if (!BillerOrdersActivity.isBillerActivity) {
+            if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && ReadyForPickUpActivity.selectedOmsHeaderListTest.size() > 0) {
+                for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                        fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getRefno());
+                        pos = i;
+                        break;
+                    }
+                }
+                for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() != null && !ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                        scannedOrdersCount++;
+                    }
+                }
 
-        Intent intent = getIntent();
-        int position=intent.getExtras().getInt("position");
-        boolean isReadyforPickup = intent.getExtras().getBoolean("isReadyforPickup");
-//        Intent intent = getIntent();
-//        int position=intent.getExtras().getInt("position");
-
-
-
-//        if (!BillerOrdersActivity.isBillerActivity) {
-//            barcodeCount.setText("0/" + ReadyForPickUpActivity.fullfillmentDetailList.size());
-//        } else {
-//            barcodeCount.setVisibility(View.GONE);
-//        }
+            }
+        }
+        barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
@@ -68,21 +69,13 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         //set torch listener
         barcodeScannerView.setTorchListener(this);
 
-
-            if(isReadyforPickup){
-                textView= findViewById(R.id.fullfillmentIdscanner);
-                textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID: " + racksDataResponse.get(position).getRefno());
-            }
-
-
-
-
         //switch flashlight button
         switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
         switchFlashlightButton.setVisibility(View.GONE);
 
         //start capture
         capture = new CaptureManager(this, barcodeScannerView);
+        capture.setOrderPos(pos);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);
         this.savedInstanceState = savedInstanceState;
@@ -157,11 +150,32 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
     @Override
     public void scannedListener(List<String> barcodeList) {
-        pos++;
+        int scannedOrdersCount = 0;
+        if (!BillerOrdersActivity.isBillerActivity) {
+            if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && ReadyForPickUpActivity.selectedOmsHeaderListTest.size() > 0) {
+                for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                        fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getRefno());
+                        pos = i;
+                        break;
+                    }
+                }
+                for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() != null && !ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                        scannedOrdersCount++;
+                    }
+                }
+            }
+
+        }
+
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
-        barcodeCount.setText(barcodeList.size() + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
+        barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
+
+
         capture = new CaptureManager(this, barcodeScannerView);
+        capture.setOrderPos(pos);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);
         capture.initializeFromIntent(getIntent(), savedInstanceState);

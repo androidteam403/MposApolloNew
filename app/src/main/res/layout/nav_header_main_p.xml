@@ -26,14 +26,14 @@
         android:fontFamily="@font/roboto_regular"
         android:textColor="@color/white"/>
 
-    <TextView
-        android:layout_marginTop="2dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/white"
-        android:id="@+id/user_store"
-        android:text="Srivardhini@gmail.com"/>
+<!--    <TextView-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:id="@+id/user_store"-->
+<!--        android:text="Srivardhini@gmail.com"/>-->
 </LinearLayout>
     <View
         android:layout_width="match_parent"
