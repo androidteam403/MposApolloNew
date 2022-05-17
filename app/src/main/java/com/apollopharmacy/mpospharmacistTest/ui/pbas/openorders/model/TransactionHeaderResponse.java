@@ -93,6 +93,9 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("ReciptId")
         @Expose
         private String reciptId;
+        @SerializedName("NumberofItemLines")
+        @Expose
+        private int NumberofItemLines;
         @SerializedName("ShippingMethod")
         @Expose
         private String shippingMethod;
@@ -254,6 +257,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setReciptId(String reciptId) {
             this.reciptId = reciptId;
+        }
+
+        public int getNumberofItemLines() {
+            return NumberofItemLines;
+        }
+
+        public void setNumberofItemLines(int numberofItemLines) {
+            NumberofItemLines = numberofItemLines;
         }
 
         public String getShippingMethod() {

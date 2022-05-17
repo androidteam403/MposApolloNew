@@ -59,7 +59,11 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
 
             selectedOmsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDER);
             String boxId = (String) getIntent().getSerializableExtra("box_id");
-            pickupSummaryDetailsBinding.boxId.setText(boxId.substring(boxId.length() - 4));
+            if (boxId != null && !boxId.isEmpty()) {
+                pickupSummaryDetailsBinding.boxId.setText(boxId.substring(boxId.length() - 4));
+            } else {
+                pickupSummaryDetailsBinding.boxId.setText("-");
+            }
             time = (String) getIntent().getStringExtra("time");
             stopWatch = (String) getIntent().getStringExtra("stopWatch");
 

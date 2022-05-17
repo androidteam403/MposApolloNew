@@ -50,7 +50,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         this.orderAdapterPos = orderAdapterPos;
         this.refNo = refno;
         this.omsHeader = this.omsHeader;
-        this.omsHeaderList=omsHeaderList;
+        this.omsHeaderList = omsHeaderList;
 
     }
 
@@ -95,8 +95,6 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
         }
-
-
 
 
         holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -155,9 +153,9 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
 
 
-        if(salesLine.getGetBatchInfoRes()!=null){
-              holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
-            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter( context, salesLine.getGetBatchInfoRes().getBatchList());
+        if (salesLine.getGetBatchInfoRes() != null) {
+            holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
+            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList());
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
