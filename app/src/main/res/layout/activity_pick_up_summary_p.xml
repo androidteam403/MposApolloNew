@@ -63,23 +63,28 @@
                 android:textOn=""
                 android:visibility="gone" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen20dp"
-                android:layout_marginEnd="@dimen/dimen10dp">
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Start time : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen12sp" />
@@ -88,7 +93,7 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="9:45 AM"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen12sp" />
@@ -96,17 +101,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Total Duration : "
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Pickup Duration : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen12sp" />
 
@@ -114,20 +119,24 @@
                         android:id="@+id/timer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="0:35:33"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen12sp" />
+                        android:textSize="@dimen/dimen12sp"
+                        android:visibility="gone" />
 
                     <Chronometer
                         android:id="@+id/chrono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
                         android:visibility="visible" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rack_recycler"
@@ -158,6 +167,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="Forward to packer"
+                android:onClick="@{()-> callback.onClickUpdateOMSOrder_pickingconfirmation()}"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp" />
@@ -172,5 +182,9 @@
     </RelativeLayout>
 
     <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummaryMvpPresenter" />
     </data>
 </layout>
