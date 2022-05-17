@@ -47,8 +47,8 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     }
 
     @Override
-    public void onClickTakePrint() {
-        getMvpView().onClickTakePrint();
+    public void onClickTakePrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+        getMvpView().onClickTakePrint(omsHeader);
     }
 
     @Override
@@ -88,6 +88,7 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
 
             }
             if (check_epos.contains("9880")) {
+                replace_url = check_epos.replace("9880", "9887");
                 replace_url = check_epos.replace("9880", "9887");
 
             }

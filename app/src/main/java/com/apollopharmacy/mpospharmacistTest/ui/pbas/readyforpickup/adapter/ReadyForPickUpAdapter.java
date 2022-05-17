@@ -82,7 +82,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         });
         holder.adapterReadyForPickupBinding.takePrint1.setOnClickListener(view -> {
             if (readyForPickUpMvpView != null) {
-                readyForPickUpMvpView.onClickTakePrint();
+                readyForPickUpMvpView.onClickTakePrint(omsHeader);
             }
         });
 

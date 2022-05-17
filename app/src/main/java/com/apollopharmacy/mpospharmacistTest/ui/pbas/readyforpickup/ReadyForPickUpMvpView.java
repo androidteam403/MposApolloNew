@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 public interface ReadyForPickUpMvpView extends MvpView {
@@ -16,7 +17,7 @@ public interface ReadyForPickUpMvpView extends MvpView {
 //
 
 
-    void onClickTakePrint();
+    void onClickTakePrint(TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onClickStartPickingWithoutQrCode();
 

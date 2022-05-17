@@ -13,7 +13,7 @@ public interface ReadyForPickUpMvpPresenter<V extends ReadyForPickUpMvpView> ext
 
     void cancel();
 
-    void onClickTakePrint();
+    void onClickTakePrint(TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onClickStartPickingWithoutQrCode();
 

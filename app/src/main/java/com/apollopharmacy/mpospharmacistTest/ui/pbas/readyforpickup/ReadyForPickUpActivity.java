@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,28 +20,31 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityReadyForPickupPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterReadyForPickupPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogPrinterDevicesPBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogTakePrintPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.ConnectprinterDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.PrinterDeviceListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter.ReadyForPickUpAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.ScanQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.UnTagQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.printf.manager.BluetoothManager;
+import com.printf.manager.PrintfTSPLManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
 public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPickUpMvpView {
 
@@ -60,7 +64,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private List<String> barcodeList;
     private List<String> list = new ArrayList<>();
     private String[] printerDeviceList = {"MLP 360", "SPP-L310_050007", "SQP-L210_054037"};
-
+    private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
 
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
 
@@ -228,30 +232,50 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
 
     @Override
-    public void onClickTakePrint() {
-        Dialog takePrintDialog = new Dialog(this);
-        DialogTakePrintPBinding takePrintBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_take_print_p, null, false);
-        takePrintDialog.setContentView(takePrintBinding.getRoot());
-        takePrintDialog.setCancelable(false);
-        takePrintBinding.no.setOnClickListener(view -> {
-            takePrintDialog.dismiss();
-        });
-        takePrintBinding.yes.setOnClickListener(view -> {
-            takePrintDialog.dismiss();
-            Dialog printerDeviceListDialog = new Dialog(this);
-            DialogPrinterDevicesPBinding printerDevicesBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_printer_devices_p, null, false);
-            printerDeviceListDialog.setContentView(printerDevicesBinding.getRoot());
-            printerDeviceListDialog.setCancelable(false);
-            PrinterDeviceListAdapter printerDeviceListAdapter = new PrinterDeviceListAdapter(ReadyForPickUpActivity.this, printerDeviceList);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            printerDevicesBinding.printerDevicesList.setLayoutManager(mLayoutManager1);
-            printerDevicesBinding.printerDevicesList.setItemAnimator(new DefaultItemAnimator());
-            printerDevicesBinding.printerDevicesList.setAdapter(printerDeviceListAdapter);
+    public void onClickTakePrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+            dialogView.setTitle("Do you want to Connect the Printer");
+            dialogView.setPositiveLabel("Ok");
+            dialogView.setPositiveListener(view -> {
+                dialogView.dismiss();
+                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(v -> dialogView.dismiss());
+            dialogView.show();
 
-            printerDevicesBinding.printerDevicesListDialogClose.setOnClickListener(view1 -> printerDeviceListDialog.dismiss());
-            printerDeviceListDialog.show();
-        });
-        takePrintDialog.show();
+            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            // return;
+        } else {
+            generatebarcode(omsHeader.getRefno());
+        }
+//        Dialog takePrintDialog = new Dialog(this);
+//        DialogTakePrintPBinding takePrintBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_take_print_p, null, false);
+//        takePrintDialog.setContentView(takePrintBinding.getRoot());
+//        takePrintDialog.setCancelable(false);
+//        takePrintBinding.no.setOnClickListener(view -> {
+//            takePrintDialog.dismiss();
+//        });
+//        takePrintBinding.yes.setOnClickListener(view -> {
+//            takePrintDialog.dismiss();
+//            Dialog printerDeviceListDialog = new Dialog(this);
+//            DialogPrinterDevicesPBinding printerDevicesBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_printer_devices_p, null, false);
+//            printerDeviceListDialog.setContentView(printerDevicesBinding.getRoot());
+//            printerDeviceListDialog.setCancelable(false);
+//            PrinterDeviceListAdapter printerDeviceListAdapter = new PrinterDeviceListAdapter(ReadyForPickUpActivity.this, printerDeviceList);
+//            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//            printerDevicesBinding.printerDevicesList.setLayoutManager(mLayoutManager1);
+//            printerDevicesBinding.printerDevicesList.setItemAnimator(new DefaultItemAnimator());
+//            printerDevicesBinding.printerDevicesList.setAdapter(printerDeviceListAdapter);
+//
+//            printerDevicesBinding.printerDevicesListDialogClose.setOnClickListener(view1 -> printerDeviceListDialog.dismiss());
+//            printerDeviceListDialog.show();
+//        });
+//        takePrintDialog.show();
     }
 
     @Override
@@ -341,5 +365,37 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private void doBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+    }
+
+    public void generatebarcode(String refnumber) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
+        } else {
+            PrintfTSPLManager instance = PrintfTSPLManager.getInstance(ReadyForPickUpActivity.this);
+            instance.clearCanvas();
+            instance.initCanvas(90, 23);
+            instance.setDirection(0);
+            //打印条形码
+            //Print barcode
+            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+            instance.beginPrintf(1);
+        }
+        /*MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(refnumber, BarcodeFormat.CODE_128, 242, 71);
+            Bitmap bitmap = Bitmap.createBitmap(242, 71, Bitmap.Config.RGB_565);
+            for (int i = 0; i < 242; i++) {
+                for (int j = 0; j < 71; j++) {
+                    bitmap.setPixel(i, j, bitMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
+                }
+            }
+
+            String encodedImage = BitMapToString(bitmap);
+            Constant.getInstance().global_barcode_str = encodedImage;
+            // activityEPrescriptionInfoBinding.imageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }*/
+
     }
 }
