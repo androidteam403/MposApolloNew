@@ -29,4 +29,18 @@ public interface BatchListMvpView extends MvpView {
     void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj);
 
     void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel);
+
+    void onClickFullPicked();
+
+    void onClickPartialPicked();
+
+    void onClickNotAvailable();
+
+    void onClickSkip();
+
+    void onClickAutoUpdate();
+
+    void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body);
+
+    void checkBatchInventoryFailed(String message);
 }

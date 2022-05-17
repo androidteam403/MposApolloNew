@@ -35,6 +35,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -94,7 +95,7 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         });
 
-        if(openOrdersBinding.searchByfulfimentid.getText().toString().equals("")){
+        if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
             openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
             openOrdersBinding.deleteCancel.setVisibility(View.GONE);
         }
@@ -128,7 +129,6 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             }
         });
     }
-
 
 
     int getPos;
@@ -310,6 +310,16 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
         if (omsHeaderList != null && omsHeaderList.size() == 0) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
+        }
+
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for (int j = 0; j < Objects.requireNonNull(omsHeaderList).size(); j++) {
+                    if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(j).getRefno())) {
+                        omsHeaderList.get(j).setSelected(selectedOmsHeaderList.get(i).isSelected());
+                    }
+                }
+            }
         }
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
         fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, null);

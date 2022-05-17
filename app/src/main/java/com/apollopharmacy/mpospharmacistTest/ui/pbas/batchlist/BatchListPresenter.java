@@ -112,4 +112,69 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             getMvpView().onError("InternetConnection Not Available");
         }
     }
+
+    @Override
+    public void onClickFullPicked() {
+        getMvpView().onClickFullPicked();
+    }
+
+    @Override
+    public void onClickPartialPicked() {
+        getMvpView().onClickPartialPicked();
+    }
+
+    @Override
+    public void onClickNotAvailable() {
+        getMvpView().onClickNotAvailable();
+    }
+
+    @Override
+    public void onClickSkip() {
+        getMvpView().onClickSkip();
+    }
+
+    @Override
+    public void onClickAutoUpdate() {
+        getMvpView().onClickAutoUpdate();
+    }
+
+    @Override
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
+
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
+            inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
+            inventoryReq.setInventBatchID(items.getBatchNo());
+            inventoryReq.setItemID(items.getItemID());
+            inventoryReq.setRequestStatus(0);
+            inventoryReq.setReturnMessage("");
+            inventoryReq.setStock(qty);
+            inventoryReq.setStoreID(getDataManager().getStoreId());
+            inventoryReq.setTerminalID(getDataManager().getTerminalId());
+
+            Call<CheckBatchInventoryRes> call = api.CHECK_BATCH_INVENTORY_RES_CALL(inventoryReq);
+            call.enqueue(new Callback<CheckBatchInventoryRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CheckBatchInventoryRes> call, @NotNull Response<CheckBatchInventoryRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null)
+                            getMvpView().checkBatchInventorySuccess(finalStatus, response.body());
+                        else
+                            getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CheckBatchInventoryRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("InternetConnection Not Available");
+        }
+    }
 }

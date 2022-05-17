@@ -71,10 +71,19 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         orderAdapterPos = intent.getExtras().getInt("orderAdapterPos");
         newSelectedOrderAdapterPos = intent.getExtras().getInt("newSelectedOrderAdapterPos1");
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
+        if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null && !selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
+            batchlistBinding.boxId.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().substring(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().length() - 4));
+        } else {
+            batchlistBinding.boxId.setText("-");
+
+        }
+        batchlistBinding.availableQuantity.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+        batchlistBinding.requiredQty.setText(String.valueOf(salesLine.getQty()));
+        batchlistBinding.qtyEdit.setText(String.valueOf(salesLine.getQty()));
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
-       searchByFulfilmentId();
+        searchByFulfilmentId();
 
     }
 
@@ -104,7 +113,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
         });
     }
-
 
 
 //    private List<BatchListModel> getBatchList() {
@@ -140,7 +148,76 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     List<GetBatchInfoRes.BatchListObj> body;
 
     @Override
-    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
+    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> bodys) {
+        this.body = bodys;
+        if (body != null && body.size() > 0) {
+            double totalBatchDetailsQuantity = 0.0;
+            for (int i = 0; i < body.size(); i++) {
+                totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(body.get(i).getQ_O_H());
+            }
+            batchlistBinding.availableQuantity.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+            String status = "";
+            if (totalBatchDetailsQuantity >= salesLine.getQty()) {
+                status = "FULL";
+                checkAllFalse();
+                batchlistBinding.fullPickedRadio.setChecked(true);
+            } else if (totalBatchDetailsQuantity > 0.0) {
+                status = "PARTIAL";
+                checkAllFalse();
+                batchlistBinding.partiallyPickedRadio.setChecked(true);
+            } else {
+                status = "NOT AVAILABLE";
+                checkAllFalse();
+                batchlistBinding.notAvailableRadio.setChecked(true);
+            }
+
+            String finalStatus = status;
+            String finalStatus1 = status;
+            batchlistBinding.update.setOnClickListener(view1 -> {
+
+                int requiredQty = salesLine.getQty();
+                batchListObjsList = new ArrayList<>();
+                for (int i = 0; i < body.size(); i++) {
+                    if (Double.parseDouble(body.get(i).getQ_O_H()) >= requiredQty) {
+                        body.get(i).setSelected(true);
+                        body.get(i).setREQQTY(requiredQty);
+                        batchListObjsList.add(body.get(i));
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(finalStatus1);
+                        GetBatchInfoRes o = new GetBatchInfoRes();
+                        o.setBatchList(batchListObjsList);
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                        mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus);
+                        break;
+                    } else if (Double.parseDouble(body.get(i).getQ_O_H()) < requiredQty) {
+
+                        if (i == body.size() - 1) {
+                            body.get(i).setSelected(true);
+                            body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                            batchListObjsList.add(body.get(i));
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(finalStatus1);
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            o.setBatchList(batchListObjsList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus);
+                            requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
+                        } else {
+                            body.get(i).setSelected(true);
+                            body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                            batchListObjsList.add(body.get(i));
+                            mPresenter.checkBatchInventory(body.get(i), requiredQty, "");
+                            requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
+                        }
+
+
+                    }
+
+                }
+            });
+        } else {
+            Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
+        }
+
+
         if (selectedOmsHeaderList != null
                 && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse() != null
                 && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine() != null
@@ -157,13 +234,21 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 }
             }
         }
-        this.body = body;
+
         if (body.size() > 0) {
             batchListAdapter = new BatchListAdapter(this, this.body, this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
         }
+
+
+    }
+
+    private void checkAllFalse() {
+        batchlistBinding.fullPickedRadio.setChecked(false);
+        batchlistBinding.partiallyPickedRadio.setChecked(false);
+        batchlistBinding.notAvailableRadio.setChecked(false);
     }
 
     @Override
@@ -398,6 +483,42 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         if (batchListAdapter != null) {
             batchListAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onClickFullPicked() {
+
+    }
+
+    @Override
+    public void onClickPartialPicked() {
+
+    }
+
+    @Override
+    public void onClickNotAvailable() {
+
+    }
+
+    @Override
+    public void onClickSkip() {
+
+    }
+
+    @Override
+    public void onClickAutoUpdate() {
+
+    }
+
+    @Override
+    public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
+        if (body != null && !status.isEmpty())
+            onAddItemsClicked();
+    }
+
+    @Override
+    public void checkBatchInventoryFailed(String message) {
+
     }
 
     @Override

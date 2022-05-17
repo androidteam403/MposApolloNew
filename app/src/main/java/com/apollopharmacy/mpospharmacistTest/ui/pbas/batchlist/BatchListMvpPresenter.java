@@ -11,4 +11,16 @@ public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPr
     void onAddItemsClicked();
 
     void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos);
+
+    void onClickFullPicked();
+
+    void onClickPartialPicked();
+
+    void onClickNotAvailable();
+
+    void onClickSkip();
+
+    void onClickAutoUpdate();
+
+    void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus);
 }
