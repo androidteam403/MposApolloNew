@@ -56,8 +56,9 @@
                             android:id="@+id/header_orders_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/white"
+
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -93,6 +94,7 @@
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/two_dp"
+                android:id="@+id/selected_fullfillment"
                 android:text="Select Fullfillment or ScanCode to verify pickup"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve_sp" />
@@ -109,10 +111,10 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_weight="0.7"
                     android:background="@drawable/ic_rectangular_shape"
-                    android:focusable="false"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Search by Fullfillment ID"
                     android:padding="@dimen/five_dp"
+                    android:id="@+id/search_text"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />
@@ -132,7 +134,7 @@
                     android:layout_weight="0.3"
                     android:background="@drawable/ic_rectangular_shape"
                     android:backgroundTint="@color/green"
-                    android:onClick="@{()->callback.onClickScanCode()}"
+                    android:id="@+id/scancode"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -164,9 +166,21 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen10dp"
                 android:layout_marginBottom="@dimen/dimen55dp" />
+            <TextView
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:text="No Order Found"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp" />
         </LinearLayout>
 
         <LinearLayout
