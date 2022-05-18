@@ -1,9 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-
-import com.apollopharmacy.mpospharmacistTest.BR;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -246,7 +242,9 @@ public class GetOMSTransactionResponse implements Serializable {
     private String paymentSource;
     @SerializedName("PickPackReservation")
     @Expose
-    private Object pickPackReservation;
+    private PickPackReservation pickPackReservation;
+
+
     @SerializedName("PickupOtp")
     @Expose
     private String pickupOtp;
@@ -331,9 +329,6 @@ public class GetOMSTransactionResponse implements Serializable {
     @SerializedName("SalesLine")
     @Expose
     private List<SalesLine> salesLine = null;
-
-
-
 
 
     public static class SalesLine implements Serializable {
@@ -435,7 +430,7 @@ public class GetOMSTransactionResponse implements Serializable {
         }
 
         public void setResqty(boolean resqtyflag) {
-            Resqtyflag= resqtyflag;
+            Resqtyflag = resqtyflag;
         }
 
         private boolean isReturnClick = false;
@@ -2133,11 +2128,11 @@ public class GetOMSTransactionResponse implements Serializable {
         this.paymentSource = paymentSource;
     }
 
-    public Object getPickPackReservation() {
+    public PickPackReservation getPickPackReservation() {
         return pickPackReservation;
     }
 
-    public void setPickPackReservation(Object pickPackReservation) {
+    public void setPickPackReservation(PickPackReservation pickPackReservation) {
         this.pickPackReservation = pickPackReservation;
     }
 
@@ -2533,6 +2528,98 @@ public class GetOMSTransactionResponse implements Serializable {
         this.vendorId = vendorId;
     }
 
+    public class PickPackReservation {
+
+        @SerializedName("Expiry")
+        @Expose
+        private String expiry;
+        @SerializedName("PickupFullfillmentId")
+        @Expose
+        private String pickupFullfillmentId;
+        @SerializedName("PickupInventBatchId")
+        @Expose
+        private String pickupInventBatchId;
+        @SerializedName("PickupItemId")
+        @Expose
+        private String pickupItemId;
+        @SerializedName("PickupPhysicalInventBatchId")
+        @Expose
+        private String pickupPhysicalInventBatchId;
+        @SerializedName("PickupQty")
+        @Expose
+        private Integer pickupQty;
+        @SerializedName("Price")
+        @Expose
+        private Double price;
+        @SerializedName("TaxCode")
+        @Expose
+        private String taxCode;
+
+        public String getExpiry() {
+            return expiry;
+        }
+
+        public void setExpiry(String expiry) {
+            this.expiry = expiry;
+        }
+
+        public String getPickupFullfillmentId() {
+            return pickupFullfillmentId;
+        }
+
+        public void setPickupFullfillmentId(String pickupFullfillmentId) {
+            this.pickupFullfillmentId = pickupFullfillmentId;
+        }
+
+        public String getPickupInventBatchId() {
+            return pickupInventBatchId;
+        }
+
+        public void setPickupInventBatchId(String pickupInventBatchId) {
+            this.pickupInventBatchId = pickupInventBatchId;
+        }
+
+        public String getPickupItemId() {
+            return pickupItemId;
+        }
+
+        public void setPickupItemId(String pickupItemId) {
+            this.pickupItemId = pickupItemId;
+        }
+
+        public String getPickupPhysicalInventBatchId() {
+            return pickupPhysicalInventBatchId;
+        }
+
+        public void setPickupPhysicalInventBatchId(String pickupPhysicalInventBatchId) {
+            this.pickupPhysicalInventBatchId = pickupPhysicalInventBatchId;
+        }
+
+        public Integer getPickupQty() {
+            return pickupQty;
+        }
+
+        public void setPickupQty(Integer pickupQty) {
+            this.pickupQty = pickupQty;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        public String getTaxCode() {
+            return taxCode;
+        }
+
+        public void setTaxCode(String taxCode) {
+            this.taxCode = taxCode;
+        }
+
+    }
 }
 
 
