@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen1dp"
@@ -185,68 +185,51 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/headings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginEnd="@dimen/five_dp"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="1">
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight=".7"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:weightSum="1">-->
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:text="Batch No."
+                android:layout_weight=".25"
                 android:gravity="center"
+                android:text="@string/batch_no"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:text="Exp.Date"
+                android:layout_weight=".25"
                 android:gravity="center"
+                android:text="@string/label_exp_date"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:text="Mrp"
+                android:layout_weight=".25"
                 android:gravity="center"
+                android:text="@string/label_mrp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:text="QOH"
+                android:layout_weight=".25"
                 android:gravity="center"
+                android:text="@string/label_req_qty"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:text="req.Qty"
-                android:gravity="center"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/eight_sp" />
-
-            <!--            </LinearLayout>-->
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

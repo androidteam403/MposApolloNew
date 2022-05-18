@@ -43,4 +43,6 @@ public interface BatchListMvpView extends MvpView {
     void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body);
 
     void checkBatchInventoryFailed(String message);
+
+    void onClickBack();
 }

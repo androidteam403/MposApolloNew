@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/five_dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="pickup summary"
+                        android:text="@string/label_pickup_summary"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen16sp" />
@@ -166,8 +166,8 @@
                 android:background="@color/material_amber_accent_700"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:text="Forward to packer"
                 android:onClick="@{()-> callback.onClickUpdateOMSOrder_pickingconfirmation()}"
+                android:text="Forward to packer"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp" />

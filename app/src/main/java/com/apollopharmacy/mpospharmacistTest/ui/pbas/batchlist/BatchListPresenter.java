@@ -177,4 +177,9 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             getMvpView().onError("InternetConnection Not Available");
         }
     }
+
+    @Override
+    public void onClickBack() {
+        getMvpView().onClickBack();
+    }
 }
