@@ -71,6 +71,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         orderAdapterPos = intent.getExtras().getInt("orderAdapterPos");
         newSelectedOrderAdapterPos = intent.getExtras().getInt("newSelectedOrderAdapterPos1");
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
+        batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
         if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null && !selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
             batchlistBinding.boxId.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().substring(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().length() - 4));
         } else {
@@ -522,6 +523,11 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     }
 
     @Override
+    public void onClickBack() {
+        onBackPressed();
+    }
+
+    @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
 
 
@@ -545,8 +551,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-
     }
 
 
