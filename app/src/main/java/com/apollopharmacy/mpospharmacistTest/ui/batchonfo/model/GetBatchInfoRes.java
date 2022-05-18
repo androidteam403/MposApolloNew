@@ -10,7 +10,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-public class GetBatchInfoRes {
+public class GetBatchInfoRes implements Serializable {
 
 
     @Expose
@@ -29,6 +29,10 @@ public class GetBatchInfoRes {
 
     public int getRequestStatus() {
         return RequestStatus;
+    }
+
+    public void setBatchList(List<BatchListObj> batchList) {
+        BatchList = batchList;
     }
 
     public List<BatchListObj> getBatchList() {
@@ -113,7 +117,24 @@ public class GetBatchInfoRes {
         private boolean physicalbatchstatus;
 
         private  boolean updatezeroqtystatus;
+        private String batchId;
+        private boolean isBatchidSelect;
 
+        public String getBatchId() {
+            return batchId;
+        }
+
+        public void setBatchId(String batchId) {
+            this.batchId = batchId;
+        }
+
+        public boolean isBatchidSelect() {
+            return isBatchidSelect;
+        }
+
+        public void setBatchidSelect(boolean batchidSelect) {
+            isBatchidSelect = batchidSelect;
+        }
 
         private  String PhysicalBatchID;
 
