@@ -207,8 +207,8 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PickedUpOrdersActivity.this, PickUpVerificationActivity.class);
-//                String id=Result.getContents();
-//                intent.putExtra("fulfilmentId",id);
+              String id=Result.getContents();
+                intent.putExtra("fulfilmentId",id);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
             }

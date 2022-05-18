@@ -69,7 +69,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
 
         if (fullFillModel.getStockStatus() != null && fullFillModel.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
 
-            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
             holder.orderBinding.status.setText("Partial");
             holder.orderBinding.statusIcon.setVisibility(View.VISIBLE);
 

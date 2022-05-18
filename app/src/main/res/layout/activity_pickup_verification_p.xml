@@ -16,7 +16,7 @@
                 android:id="@+id/layout_header"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/actionbar_color"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -218,15 +218,12 @@ Do you want to proceed with Packing?"
 
                             <ImageView
                                 android:id="@+id/full_status_color"
-                                android:layout_width="@dimen/eighteen_dp"
-                                android:layout_height="@dimen/eighteen_dp"
-                                android:layout_marginEnd="@dimen/eight_dp"
+                                android:layout_width="@dimen/dimen20dp"
+                                android:layout_height="@dimen/dimen20dp"
                                 android:layout_toRightOf="@id/status_text"
-                                android:background="@drawable/ic_circular_shape"
-                                android:backgroundTint="@color/colorPrimary"
+
                                 android:contentDescription="@string/app_name"
-                                android:padding="@dimen/five_dp"
-                                android:src="@drawable/tick_mark" />
+                                android:src="@drawable/ic_circle_tick" />
 
                             <ImageView
                                 android:id="@+id/partial_status_color"

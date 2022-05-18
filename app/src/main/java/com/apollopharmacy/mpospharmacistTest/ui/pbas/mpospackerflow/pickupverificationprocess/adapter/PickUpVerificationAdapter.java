@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverif
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,18 @@ import java.util.List;
 
 public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerificationAdapter.ViewHolder> {
     private Activity activity;
+    private Context context;
     private List<RackAdapter.RackBoxModel.ProductData> productDataList;
-    List<SalesLineEntity> salesLineEntityList=new ArrayList<>();
+    List<SalesLineEntity> salesLineEntityList = new ArrayList<>();
+    List<CustomerDataResBean> customerDataResBeanList;
     private PickUpVerificationMvpView pickUpVerificationMvpView;
 
 
-
-    public PickUpVerificationAdapter(Activity activity, List<SalesLineEntity> salesLineEntityList, PickUpVerificationMvpView pickUpVerificationMvpView) {
+    public PickUpVerificationAdapter(Context context, Activity activity, List<SalesLineEntity> salesLineEntityList, List<CustomerDataResBean> customerDataResBeanList, PickUpVerificationMvpView pickUpVerificationMvpView) {
+        this.context = context;
         this.activity = activity;
         this.salesLineEntityList = salesLineEntityList;
+        this.customerDataResBeanList = customerDataResBeanList;
         this.pickUpVerificationMvpView = pickUpVerificationMvpView;
     }
 
@@ -56,7 +60,46 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
     @Override
     public void onBindViewHolder(@NonNull PickUpVerificationAdapter.ViewHolder holder, int position) {
         SalesLineEntity item = salesLineEntityList.get(position);
+//        CustomerDataResBean customerData=customerDataResBeanList.get(position);
         holder.adapterPickupVerificationBinding.productName.setText(item.getItemName());
+        holder.adapterPickupVerificationBinding.capturesQty.setText(String.valueOf(item.getQty()) + "/");
+        holder.adapterPickupVerificationBinding.availableQty.setText(String.valueOf(item.getStockQty()));
+
+        if (item.getQty() < item.getStockQty()) {
+            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+
+        } else if (item.getQty() > item.getStockQty() && item.getStockQty()>1) {
+            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
+        } else if(item.getStockQty()==0.0) {
+            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+
+        }
+
+        holder.adapterPickupVerificationBinding.start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+//        if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
+//
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//
+//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
+//
+//        } else if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+//
+//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
+//
+//        } else if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+//            holder.adapterPickupVerificationBinding.statusIcon.setRotation(0);
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+//
+//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
+//        }
+
 //        RackAdapter.RackBoxModel.ProductData productData = productDataList.get(position);
 //        holder.adapterPickupVerificationBinding.productName.setText(productData.getProductName());
 //        if (productData.getCapturedQuantity() != null && !productData.getCapturedQuantity().equalsIgnoreCase("")) {
@@ -95,7 +138,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
 
     @Override
     public int getItemCount() {
-        return productDataList.size();
+        return salesLineEntityList.size();
     }
 
     @Override

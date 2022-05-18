@@ -94,7 +94,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
                 @Override
                 public void onResponse(@NotNull Call<ArrayList<CustomerDataResBean>> call, @NotNull Response<ArrayList<CustomerDataResBean>> response) {
                     if (response.isSuccessful() && response.body() != null) {
-//                        fetchOMSMedicineInfo(refNumber);
+                        fetchOMSMedicineInfo(refNumber);
                         //System.out.println("Customer Name-->0"+response.body().get(0).getCustomerName());
                         getMvpView().onSuccessGetOMSTransaction(response.body());
                     }
