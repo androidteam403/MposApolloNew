@@ -39,6 +39,7 @@
                 android:gravity="bottom|center_horizontal">
 
                 <TextView
+                    android:id="@+id/logout_btn"
                     android:layout_width="@dimen/dimen100dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/ten_dp"

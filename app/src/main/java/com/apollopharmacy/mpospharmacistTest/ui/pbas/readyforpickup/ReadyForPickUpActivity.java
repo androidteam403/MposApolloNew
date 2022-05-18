@@ -127,9 +127,15 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tagging Failed", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                for(int j =0; j<selectedOmsHeaderList.size();j++){
+                    for(int k=0; k<selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().size();k++){
+                        Toast.makeText(this, "FLid:" + selectedOmsHeaderList.get(j).getRefno() + "" + "tagged to Box Number:" + selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId() , Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
 
 
                 if (!BillerOrdersActivity.isBillerActivity) {
