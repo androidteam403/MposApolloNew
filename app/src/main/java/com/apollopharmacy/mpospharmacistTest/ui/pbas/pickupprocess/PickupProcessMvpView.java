@@ -74,4 +74,9 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
+    void onClickRackAdapter(int pos);
+
+    void onClickRackItemStart(GetOMSTransactionResponse.SalesLine salesLine);
+
+    void onClickForwardToPacker();
 }

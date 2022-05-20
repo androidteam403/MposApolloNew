@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
@@ -14,7 +15,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 
 import javax.inject.Inject;
 
@@ -59,7 +64,38 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(activityNavigation3Binding.navView, navController);
 
+        activityNavigation3Binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              logoutDialog();
+            }
+        });
 
+
+    }
+
+    private void logoutDialog() {
+        ExitInfoDialog dialogView = new ExitInfoDialog(PickerNavigationActivity.this);
+        dialogView.setTitle("Alert");
+        dialogView.setSubtitle("Are you sure want to logout the application ?");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                mPresenter.logoutUser();
+
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+
+        dialogView.show();
     }
 
     @Override
@@ -79,5 +115,12 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void navigateLoginActivity() {
+        startActivity(SelectAppFlowActivity.getStartActivity(this));
+        finish();
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 }

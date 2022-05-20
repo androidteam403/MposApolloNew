@@ -6,13 +6,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.ActivityScannerBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.ArrayList;
@@ -31,11 +34,14 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     TextView textView;
     private int pos = 0;
     TextView fulfilmentId;
+    ActivityScannerBinding activityScannerBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_p);
+
+//         activityScannerBinding = DataBindingUtil.setContentView(this, R.layout.activity_scanner_p);
 
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
         fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
@@ -74,13 +80,16 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         switchFlashlightButton.setVisibility(View.GONE);
 
         //start capture
-        capture = new CaptureManager(this, barcodeScannerView);
+        capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
         capture.setOrderPos(pos);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);
         this.savedInstanceState = savedInstanceState;
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
+
+
+
     }
 
     /**
@@ -142,14 +151,12 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         return barcodeScannerView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-    }
+    List<String> barcodeList1;
+
 
     @Override
     public void scannedListener(List<String> barcodeList) {
+        this.barcodeList1=barcodeList;
         int scannedOrdersCount = 0;
         if (!BillerOrdersActivity.isBillerActivity) {
             if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && ReadyForPickUpActivity.selectedOmsHeaderListTest.size() > 0) {
@@ -164,6 +171,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
                     if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() != null && !ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
                         scannedOrdersCount++;
                     }
+
                 }
             }
 
@@ -173,15 +181,43 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
 
-
-        capture = new CaptureManager(this, barcodeScannerView);
+        capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
         capture.setOrderPos(pos);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
+
+
+
+        for(int j =0; j<ReadyForPickUpActivity.selectedOmsHeaderListTest.size();j++){
+            for(int k=0; k<ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getGetOMSTransactionResponse().getSalesLine().size();k++){
+                Toast.makeText(this, "FLid:" + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getRefno() + "" + "tagged to Box Number:" + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId() , Toast.LENGTH_SHORT).show();
+            }
+
+        }
 //        Toast.makeText(this, "naveen", Toast.LENGTH_SHORT).show();
     }
+
+
+    @Override
+    public void onClickScanCode() {
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(!BillerOrdersActivity.isBillerActivity){
+            capture.onBackPressed();
+        }
+      else{
+            super.onBackPressed();
+      overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        }
+//
+    }
+
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

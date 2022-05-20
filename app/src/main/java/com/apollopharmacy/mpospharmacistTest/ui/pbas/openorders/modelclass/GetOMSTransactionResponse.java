@@ -674,6 +674,7 @@ public class GetOMSTransactionResponse implements Serializable {
         private String variantId;
 
         private GetBatchInfoRes getBatchInfoRes;
+        private String fullfillmentId;
 
         public GetBatchInfoRes getGetBatchInfoRes() {
             return getBatchInfoRes;
@@ -1453,6 +1454,13 @@ public class GetOMSTransactionResponse implements Serializable {
             this.variantId = variantId;
         }
 
+        public String getFullfillmentId() {
+            return fullfillmentId;
+        }
+
+        public void setFullfillmentId(String fullfillmentId) {
+            this.fullfillmentId = fullfillmentId;
+        }
     }
 
     @SerializedName("SalesOrigin")

@@ -2,31 +2,30 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterProductListPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private Context context;
-    private List<RackAdapter.RackBoxModel.ProductData> productListModelList;
-    private PickupProcessMvpView pickupProcessMvpView;
-    private boolean isRackFlow;
-    List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
+    private List<GetOMSTransactionResponse.SalesLine> salesLineList;
+    private PickupProcessMvpView mvpView;
 
-    public ProductListAdapter(Context context, List<RackAdapter.RackBoxModel.ProductData> productListModelList, PickupProcessMvpView pickupProcessMvpView, boolean isRackFlow, List<List<RackAdapter.RackBoxModel.ProductData>> listOfList) {
+    public ProductListAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView mvpView) {
         this.context = context;
-        this.productListModelList = productListModelList;
-        this.pickupProcessMvpView = pickupProcessMvpView;
-        this.isRackFlow = isRackFlow;
-        this.listOfList = listOfList;
+        this.salesLineList = salesLineList;
+        this.mvpView = mvpView;
     }
 
     @NonNull
@@ -39,13 +38,51 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
-        RackAdapter.RackBoxModel.ProductData productListModel = productListModelList.get(position);
-        pickupProcessMvpView.productsNextPosReturn(productListModelList);
+        GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
+        holder.productListBinding.productName.setText(salesLine.getItemName());
+        holder.productListBinding.productMrp.setText(String.valueOf(salesLine.getMrp()));
+        holder.productListBinding.productQty.setText(String.valueOf(salesLine.getQty()));
+        holder.productListBinding.fullfillmentId.setText(salesLine.getFullfillmentId());
+
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
+            holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.productListBinding.start.setVisibility(View.GONE);
+            holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
+
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.productListBinding.start.setVisibility(View.GONE);
+            holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
+
+        } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
+            holder.productListBinding.productStatus.setRotation(0);
+            holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.productListBinding.start.setVisibility(View.GONE);
+            holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
+        }
+        if (salesLine.getGetBatchInfoRes() != null) {
+            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList());
+            new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+            holder.productListBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
+            holder.productListBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
+            holder.productListBinding.headings.setVisibility(View.VISIBLE);
+            holder.productListBinding.selectedbatchesRecycler.setVisibility(View.VISIBLE);
+        }
+        holder.productListBinding.start.setOnClickListener(view -> {
+            if (mvpView != null) {
+                mvpView.onClickRackItemStart(salesLine);
+            }
+        });
+        holder.productListBinding.productStatus.setOnClickListener(view -> {
+            if (mvpView != null) {
+                mvpView.onClickRackItemStart(salesLine);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return productListModelList.size();
+        return salesLineList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
