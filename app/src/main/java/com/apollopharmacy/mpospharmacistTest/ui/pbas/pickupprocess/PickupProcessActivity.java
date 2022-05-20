@@ -537,6 +537,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
             for (int j = 0; j < selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
                 selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setFullfillmentId(selectedOmsHeaderList.get(i).getRefno());
+                selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setOrderItemNo("B" + String.valueOf(i + 1));
                 if (rackWiseSortedDataList.size() > 0) {
                     int rackWiseSortedDataListPos = -1;
                     for (int k = 0; k < rackWiseSortedDataList.size(); k++) {
@@ -552,6 +553,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
                         RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                         boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                        boxIdModel.setOrderItemNo("B" + String.valueOf(i + 1));
                         boxIdModelList.add(boxIdModel);
                         rackWiseSortedData.setBoxIdList(boxIdModelList);
 
@@ -565,6 +567,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     } else {
                         RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                         boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                        boxIdModel.setOrderItemNo("B" + String.valueOf(i));
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getBoxIdList().add(boxIdModel);
 
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getGetOMSTransactionResponse().getSalesLine().add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
@@ -577,6 +580,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
                     RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                     boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    boxIdModel.setOrderItemNo("B" + String.valueOf(i));
                     boxIdModelList.add(boxIdModel);
                     rackWiseSortedData.setBoxIdList(boxIdModelList);
 

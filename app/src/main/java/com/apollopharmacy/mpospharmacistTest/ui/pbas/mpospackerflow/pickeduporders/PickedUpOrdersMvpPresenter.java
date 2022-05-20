@@ -11,7 +11,7 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     void startPickUp();
 
     void onClickScanCode();
-    void fetchOMSOrderList();
+
     List<RacksDataResponse.FullfillmentDetail> getFullFillmentList();
 
     List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList();
@@ -19,5 +19,9 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     void setFullFillmentDataList(List<RacksDataResponse.FullfillmentDetail> fullFillmentDataList);
 
     void setListOfListFullFillProducts(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullFillProducts);
+
+
+    // created by naveen
+    void fetchFulfilmentOrderList();
 
 }

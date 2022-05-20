@@ -19,7 +19,7 @@
             android:textSize="@dimen/dimen10sp" />
 
         <TextView
-            android:id="@+id/rack_pro_count"
+            android:id="@+id/order_item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

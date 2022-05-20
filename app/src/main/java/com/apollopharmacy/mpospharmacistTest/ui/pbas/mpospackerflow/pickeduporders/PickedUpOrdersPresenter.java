@@ -4,12 +4,8 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
@@ -42,7 +38,7 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     }
 
     @Override
-    public void fetchOMSOrderList() {
+    public void fetchFulfilmentOrderList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
@@ -74,16 +70,13 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
                 }
             });
         }
- else {
-            getMvpView().onError("Internet Connection Not Available");
-        }
     }
+
 
     @Override
     public List<RacksDataResponse.FullfillmentDetail> getFullFillmentList() {
         return getDataManager().getFullFillmentList();
     }
-
 
 
     @Override

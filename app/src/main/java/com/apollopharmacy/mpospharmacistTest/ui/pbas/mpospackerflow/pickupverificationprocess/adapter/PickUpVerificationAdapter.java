@@ -1,8 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,35 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPickupVerificationPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerificationAdapter.ViewHolder> {
-    private Activity activity;
-    private Context context;
-    private List<RackAdapter.RackBoxModel.ProductData> productDataList;
-    List<GetOMSTransactionResponse> salesLineEntityList ;
-    private  List<GetOMSTransactionResponse> transactionList=new ArrayList<>();
+    private Context mContext;
+    private List<GetOMSTransactionResponse> transactionList = new ArrayList<>();
     private PickUpVerificationMvpView pickUpVerificationMvpView;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
+    List<GetOMSTransactionResponse.SalesLine> salesLineList;
 
-    public PickUpVerificationAdapter(Context context, Activity activity, List<GetOMSTransactionResponse> transactionList,  PickUpVerificationMvpView pickUpVerificationMvpView) {
-        this.context = context;
-        this.activity = activity;
-        this.transactionList = transactionList;
-
+    public PickUpVerificationAdapter(Context mContext, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickUpVerificationMvpView pickUpVerificationMvpView) {
+        this.mContext = mContext;
+        this.salesLineList = salesLineList;
         this.pickUpVerificationMvpView = pickUpVerificationMvpView;
     }
 
@@ -62,182 +50,47 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PickUpVerificationAdapter.ViewHolder holder, int position) {
-        GetOMSTransactionResponse customerData = transactionList.get(position);
-        holder.adapterPickupVerificationBinding.productName.setText(customerData.getSalesLine().get(position).getItemName());
+        GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
+        holder.adapterPickupVerificationBinding.productName.setText(salesLine.getItemName());
+        holder.adapterPickupVerificationBinding.capturesQty.setText(salesLine.getPickedQty());
+        holder.adapterPickupVerificationBinding.availableQty.setText("/" + String.valueOf(salesLine.getQty()));
 
-        if (customerData.getPickPackReservation() == null) {
-            holder.adapterPickupVerificationBinding.capturesQty.setText(0 + "/");
+        if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("FULL")) {
+            holder.adapterPickupVerificationBinding.pickerStatusIcon.setRotation(0);
+            holder.adapterPickupVerificationBinding.pickerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+        } else if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("PARTIAL")) {
+            holder.adapterPickupVerificationBinding.pickerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+        } else if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("NOT AVAILABLE")) {
+            holder.adapterPickupVerificationBinding.pickerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+        } else {
 
-        } else if(customerData.getPickPackReservation()!=null){
-            holder.adapterPickupVerificationBinding.capturesQty.setText(customerData.getPickPackReservation().getPickupQty() + "/");
         }
-        holder.adapterPickupVerificationBinding.availableQty.setText(String.valueOf(customerData.getSalesLine().get(position).getQty()));
 
+        if (salesLine.getPackerStatus() != null && salesLine.getPackerStatus().equals("FULL")) {
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setRotation(0);
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
+        } else if (salesLine.getPackerStatus() != null && salesLine.getPackerStatus().equals("PARTIAL")) {
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
+        } else if (salesLine.getPackerStatus() != null && salesLine.getPackerStatus().equals("NOT AVAILABLE")) {
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
+            holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
+        } else {
 
-        if (customerData.getPickPackReservation()!=null){
-        if (customerData.getPickPackReservation().getPickupQty() >= customerData.getSalesLine().get(position).getQty()) {
-            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
         }
-        } else if (customerData.getPickPackReservation()!=null) {
-            if (customerData.getPickPackReservation().getPickupQty() > 0  && customerData.getSalesLine().get(position).getQty() > 0) {
-                if (customerData.getPickPackReservation().getPickupQty() < customerData.getSalesLine().get(position).getQty()) {
 
-                    holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-                }
+        holder.adapterPickupVerificationBinding.packerStatusIcon.setOnClickListener(view -> {
+            if (pickUpVerificationMvpView != null) {
+                pickUpVerificationMvpView.onClickItemUpdate(salesLine, position);
             }
-        } else if( customerData.getPickPackReservation()==null ) {
-            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-
-        }
-
-        holder.adapterPickupVerificationBinding.status.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
-                dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
-                statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-                statusUpdateDialog.setCancelable(false);
-                dialogUpdateStatusBinding.fullfillmentId.setText(transactionList.get(position).getRefno());
-                dialogUpdateStatusBinding.productName.setText(transactionList.get(position).getSalesLine().get(position).getItemName());
-
-                dialogUpdateStatusBinding.fullPickedRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-                    }
-                });
-
-                dialogUpdateStatusBinding.partiallyPickedRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-                    }
-                });
-
-                dialogUpdateStatusBinding.notAvailableRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
-                    }
-                });
-                dialogUpdateStatusBinding.update.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        statusUpdateDialog.dismiss();
-                        pickUpVerificationMvpView.onClickUpdate(position,transactionList.get(position).getRefno());
-                        holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
-                        holder.adapterPickupVerificationBinding.status.setVisibility(View.VISIBLE);
-                        if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-                            customerData.getSalesLine().get(position).setPackerStatus("STOCK AVAILABLE");
-
-                        }
-                        else if(dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-                            customerData.getSalesLine().get(position).setPackerStatus("Partial AVAILABLE");
-                        }
-                        else if(dialogUpdateStatusBinding.notAvailableRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-                            customerData.getSalesLine().get(position).setPackerStatus("Not AVAILABLE");
-
-                        }
-
-                    }
-                });
-
-                dialogUpdateStatusBinding.dismissDialog.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        statusUpdateDialog.dismiss();
-                    }
-                });
-                statusUpdateDialog.show();
-
-
-//                pickUpVerificationMvpView.onClickItemStatusUpdate(position);
-            }
-
         });
-        holder.adapterPickupVerificationBinding.update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
-                dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
-                statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-                statusUpdateDialog.setCancelable(false);
-                dialogUpdateStatusBinding.fullfillmentId.setText(transactionList.get(position).getRefno());
-                dialogUpdateStatusBinding.productName.setText(transactionList.get(position).getSalesLine().get(position).getItemName());
-
-                dialogUpdateStatusBinding.fullPickedRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-                    }
-                });
-
-                dialogUpdateStatusBinding.partiallyPickedRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-                    }
-                });
-
-                dialogUpdateStatusBinding.notAvailableRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-                        dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
-                    }
-                });
-                dialogUpdateStatusBinding.update.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        pickUpVerificationMvpView.onClickUpdate(position,transactionList.get(position).getRefno());
-                        statusUpdateDialog.dismiss();
-                        holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
-                        holder.adapterPickupVerificationBinding.status.setVisibility(View.VISIBLE);
-                        if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-                            customerData.getSalesLine().get(position).setPackerStatus("STOCK AVAILABLE");
-
-                        }
-                        else if(dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-                            customerData.getSalesLine().get(position).setPackerStatus("Partial AVAILABLE");
-
-                        }
-                        else if(dialogUpdateStatusBinding.notAvailableRadio.isChecked()){
-                            holder.adapterPickupVerificationBinding.status.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-                            customerData.getSalesLine().get(position).setPackerStatus("Not AVAILABLE");
-
-                        }
-
-                    }
-                });
-
-                dialogUpdateStatusBinding.dismissDialog.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        statusUpdateDialog.dismiss();
-                    }
-                });
-                statusUpdateDialog.show();
-
-
-//                pickUpVerificationMvpView.onClickItemStatusUpdate(position);
+        holder.adapterPickupVerificationBinding.update.setOnClickListener(view -> {
+            if (pickUpVerificationMvpView != null) {
+                pickUpVerificationMvpView.onClickItemUpdate(salesLine, position);
             }
         });
 
@@ -297,7 +150,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
 
     @Override
     public int getItemCount() {
-        return transactionList.size();
+        return salesLineList.size();
     }
 
     @Override

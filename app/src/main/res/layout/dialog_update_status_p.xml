@@ -72,7 +72,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="887766"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_12" />
 
@@ -95,7 +94,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="B5"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -105,7 +103,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Augmentin 625 Duo Tablet"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen14sp" />
                 </LinearLayout>
@@ -118,27 +115,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quantity :"
-                        android:fontFamily="@font/roboto_bold"
-                        android:textColor="@color/text_color_grey"
-                        android:layout_marginLeft="@dimen/margin_5dp"
-                        />
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="10"
-                            android:id="@+id/qty"
+                            android:layout_marginLeft="@dimen/margin_5dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:textColor="@color/black"
-                            />
+                            android:text="Quantity :"
+                            android:textColor="@color/text_color_grey" />
+
+                        <TextView
+                            android:id="@+id/qty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="10"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -146,9 +143,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:clickable="true"
                         android:gravity="center_vertical"
-                        android:onClick="@{()-> callback.onClickFullPicked()}"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -197,13 +192,7 @@
                             android:weightSum="3">
 
 
-
                         </LinearLayout>
-
-
-
-
-
 
 
                     </LinearLayout>
@@ -220,9 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen10dp"
-                        android:clickable="true"
                         android:gravity="center_vertical"
-                        android:onClick="@{()-> callback.onClickPartialPicked()}"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -398,9 +385,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen10dp"
-                    android:clickable="true"
                     android:gravity="center_vertical"
-                    android:onClick="@{()-> callback.onClickNotAvailable()}"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -441,8 +426,8 @@
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:layout_marginBottom="@dimen/dimen10dp"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <RadioButton
                         android:id="@+id/skip_radio_btn"
@@ -495,8 +480,6 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.NewSelectedOrderAdapterCallback" />
-
-
 
 
     </data>

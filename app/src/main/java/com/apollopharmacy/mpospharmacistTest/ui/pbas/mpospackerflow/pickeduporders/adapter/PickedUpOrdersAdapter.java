@@ -55,30 +55,30 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
 
     @Override
     public void onBindViewHolder(@NonNull PickedUpOrdersAdapter.ViewHolder holder, int position) {
-        TransactionHeaderResponse.OMSHeader fullFillModel = fullfillmentList.get(position);
-        holder.orderBinding.fullfillmentID.setText(fullFillModel.getRefno());
-        holder.orderBinding.totalItems.setText(String.valueOf(fullFillModel.getNumberofItemLines()));
+        TransactionHeaderResponse.OMSHeader omsHeader = fullfillmentList.get(position);
+        holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                pickupProcessMvpView.onItmClick(position,holder.orderBinding.status.getText().toString(),fullfillmentList,fullFillModel);
 
-                pickupProcessMvpView.onItmClick(position, fullfillmentList);
+                pickupProcessMvpView.onItmClick(position, omsHeader);
             }
         });
 
-        if (fullFillModel.getStockStatus() != null && fullFillModel.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
+        if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
 
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
             holder.orderBinding.status.setText("Partial");
             holder.orderBinding.statusIcon.setVisibility(View.VISIBLE);
 
-        } else if (fullFillModel.getStockStatus() != null && fullFillModel.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+        } else if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.orderBinding.status.setText("Not Available");
             holder.orderBinding.statusIcon.setVisibility(View.VISIBLE);
 
-        } else if (fullFillModel.getStockStatus() != null && fullFillModel.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+        } else if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
             holder.orderBinding.statusIcon.setRotation(0);
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.orderBinding.status.setText("Full");

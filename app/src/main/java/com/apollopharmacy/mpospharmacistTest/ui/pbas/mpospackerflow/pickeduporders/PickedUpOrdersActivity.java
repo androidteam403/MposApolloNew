@@ -61,7 +61,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     @Override
     protected void setUp() {
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
-        mvpPresenter.fetchOMSOrderList();
+        mvpPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
 //        if (mvpPresenter.getFullFillmentList() != null) {
 //            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
@@ -75,7 +75,6 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 //        } else {
 //            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.VISIBLE);
 //        }
-
 
 
         activityPickedUpOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
@@ -121,13 +120,13 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             }
         });
     }
+
     @Override
     public void startPickUp() {
 
     }
 
     private boolean removeItsStatis;
-
 
 
     @Override
@@ -137,12 +136,12 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
-        }
+    }
 
 
     @Override
-    public void onItmClick(int position,List<TransactionHeaderResponse.OMSHeader> omsHeaderObjList) {
-        startActivityForResult(PickUpVerificationActivity.getStartActivity(PickedUpOrdersActivity.this, position, omsHeaderObjList), PICKUP_VERIFICATION_ACTIVITY);
+    public void onItmClick(int position, TransactionHeaderResponse.OMSHeader omsHeader) {
+        startActivityForResult(PickUpVerificationActivity.getStartActivity(PickedUpOrdersActivity.this, omsHeader), PICKUP_VERIFICATION_ACTIVITY);
 
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -150,9 +149,9 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     @Override
     public void noOrderFound(int count) {
         if (count > 0) {
-        activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+            activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
         } else {
-         activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+            activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
         }
     }
 
@@ -163,16 +162,16 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i=0;i<omsHeader.getOMSHeader().size();i++){
-            if (omsHeader.getOMSHeader() != null  && omsHeader.getOMSHeader() .get(i).getOrderPickup()==true && omsHeader.getOMSHeader() .get(i).getOrderPacked()==false) {
-                omsHeaderList.add(omsHeader.getOMSHeader() .get(i));
+        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
+            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
+                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
 
 
             }
-            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total"+ " " +String.valueOf(omsHeaderList.size())+" "+"Orders");
+            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
-            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(this, omsHeaderList, this);
 
+            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(this, omsHeaderList, this);
             RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -185,8 +184,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     public void onSuccessGetOMSTransactionList(OMSTransactionResponse response) {
 
 
-
-        }
+    }
 
 
 //    @Override
@@ -212,15 +210,14 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PickedUpOrdersActivity.this, PickUpVerificationActivity.class);
-              String id=Result.getContents();
-                intent.putExtra("fulfilmentId",id);
+                String id = Result.getContents();
+                intent.putExtra("fulfilmentId", id);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
             }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
-   }
+        }
 //        if (resultCode == RESULT_OK) {
 //            switch (requestCode) {
 //                case PICKUP_VERIFICATION_ACTIVITY:

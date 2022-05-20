@@ -55,6 +55,7 @@ public class RackWiseSortedData {
     public static class BoxIdModel {
         private String boxId;
         private String boxIdStatus;
+        private String orderItemNo;
 
         public String getBoxId() {
             return boxId;
@@ -70,6 +71,14 @@ public class RackWiseSortedData {
 
         public void setBoxIdStatus(String boxIdStatus) {
             this.boxIdStatus = boxIdStatus;
+        }
+
+        public String getOrderItemNo() {
+            return orderItemNo;
+        }
+
+        public void setOrderItemNo(String orderItemNo) {
+            this.orderItemNo = orderItemNo;
         }
     }
 }

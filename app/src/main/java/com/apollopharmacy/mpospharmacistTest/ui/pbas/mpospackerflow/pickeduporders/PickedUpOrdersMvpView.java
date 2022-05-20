@@ -1,23 +1,24 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders;
 
 
-
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
 import java.util.List;
 
 public interface PickedUpOrdersMvpView extends MvpView {
     void startPickUp();
+
     void onClickScanCode();
-    void onItmClick(int position,List<TransactionHeaderResponse.OMSHeader> omsHeaderObjList );
+
+    void onItmClick(int position, TransactionHeaderResponse.OMSHeader omsHeader);
+
     void noOrderFound(int count);
 
     void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
+
     void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader);
 
     void onSuccessGetOMSTransactionList(OMSTransactionResponse response);
