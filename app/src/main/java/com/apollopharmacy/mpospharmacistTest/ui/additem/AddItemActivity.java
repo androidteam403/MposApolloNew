@@ -33,6 +33,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipC
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OmsAddNewItemResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OrderPriceInfoModel;
@@ -59,10 +60,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsActiv
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptionorderlist.EprescriptionOrderListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacistTest.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -264,7 +265,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.setPaymentMode(paymentMethodModel);
         Constant.getInstance().vendorcredit = false;
 
-
+        mPresenter.getGlobalConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
 
@@ -856,6 +857,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onClickCardPaymentBtn() {
         onWalletClick = false;
         onCardMode = true;
+        onHdfcPayMode = false;
         onCashmode = false;
         onSmspayMode = false;
         onVendorPayMode = false;
@@ -871,6 +873,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(true);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
                 paymentMethodModel.setCreditMode(false);
@@ -882,6 +885,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(true);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
             paymentMethodModel.setCreditMode(false);
@@ -893,6 +897,59 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     }
 
+    private boolean onHdfcPayMode;
+
+    @Override
+    public void onClickHdfcPayBtn() {
+        System.out.println("yes it is coming paysms method." + "--");
+        onWalletClick = false;
+        onCardMode = false;
+        onHdfcPayMode = true;
+        onCashmode = false;
+        onSmspayMode = false;
+        onVendorPayMode = false;
+        onCodPayMode = false;
+        if (flag == 0) {
+            prescriptionMandatory();
+            flag++;
+        }
+        if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
+                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+                partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
+            } else {
+                paymentMethodModel.setCashMode(false);
+                paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(true);
+                paymentMethodModel.setOneApolloMode(false);
+                paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setCreditMode(false);
+                paymentMethodModel.setSmsPayMode(false);
+                paymentMethodModel.setVendorPayMode(false);
+                paymentMethodModel.setCodPayMode(false);
+                mPresenter.showHdfcPaymentDialog();
+                //showsms("PhonePe Transaction", true, walletServiceReq);
+
+                //addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f", (orderRemainingAmount())));
+            }
+        } else {
+            paymentMethodModel.setCashMode(false);
+            paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(true);
+            paymentMethodModel.setOneApolloMode(false);
+            paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setCreditMode(false);
+            paymentMethodModel.setSmsPayMode(false);
+            paymentMethodModel.setVendorPayMode(false);
+            paymentMethodModel.setCodPayMode(false);
+            mPresenter.showHdfcPaymentDialog();
+
+            // showsmsPaymentDialog();
+            // mPresenter.show
+            // addItemBinding.cardPaymentAmountEditText.setText(String.format("%.2f", (orderRemainingAmount())));
+        }
+    }
+
     private boolean onSmspayMode;
 
     //below changes made by gopal on 09-01-2021...
@@ -901,6 +958,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         System.out.println("yes it is coming paysms method." + "--");
         onWalletClick = false;
         onCardMode = false;
+        onHdfcPayMode = false;
         onCashmode = false;
         onSmspayMode = true;
         onVendorPayMode = false;
@@ -916,6 +974,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
                 paymentMethodModel.setCreditMode(false);
@@ -930,6 +989,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
             paymentMethodModel.setCreditMode(false);
@@ -968,6 +1028,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         System.out.println("yes it is coming VendorPay method." + "--");
         onWalletClick = false;
         onCardMode = false;
+        onHdfcPayMode = false;
         onCashmode = false;
         onSmspayMode = false;
         onVendorPayMode = false;
@@ -984,6 +1045,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
                 paymentMethodModel.setCreditMode(false);
@@ -1008,6 +1070,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
             paymentMethodModel.setCreditMode(false);
@@ -1068,6 +1131,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         System.out.println("yes it is coming VendorPay method." + "--");
         onWalletClick = false;
         onCardMode = false;
+        onHdfcPayMode = false;
         onCashmode = false;
         onSmspayMode = false;
         onVendorPayMode = true;
@@ -1084,6 +1148,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
                 paymentMethodModel.setCreditMode(false);
@@ -1108,6 +1173,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
             paymentMethodModel.setCreditMode(false);
@@ -1136,15 +1202,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessSmsPayTransaction(GetSMSPayAPIResponse res) {
         if (res != null) {
             if (res.getStatus() == true) {
-                Toast.makeText(this, res.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
                 if (res.getStatus() == true) {
                     smspaylinkresponse = res;
                 }
 
             } else {
-                Toast.makeText(this, res.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         }
@@ -1225,6 +1289,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         onWalletClick = false;
         onCardMode = false;
         onCashmode = true;
+        onHdfcPayMode = false;
         onSmspayMode = false;
         onVendorPayMode = false;
         onCodPayMode = false;
@@ -1240,6 +1305,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(true);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
                 paymentMethodModel.setCreditMode(false);
@@ -1255,6 +1321,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(true);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
             paymentMethodModel.setCreditMode(false);
@@ -1281,6 +1348,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onClickOneApolloBtn() {
         onWalletClick = false;
         onCardMode = false;
+        onHdfcPayMode = false;
         onCashmode = false;
         onSmspayMode = false;
         onVendorPayMode = false;
@@ -1296,6 +1364,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(true);
                 paymentMethodModel.setLoadApolloPoints(true);
                 paymentMethodModel.setErrorApolloPoints(false);
@@ -1314,6 +1383,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(true);
             paymentMethodModel.setLoadApolloPoints(true);
             paymentMethodModel.setErrorApolloPoints(false);
@@ -1339,6 +1409,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         onWalletClick = true;
         onCardMode = false;
         onCashmode = false;
+        onHdfcPayMode = false;
         onSmspayMode = false;
         onVendorPayMode = false;
         onCodPayMode = false;
@@ -1353,6 +1424,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else {
                 paymentMethodModel.setCashMode(false);
                 paymentMethodModel.setCardMode(false);
+                paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(true);
                 paymentMethodModel.setCreditMode(false);
@@ -1367,6 +1439,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setCashMode(false);
             paymentMethodModel.setCardMode(false);
+            paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(true);
             paymentMethodModel.setCreditMode(false);
@@ -1636,6 +1709,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         }
                     }
                     if (tenderLineEntity.getTenderName().equalsIgnoreCase("SMS PAY")) {
+                        if (getItemsCount() > 0) {
+                            payAdapterModel.setCrossDis(1);
+                        }
+                    }
+                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("HDFC PAYMENT")) {
                         if (getItemsCount() > 0) {
                             payAdapterModel.setCrossDis(1);
                         }
@@ -2263,6 +2341,37 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onFailedOmsAddNewItem(OmsAddNewItemResponse response) {
         showMessage(response.getReturnMessage());
+    }
+
+    private String hdfcTransactionMarchantId;
+
+    @Override
+    public void onSuccessHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse) {
+        if (hdfcLinkGenerateResponse.getErrorCode().equals("0")) {
+            this.hdfcTransactionMarchantId = hdfcLinkGenerateResponse.getTransactionMerchantID();
+            Toast.makeText(this, hdfcLinkGenerateResponse.getSuccessMsg(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Payment is pending", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onFailureHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse) {
+
+    }
+
+    @Override
+    public String getHdfcTransactionId() {
+        return hdfcTransactionMarchantId;
+    }
+
+    @Override
+    public void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes) {
+        if (getGlobalConfingRes != null && getGlobalConfingRes.isISHBPStore()) {
+            paymentMethodModel.setEnableHdfcPayBtn(true);
+        } else {
+            paymentMethodModel.setEnableHdfcPayBtn(false);
+        }
     }
 
     @Override

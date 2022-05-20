@@ -86,12 +86,9 @@
     <string name="label_manufacture">MANUFACTURE</string>
     <string name="label_rack_id">RACK ID</string>
     <string name="labl_generic_name">GENERIC NAME</string>
-    <string name="label_batch_no">Batch No.</string>
     <string name="label_substitute">SUBSTITUTE</string>
     <string name="label_expiry_change">EXPIRY CHANGE</string>
     <string name="labl_s_no">S.No.</string>
-    <string name="label_exp_date">Exp.Date</string>
-    <string name="label_mrp">Mrp</string>
     <string name="label_tax">Tax</string>
     <string name="label_q_o_h">Q O H</string>
     <string name="label_req">Req. Qty</string>
@@ -547,5 +544,18 @@
     <string name="home">Home</string>
     <string name="label_2_6">2/6</string>
     <string name="label_go_to_next_rack">Go to next Rack</string>
+    <string name="label_available">Available</string>
+    <string name="label_required">Required</string>
+    <string name="label_fully">Fully</string>
+    <string name="label_partially">Partially</string>
+    <string name="label_select_batch_automatically">Select Batch Automatically</string>
+    <string name="label_select_batch_manually">Select Batch Manually</string>
+    <string name="label_or">or</string>
+    <string name="label_pickup_summary">pickup summary</string>
+    <string name="label_req_qty">req.Qty</string>
+    <string name="label_mrp">Mrp</string>
+    <string name="label_exp_date">Exp.Date</string>
+    <string name="label_batch_no">Batch No.</string>
+    <string name="label_forward_to_packer">forward to packer</string>
 
 </resources>
