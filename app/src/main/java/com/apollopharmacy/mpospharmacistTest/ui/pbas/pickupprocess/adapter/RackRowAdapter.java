@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterRackRowPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RackWiseSortedData;
 
 import java.util.List;
 
 public class RackRowAdapter extends RecyclerView.Adapter<RackRowAdapter.ViewHolder> {
     private Context context;
-    private List<RackAdapter.RackBoxModel> rackRowModelList;
+    private List<RackWiseSortedData.BoxIdModel> boxIdModelList;
 
-    public RackRowAdapter(Context context, List<RackAdapter.RackBoxModel> rackRowModelList) {
+    public RackRowAdapter(Context context, List<RackWiseSortedData.BoxIdModel> boxIdModelList) {
         this.context = context;
-        this.rackRowModelList = rackRowModelList;
+        this.boxIdModelList = boxIdModelList;
     }
 
     @NonNull
@@ -32,14 +33,17 @@ public class RackRowAdapter extends RecyclerView.Adapter<RackRowAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RackRowAdapter.ViewHolder holder, int position) {
-        RackAdapter.RackBoxModel rackRowModel = rackRowModelList.get(position);
-        holder.rackRowBinding.rackBoxId.setText(rackRowModel.getRackBoxId());
-        holder.rackRowBinding.rackProCount.setText(String.valueOf(rackRowModel.getProductsCuont()));
+        RackWiseSortedData.BoxIdModel boxIdModel = boxIdModelList.get(position);
+        if (boxIdModel.getBoxId() != null)
+            if (boxIdModel.getBoxId().length() > 4)
+                holder.rackRowBinding.rackBoxId.setText(boxIdModel.getBoxId().substring(boxIdModel.getBoxId().length() - 4));
+            else
+                holder.rackRowBinding.rackBoxId.setText(boxIdModel.getBoxId());
     }
 
     @Override
     public int getItemCount() {
-        return rackRowModelList.size();
+        return boxIdModelList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

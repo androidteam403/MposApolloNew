@@ -29,6 +29,32 @@
             app:itemBackground="@drawable/nav_item_drawable"
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"
-            app:menu="@menu/activity_main_drawer_p" />
+            app:menu="@menu/activity_main_drawer_p">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:gravity="bottom|center_horizontal">
+
+                <TextView
+                    android:id="@+id/logout_btn"
+                    android:layout_width="@dimen/dimen100dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:gravity="center"
+                    android:background="@drawable/rounded_corners"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:text="Log Out"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black" />
+            </RelativeLayout>
+
+        </com.google.android.material.navigation.NavigationView>
+
+
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -12,22 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterReadyForPickupPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAdapter.ViewHolder> {
 
     private Activity activity;
+
     private List<ReadyForPickUpActivity.FullfillmentData> fullfillmentDataList;
     private ReadyForPickUpMvpView readyForPickUpMvpView;
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
 
-
-    public ReadyForPickUpAdapter(Activity activity, List<ReadyForPickUpActivity.FullfillmentData> fullfillmentDataList, ReadyForPickUpMvpView readyForPickUpMvpView) {
+    public ReadyForPickUpAdapter(Activity activity, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, ReadyForPickUpMvpView readyForPickUpMvpView) {
         this.activity = activity;
-        this.fullfillmentDataList = fullfillmentDataList;
+        this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.readyForPickUpMvpView = readyForPickUpMvpView;
+
+
+
     }
 
     @NonNull
@@ -41,11 +47,21 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ReadyForPickUpAdapter.ViewHolder holder, int position) {
-        ReadyForPickUpActivity.FullfillmentData fullfillmentData = fullfillmentDataList.get(position);
-        holder.adapterReadyForPickupBinding.filmentId.setText(fullfillmentData.getFullfillmentId());
-        holder.adapterReadyForPickupBinding.totalItems.setText(fullfillmentData.getTotalItems());
+        TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
+        holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
+            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
+        }else
+        {
+            holder.adapterReadyForPickupBinding.scannedCode.setText("");
 
-        if (fullfillmentData.isTagBox()) {
+        }
+
+//  holder.adapterReadyForPickupBinding.filmentIdNum.setText(lastFourDigits(String.valueOf(omsHeader.getFulfilId())));
+
+
+        holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+        if (omsHeader.isTagBox()) {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.VISIBLE);
             holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.VISIBLE);
@@ -54,21 +70,19 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.GONE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.GONE);
             holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
-
         }
-        holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readyForPickUpMvpView.onDeleteClick(position, fullfillmentData.getFullfillmentId());
-            }
+        holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
+            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
         });
 
-        holder.adapterReadyForPickupBinding.tagBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!fullfillmentData.isScanView()) {
-                    readyForPickUpMvpView.onTagBoxClick(fullfillmentData.getFullfillmentId(), position);
-                }
+        holder.adapterReadyForPickupBinding.tagBox.setOnClickListener(v -> {
+            if (!omsHeader.isScanView()) {
+                readyForPickUpMvpView.onTagBoxClick(omsHeader.getRefno(), position);
+            }
+        });
+        holder.adapterReadyForPickupBinding.takePrint1.setOnClickListener(view -> {
+            if (readyForPickUpMvpView != null) {
+                readyForPickUpMvpView.onClickTakePrint(omsHeader);
             }
         });
 
@@ -77,7 +91,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
 
     @Override
     public int getItemCount() {
-        return fullfillmentDataList.size();
+        return selectedOmsHeaderList.size();
     }
 
     @Override
@@ -93,5 +107,17 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             super(adapterReadyForPickupBinding.getRoot());
             this.adapterReadyForPickupBinding = adapterReadyForPickupBinding;
         }
+    }
+
+    public static String lastFourDigits(String data) {
+        String lastFourDigits ="";   //substring containing last 4 characters
+
+        if (data.length() > 4) {
+            lastFourDigits = data.substring(data.length() - 4);
+        } else {
+            lastFourDigits = data;
+        }
+
+        return lastFourDigits;
     }
 }
