@@ -8,6 +8,7 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
     void onPartialWarningNoClick();
 
     void onClickReVerificatio();
-
+    void fetchOMSMedicineInfo(String refNumber);
+    void fetchOMSCustomerInfo(String refNumber);
     void onClickVerification();
 }
