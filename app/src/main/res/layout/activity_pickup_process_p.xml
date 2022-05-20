@@ -199,7 +199,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rack_recycler"
+                android:id="@+id/order_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
@@ -207,6 +207,15 @@
                 android:layout_marginEnd="@dimen/dimen10dp"
                 android:descendantFocusability="blocksDescendants" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rack_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen2dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:descendantFocusability="blocksDescendants"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -381,9 +390,11 @@
             android:layout_height="@dimen/fifty_dp"
             android:layout_alignParentBottom="true"
             android:background="@color/continue_unselect_color"
+            android:enabled="false"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
-            android:text="farward to packer"
+            android:onClick="@{()-> callback.onClickForwardToPacker()}"
+            android:text="@string/label_forward_to_packer"
             android:textAllCaps="true"
             android:textColor="@color/text_color_grey"
             android:visibility="gone" />

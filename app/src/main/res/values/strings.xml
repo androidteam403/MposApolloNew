@@ -556,5 +556,6 @@
     <string name="label_mrp">Mrp</string>
     <string name="label_exp_date">Exp.Date</string>
     <string name="label_batch_no">Batch No.</string>
+    <string name="label_forward_to_packer">forward to packer</string>
 
 </resources>
