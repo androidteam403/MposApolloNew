@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupVerificationPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
@@ -27,10 +30,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter.PickUpVerificationAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.dialog.VerificationStatusDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -98,7 +103,8 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
         if (getIntent() != null) {
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
             if (omsHeader != null) {
-                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
+                mpresenter.mposPickPackOrderReservationApiCall(3, omsHeader);
+//                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
             }
         }
 
@@ -260,29 +266,16 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickReVerificatio() {
+        VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, true, omsHeader.getRefno());
+        verificationStatusDialog.setPositiveListener(v -> {
+            finish();
+            verificationStatusDialog.dismiss();
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        });
+        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
 
+        verificationStatusDialog.show();
 
-//        if (updateVerified && partialConfirmationClickable) {
-//            reverification = true;
-//            activityPickupVerificationBinding.sendReVer.setClickable(true);
-//            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, reverification, fillModel.getFullfillmentId());
-//            verificationStatusDialog.setPositiveListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finish();
-//                    verificationStatusDialog.dismiss();
-//                    overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-//                }
-//            });
-//            verificationStatusDialog.setNegativeListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    verificationStatusDialog.dismiss();
-//                }
-//            });
-//
-//            verificationStatusDialog.show();
-//        }
     }
 
     @Override
@@ -373,38 +366,14 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickVerification() {
-//        if (updateVerified && partialConfirmationClickable) {
-//            reverification = false;
-//            activityPickupVerificationBinding.pickVerified.setClickable(true);
-//            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, reverification, fillModel.getFullfillmentId());
-//            verificationStatusDialog.setPositiveListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Intent intent = new Intent();
-//                    Gson gson = new Gson();
-//                    String myJson = gson.toJson(productDataList);
-//                    intent.putExtra("productDataList", myJson);
-//                    intent.putExtra("position", position);
-//                    Gson gson1 = new Gson();
-//                    String myJson1 = gson1.toJson(fullFillModelList);
-//                    intent.putExtra("fullFillModelList", myJson1);
-//                    setResult(RESULT_OK, intent);
-//                    finish();
-//                    verificationStatusDialog.dismiss();
-//                    overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-//                }
-//            });
-//            verificationStatusDialog.setNegativeListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    verificationStatusDialog.dismiss();
-//                }
-//            });
-//
-//            verificationStatusDialog.show();
-//        }
+        VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
+        verificationStatusDialog.setPositiveListener(v -> {
+
+
+        });
+        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
+
+        verificationStatusDialog.show();
     }
 
     @Override
@@ -601,9 +570,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 
     @Override
     public void onClickItemUpdate(GetOMSTransactionResponse.SalesLine salesLine, int pos) {
-        Dialog updateStatusdialog = new Dialog(this);
+        Dialog updateStatusdialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         DialogUpdateStatusPBinding dialogUpdateStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
         updateStatusdialog.setContentView(dialogUpdateStatusPBinding.getRoot());
+        if (updateStatusdialog.getWindow() != null)
+            updateStatusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updateStatusdialog.setCancelable(false);
         dialogUpdateStatusPBinding.fullfillmentId.setText(omsHeader.getGetOMSTransactionResponse().getRefno());
         dialogUpdateStatusPBinding.boxId.setText("-");
@@ -646,19 +617,59 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 pickUpVerificationAdapter.notifyDataSetChanged();
             }
             updateStatusdialog.dismiss();
+            reSendVerPickVernEableChecked();
         });
         dialogUpdateStatusPBinding.dismissDialog.setOnClickListener(view -> updateStatusdialog.dismiss());
         updateStatusdialog.show();
     }
 
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 3) {
+            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+                if (omsHeader != null) {
+                    mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
+                }
+            }
+        } else if (requestType == 4) {
+            finish();
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        } else if (requestType == 6) {
+            finish();
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        }
+    }
+
     private void reSendVerPickVernEableChecked() {
         if (omsHeader != null && omsHeader.getGetOMSTransactionResponse() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
             boolean isPickerPackerStatusMatched = true;
+            boolean isAllUpdated = true;
             for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
-                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickerStatus() != null) {
-//                    if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickerStatus().eq){
-//
-//                    }
+                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickerStatus() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPackerStatus() != null) {
+                    if (!omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickerStatus().equals(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPackerStatus())) {
+                        isPickerPackerStatusMatched = false;
+                    }
+                } else {
+                    isAllUpdated = false;
+                }
+            }
+            if (isAllUpdated) {
+                if (isPickerPackerStatusMatched) {
+                    activityPickupVerificationBinding.sendReVer.setEnabled(false);
+                    activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.unselect_text_color));
+                    activityPickupVerificationBinding.sendReVer.setBackgroundColor(getResources().getColor(R.color.light_grey));
+
+                    activityPickupVerificationBinding.pickVerified.setEnabled(true);
+                    activityPickupVerificationBinding.pickVerified.setTextColor(getResources().getColor(R.color.black));
+                    activityPickupVerificationBinding.pickVerified.setBackgroundColor(getResources().getColor(R.color.yellow));
+                } else {
+                    activityPickupVerificationBinding.sendReVer.setEnabled(true);
+                    activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.white));
+                    activityPickupVerificationBinding.sendReVer.setBackgroundColor(getResources().getColor(R.color.red));
+
+                    activityPickupVerificationBinding.pickVerified.setEnabled(false);
+                    activityPickupVerificationBinding.pickVerified.setTextColor(getResources().getColor(R.color.unselect_text_color));
+                    activityPickupVerificationBinding.pickVerified.setBackgroundColor(getResources().getColor(R.color.light_grey));
                 }
             }
         }
@@ -666,7 +677,17 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 
     @Override
     public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mpresenter.mposPickPackOrderReservationApiCall(4, omsHeader);
+            dialog.dismiss();
+        });
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
     }
 }

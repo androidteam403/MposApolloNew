@@ -33,6 +33,7 @@ public class VerificationStatusDialog {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         if (reverification) {
+            verificationStatusBinding.pickupVerificationStatusText.setText("Pickup not verified");
             verificationStatusBinding.title.setText("Push to Re-verification");
             verificationStatusBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
             verificationStatusBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
@@ -63,8 +64,6 @@ public class VerificationStatusDialog {
     public void setTitle(String title) {
         verificationStatusBinding.title.setText(title);
     }
-
-
 
 
 }
