@@ -38,6 +38,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RackWiseSortedData;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
@@ -70,7 +71,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     private static List<RacksDataResponse.FullfillmentDetail.Product> rackIdList = new ArrayList<>();
     private ArrayList<String> boxStringList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
-
+    private List<RackWiseSortedData> rackWiseSortedDataList;
     long startTime;
     long countUp;
     Chronometer stopWatch;
@@ -179,11 +180,68 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.continueOrder.setVisibility(View.GONE);
             pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
         }
-//        orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//        pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//        pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
+        int rackWiseSortedDataPos = -1;
+        if (rackWiseSortedDataList != null && rackWiseSortedDataList.size() > 0) {
+            for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
+                for (int j = 0; j < rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
+                    if (rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId().equals(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getRackId())
+                            && rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getItemId().equals(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getItemId())
+                            && rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getFullfillmentId().equals(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getFullfillmentId())) {
+                        rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().set(j, selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
+                        rackWiseSortedDataPos = i;
+                        break;
+                    }
+                }
+            }
+        }
+        if (rackWiseSortedDataPos != -1) {
+            boolean isFull = true;
+            boolean isNotAvailable = true;
+            boolean isAllNull = true;
+            for (int i = 0; i < rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+                if (rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus() != null) {
+                    isAllNull = false;
+                    if (!rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("FULL")) {
+                        isFull = false;
+                    }
+                    if (!rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("NOT AVAILABLE")) {
+                        isNotAvailable = false;
+                    }
+                }
+            }
+            if (!isAllNull) {
+                if (isFull) {
+                    rackWiseSortedDataList.get(rackWiseSortedDataPos).setRackStatus("FULL");
+                } else if (isNotAvailable) {
+                    rackWiseSortedDataList.get(rackWiseSortedDataPos).setRackStatus("NOT AVAILABLE");
+                } else if (!isFull && !isNotAvailable) {
+                    rackWiseSortedDataList.get(rackWiseSortedDataPos).setRackStatus("PARTIAL");
+                }
+            }
+        }
+        if (rackAdapter != null) {
+            rackAdapter.notifyDataSetChanged();
+        }
 
+        boolean isAllRackStatusUpdated = true;
+
+        for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
+            for (int j = 0; j < rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
+                if (rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus() == null || rackWiseSortedDataList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus().isEmpty()) {
+                    isAllRackStatusUpdated = false;
+                }
+            }
+        }
+
+        if (isAllRackStatusUpdated) {
+            pickupProcessBinding.farwarToPackerBtn.setEnabled(true);
+            pickupProcessBinding.farwarToPackerBtn.setBackgroundColor(getResources().getColor(R.color.yellow));
+            pickupProcessBinding.farwarToPackerBtn.setTextColor(getResources().getColor(R.color.black));
+        } else {
+            pickupProcessBinding.farwarToPackerBtn.setEnabled(false);
+            pickupProcessBinding.farwarToPackerBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+            pickupProcessBinding.farwarToPackerBtn.setTextColor(getResources().getColor(R.color.text_color_grey));
+        }
     }
 
 
@@ -340,6 +398,40 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         }
     }
 
+    @Override
+    public void onClickRackAdapter(int pos) {
+        for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
+            rackWiseSortedDataList.get(i).setExpanded(i == pos);
+        }
+        if (rackAdapter != null) {
+            rackAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onClickRackItemStart(GetOMSTransactionResponse.SalesLine salesLine) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for (int j = 0; j < selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
+                    if (selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getItemId().equals(salesLine.getItemId())
+                            && selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getFullfillmentId().equals(salesLine.getFullfillmentId())
+                            && selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId().equals(salesLine.getRackId())) {
+                        orderAdapterPos = i;
+                        position = j;
+                        break;
+                    }
+                }
+            }
+
+            mPresenter.getBatchDetailsApiCall(salesLine, selectedOmsHeaderList.get(orderAdapterPos).getRefno(), orderAdapterPos, position, selectedOmsHeaderList.get(orderAdapterPos));
+        }
+    }
+
+    @Override
+    public void onClickForwardToPacker() {
+        onClickContinue();
+    }
+
     private void checkAllFalse() {
         dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
         dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
@@ -365,19 +457,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
             orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-            pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-            pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-
-            pickupProcessBinding.continueOrder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Please select all the orders", Toast.LENGTH_LONG).show();
-                }
-            });
+            pickupProcessBinding.orderRecycler.setLayoutManager(mLayoutManager);
+            pickupProcessBinding.orderRecycler.setAdapter(orderAdapter);
+            rackDataSet();
+            pickupProcessBinding.continueOrder.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Please select all the orders", Toast.LENGTH_LONG).show());
 
         }
 //        mPresenter.onRackApiCall();
-//        rackOrderCheckedListener();
+        rackOrderCheckedListener();
 //        Glide.with(this).load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9").circleCrop().into(pickupProcessBinding.pickerImg);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm a");
@@ -427,36 +514,89 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
     }
 
-//    private void rackOrderCheckedListener() {
-//        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
-//            if (isChecked) {
-//
-//                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
-//
-//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
-//
-//
-//
-//            } else {
-//                pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
-//
-//                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-//                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-//
-//                if (rackListOfListFiltered != null)
-//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, racksDataResponse, PickupProcessActivity.this, rackListOfListFiltered, false);
-//                else
-//                    orderAdapter = new OrderAdapter(PickupProcessActivity.this, selectedOmsHeaderList, PickupProcessActivity.this);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
-//                pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
-//                pickupProcessBinding.rackRecycler.setAdapter(orderAdapter);
-//                Toast.makeText(PickupProcessActivity.this, "false", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
+    private void rackOrderCheckedListener() {
+        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
+                pickupProcessBinding.orderRecycler.setVisibility(View.GONE);
 
+                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
+                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
+            } else {
+                pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
+                pickupProcessBinding.orderRecycler.setVisibility(View.VISIBLE);
+
+                pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void rackDataSet() {
+        rackWiseSortedDataList = new ArrayList<>();
+        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+            for (int j = 0; j < selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
+                selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setFullfillmentId(selectedOmsHeaderList.get(i).getRefno());
+                if (rackWiseSortedDataList.size() > 0) {
+                    int rackWiseSortedDataListPos = -1;
+                    for (int k = 0; k < rackWiseSortedDataList.size(); k++) {
+                        if (rackWiseSortedDataList.get(k).getRackId().equals(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId())) {
+                            rackWiseSortedDataListPos = k;
+                        }
+                    }
+                    if (rackWiseSortedDataListPos == -1) {
+                        RackWiseSortedData rackWiseSortedData = new RackWiseSortedData();
+
+                        rackWiseSortedData.setRackId(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId());
+
+                        List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
+                        RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
+                        boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                        boxIdModelList.add(boxIdModel);
+                        rackWiseSortedData.setBoxIdList(boxIdModelList);
+
+                        GetOMSTransactionResponse getOMSTransactionResponse = new GetOMSTransactionResponse();
+                        List<GetOMSTransactionResponse.SalesLine> salesLineList = new ArrayList<>();
+                        salesLineList.add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
+                        getOMSTransactionResponse.setSalesLine(salesLineList);
+
+                        rackWiseSortedData.setGetOMSTransactionResponse(getOMSTransactionResponse);
+                        rackWiseSortedDataList.add(rackWiseSortedData);
+                    } else {
+                        RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
+                        boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                        rackWiseSortedDataList.get(rackWiseSortedDataListPos).getBoxIdList().add(boxIdModel);
+
+                        rackWiseSortedDataList.get(rackWiseSortedDataListPos).getGetOMSTransactionResponse().getSalesLine().add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
+                    }
+                } else {
+                    selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setFullfillmentId(selectedOmsHeaderList.get(i).getRefno());
+                    RackWiseSortedData rackWiseSortedData = new RackWiseSortedData();
+                    rackWiseSortedData.setRackId(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId());
+
+                    List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
+                    RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
+                    boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    boxIdModelList.add(boxIdModel);
+                    rackWiseSortedData.setBoxIdList(boxIdModelList);
+
+                    GetOMSTransactionResponse getOMSTransactionResponse = new GetOMSTransactionResponse();
+                    List<GetOMSTransactionResponse.SalesLine> salesLineList = new ArrayList<>();
+                    salesLineList.add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
+                    getOMSTransactionResponse.setSalesLine(salesLineList);
+
+                    rackWiseSortedData.setGetOMSTransactionResponse(getOMSTransactionResponse);
+                    rackWiseSortedDataList.add(rackWiseSortedData);
+                }
+            }
+        }
+
+
+        rackAdapter = new RackAdapter(this, rackWiseSortedDataList, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
+        pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
+    }
 
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
 
@@ -594,61 +734,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             if (data != null) {
                 selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
                 statusBatchlist = (String) data.getStringExtra("finalStatus");
-
                 onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist);
-
-
-//                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-//                    for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
-//                        salesLinee.setStatus(statusBatchlist);
-//                        orderAdapter.notifyDataSetChanged();
-//                        if (salesLinee.getStatus() != null) {
-//                            if (!salesLinee.getStatus().equals("NOT AVAILABLE")) {
-//                                isNotAvailable = false;
-//                            }
-//                            if (!salesLinee.getStatus().equals("FULL")) {
-//                                isFull = false;
-//                            }
-//                        } else {
-//                            isNull = true;
-//                        }
-//                    }
-//
-//                if (!isNull) {
-//                    if (isNotAvailable) {
-//                        omsHeaderObj.setItemStatus("NOT AVAILABLE");
-//                        orderAdapter.notifyItemChanged(orderAdapterPos);
-//
-//                    } else if (isFull) {
-//                        omsHeaderObj.setItemStatus("FULL");
-//                        orderAdapter.notifyItemChanged(orderAdapterPos);
-//
-//                    } else if (!isNotAvailable && !isFull) {
-//                        omsHeaderObj.setItemStatus("PARTIAL");
-//                        orderAdapter.notifyItemChanged(orderAdapterPos);
-//
-//                    }
-//                }
-//                }
-//                else {
-//                    orderAdapter.notifyItemChanged(orderAdapterPos);
-//                }
-//            }
-//            boolean isAllStatusUpdated = true;
-//
-//            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
-//                for(int j =0 ; j<selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size();j++){
-//                    if (selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus() == null || selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus().isEmpty()) {
-//                        isAllStatusUpdated = false;
-//                    }
-//                }
-//            }
-//            if (isAllStatusUpdated) {
-//                pickupProcessBinding.continueOrder.setVisibility(View.GONE);
-//                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
-//
-
-//            }
             }
         }
 
@@ -657,12 +743,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
-//        this.orderAdapterPos = orderAdapterPos;
-//        this.position = position;
-//        this.salesLinee = salesLine;
-//        this.omsHeaderObj = omsHeader;
-
-//        onClickBatchDetails(orderAdapterPos, salesLine, position);
         mPresenter.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
 
     }

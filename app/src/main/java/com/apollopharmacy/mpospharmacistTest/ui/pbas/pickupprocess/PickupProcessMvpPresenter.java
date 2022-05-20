@@ -33,4 +33,6 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
+    void onClickForwardToPacker();
+
 }

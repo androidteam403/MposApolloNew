@@ -244,5 +244,10 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
             });
         }
     }
+
+    @Override
+    public void onClickForwardToPacker() {
+        getMvpView().onClickForwardToPacker();
+    }
 }
 

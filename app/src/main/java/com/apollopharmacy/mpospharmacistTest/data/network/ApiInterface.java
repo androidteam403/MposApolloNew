@@ -293,8 +293,10 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<OMSTransactionHeaderResModel> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionHeaderReqModel omsTransactionHeaderReqModel);
+
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<OMSTransactionResponse> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionRequest omsTransactionHeaderReq);
+
     @POST("SalesTransactionService.svc/GetOMSTransaction")
     Call<ArrayList<CustomerDataResBean>> GET_OMS_TRANSACTION(@Body CustomerDataReqBean customerDataReqBean);
 
