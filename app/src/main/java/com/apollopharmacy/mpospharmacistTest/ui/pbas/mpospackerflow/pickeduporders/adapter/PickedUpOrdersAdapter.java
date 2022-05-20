@@ -36,7 +36,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
     public PickedUpOrdersAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> fullfillmentList, PickedUpOrdersMvpView pickupProcessMvpView) {
         this.context = context;
         this.fullfillmentList = fullfillmentList;
-
+this.omsHeaderList=fullfillmentList;
         this.pickupProcessMvpView = pickupProcessMvpView;
 //        this.listOfList = fullfillmentListOfListFiltered;
 //        this.firstAccessCheck = acessCheck;

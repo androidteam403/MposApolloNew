@@ -16,7 +16,7 @@ public interface PickedUpOrdersMvpView extends MvpView {
     void onItmClick(int position, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void noOrderFound(int count);
-
+    void onClickFilterIcon();
     void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
 
     void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader);

@@ -38,6 +38,11 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     }
 
     @Override
+    public void fetchOMSOrderList() {
+
+    }
+
+    @Override
     public void fetchFulfilmentOrderList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -74,14 +79,29 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
 
 
     @Override
+    public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        getDataManager().setTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
     public List<RacksDataResponse.FullfillmentDetail> getFullFillmentList() {
         return getDataManager().getFullFillmentList();
     }
 
+    @Override
+    public void onClickFilter() {
+        getMvpView().onClickFilterIcon();
+    }
 
     @Override
     public List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList() {
         return getDataManager().getfullFillListOfListFiltered();
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        return getDataManager().getTotalOmsHeaderList();
+
     }
 
     @Override
