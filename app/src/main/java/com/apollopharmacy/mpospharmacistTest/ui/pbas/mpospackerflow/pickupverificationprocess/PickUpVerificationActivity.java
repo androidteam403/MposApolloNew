@@ -35,6 +35,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.io.Serializable;
@@ -268,9 +270,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     public void onClickReVerificatio() {
         VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, true, omsHeader.getRefno());
         verificationStatusDialog.setPositiveListener(v -> {
-            finish();
-            verificationStatusDialog.dismiss();
-            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+            mposOrderUpdate("2");
         });
         verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
 
@@ -368,12 +368,127 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     public void onClickVerification() {
         VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
         verificationStatusDialog.setPositiveListener(v -> {
-
-
+            mposOrderUpdate("3");
         });
         verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
-
         verificationStatusDialog.show();
+    }
+
+    private void mposOrderUpdate(String requestType) {
+        OMSOrderForwardRequest omsOrderForwardRequest = new OMSOrderForwardRequest();
+        omsOrderForwardRequest.setRequestType(requestType);
+        omsOrderForwardRequest.setFulfillmentID(omsHeader.getRefno());
+        List<OMSOrderForwardRequest.ReservedSalesLine> reservedSalesLineArrayList = new ArrayList<>();
+
+
+        if (omsOrderForwardRequest.getFulfillmentID().equalsIgnoreCase(omsHeader.getRefno())) {
+            for (int k = 0; k < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); k++) {
+                for (int m = 0; m < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); m++) {
+                    if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equals(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPickupItemId())) {
+                        OMSOrderForwardRequest.ReservedSalesLine reservedSalesLine = new OMSOrderForwardRequest.ReservedSalesLine();
+                        reservedSalesLine.setAdditionaltax(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getAdditionaltax());
+                        reservedSalesLine.setApplyDiscount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getApplyDiscount());
+                        reservedSalesLine.setBarcode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getBarcode());
+                        reservedSalesLine.setBaseAmount(Double.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getBaseAmount()));
+                        reservedSalesLine.setCESSPerc(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCESSPerc());
+                        reservedSalesLine.setCESSTaxCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCESSTaxCode());
+                        reservedSalesLine.setCGSTPerc(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTPerc());
+                        reservedSalesLine.setCGSTTaxCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCGSTTaxCode());
+                        reservedSalesLine.setCategory(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCategory());
+                        reservedSalesLine.setCategoryCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryCode());
+                        reservedSalesLine.setCategoryReference(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getCategoryReference());
+                        reservedSalesLine.setComment(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getComment());
+                        reservedSalesLine.setDpco(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDpco());
+                        reservedSalesLine.setDiscAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
+                        reservedSalesLine.setDiscOfferId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscOfferId());
+                        reservedSalesLine.setDiscountStructureType(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountStructureType());
+                        reservedSalesLine.setDiscountType(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
+                        reservedSalesLine.setDiseaseType(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiseaseType());
+                        reservedSalesLine.setExpiry(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getExpiry());
+                        reservedSalesLine.setHsncodeIn(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getHsncodeIn());
+                        reservedSalesLine.setIGSTPerc(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTPerc());
+                        reservedSalesLine.setIGSTTaxCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIGSTTaxCode());
+                        reservedSalesLine.setISPrescribed(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getISPrescribed());
+                        reservedSalesLine.setISReserved(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getISReserved());
+                        reservedSalesLine.setISStockAvailable(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getISStockAvailable());
+                        reservedSalesLine.setInventBatchId(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPickupInventBatchId());
+                        reservedSalesLine.setIsChecked(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIsChecked());
+                        reservedSalesLine.setIsGeneric(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIsGeneric());
+                        reservedSalesLine.setIsPriceOverride(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIsPriceOverride());
+                        reservedSalesLine.setIsSubsitute(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIsSubsitute());
+                        reservedSalesLine.setIsVoid(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getIsVoid());
+                        reservedSalesLine.setItemId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId());
+                        reservedSalesLine.setItemName(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemName());
+                        reservedSalesLine.setLineDiscPercentage(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
+                        reservedSalesLine.setLineDiscPercentage(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineDiscPercentage());
+                        reservedSalesLine.setLineManualDiscountAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountAmount());
+                        reservedSalesLine.setLineManualDiscountPercentage(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineManualDiscountPercentage());
+                        reservedSalesLine.setLineNo(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineNo());
+                        reservedSalesLine.setLinedscAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
+                        reservedSalesLine.setMMGroupId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
+                        reservedSalesLine.setMrp(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPrice());
+                        reservedSalesLine.setManufacturerCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
+                        reservedSalesLine.setManufacturerName(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
+                        reservedSalesLine.setMixMode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
+                        reservedSalesLine.setModifyBatchId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getModifyBatchId());
+                        reservedSalesLine.setNetAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmount());
+                        reservedSalesLine.setNetAmountInclTax(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmountInclTax());
+                        reservedSalesLine.setOfferAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOfferAmount());
+                        reservedSalesLine.setDiscountType(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscountType());
+                        reservedSalesLine.setOfferDiscountValue(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOfferDiscountValue());
+                        reservedSalesLine.setOfferQty(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOfferQty());
+                        reservedSalesLine.setOfferType(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOfferType());
+                        reservedSalesLine.setOmsLineRECID(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOmsLineRECID());
+                        reservedSalesLine.setOrderStatus(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOrderStatus());
+                        reservedSalesLine.setOriginalPrice(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOriginalPrice());
+                        reservedSalesLine.setPeriodicDiscAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getPeriodicDiscAmount());
+                        reservedSalesLine.setPhysicalMRP(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getPhysicalMRP());
+                        reservedSalesLine.setPreviewText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getPreviewText());
+                        reservedSalesLine.setPrice(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPrice());
+                        reservedSalesLine.setProductRecID(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getProductRecID());
+//                    String reqQtyDoubleDataFormat = String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getREQQTY());
+//                    int reqQty = 0;
+//                    if (reqQtyDoubleDataFormat.contains(".")) {
+//                        reqQty = Integer.parseInt(reqQtyDoubleDataFormat.substring(0, reqQtyDoubleDataFormat.indexOf(".")));
+//                    }
+                        reservedSalesLine.setQty(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPickupQty());
+                        reservedSalesLine.setRemainderDays(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getRemainderDays());
+                        reservedSalesLine.setRemainingQty(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getRemainingQty());
+                        reservedSalesLine.setResqtyflag(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getResqtyflag());
+                        reservedSalesLine.setRetailCategoryRecID(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getRetailCategoryRecID());
+                        reservedSalesLine.setRetailMainCategoryRecID(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getRetailMainCategoryRecID());
+                        reservedSalesLine.setRetailSubCategoryRecID(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getRetailSubCategoryRecID());
+                        reservedSalesLine.setReturnQty(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getReturnQty());
+                        reservedSalesLine.setSGSTPerc(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTPerc());
+                        reservedSalesLine.setSGSTTaxCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSGSTTaxCode());
+                        reservedSalesLine.setScheduleCategory(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategory());
+                        reservedSalesLine.setScheduleCategoryCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getScheduleCategoryCode());
+                        reservedSalesLine.setStockQty(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getStockQty());
+                        reservedSalesLine.setSubCategory(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategory());
+                        reservedSalesLine.setSubCategoryCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSubCategoryCode());
+                        reservedSalesLine.setSubClassification(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
+                        reservedSalesLine.setSubClassification(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSubClassification());
+                        reservedSalesLine.setSubstitudeItemId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getSubstitudeItemId());
+                        reservedSalesLine.setTax(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTax());
+                        reservedSalesLine.setTaxAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTaxAmount());
+                        reservedSalesLine.setTotal(Double.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTotal()));
+                        reservedSalesLine.setTotalDiscAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getDiscAmount());
+                        reservedSalesLine.setTotalDiscPct(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTotalDiscPct());
+                        reservedSalesLine.setTotalRoundedAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTotalRoundedAmount());
+                        reservedSalesLine.setTotalTax(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getTotalTax());
+                        reservedSalesLine.setUnit(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getUnit());
+                        reservedSalesLine.setUnitPrice(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPrice());
+                        reservedSalesLine.setUnitQty(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPickupQty());
+                        reservedSalesLine.setVariantId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getVariantId());
+                        reservedSalesLine.setIsReturnClick(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).isReturnClick());
+                        reservedSalesLine.setIsSelectedReturnItem(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).isSelectedReturnItem());
+                        reservedSalesLineArrayList.add(reservedSalesLine);
+                    }
+                }
+            }
+        }
+        omsOrderForwardRequest.setReservedSalesLine(reservedSalesLineArrayList);
+        mpresenter.UpdateOmsOrder(omsOrderForwardRequest);
     }
 
     @Override
@@ -638,6 +753,20 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             finish();
             overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
         }
+    }
+
+    @Override
+    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String mposOrderUpdateRequestType) {
+        if (mposOrderUpdateRequestType.equals("3")) {
+            mpresenter.mposPickPackOrderReservationApiCall(6, omsHeader);
+        } else if (mposOrderUpdateRequestType.equals("2")) {
+            mpresenter.mposPickPackOrderReservationApiCall(4, omsHeader);
+        }
+    }
+
+    @Override
+    public void OmsOrderUpdateFailure(OMSOrderForwardResponse response) {
+
     }
 
     private void reSendVerPickVernEableChecked() {
