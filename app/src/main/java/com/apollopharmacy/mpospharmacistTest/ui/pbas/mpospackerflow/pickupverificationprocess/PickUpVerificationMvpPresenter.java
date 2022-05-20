@@ -9,5 +9,7 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
 
     void onClickReVerificatio();
 
+    void fetchOMSCustomerInfo(String refNumber);
+
     void onClickVerification();
 }

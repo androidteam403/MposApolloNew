@@ -20,4 +20,8 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
 
     void setListOfListFullFillProducts(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullFillProducts);
 
+
+    // created by naveen
+    void fetchFulfilmentOrderList();
+
 }

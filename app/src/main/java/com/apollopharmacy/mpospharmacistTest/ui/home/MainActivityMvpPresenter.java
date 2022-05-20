@@ -22,6 +22,6 @@ public interface MainActivityMvpPresenter<V extends MainActivityMvpView> extends
 
     void disablescreens();
 
-
+    void getGlobalConfig();
 
 }
