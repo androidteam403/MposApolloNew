@@ -520,14 +520,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
                 pickupProcessBinding.orderRecycler.setVisibility(View.GONE);
 
-                pickupProcessBinding.continueOrders.setVisibility(View.GONE);
+                pickupProcessBinding.continueButtonLayout.setVisibility(View.GONE);
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
             } else {
                 pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
                 pickupProcessBinding.orderRecycler.setVisibility(View.VISIBLE);
 
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
-                pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
+                pickupProcessBinding.continueButtonLayout.setVisibility(View.VISIBLE);
             }
         });
     }
