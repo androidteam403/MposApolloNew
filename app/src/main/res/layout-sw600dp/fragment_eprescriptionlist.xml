@@ -88,8 +88,8 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5"
                         android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_weight="1.5"
                         android:orientation="horizontal">
 
                         <Button
@@ -109,7 +109,7 @@
                             android:layout_marginLeft="@dimen/five_dp"
                             android:gravity="center"
                             android:text="Stock Availability"
-                            android:textSize="@dimen/fifteen_dp"></TextView>
+                            android:textSize="@dimen/fifteen_dp" />
 
                         <Button
                             android:id="@+id/customertypefilter"
@@ -120,7 +120,7 @@
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/filterimage"
                             android:gravity="center"
-                            android:onClick="@{()-> callbacks.clickOnCustomertypeFilter()}"></Button>
+                            android:onClick="@{()-> callbacks.clickOnCustomertypeFilter()}" />
 
                         <!--<Button
                             android:id="@+id/proritybutton"
@@ -213,31 +213,32 @@
                     android:id="@+id/filtersscrollview"
                     android:layout_width="400dp"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/forty_dp"
                     android:clickable="true"
                     android:fillViewport="true"
-                    android:layout_marginBottom="@dimen/forty_dp"
 
                     >
+
                     <LinearLayout
                         android:id="@+id/chaild_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:elevation="@dimen/three_dp"
                         android:background="@color/white"
+                        android:elevation="@dimen/three_dp"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/title"
                             android:layout_width="fill_parent"
                             android:layout_height="@dimen/text_dimen_30"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
                             android:text="Customer Type"
                             android:textAlignment="textStart"
                             android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/seventeen_dp"
                             android:textStyle="bold" />
 
@@ -247,21 +248,20 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/title"
                             android:divider="@null"
-                            android:dividerHeight="0dp"
-                            />
+                            android:dividerHeight="0dp" />
 
                         <TextView
                             android:id="@+id/title_ordertype"
                             android:layout_width="fill_parent"
                             android:layout_height="@dimen/text_dimen_30"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
                             android:text="Order Type"
                             android:textAlignment="textStart"
                             android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/seventeen_dp"
                             android:textStyle="bold" />
 
@@ -270,22 +270,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/title_ordertype"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:divider="@null"
-                            android:dividerHeight="0dp"
-                            android:layout_marginTop="@dimen/five_dp" />
+                            android:dividerHeight="0dp" />
 
                         <TextView
                             android:id="@+id/title_ordercategory"
                             android:layout_width="fill_parent"
                             android:layout_height="@dimen/text_dimen_30"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
                             android:text="Order Category"
                             android:textAlignment="textStart"
                             android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/seventeen_dp"
                             android:textStyle="bold" />
 
@@ -293,23 +293,23 @@
                             android:id="@+id/ordercategoryFiltersview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:divider="@null"
-                            android:dividerHeight="0dp"
                             android:layout_below="@+id/title_ordercategory"
-                            android:layout_marginTop="@dimen/five_dp" />
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
 
                         <TextView
                             android:id="@+id/title_PaymentType"
                             android:layout_width="fill_parent"
                             android:layout_height="@dimen/text_dimen_30"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
                             android:text="Payment Type"
                             android:textAlignment="textStart"
                             android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/seventeen_dp"
                             android:textStyle="bold" />
 
@@ -317,23 +317,23 @@
                             android:id="@+id/paymenttypeFiltersview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:divider="@null"
-                            android:dividerHeight="0dp"
                             android:layout_below="@+id/title_PaymentType"
-                            android:layout_marginTop="@dimen/five_dp" />
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
 
                         <TextView
                             android:id="@+id/title_ordersource"
                             android:layout_width="fill_parent"
                             android:layout_height="@dimen/text_dimen_30"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
                             android:text="Order Source"
                             android:textAlignment="textStart"
                             android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/seventeen_dp"
                             android:textStyle="bold" />
 
@@ -341,45 +341,41 @@
                             android:id="@+id/ordersourceFiltersview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:divider="@null"
-                            android:dividerHeight="0dp"
                             android:layout_below="@+id/title_ordersource"
-                            android:layout_marginTop="@dimen/five_dp" />
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
                     </LinearLayout>
                 </ScrollView>
 
                 <LinearLayout
                     android:layout_width="400dp"
                     android:layout_height="@dimen/fifty_dp"
-                    android:orientation="horizontal"
-                    android:background="@color/white"
-                    android:weightSum="2"
                     android:layout_alignParentBottom="true"
-                    >
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
                     <Button
                         android:id="@+id/applybutton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/ten_dp"
                         android:layout_weight="1"
                         android:background="@color/apollo_btn_color"
-                        android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Apply"
                         android:onClick="@{() -> callbacks.clickOnApplyCommonfilter()}"
-                        >
-                    </Button>
+                        android:text="Apply"></Button>
 
                     <Button
                         android:id="@+id/cancelbutton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/apollo_btn_color"
-                        android:text="Cancel"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_weight="1"
+                        android:background="@color/apollo_btn_color"
                         android:onClick="@{() -> callbacks.clickOnCancelCommonfilter()}"
-                        >
-                    </Button>
+                        android:text="Cancel"></Button>
 
                 </LinearLayout>
             </RelativeLayout>
