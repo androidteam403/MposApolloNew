@@ -4,4 +4,9 @@ import java.util.List;
 
 public interface CaptureManagerCallback {
     void scannedListener(List<String> barcodeList);
+
+
+    void onClickScanCode();
+
+    void onBackPressed();
 }

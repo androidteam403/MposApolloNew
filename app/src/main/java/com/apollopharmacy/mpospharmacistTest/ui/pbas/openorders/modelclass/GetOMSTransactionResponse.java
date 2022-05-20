@@ -412,8 +412,17 @@ public class GetOMSTransactionResponse implements Serializable {
         @SerializedName("ISReserved")
         @Expose
         private Boolean iSReserved;
+        private String packerStatus;
 
         private String status;
+
+        public String getPackerStatus() {
+            return packerStatus;
+        }
+
+        public void setPackerStatus(String packerStatus) {
+            this.packerStatus = packerStatus;
+        }
 
         public String getStatus() {
             return status;

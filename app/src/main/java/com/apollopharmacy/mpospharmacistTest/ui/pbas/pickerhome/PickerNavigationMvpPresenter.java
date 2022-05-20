@@ -6,4 +6,6 @@ public interface PickerNavigationMvpPresenter<V extends PickerNavigationMvpView>
     String getLoginUserName();
 
     String getLoinStoreLocation();
+
+    void logoutUser();
 }

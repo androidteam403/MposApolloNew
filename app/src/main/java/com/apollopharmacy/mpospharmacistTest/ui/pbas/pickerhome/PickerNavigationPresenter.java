@@ -25,5 +25,11 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
     public String getLoinStoreLocation() {
         return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
     }
+
+    @Override
+    public void logoutUser() {
+        getDataManager().logoutUser();
+        getMvpView().navigateLoginActivity();
+    }
 }
 
