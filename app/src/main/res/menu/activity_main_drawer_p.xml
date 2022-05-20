@@ -8,6 +8,22 @@
         <item
             android:id="@+id/nav_dashboard"
             android:title="Dashboard" />
+        <item
+            android:id="@+id/nav_picker_vtwo"
+            android:title="Picker" />
+        <item
+            android:id="@+id/nav_packer_vtwo"
+            android:title="Packer" />
+        <item
+            android:id="@+id/nav_biller_vtwo"
+            android:title="Biller" />
+        <item
+            android:id="@+id/nav_sealer_vtwo"
+            android:title="Sealer" />
+        <item
+            android:id="@+id/nav_admin_vtwo"
+            android:title="Admin" />
+
 
         <!--        <item-->
         <!--            android:id="@+id/nav_gallery"-->
