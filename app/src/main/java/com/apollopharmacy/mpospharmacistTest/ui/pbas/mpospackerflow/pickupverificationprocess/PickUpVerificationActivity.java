@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupVerificationPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCustomUpdateStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -31,6 +32,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Medicine
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter.PickUpVerificationAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.dialog.VerificationStatusDialog;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
@@ -53,6 +56,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     private PickUpVerificationAdapter pickUpVerificationAdapter;
     private boolean updateVerified;
     boolean reverification;
+    private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
     List<RackAdapter.RackBoxModel.ProductData> productDataList;
     private String status;
     private int position;
@@ -62,13 +66,13 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     List<PickPackReservation> globalpickupreservation = new ArrayList<>();
 
     List<RacksDataResponse.FullfillmentDetail> fullFillModelList;
-    List<CustomerDataResBean> customerDataList = new ArrayList<>();
-    public List<OMSTransactionResponse.OMSHeaderObj> omsHeaderObjList;
+    List<GetOMSTransactionResponse> customerDataList = new ArrayList<>();
+
     ArrayList<MedicineInfoEntity> itemsArrayList = new ArrayList<>();
     ArrayList<SalesLineEntity> itemsList = new ArrayList<>();
     RacksDataResponse.FullfillmentDetail fillModel;
     String fId;
-    List<OMSTransactionResponse.OMSHeaderObj> omsList = new ArrayList<>();
+    List<TransactionHeaderResponse.OMSHeader> omsList = new ArrayList<>();
 
 
     //    public static Intent getStartActivity(Context context, int position, String status, String productDataList, String fullFillModelList, RacksDataResponse.FullfillmentDetail fillModel) {
@@ -81,7 +85,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //        return intent;
 //    }
-    public static Intent getStartActivity(Context context, int position, List<OMSTransactionResponse.OMSHeaderObj> omsHeaderObjList) {
+    public static Intent getStartActivity(Context context, int position, List<TransactionHeaderResponse.OMSHeader> omsHeaderObjList) {
         Intent intent = new Intent(context, PickUpVerificationActivity.class);
         intent.putExtra("position", position);
         intent.putExtra("omsHeaderList", (Serializable) omsHeaderObjList);
@@ -112,12 +116,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //            Intent i=getIntent();
 //            String fulfilmentId=i.getStringExtra("fulfilmentId");
 
-            omsList = (List<OMSTransactionResponse.OMSHeaderObj>) getIntent().getSerializableExtra("omsHeaderList");
+            omsList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("omsHeaderList");
             if (omsList != null) {
-                mpresenter.fetchOMSCustomerInfo(omsList.get(position).getREFNO());
-                mpresenter.fetchOMSMedicineInfo(omsList.get(position).getREFNO());
-            }
-          else   if (omsList==null){
+                mpresenter.fetchOMSCustomerInfo(omsList.get(position).getRefno());
+                mpresenter.fetchOMSMedicineInfo(omsList.get(position).getRefno());
+            } else if (omsList == null) {
                 mpresenter.fetchOMSCustomerInfo(fId);
                 mpresenter.fetchOMSMedicineInfo(fId);
             }
@@ -381,6 +384,91 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //        }
     }
 
+    @Override
+    public void onClickUpdate(int pos, String refNo) {
+        int full = 0;
+        int partial = 0;
+        int notavailable = 0;
+
+//        for (int i = 0; i < customerDataList.size(); i++) {
+//            if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                full++;
+//            } else if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("Partial AVAILABLE")) {
+//                partial++;
+//            } else if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("Not AVAILABLE")) {
+//                notavailable++;
+//            }
+//        }
+//        if (full > partial && full > notavailable) {
+//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_circle_tick));
+//
+//        } else if (partial > full && partial > notavailable) {
+//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_partial));
+//
+//        } else if (notavailable > full && notavailable > partial) {
+//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_not_available));
+//
+//        }
+
+    }
+
+
+//       Dialog statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
+//        dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
+//        statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+//        statusUpdateDialog.setCancelable(false);
+//        dialogUpdateStatusBinding.fullfillmentId.setText(customerDataList.get(pos).getREFNO());
+//        dialogUpdateStatusBinding.productName.setText(customerDataList.get(pos).getSalesLine().get(pos).getItemName());
+//
+//dialogUpdateStatusBinding.fullPickedRadio.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View v) {
+//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
+//    }
+//});
+//
+//dialogUpdateStatusBinding.partiallyPickedRadio.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View v) {
+//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
+//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
+//    }
+//});
+//
+//dialogUpdateStatusBinding.notAvailableRadio.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View v) {
+//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
+//    }
+//});
+//dialogUpdateStatusBinding.update.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View v) {
+//        statusUpdateDialog.dismiss();
+//
+//    }
+//});
+//
+//        dialogUpdateStatusBinding.dismissDialog.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                statusUpdateDialog.dismiss();
+//            }
+//        });
+//        statusUpdateDialog.show();
+
+//        dialogUpdateStatusBinding.fullPickedRadio.setClickable(true);
+//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.notAvailableRadio.setClickable(false);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setClickable(false);
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickVerification() {
@@ -419,28 +507,29 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     }
 
     @Override
-    public void onSuccessGetOMSTransaction(ArrayList<CustomerDataResBean> response) {
-        List<SalesLineEntity> items = new ArrayList<>();
-        customerDataList = response;
-        for (int i = 0; i < customerDataList.size(); i++) {
-            if (omsList!=null) {
-                if (omsList.get(position).getREFNO().equals(customerDataList.get(i).getREFNO())) {
+    public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> response) {
 
-                    activityPickupVerificationBinding.fullfilmentId.setText(customerDataList.get(i).getREFNO());
+        customerDataList = response;
+
+
+
+        for (int i = 0; i < customerDataList.size(); i++) {
+                if (omsList.get(position).getRefno().equals(customerDataList.get(i).getRefno())) {
+
+                    activityPickupVerificationBinding.fullfilmentId.setText(customerDataList.get(i).getRefno());
                     activityPickupVerificationBinding.orderId.setText(customerDataList.get(i).getReciptId());
                     activityPickupVerificationBinding.date.setText(customerDataList.get(i).getDeliveryDate());
-                    pickUpVerificationAdapter = new PickUpVerificationAdapter(this, PickUpVerificationActivity.this, customerDataList.get(i).getSalesLine(), customerDataList, this);
+                    pickUpVerificationAdapter = new PickUpVerificationAdapter(this, PickUpVerificationActivity.this, customerDataList, this);
                     RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                     activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
                     activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
                     activityPickupVerificationBinding.recyclerView.setAdapter(pickUpVerificationAdapter);
-                }
-            }
-        else if( fId.equals(customerDataList.get(i).getREFNO())) {
-                activityPickupVerificationBinding.fullfilmentId.setText(customerDataList.get(i).getREFNO());
+
+            } else if (fId.equals(customerDataList.get(i).getRefno())) {
+                activityPickupVerificationBinding.fullfilmentId.setText(customerDataList.get(i).getRefno());
                 activityPickupVerificationBinding.orderId.setText(customerDataList.get(i).getReciptId());
                 activityPickupVerificationBinding.date.setText(customerDataList.get(i).getDeliveryDate());
-                pickUpVerificationAdapter = new PickUpVerificationAdapter(this, PickUpVerificationActivity.this, customerDataList.get(i).getSalesLine(), customerDataList, this);
+                pickUpVerificationAdapter = new PickUpVerificationAdapter(this, PickUpVerificationActivity.this, customerDataList, this);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
                 activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());

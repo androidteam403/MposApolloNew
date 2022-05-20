@@ -118,6 +118,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity :"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/text_color_grey"
+                        android:layout_marginLeft="@dimen/margin_5dp"
+                        />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:id="@+id/qty"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/full_picked_radio_one"
@@ -174,124 +196,15 @@
                             android:orientation="horizontal"
                             android:weightSum="3">
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:text="Available"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:text="Required"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:text="Selected"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/five_dp"
-                            android:orientation="horizontal"
-                            android:weightSum="3">
 
-                            <TextView
-                                android:id="@+id/available_pro_full"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
 
-                            <TextView
-                                android:id="@+id/required_pro_full"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="horizontal">
 
-                                <ImageView
-                                    android:id="@+id/qty_decreament_full"
-                                    android:layout_width="@dimen/dimen25dp"
-                                    android:layout_height="@dimen/dimen25dp"
-                                    android:contentDescription="@string/app_name"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:gravity="center"
-                                    android:src="@drawable/ic_minus"
-                                    android:textColor="@color/black"
-                                    android:visibility="gone" />
 
-                                <EditText
-                                    android:id="@+id/qty_edit_full"
-                                    android:layout_width="@dimen/dimen35dp"
-                                    android:layout_height="@dimen/twenty_five_dp"
-                                    android:layout_marginStart="@dimen/dimen5dp"
-                                    android:background="@drawable/edit_box_grey_bg"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:gravity="center"
-                                    android:importantForAutofill="no"
-                                    android:inputType="number"
-                                   android:enabled="false"
-                                    android:textColor="@color/black"
-                                    android:textSize="13sp"
-                                    tools:ignore="LabelFor" />
-
-                                <ImageView
-                                    android:id="@+id/qty_increament_full"
-                                    android:layout_width="@dimen/dimen25dp"
-                                    android:layout_height="@dimen/dimen25dp"
-                                    android:layout_marginStart="@dimen/dimen5dp"
-                                    android:contentDescription="@string/app_name"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:gravity="center"
-                                    android:src="@drawable/ic_plus"
-                                    android:textColor="@color/black"
-                                    android:visibility="gone" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/batchnavigation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/five_dp"
-                            android:background="@drawable/btn_continue_ripple_login"
-                            android:padding="@dimen/ten_dp"
-                            android:text="Select Batches"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
 
                     </LinearLayout>
 
@@ -528,6 +441,7 @@
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:layout_marginBottom="@dimen/dimen10dp"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -581,6 +495,10 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.NewSelectedOrderAdapterCallback" />
+
+
+
+
     </data>
 
 </layout>

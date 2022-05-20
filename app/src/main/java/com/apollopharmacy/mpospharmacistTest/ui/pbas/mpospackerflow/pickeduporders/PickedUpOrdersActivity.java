@@ -17,20 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickedUpOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +40,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     private PickedUpOrdersAdapter pickedUpOrdersAdapter;
     private static final int PICKUP_VERIFICATION_ACTIVITY = 108;
     List<RackAdapter.RackBoxModel.ProductData> productDataList;
-    private List<OMSTransactionResponse.OMSHeaderObj> omsHeaderList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     List<RacksDataResponse.FullfillmentDetail> fullfillmentDetailList;
 
     public static Intent getStartActivity(Context mContext) {
@@ -145,7 +141,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 
 
     @Override
-    public void onItmClick(int position,List<OMSTransactionResponse.OMSHeaderObj> omsHeaderObjList) {
+    public void onItmClick(int position,List<TransactionHeaderResponse.OMSHeader> omsHeaderObjList) {
         startActivityForResult(PickUpVerificationActivity.getStartActivity(PickedUpOrdersActivity.this, position, omsHeaderObjList), PICKUP_VERIFICATION_ACTIVITY);
 
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -161,18 +157,19 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     }
 
     @Override
-    public void onSuccessGetOMSTransactionList(OMSTransactionResponse response) {
+    public void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
+
+    }
+
+    @Override
+    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
+        for (int i=0;i<omsHeader.getOMSHeader().size();i++){
+            if (omsHeader.getOMSHeader() != null  && omsHeader.getOMSHeader() .get(i).getOrderPickup()==true && omsHeader.getOMSHeader() .get(i).getOrderPacked()==false) {
+                omsHeaderList.add(omsHeader.getOMSHeader() .get(i));
 
 
-        for (int i=0;i<response.getOMSHeaderArr().size();i++){
-        if (response.getOMSHeaderArr() != null  && response.getOMSHeaderArr().get(i).getOrderPickup()==true && response.getOMSHeaderArr().get(i).getOrderPacked()==false) {
-            omsHeaderList.add(response.getOMSHeaderArr().get(i));
-
-
-        }
-        }
-
-        activityPickedUpOrdersBinding.headerOrdersCount.setText("Total"+ " " +String.valueOf(omsHeaderList.size())+" "+"Orders");
+            }
+            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total"+ " " +String.valueOf(omsHeaderList.size())+" "+"Orders");
             activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
             pickedUpOrdersAdapter = new PickedUpOrdersAdapter(this, omsHeaderList, this);
 
@@ -180,6 +177,14 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
             activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+
+        }
+    }
+
+    @Override
+    public void onSuccessGetOMSTransactionList(OMSTransactionResponse response) {
+
+
 
         }
 

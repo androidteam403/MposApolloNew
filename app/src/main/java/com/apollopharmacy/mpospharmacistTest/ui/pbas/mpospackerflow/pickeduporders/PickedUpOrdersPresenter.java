@@ -6,6 +6,10 @@ import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
@@ -41,31 +45,36 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     public void fetchOMSOrderList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            OMSTransactionRequest reqModel = new OMSTransactionRequest();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
             reqModel.setExpiryDays(90);
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            Call<OMSTransactionResponse> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
-            call.enqueue(new Callback<OMSTransactionResponse>() {
+            reqModel.setIsMPOS(getDataManager().getGlobalJson().getMPOSVersion());
+            reqModel.setUserName(getDataManager().getUserName());
+            Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
+            call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
-                public void onResponse(Call<OMSTransactionResponse> call, Response<OMSTransactionResponse> response) {
+                public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     getMvpView().hideLoading();
-                    if (response.isSuccessful() && response.body() != null)
-                        getMvpView().onSuccessGetOMSTransactionList(response.body());
+                    if (response.isSuccessful()) {
+                        if (response.body() != null)
+                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    }
                 }
 
-
                 @Override
-                public void onFailure(Call<OMSTransactionResponse> call, Throwable t) {
+                public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }
             });
-        } else {
+        }
+ else {
             getMvpView().onError("Internet Connection Not Available");
         }
     }
@@ -74,6 +83,8 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     public List<RacksDataResponse.FullfillmentDetail> getFullFillmentList() {
         return getDataManager().getFullFillmentList();
     }
+
+
 
     @Override
     public List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList() {

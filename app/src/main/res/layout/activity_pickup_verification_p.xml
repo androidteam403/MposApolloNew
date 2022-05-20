@@ -223,7 +223,7 @@ Do you want to proceed with Packing?"
                                 android:layout_toRightOf="@id/status_text"
 
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/ic_circle_tick" />
+                                 />
 
                             <ImageView
                                 android:id="@+id/partial_status_color"

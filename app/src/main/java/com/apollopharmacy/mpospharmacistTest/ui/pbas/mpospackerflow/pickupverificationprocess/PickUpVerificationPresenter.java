@@ -9,11 +9,14 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchReqBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -81,34 +84,33 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     public void fetchOMSCustomerInfo(String refNumber) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            CustomerDataReqBean reqModel = new CustomerDataReqBean();
-            reqModel.setTransactionID(refNumber);
-            reqModel.setRefID("");
-            reqModel.setExpiryDays(90);
-            reqModel.setStoreID(getDataManager().getStoreId());
-            reqModel.setTerminalID(getDataManager().getTerminalId());
-            reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            Call<ArrayList<CustomerDataResBean>> call = api.GET_OMS_TRANSACTION(reqModel);
-            call.enqueue(new Callback<ArrayList<CustomerDataResBean>>() {
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
+            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setExpiryDays(90);
+            getOmsTransactionRequest.setRefID("");
+            getOmsTransactionRequest.setStoreID("16001");
+            getOmsTransactionRequest.setTerminalID("005");
+            getOmsTransactionRequest.setTransactionID(refNumber);
+            Call<List<GetOMSTransactionResponse>> call = apiInterface.getOmsApiCall(getOmsTransactionRequest);
+            call.enqueue(new Callback<List<GetOMSTransactionResponse>>() {
                 @Override
-                public void onResponse(@NotNull Call<ArrayList<CustomerDataResBean>> call, @NotNull Response<ArrayList<CustomerDataResBean>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        fetchOMSMedicineInfo(refNumber);
-                        //System.out.println("Customer Name-->0"+response.body().get(0).getCustomerName());
+                public void onResponse(Call<List<GetOMSTransactionResponse>> call, Response<List<GetOMSTransactionResponse>> response) {
+                    if (response.isSuccessful()  && response.body() !=null) {
+
                         getMvpView().onSuccessGetOMSTransaction(response.body());
+
                     }
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<ArrayList<CustomerDataResBean>> call, @NotNull Throwable t) {
+                public void onFailure(Call<List<GetOMSTransactionResponse>> call, Throwable t) {
                     getMvpView().hideLoading();
-                    System.out.println("Customer Name-->4" + "Syntax Error");
-
-                    handleApiError(t);
                 }
             });
-        } else {
+        }
+        else {
             getMvpView().onError("Internet Connection Not Available");
         }
 

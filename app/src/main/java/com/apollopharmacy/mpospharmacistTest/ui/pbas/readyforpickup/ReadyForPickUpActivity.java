@@ -131,7 +131,6 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
-
                 if (!BillerOrdersActivity.isBillerActivity) {
                     if (data != null) {
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
@@ -141,7 +140,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
 //                            }
 //                            selectedOmsHeaderList.get(i).setTagBox(true);
-//                            selectedOmsHeaderList.get(i).setScanView(true);
+//                             selectedOmsHeaderList.get(i).setScanView(true);
 //                        }
 
                         this.selectedOmsHeaderList = ReadyForPickUpActivity.selectedOmsHeaderListTest;

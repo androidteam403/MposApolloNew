@@ -27,19 +27,19 @@ import java.util.List;
 
 public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAdapter.ViewHolder>  implements Filterable {
     private Context context;
-    private List<OMSTransactionResponse.OMSHeaderObj> fullfillmentList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> fullfillmentList = new ArrayList<>();
     private PickedUpOrdersMvpView pickupProcessMvpView;
     public List<OMSOrderUpdateResponse> salesLineList;
-    private List<OMSTransactionResponse.OMSHeaderObj> filteredList = new ArrayList<>();
-    private List<OMSTransactionResponse.OMSHeaderObj> omsHeaderList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
+    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     private boolean firstAccessCheck;
 
 
-    public PickedUpOrdersAdapter(Context context, List<OMSTransactionResponse.OMSHeaderObj> fullfillmentList, PickedUpOrdersMvpView pickupProcessMvpView) {
+    public PickedUpOrdersAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> fullfillmentList, PickedUpOrdersMvpView pickupProcessMvpView) {
         this.context = context;
         this.fullfillmentList = fullfillmentList;
-        this.omsHeaderList=fullfillmentList;
+
         this.pickupProcessMvpView = pickupProcessMvpView;
 //        this.listOfList = fullfillmentListOfListFiltered;
 //        this.firstAccessCheck = acessCheck;
@@ -55,9 +55,9 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
 
     @Override
     public void onBindViewHolder(@NonNull PickedUpOrdersAdapter.ViewHolder holder, int position) {
-        OMSTransactionResponse.OMSHeaderObj fullFillModel = fullfillmentList.get(position);
-        holder.orderBinding.fullfillmentID.setText(fullFillModel.getREFNO());
-        holder.orderBinding.totalItems.setText("-");
+        TransactionHeaderResponse.OMSHeader fullFillModel = fullfillmentList.get(position);
+        holder.orderBinding.fullfillmentID.setText(fullFillModel.getRefno());
+        holder.orderBinding.totalItems.setText(String.valueOf(fullFillModel.getNumberofItemLines()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,8 +289,8 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
                     fullfillmentList = omsHeaderList;
                 } else {
                     filteredList.clear();
-                    for (OMSTransactionResponse.OMSHeaderObj row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getREFNO().contains(charString))) {
+                    for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
+                        if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
                             filteredList.add(row);
                         }
 
@@ -305,7 +305,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 if (fullfillmentList != null && !fullfillmentList.isEmpty()) {
-                    fullfillmentList = (ArrayList<OMSTransactionResponse.OMSHeaderObj>) filterResults.values;
+                    fullfillmentList = (ArrayList<TransactionHeaderResponse.OMSHeader>) filterResults.values;
                     try {
                         pickupProcessMvpView.noOrderFound(fullfillmentList.size());
                         notifyDataSetChanged();
