@@ -124,18 +124,60 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
         Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (data != null && data.getBooleanExtra("IS_BACK_PRESSED", false)) {
+            if (!BillerOrdersActivity.isBillerActivity) {
+                if (data != null) {
+                    List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
 
-        if (Result != null) {
-            if (Result.getContents() == null) {
-                Toast.makeText(this, "Tagging Failed", Toast.LENGTH_SHORT).show();
-            } else {
-                for(int j =0; j<selectedOmsHeaderList.size();j++){
-                    for(int k=0; k<selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().size();k++){
-                        Toast.makeText(this, "FLid:" + selectedOmsHeaderList.get(j).getRefno() + "" + "tagged to Box Number:" + selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId() , Toast.LENGTH_SHORT).show();
+//                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                            if (i < barcodeList.size()) {
+//                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
+//                            }
+//                            selectedOmsHeaderList.get(i).setTagBox(true);
+//                            selectedOmsHeaderList.get(i).setScanView(true);
+//                        }
+
+                    this.selectedOmsHeaderList = ReadyForPickUpActivity.selectedOmsHeaderListTest;
+                    for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                        if (selectedOmsHeaderList.get(i).getScannedBarcode() != null && !selectedOmsHeaderList.get(i).getScannedBarcode().isEmpty()) {
+                            selectedOmsHeaderList.get(i).setTagBox(true);
+                            selectedOmsHeaderList.get(i).setScanView(true);
+                        } else {
+                            selectedOmsHeaderList.get(i).setTagBox(false);
+                            selectedOmsHeaderList.get(i).setScanView(false);
+                        }
                     }
 
-                }
+                    readyForPickUpAdapter.notifyDataSetChanged();
+                    boolean isAlltagBox = true;
+                    for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
 
+                        if (!omsHeader.isTagBox())
+                            isAlltagBox = false;
+                    if (isAlltagBox) {
+                        activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
+                        activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
+                    } else {
+                        activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
+                        activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
+                    }
+                }
+            } else {
+                BillerOrdersActivity.isBillerActivity = false;
+            }
+            Toast.makeText(this, "scanner back pressed", Toast.LENGTH_SHORT).show();
+        }
+        if (Result != null && !data.getBooleanExtra("IS_BACK_PRESSED", false)) {
+            if (Result.getContents() == null) {
+
+                Toast.makeText(this, "Tagging Failed", Toast.LENGTH_SHORT).show();
+            } else {
+//                for(int j =0; j<selectedOmsHeaderList.size();j++){
+//                    for(int k=0; k<selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().size();k++){
+//                        Toast.makeText(this, "FLid:" + selectedOmsHeaderList.get(j).getRefno() + "" + "tagged to Box Number:" + selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId() , Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
 
 
                 if (!BillerOrdersActivity.isBillerActivity) {
@@ -183,7 +225,6 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     @Override
     public void onDeleteClick(int pos, String fullfillmentId, String s) {
