@@ -16,13 +16,18 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresPermission;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.CheckReservedQtyDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.google.zxing.ResultMetadataType;
@@ -76,7 +81,10 @@ public class CaptureManager {
     private Handler handler;
     private int orderPos;
     BarcodeResult result1;
+    boolean sameBarcode;
+    ExitInfoDialog dialogView;
     BarcodeResult finalResult;
+    int position;
     private boolean finishWhenClosed = false;
     private List<String> barcodeList = new ArrayList<>();
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -88,18 +96,25 @@ public class CaptureManager {
              finalResult = result;
             handler.post(() -> {
                 if(barcodeList!=null && barcodeList.size()>0) {
-                    boolean sameBarcode = false;
-                    for (int k = 0; k < barcodeList.size(); k++) {
-                        if (result.toString().equalsIgnoreCase(barcodeList.get(k))) {
+                     sameBarcode= false;
+                    for (int o = 0; o < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); o++) {
+                        if (result.toString().equalsIgnoreCase(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(o).getScannedBarcode())) {
                             sameBarcode= true;
-                        Toast.makeText(applicationContext, "Please select another barcode", Toast.LENGTH_SHORT).show();
-                        mCallback.onClickScanCode();
-                        break;
-
+                            o = position;
+                            mCallback.onClickScanCode(result.toString(), ReadyForPickUpActivity.selectedOmsHeaderListTest.get(position).getRefno());
                         }
+                        else if(!sameBarcode && ReadyForPickUpActivity.selectedOmsHeaderListTest.get(o).getScannedBarcode()!=null){
+                            for (int k = 0; k < ReadyForPickUpActivity.selectedOmsHeaderListTest.get(o).getGetOMSTransactionResponse().getSalesLine().size(); k++) {
+                                        Toast.makeText(applicationContext, " FLid: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(o).getRefno() + "" + " tagged to Box Number: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(o).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId(), Toast.LENGTH_SHORT).show();
+                                    }
+                        }
+
                     }
                 }
-                   else {
+
+
+                if(!sameBarcode){
+
                     barcodeList.add(result.toString());
                     ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());
                     boolean isAllBarcodeScanned = true;
@@ -113,12 +128,6 @@ public class CaptureManager {
                     if (isAllBarcodeScanned) {
                         returnResult(result, barcodeList);
                    }
-//                    else if(!isAllBarcodeScanned){
-//
-//                        returnResult(result, barcodeList);
-//
-//                    }
-
                     else {
                         if (!BillerOrdersActivity.isBillerActivity) {
                             barcodeView.resume();
@@ -127,7 +136,10 @@ public class CaptureManager {
                             returnResult(result, barcodeList);
                         }
                     }
+
+
                 }
+
 
 
 //                if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && barcodeList.size() == ReadyForPickUpActivity.selectedOmsHeaderListTest.size())
@@ -142,6 +154,7 @@ public class CaptureManager {
 //                }
             });
         }
+
 
 
         @Override

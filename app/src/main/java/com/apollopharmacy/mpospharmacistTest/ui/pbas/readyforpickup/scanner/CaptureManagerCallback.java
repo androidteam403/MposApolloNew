@@ -6,7 +6,7 @@ public interface CaptureManagerCallback {
     void scannedListener(List<String> barcodeList);
 
 
-    void onClickScanCode();
+    void onClickScanCode(String s, String refno);
 
     void onBackPressed();
 }

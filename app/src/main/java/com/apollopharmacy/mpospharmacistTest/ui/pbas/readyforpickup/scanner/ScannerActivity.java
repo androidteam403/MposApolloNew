@@ -1,17 +1,22 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityScannerBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogOneListenerBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -28,6 +33,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private boolean isFlashLightOn = false;
     private List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
     Bundle savedInstanceState;
+    TextView barcodeCount;
     int position;
     private List<String> barcodeList = new ArrayList<>();
     //    String fullfillmentId;
@@ -43,7 +49,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
 //         activityScannerBinding = DataBindingUtil.setContentView(this, R.layout.activity_scanner_p);
 
-        TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
+         barcodeCount = (TextView) findViewById(R.id.barcode_count);
         fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
         int scannedOrdersCount = 0;
         if (!BillerOrdersActivity.isBillerActivity) {
@@ -190,19 +196,33 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
 
 
-        for(int j =0; j<ReadyForPickUpActivity.selectedOmsHeaderListTest.size();j++){
-            for(int k=0; k<ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getGetOMSTransactionResponse().getSalesLine().size();k++){
-                Toast.makeText(this, "FLid:" + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getRefno() + "" + "tagged to Box Number:" + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getRackId() , Toast.LENGTH_SHORT).show();
-            }
 
-        }
+
 //        Toast.makeText(this, "naveen", Toast.LENGTH_SHORT).show();
     }
 
 
+
     @Override
-    public void onClickScanCode() {
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+    public void onClickScanCode(String s, String refno) { ;
+
+        ExitInfoDialog dialogView = new ExitInfoDialog(this);
+        dialogView.setTitle("");
+        dialogView.setPositiveLabel("OK");
+        dialogView.setSubtitle("Barcode " + s + " already tagged to " + refno + " Please tag another barcode");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                initiateScanner();
+
+
+            }
+        });
+        dialogView.show();
+
+
+
     }
 
 
@@ -218,6 +238,14 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 //
     }
 
+    public  void initiateScanner(){
+       new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        capture.setOrderPos(pos);
+        capture.setCaptureManagerCallback(this);
+        capture.setBarcodeList(barcodeList);
+        capture.initializeFromIntent(getIntent(), savedInstanceState);
+        capture.decode();
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
