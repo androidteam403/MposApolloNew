@@ -182,9 +182,8 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
         count++;
         if (count == omsOrderForwardRequests.size()) {
-            mPresenter.mposPickPackOrderReservationApiCall(3, selectedOmsHeaderList);
+            mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
             Toast.makeText(getApplicationContext(), "SUCCESS!!" + response.getReservedSalesLine().size(), Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -422,7 +421,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
-        if (requestType == 3) {
+        if (requestType == 5) {
             if (mposPickPackOrderReservationResponse != null)
                 gotoOpenOrder();
         }

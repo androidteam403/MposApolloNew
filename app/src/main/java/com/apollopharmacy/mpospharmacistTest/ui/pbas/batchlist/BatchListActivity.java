@@ -73,7 +73,10 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
         if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null && !selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
-            batchlistBinding.boxId.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().substring(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().length() - 4));
+            if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().length() > 5)
+                batchlistBinding.boxId.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().substring(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().length() - 5));
+            else
+                batchlistBinding.boxId.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode());
         } else {
             batchlistBinding.boxId.setText("-");
 

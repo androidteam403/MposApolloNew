@@ -335,7 +335,6 @@ public interface ApiInterface {
     Call<HdfcLinkGenerateResponse> HDFC_LINK_GENERATE_RESPONSE_API_CALL(@Body HdfcLinkGenerateRequest hdfcLinkGenerateRequest);
 
     @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
-//907253572044079104
     Call<RacksDataResponse> doRackApiCall();
 
     @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransaction")
@@ -346,7 +345,8 @@ public interface ApiInterface {
 
     @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
     Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
-
+//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
 
     //created by naveen
     @POST("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")

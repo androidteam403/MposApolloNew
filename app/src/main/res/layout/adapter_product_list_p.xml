@@ -28,12 +28,12 @@
                     android:layout_weight=".1">
 
                     <TextView
+                        android:id="@+id/order_item_no"
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:background="@drawable/ic_circle_lite_yellow_bg"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:text="B1"
                         android:textColor="@color/black"
                         android:textSize="@dimen/ten_sp" />
                 </RelativeLayout>
@@ -146,8 +146,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".1"
-                        android:visibility="gone"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -177,9 +177,9 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="Strip MRP"
-                            android:visibility="gone"
                             android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen8sp" />
+                            android:textSize="@dimen/dimen8sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"

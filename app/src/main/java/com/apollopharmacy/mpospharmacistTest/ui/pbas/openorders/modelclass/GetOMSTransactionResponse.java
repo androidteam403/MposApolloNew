@@ -242,7 +242,7 @@ public class GetOMSTransactionResponse implements Serializable {
     private String paymentSource;
     @SerializedName("PickPackReservation")
     @Expose
-    private PickPackReservation pickPackReservation;
+    private List<PickPackReservation> pickPackReservation;
 
 
     @SerializedName("PickupOtp")
@@ -412,8 +412,17 @@ public class GetOMSTransactionResponse implements Serializable {
         @SerializedName("ISReserved")
         @Expose
         private Boolean iSReserved;
+        private String packerStatus;
 
         private String status;
+
+        public String getPackerStatus() {
+            return packerStatus;
+        }
+
+        public void setPackerStatus(String packerStatus) {
+            this.packerStatus = packerStatus;
+        }
 
         public String getStatus() {
             return status;
@@ -666,6 +675,10 @@ public class GetOMSTransactionResponse implements Serializable {
 
         private GetBatchInfoRes getBatchInfoRes;
         private String fullfillmentId;
+        private String orderItemNo;
+        private String pickedQty;
+        private String pickerStatus;
+
 
         public GetBatchInfoRes getGetBatchInfoRes() {
             return getBatchInfoRes;
@@ -1452,6 +1465,31 @@ public class GetOMSTransactionResponse implements Serializable {
         public void setFullfillmentId(String fullfillmentId) {
             this.fullfillmentId = fullfillmentId;
         }
+
+        public String getOrderItemNo() {
+            return orderItemNo;
+        }
+
+        public void setOrderItemNo(String orderItemNo) {
+            this.orderItemNo = orderItemNo;
+        }
+
+        public String getPickedQty() {
+            return pickedQty;
+        }
+
+        public void setPickedQty(String pickedQty) {
+            this.pickedQty = pickedQty;
+        }
+
+        public String getPickerStatus() {
+            return pickerStatus;
+        }
+
+        public void setPickerStatus(String pickerStatus) {
+            this.pickerStatus = pickerStatus;
+        }
+
     }
 
     @SerializedName("SalesOrigin")
@@ -2136,11 +2174,11 @@ public class GetOMSTransactionResponse implements Serializable {
         this.paymentSource = paymentSource;
     }
 
-    public PickPackReservation getPickPackReservation() {
+    public List<PickPackReservation> getPickPackReservation() {
         return pickPackReservation;
     }
 
-    public void setPickPackReservation(PickPackReservation pickPackReservation) {
+    public void setPickPackReservation(List<PickPackReservation> pickPackReservation) {
         this.pickPackReservation = pickPackReservation;
     }
 

@@ -95,7 +95,6 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         capture.decode();
 
 
-
     }
 
     /**
@@ -162,7 +161,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
     @Override
     public void scannedListener(List<String> barcodeList) {
-        this.barcodeList1=barcodeList;
+        this.barcodeList1 = barcodeList;
         int scannedOrdersCount = 0;
         if (!BillerOrdersActivity.isBillerActivity) {
             if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null && ReadyForPickUpActivity.selectedOmsHeaderListTest.size() > 0) {
@@ -228,12 +227,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
     @Override
     public void onBackPressed() {
-        if(!BillerOrdersActivity.isBillerActivity){
+        if (!BillerOrdersActivity.isBillerActivity) {
             capture.onBackPressed();
-        }
-      else{
+        } else {
             super.onBackPressed();
-      overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
         }
 //
     }

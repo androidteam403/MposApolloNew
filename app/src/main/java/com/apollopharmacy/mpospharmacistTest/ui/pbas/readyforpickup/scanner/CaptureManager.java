@@ -89,11 +89,11 @@ public class CaptureManager {
     private List<String> barcodeList = new ArrayList<>();
     private BarcodeCallback callback = new BarcodeCallback() {
         @Override
-        public void barcodeResult( final BarcodeResult result) {
+        public void barcodeResult(final BarcodeResult result) {
 
             barcodeView.pause();
             beepManager.playBeepSoundAndVibrate();
-             finalResult = result;
+            finalResult = result;
             handler.post(() -> {
                 if(barcodeList!=null && barcodeList.size()>0) {
                      sameBarcode= false;
@@ -164,7 +164,6 @@ public class CaptureManager {
     };
 
 
-
     public void setCaptureManagerCallback(CaptureManagerCallback mCallback) {
         this.mCallback = mCallback;
     }
@@ -209,9 +208,10 @@ public class CaptureManager {
 
     Context applicationContext;
     boolean onBackPressed;
+
     public CaptureManager(Activity activity, DecoratedBarcodeView barcodeView, Context applicationContext) {
         this.onBackPressed = onBackPressed;
-        this.applicationContext=applicationContext;
+        this.applicationContext = applicationContext;
         this.activity = activity;
         this.barcodeView = barcodeView;
         barcodeView.getBarcodeView().addStateListener(stateListener);
@@ -490,7 +490,8 @@ public class CaptureManager {
         activity.setResult(Activity.RESULT_OK, intent);
         closeAndFinish();
     }
-    public void onBackPressed(){
+
+    public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra("IS_BACK_PRESSED", true);
         activity.setResult(Activity.RESULT_OK, intent);

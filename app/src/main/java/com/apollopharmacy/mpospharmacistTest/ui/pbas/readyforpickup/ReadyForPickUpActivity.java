@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -87,7 +86,6 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     @Override
     protected void setUp() {
         activityReadyForPickupBinding.setCallback(mPresenter);
-
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -179,7 +177,6 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //
 //                }
 
-
                 if (!BillerOrdersActivity.isBillerActivity) {
                     if (data != null) {
                         List<String> barcodeList = (List<String>) data.getSerializableExtra("BARCODE_LIST");
@@ -189,7 +186,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                                selectedOmsHeaderList.get(i).setScannedBarcode(barcodeList.get(i));
 //                            }
 //                            selectedOmsHeaderList.get(i).setTagBox(true);
-//                            selectedOmsHeaderList.get(i).setScanView(true);
+//                             selectedOmsHeaderList.get(i).setScanView(true);
 //                        }
 
                         this.selectedOmsHeaderList = ReadyForPickUpActivity.selectedOmsHeaderListTest;

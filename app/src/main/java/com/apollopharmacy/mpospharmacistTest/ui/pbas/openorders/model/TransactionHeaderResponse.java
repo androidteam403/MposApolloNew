@@ -47,7 +47,7 @@ public class TransactionHeaderResponse implements Serializable {
     }
 
 
-    public class OMSHeader implements Serializable {
+    public static class OMSHeader implements Serializable {
 
         @SerializedName("BusinessDate")
         @Expose
