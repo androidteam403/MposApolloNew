@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 
 import java.util.List;
 
@@ -16,6 +17,11 @@ public interface PickUpVerificationMvpView extends MvpView {
     void onPartialWarningNoClick();
 
     void onClickReVerificatio();
+
+    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response);
+
+    void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
+
 
     void onClickUpdate(int pos, String refNo);
 
