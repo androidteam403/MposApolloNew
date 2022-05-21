@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -26,6 +27,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservatio
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.ConnectprinterDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
@@ -38,12 +40,17 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
+import com.printf.manager.BluetoothManager;
+import com.printf.manager.PrintfTSPLManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
 public class PickUpVerificationActivity extends BaseActivity implements PickUpVerificationMvpView {
 
@@ -70,7 +77,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     RacksDataResponse.FullfillmentDetail fillModel;
     String fId;
     TransactionHeaderResponse.OMSHeader omsHeader;
-
+    private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
 
     //    public static Intent getStartActivity(Context context, int position, String status, String productDataList, String fullFillModelList, RacksDataResponse.FullfillmentDetail fillModel) {
 //        Intent intent = new Intent(context, PickUpVerificationActivity.class);
@@ -493,48 +500,56 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 
     @Override
     public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> getOMSTransactionResponses) {
-        if (getOMSTransactionResponses != null && getOMSTransactionResponses.size() > 0) {
 
-            omsHeader.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
-            if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation() != null)
-                for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); i++) {
-                    for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); j++) {
-                        if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupItemId().equals(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getItemId())) {
-                            if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getPickedQty() != null)
-                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).setPickedQty(String.valueOf(Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getPickedQty()) + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupQty()));
-                            else
-                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).setPickedQty(String.valueOf(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupQty()));
+        if (getOMSTransactionResponses != null && getOMSTransactionResponses.get(0) != null && getOMSTransactionResponses.get(0).getPickPackReservation() != null && getOMSTransactionResponses.get(0).getPickPackReservation().size() > 0) {
+
+
+            if (getOMSTransactionResponses != null && getOMSTransactionResponses.size() > 0) {
+
+                omsHeader.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
+                if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation() != null)
+                    for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); i++) {
+                        for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); j++) {
+                            if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupItemId().equals(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getItemId())) {
+                                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getPickedQty() != null)
+                                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).setPickedQty(String.valueOf(Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).getPickedQty()) + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupQty()));
+                                else
+                                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(j).setPickedQty(String.valueOf(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupQty()));
+                            }
                         }
                     }
-                }
 
-            for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
-                int pickedQty = 0, qty = 0;
-                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty() != null && !omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty().isEmpty()) {
-                    if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("FULL");
-                    } else if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == 0) {
+                for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+                    int pickedQty = 0, qty = 0;
+                    if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty() != null && !omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty().isEmpty()) {
+                        if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                            omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("FULL");
+                        } else if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == 0) {
+                            omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("NOT AVAILABLE");
+                        } else if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                            omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("PARTIAL");
+                        }
+                    } else {
                         omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("NOT AVAILABLE");
-                    } else if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("PARTIAL");
                     }
-                } else {
-                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("NOT AVAILABLE");
                 }
+
+
+                activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
+                activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
+                activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
+
+                pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this);
+                RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
+                activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+                activityPickupVerificationBinding.recyclerView.setAdapter(pickUpVerificationAdapter);
             }
-
-
-            activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
-            activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
-            activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
-
-            pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
-            activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
-            activityPickupVerificationBinding.recyclerView.setAdapter(pickUpVerificationAdapter);
+        } else {
+            Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
+            omsHeader.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
+            mpresenter.mposPickPackOrderReservationApiCall(4, omsHeader);
         }
-
 //        customerDataList = getOMSTransactionResponses;
 //
 //
@@ -767,6 +782,45 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void OmsOrderUpdateFailure(OMSOrderForwardResponse response) {
 
+    }
+
+    @Override
+    public void onClickTakePrint() {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+            dialogView.setTitle("Do you want to Connect the Printer");
+            dialogView.setPositiveLabel("Ok");
+            dialogView.setPositiveListener(view -> {
+                dialogView.dismiss();
+                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(v -> dialogView.dismiss());
+            dialogView.show();
+
+            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            // return;
+        } else {
+            generatebarcode(omsHeader.getRefno());
+        }
+    }
+
+    public void generatebarcode(String refnumber) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
+        } else {
+            PrintfTSPLManager instance = PrintfTSPLManager.getInstance(PickUpVerificationActivity.this);
+            instance.clearCanvas();
+            instance.initCanvas(90, 23);
+            instance.setDirection(0);
+            //打印条形码
+            //Print barcode
+            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+            instance.beginPrintf(1);
+        }
     }
 
     private void reSendVerPickVernEableChecked() {

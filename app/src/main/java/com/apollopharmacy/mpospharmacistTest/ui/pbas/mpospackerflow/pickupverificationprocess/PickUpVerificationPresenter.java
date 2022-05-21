@@ -191,4 +191,9 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             });
         }
     }
+
+    @Override
+    public void onClickTakePrint() {
+        getMvpView().onClickTakePrint();
+    }
 }

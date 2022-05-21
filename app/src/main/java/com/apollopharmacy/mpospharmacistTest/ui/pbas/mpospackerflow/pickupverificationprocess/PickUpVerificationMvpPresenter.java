@@ -18,4 +18,6 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
     void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
+
+    void onClickTakePrint();
 }

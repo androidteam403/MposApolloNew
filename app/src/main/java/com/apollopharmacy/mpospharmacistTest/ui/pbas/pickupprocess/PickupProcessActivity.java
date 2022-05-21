@@ -197,19 +197,20 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (rackWiseSortedDataPos != -1) {
             boolean isFull = true;
             boolean isNotAvailable = true;
-            boolean isAllNull = true;
+            boolean isNull = false;
             for (int i = 0; i < rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
                 if (rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus() != null) {
-                    isAllNull = false;
                     if (!rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("FULL")) {
                         isFull = false;
                     }
                     if (!rackWiseSortedDataList.get(rackWiseSortedDataPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("NOT AVAILABLE")) {
                         isNotAvailable = false;
                     }
+                } else {
+                    isNull = true;
                 }
             }
-            if (!isAllNull) {
+            if (!isNull) {
                 if (isFull) {
                     rackWiseSortedDataList.get(rackWiseSortedDataPos).setRackStatus("FULL");
                 } else if (isNotAvailable) {
@@ -580,7 +581,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
                     RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                     boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
-                    boxIdModel.setOrderItemNo("B" + String.valueOf(i));
+                    boxIdModel.setOrderItemNo("B" + String.valueOf(i + 1));
                     boxIdModelList.add(boxIdModel);
                     rackWiseSortedData.setBoxIdList(boxIdModelList);
 

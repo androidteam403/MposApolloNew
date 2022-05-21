@@ -37,4 +37,6 @@ public interface PickUpVerificationMvpView extends MvpView {
     void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String mposOrderUpdateRequestType);
 
     void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
+
+    void onClickTakePrint();
 }

@@ -70,25 +70,25 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/filter"
                         android:layout_width="@dimen/dimen30dp"
                         android:layout_height="@dimen/dimen30dp"
                         android:layout_marginEnd="@dimen/five_dp"
-                        android:id="@+id/filter"
-                        android:onClick="@{()-> filter.onClickFilter()}"
-
                         android:contentDescription="@string/app_name"
+
+                        android:onClick="@{()-> filter.onClickFilter()}"
                         android:src="@drawable/ic_filter_white" />
                 </LinearLayout>
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/selected_fullfillment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/two_dp"
-                android:id="@+id/selected_fullfillment"
                 android:text="Select Fullfillment or ScanCode to verify pickup"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve_sp" />
@@ -101,6 +101,7 @@
                 android:weightSum="1">
 
                 <EditText
+                    android:id="@+id/search_text"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_weight="0.7"
@@ -108,7 +109,6 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Search by Fullfillment ID"
                     android:padding="@dimen/five_dp"
-                    android:id="@+id/search_text"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />
@@ -122,13 +122,13 @@
                     android:src="@drawable/search_icon" />
 
                 <LinearLayout
+                    android:id="@+id/scancode"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_weight="0.3"
                     android:background="@drawable/ic_rectangular_shape"
                     android:backgroundTint="@color/green"
-                    android:id="@+id/scancode"
                     android:onClick="@{()-> callback.onClickScanCode()}"
                     android:orientation="horizontal">
 
@@ -161,56 +161,57 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dimen10dp" />
+
             <TextView
                 android:id="@+id/no_order_found_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
                 android:text="No Order Found"
-                android:visibility="gone"
                 android:textColor="@color/red"
-                android:textSize="@dimen/dimen14sp" />
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/continue_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/dimen50dp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:background="@color/continue_unselect_color"-->
-<!--            android:gravity="center"-->
-<!--            android:visibility="gone"-->
-<!--            android:onClick="@{()-> callback.startPickUp()}"-->
-<!--            android:orientation="horizontal">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/continue_btn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/dimen50dp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:background="@color/continue_unselect_color"-->
+        <!--            android:gravity="center"-->
+        <!--            android:visibility="gone"-->
+        <!--            android:onClick="@{()-> callback.startPickUp()}"-->
+        <!--            android:orientation="horizontal">-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/roboto_bold"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:text="Start pickup"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:visibility="visible"-->
-<!--                android:textColor="@color/jumbo"-->
-<!--                android:textSize="@dimen/dimen14sp" />-->
-<!--        </LinearLayout>-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:fontFamily="@font/roboto_bold"-->
+        <!--                android:gravity="center_vertical"-->
+        <!--                android:text="Start pickup"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:visibility="visible"-->
+        <!--                android:textColor="@color/jumbo"-->
+        <!--                android:textSize="@dimen/dimen14sp" />-->
+        <!--        </LinearLayout>-->
 
         <TextView
             android:id="@+id/zeropicked"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_bold"
             android:text="Zero Picked Up Orders"
             android:textColor="@color/red"
-            android:textSize="@dimen/dimen16sp" />
+            android:textSize="@dimen/dimen16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <data>
@@ -222,6 +223,7 @@
         <variable
             name="view"
             type="android.view.View" />
+
         <variable
             name="filter"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersMvpPresenter" />
