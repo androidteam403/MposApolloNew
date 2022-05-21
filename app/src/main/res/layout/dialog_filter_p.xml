@@ -203,6 +203,7 @@
                     android:id="@+id/stock_available_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen45dp"
                     android:layout_marginStart="@dimen/dimen5dp" />
                 <View
                     android:layout_width="match_parent"
