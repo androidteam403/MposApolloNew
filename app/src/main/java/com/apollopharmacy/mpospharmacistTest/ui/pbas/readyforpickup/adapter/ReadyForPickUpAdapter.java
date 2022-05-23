@@ -50,7 +50,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
-            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
+            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
         }else
         {
             holder.adapterReadyForPickupBinding.scannedCode.setText("");
@@ -72,7 +72,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
         }
         holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
-            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFourDigits(String.valueOf(omsHeader.getScannedBarcode())));
+            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
         });
 
         holder.adapterReadyForPickupBinding.tagBox.setOnClickListener(v -> {
@@ -109,11 +109,11 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         }
     }
 
-    public static String lastFourDigits(String data) {
+    public static String lastFiveDigits(String data) {
         String lastFourDigits ="";   //substring containing last 4 characters
 
-        if (data.length() > 4) {
-            lastFourDigits = data.substring(data.length() - 4);
+        if (data.length() > 5) {
+            lastFourDigits = data.substring(data.length() - 5);
         } else {
             lastFourDigits = data;
         }

@@ -393,6 +393,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                             reservedSalesLineArrayList.add(reservedSalesLine);
                         }
                     }
+
                 }
                 omsOrderForwardRequest.setReservedSalesLine(reservedSalesLineArrayList);
                 omsOrderForwardRequests.add(omsOrderForwardRequest);

@@ -84,9 +84,23 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("OrderType")
         @Expose
         private String orderType;
+        @SerializedName("OverallOrderStatus")
+        @Expose
+        private String OverallOrderStatus;
+
+
         @SerializedName("PaymentSource")
         @Expose
         private String paymentSource;
+        @SerializedName("PickPackDatetime")
+        @Expose
+        private String PickPackDatetime;
+        @SerializedName("PickPackStatus")
+        @Expose
+        private String PickPackStatus;
+        @SerializedName("PickPackUser")
+        @Expose
+        private String PickPackUser;
         @SerializedName("REFNO")
         @Expose
         private String refno;
@@ -235,12 +249,44 @@ public class TransactionHeaderResponse implements Serializable {
             this.orderType = orderType;
         }
 
+        public String getOverallOrderStatus() {
+            return OverallOrderStatus;
+        }
+
+        public void setOverallOrderStatus(String overallOrderStatus) {
+            OverallOrderStatus = overallOrderStatus;
+        }
+
         public String getPaymentSource() {
             return paymentSource;
         }
 
         public void setPaymentSource(String paymentSource) {
             this.paymentSource = paymentSource;
+        }
+
+        public String getPickPackDatetime() {
+            return PickPackDatetime;
+        }
+
+        public void setPickPackDatetime(String pickPackDatetime) {
+            PickPackDatetime = pickPackDatetime;
+        }
+
+        public String getPickPackStatus() {
+            return PickPackStatus;
+        }
+
+        public void setPickPackStatus(String pickPackStatus) {
+            PickPackStatus = pickPackStatus;
+        }
+
+        public String getPickPackUser() {
+            return PickPackUser;
+        }
+
+        public void setPickPackUser(String pickPackUser) {
+            PickPackUser = pickPackUser;
         }
 
         public String getRefno() {

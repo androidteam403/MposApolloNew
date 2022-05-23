@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -17,15 +16,13 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPickedUpordersPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersMvpView;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAdapter.ViewHolder>  implements Filterable {
+public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<TransactionHeaderResponse.OMSHeader> fullfillmentList = new ArrayList<>();
     private PickedUpOrdersMvpView pickupProcessMvpView;
@@ -58,13 +55,10 @@ this.omsHeaderList=fullfillmentList;
         TransactionHeaderResponse.OMSHeader omsHeader = fullfillmentList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.itemView.setOnClickListener(v -> {
 //                pickupProcessMvpView.onItmClick(position,holder.orderBinding.status.getText().toString(),fullfillmentList,fullFillModel);
 
-                pickupProcessMvpView.onItmClick(position, omsHeader);
-            }
+            pickupProcessMvpView.onItmClick(position, omsHeader);
         });
 
         if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {

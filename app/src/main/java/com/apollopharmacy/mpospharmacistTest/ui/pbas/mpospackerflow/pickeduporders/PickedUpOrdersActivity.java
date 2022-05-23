@@ -21,10 +21,10 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickedUpOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
@@ -32,6 +32,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -157,16 +158,17 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 //        Intent intent = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
-        IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
-        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
-        intentIntegrator.setBeepEnabled(false);
-        intentIntegrator.setCameraId(0);
-        intentIntegrator.setOrientationLocked(true);
-
-        intentIntegrator.setPrompt("Scan QR/ BarCode of the Box");
-        intentIntegrator.setBarcodeImageEnabled(false);
-        intentIntegrator.initiateScan();
+        BillerOrdersActivity.isBillerActivity = true;
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//        IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
+//        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+//        intentIntegrator.setBeepEnabled(false);
+//        intentIntegrator.setCameraId(0);
+//
+//        intentIntegrator.setPrompt("Scan QR/ BarCode of the Box");
+//        intentIntegrator.setBarcodeImageEnabled(false);
+//        intentIntegrator.initiateScan();
 
     }
 
@@ -527,14 +529,11 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-                if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
-                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
-
-
-                }
+            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
+                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+            }
             activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
-
 
             activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
@@ -546,6 +545,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
             filterOrdersLists();
         }
+        hideLoading();
     }
 
     @Override
@@ -577,14 +577,15 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PickedUpOrdersActivity.this, PickUpVerificationActivity.class);
-                String id=Result.getContents();
-                intent.putExtra("fulfilmentId",id);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                activityPickedUpOrdersBinding.searchText.setText(Result.getContents());
+                BillerOrdersActivity.isBillerActivity = false;
+//                Intent intent = new Intent(PickedUpOrdersActivity.this, PickUpVerificationActivity.class);
+//                String id=Result.getContents();
+//                intent.putExtra("fulfilmentId",id);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
             }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 //        if (resultCode == RESULT_OK) {
