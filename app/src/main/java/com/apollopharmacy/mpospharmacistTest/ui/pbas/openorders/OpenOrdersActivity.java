@@ -9,8 +9,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,13 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOpenOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
@@ -39,7 +42,9 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpView {
+public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpView, PickerNavigationActivity.PickerNavigationActivityCallback {
+
+
     @Inject
     OpenOrdersMvpPresenter<OpenOrdersMvpView> mPresenter;
     private ActivityOpenOrdersPBinding openOrdersBinding;
@@ -69,17 +74,35 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         return new Intent(context, OpenOrdersActivity.class);
     }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        openOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_open_orders_p);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        openOrdersBinding = DataBindingUtil.inflate(inflater, R.layout.activity_open_orders_p, container, false);
         getActivityComponent().inject(this);
         mPresenter.onAttach(OpenOrdersActivity.this);
-        setUp();
+        return openOrdersBinding.getRoot();
+
     }
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        openOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_open_orders_p);
+//        getActivityComponent().inject(this);
+//        mPresenter.onAttach(OpenOrdersActivity.this);
+//        setUp();
+//    }
+
+//    @Override
+//    protected void setUp(View view) {
+//
+//    }
 
     @Override
-    protected void setUp() {
+    protected void setUp(View view) {
+        PickerNavigationActivity.mInstance.setWelcome("");
+        PickerNavigationActivity.mInstance.setTitle("Open Orders");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
@@ -170,8 +193,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
     @Override
     public void onClickFilterIcon() {
-        Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter_p, null, false);
+        Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
+        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
         filterDialog.setContentView(dialogFilterBinding.getRoot());
         filterDialog.setCancelable(false);
         filtersList(dialogFilterBinding);
@@ -321,9 +344,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
                 }
             }
         }
+        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, null);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
     }
@@ -357,28 +381,28 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
-        customerTypeFilterAdapter = new FilterItemAdapter(this, customerTypeFilterList);
-        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
+        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
-        orderTypeFilterAdapter = new FilterItemAdapter(this, orderTypeFilterList);
-        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderTypeFilterAdapter = new FilterItemAdapter(getContext(), orderTypeFilterList);
+        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderTypeFilter.setAdapter(orderTypeFilterAdapter);
 
-        orderCategoryFilterAdapter = new FilterItemAdapter(this, orderCategoryFilterList);
-        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderCategoryFilterAdapter = new FilterItemAdapter(getContext(), orderCategoryFilterList);
+        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderCategoryFilter.setAdapter(orderCategoryFilterAdapter);
 
-        paymentTypeFilterAdapter = new FilterItemAdapter(this, paymentTypeFilterList);
-        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        paymentTypeFilterAdapter = new FilterItemAdapter(getContext(), paymentTypeFilterList);
+        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.paymentTypeFilter.setAdapter(paymentTypeFilterAdapter);
 
-        orderSourceFilterAdapter = new FilterItemAdapter(this, orderSourceFilterList);
-        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderSourceFilterAdapter = new FilterItemAdapter(getContext(), orderSourceFilterList);
+        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
-        stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
-        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
@@ -397,9 +421,10 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
 //        omsHeaderList = omsHeader.getOMSHeader();
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
+        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, null);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
         TOTAL_ORDERS = String.valueOf(omsHeaderList.size());
@@ -512,8 +537,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
         } else {
             omsHeaderList.get(getPos).setExpandStatus(0);
         }
-        fullfilmentAdapter = new FullfilmentAdapter(this, omsHeaderList, this, body);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
         openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
@@ -556,8 +581,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     @Override
     public void onClickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 //        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
@@ -604,23 +629,23 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > selectedOmsHeaderList.size()) {
                 mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
             } else {
-                Toast.makeText(this, "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
 
     @Override
     public void onClickContinue() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            startActivity(ReadyForPickUpActivity.getStartActivity(this, selectedOmsHeaderList));
-            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            startActivity(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList));
+            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
-            Toast.makeText(this, "No Orders Selected.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Orders Selected.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -645,9 +670,8 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     boolean isAnyoneSelect = false;
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 999 && resultCode == RESULT_OK) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 999 && resultCode == getActivity().RESULT_OK) {
             RacksDataResponse.FullfillmentDetail fullfillmentIdNew = (RacksDataResponse.FullfillmentDetail) data.getSerializableExtra("FullfillmentID");
             boolean isSelect = (Boolean) data.getSerializableExtra("isSelect");
             if (fullfillmentIdNew != null) {
@@ -667,11 +691,11 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
 
                 if (isAnyoneSelect) {
                     openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
-                    openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
+                    openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
                     openOrdersBinding.setIsContinueSelect(true);
                 } else {
                     openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
-                    openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+                    openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
                     openOrdersBinding.setIsContinueSelect(false);
                 }
                 openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
@@ -680,9 +704,9 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (Result != null) {
                 if (Result.getContents() == null) {
-                    Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                     openOrdersBinding.searchByfulfimentid.setText(Result.getContents());
                     BillerOrdersActivity.isBillerActivity = false;
                 }
@@ -695,13 +719,18 @@ public class OpenOrdersActivity extends BaseActivity implements OpenOrdersMvpVie
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
-            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
+            openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
             openOrdersBinding.setIsContinueSelect(true);
             openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         } else {
             openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
-            openOrdersBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_unselect_color));
+            openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
             openOrdersBinding.setIsContinueSelect(false);
         }
+    }
+
+    @Override
+    public void onClickFilters() {
+        onClickFilterIcon();
     }
 }

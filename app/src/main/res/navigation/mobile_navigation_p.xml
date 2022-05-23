@@ -8,12 +8,14 @@
     <fragment
         android:id="@+id/nav_dashboard"
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"
-        android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard_p" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_slideshow"-->
-    <!--        android:name="com.thresholdsoft.mpospicker.ui.navigationActivity3.slideshowFragment.SlideshowFragment"-->
-    <!--        android:label="Slideshow"-->
-    <!--        tools:layout="@layout/fragment_slideshow" />-->
+    <fragment
+        android:id="@+id/nav_picker_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity"
+        tools:layout="@layout/activity_open_orders_p" />
+    <fragment
+        android:id="@+id/nav_packer_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"
+        tools:layout="@layout/activity_picked_up_orders_p" />
 </navigation>

@@ -557,5 +557,8 @@
     <string name="label_exp_date">Exp.Date</string>
     <string name="label_batch_no">Batch No.</string>
     <string name="label_forward_to_packer">forward to packer</string>
+    <string name="label_dashboards">Dashboard</string>
+    <string name="label_picker">Picker</string>
+    <string name="label_packer">Packer</string>
 
 </resources>

@@ -16,19 +16,14 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentDashboardPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
-import com.bumptech.glide.Glide;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -46,7 +41,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
     @Inject
     DashboardMvpPresenter<DashboardMvpView> mPresenter;
     private FragmentDashboardPBinding fragmentDashboardBinding;
-   List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
+    List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, DashboardFragment.class);
@@ -65,6 +60,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     protected void setUp(View view) {
+        PickerNavigationActivity.mInstance.setTitle("Dashboard");
+        PickerNavigationActivity.mInstance.setWelcome("Welcome");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
         fragmentDashboardBinding.setCallback(mPresenter);
         setGraphData();
         setData();
@@ -198,7 +196,11 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     public void onClickOpenOrders() {
-        startActivity(OpenOrdersActivity.getStartActivity(getContext()));
+
+        PickerNavigationActivity.mInstance.navigateToOpenOrders();
+
+
+//        startActivity(OpenOrdersActivity.getStartActivity(getContext()));
     }
 
     @Override
@@ -235,9 +237,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
         int mMonth;
         int mDay;
 //        if (fragmentDashboardBinding.toDate.getText().toString().trim().isEmpty()) {
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
 //        } else {
 //            String selectedBirthDate = fragmentDashboardBinding.toDate.getText().toString().trim();
 //            String[] expDate = selectedBirthDate.split("-");

@@ -74,7 +74,7 @@ public class OMSOrderForwardResponse implements Serializable {
         private String barcode;
         @SerializedName("BaseAmount")
         @Expose
-        private Integer baseAmount;
+        private double baseAmount;
         @SerializedName("CESSPerc")
         @Expose
         private Integer cESSPerc;
@@ -347,11 +347,11 @@ public class OMSOrderForwardResponse implements Serializable {
             this.barcode = barcode;
         }
 
-        public Integer getBaseAmount() {
+        public double getBaseAmount() {
             return baseAmount;
         }
 
-        public void setBaseAmount(Integer baseAmount) {
+        public void setBaseAmount(double baseAmount) {
             this.baseAmount = baseAmount;
         }
 

@@ -69,7 +69,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private String cESSTaxCode;
         @SerializedName("CGSTPerc")
         @Expose
-        private Integer cGSTPerc;
+        private double cGSTPerc;
         @SerializedName("CGSTTaxCode")
         @Expose
         private String cGSTTaxCode;
@@ -258,7 +258,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private Integer returnQty;
         @SerializedName("SGSTPerc")
         @Expose
-        private Integer sGSTPerc;
+        private double sGSTPerc;
         @SerializedName("SGSTTaxCode")
         @Expose
         private String sGSTTaxCode;
@@ -303,7 +303,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private Integer totalRoundedAmount;
         @SerializedName("TotalTax")
         @Expose
-        private Integer totalTax;
+        private double totalTax;
         @SerializedName("Unit")
         @Expose
         private String unit;
@@ -372,11 +372,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.cESSTaxCode = cESSTaxCode;
         }
 
-        public Integer getCGSTPerc() {
+        public double getCGSTPerc() {
             return cGSTPerc;
         }
 
-        public void setCGSTPerc(Integer cGSTPerc) {
+        public void setCGSTPerc(double cGSTPerc) {
             this.cGSTPerc = cGSTPerc;
         }
 
@@ -876,11 +876,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.returnQty = returnQty;
         }
 
-        public Integer getSGSTPerc() {
+        public double getSGSTPerc() {
             return sGSTPerc;
         }
 
-        public void setSGSTPerc(Integer sGSTPerc) {
+        public void setSGSTPerc(double sGSTPerc) {
             this.sGSTPerc = sGSTPerc;
         }
 
@@ -996,11 +996,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.totalRoundedAmount = totalRoundedAmount;
         }
 
-        public Integer getTotalTax() {
+        public double getTotalTax() {
             return totalTax;
         }
 
-        public void setTotalTax(Integer totalTax) {
+        public void setTotalTax(double totalTax) {
             this.totalTax = totalTax;
         }
 

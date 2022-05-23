@@ -55,7 +55,7 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS(getDataManager().getGlobalJson().getMPOSVersion());
+            reqModel.setIsMPOS("1");
             reqModel.setUserName(getDataManager().getUserName());
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {

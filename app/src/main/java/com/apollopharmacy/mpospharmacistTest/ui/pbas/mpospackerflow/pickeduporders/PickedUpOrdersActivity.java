@@ -8,8 +8,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -20,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickedUpOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
@@ -30,6 +32,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.Fullfilm
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
@@ -42,7 +45,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrdersMvpView {
+public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrdersMvpView, PickerNavigationActivity.PickerNavigationActivityCallback {
 
     @Inject
     PickedUpOrdersMvpPresenter<PickedUpOrdersMvpView> mvpPresenter;
@@ -69,17 +72,30 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
         return intent;
     }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityPickedUpOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_picked_up_orders_p);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        activityPickedUpOrdersBinding = DataBindingUtil.inflate(inflater, R.layout.activity_picked_up_orders_p, container, false);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(PickedUpOrdersActivity.this);
-        setUp();
+        return activityPickedUpOrdersBinding.getRoot();
+
     }
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        activityPickedUpOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_picked_up_orders_p);
+//        getActivityComponent().inject(this);
+//        mvpPresenter.onAttach(PickedUpOrdersActivity.this);
+//        setUp();
+//    }
 
     @Override
-    protected void setUp() {
+    protected void setUp(View view) {
+        PickerNavigationActivity.mInstance.setWelcome("");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
+        PickerNavigationActivity.mInstance.setTitle("Picked Orders");
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
         mvpPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
@@ -104,7 +120,7 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
         activityPickedUpOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
+                IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity());
                 intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
                 intentIntegrator.setBeepEnabled(false);
                 intentIntegrator.setCameraId(0);
@@ -159,8 +175,8 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         BillerOrdersActivity.isBillerActivity = true;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //        IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
 //        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
 //        intentIntegrator.setBeepEnabled(false);
@@ -175,9 +191,9 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 
     @Override
     public void onItmClick(int position, TransactionHeaderResponse.OMSHeader omsHeader) {
-        startActivityForResult(PickUpVerificationActivity.getStartActivity(PickedUpOrdersActivity.this, omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+        startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
 
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
     @Override
@@ -192,8 +208,8 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 
     @Override
     public void onClickFilterIcon() {
-        Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter_p, null, false);
+        Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
+        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
         filterDialog.setContentView(dialogFilterBinding.getRoot());
         filterDialog.setCancelable(false);
         filtersList(dialogFilterBinding);
@@ -455,10 +471,11 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
                 }
             }
         }
+        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         activityPickedUpOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(this, omsHeaderList, this);
+        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
 
-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
         activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
@@ -494,28 +511,28 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
-        customerTypeFilterAdapter = new FilterItemAdapter(this, customerTypeFilterList);
-        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
+        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
-        orderTypeFilterAdapter = new FilterItemAdapter(this, orderTypeFilterList);
-        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderTypeFilterAdapter = new FilterItemAdapter(getContext(), orderTypeFilterList);
+        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderTypeFilter.setAdapter(orderTypeFilterAdapter);
 
-        orderCategoryFilterAdapter = new FilterItemAdapter(this, orderCategoryFilterList);
-        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderCategoryFilterAdapter = new FilterItemAdapter(getContext(), orderCategoryFilterList);
+        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderCategoryFilter.setAdapter(orderCategoryFilterAdapter);
 
-        paymentTypeFilterAdapter = new FilterItemAdapter(this, paymentTypeFilterList);
-        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        paymentTypeFilterAdapter = new FilterItemAdapter(getContext(), paymentTypeFilterList);
+        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.paymentTypeFilter.setAdapter(paymentTypeFilterAdapter);
 
-        orderSourceFilterAdapter = new FilterItemAdapter(this, orderSourceFilterList);
-        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderSourceFilterAdapter = new FilterItemAdapter(getContext(), orderSourceFilterList);
+        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
-        stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
-        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
@@ -532,14 +549,13 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
             if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
-            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
-
+            PickerNavigationActivity.mInstance.setWelcome("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
 
-            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(this, omsHeaderList, this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
             activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
@@ -569,14 +585,14 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
 //    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityPickedUpOrdersBinding.searchText.setText(Result.getContents());
                 BillerOrdersActivity.isBillerActivity = false;
 //                Intent intent = new Intent(PickedUpOrdersActivity.this, PickUpVerificationActivity.class);
@@ -646,4 +662,8 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     }
 
 
+    @Override
+    public void onClickFilters() {
+        onClickFilterIcon();
+    }
 }
