@@ -134,6 +134,13 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
                     order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    if (selectedOmsHeaderList.get(i).getItemStatus().equals("FULL")) {
+                        order.setOverallOrderStatus("1");
+                    } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("PARTIAL")) {
+                        order.setOverallOrderStatus("2");
+                    } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("NOT AVAILABLE")) {
+                        order.setOverallOrderStatus("3");
+                    }
                     ordersList.add(order);
                 }
             }

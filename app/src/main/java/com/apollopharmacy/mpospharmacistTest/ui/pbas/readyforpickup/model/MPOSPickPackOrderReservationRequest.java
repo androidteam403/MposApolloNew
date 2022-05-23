@@ -60,6 +60,11 @@ public class MPOSPickPackOrderReservationRequest {
         @Expose
         private String RefID;
 
+
+        @SerializedName("OverallOrderStatus")
+        @Expose
+        private String OverallOrderStatus;
+
         public String getTransactionID() {
             return transactionID;
         }
@@ -98,6 +103,14 @@ public class MPOSPickPackOrderReservationRequest {
 
         public void setRefID(String refID) {
             RefID = refID;
+        }
+
+        public String getOverallOrderStatus() {
+            return OverallOrderStatus;
+        }
+
+        public void setOverallOrderStatus(String overallOrderStatus) {
+            OverallOrderStatus = overallOrderStatus;
         }
     }
 }

@@ -54,6 +54,11 @@
 
             </LinearLayout>
 
+            
+
+
+
+
             <LinearLayout
                 android:id="@+id/warning_text"
                 android:layout_width="match_parent"
@@ -162,6 +167,7 @@ Do you want to proceed with Packing?"
                             android:textSize="@dimen/dimen12sp" />
 
                         <TextView
+                            android:id="@+id/pick_pack_user"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
@@ -172,8 +178,7 @@ Do you want to proceed with Packing?"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:gravity="end"
-                            android:visibility="gone">
+                            android:gravity="end">
 
                             <TextView
                                 android:id="@+id/status_text"
@@ -183,7 +188,6 @@ Do you want to proceed with Packing?"
                                 android:layout_marginEnd="@dimen/five_dp"
                                 android:fontFamily="@font/roboto_bold"
                                 android:gravity="center_vertical"
-                                android:text="Full"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/dimen12sp" />
 
@@ -193,7 +197,6 @@ Do you want to proceed with Packing?"
                                 android:layout_width="@dimen/dimen20dp"
                                 android:layout_height="@dimen/dimen20dp"
                                 android:layout_toRightOf="@id/status_text"
-
                                 android:contentDescription="@string/app_name" />
 
                             <ImageView
