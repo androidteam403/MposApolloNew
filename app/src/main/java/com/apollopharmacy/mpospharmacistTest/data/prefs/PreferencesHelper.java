@@ -87,7 +87,6 @@ public interface PreferencesHelper {
 
     String getUserId();
 
-
     void storeGlobalJson(String json);
 
     GetGlobalConfingRes getGlobalJson();

@@ -243,8 +243,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/black"
-                            android:checked="false"
-                            android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/label_not_available"
                             android:textColor="@color/black" />
@@ -353,12 +351,11 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/qty_edit"
                                 android:layout_width="@dimen/dimen35dp"
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_marginStart="@dimen/dimen5dp"
-                                android:background="@drawable/edit_box_grey_bg"
                                 android:enabled="false"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
@@ -374,7 +371,8 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/update"
+                        android:visibility="visible"
+                        android:id="@+id/select_batches_automatically"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
                         android:layout_marginTop="@dimen/dimen3dp"
@@ -382,6 +380,19 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="@string/label_select_batch_automatically"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen16sp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/update1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/dimen3dp"
+                        android:background="@drawable/btn_signin_ripple_effect"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="Update"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen16sp" />
 
@@ -628,7 +639,7 @@
             android:layout_marginTop="400dp"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
-            android:text="No Order Found"
+            android:text="No Batch Details Found"
             android:textColor="@color/red"
             android:textSize="@dimen/dimen14sp"
             android:visibility="gone" />

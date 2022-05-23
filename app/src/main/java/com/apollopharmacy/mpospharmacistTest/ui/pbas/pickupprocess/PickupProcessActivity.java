@@ -251,6 +251,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     GetOMSTransactionResponse.SalesLine salesLinee;
     TransactionHeaderResponse.OMSHeader omsHeaderObj;
     ArrayList<GetBatchInfoRes.BatchListObj> batchListObjsList;
+    boolean noBatchDetails =true;
 
 
     @Override
@@ -259,7 +260,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         this.position = position;
         this.salesLinee = salesLine;
         this.omsHeaderObj = omsHeader;
-        if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+     if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+
             onClickBatchDetails(orderAdapterPos, salesLine, position);
 //            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
 //            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
@@ -360,7 +362,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //                statusUpdateDialog.dismiss();
 //            });
 //            statusUpdateDialog.show();
-        } else {
+       }
+        else {
+            onClickBatchDetails(orderAdapterPos, salesLine, position);
             Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
         }
     }
@@ -771,6 +775,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         i.putExtra("salesLine", (Serializable) salesLinee);
         i.putExtra("orderAdapterPos", orderAdapterPos);
         i.putExtra("newSelectedOrderAdapterPos1", adapterPosition);
+        i.putExtra("noBatchDetails", this.noBatchDetails);
         startActivityForResult(i, 777);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }

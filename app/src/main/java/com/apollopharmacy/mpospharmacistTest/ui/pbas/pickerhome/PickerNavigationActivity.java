@@ -149,11 +149,14 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_p, menu);
-        userName = findViewById(R.id.user_name);
+        userName = findViewById(R.id.login_user_name);
+        userStore = findViewById(R.id.login_user_store);
+
 //        userStore = findViewById(R.id.user_store);
 
-        userName.setText(mPresenter.getLoginUserName());
-//        userStore.setText(mPresenter.getLoinStoreLocation());
+        userName.setText( mPresenter.getLoginUserName());
+//        userStore.setText("Terminal ID - ");
+       userStore.setText( mPresenter.getLoinStoreLocation());
         return true;
     }
 
