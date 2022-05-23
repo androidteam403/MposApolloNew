@@ -25,7 +25,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickStausIcon();
 
-    void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine position, int adapterPosition);
+    void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine salesLine, int adapterPosition);
 
     void onClickStart(int position);
 

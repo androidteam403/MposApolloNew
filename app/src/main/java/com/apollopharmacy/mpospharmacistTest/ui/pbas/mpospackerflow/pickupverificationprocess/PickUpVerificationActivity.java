@@ -113,17 +113,29 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
             if (omsHeader != null) {
                 activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
-                if (omsHeader.getOverallOrderStatus().equals("1")) {
+                if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("1")) {
                     activityPickupVerificationBinding.statusText.setText("FULL");
-                } else if (omsHeader.getOverallOrderStatus().equals("2")) {
+                } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")) {
                     activityPickupVerificationBinding.statusText.setText("PARTIAL");
-                } else if (omsHeader.getOverallOrderStatus().equals("3")) {
+                } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")) {
                     activityPickupVerificationBinding.statusText.setText("NOT AVAILABLE");
                 }
                 mpresenter.mposPickPackOrderReservationApiCall(3, omsHeader);
 //                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
             }
         }
+
+            if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("2") || activityPickupVerificationBinding.statusText.getText().toString().equalsIgnoreCase("3")){
+
+//                activityPickupVerificationBinding.parent.setBackgroundColor(Color.TRANSPARENT);
+                activityPickupVerificationBinding.parent.setClickable(false);
+                activityPickupVerificationBinding.parent.setBackgroundColor(getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
+                activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
+                activityPickupVerificationBinding.warningText.setVisibility(View.VISIBLE);
+            }
+
+
 
         activityPickupVerificationBinding.backClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,14 +276,13 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void onPartialWarningYesClick() {
 //        partialConfirmationClickable = true;
-//        activityPickupVerificationBinding.statusText.setText("Partial");
 //        activityPickupVerificationBinding.partialStatusColor.setVisibility(View.VISIBLE);
-//        activityPickupVerificationBinding.warningText.setVisibility(View.GONE);
-//        activityPickupVerificationBinding.parent.setBackgroundColor(0);
-//        activityPickupVerificationBinding.buttonParent.setBackgroundColor(0);
-//        activityPickupVerificationBinding.parent.setAlpha(4);
-//        activityPickupVerificationBinding.buttonParent.setAlpha(4);
-//        activityPickupVerificationBinding.parent.setClickable(true);
+        activityPickupVerificationBinding.warningText.setVisibility(View.GONE);
+        activityPickupVerificationBinding.parent.setBackgroundColor(0);
+        activityPickupVerificationBinding.buttonParent.setBackgroundColor(0);
+        activityPickupVerificationBinding.parent.setAlpha(4);
+        activityPickupVerificationBinding.buttonParent.setAlpha(4);
+        activityPickupVerificationBinding.parent.setClickable(true);
     }
 
     @Override

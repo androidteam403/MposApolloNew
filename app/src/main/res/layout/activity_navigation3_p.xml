@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/actionbar_color"
+            android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
             android:paddingTop="@dimen/fifteen_dp"
             android:theme="@style/NavigationTheme"
