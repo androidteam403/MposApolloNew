@@ -105,7 +105,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     }
 
     DialogBillerSelectActionPBinding selectActionLayoutBinding;
-    int i =1;
+
 
     @Override
     public void onActionsContinue() {
