@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterBillerOrdersScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
 import java.io.Serializable;
@@ -20,10 +21,10 @@ import java.util.List;
 public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfillmentAdapter.ViewHolder> {
 
     private Context context;
-    private List<RacksDataResponse.FullfillmentDetail> fullfilmentModelList;
+    private List<TransactionHeaderResponse.OMSHeader> fullfilmentModelList;
     private BillerOrdersMvpView mvpView;
 
-    public BillerFullfillmentAdapter(Context context, List<RacksDataResponse.FullfillmentDetail> fullfilmentModelList, BillerOrdersMvpView mvpView) {
+    public BillerFullfillmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> fullfilmentModelList, BillerOrdersMvpView mvpView) {
         this.context = context;
         this.fullfilmentModelList = fullfilmentModelList;
         this.mvpView = mvpView;
@@ -38,10 +39,14 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RacksDataResponse.FullfillmentDetail fullfilmentModel = fullfilmentModelList.get(position);
-        holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getFullfillmentId());
-        holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getTotalItems());
+        TransactionHeaderResponse.OMSHeader fullfilmentModel = fullfilmentModelList.get(position);
+        holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getRefno());
+        holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
         holder.adapterBillerOrdersScreenBinding.status.setText("Partial");
+
+
+
+
 
         holder.adapterBillerOrdersScreenBinding.rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override

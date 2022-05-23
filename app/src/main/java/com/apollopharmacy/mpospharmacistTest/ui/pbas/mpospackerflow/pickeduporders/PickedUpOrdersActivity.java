@@ -527,11 +527,11 @@ public class PickedUpOrdersActivity extends BaseActivity implements PickedUpOrde
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
-                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+                if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
+                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
 
 
-            }
+                }
             activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
             mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
 
