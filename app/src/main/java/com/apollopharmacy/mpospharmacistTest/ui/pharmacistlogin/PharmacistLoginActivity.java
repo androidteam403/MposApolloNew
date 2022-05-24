@@ -229,34 +229,34 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void userLoginSuccess() {
-//        if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("1")) {
-//            startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//            finish();
-//        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
-//            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-//            finish();
-//        } else {
-//            Toast.makeText(this, "MPOS version other than verion 1 & 2", Toast.LENGTH_SHORT).show();
-//        }
-        BottomSheetDialog decideVersionFlowDialog = new BottomSheetDialog(this);
-        DialogDecideVersionFlowBinding dialogDecideVersionFlowBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_decide_version_flow, null, false);
-        decideVersionFlowDialog.setContentView(dialogDecideVersionFlowBinding.getRoot());
-        decideVersionFlowDialog.setCancelable(false);
-        dialogDecideVersionFlowBinding.mposOneUserFlow.setOnClickListener(v -> {
+        if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("1")) {
             startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            decideVersionFlowDialog.dismiss();
             finish();
-        });
-        dialogDecideVersionFlowBinding.mposMultipleUserFlow.setOnClickListener(v -> {
+        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
             startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            decideVersionFlowDialog.dismiss();
             finish();
-        });
-        decideVersionFlowDialog.show();
+        } else {
+            Toast.makeText(this, "MPOS version other than verion 1 & 2", Toast.LENGTH_SHORT).show();
+        }
+//        BottomSheetDialog decideVersionFlowDialog = new BottomSheetDialog(this);
+//        DialogDecideVersionFlowBinding dialogDecideVersionFlowBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_decide_version_flow, null, false);
+//        decideVersionFlowDialog.setContentView(dialogDecideVersionFlowBinding.getRoot());
+//        decideVersionFlowDialog.setCancelable(false);
+//        dialogDecideVersionFlowBinding.mposOneUserFlow.setOnClickListener(v -> {
+//            startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
+//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            decideVersionFlowDialog.dismiss();
+//            finish();
+//        });
+//        dialogDecideVersionFlowBinding.mposMultipleUserFlow.setOnClickListener(v -> {
+//            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
+//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            decideVersionFlowDialog.dismiss();
+//            finish();
+//        });
+//        decideVersionFlowDialog.show();
     }
 
     @Override
