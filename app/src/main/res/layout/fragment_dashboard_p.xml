@@ -6,517 +6,537 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <Button
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_margin="@dimen/ten_dp"
+            android:background="@drawable/btn_green_ripple_bg"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="@{()-> callback.onClickOpenOrders()}"
+            android:text="@string/label_open_orders"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen16sp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen60dp"
-                android:background="@color/actionbar_color"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/dimen10dp"
-                android:visibility="gone"
-                android:paddingEnd="@dimen/dimen10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    tools:ignore="RelativeOverlap">
-
-                    <ImageView
-                        android:id="@+id/menu_icon"
-                        android:layout_width="@dimen/dimen30dp"
-                        android:layout_height="@dimen/dimen30dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_menu" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/label_dashboard"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dimen14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_welcome"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/picker_img"
-                        android:layout_width="@dimen/dimen40dp"
-                        android:layout_height="@dimen/dimen40dp"
-                        android:background="@drawable/ic_circle_bg"
-                        android:backgroundTint="@color/white"
-                        android:contentDescription="@string/app_name"
-                        android:padding="@dimen/dimen1dp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_dropdown" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/five_dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:baselineAligned="false"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_weight=".33"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_from"
-                            android:textColor="@color/black" />
-
-                        <EditText
-                            android:id="@+id/from_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen30dp"
-                            android:background="@drawable/dashboard_edit_bg"
-                            android:focusable="false"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="center"
-                            android:hint="@string/label_dd_mm_yyy"
-                            android:importantForAutofill="no"
-                            android:inputType="date"
-                            android:onClick="@{()-> callback.onClickFromDate()}"
-                            android:padding="@dimen/five_dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/text_color_grey"
-                            android:textSize="@dimen/eleven_sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_weight=".33"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_to"
-                            android:textColor="@color/black" />
-
-                        <EditText
-                            android:id="@+id/to_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen30dp"
-                            android:background="@drawable/dashboard_edit_bg"
-                            android:focusable="false"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="center"
-                            android:hint="@string/label_dd_mm_yyy"
-                            android:importantForAutofill="no"
-                            android:inputType="date"
-                            android:onClick="@{()-> callback.onClickToDate()}"
-                            android:padding="@dimen/five_dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/text_color_grey"
-                            android:textSize="@dimen/eleven_sp" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".34">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            tools:ignore="UselessParent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textColor="@color/black" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="@dimen/thirty_dp"
-                                    android:layout_height="@dimen/thirty_dp"
-                                    android:contentDescription="@string/app_name"
-                                    android:padding="@dimen/two_dp"
-                                    android:src="@drawable/ic_clock" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/roboto_regular"
-                                        android:text="@string/label_time_taken"
-                                        android:textColor="@color/text_color_grey"
-                                        android:textSize="@dimen/dimen10sp"
-                                        tools:ignore="TooDeepLayout" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="@string/label_45_44_45"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/twelve_sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/dashboard_today_text_bg"
-                        android:fontFamily="@font/roboto_medium"
-                        android:onClick="@{()-> callback.onClickToday()}"
-                        android:paddingStart="@dimen/ten_dp"
-                        android:paddingTop="@dimen/three_dp"
-                        android:paddingEnd="@dimen/ten_dp"
-                        android:paddingBottom="@dimen/three_dp"
-                        android:text="@string/label_today"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/twelve_sp" />
-
-                    <TextView
-                        android:id="@+id/weekly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/dashboard_today_text_green_bg"
-                        android:fontFamily="@font/roboto_medium"
-                        android:onClick="@{()-> callback.onClickWeekly()}"
-                        android:paddingStart="@dimen/ten_dp"
-                        android:paddingTop="@dimen/three_dp"
-                        android:paddingEnd="@dimen/ten_dp"
-                        android:paddingBottom="@dimen/three_dp"
-                        android:text="@string/label_weekly"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/twelve_sp" />
-
-                    <TextView
-                        android:id="@+id/monthly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/dashboard_today_text_bg"
-                        android:fontFamily="@font/roboto_medium"
-                        android:onClick="@{()-> callback.onClickMonthly()}"
-                        android:paddingStart="@dimen/ten_dp"
-                        android:paddingTop="@dimen/three_dp"
-                        android:paddingEnd="@dimen/ten_dp"
-                        android:paddingBottom="@dimen/three_dp"
-                        android:text="@string/label_monthly"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/twelve_sp" />
-
-                    <TextView
-                        android:id="@+id/yearly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:background="@drawable/dashboard_today_text_bg"
-                        android:fontFamily="@font/roboto_medium"
-                        android:onClick="@{()-> callback.onClickYearly()}"
-                        android:paddingStart="@dimen/ten_dp"
-                        android:paddingTop="@dimen/three_dp"
-                        android:paddingEnd="@dimen/ten_dp"
-                        android:paddingBottom="@dimen/three_dp"
-                        android:text="@string/label_yearly"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/twelve_sp" />
-
-                </LinearLayout>
-
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/one_hundred_fifty_dp"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_marginEnd="@dimen/five_dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="@dimen/ten_dp"
-                        android:layout_height="@dimen/dimen10dp"
-                        android:background="@color/actionbar_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_full"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen8sp" />
-
-                    <View
-                        android:layout_width="@dimen/ten_dp"
-                        android:layout_height="@dimen/dimen10dp"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:background="@color/partial_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_partial"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen8sp" />
-
-                    <View
-                        android:layout_width="@dimen/ten_dp"
-                        android:layout_height="@dimen/dimen10dp"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:background="@color/red" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_not_available"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen8sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:layout_marginEnd="@dimen/ten_dp"
-                    android:baselineAligned="false"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/five_dp"
-                        android:layout_weight=".8"
-                        android:background="@drawable/dashboard_partial_box_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/five_dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_circle_tick" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_full"
-                                android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label_36"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/twelve_sp" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/five_dp"
-                        android:layout_weight=".9"
-                        android:background="@drawable/dashboard_partial_box_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/five_dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/app_name"
-                            android:rotation="270"
-                            android:src="@drawable/partialcirculargreeenorange" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_partial"
-                                android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label_36"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/twelve_sp" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp"
-                        android:layout_weight="1.3"
-                        android:background="@drawable/dashboard_partial_box_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/five_dp">
-
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_not_available" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_not_available"
-                                android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label_36"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/twelve_sp" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten_dp"
-                    android:background="@drawable/btn_green_ripple_bg"
-                    android:fontFamily="@font/roboto_medium"
-                    android:onClick="@{()-> callback.onClickOpenOrders()}"
-                    android:text="@string/label_open_orders"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dimen16sp" />
-            </LinearLayout>
-        </LinearLayout>
     </RelativeLayout>
+
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            tools:ignore="UselessParent">-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen60dp"-->
+<!--                android:background="@color/actionbar_color"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="@dimen/dimen10dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:paddingEnd="@dimen/dimen10dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    tools:ignore="RelativeOverlap">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/menu_icon"-->
+<!--                        android:layout_width="@dimen/dimen30dp"-->
+<!--                        android:layout_height="@dimen/dimen30dp"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_menu" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/dimen10dp"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:text="@string/label_dashboard"-->
+<!--                            android:textAllCaps="true"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/dimen14sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_regular"-->
+<!--                            android:text="@string/label_welcome"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="12sp" />-->
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/picker_img"-->
+<!--                        android:layout_width="@dimen/dimen40dp"-->
+<!--                        android:layout_height="@dimen/dimen40dp"-->
+<!--                        android:background="@drawable/ic_circle_bg"-->
+<!--                        android:backgroundTint="@color/white"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:padding="@dimen/dimen1dp" />-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_dropdown" />-->
+<!--                </LinearLayout>-->
+<!--            </RelativeLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="@dimen/five_dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/five_dp"-->
+<!--                    android:baselineAligned="false"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/ten_dp"-->
+<!--                        android:layout_weight=".33"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_regular"-->
+<!--                            android:text="@string/label_from"-->
+<!--                            android:textColor="@color/black" />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/from_date"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/dimen30dp"-->
+<!--                            android:background="@drawable/dashboard_edit_bg"-->
+<!--                            android:focusable="false"-->
+<!--                            android:fontFamily="@font/roboto_regular"-->
+<!--                            android:gravity="center"-->
+<!--                            android:hint="@string/label_dd_mm_yyy"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:inputType="date"-->
+<!--                            android:onClick="@{()-> callback.onClickFromDate()}"-->
+<!--                            android:padding="@dimen/five_dp"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textColorHint="@color/text_color_grey"-->
+<!--                            android:textSize="@dimen/eleven_sp" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/ten_dp"-->
+<!--                        android:layout_weight=".33"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_regular"-->
+<!--                            android:text="@string/label_to"-->
+<!--                            android:textColor="@color/black" />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/to_date"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/dimen30dp"-->
+<!--                            android:background="@drawable/dashboard_edit_bg"-->
+<!--                            android:focusable="false"-->
+<!--                            android:fontFamily="@font/roboto_regular"-->
+<!--                            android:gravity="center"-->
+<!--                            android:hint="@string/label_dd_mm_yyy"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:inputType="date"-->
+<!--                            android:onClick="@{()-> callback.onClickToDate()}"-->
+<!--                            android:padding="@dimen/five_dp"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textColorHint="@color/text_color_grey"-->
+<!--                            android:textSize="@dimen/eleven_sp" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight=".34">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:gravity="center"-->
+<!--                            tools:ignore="UselessParent">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_regular"-->
+<!--                                android:textColor="@color/black" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="center"-->
+<!--                                android:orientation="horizontal">-->
+
+<!--                                <ImageView-->
+<!--                                    android:layout_width="@dimen/thirty_dp"-->
+<!--                                    android:layout_height="@dimen/thirty_dp"-->
+<!--                                    android:contentDescription="@string/app_name"-->
+<!--                                    android:padding="@dimen/two_dp"-->
+<!--                                    android:src="@drawable/ic_clock" />-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:orientation="vertical">-->
+
+<!--                                    <TextView-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/roboto_regular"-->
+<!--                                        android:text="@string/label_time_taken"-->
+<!--                                        android:textColor="@color/text_color_grey"-->
+<!--                                        android:textSize="@dimen/dimen10sp"-->
+<!--                                        tools:ignore="TooDeepLayout" />-->
+
+<!--                                    <TextView-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/roboto_medium"-->
+<!--                                        android:text="@string/label_45_44_45"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="@dimen/twelve_sp" />-->
+<!--                                </LinearLayout>-->
+<!--                            </LinearLayout>-->
+
+<!--                        </LinearLayout>-->
+<!--                    </RelativeLayout>-->
+
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/five_dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/today"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/five_dp"-->
+<!--                        android:layout_marginTop="@dimen/five_dp"-->
+<!--                        android:layout_marginBottom="@dimen/five_dp"-->
+<!--                        android:background="@drawable/dashboard_today_text_bg"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:onClick="@{()-> callback.onClickToday()}"-->
+<!--                        android:paddingStart="@dimen/ten_dp"-->
+<!--                        android:paddingTop="@dimen/three_dp"-->
+<!--                        android:paddingEnd="@dimen/ten_dp"-->
+<!--                        android:paddingBottom="@dimen/three_dp"-->
+<!--                        android:text="@string/label_today"-->
+<!--                        android:textColor="@color/text_color_grey"-->
+<!--                        android:textSize="@dimen/twelve_sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/weekly"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/five_dp"-->
+<!--                        android:layout_marginTop="@dimen/five_dp"-->
+<!--                        android:layout_marginBottom="@dimen/five_dp"-->
+<!--                        android:background="@drawable/dashboard_today_text_green_bg"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:onClick="@{()-> callback.onClickWeekly()}"-->
+<!--                        android:paddingStart="@dimen/ten_dp"-->
+<!--                        android:paddingTop="@dimen/three_dp"-->
+<!--                        android:paddingEnd="@dimen/ten_dp"-->
+<!--                        android:paddingBottom="@dimen/three_dp"-->
+<!--                        android:text="@string/label_weekly"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="@dimen/twelve_sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/monthly"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/five_dp"-->
+<!--                        android:layout_marginTop="@dimen/five_dp"-->
+<!--                        android:layout_marginBottom="@dimen/five_dp"-->
+<!--                        android:background="@drawable/dashboard_today_text_bg"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:onClick="@{()-> callback.onClickMonthly()}"-->
+<!--                        android:paddingStart="@dimen/ten_dp"-->
+<!--                        android:paddingTop="@dimen/three_dp"-->
+<!--                        android:paddingEnd="@dimen/ten_dp"-->
+<!--                        android:paddingBottom="@dimen/three_dp"-->
+<!--                        android:text="@string/label_monthly"-->
+<!--                        android:textColor="@color/text_color_grey"-->
+<!--                        android:textSize="@dimen/twelve_sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/yearly"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/five_dp"-->
+<!--                        android:layout_marginTop="@dimen/five_dp"-->
+<!--                        android:layout_marginBottom="@dimen/five_dp"-->
+<!--                        android:background="@drawable/dashboard_today_text_bg"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:onClick="@{()-> callback.onClickYearly()}"-->
+<!--                        android:paddingStart="@dimen/ten_dp"-->
+<!--                        android:paddingTop="@dimen/three_dp"-->
+<!--                        android:paddingEnd="@dimen/ten_dp"-->
+<!--                        android:paddingBottom="@dimen/three_dp"-->
+<!--                        android:text="@string/label_yearly"-->
+<!--                        android:textColor="@color/text_color_grey"-->
+<!--                        android:textSize="@dimen/twelve_sp" />-->
+
+<!--                </LinearLayout>-->
+
+<!--                <com.github.mikephil.charting.charts.BarChart-->
+<!--                    android:id="@+id/barChart"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/one_hundred_fifty_dp"-->
+<!--                    android:layout_marginStart="@dimen/five_dp"-->
+<!--                    android:layout_marginEnd="@dimen/five_dp" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/dimen5dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <View-->
+<!--                        android:layout_width="@dimen/ten_dp"-->
+<!--                        android:layout_height="@dimen/dimen10dp"-->
+<!--                        android:background="@color/actionbar_color" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/two_dp"-->
+<!--                        android:fontFamily="@font/roboto_regular"-->
+<!--                        android:text="@string/label_full"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/dimen8sp" />-->
+
+<!--                    <View-->
+<!--                        android:layout_width="@dimen/ten_dp"-->
+<!--                        android:layout_height="@dimen/dimen10dp"-->
+<!--                        android:layout_marginStart="@dimen/dimen10dp"-->
+<!--                        android:background="@color/partial_color" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/two_dp"-->
+<!--                        android:fontFamily="@font/roboto_regular"-->
+<!--                        android:text="@string/label_partial"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/dimen8sp" />-->
+
+<!--                    <View-->
+<!--                        android:layout_width="@dimen/ten_dp"-->
+<!--                        android:layout_height="@dimen/dimen10dp"-->
+<!--                        android:layout_marginStart="@dimen/dimen10dp"-->
+<!--                        android:background="@color/red" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/two_dp"-->
+<!--                        android:fontFamily="@font/roboto_regular"-->
+<!--                        android:text="@string/label_not_available"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/dimen8sp" />-->
+
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/ten_dp"-->
+<!--                    android:layout_marginTop="@dimen/five_dp"-->
+<!--                    android:layout_marginEnd="@dimen/ten_dp"-->
+<!--                    android:baselineAligned="false"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="3">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_margin="@dimen/five_dp"-->
+<!--                        android:layout_weight=".8"-->
+<!--                        android:background="@drawable/dashboard_partial_box_bg"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="@dimen/five_dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/thirty_dp"-->
+<!--                            android:layout_height="@dimen/thirty_dp"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:src="@drawable/ic_circle_tick" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/five_dp"-->
+<!--                            android:orientation="vertical">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_medium"-->
+<!--                                android:text="@string/label_full"-->
+<!--                                android:textColor="@color/text_color_grey"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_bold"-->
+<!--                                android:text="@string/label_36"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                        </LinearLayout>-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_margin="@dimen/five_dp"-->
+<!--                        android:layout_weight=".9"-->
+<!--                        android:background="@drawable/dashboard_partial_box_bg"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="@dimen/five_dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/thirty_dp"-->
+<!--                            android:layout_height="@dimen/thirty_dp"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:rotation="270"-->
+<!--                            android:src="@drawable/partialcirculargreeenorange" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/five_dp"-->
+<!--                            android:orientation="vertical">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_medium"-->
+<!--                                android:text="@string/label_partial"-->
+<!--                                android:textColor="@color/text_color_grey"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_bold"-->
+<!--                                android:text="@string/label_36"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                        </LinearLayout>-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="@dimen/five_dp"-->
+<!--                        android:layout_weight="1.3"-->
+<!--                        android:background="@drawable/dashboard_partial_box_bg"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="@dimen/five_dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/thirty_dp"-->
+<!--                            android:layout_height="@dimen/thirty_dp"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:src="@drawable/ic_not_available" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/five_dp"-->
+<!--                            android:orientation="vertical">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_medium"-->
+<!--                                android:text="@string/label_not_available"-->
+<!--                                android:textColor="@color/text_color_grey"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_bold"-->
+<!--                                android:text="@string/label_36"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/twelve_sp" />-->
+
+<!--                        </LinearLayout>-->
+<!--                    </LinearLayout>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--                <Button-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="@dimen/ten_dp"-->
+<!--                    android:background="@drawable/btn_green_ripple_bg"-->
+<!--                    android:fontFamily="@font/roboto_medium"-->
+<!--                    android:onClick="@{()-> callback.onClickOpenOrders()}"-->
+<!--                    android:text="@string/label_open_orders"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/dimen16sp" />-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+<!--    </RelativeLayout>-->
 
     <data>
 
