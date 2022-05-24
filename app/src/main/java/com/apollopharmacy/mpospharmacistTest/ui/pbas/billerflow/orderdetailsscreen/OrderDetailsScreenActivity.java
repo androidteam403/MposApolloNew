@@ -1,14 +1,18 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +20,18 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.adapter.OrderDetailsScreenAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter.PickUpVerificationAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,8 +40,11 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     @Inject
     OrderDetailsScreenMvpPresenter<OrderDetailsScreenMvpView> mPresenter;
     ActivityOrderDetailsScreenPBinding activityOrderDetailsScreenBinding;
-    private RacksDataResponse.FullfillmentDetail racksDataResponse;
+    private TransactionHeaderResponse.OMSHeader racksDataResponse;
     OrderDetailsScreenAdapter orderDetailsScreenAdapter;
+    List<TransactionHeaderResponse.OMSHeader> omsHeader = new ArrayList<>();
+    int pos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +58,53 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     protected void setUp() {
+
         activityOrderDetailsScreenBinding.setCallback(mPresenter);
 
         if (getIntent() != null) {
-            racksDataResponse = (RacksDataResponse.FullfillmentDetail) getIntent().getSerializableExtra("fullfillmentDetails");
+            if (getIntent() != null) {
+                racksDataResponse = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("fullfillmentDetails");
+            }
         }
 
-        activityOrderDetailsScreenBinding.fullfillmentId.setText(racksDataResponse.getFullfillmentId());
-        activityOrderDetailsScreenBinding.boxId.setText(racksDataResponse.getBoxId());
+        mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
 
 
-        orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, racksDataResponse.getProducts());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        activityOrderDetailsScreenBinding.orderDetailsRecycler.setLayoutManager(mLayoutManager);
-        activityOrderDetailsScreenBinding.orderDetailsRecycler.setAdapter(orderDetailsScreenAdapter);
+
+        activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            }
+        });
+        activityOrderDetailsScreenBinding.fullfillmentId.setText(racksDataResponse.getRefno());
+        if (racksDataResponse.getOverallOrderStatus().equals("0")){
+
+            activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
+        }
+        else  if (racksDataResponse.getOverallOrderStatus().equals("1")){
+            activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
+
+            activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
+
+        }
+        else if (racksDataResponse.getOverallOrderStatus().equals("2")){
+            activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+
+
+        }
+        else if (racksDataResponse.getOverallOrderStatus().equals("3")){
+            activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
+
+
+        }
+
+
+//        orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, racksDataResponse.getProducts());
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//        activityOrderDetailsScreenBinding.orderDetailsRecycler.setLayoutManager(mLayoutManager);
+//        activityOrderDetailsScreenBinding.orderDetailsRecycler.setAdapter(orderDetailsScreenAdapter);
 
 
     }
@@ -62,50 +112,115 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void onMinusCustomerDetails() {
-        activityOrderDetailsScreenBinding.customerDetailsPlusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.customerDetailsMinusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.customerDetailsExapansion.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.customerDetailsPlusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.customerDetailsMinusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.customerDetailsExapansion.setVisibility(View.GONE);
     }
 
     @Override
     public void onPlusCustomerDetails() {
-        activityOrderDetailsScreenBinding.customerDetailsPlusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.customerDetailsMinusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.customerDetailsExapansion.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.customerDetailsPlusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.customerDetailsMinusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.customerDetailsExapansion.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onminusOrderDetails() {
-        activityOrderDetailsScreenBinding.orderDetailsPlusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.orderDetailsMinusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.orderDetailsRecycler.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.quantityStatus.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.orderDetailsPlusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.orderDetailsMinusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.orderDetailsRecycler.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.quantityStatus.setVisibility(View.GONE);
     }
 
     @Override
+    public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> getOMSTransactionResponses) {
+
+
+//            if (getOMSTransactionResponses != null && getOMSTransactionResponses.size() > 0) {
+
+
+        for (int i = 0; i < getOMSTransactionResponses.size(); i++) {
+            if (getOMSTransactionResponses != null && getOMSTransactionResponses.get(i).getPickPackReservation() != null) {
+                if (racksDataResponse.getRefno().equalsIgnoreCase(getOMSTransactionResponses.get(i).getRefno())) {
+                    activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(getOMSTransactionResponses.get(i).getRefno());
+                    activityOrderDetailsScreenBinding.totalItems.setText(String.valueOf(getOMSTransactionResponses.get(i).getSalesLine().size()));
+                    activityOrderDetailsScreenBinding.customerType.setText(getOMSTransactionResponses.get(i).getCustomerType());
+                    activityOrderDetailsScreenBinding.orderSource.setText(getOMSTransactionResponses.get(i).getOrderSource());
+                    activityOrderDetailsScreenBinding.orderDate.setText(getOMSTransactionResponses.get(i).getCreatedDateTime());
+                    activityOrderDetailsScreenBinding.deliveryDate.setText(getOMSTransactionResponses.get(i).getDeliveryDate());
+                    activityOrderDetailsScreenBinding.shippingMethodType.setText(getOMSTransactionResponses.get(i).getShippingMethod());
+                    activityOrderDetailsScreenBinding.stockStatus.setText(getOMSTransactionResponses.get(i).getStockStatus());
+                    activityOrderDetailsScreenBinding.paymentSource.setText(getOMSTransactionResponses.get(i).getPaymentSource());
+                    activityOrderDetailsScreenBinding.orderType.setText(getOMSTransactionResponses.get(i).getOrderType());
+                    activityOrderDetailsScreenBinding.customerName.setText(getOMSTransactionResponses.get(i).getCustomerName());
+                    activityOrderDetailsScreenBinding.vendorId.setText(getOMSTransactionResponses.get(i).getVendorId());
+                    activityOrderDetailsScreenBinding.mobileNumber.setText(getOMSTransactionResponses.get(i).getMobileNO());
+                    activityOrderDetailsScreenBinding.doctorName.setText(getOMSTransactionResponses.get(i).getDoctorName());
+                    activityOrderDetailsScreenBinding.statecode.setText(getOMSTransactionResponses.get(i).getState());
+                    activityOrderDetailsScreenBinding.city.setText(getOMSTransactionResponses.get(i).getBillingCity());
+                    activityOrderDetailsScreenBinding.address.setText(getOMSTransactionResponses.get(i).getCustAddress());
+                    activityOrderDetailsScreenBinding.pincode.setText(getOMSTransactionResponses.get(i).getPincode());
+
+
+                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, getOMSTransactionResponses.get(i).getSalesLine(), getOMSTransactionResponses.get(i).getPickPackReservation());
+                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                    activityOrderDetailsScreenBinding.productListRecycler.setLayoutManager(mLayoutManager1);
+                    activityOrderDetailsScreenBinding.productListRecycler.setItemAnimator(new DefaultItemAnimator());
+                    activityOrderDetailsScreenBinding.productListRecycler.setAdapter(orderDetailsScreenAdapter);
+                }
+            }
+            else {
+                Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
+                racksDataResponse.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
+                mPresenter.mposPickPackOrderReservationApiCall(4, racksDataResponse);
+            }
+        }
+
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 3) {
+            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+                if (racksDataResponse != null) {
+                    mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
+                }
+            }
+        } else if (requestType == 4) {
+            finish();
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        } else if (requestType == 6) {
+            finish();
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+        }
+    }
+
+
+    @Override
     public void onplusOrderDetails() {
-        activityOrderDetailsScreenBinding.orderDetailsPlusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.orderDetailsMinusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.orderDetailsRecycler.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.quantityStatus.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.orderDetailsPlusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.orderDetailsMinusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.orderDetailsRecycler.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.quantityStatus.setVisibility(View.VISIBLE);
+//    }
     }
 
     @Override
     public void onminusVendorDetails() {
-        activityOrderDetailsScreenBinding.vendorDetailsPlusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.vendorDetailsMinusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.vendorDetailsExpansion.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.vendorDetailsPlusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.vendorDetailsMinusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.vendorDetailsExpansion.setVisibility(View.GONE);
     }
 
     @Override
     public void onPlusVendorDetails() {
-        activityOrderDetailsScreenBinding.vendorDetailsPlusSymbol.setVisibility(View.GONE);
-        activityOrderDetailsScreenBinding.vendorDetailsMinusSymbol.setVisibility(View.VISIBLE);
-        activityOrderDetailsScreenBinding.vendorDetailsExpansion.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.vendorDetailsPlusSymbol.setVisibility(View.GONE);
+//        activityOrderDetailsScreenBinding.vendorDetailsMinusSymbol.setVisibility(View.VISIBLE);
+//        activityOrderDetailsScreenBinding.vendorDetailsExpansion.setVisibility(View.VISIBLE);
     }
 
     DialogBillerSelectActionPBinding selectActionLayoutBinding;
-    int i =1;
+
 
     @Override
     public void onActionsContinue() {
