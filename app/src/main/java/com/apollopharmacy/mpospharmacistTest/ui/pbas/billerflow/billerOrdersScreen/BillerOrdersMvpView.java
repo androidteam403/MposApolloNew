@@ -8,9 +8,8 @@ public interface BillerOrdersMvpView extends MvpView {
 
 
     void onclickScanCode();
-
     void onRightArrowClickedContinue(int position);
-
+    void noOrderFound(int count);
     void onSuccessRackApi(RacksDataResponse body);
     void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader);
     void onClickFilterIcon();

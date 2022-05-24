@@ -11,6 +11,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -67,6 +69,21 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             });
         }
 
+    }
+
+    @Override
+    public void onclickScanCode() {
+        getMvpView().onclickScanCode();
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        return getDataManager().getTotalOmsHeaderList();
+    }
+
+    @Override
+    public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        getDataManager().setTotalOmsTransactionHeader(totalOmsHeaderList);
     }
 
     @Override
