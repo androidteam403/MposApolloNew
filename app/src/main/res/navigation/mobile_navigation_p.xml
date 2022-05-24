@@ -18,4 +18,9 @@
         android:id="@+id/nav_packer_vtwo"
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"
         tools:layout="@layout/activity_picked_up_orders_p" />
+
+    <fragment
+        android:id="@+id/nav_biller_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"
+        tools:layout="@layout/activity_biller_orders_p" />
 </navigation>

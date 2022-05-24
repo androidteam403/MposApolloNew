@@ -8,8 +8,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,14 +23,17 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBillerOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.adapter.BillerFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -39,7 +45,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMvpView {
+public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMvpView, PickerNavigationActivity.PickerNavigationActivityCallback {
 
     @Inject
     BillerOrdersMvpPresenter<BillerOrdersMvpView> mPresenter;
@@ -66,28 +72,45 @@ public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMv
         return i;
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityBillerOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_biller_orders_p);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        activityBillerOrdersBinding = DataBindingUtil.inflate(inflater, R.layout.activity_biller_orders_p, container, false);
         getActivityComponent().inject(this);
         mPresenter.onAttach(BillerOrdersActivity.this);
-        setUp();
+        return activityBillerOrdersBinding.getRoot();
+
     }
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        activityBillerOrdersBinding = DataBindingUtil.setContentView(this, R.layout.activity_biller_orders_p);
+//        getActivityComponent().inject(this);
+//        mPresenter.onAttach(BillerOrdersActivity.this);
+//        setUp();
+//    }
+
     @Override
-    protected void setUp() {
+    protected void setUp(View view) {
         activityBillerOrdersBinding.setScan(mPresenter);
-//        mPresenter.onRackApiCall();
+//
+        PickerNavigationActivity.mInstance.setWelcome("");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
+        PickerNavigationActivity.mInstance.setTitle("Biller Orders");
+//                mPresenter.onRackApiCall();
         searchByFulfilmentId();
         mPresenter.fetchFulfilmentOrderList();
     }
 
+
+
     @Override
     public void onclickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
-        new IntentIntegrator(this).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        new IntentIntegrator(getActivity()).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
 
@@ -122,11 +145,11 @@ public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMv
     @Override
     public void onRightArrowClickedContinue(int position) {
         if (omsHeaderList != null && omsHeaderList.size() > 0 && omsHeaderList.size() > position) {
-            Intent i = new Intent(BillerOrdersActivity.this, OrderDetailsScreenActivity.class);
+            Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
             i.putExtra("fullfillmentDetails", omsHeaderList.get(position));
 //            startActivityForResult(i, 999);
             startActivity(i);
-            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         }
     }
 
@@ -148,8 +171,8 @@ public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMv
             @Override
             public void onClick(View view) {
                 isBillerActivity = true;
-                new IntentIntegrator(BillerOrdersActivity.this).setCaptureActivity(ScannerActivity.class).initiateScan();
-                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                new IntentIntegrator(getActivity()).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
+                getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
             }
         });
     }
@@ -160,12 +183,12 @@ public class BillerOrdersActivity extends BaseActivity implements BillerOrdersMv
             if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && omsHeader.getOMSHeader().get(i).getOrderPacked()) {
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
-activityBillerOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
+            PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
 
         }
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
-        billerFullfillmentAdapter = new BillerFullfillmentAdapter(this, omsHeaderList, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         activityBillerOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         activityBillerOrdersBinding.fullfilmentRecycler.setAdapter(billerFullfillmentAdapter);
         filterOrdersLists();
@@ -173,8 +196,8 @@ activityBillerOrdersBinding.headerOrdersCount.setText("Total" + " " + String.val
 
     @Override
     public void onClickFilterIcon() {
-        Dialog filterDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_filter_p, null, false);
+        Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
+        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
         filterDialog.setContentView(dialogFilterBinding.getRoot());
         filterDialog.setCancelable(false);
         filtersList(dialogFilterBinding);
@@ -435,9 +458,9 @@ activityBillerOrdersBinding.headerOrdersCount.setText("Total" + " " + String.val
                 }
             }
         }
-        activityBillerOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        billerFullfillmentAdapter = new BillerFullfillmentAdapter(this, omsHeaderList, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
+        billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         activityBillerOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         activityBillerOrdersBinding.fullfilmentRecycler.setAdapter(billerFullfillmentAdapter);
     }
@@ -472,42 +495,47 @@ activityBillerOrdersBinding.headerOrdersCount.setText("Total" + " " + String.val
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
-        customerTypeFilterAdapter = new FilterItemAdapter(this, customerTypeFilterList);
-        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
+        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
-        orderTypeFilterAdapter = new FilterItemAdapter(this, orderTypeFilterList);
-        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderTypeFilterAdapter = new FilterItemAdapter(getContext(), orderTypeFilterList);
+        dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderTypeFilter.setAdapter(orderTypeFilterAdapter);
 
-        orderCategoryFilterAdapter = new FilterItemAdapter(this, orderCategoryFilterList);
-        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderCategoryFilterAdapter = new FilterItemAdapter(getContext(), orderCategoryFilterList);
+        dialogFilterBinding.orderCategoryFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderCategoryFilter.setAdapter(orderCategoryFilterAdapter);
 
-        paymentTypeFilterAdapter = new FilterItemAdapter(this, paymentTypeFilterList);
-        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        paymentTypeFilterAdapter = new FilterItemAdapter(getContext(), paymentTypeFilterList);
+        dialogFilterBinding.paymentTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.paymentTypeFilter.setAdapter(paymentTypeFilterAdapter);
 
-        orderSourceFilterAdapter = new FilterItemAdapter(this, orderSourceFilterList);
-        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        orderSourceFilterAdapter = new FilterItemAdapter(getContext(), orderSourceFilterList);
+        dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
-        stockAvailabilityFilterAdapter = new FilterItemAdapter(this, stockAvailabilityFilterList);
-        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(this, 3));
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onClickFilters() {
+        onClickFilterIcon();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityBillerOrdersBinding.searchText.setText(Result.getContents());
                 BillerOrdersActivity.isBillerActivity = false;            }
         } else {

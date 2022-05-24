@@ -383,7 +383,7 @@
                                     android:id="@+id/city"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/price_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/ten_sp" />
 

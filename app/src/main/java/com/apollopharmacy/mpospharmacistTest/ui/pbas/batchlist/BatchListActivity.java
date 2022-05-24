@@ -76,8 +76,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
 
         if (noBatchDetails) {
-
-
         }
 
 

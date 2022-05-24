@@ -147,13 +147,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="nav_biller_vtwo">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="159" />
+                            <option name="y" value="-40" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="nav_dashboard">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-101" />
+                            <option name="y" value="1" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -164,8 +176,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-90" />
+                            <option name="y" value="-284" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -176,8 +188,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="128" />
+                            <option name="y" value="-358" />
                           </Point>
                         </option>
                       </LayoutPositions>
