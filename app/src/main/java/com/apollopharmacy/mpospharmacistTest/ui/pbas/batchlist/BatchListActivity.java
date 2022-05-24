@@ -75,10 +75,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         noBatchDetails = intent.getExtras().getBoolean("noBatchDetails");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
 
-        if(noBatchDetails){
 
-
-        }
 
 
 

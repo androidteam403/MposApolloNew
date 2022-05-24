@@ -12,70 +12,70 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen60dp"
-                android:background="@color/actionbar_color"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/dimen10dp"
-                android:paddingEnd="@dimen/dimen10dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen60dp"-->
+<!--                android:background="@color/actionbar_color"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="@dimen/dimen10dp"-->
+<!--                android:paddingEnd="@dimen/dimen10dp">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    tools:ignore="RelativeOverlap">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    tools:ignore="RelativeOverlap">-->
 
-                    <ImageView
-                        android:id="@+id/menu_icon"
-                        android:layout_width="@dimen/dimen30dp"
-                        android:layout_height="@dimen/dimen30dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_menu" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/menu_icon"-->
+<!--                        android:layout_width="@dimen/dimen30dp"-->
+<!--                        android:layout_height="@dimen/dimen30dp"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_menu" />-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:orientation="vertical">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/dimen10dp"-->
+<!--                        android:orientation="vertical">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="BILLER ORDERS"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:text="BILLER ORDERS"-->
+<!--                            android:textAllCaps="true"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/dimen16sp" />-->
 
-                        <TextView
-                            android:id="@+id/header_orders_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:fontFamily="@font/roboto_bold"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/header_orders_count"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text=""-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="11sp" />-->
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:onClick="@{()-> scan.onClickFilterIcon()}"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_filter_white" />
-                </LinearLayout>
-            </RelativeLayout>
+<!--                    <ImageView-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:onClick="@{()-> scan.onClickFilterIcon()}"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_filter_white" />-->
+<!--                </LinearLayout>-->
+<!--            </RelativeLayout>-->
 
             <TextView
                 android:id="@+id/selected_fullfillment"
