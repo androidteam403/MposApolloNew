@@ -59,7 +59,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
 
         if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
-            FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());
+            FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(position).getSalesLine());
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
