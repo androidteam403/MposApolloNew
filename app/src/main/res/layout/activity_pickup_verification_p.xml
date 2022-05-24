@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -16,16 +16,16 @@
                 android:id="@+id/layout_header"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/actionbar_color"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/back_click"
-                    android:paddingStart="@dimen/seven_dp"
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/seven_dp"
                     android:src="@drawable/left_forward_white_arrow" />
 
                 <LinearLayout
@@ -48,48 +48,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="8877766"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sixteen_sp" />
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/twenty_dp"
-                        android:padding="@dimen/five_dp"
-                        android:src="@drawable/nature"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="2dp" />
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/three_dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/drop_down_icon" />
-                </RelativeLayout>
             </LinearLayout>
+
+            
+
+
+
 
             <LinearLayout
                 android:id="@+id/warning_text"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/red"
                 android:orientation="horizontal"
-                android:padding="@dimen/five_dp">
+                android:padding="@dimen/five_dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/twenty_dp"
@@ -129,9 +106,9 @@ Do you want to proceed with Packing?"
                             android:background="@drawable/okay_btn_bg"
                             android:backgroundTint="@color/green"
                             android:fontFamily="@font/roboto_bold"
+                            android:onClick="@{()-> callback.onPartialWarningYesClick()}"
                             android:paddingStart="@dimen/ten_dp"
                             android:paddingTop="@dimen/two_dp"
-                            android:onClick="@{()-> callback.onPartialWarningYesClick()}"
                             android:paddingEnd="@dimen/ten_dp"
                             android:paddingBottom="@dimen/two_dp"
                             android:text="Yes"
@@ -143,11 +120,11 @@ Do you want to proceed with Packing?"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five_dp"
-                            android:onClick="@{()-> callback.onPartialWarningNoClick()}"
                             android:layout_toRightOf="@id/button_yes"
                             android:background="@drawable/okay_btn_bg"
                             android:backgroundTint="@color/black"
                             android:fontFamily="@font/roboto_bold"
+                            android:onClick="@{()-> callback.onPartialWarningNoClick()}"
                             android:paddingStart="@dimen/ten_dp"
                             android:paddingTop="@dimen/two_dp"
                             android:paddingEnd="@dimen/ten_dp"
@@ -190,10 +167,11 @@ Do you want to proceed with Packing?"
                             android:textSize="@dimen/dimen12sp" />
 
                         <TextView
+                            android:id="@+id/pick_pack_user"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Vivek Anand"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
@@ -205,28 +183,23 @@ Do you want to proceed with Packing?"
 
                             <TextView
                                 android:id="@+id/status_text"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
                                 android:layout_marginEnd="@dimen/five_dp"
                                 android:fontFamily="@font/roboto_bold"
                                 android:gravity="center_vertical"
-                                android:text="Full"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/dimen12sp" />
 
 
                             <ImageView
                                 android:id="@+id/full_status_color"
-                                android:layout_width="@dimen/eighteen_dp"
-                                android:layout_height="@dimen/eighteen_dp"
-                                android:layout_marginEnd="@dimen/eight_dp"
+                                android:layout_width="@dimen/dimen20dp"
+                                android:layout_height="@dimen/dimen20dp"
                                 android:layout_toRightOf="@id/status_text"
-                                android:background="@drawable/ic_circular_shape"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:contentDescription="@string/app_name"
-                                android:padding="@dimen/five_dp"
-                                android:src="@drawable/tick_mark" />
+                                android:contentDescription="@string/app_name" />
 
                             <ImageView
                                 android:id="@+id/partial_status_color"
@@ -263,7 +236,6 @@ Do you want to proceed with Packing?"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="110062"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
@@ -287,7 +259,6 @@ Do you want to proceed with Packing?"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="B5"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
@@ -311,7 +282,6 @@ Do you want to proceed with Packing?"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="03 Nov,2021(Medium)"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
@@ -386,51 +356,94 @@ Do you want to proceed with Packing?"
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/button_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/ten_dp"
             android:layout_marginTop="@dimen/fifteen_dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/send_re_ver"
-                android:layout_width="0dp"
-                android:clickable="false"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@color/light_grey"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:onClick="@{()->callback.onClickReVerificatio()}"
-                android:padding="@dimen/five_dp"
-                android:text="Send re verification"
-                android:textAllCaps="true"
-                android:textColor="@color/unselect_text_color" />
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            <TextView
-                android:id="@+id/pick_verified"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5" />
+
+
+                <Button
+                    android:id="@+id/take_print"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen45dp"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_weight=".5"
+                    android:background="@drawable/take_print_btn_bg"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickTakePrint()}"
+                    android:padding="@dimen/seven_dp"
+                    android:text="Take Print"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/button_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight_dp"
-                android:layout_weight="0.5"
-                android:background="@color/light_grey"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:clickable="false"
-                android:onClick="@{()->callback.onClickVerification()}"
-                android:padding="@dimen/five_dp"
-                android:text="pickup verified"
-                android:textAllCaps="true"
-                android:textColor="@color/unselect_text_color" />
+                android:layout_marginTop="@dimen/five_dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
+                <Button
+                    android:id="@+id/send_re_ver"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:background="@drawable/btn_ripple_effect_grey"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()->callback.onClickReVerificatio()}"
+                    android:padding="@dimen/seven_dp"
+                    android:text="Send re verification"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_grey"
+                    tools:ignore="ButtonStyle" />
+
+
+                <Button
+                    android:id="@+id/pick_verified"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen45dp"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_weight=".5"
+                    android:background="@drawable/btn_ripple_effect_grey"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()->callback.onClickVerification()}"
+                    android:padding="@dimen/seven_dp"
+                    android:text="pickup verified"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_grey"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
 
     <data>
+
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationMvpPresenter" />
