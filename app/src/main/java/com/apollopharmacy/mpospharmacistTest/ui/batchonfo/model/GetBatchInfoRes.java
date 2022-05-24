@@ -157,7 +157,11 @@ public class GetBatchInfoRes implements Serializable {
             updatezeroqtystatus=updatezeroqtystatus1;
         }
 
-      public  boolean getPhysicalbatchstatus()
+        public boolean isNearByExpiry() {
+            return NearByExpiry;
+        }
+
+        public  boolean getPhysicalbatchstatus()
       {
           return physicalbatchstatus;
       }

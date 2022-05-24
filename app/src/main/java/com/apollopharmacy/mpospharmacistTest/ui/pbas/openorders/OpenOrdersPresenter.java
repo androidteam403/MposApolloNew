@@ -84,7 +84,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS("1");
+            reqModel.setIsMPOS("2");
             reqModel.setUserName(getDataManager().getUserName());
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {

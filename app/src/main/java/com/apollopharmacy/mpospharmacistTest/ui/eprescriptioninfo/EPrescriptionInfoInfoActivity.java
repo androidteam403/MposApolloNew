@@ -351,33 +351,33 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
     //Update OMS Order
     @Override
     public void UpdateOmsOrder_Pickingconfirmation() {
-        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
-            dialogView.setTitle("Please Connect to the Printer");
-            dialogView.setPositiveLabel("Ok");
-            dialogView.setPositiveListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialogView.dismiss();
-                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                }
-
-            });
-            dialogView.setNegativeLabel("Cancel");
-            dialogView.setNegativeListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialogView.dismiss();
-                }
-            });
-            dialogView.show();
-
-            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
-            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            // return;
-        } else {
+//        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+//            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+//            dialogView.setTitle("Please Connect to the Printer");
+//            dialogView.setPositiveLabel("Ok");
+//            dialogView.setPositiveListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dialogView.dismiss();
+//                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//                }
+//
+//            });
+//            dialogView.setNegativeLabel("Cancel");
+//            dialogView.setNegativeListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialogView.dismiss();
+//                }
+//            });
+//            dialogView.show();
+//
+//            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+//            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            // return;
+//        } else {
             if (itemsArrayList != null && itemsArrayList.size() > 0) {
                 boolean isAllItemsSelecetd = true;
                 for (int i = 0; i < itemsArrayList.size(); i++) {
@@ -433,19 +433,14 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                         }
                     });
                     dialogView.setNegativeLabel("NO");
-                    dialogView.setNegativeListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialogView.dismiss();
-                        }
-                    });
+                    dialogView.setNegativeListener(v -> dialogView.dismiss());
                     dialogView.show();
 
 
 //                UiUtils.showSnackbar(EPrescriptionInfoInfoActivity.this, constraintLayout, "Please Select the All Items");
                 }
             }
-        }
+//        }
 
 
 //        if (itemsArrayList != null && itemsArrayList.size() > 0) {
@@ -1153,7 +1148,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                                 }
                                 count++;
                             }
-
                         }
                     }
                     salesentity.clear();
@@ -1191,7 +1185,6 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         if (corporateModel.get_DropdownValue() != null && corporateModel.get_DropdownValue().size() > 0) {
             corporateList = new ArrayList<>();
             corporateList.addAll(corporateModel.get_DropdownValue());
-
         }
     }
 
