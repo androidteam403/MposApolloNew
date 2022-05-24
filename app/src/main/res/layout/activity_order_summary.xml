@@ -715,7 +715,7 @@
                 android:background="@color/colorPrimary"
                 android:fontFamily="@font/roboto_bold"
                 android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
-                android:text="@string/label_place_to_billing"
+                android:text="@string/label_continue"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_14" />
         </RelativeLayout>
