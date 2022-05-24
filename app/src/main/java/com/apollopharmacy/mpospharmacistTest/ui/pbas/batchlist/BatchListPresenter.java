@@ -139,7 +139,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     }
 
     @Override
-    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, Integer qty, String finalStatus) {
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();

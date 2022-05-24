@@ -168,6 +168,7 @@ Do you want to proceed with Packing?"
 
                         <TextView
                             android:id="@+id/pick_pack_user"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
@@ -182,6 +183,7 @@ Do you want to proceed with Packing?"
 
                             <TextView
                                 android:id="@+id/status_text"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
