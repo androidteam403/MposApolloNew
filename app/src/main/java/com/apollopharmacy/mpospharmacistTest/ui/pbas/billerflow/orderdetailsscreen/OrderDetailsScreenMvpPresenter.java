@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 
 public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpView> extends MvpPresenter<V> {
 
@@ -11,15 +12,23 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
 
     void onminusOrderDetails();
 
+    void getTransactionID();
+
+    void getCorporateList();
+
     void onplusOrderDetails();
 
     void onminusVendorDetails();
+
+    void fetchOMSCustomerInfo(String refNumber);
 
     void onPlusVendorDetails();
 
     void onActionsContinue();
 
     void onGenerateBill();
+
+    void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onPrintLabel();
 

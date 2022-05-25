@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Fully Packed: "
+                    android:text="Fully Picked: "
                     android:textColor="@color/black" />
 
                 <TextView
@@ -75,14 +75,15 @@
                     android:layout_height="@dimen/twenty_five_dp"
                     android:layout_marginStart="@dimen/dimen3dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_partial" />
+                    android:rotation="270"
+                    android:src="@drawable/partialcirculargreeenorange" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Partially Packed : "
+                    android:text="Partially Picked : "
                     android:textColor="@color/black" />
 
                 <TextView
@@ -111,7 +112,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Not Available: "
@@ -136,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginStart="@dimen/dimen55dp">
 
                 <TextView
