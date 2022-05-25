@@ -122,8 +122,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             getOmsTransactionRequest.setDataAreaID("ahel");
             getOmsTransactionRequest.setExpiryDays(90);
             getOmsTransactionRequest.setRefID("");
-            getOmsTransactionRequest.setStoreID("16001");
-            getOmsTransactionRequest.setTerminalID("005");
+            getOmsTransactionRequest.setStoreID(getDataManager().getStoreId());
+            getOmsTransactionRequest.setTerminalID(getDataManager().getTerminalId());
             getOmsTransactionRequest.setTransactionID(fulfilmentId);
             Call<List<GetOMSTransactionResponse>> call = apiInterface.getOmsApiCall(getOmsTransactionRequest);
             call.enqueue(new Callback<List<GetOMSTransactionResponse>>() {
