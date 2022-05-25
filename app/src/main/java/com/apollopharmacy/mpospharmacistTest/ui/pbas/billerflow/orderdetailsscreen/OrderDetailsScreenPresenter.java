@@ -3,13 +3,23 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.Constant;
+import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +55,70 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
     public void onminusOrderDetails() {
         getMvpView().onminusOrderDetails();
     }
+
+    @Override
+    public void getTransactionID() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            TransactionIDReqModel transactionIDModel = new TransactionIDReqModel();
+            transactionIDModel.setRequestStatus(0);
+            transactionIDModel.setReturnMessage("");
+            transactionIDModel.setResultValue("");
+            transactionIDModel.setTransactionID("");
+            transactionIDModel.setStoreID(getDataManager().getStoreId());
+            transactionIDModel.setTerminalID(getDataManager().getTerminalId());
+            transactionIDModel.setDataAreaID(getDataManager().getDataAreaId());
+            transactionIDModel.setBillingMode(5);
+            Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
+            call.enqueue(new Callback<TransactionIDResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().showTransactionID(response.body());
+                        getCorporateList();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getCorporateList() {
+        if (getMvpView().isNetworkConnected()) {
+            //getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
+            call.enqueue(new Callback<CorporateModel>() {
+                @Override
+                public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        getMvpView().getCorporateList(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    PostTransactionEntityReq postTransactionEntityData=new PostTransactionEntityReq();
+
 
     @Override
     public void onplusOrderDetails() {

@@ -1,10 +1,13 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass;
 
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetOMSTransactionResponse implements Serializable {
@@ -244,6 +247,26 @@ public class GetOMSTransactionResponse implements Serializable {
     @Expose
     private List<PickPackReservation> pickPackReservation;
 
+    private List<CorporateModel> corporateList ;
+
+    private List<TransactionIDResModel> transactionIDResModelList=null;
+
+
+    public List<TransactionIDResModel> getTransactionIDResModelList() {
+        return transactionIDResModelList;
+    }
+
+    public void setTransactionIDResModelList(List<TransactionIDResModel> transactionIDResModelList) {
+        this.transactionIDResModelList = transactionIDResModelList;
+    }
+
+    public List<CorporateModel> getCorporateList() {
+        return corporateList;
+    }
+
+    public void setCorporateList(List<CorporateModel> corporateList) {
+        this.corporateList = corporateList;
+    }
 
     @SerializedName("PickupOtp")
     @Expose
@@ -2133,6 +2156,7 @@ public class GetOMSTransactionResponse implements Serializable {
     public void setOMSCreditAmount(Integer oMSCreditAmount) {
         this.oMSCreditAmount = oMSCreditAmount;
     }
+
 
     public List<Object> getOrderPrescriptionURL() {
         return orderPrescriptionURL;
