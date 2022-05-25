@@ -5,10 +5,15 @@ import android.util.Log;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.Constant;
+import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -70,6 +75,8 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
         }
 
     }
+
+
 
     @Override
     public void onclickScanCode() {

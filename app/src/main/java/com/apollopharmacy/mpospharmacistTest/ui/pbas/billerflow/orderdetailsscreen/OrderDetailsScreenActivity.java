@@ -1,8 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,16 +18,13 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.adapter.OrderDetailsScreenAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter.PickUpVerificationAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +37,9 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     ActivityOrderDetailsScreenPBinding activityOrderDetailsScreenBinding;
     private TransactionHeaderResponse.OMSHeader racksDataResponse;
     OrderDetailsScreenAdapter orderDetailsScreenAdapter;
-    List<TransactionHeaderResponse.OMSHeader> omsHeader = new ArrayList<>();
+    private TransactionIDResModel transactionIdItem = null;
+
+    List<GetOMSTransactionResponse> omsHeader = new ArrayList<>();
     int pos;
 
 
@@ -68,7 +65,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
 
         mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
-
+mPresenter.getCorporateList();
+mPresenter.getTransactionID();
 
 
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +123,30 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     }
 
     @Override
+    public void showTransactionID(TransactionIDResModel model) {
+        for (int i=0;i< omsHeader.size();i++ ){
+            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList()!=null){
+                omsHeader.get(i).getTransactionIDResModelList().add(model);
+            }
+        }
+
+
+
+    }
+
+    @Override
+    public void getCorporateList(CorporateModel corporateModel) {
+        for (int i=0;i< omsHeader.size();i++ ){
+           if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList()!=null){
+               omsHeader.get(i).setCorporateList((List<CorporateModel>) corporateModel);
+           }
+        }
+
+
+    }
+
+
+    @Override
     public void onminusOrderDetails() {
 //        activityOrderDetailsScreenBinding.orderDetailsPlusSymbol.setVisibility(View.VISIBLE);
 //        activityOrderDetailsScreenBinding.orderDetailsMinusSymbol.setVisibility(View.GONE);
@@ -136,11 +158,11 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> getOMSTransactionResponses) {
 
 
-//            if (getOMSTransactionResponses != null && getOMSTransactionResponses.size() > 0) {
 
 
         for (int i = 0; i < getOMSTransactionResponses.size(); i++) {
-            if (getOMSTransactionResponses != null && getOMSTransactionResponses.get(i).getPickPackReservation() != null) {
+            if (getOMSTransactionResponses != null ) {
+//                && getOMSTransactionResponses.get(i).getPickPackReservation() != null
                 if (racksDataResponse.getRefno().equalsIgnoreCase(getOMSTransactionResponses.get(i).getRefno())) {
                     activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(getOMSTransactionResponses.get(i).getRefno());
                     activityOrderDetailsScreenBinding.totalItems.setText(String.valueOf(getOMSTransactionResponses.get(i).getSalesLine().size()));
@@ -160,9 +182,9 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     activityOrderDetailsScreenBinding.city.setText(getOMSTransactionResponses.get(i).getBillingCity());
                     activityOrderDetailsScreenBinding.address.setText(getOMSTransactionResponses.get(i).getCustAddress());
                     activityOrderDetailsScreenBinding.pincode.setText(getOMSTransactionResponses.get(i).getPincode());
+omsHeader.add(getOMSTransactionResponses.get(i));
 
-
-                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, getOMSTransactionResponses.get(i).getSalesLine(), getOMSTransactionResponses.get(i).getPickPackReservation());
+                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, omsHeader.get(i).getSalesLine(), omsHeader.get(i).getPickPackReservation());
                     RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                     activityOrderDetailsScreenBinding.productListRecycler.setLayoutManager(mLayoutManager1);
                     activityOrderDetailsScreenBinding.productListRecycler.setItemAnimator(new DefaultItemAnimator());

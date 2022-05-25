@@ -11,6 +11,8 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onPlusCustomerDetails();
 
     void onminusOrderDetails();
+    void getTransactionID();
+    void getCorporateList();
 
     void onplusOrderDetails();
 
