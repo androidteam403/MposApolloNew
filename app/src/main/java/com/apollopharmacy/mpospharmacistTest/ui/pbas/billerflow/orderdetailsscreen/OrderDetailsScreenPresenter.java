@@ -3,10 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -15,9 +13,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPi
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.apollopharmacy.mpospharmacistTest.utils.Constant;
-import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 import com.google.gson.JsonObject;
 
@@ -33,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> extends BasePresenter<V>
+public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> extends BasePresenter<V>
         implements OrderDetailsScreenMvpPresenter<V> {
 
     @Inject
@@ -100,8 +95,8 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null) {
                         getMvpView().getCorporateList(response.body());
                     }
                 }
@@ -117,7 +112,7 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
         }
     }
 
-    PostTransactionEntityReq postTransactionEntityData=new PostTransactionEntityReq();
+    PostTransactionEntityReq postTransactionEntityData = new PostTransactionEntityReq();
 
 
     @Override

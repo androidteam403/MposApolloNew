@@ -61,12 +61,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         if (getIntent() != null) {
             if (getIntent() != null) {
                 racksDataResponse = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("fullfillmentDetails");
+                mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
             }
         }
-
-        mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
-mPresenter.getCorporateList();
-mPresenter.getTransactionID();
+        mPresenter.getTransactionID();
 
 
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -77,22 +75,19 @@ mPresenter.getTransactionID();
             }
         });
         activityOrderDetailsScreenBinding.fullfillmentId.setText(racksDataResponse.getRefno());
-        if (racksDataResponse.getOverallOrderStatus().equals("0")){
+        if (racksDataResponse.getOverallOrderStatus().equals("0")) {
 
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
-        }
-        else  if (racksDataResponse.getOverallOrderStatus().equals("1")){
+        } else if (racksDataResponse.getOverallOrderStatus().equals("1")) {
             activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
 
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
 
-        }
-        else if (racksDataResponse.getOverallOrderStatus().equals("2")){
+        } else if (racksDataResponse.getOverallOrderStatus().equals("2")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
 
 
-        }
-        else if (racksDataResponse.getOverallOrderStatus().equals("3")){
+        } else if (racksDataResponse.getOverallOrderStatus().equals("3")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
 
 
@@ -124,22 +119,21 @@ mPresenter.getTransactionID();
 
     @Override
     public void showTransactionID(TransactionIDResModel model) {
-        for (int i=0;i< omsHeader.size();i++ ){
-            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList()!=null){
+        for (int i = 0; i < omsHeader.size(); i++) {
+            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList() != null) {
                 omsHeader.get(i).getTransactionIDResModelList().add(model);
             }
         }
-
 
 
     }
 
     @Override
     public void getCorporateList(CorporateModel corporateModel) {
-        for (int i=0;i< omsHeader.size();i++ ){
-           if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList()!=null){
-               omsHeader.get(i).setCorporateList((List<CorporateModel>) corporateModel);
-           }
+        for (int i = 0; i < omsHeader.size(); i++) {
+            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList() != null) {
+                omsHeader.get(i).setCorporateList((List<CorporateModel>) corporateModel);
+            }
         }
 
 
@@ -158,10 +152,8 @@ mPresenter.getTransactionID();
     public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> getOMSTransactionResponses) {
 
 
-
-
         for (int i = 0; i < getOMSTransactionResponses.size(); i++) {
-            if (getOMSTransactionResponses != null ) {
+            if (getOMSTransactionResponses != null) {
 //                && getOMSTransactionResponses.get(i).getPickPackReservation() != null
                 if (racksDataResponse.getRefno().equalsIgnoreCase(getOMSTransactionResponses.get(i).getRefno())) {
                     activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(getOMSTransactionResponses.get(i).getRefno());
@@ -182,7 +174,7 @@ mPresenter.getTransactionID();
                     activityOrderDetailsScreenBinding.city.setText(getOMSTransactionResponses.get(i).getBillingCity());
                     activityOrderDetailsScreenBinding.address.setText(getOMSTransactionResponses.get(i).getCustAddress());
                     activityOrderDetailsScreenBinding.pincode.setText(getOMSTransactionResponses.get(i).getPincode());
-omsHeader.add(getOMSTransactionResponses.get(i));
+                    omsHeader.add(getOMSTransactionResponses.get(i));
 
                     orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, omsHeader.get(i).getSalesLine(), omsHeader.get(i).getPickPackReservation());
                     RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -190,8 +182,7 @@ omsHeader.add(getOMSTransactionResponses.get(i));
                     activityOrderDetailsScreenBinding.productListRecycler.setItemAnimator(new DefaultItemAnimator());
                     activityOrderDetailsScreenBinding.productListRecycler.setAdapter(orderDetailsScreenAdapter);
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
                 racksDataResponse.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
                 mPresenter.mposPickPackOrderReservationApiCall(4, racksDataResponse);

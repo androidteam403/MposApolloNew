@@ -7,7 +7,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetOMSTransactionResponse implements Serializable {
@@ -247,9 +246,9 @@ public class GetOMSTransactionResponse implements Serializable {
     @Expose
     private List<PickPackReservation> pickPackReservation;
 
-    private List<CorporateModel> corporateList ;
+    private List<CorporateModel> corporateList;
 
-    private List<TransactionIDResModel> transactionIDResModelList=null;
+    private List<TransactionIDResModel> transactionIDResModelList = null;
 
 
     public List<TransactionIDResModel> getTransactionIDResModelList() {

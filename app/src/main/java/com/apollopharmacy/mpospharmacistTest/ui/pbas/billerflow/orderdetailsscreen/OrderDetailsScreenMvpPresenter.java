@@ -11,19 +11,25 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onPlusCustomerDetails();
 
     void onminusOrderDetails();
+
     void getTransactionID();
+
     void getCorporateList();
 
     void onplusOrderDetails();
 
     void onminusVendorDetails();
+
     void fetchOMSCustomerInfo(String refNumber);
+
     void onPlusVendorDetails();
 
     void onActionsContinue();
 
     void onGenerateBill();
+
     void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
+
     void onPrintLabel();
 
     void onPrintShippingLabel();
