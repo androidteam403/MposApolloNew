@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterBillerOrdersScreenPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,12 +24,14 @@ import java.util.List;
 public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfillmentAdapter.ViewHolder> implements Filterable {
 
     private Context context;
-    private List<TransactionHeaderResponse.OMSHeader> fullfillmentList;
-    private BillerOrdersMvpView mvpView;
-    private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
-    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
 
-    public BillerFullfillmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> fullfillmentList, BillerOrdersMvpView mvpView) {
+
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> fullfillmentList;
+    private BillerOrdersMvpView mvpView;
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> filteredList = new ArrayList<>();
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
+
+    public BillerFullfillmentAdapter(Context context, List<OMSTransactionHeaderResModel.OMSHeaderObj> fullfillmentList, BillerOrdersMvpView mvpView) {
         this.context = context;
         this.omsHeaderList = fullfillmentList;
         this.fullfillmentList = fullfillmentList;
@@ -46,58 +47,38 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TransactionHeaderResponse.OMSHeader fullfilmentModel = fullfillmentList.get(position);
-        holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getRefno());
+        OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
+        holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
 
-        if (fullfilmentModel.getOrderPickup()) {
-            holder.adapterBillerOrdersScreenBinding.pickuporderstatus.setText("Completed");
+        if (fullfilmentModel.getOverallOrderStatus().equals("0")) {
 
-        } else {
-            holder.adapterBillerOrdersScreenBinding.pickuporderstatus.setText("Pending");
+            holder.adapterBillerOrdersScreenBinding.status.setVisibility(View.GONE);
+            holder.adapterBillerOrdersScreenBinding.statusText.setVisibility(View.GONE);
+            holder.adapterBillerOrdersScreenBinding.statusIcon.setVisibility(View.GONE);
+        } else if (fullfilmentModel.getOverallOrderStatus().equals("1")) {
+            holder.adapterBillerOrdersScreenBinding.status.setText("Full");
+            holder.adapterBillerOrdersScreenBinding.statusIcon.setRotation(0);
+            holder.adapterBillerOrdersScreenBinding.statusText.setText("Full");
+
+            holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+
+        } else if (fullfilmentModel.getOverallOrderStatus().equals("2")) {
+            holder.adapterBillerOrdersScreenBinding.status.setText("Partial");
+            holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+
+            holder.adapterBillerOrdersScreenBinding.statusText.setText("Partial");
+
+        } else if (fullfilmentModel.getOverallOrderStatus().equals("3")) {
+            holder.adapterBillerOrdersScreenBinding.status.setText("Not Available");
+            holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+
+            holder.adapterBillerOrdersScreenBinding.statusText.setText("Not Available");
+
         }
-
-        if (fullfilmentModel.getOrderPacked()) {
-            holder.adapterBillerOrdersScreenBinding.packerorderstatus.setText("Completed");
-
-        } else {
-            holder.adapterBillerOrdersScreenBinding.packerorderstatus.setText("Pending");
-        }
-
-if (fullfilmentModel.getOverallOrderStatus().equals("0")){
-
-    holder.adapterBillerOrdersScreenBinding.status.setVisibility(View.GONE);
-    holder.adapterBillerOrdersScreenBinding.statusText.setVisibility(View.GONE);
-    holder.adapterBillerOrdersScreenBinding.statusIcon.setVisibility(View.GONE);
-}
-else  if (fullfilmentModel.getOverallOrderStatus().equals("1")){
-    holder.adapterBillerOrdersScreenBinding.status.setText("Full");
-    holder.adapterBillerOrdersScreenBinding.statusIcon.setRotation(0);
-    holder.adapterBillerOrdersScreenBinding.statusText.setText("Full");
-
-    holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-
-}
-else if (fullfilmentModel.getOverallOrderStatus().equals("2")){
-    holder.adapterBillerOrdersScreenBinding.status.setText("Partial");
-    holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-
-    holder.adapterBillerOrdersScreenBinding.statusText.setText("Partial");
-
-}
-else if (fullfilmentModel.getOverallOrderStatus().equals("3")){
-    holder.adapterBillerOrdersScreenBinding.status.setText("Not Available");
-    holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-
-    holder.adapterBillerOrdersScreenBinding.statusText.setText("Not Available");
-
-}
-        holder.adapterBillerOrdersScreenBinding.rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mvpView != null)
-                    mvpView.onRightArrowClickedContinue(position);
-            }
+        holder.adapterBillerOrdersScreenBinding.rightArrow.setOnClickListener(view -> {
+            if (mvpView != null)
+                mvpView.onRightArrowClickedContinue(fullfilmentModel.getREFNO());
         });
 
     }
@@ -124,8 +105,8 @@ else if (fullfilmentModel.getOverallOrderStatus().equals("3")){
                         fullfillmentList = omsHeaderList;
                     } else {
                         filteredList.clear();
-                        for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
-                            if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
+                        for (OMSTransactionHeaderResModel.OMSHeaderObj row : omsHeaderList) {
+                            if (!filteredList.contains(row) && (row.getREFNO().contains(charString))) {
                                 filteredList.add(row);
                             }
 
@@ -140,7 +121,7 @@ else if (fullfilmentModel.getOverallOrderStatus().equals("3")){
                 @Override
                 protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                     if (fullfillmentList != null && !fullfillmentList.isEmpty()) {
-                        fullfillmentList = (ArrayList<TransactionHeaderResponse.OMSHeader>) filterResults.values;
+                        fullfillmentList = (ArrayList<OMSTransactionHeaderResModel.OMSHeaderObj>) filterResults.values;
                         try {
                             mvpView.noOrderFound(fullfillmentList.size());
                             notifyDataSetChanged();

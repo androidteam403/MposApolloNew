@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacistTest.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacistTest.di.PreferenceInfo;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -56,6 +57,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_FULLFILLMENT_DETAILS = "PREF_KEY_FULLFILLMENT_DETAILS";
     private static final String PREF_KEY_FULLFILLMENT_LIST_OF_LIST_DETAILS = "PREF_KEY_FULLFILLMENT_LIST_OF_LIST_DETAILS";
     private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST = "PREF_KEY_TOTAL_OMS_HEADER_LIST";
+    private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ = "PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ";
 
 
     private final SharedPreferences mPrefs;
@@ -375,6 +377,20 @@ public class PreferencesManager implements PreferencesHelper {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_KEY_TOTAL_OMS_HEADER_LIST, "");
         Type type = new TypeToken<List<TransactionHeaderResponse.OMSHeader>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeaderObj(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList) {
+        mPrefs.edit().putString(PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ, new Gson().toJson(totalOmsHeaderList)).apply();
+    }
+
+    @Override
+    public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ, "");
+        Type type = new TypeToken<List<OMSTransactionHeaderResModel.OMSHeaderObj>>() {
         }.getType();
         return gson.fromJson(json, type);
     }

@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderDetailsScreenPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
@@ -17,10 +20,10 @@ import java.util.List;
 
 public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetailsScreenAdapter.ViewHolder> {
     private Context context;
-    List<GetOMSTransactionResponse.SalesLine> products;
-    List<GetOMSTransactionResponse.PickPackReservation> responseList;
+    List<SalesLineEntity> products;
+    List<PickPackReservation> responseList;
 
-    public OrderDetailsScreenAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> products,List<GetOMSTransactionResponse.PickPackReservation> responseList) {
+    public OrderDetailsScreenAdapter(Context context, List<SalesLineEntity> products,List<PickPackReservation> responseList) {
         this.context = context;
         this.products = products;
         this.responseList=responseList;
@@ -35,14 +38,14 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
 
     @Override
     public void onBindViewHolder(@NonNull OrderDetailsScreenAdapter.ViewHolder holder, int position) {
-        GetOMSTransactionResponse.SalesLine fullfillmentDetail = products.get(position);
+        SalesLineEntity fullfillmentDetail = products.get(position);
 
         holder.adapterOrderDetailsScreenBinding.productName.setText(fullfillmentDetail.getItemName());
 //        holder.adapterOrderDetailsScreenBinding.quantity.setText(fullfillmentDetail.getRequiredQuantity() + "/10");
         holder.adapterOrderDetailsScreenBinding.batchNo.setText(fullfillmentDetail.getInventBatchId());
         holder.adapterOrderDetailsScreenBinding.apolloMrp.setText("-");
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
-        holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMrp()));
+        holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMRP()));
         holder.adapterOrderDetailsScreenBinding.availableQty.setText("/"+ String.valueOf(fullfillmentDetail.getQty()));
         if (responseList!=null){
            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(responseList.get(position).getPickupQty() ));
