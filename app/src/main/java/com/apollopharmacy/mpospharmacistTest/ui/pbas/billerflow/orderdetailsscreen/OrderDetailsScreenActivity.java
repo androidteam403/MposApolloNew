@@ -85,7 +85,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             onBackPressed();
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         });
-        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
+//        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
         if (orderInfoItem.getOverallOrderStatus().equals("0")) {
 
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
@@ -177,7 +177,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     customerEntity.setCustId(customerDataResBean.getCustomerID());
                     customerEntity.setGender(String.valueOf(customerDataResBean.getGender()));
 
-                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, customerDataResBean.getSalesLine(), customerDataResBean.getPickPackReservation());
+                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, customerDataResBean.getSalesLine(), customerDataResBean.getPickPackReservation(), selectedBatchList, customerDataResBean);
                     RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                     activityOrderDetailsScreenBinding.productListRecycler.setLayoutManager(mLayoutManager1);
                     activityOrderDetailsScreenBinding.productListRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -336,6 +336,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                 for (int j = 0; j < response.getBatchList().size(); j++) {
                     if (customerDataResBean.getPickPackReservation().get(i).getPickupItemId().equals(response.getBatchList().get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(i).getPickupInventBatchId().equals(response.getBatchList().get(j).getBatchNo())) {
                         selectedBatchList.add(response.getBatchList().get(j));
+
                     }
                 }
             }
@@ -346,6 +347,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         } else {
             hideLoading();
         }
+        orderDetailsScreenAdapter.notifyDataSetChanged();
     }
 
     @Override

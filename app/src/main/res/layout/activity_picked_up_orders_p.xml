@@ -115,12 +115,23 @@
                     android:textSize="@dimen/twelve_sp" />
 
                 <ImageView
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/ic_rectangular_shape"
                     android:contentDescription="@string/app_name"
                     android:padding="@dimen/five_dp"
                     android:src="@drawable/search_icon" />
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/scancode"

@@ -107,100 +107,58 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/headings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginEnd="@dimen/five_dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".7"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:text="@string/label_batch_no"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:text="@string/label_exp_date"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Batch No"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/eight_sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:text="@string/label_mrp"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text=""
-                        android:id="@+id/batch_no"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Strip MRP"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/eight_sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text=""
-                        android:id="@+id/strip_mrp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Apollo 24/7 MRP"
-                        android:textColor="@color/text_color_grey"
-                        android:textSize="@dimen/eight_sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text=""
-                        android:id="@+id/apollo_mrp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:text="@string/requied_qty"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selectedbatches_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginTop="@dimen/dimen2dp"
+            android:layout_marginEnd="@dimen/five_dp" />
 
         <View
             android:layout_width="match_parent"
