@@ -12,70 +12,70 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen60dp"
-                android:background="@color/actionbar_color"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/dimen10dp"
-                android:paddingEnd="@dimen/dimen10dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen60dp"-->
+<!--                android:background="@color/actionbar_color"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="@dimen/dimen10dp"-->
+<!--                android:paddingEnd="@dimen/dimen10dp">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    tools:ignore="RelativeOverlap">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    tools:ignore="RelativeOverlap">-->
 
-                    <ImageView
-                        android:id="@+id/menu_icon"
-                        android:layout_width="@dimen/dimen30dp"
-                        android:layout_height="@dimen/dimen30dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_menu" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/menu_icon"-->
+<!--                        android:layout_width="@dimen/dimen30dp"-->
+<!--                        android:layout_height="@dimen/dimen30dp"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_menu" />-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:orientation="vertical">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/dimen10dp"-->
+<!--                        android:orientation="vertical">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="BILLER ORDERS"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:text="BILLER ORDERS"-->
+<!--                            android:textAllCaps="true"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/dimen16sp" />-->
 
-                        <TextView
-                            android:id="@+id/header_orders_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Total 5 Orders"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/header_orders_count"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text=""-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="11sp" />-->
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:onClick="@{()-> callback.onClickFilterIcon()}"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_filter_white" />
-                </LinearLayout>
-            </RelativeLayout>
+<!--                    <ImageView-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:onClick="@{()-> scan.onClickFilterIcon()}"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/ic_filter_white" />-->
+<!--                </LinearLayout>-->
+<!--            </RelativeLayout>-->
 
             <TextView
                 android:id="@+id/selected_fullfillment"
@@ -103,9 +103,7 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_weight="0.7"
                     android:background="@drawable/ic_rectangular_shape"
-                    android:clickable="false"
-                    android:editable="false"
-                    android:focusable="false"
+                    android:id="@+id/search_text"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Search by Fullfillment ID"
                     android:padding="@dimen/five_dp"
@@ -114,6 +112,7 @@
                     android:textSize="@dimen/twelve_sp" />
 
                 <ImageView
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/ic_rectangular_shape"
@@ -121,11 +120,23 @@
                     android:padding="@dimen/five_dp"
                     android:src="@drawable/search_icon" />
 
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_weight="0.3"
+                    android:onClick="@{()-> scan.onclickScanCode()}"
+
                     android:background="@drawable/ic_rectangular_shape"
                     android:backgroundTint="@color/green"
                     android:orientation="horizontal">
@@ -139,7 +150,6 @@
                         android:padding="@dimen/five_dp"
                         android:src="@drawable/tag_box" />
 
-                    <!--                     android:onClick="@{()-> callback.onclickScanCode()}"-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -166,11 +176,21 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp" />
+            <TextView
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="No Order Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
 
             <LinearLayout
@@ -353,7 +373,7 @@
     <data>
 
         <variable
-            name="callback"
+            name="scan"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpPresenter" />
     </data>
 </layout>

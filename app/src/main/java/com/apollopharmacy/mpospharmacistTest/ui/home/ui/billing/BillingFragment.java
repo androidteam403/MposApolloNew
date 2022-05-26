@@ -155,7 +155,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
-                    fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
+                    if (editable != null && editable.toString() != null)
+                        fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
                 }
             }
         });
@@ -509,8 +510,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         ((MainActivity) getActivity()).closeDrawer();
-       // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         fragmentBillingBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
         new Handler().postDelayed(new Runnable() {
             @Override
