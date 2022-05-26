@@ -18,7 +18,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 
 import java.util.List;
 
-public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetailsScreenAdapter.ViewHolder> {
+public class   OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetailsScreenAdapter.ViewHolder> {
     private Context context;
     List<SalesLineEntity> products;
     List<PickPackReservation> responseList;
@@ -46,9 +46,11 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         holder.adapterOrderDetailsScreenBinding.apolloMrp.setText("-");
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
         holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMRP()));
-        holder.adapterOrderDetailsScreenBinding.availableQty.setText("/"+ String.valueOf(fullfillmentDetail.getQty()));
+        int qty= (int) fullfillmentDetail.getQty();
+        holder.adapterOrderDetailsScreenBinding.availableQty.setText("/"+ String.valueOf(qty));
         if (responseList!=null){
-           holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(responseList.get(position).getPickupQty() ));
+            int cqty= (int) responseList.get(position).getPickupQty();
+           holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(cqty ));
 
         }
 
