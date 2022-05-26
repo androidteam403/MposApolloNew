@@ -247,6 +247,8 @@
                             android:buttonTint="@color/black"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/label_not_available"
+
+                            android:clickable="false"
                             android:textColor="@color/black" />
 
                         <TextView

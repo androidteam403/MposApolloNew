@@ -153,14 +153,17 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
                     orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
                     orderAdapter.notifyItemChanged(orderAdapterPos);
+                    selectedOmsHeaderList.get(orderAdapterPos).setOverallOrderStatus("3");
                 } else if (isFull) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("FULL");
                     orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
                     orderAdapter.notifyItemChanged(orderAdapterPos);
+                    selectedOmsHeaderList.get(orderAdapterPos).setOverallOrderStatus("1");
                 } else if (!isNotAvailable && !isFull) {
                     selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
                     orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
                     orderAdapter.notifyItemChanged(orderAdapterPos);
+                    selectedOmsHeaderList.get(orderAdapterPos).setOverallOrderStatus("2");
                 }
             } else {
                 orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
@@ -260,7 +263,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         this.position = position;
         this.salesLinee = salesLine;
         this.omsHeaderObj = omsHeader;
-     if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+//     if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
 
             onClickBatchDetails(orderAdapterPos, salesLine, position);
 //            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
@@ -362,11 +365,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //                statusUpdateDialog.dismiss();
 //            });
 //            statusUpdateDialog.show();
-       }
-        else {
-            onClickBatchDetails(orderAdapterPos, salesLine, position);
-            Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
-        }
+//       }
+//        else {
+//            onClickBatchDetails(orderAdapterPos, salesLine, position);
+//            Toast.makeText(this, "No batch details available", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override

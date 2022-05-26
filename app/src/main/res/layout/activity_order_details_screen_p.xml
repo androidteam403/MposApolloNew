@@ -55,17 +55,17 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/three_dp"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:text="Fullfillment ID : "
+                                    android:text="BILLER SUMMARY"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/dimen_11sp" />
+                                    android:textSize="@dimen/dimen16sp" />
 
                                 <TextView
                                     android:id="@+id/header_fullfillmentId"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:text="Box ID : "
+                                    android:text="Box ID: "
                                     android:textColor="@color/white"
                                     android:textSize="11sp" />
                             </LinearLayout>
@@ -80,7 +80,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/three_dp"
-                                    android:fontFamily="@font/roboto_medium"
+                                    android:fontFamily="@font/roboto_bold"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dimen_11sp" />
@@ -102,17 +102,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Status : "
-                                android:layout_marginRight="@dimen/dimen5dp"
-                                android:textColor="@color/white" />
 
-                            <ImageView
-                                android:id="@+id/status_icon"
-                                android:layout_width="23dp"
-                                android:layout_height="23dp" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -145,7 +135,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Fullfillment ID : "
+                                        android:text="Fullfillment ID:"
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -169,7 +159,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Total Items : "
+                                        android:text="Total Items:"
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -194,7 +184,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Start time : "
+                                        android:text="Start time:"
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -214,6 +204,26 @@
                             </LinearLayout>
 
                             <LinearLayout
+
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4">
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Status: "
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:textColor="@color/text_color_grey" />
+
+                                <ImageView
+                                    android:id="@+id/status_icon"
+                                    android:layout_width="23dp"
+                                    android:layout_height="23dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".4"
@@ -230,7 +240,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Status : "
+                                        android:text="Status: "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -255,7 +265,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Total Duration : "
+                                        android:text="Total Duration: "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -631,7 +641,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".15"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Qty"
+                                android:text="Qty."
                                 android:textColor="@color/text_color_grey"
                                 android:textSize="@dimen/twelve_sp" />
 
