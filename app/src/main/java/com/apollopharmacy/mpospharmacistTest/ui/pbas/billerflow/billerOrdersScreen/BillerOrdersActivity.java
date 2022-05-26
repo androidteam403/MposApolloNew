@@ -185,7 +185,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             }
             PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
 
+
         }
+
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

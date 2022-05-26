@@ -5,10 +5,15 @@ import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
@@ -87,6 +92,57 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
     }
 
     @Override
+    public void UpdateOmsOrder(OMSOrderUpdateRequest omsOrderUpdateRequest) {
+        {
+            if (getMvpView().isNetworkConnected()) {
+                getMvpView().showLoading();
+                omsOrderUpdateRequest.setTerminalID(getDataManager().getTerminalId());
+                //ApiInterface api = ApiClient.getApiService(Constant.UPDATEOMSORDER);
+                // text.replace("/"","");
+                String check_epos = getDataManager().getEposURL();
+                String replace_url = getDataManager().getEposURL();
+                if (check_epos.contains("EPOS/")) {
+                    replace_url = check_epos.replace("EPOS/", "");
+
+                }
+                if (check_epos.contains("9880")) {
+                    replace_url = check_epos.replace("9880", "9887");
+
+                }
+                // ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+                ApiInterface api = ApiClient.getApiService(replace_url);
+
+                // ApiInterface api = ApiClient.getApiService3();
+                Call<OMSOrderUpdateResponse> call = api.UPDATE_OMS_ORDER(omsOrderUpdateRequest);
+                call.enqueue(new Callback<OMSOrderUpdateResponse>() {
+                    @Override
+                    public void onResponse(@NotNull Call<OMSOrderUpdateResponse> call, @NotNull Response<OMSOrderUpdateResponse> response) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful()) {
+                            if (response.body() != null && response.body().getRequestStatus() == 0) {
+                                getMvpView().OmsOrderUpdateSuccess(response.body());
+                            } else {
+                                getMvpView().OmsOrderUpdateFailure(response.body());
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<OMSOrderUpdateResponse> call, @NotNull Throwable t) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        handleApiError(t);
+                    }
+                });
+            } else {
+                getMvpView().onError("Internet Connection Not Available");
+
+            }
+        }
+    }
+
+    @Override
     public void getCorporateList() {
         if (getMvpView().isNetworkConnected()) {
             //getMvpView().showLoading();
@@ -110,6 +166,18 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void onLoadOmsOrder(CustomerDataResBean customerDataResBean) {
+
+    }
+
+
+
+    @Override
+    public void onCheckStock(GetOMSTransactionResponse response) {
+
     }
 
     PostTransactionEntityReq postTransactionEntityData = new PostTransactionEntityReq();
@@ -161,6 +229,11 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
     @Override
     public void onPlusVendorDetails() {
         getMvpView().onPlusVendorDetails();
+    }
+
+    @Override
+    public void getBatchDetailsApi(List<GetOMSTransactionResponse.SalesLine> selected_item, List<GetOMSTransactionResponse.PickPackReservation> pickPackReservation) {
+
     }
 
     @Override
