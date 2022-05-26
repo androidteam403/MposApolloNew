@@ -16,18 +16,14 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentDashboardPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
-import com.bumptech.glide.Glide;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -36,6 +32,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -44,6 +41,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
     @Inject
     DashboardMvpPresenter<DashboardMvpView> mPresenter;
     private FragmentDashboardPBinding fragmentDashboardBinding;
+    List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, DashboardFragment.class);
@@ -62,27 +60,30 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     protected void setUp(View view) {
+        PickerNavigationActivity.mInstance.setTitle("Dashboard");
+        PickerNavigationActivity.mInstance.setWelcome("Welcome");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
         fragmentDashboardBinding.setCallback(mPresenter);
         setGraphData();
         setData();
-        Glide.with(this)
-                .load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9")
-                .circleCrop()
-                .into(fragmentDashboardBinding.pickerImg);
+//        Glide.with(this)
+//                .load("https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/get/41B8F83052E720DA0FC28401C9BFAA90396DCB4FD14F508D641DBC42F5808C634160E6E9BDFF4D97E46A107F1185330BE9BE56FEC6E2C512EC7E08CAAA498D8FA633B599A9A34C9C97BCF338231C7AA91F16F94D257D61803FBC97DE5FEEACF62933C5F49DFFBE9EBADD5C68A6A9245EE277F7369BEBB4A75B56F81CDA296FE0F45824C81F0E7A9C29BA1E691D49C48BCB3E2586250A732BC0C95D8C9A1E1154C38FC1DFED04C09C36722BD70B9D0E10952C6B12C3EABEF551397B781F83118196C4F5899C1A7EBB728DE8B78537C55B735B4BEAE021E0391CB1ACE72296B00A8869B3AA7F4BF1674AC2BF9952BF39A67ABCA6DC6BF69C69CCC9C5766F79B2F9")
+//                .circleCrop()
+//                .into(fragmentDashboardBinding.pickerImg);
     }
 
     public void setGraphData() {
-        fragmentDashboardBinding.barChart.setOnChartValueSelectedListener(this);
-        fragmentDashboardBinding.barChart.setDrawBarShadow(false);
-        fragmentDashboardBinding.barChart.setDrawValueAboveBar(false);
-        fragmentDashboardBinding.barChart.getDescription().setEnabled(false);
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        fragmentDashboardBinding.barChart.setMaxVisibleValueCount(50);
-        // scaling can now only be done on x- and y-axis separately
-        fragmentDashboardBinding.barChart.setPinchZoom(false);
-        fragmentDashboardBinding.barChart.setScaleEnabled(false);
-        fragmentDashboardBinding.barChart.setDrawGridBackground(false);
+//        fragmentDashboardBinding.barChart.setOnChartValueSelectedListener(this);
+//        fragmentDashboardBinding.barChart.setDrawBarShadow(false);
+//        fragmentDashboardBinding.barChart.setDrawValueAboveBar(false);
+//        fragmentDashboardBinding.barChart.getDescription().setEnabled(false);
+//        // if more than 60 entries are displayed in the chart, no values will be
+//        // drawn
+//        fragmentDashboardBinding.barChart.setMaxVisibleValueCount(50);
+//        // scaling can now only be done on x- and y-axis separately
+//        fragmentDashboardBinding.barChart.setPinchZoom(false);
+//        fragmentDashboardBinding.barChart.setScaleEnabled(false);
+//        fragmentDashboardBinding.barChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
         ArrayList<String> xVals = new ArrayList<>();
@@ -93,40 +94,40 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
         xVals.add("5");
         xVals.add("6");
 
-        XAxis xAxis = fragmentDashboardBinding.barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(7);
+//        XAxis xAxis = fragmentDashboardBinding.barChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setGranularity(1f); // only intervals of 1 day
+//        xAxis.setLabelCount(7);
         IAxisValueFormatter xAxisFormatter = new IndexAxisValueFormatter(xVals);
-        xAxis.setValueFormatter(xAxisFormatter);
-        fragmentDashboardBinding.barChart.getAxisRight().setEnabled(false);
-        YAxis leftAxis = fragmentDashboardBinding.barChart.getAxisLeft();
-        leftAxis.setLabelCount(5, false);
-        leftAxis.setValueFormatter(new LargeValueFormatter());
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setSpaceTop(30f);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+//        xAxis.setValueFormatter(xAxisFormatter);
+//        fragmentDashboardBinding.barChart.getAxisRight().setEnabled(false);
+//        YAxis leftAxis = fragmentDashboardBinding.barChart.getAxisLeft();
+//        leftAxis.setLabelCount(5, false);
+//        leftAxis.setValueFormatter(new LargeValueFormatter());
+//        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+//        leftAxis.setSpaceTop(30f);
+//        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
-        Legend l = fragmentDashboardBinding.barChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setForm(Legend.LegendForm.NONE);
-        l.setFormSize(9f);
-        l.setTextSize(11f);
-        l.setXEntrySpace(7f);
+//        Legend l = fragmentDashboardBinding.barChart.getLegend();
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
+//        l.setForm(Legend.LegendForm.NONE);
+//        l.setFormSize(9f);
+//        l.setTextSize(11f);
+//        l.setXEntrySpace(7f);
 
 
 //        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
 //        mv.setChartView(dashboardBinding.barChart); // For bounds control
-        fragmentDashboardBinding.barChart.getLegend().setEnabled(false);   // Hide the legend
+//        fragmentDashboardBinding.barChart.getLegend().setEnabled(false);   // Hide the legend
 //        dashboardBinding.barChart.setMarker(mv); // Set the marker to the chart
     }
 
     private void setData() {
-        fragmentDashboardBinding.barChart.invalidate();
+//        fragmentDashboardBinding.barChart.invalidate();
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
 //        yVals1.add(new BarEntry(0, (int) monVal));
 
@@ -154,8 +155,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
         data.setValueTextColor(Color.WHITE);
 
 
-        fragmentDashboardBinding.barChart.setData(data);
-        fragmentDashboardBinding.barChart.animateY(2000);
+//        fragmentDashboardBinding.barChart.setData(data);
+//        fragmentDashboardBinding.barChart.animateY(2000);
 
 //        for (IBarDataSet iSet : dataSets) {
 //            BarDataSet set = (BarDataSet) iSet;
@@ -195,7 +196,11 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     public void onClickOpenOrders() {
-        startActivity(OpenOrdersActivity.getStartActivity(getContext()));
+
+        PickerNavigationActivity.mInstance.navigateToOpenOrders();
+
+
+//        startActivity(OpenOrdersActivity.getStartActivity(getContext()));
     }
 
     @Override
@@ -204,25 +209,25 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
         int mYear;
         int mMonth;
         int mDay;
-        if (fragmentDashboardBinding.fromDate.getText().toString().trim().isEmpty()) {
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-        } else {
-            String selectedBirthDate = fragmentDashboardBinding.fromDate.getText().toString().trim();
-            String[] expDate = selectedBirthDate.split("-");
-            mYear = Integer.parseInt(expDate[0]);
-            mMonth = Integer.parseInt(expDate[1]) - 1;
-            mDay = Integer.parseInt(expDate[2]);
-        }
-        final DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> {
-            String selectedDate;
-            c.set(year, monthOfYear, dayOfMonth);
-            selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(c.getTime());
-            fragmentDashboardBinding.fromDate.setText(selectedDate);
-        }, mYear, mMonth, mDay);
-        dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis()));// - (1000 * 60 * 60 * 24 * 365.25 * 18)
-        dialog.show();
+//        if (fragmentDashboardBinding.fromDate.getText().toString().trim().isEmpty()) {
+//            mYear = c.get(Calendar.YEAR);
+//            mMonth = c.get(Calendar.MONTH);
+//            mDay = c.get(Calendar.DAY_OF_MONTH);
+//        } else {
+//            String selectedBirthDate = fragmentDashboardBinding.fromDate.getText().toString().trim();
+//            String[] expDate = selectedBirthDate.split("-");
+//            mYear = Integer.parseInt(expDate[0]);
+//            mMonth = Integer.parseInt(expDate[1]) - 1;
+//            mDay = Integer.parseInt(expDate[2]);
+//        }
+//        final DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> {
+//            String selectedDate;
+//            c.set(year, monthOfYear, dayOfMonth);
+//            selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(c.getTime());
+//            fragmentDashboardBinding.fromDate.setText(selectedDate);
+//        }, mYear, mMonth, mDay);
+//        dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis()));// - (1000 * 60 * 60 * 24 * 365.25 * 18)
+//        dialog.show();
     }
 
     @Override
@@ -231,22 +236,22 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
         int mYear;
         int mMonth;
         int mDay;
-        if (fragmentDashboardBinding.toDate.getText().toString().trim().isEmpty()) {
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-        } else {
-            String selectedBirthDate = fragmentDashboardBinding.toDate.getText().toString().trim();
-            String[] expDate = selectedBirthDate.split("-");
-            mYear = Integer.parseInt(expDate[0]);
-            mMonth = Integer.parseInt(expDate[1]) - 1;
-            mDay = Integer.parseInt(expDate[2]);
-        }
+//        if (fragmentDashboardBinding.toDate.getText().toString().trim().isEmpty()) {
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+//        } else {
+//            String selectedBirthDate = fragmentDashboardBinding.toDate.getText().toString().trim();
+//            String[] expDate = selectedBirthDate.split("-");
+//            mYear = Integer.parseInt(expDate[0]);
+//            mMonth = Integer.parseInt(expDate[1]) - 1;
+//            mDay = Integer.parseInt(expDate[2]);
+//        }
         final DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> {
             String selectedDate;
             c.set(year, monthOfYear, dayOfMonth);
             selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(c.getTime());
-            fragmentDashboardBinding.toDate.setText(selectedDate);
+//            fragmentDashboardBinding.toDate.setText(selectedDate);
         }, mYear, mMonth, mDay);
         dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis()));// - (1000 * 60 * 60 * 24 * 365.25 * 18)
         dialog.show();
@@ -254,43 +259,43 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     public void onClickToday() {
-        allUnselectTodayWeeklyMonthlyYearly();
-        fragmentDashboardBinding.today.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
-        fragmentDashboardBinding.today.setTextColor(getResources().getColor(R.color.white));
+//        allUnselectTodayWeeklyMonthlyYearly();
+//        fragmentDashboardBinding.today.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
+//        fragmentDashboardBinding.today.setTextColor(getResources().getColor(R.color.white));
     }
 
     @Override
     public void onClickWeekly() {
-        allUnselectTodayWeeklyMonthlyYearly();
-        fragmentDashboardBinding.weekly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
-        fragmentDashboardBinding.weekly.setTextColor(getResources().getColor(R.color.white));
+//        allUnselectTodayWeeklyMonthlyYearly();
+//        fragmentDashboardBinding.weekly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
+//        fragmentDashboardBinding.weekly.setTextColor(getResources().getColor(R.color.white));
 
     }
 
     @Override
     public void onClickMonthly() {
-        allUnselectTodayWeeklyMonthlyYearly();
-        fragmentDashboardBinding.monthly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
-        fragmentDashboardBinding.monthly.setTextColor(getResources().getColor(R.color.white));
+//        allUnselectTodayWeeklyMonthlyYearly();
+//        fragmentDashboardBinding.monthly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
+//        fragmentDashboardBinding.monthly.setTextColor(getResources().getColor(R.color.white));
     }
 
     @Override
     public void onClickYearly() {
-        allUnselectTodayWeeklyMonthlyYearly();
-        fragmentDashboardBinding.yearly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
-        fragmentDashboardBinding.yearly.setTextColor(getResources().getColor(R.color.white));
+//        allUnselectTodayWeeklyMonthlyYearly();
+//        fragmentDashboardBinding.yearly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_green_bg));
+//        fragmentDashboardBinding.yearly.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void allUnselectTodayWeeklyMonthlyYearly() {
-        fragmentDashboardBinding.today.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
-        fragmentDashboardBinding.weekly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
-        fragmentDashboardBinding.monthly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
-        fragmentDashboardBinding.yearly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
-
-        fragmentDashboardBinding.today.setTextColor(getResources().getColor(R.color.text_color_grey));
-        fragmentDashboardBinding.weekly.setTextColor(getResources().getColor(R.color.text_color_grey));
-        fragmentDashboardBinding.monthly.setTextColor(getResources().getColor(R.color.text_color_grey));
-        fragmentDashboardBinding.yearly.setTextColor(getResources().getColor(R.color.text_color_grey));
+//        fragmentDashboardBinding.today.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
+//        fragmentDashboardBinding.weekly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
+//        fragmentDashboardBinding.monthly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
+//        fragmentDashboardBinding.yearly.setBackground(getResources().getDrawable(R.drawable.dashboard_today_text_bg));
+//
+//        fragmentDashboardBinding.today.setTextColor(getResources().getColor(R.color.text_color_grey));
+//        fragmentDashboardBinding.weekly.setTextColor(getResources().getColor(R.color.text_color_grey));
+//        fragmentDashboardBinding.monthly.setTextColor(getResources().getColor(R.color.text_color_grey));
+//        fragmentDashboardBinding.yearly.setTextColor(getResources().getColor(R.color.text_color_grey));
     }
 
 //    @Override

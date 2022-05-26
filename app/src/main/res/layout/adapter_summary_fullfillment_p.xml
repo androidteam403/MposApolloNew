@@ -77,15 +77,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Status: "
+                        android:text="Status : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
 
                     <TextView
+                        android:id="@+id/statuss"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partially Picked"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
                 </LinearLayout>
@@ -153,18 +153,17 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partial"
+                        android:id="@+id/status_text"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 
                     <ImageView
                         android:id="@+id/status_icon"
-                        android:layout_width="@dimen/fifteen_dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginStart="@dimen/dimen2dp"
                         android:contentDescription="@string/app_name"
-                        android:rotation="270"
-                        android:src="@drawable/partialcirculargreeenorange" />
+                        android:rotation="270" />
 
                 </LinearLayout>
 
