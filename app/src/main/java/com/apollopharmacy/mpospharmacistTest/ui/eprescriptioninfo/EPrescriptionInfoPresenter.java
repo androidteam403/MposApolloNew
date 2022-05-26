@@ -178,7 +178,6 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
                         } else {
                             getMvpView().CheckBatchStockFailure(response.body());
                         }
-
                     }
                 }
 
