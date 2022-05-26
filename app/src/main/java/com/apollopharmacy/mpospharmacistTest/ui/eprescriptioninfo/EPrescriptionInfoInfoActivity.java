@@ -143,6 +143,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         getActivityComponent().inject(this);
         mPresenter.onAttach(EPrescriptionInfoInfoActivity.this);
         constraintLayout = findViewById(R.id.constraint_layout);
+
         setUp();
     }
 
