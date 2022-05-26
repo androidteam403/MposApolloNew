@@ -50,10 +50,15 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0)
-                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                        else
+                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
                             getMvpView().onFailedBatchInfo(response.body());
+                        }
+                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
+                        }else{
+                            getMvpView().onFailedBatchInfo(response.body());
+                        }
+
                     }
                 }
 

@@ -102,6 +102,16 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         activityPickedUpOrdersBinding.setFilter(mvpPresenter);
         activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 
+        activityPickedUpOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityPickedUpOrdersBinding.searchText.setText("");
+                activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
+                activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
 
 //        if (mvpPresenter.getFullFillmentList() != null) {
 //            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
@@ -148,7 +158,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    activityPickedUpOrdersBinding.search.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (pickedUpOrdersAdapter != null) {
+
                         pickedUpOrdersAdapter.getFilter().filter(editable);
 
                     }
