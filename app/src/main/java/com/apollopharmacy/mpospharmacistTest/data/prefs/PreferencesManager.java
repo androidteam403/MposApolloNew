@@ -390,7 +390,7 @@ public class PreferencesManager implements PreferencesHelper {
     public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ, "");
-        Type type = new TypeToken<List<TransactionHeaderResponse.OMSHeader>>() {
+        Type type = new TypeToken<List<OMSTransactionHeaderResModel.OMSHeaderObj>>() {
         }.getType();
         return gson.fromJson(json, type);
     }

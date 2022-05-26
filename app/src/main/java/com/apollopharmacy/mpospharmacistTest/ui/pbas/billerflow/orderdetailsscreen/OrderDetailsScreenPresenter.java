@@ -13,6 +13,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
@@ -381,6 +383,53 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
     @Override
     public void onClickProceedAction() {
         getMvpView().onClickProceedAction();
+    }
+
+    @Override
+    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            omsOrderForwardRequest.setTerminalID(getDataManager().getTerminalId());
+
+            //ApiInterface api = ApiClient.getApiService(Constant.UPDATEOMSORDER);
+            // text.replace("/"","");
+            String check_epos = getDataManager().getEposURL();
+            String replace_url = getDataManager().getEposURL();
+            if (check_epos.contains("EPOS/")) {
+                replace_url = check_epos.replace("EPOS/", "");
+
+            }
+            if (check_epos.contains("9880")) {
+                replace_url = check_epos.replace("9880", "9887");
+
+            }
+            // ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            ApiInterface api = ApiClient.getApiService(replace_url);
+
+            // ApiInterface api = ApiClient.getApiService3();
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
+            call.enqueue(new Callback<OMSOrderForwardResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().OmsOrderUpdateSuccess(response.body(), omsOrderForwardRequest.getRequestType());
+
+                        } else {
+                            getMvpView().OmsOrderUpdateFailure(response.body());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OMSOrderForwardResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        }
     }
 }
 

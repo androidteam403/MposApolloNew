@@ -51,7 +51,7 @@ public class OMSOrderForwardRequest implements Serializable {
 
         @SerializedName("Additionaltax")
         @Expose
-        private Integer additionaltax;
+        private double additionaltax;
         @SerializedName("ApplyDiscount")
         @Expose
         private Boolean applyDiscount;
@@ -63,7 +63,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private Double baseAmount;
         @SerializedName("CESSPerc")
         @Expose
-        private Integer cESSPerc;
+        private double cESSPerc;
         @SerializedName("CESSTaxCode")
         @Expose
         private String cESSTaxCode;
@@ -90,7 +90,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private Boolean dpco;
         @SerializedName("DiscAmount")
         @Expose
-        private Integer discAmount;
+        private double discAmount;
         @SerializedName("DiscId")
         @Expose
         private String discId;
@@ -99,7 +99,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private String discOfferId;
         @SerializedName("DiscountStructureType")
         @Expose
-        private Integer discountStructureType;
+        private double discountStructureType;
         @SerializedName("DiscountType")
         @Expose
         private String discountType;
@@ -114,13 +114,13 @@ public class OMSOrderForwardRequest implements Serializable {
         private String hsncodeIn;
         @SerializedName("IGSTPerc")
         @Expose
-        private Integer iGSTPerc;
+        private double iGSTPerc;
         @SerializedName("IGSTTaxCode")
         @Expose
         private String iGSTTaxCode;
         @SerializedName("ISPrescribed")
         @Expose
-        private Integer iSPrescribed;
+        private double iSPrescribed;
         @SerializedName("ISReserved")
         @Expose
         private Boolean iSReserved;
@@ -153,19 +153,19 @@ public class OMSOrderForwardRequest implements Serializable {
         private String itemName;
         @SerializedName("LineDiscPercentage")
         @Expose
-        private Integer lineDiscPercentage;
+        private double lineDiscPercentage;
         @SerializedName("LineManualDiscountAmount")
         @Expose
-        private Integer lineManualDiscountAmount;
+        private double lineManualDiscountAmount;
         @SerializedName("LineManualDiscountPercentage")
         @Expose
-        private Integer lineManualDiscountPercentage;
+        private double lineManualDiscountPercentage;
         @SerializedName("LineNo")
         @Expose
         private Integer lineNo;
         @SerializedName("LinedscAmount")
         @Expose
-        private Integer linedscAmount;
+        private double linedscAmount;
         @SerializedName("MMGroupId")
         @Expose
         private String mMGroupId;
@@ -192,37 +192,37 @@ public class OMSOrderForwardRequest implements Serializable {
         private Double netAmountInclTax;
         @SerializedName("OfferAmount")
         @Expose
-        private Integer offerAmount;
+        private double offerAmount;
         @SerializedName("OfferDiscountType")
         @Expose
         private Integer offerDiscountType;
         @SerializedName("OfferDiscountValue")
         @Expose
-        private Integer offerDiscountValue;
+        private double offerDiscountValue;
         @SerializedName("OfferQty")
         @Expose
-        private Integer offerQty;
+        private double offerQty;
         @SerializedName("OfferType")
         @Expose
-        private Integer offerType;
+        private double offerType;
         @SerializedName("OmsLineID")
         @Expose
         private Integer omsLineID;
         @SerializedName("OmsLineRECID")
         @Expose
-        private Integer omsLineRECID;
+        private double omsLineRECID;
         @SerializedName("OrderStatus")
         @Expose
-        private Integer orderStatus;
+        private double orderStatus;
         @SerializedName("OriginalPrice")
         @Expose
         private Double originalPrice;
         @SerializedName("PeriodicDiscAmount")
         @Expose
-        private Integer periodicDiscAmount;
+        private double periodicDiscAmount;
         @SerializedName("PhysicalMRP")
         @Expose
-        private Integer physicalMRP;
+        private double physicalMRP;
         @SerializedName("PreviewText")
         @Expose
         private String previewText;
@@ -234,13 +234,13 @@ public class OMSOrderForwardRequest implements Serializable {
         private String productRecID;
         @SerializedName("Qty")
         @Expose
-        private Integer qty;
+        private double qty;
         @SerializedName("RemainderDays")
         @Expose
-        private Integer remainderDays;
+        private double remainderDays;
         @SerializedName("RemainingQty")
         @Expose
-        private Integer remainingQty;
+        private double remainingQty;
         @SerializedName("Resqtyflag")
         @Expose
         private Boolean resqtyflag;
@@ -255,7 +255,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private String retailSubCategoryRecID;
         @SerializedName("ReturnQty")
         @Expose
-        private Integer returnQty;
+        private double returnQty;
         @SerializedName("SGSTPerc")
         @Expose
         private double sGSTPerc;
@@ -270,7 +270,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private String scheduleCategoryCode;
         @SerializedName("StockQty")
         @Expose
-        private Integer stockQty;
+        private double stockQty;
         @SerializedName("SubCategory")
         @Expose
         private String subCategory;
@@ -285,22 +285,22 @@ public class OMSOrderForwardRequest implements Serializable {
         private String substitudeItemId;
         @SerializedName("Tax")
         @Expose
-        private Integer tax;
+        private double tax;
         @SerializedName("TaxAmount")
         @Expose
-        private Integer taxAmount;
+        private double taxAmount;
         @SerializedName("Total")
         @Expose
         private Double total;
         @SerializedName("TotalDiscAmount")
         @Expose
-        private Integer totalDiscAmount;
+        private double totalDiscAmount;
         @SerializedName("TotalDiscPct")
         @Expose
         private double totalDiscPct;
         @SerializedName("TotalRoundedAmount")
         @Expose
-        private Integer totalRoundedAmount;
+        private double totalRoundedAmount;
         @SerializedName("TotalTax")
         @Expose
         private double totalTax;
@@ -312,7 +312,7 @@ public class OMSOrderForwardRequest implements Serializable {
         private Double unitPrice;
         @SerializedName("UnitQty")
         @Expose
-        private Integer unitQty;
+        private double unitQty;
         @SerializedName("VariantId")
         @Expose
         private String variantId;
@@ -324,11 +324,11 @@ public class OMSOrderForwardRequest implements Serializable {
         private Boolean isSelectedReturnItem;
         private final static long serialVersionUID = 3611062889511995115L;
 
-        public Integer getAdditionaltax() {
+        public double getAdditionaltax() {
             return additionaltax;
         }
 
-        public void setAdditionaltax(Integer additionaltax) {
+        public void setAdditionaltax(double additionaltax) {
             this.additionaltax = additionaltax;
         }
 
@@ -356,11 +356,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.baseAmount = baseAmount;
         }
 
-        public Integer getCESSPerc() {
+        public double getCESSPerc() {
             return cESSPerc;
         }
 
-        public void setCESSPerc(Integer cESSPerc) {
+        public void setCESSPerc(double cESSPerc) {
             this.cESSPerc = cESSPerc;
         }
 
@@ -428,11 +428,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.dpco = dpco;
         }
 
-        public Integer getDiscAmount() {
+        public double getDiscAmount() {
             return discAmount;
         }
 
-        public void setDiscAmount(Integer discAmount) {
+        public void setDiscAmount(double discAmount) {
             this.discAmount = discAmount;
         }
 
@@ -452,11 +452,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.discOfferId = discOfferId;
         }
 
-        public Integer getDiscountStructureType() {
+        public double getDiscountStructureType() {
             return discountStructureType;
         }
 
-        public void setDiscountStructureType(Integer discountStructureType) {
+        public void setDiscountStructureType(double discountStructureType) {
             this.discountStructureType = discountStructureType;
         }
 
@@ -492,11 +492,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.hsncodeIn = hsncodeIn;
         }
 
-        public Integer getIGSTPerc() {
+        public double getIGSTPerc() {
             return iGSTPerc;
         }
 
-        public void setIGSTPerc(Integer iGSTPerc) {
+        public void setIGSTPerc(double iGSTPerc) {
             this.iGSTPerc = iGSTPerc;
         }
 
@@ -508,11 +508,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.iGSTTaxCode = iGSTTaxCode;
         }
 
-        public Integer getISPrescribed() {
+        public double getISPrescribed() {
             return iSPrescribed;
         }
 
-        public void setISPrescribed(Integer iSPrescribed) {
+        public void setISPrescribed(double iSPrescribed) {
             this.iSPrescribed = iSPrescribed;
         }
 
@@ -596,27 +596,27 @@ public class OMSOrderForwardRequest implements Serializable {
             this.itemName = itemName;
         }
 
-        public Integer getLineDiscPercentage() {
+        public double getLineDiscPercentage() {
             return lineDiscPercentage;
         }
 
-        public void setLineDiscPercentage(Integer lineDiscPercentage) {
+        public void setLineDiscPercentage(double lineDiscPercentage) {
             this.lineDiscPercentage = lineDiscPercentage;
         }
 
-        public Integer getLineManualDiscountAmount() {
+        public double getLineManualDiscountAmount() {
             return lineManualDiscountAmount;
         }
 
-        public void setLineManualDiscountAmount(Integer lineManualDiscountAmount) {
+        public void setLineManualDiscountAmount(double lineManualDiscountAmount) {
             this.lineManualDiscountAmount = lineManualDiscountAmount;
         }
 
-        public Integer getLineManualDiscountPercentage() {
+        public double getLineManualDiscountPercentage() {
             return lineManualDiscountPercentage;
         }
 
-        public void setLineManualDiscountPercentage(Integer lineManualDiscountPercentage) {
+        public void setLineManualDiscountPercentage(double lineManualDiscountPercentage) {
             this.lineManualDiscountPercentage = lineManualDiscountPercentage;
         }
 
@@ -628,11 +628,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.lineNo = lineNo;
         }
 
-        public Integer getLinedscAmount() {
+        public double getLinedscAmount() {
             return linedscAmount;
         }
 
-        public void setLinedscAmount(Integer linedscAmount) {
+        public void setLinedscAmount(double linedscAmount) {
             this.linedscAmount = linedscAmount;
         }
 
@@ -700,11 +700,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.netAmountInclTax = netAmountInclTax;
         }
 
-        public Integer getOfferAmount() {
+        public double getOfferAmount() {
             return offerAmount;
         }
 
-        public void setOfferAmount(Integer offerAmount) {
+        public void setOfferAmount(double offerAmount) {
             this.offerAmount = offerAmount;
         }
 
@@ -716,27 +716,27 @@ public class OMSOrderForwardRequest implements Serializable {
             this.offerDiscountType = offerDiscountType;
         }
 
-        public Integer getOfferDiscountValue() {
+        public double getOfferDiscountValue() {
             return offerDiscountValue;
         }
 
-        public void setOfferDiscountValue(Integer offerDiscountValue) {
+        public void setOfferDiscountValue(double offerDiscountValue) {
             this.offerDiscountValue = offerDiscountValue;
         }
 
-        public Integer getOfferQty() {
+        public double getOfferQty() {
             return offerQty;
         }
 
-        public void setOfferQty(Integer offerQty) {
+        public void setOfferQty(double offerQty) {
             this.offerQty = offerQty;
         }
 
-        public Integer getOfferType() {
+        public double getOfferType() {
             return offerType;
         }
 
-        public void setOfferType(Integer offerType) {
+        public void setOfferType(double offerType) {
             this.offerType = offerType;
         }
 
@@ -748,19 +748,19 @@ public class OMSOrderForwardRequest implements Serializable {
             this.omsLineID = omsLineID;
         }
 
-        public Integer getOmsLineRECID() {
+        public double getOmsLineRECID() {
             return omsLineRECID;
         }
 
-        public void setOmsLineRECID(Integer omsLineRECID) {
+        public void setOmsLineRECID(double omsLineRECID) {
             this.omsLineRECID = omsLineRECID;
         }
 
-        public Integer getOrderStatus() {
+        public double getOrderStatus() {
             return orderStatus;
         }
 
-        public void setOrderStatus(Integer orderStatus) {
+        public void setOrderStatus(double orderStatus) {
             this.orderStatus = orderStatus;
         }
 
@@ -772,19 +772,19 @@ public class OMSOrderForwardRequest implements Serializable {
             this.originalPrice = originalPrice;
         }
 
-        public Integer getPeriodicDiscAmount() {
+        public double getPeriodicDiscAmount() {
             return periodicDiscAmount;
         }
 
-        public void setPeriodicDiscAmount(Integer periodicDiscAmount) {
+        public void setPeriodicDiscAmount(double periodicDiscAmount) {
             this.periodicDiscAmount = periodicDiscAmount;
         }
 
-        public Integer getPhysicalMRP() {
+        public double getPhysicalMRP() {
             return physicalMRP;
         }
 
-        public void setPhysicalMRP(Integer physicalMRP) {
+        public void setPhysicalMRP(double physicalMRP) {
             this.physicalMRP = physicalMRP;
         }
 
@@ -812,27 +812,27 @@ public class OMSOrderForwardRequest implements Serializable {
             this.productRecID = productRecID;
         }
 
-        public Integer getQty() {
+        public double getQty() {
             return qty;
         }
 
-        public void setQty(Integer qty) {
+        public void setQty(double qty) {
             this.qty = qty;
         }
 
-        public Integer getRemainderDays() {
+        public double getRemainderDays() {
             return remainderDays;
         }
 
-        public void setRemainderDays(Integer remainderDays) {
+        public void setRemainderDays(double remainderDays) {
             this.remainderDays = remainderDays;
         }
 
-        public Integer getRemainingQty() {
+        public double getRemainingQty() {
             return remainingQty;
         }
 
-        public void setRemainingQty(Integer remainingQty) {
+        public void setRemainingQty(double remainingQty) {
             this.remainingQty = remainingQty;
         }
 
@@ -868,11 +868,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.retailSubCategoryRecID = retailSubCategoryRecID;
         }
 
-        public Integer getReturnQty() {
+        public double getReturnQty() {
             return returnQty;
         }
 
-        public void setReturnQty(Integer returnQty) {
+        public void setReturnQty(double returnQty) {
             this.returnQty = returnQty;
         }
 
@@ -908,11 +908,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.scheduleCategoryCode = scheduleCategoryCode;
         }
 
-        public Integer getStockQty() {
+        public double getStockQty() {
             return stockQty;
         }
 
-        public void setStockQty(Integer stockQty) {
+        public void setStockQty(double stockQty) {
             this.stockQty = stockQty;
         }
 
@@ -948,19 +948,19 @@ public class OMSOrderForwardRequest implements Serializable {
             this.substitudeItemId = substitudeItemId;
         }
 
-        public Integer getTax() {
+        public double getTax() {
             return tax;
         }
 
-        public void setTax(Integer tax) {
+        public void setTax(double tax) {
             this.tax = tax;
         }
 
-        public Integer getTaxAmount() {
+        public double getTaxAmount() {
             return taxAmount;
         }
 
-        public void setTaxAmount(Integer taxAmount) {
+        public void setTaxAmount(double taxAmount) {
             this.taxAmount = taxAmount;
         }
 
@@ -972,11 +972,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.total = total;
         }
 
-        public Integer getTotalDiscAmount() {
+        public double getTotalDiscAmount() {
             return totalDiscAmount;
         }
 
-        public void setTotalDiscAmount(Integer totalDiscAmount) {
+        public void setTotalDiscAmount(double totalDiscAmount) {
             this.totalDiscAmount = totalDiscAmount;
         }
 
@@ -988,11 +988,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.totalDiscPct = totalDiscPct;
         }
 
-        public Integer getTotalRoundedAmount() {
+        public double getTotalRoundedAmount() {
             return totalRoundedAmount;
         }
 
-        public void setTotalRoundedAmount(Integer totalRoundedAmount) {
+        public void setTotalRoundedAmount(double totalRoundedAmount) {
             this.totalRoundedAmount = totalRoundedAmount;
         }
 
@@ -1020,11 +1020,11 @@ public class OMSOrderForwardRequest implements Serializable {
             this.unitPrice = unitPrice;
         }
 
-        public Integer getUnitQty() {
+        public double getUnitQty() {
             return unitQty;
         }
 
-        public void setUnitQty(Integer unitQty) {
+        public void setUnitQty(double unitQty) {
             this.unitQty = unitQty;
         }
 

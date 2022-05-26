@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
@@ -63,4 +64,8 @@ public interface OrderDetailsScreenMvpView extends MvpView {
     void onSendBacktoPackerLabel();
 
     void onClickProceedAction();
+
+    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String mposOrderUpdateRequestType);
+
+    void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
 }
