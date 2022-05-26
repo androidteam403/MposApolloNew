@@ -72,7 +72,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Fullfillment Id: "
+                            android:text="Fullfillment Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -81,7 +81,7 @@
                             android:id="@+id/fullfillment_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -97,7 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Box Id: "
+                            android:text="Box Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -106,7 +106,7 @@
                             android:id="@+id/box_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -232,8 +232,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen10dp"
-                        android:layout_weight=".4"
+                        android:layout_weight=".45"
                         android:clickable="false"
+                        android:layout_marginRight="@dimen/dimen3dp"
+
                         android:gravity="center_vertical"
                         android:onClick="@{()-> callback.onClickNotAvailable()}"
                         android:orientation="horizontal">
@@ -263,7 +265,7 @@
                         <ImageView
                             android:layout_width="@dimen/dimen25dp"
                             android:layout_height="@dimen/dimen20dp"
-                            android:layout_marginStart="@dimen/dimen5dp"
+                            android:layout_marginRight="@dimen/text_dimen_15"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_not_available" />
                     </LinearLayout>
