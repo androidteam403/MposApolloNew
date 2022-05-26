@@ -5,16 +5,13 @@ import android.util.Log;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
-import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.apollopharmacy.mpospharmacistTest.utils.Constant;
-import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -44,38 +41,67 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
     public void fetchFulfilmentOrderList() {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
-            getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-            TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            OMSTransactionHeaderReqModel reqModel = new OMSTransactionHeaderReqModel();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
             reqModel.setExpiryDays(90);
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS(getDataManager().getGlobalJson().getMPOSVersion());
-            reqModel.setUserName(getDataManager().getUserName());
-            Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
-            call.enqueue(new Callback<TransactionHeaderResponse>() {
+            Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
+            call.enqueue(new Callback<OMSTransactionHeaderResModel>() {
                 @Override
-                public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
+                public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
                     getMvpView().hideLoading();
-                    if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
-                    }
+                    if (response.isSuccessful() && response.body() != null)
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                 }
 
                 @Override
-                public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
+                public void onFailure(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }
             });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
         }
 
-    }
 
+//        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+//            getMvpView().hideKeyboard();
+//            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+//            TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
+//            reqModel.setTransactionID("");
+//            reqModel.setRefID("");
+//            reqModel.setExpiryDays(90);
+//            reqModel.setStoreID(getDataManager().getStoreId());
+//            reqModel.setTerminalID(getDataManager().getTerminalId());
+//            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+//            reqModel.setIsMPOS(getDataManager().getGlobalJson().getMPOSVersion());
+//            reqModel.setUserName(getDataManager().getUserName());
+//            Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
+//            call.enqueue(new Callback<TransactionHeaderResponse>() {
+//                @Override
+//                public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
+//                    getMvpView().hideLoading();
+//                    if (response.isSuccessful()) {
+//                        if (response.body() != null)
+//                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        }
+
+    }
 
 
     @Override
@@ -84,13 +110,13 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
     }
 
     @Override
-    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
-        return getDataManager().getTotalOmsHeaderList();
+    public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderList() {
+        return getDataManager().getTotalOmsHeaderListObj();
     }
 
     @Override
-    public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
-        getDataManager().setTotalOmsTransactionHeader(totalOmsHeaderList);
+    public void setTotalOmsHeaderList(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList) {
+        getDataManager().setTotalOmsTransactionHeaderObj(totalOmsHeaderList);
     }
 
     @Override

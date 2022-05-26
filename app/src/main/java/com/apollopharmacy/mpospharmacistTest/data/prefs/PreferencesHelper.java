@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.data.prefs;
 
 import com.apollopharmacy.mpospharmacistTest.data.network.pojo.VendorCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -124,5 +125,9 @@ public interface PreferencesHelper {
     void setTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
 
     List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList();
+
+    void setTotalOmsTransactionHeaderObj(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList);
+
+    List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj();
 
 }
