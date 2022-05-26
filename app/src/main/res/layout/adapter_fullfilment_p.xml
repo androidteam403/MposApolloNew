@@ -117,11 +117,11 @@
 
                         <ImageView
                             android:id="@+id/right_arrow"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dimen30dp"
+                            android:layout_height="@dimen/dimen30dp"
                             android:layout_gravity="end"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/black_right_arroww"
+                            android:src="@drawable/right_arrow_black"
                             android:visibility="visible" />
 
                         <ImageView
@@ -228,9 +228,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Name"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -246,9 +246,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Mobile Number"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -263,9 +263,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Doctor Name"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -280,9 +280,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="City"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -297,9 +297,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Pincode"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -385,9 +385,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Vendor ID"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -402,9 +402,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="OrderBillValue"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -419,9 +419,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="State Code"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -436,9 +436,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Address"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -453,18 +453,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Comments"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
                         <TextView
                             android:id="@+id/comments"
-                            android:text="---"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/price_bold"
+                            android:text="---"
                             android:textColor="@color/black"
                             android:textSize="@dimen/ten_sp" />
                     </LinearLayout>
@@ -481,8 +481,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".85"
                         android:layout_marginStart="@dimen/dimen6dp"
+                        android:layout_weight=".85"
 
                         android:fontFamily="@font/price_bold"
                         android:text="Product Items :"
@@ -492,10 +492,10 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen6dp"
                         android:layout_weight=".15"
                         android:fontFamily="@font/price_bold"
                         android:text="Qty"
-                        android:layout_marginEnd="@dimen/dimen6dp"
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
                 </LinearLayout>
@@ -516,14 +516,14 @@
 
 
                 <Button
-                    android:visibility="gone"
                     android:id="@+id/notifytoadmin"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen40dp"
                     android:background="@color/yellow"
                     android:fontFamily="@font/roboto_medium"
                     android:text="NOTIFY TO ADMIN"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

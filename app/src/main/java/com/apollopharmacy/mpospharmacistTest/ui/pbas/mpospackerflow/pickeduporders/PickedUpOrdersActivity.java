@@ -92,6 +92,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
@@ -545,21 +546,36 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
-                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
-            }
-            mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
-            PickerNavigationActivity.mInstance.setWelcome("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
-            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
-            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
+        if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
+            for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
+                if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
+                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+                }
+                if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                    mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
+                    PickerNavigationActivity.mInstance.setWelcome("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
+                    activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
+                    activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
 
-            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
-            filterOrdersLists();
+                    pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+
+                    activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
+                    filterOrdersLists();
+                } else {
+                    PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+            activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
+            activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
         }
         hideLoading();
     }

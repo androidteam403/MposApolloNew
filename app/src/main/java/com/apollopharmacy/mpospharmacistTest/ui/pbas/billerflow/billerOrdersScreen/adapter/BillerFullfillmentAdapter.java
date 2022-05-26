@@ -76,7 +76,7 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Not Available");
 
         }
-        holder.adapterBillerOrdersScreenBinding.rightArrow.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             if (mvpView != null)
                 mvpView.onRightArrowClickedContinue(fullfilmentModel.getREFNO());
         });

@@ -99,6 +99,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
@@ -157,16 +158,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int getPos;
 
     @Override
-    public void ondownArrowClicked(int position) {
-        this.getPos = position;
-        if (omsHeaderList.get(position).getExpandStatus() == 1) {
-            omsHeaderList.get(position).setExpandStatus(0);
-            if (fullfilmentAdapter != null) {
-                fullfilmentAdapter.notifyDataSetChanged();
+    public void ondownArrowClicked(String refId, int position) {
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            if (omsHeaderList.get(i).getRefno().equals(refId)) {
+                this.getPos = i;
+                if (omsHeaderList.get(i).getExpandStatus() == 1) {
+                    omsHeaderList.get(i).setExpandStatus(0);
+                    if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false);
+                }
+                break;
             }
-            onContinueBtnEnable();
-        } else {
-            mPresenter.onGetOmsTransaction(omsHeaderList.get(position).getRefno(), false);
         }
     }
 

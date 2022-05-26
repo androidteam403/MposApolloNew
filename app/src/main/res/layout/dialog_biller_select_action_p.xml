@@ -383,7 +383,8 @@
                     android:layout_marginEnd="@dimen/dimen30dp"
                     android:background="@drawable/square_stroke_bg"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen12sp" />
+                    android:textSize="@dimen/dimen12sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <Button

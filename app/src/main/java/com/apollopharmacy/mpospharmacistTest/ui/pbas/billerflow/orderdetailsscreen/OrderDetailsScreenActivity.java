@@ -488,9 +488,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         } else if (selectActionLayoutBinding.checkedShippingLabel.getVisibility() == View.VISIBLE) {
             Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         } else if (selectActionLayoutBinding.checkedSendToPacker.getVisibility() == View.VISIBLE) {
-
             unPacking();
-            Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
         }
     }
 

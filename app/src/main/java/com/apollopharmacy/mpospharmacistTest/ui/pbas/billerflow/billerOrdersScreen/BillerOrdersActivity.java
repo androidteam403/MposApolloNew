@@ -86,6 +86,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         activityBillerOrdersBinding.setScan(mPresenter);
 //
         PickerNavigationActivity.mInstance.setWelcome("");
