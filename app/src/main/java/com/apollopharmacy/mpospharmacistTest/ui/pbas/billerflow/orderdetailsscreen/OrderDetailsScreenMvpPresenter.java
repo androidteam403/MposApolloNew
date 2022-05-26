@@ -2,7 +2,11 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+
+import java.util.List;
 
 public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpView> extends MvpPresenter<V> {
 
@@ -13,12 +17,15 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onminusOrderDetails();
     void getTransactionID();
     void getCorporateList();
-
+    void  onLoadOmsOrder(CustomerDataResBean customerDataResBean);
+    void onCheckBatchStock(CustomerDataResBean customerDataResBean);
+    void onCheckStock(GetOMSTransactionResponse response);
     void onplusOrderDetails();
 
     void onminusVendorDetails();
     void fetchOMSCustomerInfo(String refNumber);
     void onPlusVendorDetails();
+    void getBatchDetailsApi(List<GetOMSTransactionResponse.SalesLine> selected_item, List<GetOMSTransactionResponse.PickPackReservation> pickPackReservation);
 
     void onActionsContinue();
 

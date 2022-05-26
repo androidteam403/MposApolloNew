@@ -355,4 +355,6 @@ public interface ApiInterface {
     Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Body MPOSPickPackOrderReservationRequest request);
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionResponse> CALCULATE_POS_TRANSACTION_RES(@Body PostTransactionEntityReq posTransactionReq);
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+    Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
 }

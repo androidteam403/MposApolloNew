@@ -87,8 +87,9 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
 //            if (selectAppFlowModelList.get(i).isSelected()) {
 //                switch (selectAppFlowModelList.get(i).getAppFlowName()) {
 //                    case "Picker":
-                        startActivity(BillerOrdersActivity.getStartIntent(SelectAppFlowActivity.this));
-                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this));
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //                        break;
 //                    case "Packer":
 //                        startActivity(PickedUpOrdersActivity.getStartActivity(SelectAppFlowActivity.this));
