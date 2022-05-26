@@ -14,7 +14,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterMode
 
 import java.util.List;
 
-public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.ViewHolder>{
+public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.ViewHolder> {
     private Context mContext;
     private List<FilterModel> filterModelList;
 
@@ -22,12 +22,13 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
         this.mContext = mContext;
         this.filterModelList = filterModelList;
     }
+
     @NonNull
 
     @Override
     public FilterItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         AdapterFilterItemBinding filterItemBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.adapter_filter_item, parent, false);
-return new FilterItemAdapter.ViewHolder(filterItemBinding);
+        return new FilterItemAdapter.ViewHolder(filterItemBinding);
     }
 
 
@@ -52,6 +53,7 @@ return new FilterItemAdapter.ViewHolder(filterItemBinding);
     public int getItemCount() {
         return filterModelList.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterFilterItemBinding filterItemBinding;
 

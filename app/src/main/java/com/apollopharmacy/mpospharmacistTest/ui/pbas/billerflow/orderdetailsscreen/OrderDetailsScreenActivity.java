@@ -17,19 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLine;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.adapter.OrderDetailsScreenAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
-import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +37,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     ActivityOrderDetailsScreenPBinding activityOrderDetailsScreenBinding;
     private TransactionHeaderResponse.OMSHeader racksDataResponse;
     OrderDetailsScreenAdapter orderDetailsScreenAdapter;
-    private String globalbatchid = "";
-    List<SalesLine> salesentity = new ArrayList<>();
     private TransactionIDResModel transactionIdItem = null;
-    CorporateModel corporateModel;
-    TransactionIDResModel transactionIDResModel;
-    List<SalesLineEntity> salesLineEntityList = new ArrayList<>();
-    List<PickPackReservation> packReservationList = new ArrayList<>();
-    private ArrayList<CorporateModel.DropdownValueBean> corporateList;
-    CustomerDataResBean customerDataResBean=new CustomerDataResBean();
-    List<GetOMSTransactionResponse> omsHeader = new ArrayList<>();
-    List<GetOMSTransactionResponse> batchDetailsList = new ArrayList<>();
 
+    List<GetOMSTransactionResponse> omsHeader = new ArrayList<>();
     int pos;
-    private List<PickPackReservation> pickPackReservation;
 
 
     @Override
@@ -77,14 +61,11 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         if (getIntent() != null) {
             if (getIntent() != null) {
                 racksDataResponse = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("fullfillmentDetails");
+                mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
             }
         }
-
-        mPresenter.fetchOMSCustomerInfo(racksDataResponse.getRefno());
-        mPresenter.getCorporateList();
         mPresenter.getTransactionID();
-        corporateList = new ArrayList<CorporateModel.DropdownValueBean>();
-        corporateModel = new CorporateModel();
+
 
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +102,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     }
 
+
     @Override
     public void onMinusCustomerDetails() {
 //        activityOrderDetailsScreenBinding.customerDetailsPlusSymbol.setVisibility(View.VISIBLE);
@@ -137,14 +119,23 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void showTransactionID(TransactionIDResModel model) {
-        transactionIDResModel = model;
+        for (int i = 0; i < omsHeader.size(); i++) {
+            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList() != null) {
+                omsHeader.get(i).getTransactionIDResModelList().add(model);
+            }
+        }
+
 
     }
 
     @Override
     public void getCorporateList(CorporateModel corporateModel) {
-        this.corporateModel = corporateModel;
-        corporateList.addAll(corporateModel.get_DropdownValue());
+        for (int i = 0; i < omsHeader.size(); i++) {
+            if (racksDataResponse.getRefno().equals(omsHeader.get(i).getRefno()) && omsHeader.get(i).getCorporateList() != null) {
+                omsHeader.get(i).setCorporateList((List<CorporateModel>) corporateModel);
+            }
+        }
+
 
     }
 
@@ -160,60 +151,45 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     @Override
     public void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> getOMSTransactionResponses) {
 
-        if (getOMSTransactionResponses != null&& getOMSTransactionResponses.size()>0) {
-            omsHeader.add(getOMSTransactionResponses.get(0));
-            if (getOMSTransactionResponses.get(0).getPickPackReservation() != null) {
-//                &&
-                if (racksDataResponse.getRefno().equalsIgnoreCase(getOMSTransactionResponses.get(0).getRefno())) {
-                    activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(getOMSTransactionResponses.get(0).getRefno());
-                    activityOrderDetailsScreenBinding.totalItems.setText(String.valueOf(getOMSTransactionResponses.get(0).getSalesLine().size()));
-                    activityOrderDetailsScreenBinding.customerType.setText(getOMSTransactionResponses.get(0).getCustomerType());
-                    activityOrderDetailsScreenBinding.orderSource.setText(getOMSTransactionResponses.get(0).getOrderSource());
-                    activityOrderDetailsScreenBinding.orderDate.setText(getOMSTransactionResponses.get(0).getCreatedDateTime());
-                    activityOrderDetailsScreenBinding.deliveryDate.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
-                    activityOrderDetailsScreenBinding.shippingMethodType.setText(getOMSTransactionResponses.get(0).getShippingMethod());
-                    activityOrderDetailsScreenBinding.stockStatus.setText(getOMSTransactionResponses.get(0).getStockStatus());
-                    activityOrderDetailsScreenBinding.paymentSource.setText(getOMSTransactionResponses.get(0).getPaymentSource());
-                    activityOrderDetailsScreenBinding.orderType.setText(getOMSTransactionResponses.get(0).getOrderType());
-                    activityOrderDetailsScreenBinding.customerName.setText(getOMSTransactionResponses.get(0).getCustomerName());
-                    activityOrderDetailsScreenBinding.vendorId.setText(getOMSTransactionResponses.get(0).getVendorId());
-                    activityOrderDetailsScreenBinding.mobileNumber.setText(getOMSTransactionResponses.get(0).getMobileNO());
-                    activityOrderDetailsScreenBinding.doctorName.setText(getOMSTransactionResponses.get(0).getDoctorName());
-                    activityOrderDetailsScreenBinding.statecode.setText(getOMSTransactionResponses.get(0).getState());
-                    activityOrderDetailsScreenBinding.city.setText(getOMSTransactionResponses.get(0).getBillingCity());
-                    activityOrderDetailsScreenBinding.address.setText(getOMSTransactionResponses.get(0).getCustAddress());
-                    activityOrderDetailsScreenBinding.pincode.setText(getOMSTransactionResponses.get(0).getPincode());
 
+        for (int i = 0; i < getOMSTransactionResponses.size(); i++) {
+            if (getOMSTransactionResponses != null) {
+//                && getOMSTransactionResponses.get(i).getPickPackReservation() != null
+                if (racksDataResponse.getRefno().equalsIgnoreCase(getOMSTransactionResponses.get(i).getRefno())) {
+                    activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(getOMSTransactionResponses.get(i).getRefno());
+                    activityOrderDetailsScreenBinding.totalItems.setText(String.valueOf(getOMSTransactionResponses.get(i).getSalesLine().size()));
+                    activityOrderDetailsScreenBinding.customerType.setText(getOMSTransactionResponses.get(i).getCustomerType());
+                    activityOrderDetailsScreenBinding.orderSource.setText(getOMSTransactionResponses.get(i).getOrderSource());
+                    activityOrderDetailsScreenBinding.orderDate.setText(getOMSTransactionResponses.get(i).getCreatedDateTime());
+                    activityOrderDetailsScreenBinding.deliveryDate.setText(getOMSTransactionResponses.get(i).getDeliveryDate());
+                    activityOrderDetailsScreenBinding.shippingMethodType.setText(getOMSTransactionResponses.get(i).getShippingMethod());
+                    activityOrderDetailsScreenBinding.stockStatus.setText(getOMSTransactionResponses.get(i).getStockStatus());
+                    activityOrderDetailsScreenBinding.paymentSource.setText(getOMSTransactionResponses.get(i).getPaymentSource());
+                    activityOrderDetailsScreenBinding.orderType.setText(getOMSTransactionResponses.get(i).getOrderType());
+                    activityOrderDetailsScreenBinding.customerName.setText(getOMSTransactionResponses.get(i).getCustomerName());
+                    activityOrderDetailsScreenBinding.vendorId.setText(getOMSTransactionResponses.get(i).getVendorId());
+                    activityOrderDetailsScreenBinding.mobileNumber.setText(getOMSTransactionResponses.get(i).getMobileNO());
+                    activityOrderDetailsScreenBinding.doctorName.setText(getOMSTransactionResponses.get(i).getDoctorName());
+                    activityOrderDetailsScreenBinding.statecode.setText(getOMSTransactionResponses.get(i).getState());
+                    activityOrderDetailsScreenBinding.city.setText(getOMSTransactionResponses.get(i).getBillingCity());
+                    activityOrderDetailsScreenBinding.address.setText(getOMSTransactionResponses.get(i).getCustAddress());
+                    activityOrderDetailsScreenBinding.pincode.setText(getOMSTransactionResponses.get(i).getPincode());
+                    omsHeader.add(getOMSTransactionResponses.get(i));
 
-//                     mPresenter.getBatchDetailsApi_pickpack(omsHeader.get(i).getSalesLine(), omsHeader.get(i).getPickPackReservation());
-
-                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, omsHeader.get(0).getSalesLine(), omsHeader.get(0).getPickPackReservation());
+                    orderDetailsScreenAdapter = new OrderDetailsScreenAdapter(this, omsHeader.get(i).getSalesLine(), omsHeader.get(i).getPickPackReservation());
                     RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                     activityOrderDetailsScreenBinding.productListRecycler.setLayoutManager(mLayoutManager1);
                     activityOrderDetailsScreenBinding.productListRecycler.setItemAnimator(new DefaultItemAnimator());
                     activityOrderDetailsScreenBinding.productListRecycler.setAdapter(orderDetailsScreenAdapter);
-              for (int i=0;i<omsHeader.size();i++){
-
-                  mPresenter.getBatchDetailsApi(omsHeader.get(i).getSalesLine(),omsHeader.get(i).getPickPackReservation());
-
-                  if (omsHeader.get(i).getSalesLine().get(i).getItemId().equalsIgnoreCase(omsHeader.get(i).getPickPackReservation().get(i).getPickupItemId())){
-
-
-                  }
-              }
-
-
                 }
-            }
-        }else {
+            } else {
                 Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
-                finish();
-//                racksDataResponse.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
-//                mPresenter.mposPickPackOrderReservationApiCall(4, racksDataResponse);
+                racksDataResponse.setGetOMSTransactionResponse(getOMSTransactionResponses.get(0));
+                mPresenter.mposPickPackOrderReservationApiCall(4, racksDataResponse);
             }
         }
 
-
+    }
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
@@ -232,36 +208,6 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
     }
 
-    @Override
-    public void LoadOmsOrderSuccess(CustomerDataResBean response) {
-
-    }
-
-    @Override
-    public void LoadOmsOrderFailure(CustomerDataResBean response) {
-
-    }
-
-    @Override
-    public void CheckBatchStockSuccess(CustomerDataResBean response) {
-
-    }
-
-    @Override
-    public void CheckBatchStockFailure(CustomerDataResBean response) {
-
-    }
-
-    @Override
-    public void CheckBatchStock(GetOMSTransactionResponse response) {
-
-    }
-
-    @Override
-    public void onBatchStockFailure(GetOMSTransactionResponse response) {
-
-    }
-
 
     @Override
     public void onplusOrderDetails() {
@@ -270,39 +216,6 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //        activityOrderDetailsScreenBinding.orderDetailsRecycler.setVisibility(View.VISIBLE);
 //        activityOrderDetailsScreenBinding.quantityStatus.setVisibility(View.VISIBLE);
 //    }
-    }
-
-    @Override
-    public void onSuccessBatchInfo(GetBatchInfoRes reponse) {
-        if (reponse!=null){
-        for (int i=0;i<omsHeader.size();i++) {
-
-                if (omsHeader.get(i).getSalesLine().get(i).getItemId().equalsIgnoreCase(omsHeader.get(i).getPickPackReservation().get(i).getPickupItemId())) {
-
-                    if (omsHeader.get(i).getSalesLine().get(i).getItemId().equalsIgnoreCase(reponse.getBatchList().get(i).getItemID())){
-                        batchDetailsList.add(omsHeader.get(i));
-
-
-                    }
-
-                }
-            }
-
-        }
-//        customerDataResBean= (CustomerDataResBean) batchDetailsList.get(0).getPickPackReservation();
-
-//mPresenter.onCheckBatchStock(customerDataResBean);
-        mPresenter.onCheckStock((GetOMSTransactionResponse) batchDetailsList);
-    }
-
-
-
-
-
-
-    @Override
-    public void onFailedBatchInfo(GetBatchInfoRes body) {
-
     }
 
     @Override

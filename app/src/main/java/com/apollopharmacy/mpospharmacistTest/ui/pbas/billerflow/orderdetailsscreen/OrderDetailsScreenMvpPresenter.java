@@ -15,7 +15,9 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onPlusCustomerDetails();
 
     void onminusOrderDetails();
+
     void getTransactionID();
+
     void getCorporateList();
     void  onLoadOmsOrder(CustomerDataResBean customerDataResBean);
     void onCheckBatchStock(CustomerDataResBean customerDataResBean);
@@ -23,14 +25,18 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onplusOrderDetails();
 
     void onminusVendorDetails();
+
     void fetchOMSCustomerInfo(String refNumber);
+
     void onPlusVendorDetails();
     void getBatchDetailsApi(List<GetOMSTransactionResponse.SalesLine> selected_item, List<GetOMSTransactionResponse.PickPackReservation> pickPackReservation);
 
     void onActionsContinue();
 
     void onGenerateBill();
+
     void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
+
     void onPrintLabel();
 
     void onPrintShippingLabel();

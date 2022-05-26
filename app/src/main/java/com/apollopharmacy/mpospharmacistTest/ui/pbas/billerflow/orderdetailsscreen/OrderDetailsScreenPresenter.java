@@ -4,10 +4,7 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
-import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -31,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> extends BasePresenter<V>
+public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> extends BasePresenter<V>
         implements OrderDetailsScreenMvpPresenter<V> {
 
     @Inject
@@ -98,8 +95,8 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
-                    if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null) {
                         getMvpView().getCorporateList(response.body());
                     }
                 }
@@ -115,113 +112,7 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
         }
     }
 
-    @Override
-    public void onLoadOmsOrder(CustomerDataResBean customerDataResBean) {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            customerDataResBean.setTerminal(getDataManager().getTerminalId());
-            customerDataResBean.setCreatedonPosTerminal(getDataManager().getTerminalId());
-
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<CustomerDataResBean> call = api.LOAD_OMS_ORDER(customerDataResBean);
-            call.enqueue(new Callback<CustomerDataResBean>() {
-                @Override
-                public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getRequestStatus() == 0) {
-                            getMvpView().LoadOmsOrderSuccess(response.body());
-                        } else {
-                            getMvpView().LoadOmsOrderFailure(response.body());
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<CustomerDataResBean> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-
-        }
-    }
-
-
-
-    @Override
-    public void onCheckBatchStock(CustomerDataResBean customerDataResBean) {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<CustomerDataResBean> call = api.omscheckbatchstock(customerDataResBean);
-            call.enqueue(new Callback<CustomerDataResBean>() {
-                @Override
-                public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getRequestStatus() == 0) {
-                            getMvpView().CheckBatchStockSuccess(response.body());
-                        } else {
-                            getMvpView().CheckBatchStockFailure(response.body());
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<CustomerDataResBean> call, @NotNull Throwable t) {
-                    //Dismiss Dialog
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-
-        }
-    }
-
-    @Override
-    public void onCheckStock(GetOMSTransactionResponse response) {
-        {
-            if (getMvpView().isNetworkConnected()) {
-                getMvpView().showLoading();
-                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-                Call<GetOMSTransactionResponse> call = api.omscheckstock(response);
-                call.enqueue(new Callback<GetOMSTransactionResponse>() {
-                    @Override
-                    public void onResponse(@NotNull Call<GetOMSTransactionResponse> call, @NotNull Response<GetOMSTransactionResponse> response) {
-                        getMvpView().hideLoading();
-                        if (response.isSuccessful()) {
-                            if (response.body() != null && response.body().getRequestStatus() == 0) {
-                                getMvpView().CheckBatchStock(response.body());
-                            } else {
-                                getMvpView().onBatchStockFailure(response.body());
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NotNull Call<GetOMSTransactionResponse> call, @NotNull Throwable t) {
-                        //Dismiss Dialog
-                        getMvpView().hideLoading();
-                        handleApiError(t);
-                    }
-                });
-            } else {
-                getMvpView().onError("Internet Connection Not Available");
-
-            }
-        }
-    }
-
-    PostTransactionEntityReq postTransactionEntityData=new PostTransactionEntityReq();
+    PostTransactionEntityReq postTransactionEntityData = new PostTransactionEntityReq();
 
 
     @Override
@@ -271,50 +162,6 @@ public class OrderDetailsScreenPresenter <V extends OrderDetailsScreenMvpView> e
     public void onPlusVendorDetails() {
         getMvpView().onPlusVendorDetails();
     }
-
-    @Override
-    public void getBatchDetailsApi(List<GetOMSTransactionResponse.SalesLine> selected_item, List<GetOMSTransactionResponse.PickPackReservation> pickPackReservation) {
-        if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
-            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
-            batchInfoReq.setArticleCode(selected_item.get(0).getItemId());
-            batchInfoReq.setCustomerState("");
-            batchInfoReq.setDataAreaId(getDataManager().getDataAreaId());
-            batchInfoReq.setSearchType(1);
-            batchInfoReq.setSEZ(0);
-            batchInfoReq.setStoreId(getDataManager().getStoreId());
-            batchInfoReq.setStoreState(getDataManager().getGlobalJson().getStateCode());
-            batchInfoReq.setTerminalId(getDataManager().getTerminalId());
-            batchInfoReq.setExpiryDays(getDataManager().getGlobalJson().getOMSExpiryDays());
-            Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
-            call.enqueue(new Callback<GetBatchInfoRes>() {
-                @Override
-                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
-                    if (response.isSuccessful()) {
-                        //Dismiss Dialog
-                        getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0)
-                            getMvpView().onSuccessBatchInfo(response.body());
-                        else
-                            getMvpView().onFailedBatchInfo(response.body());
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
-                    getMvpView().hideLoading();
-                    handleApiError(t);
-                }
-            });
-        } else {
-            getMvpView().onError("Internet Connection Not Available");
-        }
-    }
-
-
-
-
 
     @Override
     public void onActionsContinue() {
