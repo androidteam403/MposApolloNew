@@ -133,7 +133,7 @@
                 android:onClick="@{()-> callback.onPrintLabel()}"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimen5dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <ImageView
@@ -213,7 +213,7 @@
                 android:onClick="@{()-> callback.onPrintShippingLabel()}"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimen5dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/dimen18sp"

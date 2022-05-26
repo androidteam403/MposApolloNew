@@ -397,10 +397,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onGenerateBill() {
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -409,10 +409,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onPrintLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -421,10 +421,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onPrintShippingLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.GONE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -433,10 +433,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onSendBacktoPackerLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.GONE);
     }

@@ -89,7 +89,6 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
                             selectedBatchListTemp.add(batchListObj);
                         }
                     }
-
                 }
             }
 
