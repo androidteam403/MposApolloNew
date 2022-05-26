@@ -95,6 +95,22 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
         mPresenter.fetchFulfilmentOrderList();
+
+        activityBillerOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityBillerOrdersBinding.searchText.setText("");
+                activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
+                activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
+            activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
+            activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
+        }
     }
 
 
@@ -121,6 +137,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    activityBillerOrdersBinding.search.setVisibility(View.GONE);
+                    activityBillerOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter(editable);
 

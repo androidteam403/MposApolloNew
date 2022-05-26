@@ -183,7 +183,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         count++;
         if (count == omsOrderForwardRequests.size()) {
             mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
-            Toast.makeText(getApplicationContext(), "SUCCESS!!" + selectedOmsHeaderList.get(0).getOverallOrderStatus(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "SUCCESS!!", Toast.LENGTH_LONG).show();
         }
     }
 
