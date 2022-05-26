@@ -30,7 +30,7 @@
 
                     <ImageView
                         android:id="@+id/header_back"
-                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_width="20dp"
                         android:layout_height="@dimen/dimen30dp"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickBack()}"
@@ -65,7 +65,7 @@
                 android:id="@+id/ready_for_pickup_recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/fifteen_dp" />
+                android:layout_marginTop="@dimen/ten_dp" />
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
@@ -120,12 +120,14 @@
                     android:background="@drawable/red_ripple_btn_bg"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:onClick="@{()-> callback.cancel()}"
                     android:padding="@dimen/seven_dp"
                     android:text="Cancel"
+                    android:id="@+id/cancel"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     tools:ignore="ButtonStyle" />
+
 
 
                 <Button
