@@ -79,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Status: "
+                            android:text="Status : "
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 

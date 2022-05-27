@@ -124,7 +124,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         }
         holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
             if (mvpView != null) {
-                mvpView.ondownArrowClicked(position);
+                mvpView.ondownArrowClicked(omsHeader.getRefno(), position);
             }
         });
         holder.itemView.setOnClickListener(v -> {

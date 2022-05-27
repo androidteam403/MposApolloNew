@@ -48,8 +48,7 @@
                             android:id="@+id/fullfillmentID"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text=""
+                            android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen10sp" />
                     </LinearLayout>
@@ -71,8 +70,7 @@
                             android:id="@+id/total_items"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text=""
+                            android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen10sp" />
                     </LinearLayout>
@@ -83,11 +81,11 @@
                 <ImageView
                     android:id="@+id/right_arrow"
                     android:layout_width="30dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/black_right_arroww"
+                    android:src="@drawable/right_arrow_black"
                     android:visibility="visible" />
 
                 <LinearLayout

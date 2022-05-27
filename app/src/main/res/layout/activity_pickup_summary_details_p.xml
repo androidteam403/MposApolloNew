@@ -41,17 +41,17 @@
                                 android:layout_height="@dimen/dimen30dp"
                                 android:contentDescription="@string/app_name"
                                 android:onClick="@{()-> callback.onClickBack()}"
-                                android:src="@drawable/left_forward_white_arrow" />
+                                android:src="@drawable/ic_back_arrow_white" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/fifteen_dp"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/dimen10dp"
                                     android:fontFamily="@font/roboto_bold"
                                     android:text="@string/label_pickup_summary"
                                     android:textAllCaps="true"
@@ -61,22 +61,21 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/dimen10dp"
                                     android:orientation="horizontal">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
-                                        android:text="Box ID: "
-                                        android:textColor="@color/black" />
+                                        android:text="Box ID : "
+                                        android:textColor="@color/white" />
 
                                     <TextView
                                         android:id="@+id/box_id"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
-                                        android:text="-"
+                                        android:text=" -"
                                         android:textColor="@color/white" />
 
                                 </LinearLayout>
@@ -114,7 +113,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Fullfillment ID:"
+                                        android:text="Fullfillment ID : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -138,7 +137,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Total Items:"
+                                        android:text="Total Items : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -162,7 +161,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Start time:"
+                                        android:text="Start time : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -197,7 +196,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Status: "
+                                        android:text="Status : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -222,7 +221,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Total Duration: "
+                                        android:text="Total Duration : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -598,7 +597,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".15"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Qty."
+                                android:text="Qty"
                                 android:textColor="@color/text_color_grey"
                                 android:textSize="@dimen/twelve_sp" />
 

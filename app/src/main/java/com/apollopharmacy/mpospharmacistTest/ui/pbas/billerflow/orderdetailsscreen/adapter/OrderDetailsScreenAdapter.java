@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservatio
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.SelectedBatchListAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +43,7 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         return new ViewHolder(adapterBillerOrdersScreenBinding);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OrderDetailsScreenAdapter.ViewHolder holder, int position) {
         SalesLineEntity fullfillmentDetail = products.get(position);
@@ -56,16 +55,11 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
 //        holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMRP()));
 
-        int qty= (int) fullfillmentDetail.getQty();
-        holder.adapterOrderDetailsScreenBinding.availableQty.setText("/" + String.valueOf(qty));
+        holder.adapterOrderDetailsScreenBinding.availableQty.setText("/" + Math.round(fullfillmentDetail.getQty()));
         if (responseList != null) {
-            int cqty= (int) responseList.get(position).getPickupQty();
-            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(cqty));
+            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(responseList.get(position).getPickupQty())));
 
         }
-
-
-
 
 
         if (responseList != null && fullfillmentDetail != null) {
@@ -92,7 +86,6 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
                             selectedBatchListTemp.add(batchListObj);
                         }
                     }
-
                 }
             }
 

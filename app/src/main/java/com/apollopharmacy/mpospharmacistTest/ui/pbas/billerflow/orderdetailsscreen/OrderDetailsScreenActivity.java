@@ -1,6 +1,8 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen;
 
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -263,7 +266,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
         startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+//        finish();
     }
 
     @Override
@@ -397,10 +400,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onGenerateBill() {
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -409,10 +412,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onPrintLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -421,10 +424,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onPrintShippingLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.GONE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.VISIBLE);
     }
@@ -433,10 +436,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onSendBacktoPackerLabel() {
         selectActionLayoutBinding.checkedGenerateBill.setVisibility(View.GONE);
         selectActionLayoutBinding.uncheckedGenerateBill.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
-        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
-        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedPrintLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedPrintLabel.setVisibility(View.VISIBLE);
+//        selectActionLayoutBinding.checkedShippingLabel.setVisibility(View.GONE);
+//        selectActionLayoutBinding.uncheckedShippingLabel.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.checkedSendToPacker.setVisibility(View.VISIBLE);
         selectActionLayoutBinding.uncheckedSendToPacker.setVisibility(View.GONE);
     }
@@ -490,9 +493,21 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         } else if (selectActionLayoutBinding.checkedShippingLabel.getVisibility() == View.VISIBLE) {
             Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         } else if (selectActionLayoutBinding.checkedSendToPacker.getVisibility() == View.VISIBLE) {
-
-            unPacking();
-            Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
+            Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            DialogVerificationStatusPBinding dialogVerificationStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_p, null, false);
+            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
+            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
+            dialogVerificationStatusPBinding.title.setText("Send back to pcker");
+            dialog.setContentView(dialogVerificationStatusPBinding.getRoot());
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogVerificationStatusPBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+            dialogVerificationStatusPBinding.dialogButtonOK.setOnClickListener(v -> {
+                unPacking();
+                dialog.dismiss();
+            });
+            dialogVerificationStatusPBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
         }
     }
 

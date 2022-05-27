@@ -21,9 +21,9 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
     List<SalesLineEntity> products;
 
     public SelectedBatchesListAdapterr(Context context, List<GetBatchInfoRes.BatchListObj> selectedBatchList, List<SalesLineEntity> products) {
-        this.context=context;
-        this.selectedBatchList=selectedBatchList;
-        this.products=products;
+        this.context = context;
+        this.selectedBatchList = selectedBatchList;
+        this.products = products;
     }
 
     @NonNull
@@ -37,17 +37,10 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
     public void onBindViewHolder(@NonNull SelectedBatchesListAdapterr.ViewHolder holder, int position) {
         GetBatchInfoRes.BatchListObj batchListObj = selectedBatchList.get(position);
 
-            holder.adapterSelectedBatchesBinding.batchno.setText(batchListObj.getBatchNo());
-            holder.adapterSelectedBatchesBinding.expDate.setText(batchListObj.getExpDate());
-            holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(batchListObj.getMRP()));
-//            holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(batchListObj.getREQQTY()));
-
-        if (selectedBatchList!=null){
-            int cqty= (int) batchListObj.getREQQTY();
-            holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(cqty));
-        }
-
-
+        holder.adapterSelectedBatchesBinding.batchno.setText(batchListObj.getBatchNo());
+        holder.adapterSelectedBatchesBinding.expDate.setText(batchListObj.getExpDate());
+        holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(batchListObj.getMRP()));
+        holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(Math.round(batchListObj.getREQQTY())));
 
 
     }
@@ -57,11 +50,12 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
         return selectedBatchList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         AdapterSelectedBatchesBillerrBinding adapterSelectedBatchesBinding;
+
         public ViewHolder(@NonNull AdapterSelectedBatchesBillerrBinding adapterSelectedBatchesBinding) {
             super(adapterSelectedBatchesBinding.getRoot());
-            this.adapterSelectedBatchesBinding=adapterSelectedBatchesBinding;
+            this.adapterSelectedBatchesBinding = adapterSelectedBatchesBinding;
         }
     }
 }

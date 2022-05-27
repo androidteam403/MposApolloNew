@@ -86,6 +86,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         activityBillerOrdersBinding.setScan(mPresenter);
 //
         PickerNavigationActivity.mInstance.setWelcome("");
@@ -94,7 +95,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
-        mPresenter.fetchFulfilmentOrderList();
+//        mPresenter.fetchFulfilmentOrderList();
 
         activityBillerOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +153,14 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        omsHeaderList.clear();
+        mPresenter.fetchFulfilmentOrderList();
+        activityBillerOrdersBinding.searchText.setText("");
     }
 
     @Override
