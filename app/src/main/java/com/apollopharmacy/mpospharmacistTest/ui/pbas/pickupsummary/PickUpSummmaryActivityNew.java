@@ -445,7 +445,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
             mPresenter.setFullfillmentData(racksDataResponse);
             mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
-            Intent intent = new Intent(PickUpSummmaryActivityNew.this, OpenOrdersActivity.class);
+            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("EXIT", true);
             startActivity(intent);

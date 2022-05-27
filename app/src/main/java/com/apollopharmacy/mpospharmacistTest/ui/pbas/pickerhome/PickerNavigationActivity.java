@@ -21,6 +21,8 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -138,8 +140,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         dialogView.setSubtitle("Are you sure want to logout the application ?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setPositiveListener(view -> {
-            dialogView.dismiss();
+
             mPresenter.logoutUser();
+
 
         });
         dialogView.setNegativeLabel("No");
@@ -172,9 +175,13 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     @Override
     public void navigateLoginActivity() {
-        startActivity(PharmacistLoginActivity.getStartIntent(this));
+        Intent intent = new Intent(PickerNavigationActivity.this, PharmacistLoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+
 
     }
 
