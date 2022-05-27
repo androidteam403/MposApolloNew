@@ -25,7 +25,7 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onClickStausIcon(int fullFillmentPos, int pos);
 
-    void ondownArrowClicked(int position);
+    void ondownArrowClicked(String refId, int position);
 
     void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body);
 

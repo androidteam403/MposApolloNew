@@ -60,6 +60,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView,
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setTitle("Dashboard");
         PickerNavigationActivity.mInstance.setWelcome("Welcome");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);

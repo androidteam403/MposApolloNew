@@ -42,12 +42,12 @@
                                 android:layout_width="@dimen/thirty_dp"
                                 android:layout_height="@dimen/thirty_dp"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/left_forward_white_arrow" />
+                                android:src="@drawable/ic_back_arrow_white" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen10dp"
+                                android:layout_marginStart="@dimen/dimen15dp"
                                 android:orientation="vertical">
 
                                 <TextView

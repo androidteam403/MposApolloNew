@@ -31,5 +31,7 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
         getDataManager().logoutUser();
         getMvpView().navigateLoginActivity();
     }
+
+
 }
 

@@ -99,12 +99,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
-        mPresenter.fetchFulfilmentOrderList();
+//        mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
 
         openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
@@ -118,10 +119,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
         });
 
-        if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
-            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
-            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
-        }
+
     }
 
     private void searchByFulfilmentId() {
@@ -144,7 +142,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
-                } else {
+                }
+
+               else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
+                    openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+                }
+                 else{
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter("");
                     }
@@ -157,16 +161,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int getPos;
 
     @Override
-    public void ondownArrowClicked(int position) {
-        this.getPos = position;
-        if (omsHeaderList.get(position).getExpandStatus() == 1) {
-            omsHeaderList.get(position).setExpandStatus(0);
-            if (fullfilmentAdapter != null) {
-                fullfilmentAdapter.notifyDataSetChanged();
+    public void ondownArrowClicked(String refId, int position) {
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            if (omsHeaderList.get(i).getRefno().equals(refId)) {
+                this.getPos = i;
+                if (omsHeaderList.get(i).getExpandStatus() == 1) {
+                    omsHeaderList.get(i).setExpandStatus(0);
+                    if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false);
+                }
+                break;
             }
-            onContinueBtnEnable();
-        } else {
-            mPresenter.onGetOmsTransaction(omsHeaderList.get(position).getRefno(), false);
         }
     }
 
@@ -528,6 +536,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        omsHeaderList.clear();
+        mPresenter.fetchFulfilmentOrderList();
+        openOrdersBinding.searchByfulfimentid.setText("");
     }
 
     @Override

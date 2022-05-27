@@ -88,6 +88,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         activityReadyForPickupBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            if (selectedOmsHeaderList != null) {
+                activityReadyForPickupBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+            }
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                 readyForPickUpAdapter = new ReadyForPickUpAdapter(this, selectedOmsHeaderList, this);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

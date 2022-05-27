@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
 
@@ -136,4 +137,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void getUnpostedTransaction();
 
     void getGlobalConfig();
+
+    GetGlobalConfingRes getGlobalConfiguration();
 }
