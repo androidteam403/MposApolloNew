@@ -143,6 +143,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
                 } else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
+                    if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.getFilter().filter("");
+                    }
                     openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
                     openOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 } else {

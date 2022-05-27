@@ -167,6 +167,9 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                     }
 
                 } else if (activityPickedUpOrdersBinding.searchText.getText().toString().equals("")) {
+                    if (pickedUpOrdersAdapter != null) {
+                        pickedUpOrdersAdapter.getFilter().filter("");
+                    }
                     activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                     activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 } else {
