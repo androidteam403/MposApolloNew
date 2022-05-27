@@ -118,10 +118,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
         });
 
-        if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
-            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
-            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
-        }
+
     }
 
     private void searchByFulfilmentId() {
@@ -144,7 +141,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
-                } else {
+                }
+
+               else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
+                    openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.GONE);
+                }
+                 else{
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter("");
                     }

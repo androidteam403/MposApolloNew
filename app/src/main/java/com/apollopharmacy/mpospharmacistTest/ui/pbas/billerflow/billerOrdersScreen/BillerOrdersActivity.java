@@ -107,10 +107,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             }
         });
 
-        if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
-            activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
-            activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
-        }
+
     }
 
 
@@ -143,7 +140,12 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                         billerFullfillmentAdapter.getFilter().filter(editable);
 
                     }
-                } else {
+                } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
+                    activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
+                    activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
+                }
+
+                else {
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter("");
                     }

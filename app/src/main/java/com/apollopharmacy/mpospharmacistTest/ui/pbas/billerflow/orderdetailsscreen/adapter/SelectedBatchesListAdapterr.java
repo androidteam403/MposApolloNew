@@ -40,7 +40,12 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
             holder.adapterSelectedBatchesBinding.batchno.setText(batchListObj.getBatchNo());
             holder.adapterSelectedBatchesBinding.expDate.setText(batchListObj.getExpDate());
             holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(batchListObj.getMRP()));
-            holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(batchListObj.getREQQTY()));
+//            holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(batchListObj.getREQQTY()));
+
+        if (selectedBatchList!=null){
+            int cqty= (int) batchListObj.getREQQTY();
+            holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(cqty));
+        }
 
 
 

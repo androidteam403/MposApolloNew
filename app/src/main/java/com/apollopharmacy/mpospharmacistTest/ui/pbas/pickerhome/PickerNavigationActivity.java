@@ -22,6 +22,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBin
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -171,9 +172,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     @Override
     public void navigateLoginActivity() {
-        startActivity(SelectAppFlowActivity.getStartActivity(this));
-        finish();
+        startActivity(PharmacistLoginActivity.getStartIntent(this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
+
     }
 
     public interface PickerNavigationActivityCallback {

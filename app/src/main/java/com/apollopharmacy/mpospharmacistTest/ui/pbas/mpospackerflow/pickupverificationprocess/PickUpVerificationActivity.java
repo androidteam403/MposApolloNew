@@ -127,7 +127,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
             }
         }
-        Toast.makeText(getApplicationContext(), omsHeader.getOverallOrderStatus(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), omsHeader.getOverallOrderStatus(), Toast.LENGTH_SHORT).show();
 //        omsHeader.setOverallOrderStatus("3");
 
             if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")){
