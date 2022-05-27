@@ -39,7 +39,7 @@
 
                             <ImageView
                                 android:id="@+id/menu_icon"
-                                android:layout_width="@dimen/thirty_dp"
+                                android:layout_width="@dimen/dimen25dp"
                                 android:layout_height="@dimen/thirty_dp"
                                 android:contentDescription="@string/app_name"
                                 android:src="@drawable/ic_back_arrow_white" />

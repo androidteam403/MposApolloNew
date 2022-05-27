@@ -354,10 +354,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
         PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            noOrderFound(omsHeaderList.size());
+        } else {
+            noOrderFound(0);
+        }
     }
 
     private void clearFilter() {

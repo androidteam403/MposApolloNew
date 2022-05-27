@@ -30,7 +30,7 @@
 
                     <ImageView
                         android:id="@+id/header_back"
-                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_width="@dimen/dimen25dp"
                         android:layout_height="@dimen/dimen30dp"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickBack()}"
