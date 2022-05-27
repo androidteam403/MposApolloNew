@@ -145,6 +145,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void getHBPConfig() {
+        if(getDataManager().getGlobalJson().isISHBPStore())
+        getMvpView().getHBPConfig(getDataManager().getHBPConfigRes());
+    }
+
+    @Override
     public void onPayButtonClick() {
         getMvpView().hideKeyboard();
         getMvpView().onPayButtonClick();

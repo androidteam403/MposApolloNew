@@ -243,6 +243,11 @@ public class GetGlobalConfingRes {
     @SerializedName("CircleplanCorpCode")
     private String CircleplanCorpCode;
 
+    @Expose
+    @SerializedName("UHIDHBPURL")
+    private String UHIDHBPURL;
+
+
     public String getCircleplanCorpCode() {
         return CircleplanCorpCode;
 
@@ -582,4 +587,7 @@ public class GetGlobalConfingRes {
         return SMSPayURL;
     }
 
+    public String getUHIDHBPURL() {
+        return UHIDHBPURL;
+    }
 }

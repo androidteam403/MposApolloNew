@@ -148,4 +148,6 @@ dependencies {
     implementation files('libs/libcommon.jar')
     implementation files('libs/BixolonLabelPrinterLibrary.jar')
     implementation project(path:':printflib')
+
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
 }

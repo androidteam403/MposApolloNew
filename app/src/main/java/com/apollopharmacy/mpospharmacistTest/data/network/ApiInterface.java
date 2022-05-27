@@ -55,6 +55,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Medicine
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
@@ -86,6 +88,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
@@ -170,6 +173,9 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{treminalId}/{DataAreaId}")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL(@Path("storeId") String storeId, @Path("treminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
+
+    @POST("SalesTransactionService.svc/GetHBPConfigration/{storeId}/{treminalId}/{DataAreaId}")
+    Call<HBPConfigResponse> GET_HBP_CONFING_RES_CALL(@Path("storeId") String storeId, @Path("treminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/GetTrackingWiseConfigration/{storeId}/{DataAreaId}")
     Call<GetTrackingWiseConfing> GET_TRACKING_WISE_CONFING_CALL(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
@@ -355,4 +361,7 @@ public interface ApiInterface {
     Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Body MPOSPickPackOrderReservationRequest request);
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionResponse> CALCULATE_POS_TRANSACTION_RES(@Body PostTransactionEntityReq posTransactionReq);
+
+    @POST("WalletService.svc/GetHBPUHIDDetails")
+    Call<GetHBPUHIDDetailsResponse> HBPUHID_DETAILS_RESPONSE_CALL(@Body GetHBPUHIDDetailsRequest getHBPUHIDDetailsRequest);
 }

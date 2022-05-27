@@ -65,6 +65,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListActivity;
@@ -266,6 +267,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         Constant.getInstance().vendorcredit = false;
 
         mPresenter.getGlobalConfig();
+        mPresenter.getHBPConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
 
@@ -2372,6 +2374,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setEnableHdfcPayBtn(false);
         }
+    }
+
+    @Override
+    public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
+        if(hbpConfigResponse.getUHIDBilling())
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
     }
 
     @Override

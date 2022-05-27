@@ -31,6 +31,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginR
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -237,6 +238,11 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
 
     @Override
     public void onSucessPlayList() {
+
+    }
+
+    @Override
+    public void updateUHIDDetails(Uhid_details uhid_details) {
 
     }
 

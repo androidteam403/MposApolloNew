@@ -560,5 +560,6 @@
     <string name="label_dashboards">Dashboard</string>
     <string name="label_picker">Picker</string>
     <string name="label_packer">Packer</string>
+    <string name="label_uhid">UHID</string>
 
 </resources>

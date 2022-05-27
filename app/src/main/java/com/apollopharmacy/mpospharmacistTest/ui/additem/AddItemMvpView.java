@@ -29,6 +29,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import java.util.ArrayList;
@@ -235,4 +236,6 @@ public interface AddItemMvpView extends MvpView {
     String getHdfcTransactionId();// changes made by naveen
 
     void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes);
+
+    void getHBPConfig(HBPConfigResponse hbpConfigResponse);
 }
