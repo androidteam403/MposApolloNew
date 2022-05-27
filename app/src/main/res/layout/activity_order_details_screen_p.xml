@@ -39,15 +39,16 @@
 
                             <ImageView
                                 android:id="@+id/menu_icon"
-                                android:layout_width="@dimen/dimen25dp"
-                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_width="@dimen/dimen20dp"
+                                android:layout_height="@dimen/dimen20dp"
                                 android:contentDescription="@string/app_name"
+                                android:padding="@dimen/dimen3dp"
                                 android:src="@drawable/ic_back_arrow_white" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen15dp"
+                                android:layout_marginStart="@dimen/twenty_five_dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -58,7 +59,7 @@
                                     android:text="BILLER SUMMARY"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/dimen16sp" />
+                                    android:textSize="@dimen/dimen14sp" />
 
                                 <TextView
                                     android:id="@+id/header_fullfillmentId"
@@ -67,7 +68,7 @@
                                     android:fontFamily="@font/roboto_bold"
                                     android:text="Box ID: "
                                     android:textColor="@color/white"
-                                    android:textSize="11sp" />
+                                    android:textSize="@dimen/dimen12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -83,7 +84,7 @@
                                     android:fontFamily="@font/roboto_bold"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/dimen_11sp" />
+                                    android:textSize="@dimen/dimen14sp" />
 
                                 <TextView
                                     android:id="@+id/box_id"
@@ -91,7 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_bold"
                                     android:textColor="@color/white"
-                                    android:textSize="11sp" />
+                                    android:textSize="@dimen/dimen12sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -208,14 +209,15 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.4">
+
                                 <TextView
 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Status: "
                                     android:fontFamily="@font/roboto_regular"
-                                    android:textSize="@dimen/dimen10sp"
-                                    android:textColor="@color/text_color_grey" />
+                                    android:text="Status: "
+                                    android:textColor="@color/text_color_grey"
+                                    android:textSize="@dimen/dimen10sp" />
 
                                 <ImageView
                                     android:id="@+id/status_icon"
