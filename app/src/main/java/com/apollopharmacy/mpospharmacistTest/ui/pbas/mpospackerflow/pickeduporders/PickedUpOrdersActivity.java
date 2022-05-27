@@ -109,7 +109,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 activityPickedUpOrdersBinding.searchText.setText("");
                 activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                 activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
-
+                recyclerView();
 
             }
         });
@@ -570,6 +570,13 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         activityPickedUpOrdersBinding.searchText.setText("");
     }
 
+    public void recyclerView(){
+        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+    }
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {

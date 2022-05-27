@@ -86,7 +86,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     protected void setUp(View view) {
-        hideKeyboard();
         activityBillerOrdersBinding.setScan(mPresenter);
 //
         PickerNavigationActivity.mInstance.setWelcome("");
@@ -95,7 +94,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
-//        mPresenter.fetchFulfilmentOrderList();
+        mPresenter.fetchFulfilmentOrderList();
 
         activityBillerOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +140,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                         billerFullfillmentAdapter.getFilter().filter(editable);
 
                     }
-                } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
+                }
+                else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
                     activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
                     activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 }
@@ -153,14 +153,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        omsHeaderList.clear();
-        mPresenter.fetchFulfilmentOrderList();
-        activityBillerOrdersBinding.searchText.setText("");
     }
 
     @Override
