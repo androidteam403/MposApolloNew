@@ -53,15 +53,33 @@ public class OMSTransactionHeaderResModel {
         @Expose
         @SerializedName("OrderType")
         private String OrderType;
+
+        @SerializedName("OverallOrderStatus")
+        @Expose
+        private String OverallOrderStatus;
         @Expose
         @SerializedName("PaymentSource")
         private String PaymentSource;
+
+        @SerializedName("PickPackDatetime")
+        @Expose
+        private String PickPackDatetime;
+        @SerializedName("PickPackStatus")
+        @Expose
+        private String PickPackStatus;
+        @SerializedName("PickPackUser")
+        @Expose
+        private String PickPackUser;
+
         @Expose
         @SerializedName("REFNO")
         private String REFNO;
         @Expose
         @SerializedName("ReciptId")
         private String ReciptId;
+        @SerializedName("NumberofItemLines")
+        @Expose
+        private int NumberofItemLines;
         @Expose
         @SerializedName("ShippingMethod")
         private String ShippingMethod;
@@ -95,16 +113,15 @@ public class OMSTransactionHeaderResModel {
         @SerializedName("CategoryType")
         private String CategoryType;
 
-        public String getCategoryType()
-        {
-            return  CategoryType;
+        private boolean isSelected;
+
+        public String getCategoryType() {
+            return CategoryType;
         }
 
-        public  void setCategoryType(String CategoryType)
-        {
-            this.CategoryType=CategoryType;
+        public void setCategoryType(String CategoryType) {
+            this.CategoryType = CategoryType;
         }
-
 
 
         public boolean getOrderPacked() {
@@ -143,8 +160,40 @@ public class OMSTransactionHeaderResModel {
             return OrderType;
         }
 
+        public String getOverallOrderStatus() {
+            return OverallOrderStatus;
+        }
+
+        public void setOverallOrderStatus(String overallOrderStatus) {
+            OverallOrderStatus = overallOrderStatus;
+        }
+
         public String getPaymentSource() {
             return PaymentSource;
+        }
+
+        public String getPickPackDatetime() {
+            return PickPackDatetime;
+        }
+
+        public void setPickPackDatetime(String pickPackDatetime) {
+            PickPackDatetime = pickPackDatetime;
+        }
+
+        public String getPickPackStatus() {
+            return PickPackStatus;
+        }
+
+        public void setPickPackStatus(String pickPackStatus) {
+            PickPackStatus = pickPackStatus;
+        }
+
+        public String getPickPackUser() {
+            return PickPackUser;
+        }
+
+        public void setPickPackUser(String pickPackUser) {
+            PickPackUser = pickPackUser;
         }
 
         public String getREFNO() {
@@ -153,6 +202,14 @@ public class OMSTransactionHeaderResModel {
 
         public String getReciptId() {
             return ReciptId;
+        }
+
+        public int getNumberofItemLines() {
+            return NumberofItemLines;
+        }
+
+        public void setNumberofItemLines(int numberofItemLines) {
+            NumberofItemLines = numberofItemLines;
         }
 
         public String getShippingMethod() {
@@ -181,6 +238,14 @@ public class OMSTransactionHeaderResModel {
 
         public String getVendorId() {
             return VendorId;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
         }
     }
 }

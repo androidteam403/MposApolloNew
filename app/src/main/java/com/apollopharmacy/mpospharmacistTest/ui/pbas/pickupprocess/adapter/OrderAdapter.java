@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogItemStatusDropdownPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -21,278 +25,129 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback {
-    private Context context;
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements StatusListAdapter.StatusListAdapterCallback, StatusUpdateCallback {
+    private Context mContext;
     private List<RacksDataResponse.FullfillmentDetail> fullfillmentList;
     private FullfillmentProductListAdapter productListAdapter;
     private PickupProcessMvpView pickupProcessMvpView;
-
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     List<List<RackAdapter.RackBoxModel.ProductData>> listOfList;
     private boolean firstAccessCheck;
+    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
+    private int getOrderPos;
+    private int getPos;
+    private String status;
+    List<GetBatchInfoRes.BatchListObj> batchList;
 
-    public OrderAdapter(Context context, List<RacksDataResponse.FullfillmentDetail> fullfillmentList, PickupProcessMvpView pickupProcessMvpView, List<List<RackAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered, boolean acessCheck) {
-        this.context = context;
-        this.fullfillmentList = fullfillmentList;
+
+    public OrderAdapter(Context mContext, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, PickupProcessMvpView pickupProcessMvpView) {
+        this.mContext = mContext;
+        this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
-        this.listOfList = fullfillmentListOfListFiltered;
-        this.firstAccessCheck = acessCheck;
+        this.batchList =  batchList;
+
+    }
+
+
+//    public OrderAdapter(Context context, List<RacksDataResponse.FullfillmentDetail> fullfillmentList, PickupProcessMvpView pickupProcessMvpView, List<List<RackAdapter.RackBoxModel.ProductData>> fullfillmentListOfListFiltered, boolean acessCheck) {
+//        this.mContext = context;
+//        this.fullfillmentList = fullfillmentList;
+//        this.pickupProcessMvpView = pickupProcessMvpView;
+//        this.listOfList = fullfillmentListOfListFiltered;
+//        this.firstAccessCheck = acessCheck;
+//    }
+
+
+    public void setSelectedOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+        this.selectedOmsHeaderList = selectedOmsHeaderList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        AdapterOrderPBinding orderBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.adapter_order_p, parent, false);
+        AdapterOrderPBinding orderBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.adapter_order_p, parent, false);
         return new ViewHolder(orderBinding);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RacksDataResponse.FullfillmentDetail fullFillModel = fullfillmentList.get(position);
-        holder.orderBinding.fullfillmentID.setText(fullFillModel.getFullfillmentId());
-        holder.orderBinding.totalItems.setText(String.valueOf(fullfillmentList.get(0).getProducts().size()));
+        TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
+        holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+        holder.orderBinding.rightArrow.setOnClickListener(v -> {
+            if (pickupProcessMvpView != null)
+                pickupProcessMvpView.onClickOrderAdapterArrow(position);
+        });
 
-
-        holder.orderBinding.boxId.setText(fullFillModel.getBoxId());
-        switch (fullFillModel.getExpandStatus()) {
-            case 0:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
-//                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_grey));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.statusLayout.setVisibility(View.GONE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                holder.orderBinding.rightArrow.setRotation(90);
-                break;
-            case 1:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("In progress");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.in_progress));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rightArrow.setRotation(0);
-                holder.orderBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.yellow_stroke_bg));
-                break;
-            case 2:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("In progress");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.in_progress));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rightArrow.setRotation(90);
-                holder.orderBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.yellow_stroke_bg));
-                break;
-            case 3:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Partial");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rightArrow.setRotation(90);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-
-            case 4:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Partial");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rightArrow.setRotation(0);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 5:
-                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.trans_red));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Not Available");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rightArrow.setRotation(90);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 6:
-                holder.orderBinding.orderChildLayout.setBackgroundColor(context.getResources().getColor(R.color.trans_red));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Not Available");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rightArrow.setRotation(0);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 7:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Full");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rightArrow.setRotation(90);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 8:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Full");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rightArrow.setRotation(0);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            case 9:
-                holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-                holder.orderBinding.start.setVisibility(View.GONE);
-                holder.orderBinding.status.setText("Full");
-                holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-//                holder.orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rightArrow.setRotation(90);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
-                break;
-            default:
+        if (omsHeader.getOrderPickup()) {
+            holder.orderBinding.orderStatus.setText("Completed");
+        } else {
+            holder.orderBinding.orderStatus.setText("Pending");
         }
 
-        List<RackAdapter.RackBoxModel.ProductData> productDataList = new ArrayList<>();
+        holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
+        holder.orderBinding.orderSource.setText(omsHeader.getOrderSource());
+        holder.orderBinding.orderDate.setText(omsHeader.getCreatedDateTime());
+        holder.orderBinding.deliveryDate.setText(omsHeader.getDeliveryDate());
+        holder.orderBinding.shippingMethodType.setText(omsHeader.getShippingMethod());
+        holder.orderBinding.stockStatus.setText(omsHeader.getStockStatus());
+        holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
+        holder.orderBinding.orderType.setText(omsHeader.getOrderType());
+        holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+        holder.orderBinding.vendorId.setText(omsHeader.getVendorId());
+        holder.orderBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+        holder.orderBinding.orderbillvalue.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getNetAmount()));
+        holder.orderBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+        holder.orderBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
+        holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+        holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+        holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
 
-
-        for (int k = 0; k < fullFillModel.getProducts().size(); k++) {
-            RackAdapter.RackBoxModel.ProductData productData = new RackAdapter.RackBoxModel.ProductData();
-            productData.setProductId(fullFillModel.getProducts().get(k).getProductId());
-            productData.setProductName(fullFillModel.getProducts().get(k).getProductName());
-            productData.setRackId(fullFillModel.getProducts().get(k).getRackId());
-            productData.setBoxId(fullFillModel.getBoxId());
-            productData.setAvailableQuantity(fullFillModel.getProducts().get(k).getAvailableQuantity());
-            productData.setRequiredQuantity(fullFillModel.getProducts().get(k).getRequiredQuantity());
-            productData.setBatchId(fullFillModel.getProducts().get(k).getBatchId());
-            if (listOfList != null && listOfList.size() > 0) {
-                for (int i = 0; i < listOfList.size(); i++) {
-                    for (int l = 0; l < listOfList.get(i).size(); l++) {
-                        if (listOfList.get(i).get(l).getProductId().equalsIgnoreCase(fullFillModel.getProducts().get(k).getProductId())) {
-                            productData.setCapturedQuantity(listOfList.get(i).get(l).getCapturedQuantity());
-                            productData.setStatus(listOfList.get(i).get(l).getStatus());
-                            productData.setProductStatusFillingUpdate(listOfList.get(i).get(l).isProductStatusFillingUpdate());
-                        }
-                    }
-                }
-            } else {
-                if (pickupProcessMvpView.fullfilListOfList() != null && pickupProcessMvpView.fullfilListOfList().size() > 0) {
-                    for (int i = 0; i < pickupProcessMvpView.fullfilListOfList().size(); i++) {
-                        for (int l = 0; l < pickupProcessMvpView.fullfilListOfList().size(); l++) {
-                            if (pickupProcessMvpView.fullfilListOfList().get(i).get(l).getProductId().equalsIgnoreCase(fullFillModel.getProducts().get(k).getProductId())) {
-                                productData.setCapturedQuantity(pickupProcessMvpView.fullfilListOfList().get(i).get(l).getCapturedQuantity());
-                                productData.setStatus(pickupProcessMvpView.fullfilListOfList().get(i).get(l).getStatus());
-                                productData.setProductStatusFillingUpdate(pickupProcessMvpView.fullfilListOfList().get(i).get(l).isProductStatusFillingUpdate());
-                            }
-                        }
-                    }
-                } else {
-                    productData.setCapturedQuantity(fullFillModel.getProducts().get(k).getCapturedQuantity());
-                    productData.setStatus(fullFillModel.getProducts().get(k).getStatus());
-                    productData.setProductStatusFillingUpdate(fullFillModel.getProducts().get(k).isProductStatusFillingUpdate());
-                }
-            }
-            productDataList.add(productData);
+        if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.orderBinding.statusText.setText("PARTIAL");
+            omsHeader.setOverallOrderStatus("2");
+        } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.orderBinding.statusText.setText("NOT AVAILABLE");
+            omsHeader.setOverallOrderStatus("3");
+        } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+            holder.orderBinding.statusImage.setRotation(0);
+            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.orderBinding.statusText.setText("FULL");
+            omsHeader.setOverallOrderStatus("1");
+        } else {
+            holder.orderBinding.statusandicon.setVisibility(View.GONE);
         }
 
-//        completedViewCheck(productDataList,position,holder.orderBinding);
-//        multipleStatusCheck(productDataList,position);
-        if (!firstAccessCheck)
-            firstTimeMultipleStatusCheck(productDataList, position, holder.orderBinding);
 
-        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(context, productDataList, pickupProcessMvpView, false, listOfList, fullFillModel.getFullfillmentId());
-        new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
-        holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(context));
+        NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
+        new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
+        holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
 
+        if (omsHeader.isExpanded()) {
+            holder.orderBinding.rightArrow.setImageResource(R.drawable.ic_arrow_drop_up);
+            holder.orderBinding.rightArrow.setRotation(0);
+            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+        } else {
+            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+            holder.orderBinding.rightArrow.setRotation(90);
+            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+        }
 
-        holder.orderBinding.rightArrow.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.onClickRightArrow(fullFillModel);
-            }
-        });
-        holder.orderBinding.orderChildLayout.setOnClickListener(v -> {
-            firstAccessCheck = true;
-//            completedViewCheck(productDataList,position,holder.orderBinding);
-
-            if (fullfillmentList.get(position).getExpandStatus() == 0) {
-                fullfillmentList.get(position).setExpandStatus(1);
-                holder.orderBinding.itemStatusDropdown.setVisibility(View.VISIBLE);
-                holder.orderBinding.presentStatus.setVisibility(View.VISIBLE);
-
-                notifyDataSetChanged();
-            } else if (fullfillmentList.get(position).getExpandStatus() == 1) {
-                fullfillmentList.get(position).setExpandStatus(0);
-                holder.orderBinding.itemStatusDropdown.setVisibility(View.GONE);
-                holder.orderBinding.presentStatus.setVisibility(View.GONE
-
-
-                );
-
-                notifyDataSetChanged();
-            }
-
-
-            //
-//        productListAdapter = new FullfillmentProductListAdapter(context, productDataList, pickupProcessMvpView, false, listOfList, fullFillModel.getFullfillmentId());
-//        new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
-//        holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(context));
-//        holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
-//        holder.orderBinding.rightArrow.setOnClickListener(view -> {
-//            if (pickupProcessMvpView != null) {
-//                pickupProcessMvpView.onClickRightArrow(fullFillModel);
-//            }
-//        });
-//        holder.orderBinding.orderChildLayout.setOnClickListener(v -> {
-//            firstAccessCheck = true;
-////            completedViewCheck(productDataList,position,holder.orderBinding);
-//
-//            if (fullfillmentList.get(position).getExpandStatus() == 0) {
-//                fullfillmentList.get(position).setExpandStatus(1);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 1) {
-//                fullfillmentList.get(position).setExpandStatus(0);
-//                notifyDataSetChanged();
-//            }
-
-//            if (fullfillmentList.get(position).getExpandStatus() == 0) {
-//                fullfillmentList.get(position).setExpandStatus(1);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 2) {
-//                fullfillmentList.get(position).setExpandStatus(1);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 1) {
-//                multipleStatusCheck(productDataList, position);
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 3) {
-//                fullfillmentList.get(position).setExpandStatus(4);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 4) {
-//                multipleStatusCheck(productDataList, position);
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 5) {
-//                fullfillmentList.get(position).setExpandStatus(6);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 6) {
-//                multipleStatusCheck(productDataList, position);
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 7) {
-//                fullfillmentList.get(position).setExpandStatus(8);
-//                notifyDataSetChanged();
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 8) {
-////                rackDataFilteredList.get(position).setExpandStatus(9);
-////                notifyDataSetChanged();
-//                multipleStatusCheck(productDataList, position);
-//            } else if (fullfillmentList.get(position).getExpandStatus() == 9) {
-////                multipleStatusCheck(productDataList, position);
-//            }
+        holder.itemView.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null)
+                pickupProcessMvpView.onClickOrderItem(position, omsHeader);
         });
 
         holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
-            BottomSheetDialog itemStatusDropdownDialog = new BottomSheetDialog(context);
-            DialogItemStatusDropdownPBinding itemStatusDropdownBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_item_status_dropdown_p, null, false);
+            BottomSheetDialog itemStatusDropdownDialog = new BottomSheetDialog(mContext);
+            DialogItemStatusDropdownPBinding itemStatusDropdownBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_item_status_dropdown_p, null, false);
             itemStatusDropdownDialog.setContentView(itemStatusDropdownBinding.getRoot());
 
             List<String> statusList = new ArrayList<>();
@@ -301,79 +156,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             statusList.add("Not Available");
             statusList.add("Skipped");
 
-            StatusListAdapter statusListAdapter = new StatusListAdapter(context, statusList, this, holder.orderBinding, itemStatusDropdownDialog);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+            StatusListAdapter statusListAdapter = new StatusListAdapter(mContext, statusList, this, holder.orderBinding, itemStatusDropdownDialog);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
             itemStatusDropdownBinding.statusListRecycler.setLayoutManager(mLayoutManager);
             itemStatusDropdownBinding.statusListRecycler.setAdapter(statusListAdapter);
 
             itemStatusDropdownDialog.show();
         });
-        holder.orderBinding.gotoNextRack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fullfillmentList.get(position).getExpandStatus() == 0) {
-                    fullfillmentList.get(position).setExpandStatus(1);
-                    goToNextCheck(position + 1, productDataList);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                    notifyDataSetChanged();
-                } else if (fullfillmentList.get(position).getExpandStatus() == 2) {
-                    fullfillmentList.get(position).setExpandStatus(1);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                    notifyDataSetChanged();
-                } else if (fullfillmentList.get(position).getExpandStatus() == 1) {
-                    multipleStatusCheck(productDataList, position);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                } else if (fullfillmentList.get(position).getExpandStatus() == 3) {
-                    fullfillmentList.get(position).setExpandStatus(4);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                    notifyDataSetChanged();
-                } else if (fullfillmentList.get(position).getExpandStatus() == 4) {
-                    multipleStatusCheck(productDataList, position);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                } else if (fullfillmentList.get(position).getExpandStatus() == 5) {
-                    fullfillmentList.get(position).setExpandStatus(6);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                    notifyDataSetChanged();
-                } else if (fullfillmentList.get(position).getExpandStatus() == 6) {
-                    multipleStatusCheck(productDataList, position);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                } else if (fullfillmentList.get(position).getExpandStatus() == 7) {
-                    fullfillmentList.get(position).setExpandStatus(8);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                    notifyDataSetChanged();
-                } else if (fullfillmentList.get(position).getExpandStatus() == 8) {
-                    multipleStatusCheck(productDataList, position);
-                    if (position + 1 >= fullfillmentList.size())
-                        goToNextCheck(0, productDataList);
-                    else
-                        goToNextCheck(position + 1, productDataList);
-                }
-            }
-        });
+
     }
 
     private void goToNextCheck(int position, List<RackAdapter.RackBoxModel.ProductData> productDataList) {
@@ -586,84 +376,78 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             }
         }
 
-        if (partial) {
-            fullfillmentList.get(position).setExpandStatus(3);
-            rackBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
-            rackBinding.start.setVisibility(View.GONE);
-            rackBinding.status.setText("Partial");
-            rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
-            rackBinding.statusLayout.setVisibility(View.VISIBLE);
-            rackBinding.rackChild2Layout.setVisibility(View.GONE);
-            rackBinding.rackChild2Layout.setBackground(null);
-        } else if (notAvailable) {
-            fullfillmentList.get(position).setExpandStatus(5);
-            rackBinding.rackChild2Layout.setBackgroundColor(context.getResources().getColor(R.color.trans_red));
-            rackBinding.start.setVisibility(View.GONE);
-            rackBinding.status.setText("Not Available");
-            rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-            rackBinding.statusLayout.setVisibility(View.VISIBLE);
-            rackBinding.rackChild2Layout.setVisibility(View.GONE);
-            rackBinding.rackChild2Layout.setBackground(null);
-        } else if (full) {
-            fullfillmentList.get(position).setExpandStatus(7);
-            rackBinding.rackChild2Layout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-            rackBinding.start.setVisibility(View.GONE);
-            rackBinding.status.setText("Full");
-            rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-            rackBinding.statusLayout.setVisibility(View.VISIBLE);
-            rackBinding.rackChild2Layout.setVisibility(View.GONE);
-            rackBinding.rackChild2Layout.setBackground(null);
-//        } else {
-//            if (rackDataFilteredList.get(position).getExpandStatus() == 9) {
-//                rackDataFilteredList.get(position).setExpandStatus(8);
-//            } else {
-//                rackDataFilteredList.get(position).setExpandStatus(2);
+//        if (partial) {
+//            fullfillmentList.get(position).setExpandStatus(3);
+//            rackBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
+//            rackBinding.start.setVisibility(View.GONE);
+//            rackBinding.status.setText("Partial");
+//            rackBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_partial));
+//            rackBinding.statusLayout.setVisibility(View.VISIBLE);
+//            rackBinding.rackChild2Layout.setVisibility(View.GONE);
+//            rackBinding.rackChild2Layout.setBackground(null);
+//        } else if (notAvailable) {
+//            fullfillmentList.get(position).setExpandStatus(5);
+//            rackBinding.rackChild2Layout.setBackgroundColor(mContext.getResources().getColor(R.color.trans_red));
+//            rackBinding.start.setVisibility(View.GONE);
+//            rackBinding.status.setText("Not Available");
+//            rackBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+//            rackBinding.statusLayout.setVisibility(View.VISIBLE);
+//            rackBinding.rackChild2Layout.setVisibility(View.GONE);
+//            rackBinding.rackChild2Layout.setBackground(null);
+//        } else if (full) {
+//            fullfillmentList.get(position).setExpandStatus(7);
+//            rackBinding.rackChild2Layout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_green));
+//            rackBinding.start.setVisibility(View.GONE);
+//            rackBinding.status.setText("Full");
+//            rackBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+//            rackBinding.statusLayout.setVisibility(View.VISIBLE);
+//            rackBinding.rackChild2Layout.setVisibility(View.GONE);
+//            rackBinding.rackChild2Layout.setBackground(null);
+//
+//        }
+    }
+
+//    private void completedViewCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position, AdapterOrderPBinding orderBinding) {
+//        int completedFlag = 0;
+//        if (pickupProcessMvpView.productList() != null && pickupProcessMvpView.productList().size() > 0) {
+//            for (int i = 0; i < pickupProcessMvpView.productList().size(); i++) {
+//                for (int k = 0; k < pickupProcessMvpView.productList().get(i).size(); k++) {
+//                    for (int j = 0; j < productDataList.size(); j++) {
+//                        if (pickupProcessMvpView.productList().get(i).get(k).getProductId().equalsIgnoreCase(productDataList.get(j).getProductId())) {
+//                            if (pickupProcessMvpView.productList().get(i).get(k).isProductStatusFillingUpdate()) {
+//                                productDataList.get(j).setProductStatusFillingUpdate(pickupProcessMvpView.productList().get(i).get(k).isProductStatusFillingUpdate());
+//                            }
+//                        }
+//                    }
+//                }
 //            }
-//            notifyDataSetChanged();
-        }
-    }
-
-    private void completedViewCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position, AdapterOrderPBinding orderBinding) {
-        int completedFlag = 0;
-        if (pickupProcessMvpView.productList() != null && pickupProcessMvpView.productList().size() > 0) {
-            for (int i = 0; i < pickupProcessMvpView.productList().size(); i++) {
-                for (int k = 0; k < pickupProcessMvpView.productList().get(i).size(); k++) {
-                    for (int j = 0; j < productDataList.size(); j++) {
-                        if (pickupProcessMvpView.productList().get(i).get(k).getProductId().equalsIgnoreCase(productDataList.get(j).getProductId())) {
-                            if (pickupProcessMvpView.productList().get(i).get(k).isProductStatusFillingUpdate()) {
-                                productDataList.get(j).setProductStatusFillingUpdate(pickupProcessMvpView.productList().get(i).get(k).isProductStatusFillingUpdate());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (pickupProcessMvpView.productList() != null && pickupProcessMvpView.productList().size() > 0) {
-            for (int i = 0; i < productDataList.size(); i++) {
-                if (productDataList.get(i).isProductStatusFillingUpdate()) {
-                    completedFlag = completedFlag + 1;
-                }
-            }
-
-            if (completedFlag == productDataList.size()) {
-                if (fullfillmentList.get(position).getExpandStatus() != 5 && fullfillmentList.get(position).getExpandStatus() != 6 && fullfillmentList.get(position).getExpandStatus() != 7) {
-                    fullfillmentList.get(position).setExpandStatus(5);
-                    orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-                    orderBinding.start.setVisibility(View.GONE);
-                    orderBinding.status.setText("Completed");
-                    orderBinding.statusIcon.setVisibility(View.VISIBLE);
-                    orderBinding.statusLayout.setVisibility(View.VISIBLE);
-                    orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                    orderBinding.rackChild2Layout.setBackground(null);
-                }
-            }
-        }
-
-    }
+//        }
+//        if (pickupProcessMvpView.productList() != null && pickupProcessMvpView.productList().size() > 0) {
+//            for (int i = 0; i < productDataList.size(); i++) {
+//                if (productDataList.get(i).isProductStatusFillingUpdate()) {
+//                    completedFlag = completedFlag + 1;
+//                }
+//            }
+//
+//            if (completedFlag == productDataList.size()) {
+//                if (fullfillmentList.get(position).getExpandStatus() != 5 && fullfillmentList.get(position).getExpandStatus() != 6 && fullfillmentList.get(position).getExpandStatus() != 7) {
+//                    fullfillmentList.get(position).setExpandStatus(5);
+//                    orderBinding.orderChildLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_green));
+//                    orderBinding.start.setVisibility(View.GONE);
+//                    orderBinding.status.setText("Completed");
+//                    orderBinding.statusIcon.setVisibility(View.VISIBLE);
+//                    orderBinding.statusLayout.setVisibility(View.VISIBLE);
+//                    orderBinding.rackChild2Layout.setVisibility(View.GONE);
+//                    orderBinding.rackChild2Layout.setBackground(null);
+//                }
+//            }
+//        }
+//
+//    }
 
     @Override
     public int getItemCount() {
-        return fullfillmentList.size();
+        return selectedOmsHeaderList.size();
     }
 
     @Override
@@ -672,19 +456,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             case "Partially Filled":
                 adapterOrderBinding.itemStatusText.setText(status);
                 adapterOrderBinding.icItemStatus.setRotation(270);
-                adapterOrderBinding.icItemStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Fully Filled":
                 adapterOrderBinding.itemStatusText.setText(status);
                 adapterOrderBinding.icItemStatus.setRotation(0);
-                adapterOrderBinding.icItemStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Not Available":
                 adapterOrderBinding.itemStatusText.setText(status);
                 adapterOrderBinding.icItemStatus.setRotation(270);
-                adapterOrderBinding.icItemStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Skipped":
@@ -693,6 +477,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             default:
         }
     }
+
+    @Override
+    public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId) {
+        if (pickupProcessMvpView != null) {
+            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
+
+        }
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterOrderPBinding orderBinding;
