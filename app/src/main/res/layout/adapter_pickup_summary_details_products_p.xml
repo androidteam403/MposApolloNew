@@ -198,8 +198,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
-                android:gravity="center"
+android:paddingStart="@dimen/dimen5dp"
                 android:text="@string/batch_no"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
@@ -209,6 +210,8 @@
                 android:layout_weight=".25"
                 android:gravity="center"
                 android:text="@string/label_exp_date"
+                android:fontFamily="@font/roboto_regular"
+
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
@@ -217,6 +220,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+
                 android:text="@string/label_mrp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
@@ -225,6 +230,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
+                android:fontFamily="@font/roboto_regular"
+
                 android:gravity="center"
                 android:text="@string/label_req_qty"
                 android:textColor="@color/grey"

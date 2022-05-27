@@ -409,15 +409,21 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @Override
     public void onClickRackAdapter(int pos) {
         for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
-            rackWiseSortedDataList.get(i).setExpanded(i == pos);
+            if (i == pos){
+               if (rackWiseSortedDataList.get(i).isExpanded()){
+                   rackWiseSortedDataList.get(i).setExpanded(false);
+               }else{
+                   rackWiseSortedDataList.get(i).setExpanded(true);
+                }
+            }
         }
         if (rackAdapter != null) {
             rackAdapter.notifyDataSetChanged();
         }
     }
-
     @Override
     public void onClickRackItemStart(GetOMSTransactionResponse.SalesLine salesLine) {
+
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                 for (int j = 0; j < selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {

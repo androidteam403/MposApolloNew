@@ -21,8 +21,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
-                android:gravity="center"
                 android:text="@string/label_batch_no"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
@@ -32,6 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+
                 android:text="@string/label_exp_date"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
@@ -43,6 +45,8 @@
                 android:layout_weight=".25"
                 android:gravity="center"
                 android:text="@string/label_mrp"
+                android:fontFamily="@font/roboto_regular"
+
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
@@ -53,6 +57,8 @@
                 android:layout_weight=".25"
                 android:gravity="center"
                 android:text="@string/label_req_qty"
+                android:fontFamily="@font/roboto_regular"
+
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
         </LinearLayout>
