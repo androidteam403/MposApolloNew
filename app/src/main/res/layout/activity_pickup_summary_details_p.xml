@@ -577,39 +577,46 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
+                            android:layout_marginStart="@dimen/five_dp"
                             android:layout_marginTop="@dimen/five_dp"
-                            android:layout_marginEnd="@dimen/ten_dp"
+                            android:layout_marginEnd="@dimen/five_dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
 
+                            <!--                    <RelativeLayout-->
+                            <!--                        android:layout_width="0dp"-->
+                            <!--                        android:layout_height="wrap_content"-->
+                            <!--                        android:layout_weight="0.1"-->
+                            <!--                        android:gravity="center" />-->
+
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".7"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_marginLeft="@dimen/dimen5dp"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Products"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_weight="0.15"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Qty"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.15"
+                                android:contentDescription="@string/app_name"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Status"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
+                                android:textSize="@dimen/dimen12sp" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

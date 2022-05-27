@@ -62,6 +62,9 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         }
 
 
+
+
+
         if (responseList != null && fullfillmentDetail != null) {
             if (responseList.get(position).getPickupQty() >= fullfillmentDetail.getQty()) {
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);

@@ -621,39 +621,51 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:layout_marginEnd="@dimen/ten_dp"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal"
+
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
                             android:weightSum="1">
 
+                            <!--                    <RelativeLayout-->
+                            <!--                        android:layout_width="0dp"-->
+                            <!--                        android:layout_height="wrap_content"-->
+                            <!--                        android:layout_weight="0.1"-->
+                            <!--                        android:gravity="center" />-->
+
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".7"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Products"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Qty."
+                                android:layout_weight="0.15"
+                                android:fontFamily="@font/price_bold"
+                                android:text="Qty"
+                                android:gravity="center"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.15"
+                                android:contentDescription="@string/app_name"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Status"
+                                android:gravity="center"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
+                                android:textSize="@dimen/dimen12sp" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -661,8 +673,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/dimen100dp"
-                            android:nestedScrollingEnabled="false"
-                            android:padding="@dimen/five_dp" />
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:nestedScrollingEnabled="false"/>
                     </LinearLayout>
 
                     <!--                    <TextView-->

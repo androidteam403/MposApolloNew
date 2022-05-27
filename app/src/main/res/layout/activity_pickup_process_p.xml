@@ -283,6 +283,7 @@
         <!--&lt;!&ndash;                android:src="@drawable/ic_baseline_arrow_back_ios_24" />&ndash;&gt;-->
 
         <!--        </LinearLayout>-->
+
         <RelativeLayout
             android:id="@+id/continue_button_layout"
             android:layout_width="match_parent"
