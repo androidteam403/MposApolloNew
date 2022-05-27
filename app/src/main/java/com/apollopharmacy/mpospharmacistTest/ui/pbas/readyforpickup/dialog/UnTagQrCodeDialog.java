@@ -19,12 +19,14 @@ public class UnTagQrCodeDialog {
     private boolean negativeExist = false;
 
     public UnTagQrCodeDialog(Context context, String id) {
-        dialog = new Dialog(context);
-        dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+         dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+
         dialogUntagQrcodeBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_untag_qrcode_p, null, false);
         dialog.setContentView(dialogUntagQrcodeBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (dialog.getWindow() != null)
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         dialog.setCancelable(false);
 
         dialogUntagQrcodeBinding.title.setText(id);
