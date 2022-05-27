@@ -233,7 +233,7 @@ android:paddingStart="@dimen/dimen5dp"
                 android:fontFamily="@font/roboto_regular"
 
                 android:gravity="center"
-                android:text="@string/label_req_qty"
+                android:text="Qty."
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 

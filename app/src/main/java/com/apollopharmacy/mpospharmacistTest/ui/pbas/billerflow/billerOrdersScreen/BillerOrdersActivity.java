@@ -143,7 +143,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                     }
                 }
                 else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
-                } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter("");
                     }

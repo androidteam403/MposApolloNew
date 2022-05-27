@@ -154,8 +154,7 @@
                 android:layout_weight=".25"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
-
-                android:text="@string/requied_qty"
+                android:text="Qty."
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
         </LinearLayout>
