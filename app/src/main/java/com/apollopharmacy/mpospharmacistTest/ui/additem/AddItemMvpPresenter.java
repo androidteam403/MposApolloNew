@@ -8,8 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
-
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
 
@@ -29,6 +28,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void onClickCardPayment();
 
+    void onClickHdfcPay();
+
     void onClickSmsPAyMode();
 
     void onClickVendorPayMode();
@@ -36,7 +37,9 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void onClickCodPayMode();
 
 
-     void showsmsPaymentDialog() ;
+    void showsmsPaymentDialog();
+
+    void showHdfcPaymentDialog();
 
     void onClickCashPayment();
 
@@ -82,7 +85,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void generateTenterLineService(double amount, WalletServiceRes walletServiceRes);
 
-    void validateOmsOrder(double totalamount,CalculatePosTransactionRes calculatePosTransactionRes,CustomerDataResBean customerDataResBean);
+    void validateOmsOrder(double totalamount, CalculatePosTransactionRes calculatePosTransactionRes, CustomerDataResBean customerDataResBean);
 
     void clearAllVoidTransaction();
 
@@ -126,10 +129,14 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void Posttransactionrequest();
 
-    void  sendSmsservice(String mobilenumber);
+    void sendSmsservice(String mobilenumber);
 
     void omsaddnewitem(ArrayList<SalesLineEntity> itemsArrayList);
 
 
     void getUnpostedTransaction();
+
+    void getGlobalConfig();
+
+    GetGlobalConfingRes getGlobalConfiguration();
 }
