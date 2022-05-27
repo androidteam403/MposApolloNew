@@ -43,6 +43,15 @@ public class RackWiseSortedData {
     public void setGetOMSTransactionResponse(GetOMSTransactionResponse getOMSTransactionResponse) {
         this.getOMSTransactionResponse = getOMSTransactionResponse;
     }
+    private int expandStatus = 0;
+
+    public int getExpandStatus() {
+        return expandStatus;
+    }
+
+    public void setExpandStatus(int expandStatus) {
+        this.expandStatus = expandStatus;
+    }
 
     public boolean isExpanded() {
         return isExpanded;
