@@ -49,9 +49,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/dimen30dp"
-                    android:layout_height="@dimen/dimen30dp"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
                     android:layout_marginStart="@dimen/dimen15dp"
+                    android:padding="@dimen/dimen3dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_back_arrow_white" />
@@ -59,7 +60,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginStart="@dimen/twenty_five_dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -232,9 +233,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen10dp"
+                        android:layout_marginRight="@dimen/dimen3dp"
                         android:layout_weight=".45"
                         android:clickable="false"
-                        android:layout_marginRight="@dimen/dimen3dp"
 
                         android:gravity="center_vertical"
                         android:onClick="@{()-> callback.onClickNotAvailable()}"
@@ -245,10 +246,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/black"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_not_available"
-
                             android:clickable="false"
+                            android:fontFamily="@font/roboto_regular"
+
+                            android:text="@string/label_not_available"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -375,7 +376,6 @@
                     </LinearLayout>
 
                     <TextView
-                        android:visibility="visible"
                         android:id="@+id/select_batches_automatically"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
@@ -385,10 +385,10 @@
                         android:gravity="center"
                         android:text="@string/label_select_batch_automatically"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp" />
+                        android:textSize="@dimen/dimen16sp"
+                        android:visibility="visible" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/update1"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
@@ -398,7 +398,8 @@
                         android:gravity="center"
                         android:text="Update"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp" />
+                        android:textSize="@dimen/dimen16sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

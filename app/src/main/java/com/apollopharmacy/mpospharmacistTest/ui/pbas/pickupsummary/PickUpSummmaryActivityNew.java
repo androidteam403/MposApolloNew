@@ -24,7 +24,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
@@ -447,6 +446,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
             Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("FRAGMENT_NAME", "PICKER");
             intent.putExtra("EXIT", true);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);

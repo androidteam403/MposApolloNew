@@ -47,24 +47,18 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
     @Override
     public void onBindViewHolder(@NonNull OrderDetailsScreenAdapter.ViewHolder holder, int position) {
         SalesLineEntity fullfillmentDetail = products.get(position);
-
         holder.adapterOrderDetailsScreenBinding.productName.setText(fullfillmentDetail.getItemName());
-//        holder.adapterOrderDetailsScreenBinding.quantity.setText(fullfillmentDetail.getRequiredQuantity() + "/10");
-//        holder.adapterOrderDetailsScreenBinding.batchNo.setText(fullfillmentDetail.getInventBatchId());
-//        holder.adapterOrderDetailsScreenBinding.apolloMrp.setText("-");
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
-//        holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMRP()));
-
         holder.adapterOrderDetailsScreenBinding.availableQty.setText("/" + Math.round(fullfillmentDetail.getQty()));
         if (responseList != null) {
-            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(responseList.get(position).getPickupQty())));
-
+            double pickedUpQty = 0.0;
+            for (PickPackReservation pickPackReservation : responseList) {
+                if (pickPackReservation.getPickupItemId().equals(fullfillmentDetail.getItemId())) {
+                    pickedUpQty = pickedUpQty + pickPackReservation.getPickupQty();
+                }
+            }
+            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(pickedUpQty)));
         }
-
-
-
-
-
         if (responseList != null && fullfillmentDetail != null) {
             if (responseList.get(position).getPickupQty() >= fullfillmentDetail.getQty()) {
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
