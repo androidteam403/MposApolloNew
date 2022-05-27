@@ -112,17 +112,20 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
     }
 
     @Override
-    public  void enableopenscreens()
-    {
+    public void enableopenscreens() {
         getDataManager().setOpenScreens(true);
 
     }
 
     @Override
-    public  void disablescreens()
-    {
+    public void disablescreens() {
         getDataManager().setOpenScreens(false);
 
+    }
+
+    @Override
+    public void getGlobalConfig() {
+        getMvpView().getGlobalConfig(getDataManager().getGlobalJson());
     }
 
 
