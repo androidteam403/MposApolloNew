@@ -119,8 +119,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
-                android:gravity="center"
-                android:text="@string/label_batch_no"
+                android:text="Batch No"
+                android:fontFamily="@font/roboto_regular"
+
+                android:paddingStart="@dimen/dimen10dp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
@@ -129,6 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+
                 android:text="@string/label_exp_date"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
@@ -138,6 +142,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+
                 android:text="@string/label_mrp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
@@ -147,6 +153,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+
                 android:text="@string/requied_qty"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
@@ -156,7 +164,6 @@
             android:id="@+id/selectedbatches_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/five_dp"
             android:layout_marginTop="@dimen/dimen2dp"
             android:layout_marginEnd="@dimen/five_dp" />
 

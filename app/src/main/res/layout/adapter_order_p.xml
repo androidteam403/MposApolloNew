@@ -163,7 +163,7 @@
                         android:layout_gravity="end"
                         android:contentDescription="@string/app_name"
                         android:padding="@dimen/five_dp"
-                        android:rotation="90"
+                        android:rotation="0"
                         android:src="@drawable/right_arrow_black" />
 
                     <ImageView
@@ -173,8 +173,9 @@
                         android:layout_gravity="end"
                         android:contentDescription="@string/app_name"
                         android:padding="@dimen/five_dp"
+                        android:rotation="90"
                         android:visibility="gone"
-                        android:src="@drawable/ic_arrow_drop_up"  />
+                        android:src="@drawable/right_arrow_black"  />
 
                 </LinearLayout>
 

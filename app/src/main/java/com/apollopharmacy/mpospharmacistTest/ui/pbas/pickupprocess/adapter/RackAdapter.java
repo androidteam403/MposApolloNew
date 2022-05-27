@@ -69,13 +69,13 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         holder.rackBinding.productListRecycler.setLayoutManager(mLayoutManager);
         holder.rackBinding.productListRecycler.setAdapter(productListAdapter);
-        if (rackWiseSortedData.isExpanded()) {
-            holder.rackBinding.dropdown.setImageResource(R.drawable.ic_arrow_drop_up);
-            holder.rackBinding.dropdown.setRotation(0);
+        if (rackWiseSortedDataList.get(position).isExpanded()) {
+            holder.rackBinding.dropdown.setImageResource(R.drawable.right_arrow_black);
+            holder.rackBinding.dropdown.setRotation(90);
             holder.rackBinding.productDetailsLayout.setVisibility(View.VISIBLE);
         } else {
             holder.rackBinding.dropdown.setImageResource(R.drawable.right_arrow_black);
-            holder.rackBinding.dropdown.setRotation(90);
+            holder.rackBinding.dropdown.setRotation(0);
             holder.rackBinding.productDetailsLayout.setVisibility(View.GONE);
         }
 

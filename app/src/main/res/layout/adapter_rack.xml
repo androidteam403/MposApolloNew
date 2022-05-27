@@ -118,7 +118,7 @@
                     android:layout_height="@dimen/dimen30dp"
                     android:contentDescription="@string/app_name"
                     android:padding="@dimen/five_dp"
-                    android:rotation="90"
+                    android:rotation="0"
                     android:src="@drawable/right_arrow_black" />
 
             </LinearLayout>
