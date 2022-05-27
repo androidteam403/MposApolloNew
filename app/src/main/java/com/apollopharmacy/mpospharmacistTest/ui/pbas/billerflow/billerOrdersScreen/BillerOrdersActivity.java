@@ -144,9 +144,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
                     activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
                     activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
-                }
-
-                else {
+                } else {
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter("");
                     }
@@ -158,9 +156,13 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     @Override
     public void onResume() {
         super.onResume();
-        omsHeaderList.clear();
-        mPresenter.fetchFulfilmentOrderList();
-        activityBillerOrdersBinding.searchText.setText("");
+        if (!isScanerBack) {
+            omsHeaderList.clear();
+            mPresenter.fetchFulfilmentOrderList();
+            activityBillerOrdersBinding.searchText.setText("");
+        } else {
+            isScanerBack = false;
+        }
     }
 
     @Override
@@ -187,6 +189,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
     }
 
+    private boolean isScanerBack = false;
+
     @Override
     public void onSuccessRackApi(RacksDataResponse body) {
         racksDataResponse = body.getFullfillmentDetails();
@@ -195,6 +199,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         activityBillerOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isScanerBack = true;
                 isBillerActivity = true;
                 new IntentIntegrator(getActivity()).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
                 getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);

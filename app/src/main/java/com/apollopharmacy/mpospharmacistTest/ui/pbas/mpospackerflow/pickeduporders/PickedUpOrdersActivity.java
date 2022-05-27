@@ -169,9 +169,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 } else if (activityPickedUpOrdersBinding.searchText.getText().toString().equals("")) {
                     activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                     activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
-                }
-
-                else {
+                } else {
                     if (pickedUpOrdersAdapter != null) {
                         pickedUpOrdersAdapter.getFilter().filter("");
                     }
@@ -186,13 +184,14 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     }
 
     private boolean removeItsStatis;
-
+    private boolean isScannerBack;
 
     @Override
     public void onClickScanCode() {
 //        Intent intent = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        isScannerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -565,9 +564,13 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     @Override
     public void onResume() {
         super.onResume();
-        omsHeaderList.clear();
-        mvpPresenter.fetchFulfilmentOrderList();
-        activityPickedUpOrdersBinding.searchText.setText("");
+        if (!isScannerBack) {
+            omsHeaderList.clear();
+            mvpPresenter.fetchFulfilmentOrderList();
+            activityPickedUpOrdersBinding.searchText.setText("");
+        } else {
+            isScannerBack = false;
+        }
     }
 
     @Override

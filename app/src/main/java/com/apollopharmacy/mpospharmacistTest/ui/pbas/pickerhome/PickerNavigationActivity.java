@@ -176,11 +176,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     @Override
     public void navigateLoginActivity() {
         Intent intent = new Intent(PickerNavigationActivity.this, PharmacistLoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("EXIT", true);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
 
 
     }

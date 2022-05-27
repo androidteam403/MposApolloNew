@@ -142,13 +142,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
-                }
-
-               else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
+                } else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
                     openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
                     openOrdersBinding.deleteCancel.setVisibility(View.GONE);
-                }
-                 else{
+                } else {
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter("");
                     }
@@ -541,9 +538,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onResume() {
         super.onResume();
-        omsHeaderList.clear();
-        mPresenter.fetchFulfilmentOrderList();
-        openOrdersBinding.searchByfulfimentid.setText("");
+        if (!isScanerBack) {
+            omsHeaderList.clear();
+            mPresenter.fetchFulfilmentOrderList();
+            openOrdersBinding.searchByfulfimentid.setText("");
+        } else {
+            isScanerBack = false;
+        }
     }
 
     @Override
@@ -594,8 +595,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    boolean isScanerBack;
+
     @Override
     public void onClickScanCode() {
+        isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
