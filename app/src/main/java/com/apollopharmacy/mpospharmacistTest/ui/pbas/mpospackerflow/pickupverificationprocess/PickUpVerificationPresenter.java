@@ -63,6 +63,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
                 order.setTransactionID(omsHeader.getRefno());
+                order.setOverallOrderStatus(omsHeader.getOverallOrderStatus());
                 ordersList.add(order);
             }
 

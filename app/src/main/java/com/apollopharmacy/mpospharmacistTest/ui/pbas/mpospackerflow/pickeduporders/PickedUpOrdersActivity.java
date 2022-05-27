@@ -98,7 +98,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
-        mvpPresenter.fetchFulfilmentOrderList();
+//        mvpPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
         activityPickedUpOrdersBinding.setFilter(mvpPresenter);
         activityPickedUpOrdersBinding.setCallback(mvpPresenter);
@@ -555,6 +555,14 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     @Override
     public void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        omsHeaderList.clear();
+        mvpPresenter.fetchFulfilmentOrderList();
+        activityPickedUpOrdersBinding.searchText.setText("");
     }
 
     @Override
