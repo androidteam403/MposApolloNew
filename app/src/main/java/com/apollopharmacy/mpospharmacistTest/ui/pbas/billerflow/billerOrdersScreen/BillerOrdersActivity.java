@@ -141,8 +141,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                         billerFullfillmentAdapter.getFilter().filter(editable);
 
                     }
-                }
-                else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
+                } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter("");
                     }
@@ -161,11 +160,10 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     public void onResume() {
         super.onResume();
         if (!isScanerBack) {
+            isScanerBack = true;
             omsHeaderList.clear();
             mPresenter.fetchFulfilmentOrderList();
             activityBillerOrdersBinding.searchText.setText("");
-        } else {
-            isScanerBack = false;
         }
     }
 
@@ -174,6 +172,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
             for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj : omsHeaderList) {
                 if (omsHeaderObj.getREFNO().equals(refId)) {
+                    isScanerBack = false;
                     Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
                     i.putExtra("fullfillmentDetails", omsHeaderObj);
                     startActivity(i);
@@ -193,7 +192,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
     }
 
-    private boolean isScanerBack = false;
+    private boolean isScanerBack = true;
 
     @Override
     public void onSuccessRackApi(RacksDataResponse body) {

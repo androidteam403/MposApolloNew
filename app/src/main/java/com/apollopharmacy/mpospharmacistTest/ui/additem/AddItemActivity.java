@@ -2376,6 +2376,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setEnableHdfcPayBtn(false);
         }
+
+        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+        }
     }
 
     @Override

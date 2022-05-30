@@ -105,7 +105,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
-//        mPresenter.fetchFulfilmentOrderList();
+        mPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
 
         openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
@@ -555,13 +555,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onResume() {
         super.onResume();
-        if (!isScanerBack) {
-            omsHeaderList.clear();
-            mPresenter.fetchFulfilmentOrderList();
-            openOrdersBinding.searchByfulfimentid.setText("");
-        } else {
-            isScanerBack = false;
-        }
+//        if (!isScanerBack) {
+//            omsHeaderList.clear();
+//            mPresenter.fetchFulfilmentOrderList();
+//            openOrdersBinding.searchByfulfimentid.setText("");
+//        } else {
+//            isScanerBack = false;
+//        }
     }
 
     @Override

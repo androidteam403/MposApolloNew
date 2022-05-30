@@ -269,18 +269,39 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         dialog.setContentView(updateStatusBinding.getRoot());
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        if (fullCount != null)
-            updateStatusBinding.fullCount.setText(fullCount);
-        else
-            updateStatusBinding.fullCount.setText("0");
-        if (partialCount != null)
-            updateStatusBinding.partialCount.setText(partialCount);
-        else
-            updateStatusBinding.partialCount.setText("0");
-        if (notCount != null)
-            updateStatusBinding.notAvailableCount.setText(notCount);
-        else
-            updateStatusBinding.notAvailableCount.setText("0");
+        int full = 0;
+        int partial = 0;
+        int notAvailable = 0;
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
+                if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equals("FULL")) {
+                    full = full + 1;
+                }
+                if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equals("PARTIAL")) {
+                    partial = partial + 1;
+                }
+                if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equals("NOT AVAILABLE")) {
+                    notAvailable = notAvailable + 1;
+                }
+            }
+        }
+        updateStatusBinding.fullCount.setText(String.valueOf(full));
+        updateStatusBinding.partialCount.setText(String.valueOf(partial));
+        updateStatusBinding.notAvailableCount.setText(String.valueOf(notAvailable));
+
+
+//        if (fullCount != null)
+//            updateStatusBinding.fullCount.setText(fullCount);
+//        else
+//            updateStatusBinding.fullCount.setText("0");
+//        if (partialCount != null)
+//            updateStatusBinding.partialCount.setText(partialCount);
+//        else
+//            updateStatusBinding.partialCount.setText("0");
+//        if (notCount != null)
+//            updateStatusBinding.notAvailableCount.setText(notCount);
+//        else
+//            updateStatusBinding.notAvailableCount.setText("0");
 
         updateStatusBinding.no.setOnClickListener(v -> {
             dialog.dismiss();
