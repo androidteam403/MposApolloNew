@@ -56,6 +56,9 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
         @Expose
         @SerializedName("SubCategory")
         private String SubCategory;
+
+
+        private String PackerStatus;
         @Expose
         @SerializedName("StockQty")
         private double StockQty;
@@ -279,6 +282,13 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
         @SerializedName("RackId")
         private String RackId;
 
+        public String getPackerStatus() {
+                return PackerStatus;
+        }
+
+        public void setPackerStatus(String packerStatus) {
+                PackerStatus = packerStatus;
+        }
 
         private boolean Resqtyflag;
 
