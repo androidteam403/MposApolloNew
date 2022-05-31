@@ -369,4 +369,6 @@ public interface ApiInterface {
 
     @POST("WalletService.svc/SendGlobalMessageAPI")
     Call<SendGlobalMessageResponse> SEND_GLOBAL_MESSAGE_RESPONSE_CALL(@Body SendGlobalMessageRequest sendGlobalMessageRequest);
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+    Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
 }

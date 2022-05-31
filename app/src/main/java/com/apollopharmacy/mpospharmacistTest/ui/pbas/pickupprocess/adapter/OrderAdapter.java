@@ -75,10 +75,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
-        holder.orderBinding.rightArrow.setOnClickListener(v -> {
-            if (pickupProcessMvpView != null)
-                pickupProcessMvpView.onClickOrderAdapterArrow(position);
-        });
+//        holder.orderBinding.rightArrow.setOnClickListener(v -> {
+//            if (pickupProcessMvpView != null)
+//                pickupProcessMvpView.onClickOrderAdapterArrow(position);
+//        });
 
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
@@ -108,15 +108,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.orderBinding.statusText.setText("PARTIAL");
+            omsHeader.setOverallOrderStatus("2");
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
             holder.orderBinding.statusText.setText("NOT AVAILABLE");
+            omsHeader.setOverallOrderStatus("3");
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
             holder.orderBinding.statusImage.setRotation(0);
             holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
             holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.orderBinding.statusText.setText("FULL");
+            omsHeader.setOverallOrderStatus("1");
         } else {
             holder.orderBinding.statusandicon.setVisibility(View.GONE);
         }
@@ -127,14 +130,39 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
 
-        if (omsHeader.isExpanded()) {
-            holder.orderBinding.rightArrow.setImageResource(R.drawable.ic_arrow_drop_up);
-            holder.orderBinding.rightArrow.setRotation(0);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-        } else {
+        if (selectedOmsHeaderList.get(position).isExpanded()) {
             holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
             holder.orderBinding.rightArrow.setRotation(90);
+            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+        } else if (!selectedOmsHeaderList.get(position).isExpanded()){
+            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+            holder.orderBinding.rightArrow.setRotation(0);
             holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+        }
+        switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
+            case 0:
+                holder.orderBinding.rightArrow.setRotation(0);
+                selectedOmsHeaderList.get(position).setExpandStatus(90);
+                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+                holder.orderBinding.rackChild2Layout.setBackground(null);
+                break;
+            case 1:
+                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                    holder.orderBinding.rightArrow.setRotation(90);
+
+//                    if(getOMSTransactionResponseList.get(position).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")){
+//                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
+//                        holder.fullfilmentBinding.notifytoadmin.setVisibility(View.VISIBLE);
+//                    }
+
+                }
+
+
+                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+                holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
+
+                break;
+            default:
         }
 
         holder.itemView.setOnClickListener(view -> {

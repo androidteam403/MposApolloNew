@@ -109,12 +109,15 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     protected void setUp() {
 
         activityPickupVerificationBinding.setCallback(mpresenter);
+
         if (getIntent() != null) {
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
+
             if (omsHeader != null) {
                 activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
                 if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("1")) {
                     activityPickupVerificationBinding.statusText.setText("FULL");
+
                 } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")) {
                     activityPickupVerificationBinding.statusText.setText("PARTIAL");
                 } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")) {
@@ -124,8 +127,10 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
             }
         }
+//        Toast.makeText(getApplicationContext(), omsHeader.getOverallOrderStatus(), Toast.LENGTH_SHORT).show();
+//        omsHeader.setOverallOrderStatus("3");
 
-            if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("2") || activityPickupVerificationBinding.statusText.getText().toString().equalsIgnoreCase("3")){
+            if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")){
 
 //                activityPickupVerificationBinding.parent.setBackgroundColor(Color.TRANSPARENT);
                 activityPickupVerificationBinding.parent.setClickable(false);
@@ -133,7 +138,13 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
                 activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
                 activityPickupVerificationBinding.warningText.setVisibility(View.VISIBLE);
-            }
+            }else if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")){
+            activityPickupVerificationBinding.parent.setClickable(false);
+            activityPickupVerificationBinding.parent.setBackgroundColor(getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
+            activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
+            activityPickupVerificationBinding.warningTextNotAvailable.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -278,6 +289,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //        partialConfirmationClickable = true;
 //        activityPickupVerificationBinding.partialStatusColor.setVisibility(View.VISIBLE);
         activityPickupVerificationBinding.warningText.setVisibility(View.GONE);
+        activityPickupVerificationBinding.warningTextNotAvailable.setVisibility(View.GONE);
         activityPickupVerificationBinding.parent.setBackgroundColor(0);
         activityPickupVerificationBinding.buttonParent.setBackgroundColor(0);
         activityPickupVerificationBinding.parent.setAlpha(4);

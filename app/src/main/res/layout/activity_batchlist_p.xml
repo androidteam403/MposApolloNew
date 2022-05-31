@@ -49,17 +49,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
                     android:layout_marginStart="@dimen/dimen15dp"
+                    android:padding="@dimen/dimen3dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickBack()}"
-                    android:src="@drawable/left_forward_white_arrow" />
+                    android:src="@drawable/ic_back_arrow_white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginStart="@dimen/twenty_five_dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -72,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Fullfillment Id: "
+                            android:text="Fullfillment Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -81,7 +82,7 @@
                             android:id="@+id/fullfillment_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -97,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Box Id: "
+                            android:text="Box Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -106,7 +107,7 @@
                             android:id="@+id/box_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -232,8 +233,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen10dp"
-                        android:layout_weight=".4"
+                        android:layout_marginRight="@dimen/dimen3dp"
+                        android:layout_weight=".45"
                         android:clickable="false"
+
                         android:gravity="center_vertical"
                         android:onClick="@{()-> callback.onClickNotAvailable()}"
                         android:orientation="horizontal">
@@ -243,7 +246,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/black"
+                            android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
+
                             android:text="@string/label_not_available"
                             android:textColor="@color/black" />
 
@@ -261,7 +266,7 @@
                         <ImageView
                             android:layout_width="@dimen/dimen25dp"
                             android:layout_height="@dimen/dimen20dp"
-                            android:layout_marginStart="@dimen/dimen5dp"
+                            android:layout_marginRight="@dimen/text_dimen_15"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_not_available" />
                     </LinearLayout>
@@ -371,7 +376,6 @@
                     </LinearLayout>
 
                     <TextView
-                        android:visibility="visible"
                         android:id="@+id/select_batches_automatically"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
@@ -381,10 +385,10 @@
                         android:gravity="center"
                         android:text="@string/label_select_batch_automatically"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp" />
+                        android:textSize="@dimen/dimen16sp"
+                        android:visibility="visible" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/update1"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_dp"
@@ -394,7 +398,8 @@
                         android:gravity="center"
                         android:text="Update"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp" />
+                        android:textSize="@dimen/dimen16sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

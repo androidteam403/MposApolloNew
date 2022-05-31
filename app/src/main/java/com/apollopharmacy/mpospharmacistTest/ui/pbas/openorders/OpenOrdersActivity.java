@@ -99,6 +99,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
@@ -113,16 +114,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 openOrdersBinding.searchByfulfimentid.setText("");
                 openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
                 openOrdersBinding.deleteCancel.setVisibility(View.GONE);
-
+                recyclerView();
 
             }
         });
 
-        if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
-            openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
-            openOrdersBinding.deleteCancel.setVisibility(View.GONE);
-        }
+
     }
+
+
 
     private void searchByFulfilmentId() {
         openOrdersBinding.searchByfulfimentid.addTextChangedListener(new TextWatcher() {
@@ -144,6 +144,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter(editable);
                     }
+                } else if (openOrdersBinding.searchByfulfimentid.getText().toString().equals("")) {
+                    if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.getFilter().filter("");
+                    }
+                    openOrdersBinding.searchIcon.setVisibility(View.VISIBLE);
+                    openOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 } else {
                     if (fullfilmentAdapter != null) {
                         fullfilmentAdapter.getFilter().filter("");
@@ -157,16 +163,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int getPos;
 
     @Override
-    public void ondownArrowClicked(int position) {
-        this.getPos = position;
-        if (omsHeaderList.get(position).getExpandStatus() == 1) {
-            omsHeaderList.get(position).setExpandStatus(0);
-            if (fullfilmentAdapter != null) {
-                fullfilmentAdapter.notifyDataSetChanged();
+    public void ondownArrowClicked(String refId, int position) {
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            if (omsHeaderList.get(i).getRefno().equals(refId)) {
+                this.getPos = i;
+                if (omsHeaderList.get(i).getExpandStatus() == 1) {
+                    omsHeaderList.get(i).setExpandStatus(0);
+                    if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false);
+                }
+                break;
             }
-            onContinueBtnEnable();
-        } else {
-            mPresenter.onGetOmsTransaction(omsHeaderList.get(position).getRefno(), false);
         }
     }
 
@@ -189,6 +199,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
 //            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
 //        }
+    }
+
+    public void recyclerView(){
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
     }
 
     @Override
@@ -346,10 +363,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
         PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            noOrderFound(omsHeaderList.size());
+        } else {
+            noOrderFound(0);
+        }
     }
 
     private void clearFilter() {
@@ -531,6 +553,18 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+//        if (!isScanerBack) {
+//            omsHeaderList.clear();
+//            mPresenter.fetchFulfilmentOrderList();
+//            openOrdersBinding.searchByfulfimentid.setText("");
+//        } else {
+//            isScanerBack = false;
+//        }
+    }
+
+    @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
         if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
             omsHeaderList.get(getPos).setExpandStatus(1);
@@ -578,8 +612,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    boolean isScanerBack;
+
     @Override
     public void onClickScanCode() {
+        isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);

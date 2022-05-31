@@ -115,12 +115,23 @@
                     android:textSize="@dimen/twelve_sp" />
 
                 <ImageView
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/ic_rectangular_shape"
                     android:contentDescription="@string/app_name"
                     android:padding="@dimen/five_dp"
                     android:src="@drawable/search_icon" />
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/scancode"
@@ -163,9 +174,9 @@
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="@dimen/dimen10dp" />
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/five_dp"  />
 
             <TextView
                 android:id="@+id/no_order_found_text"

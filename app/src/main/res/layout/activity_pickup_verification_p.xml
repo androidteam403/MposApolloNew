@@ -17,22 +17,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/actionbar_color"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dimen10dp"
+                android:paddingEnd="@dimen/dimen10dp">
 
                 <ImageView
                     android:id="@+id/back_click"
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/app_name"
-                    android:paddingStart="@dimen/seven_dp"
-                    android:src="@drawable/left_forward_white_arrow" />
+                    android:padding="@dimen/dimen3dp"
+                    android:src="@drawable/ic_back_arrow_white" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/seven_dp"
+                    android:layout_marginStart="@dimen/twenty_five_dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -49,14 +51,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sixteen_sp" />
+                        android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
 
             </LinearLayout>
-
-            
-
-
 
 
             <LinearLayout
@@ -82,6 +80,86 @@
                     android:layout_marginStart="@dimen/three_dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Current Order Status is Partially Picked.\n
+Do you want to proceed with Packing?"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/button_yes1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/okay_btn_bg"
+                            android:backgroundTint="@color/green"
+                            android:fontFamily="@font/roboto_bold"
+                            android:onClick="@{()-> callback.onPartialWarningYesClick()}"
+                            android:paddingStart="@dimen/ten_dp"
+                            android:paddingTop="@dimen/two_dp"
+                            android:paddingEnd="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/two_dp"
+                            android:text="Yes"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/button_no1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:layout_toRightOf="@id/button_yes"
+                            android:background="@drawable/okay_btn_bg"
+                            android:backgroundTint="@color/black"
+                            android:fontFamily="@font/roboto_bold"
+                            android:onClick="@{()-> callback.onPartialWarningNoClick()}"
+                            android:paddingStart="@dimen/ten_dp"
+                            android:paddingTop="@dimen/two_dp"
+                            android:paddingEnd="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/two_dp"
+                            android:text="No"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/warning_text_not_available"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red"
+                android:orientation="horizontal"
+                android:padding="@dimen/five_dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/warning_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/three_dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Current Order Status is Not Available.\n
 Do you want to proceed with Packing?"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dimen10sp" />
@@ -432,7 +510,7 @@ Do you want to proceed with Packing?"
                     android:gravity="center"
                     android:onClick="@{()->callback.onClickVerification()}"
                     android:padding="@dimen/seven_dp"
-                    android:text="pickup verified"
+                    android:text="Packing verified"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_grey"
                     tools:ignore="ButtonStyle" />

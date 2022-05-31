@@ -39,9 +39,9 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             batchInfoReq.setExpiryDays(90);
             batchInfoReq.setSEZ(0);
             batchInfoReq.setSearchType(1);
-            batchInfoReq.setStoreId("16001");
+            batchInfoReq.setStoreId(getDataManager().getStoreId());
             batchInfoReq.setStoreState("AP");
-            batchInfoReq.setTerminalId("005");
+            batchInfoReq.setTerminalId(getDataManager().getTerminalId());
 
             Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
             call.enqueue(new Callback<GetBatchInfoRes>() {
@@ -50,10 +50,15 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0)
-                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                        else
+                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
                             getMvpView().onFailedBatchInfo(response.body());
+                        }
+                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
+                        }else{
+                            getMvpView().onFailedBatchInfo(response.body());
+                        }
+
                     }
                 }
 

@@ -7,6 +7,7 @@
         android:layout_marginEnd="@dimen/dimen5dp"
         android:background="@color/yellow"
         android:orientation="vertical"
+        android:layout_marginBottom="@dimen/dimen5dp"
         android:paddingBottom="0.1dp">
 
         <TextView
@@ -14,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen10sp" />

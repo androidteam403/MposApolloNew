@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -112,7 +113,8 @@ public class CaptureManager {
 
                     barcodeList.add(result.toString());
                     ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());
-                    Toast.makeText(applicationContext, " FLid: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getRefno() + "" + " tagged to Box Number: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getScannedBarcode(), Toast.LENGTH_SHORT).show();
+
+//                    Toast.makeText(applicationContext, " FLid: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getRefno() + "" + " tagged to Box Number: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getScannedBarcode(), Toast.LENGTH_SHORT).show();
 
                     boolean isAllBarcodeScanned = true;
                     if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null) {
@@ -131,6 +133,7 @@ public class CaptureManager {
                         } else {
                             returnResult(result, barcodeList);
                         }
+                        mCallback.dialogShow(orderPos);
                     }
                 } else {
                     mCallback.onClickScanCode(result.toString(), ReadyForPickUpActivity.selectedOmsHeaderListTest.get(position).getRefno());

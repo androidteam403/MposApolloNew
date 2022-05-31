@@ -92,16 +92,27 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
-        mvpPresenter.fetchFulfilmentOrderList();
+//        mvpPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
         activityPickedUpOrdersBinding.setFilter(mvpPresenter);
         activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 
+        activityPickedUpOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityPickedUpOrdersBinding.searchText.setText("");
+                activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
+                activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
+                recyclerView();
+
+            }
+        });
 
 //        if (mvpPresenter.getFullFillmentList() != null) {
 //            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
@@ -148,10 +159,19 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    activityPickedUpOrdersBinding.search.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (pickedUpOrdersAdapter != null) {
-                        pickedUpOrdersAdapter.getFilter().filter(editable);
 
+                        pickedUpOrdersAdapter.getFilter().filter(editable);
                     }
+
+                } else if (activityPickedUpOrdersBinding.searchText.getText().toString().equals("")) {
+                    if (pickedUpOrdersAdapter != null) {
+                        pickedUpOrdersAdapter.getFilter().filter("");
+                    }
+                    activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
+                    activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 } else {
                     if (pickedUpOrdersAdapter != null) {
                         pickedUpOrdersAdapter.getFilter().filter("");
@@ -167,13 +187,14 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     }
 
     private boolean removeItsStatis;
-
+    private boolean isScannerBack;
 
     @Override
     public void onClickScanCode() {
 //        Intent intent = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        isScannerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -544,22 +565,56 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     }
 
     @Override
-    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
-                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
-            }
-            mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
-            PickerNavigationActivity.mInstance.setWelcome("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
-            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
-            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
+    public void onResume() {
+        super.onResume();
+        if (!isScannerBack) {
+            omsHeaderList.clear();
+            mvpPresenter.fetchFulfilmentOrderList();
+            activityPickedUpOrdersBinding.searchText.setText("");
+        } else {
+            isScannerBack = false;
+        }
+    }
 
-            pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
-            activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
-            filterOrdersLists();
+    public void recyclerView(){
+        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+    }
+    @Override
+    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
+        if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
+            for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
+                if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {
+                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+                }
+                if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                    mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
+                    PickerNavigationActivity.mInstance.setWelcome("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
+                    activityPickedUpOrdersBinding.headerOrdersCount.setText("Total" + " " + String.valueOf(omsHeaderList.size()) + " " + "Orders");
+                    activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
+
+                    pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+
+                    activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
+                    filterOrdersLists();
+                } else {
+                    PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
+                    activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+            activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
+            activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
         }
         hideLoading();
     }

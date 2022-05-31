@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
 
@@ -147,4 +148,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void generateOtp(String mobileNumber);
 
     void createNewCustomer();
+
+    GetGlobalConfingRes getGlobalConfiguration();
 }

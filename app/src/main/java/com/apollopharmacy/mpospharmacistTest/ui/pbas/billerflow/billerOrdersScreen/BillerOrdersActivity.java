@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,20 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBillerOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.adapter.BillerFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -53,12 +46,12 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     ActivityBillerOrdersPBinding activityBillerOrdersBinding;
     private List<BillerFullfillmentAdapter.FullfilmentModel> fullfilmentModelList;
     private BillerFullfillmentAdapter billerFullfillmentAdapter;
-    private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
     public static boolean isBillerActivity;
     private List<FilterModel> customerTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderCategoryFilterList = new ArrayList<>();
-    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> selectedOmsHeaderList = new ArrayList<>();
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
@@ -93,6 +86,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     protected void setUp(View view) {
+        hideKeyboard();
         activityBillerOrdersBinding.setScan(mPresenter);
 //
         PickerNavigationActivity.mInstance.setWelcome("");
@@ -102,8 +96,20 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
         mPresenter.fetchFulfilmentOrderList();
-    }
 
+        activityBillerOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityBillerOrdersBinding.searchText.setText("");
+                activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
+                activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
+
+
+            }
+        });
+
+
+    }
 
 
     @Override
@@ -129,10 +135,18 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() >= 2) {
+                    activityBillerOrdersBinding.search.setVisibility(View.GONE);
+                    activityBillerOrdersBinding.deleteCancel.setVisibility(View.VISIBLE);
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter(editable);
 
                     }
+                } else if (activityBillerOrdersBinding.searchText.getText().toString().equals("")) {
+                    if (billerFullfillmentAdapter != null) {
+                        billerFullfillmentAdapter.getFilter().filter("");
+                    }
+                    activityBillerOrdersBinding.search.setVisibility(View.VISIBLE);
+                    activityBillerOrdersBinding.deleteCancel.setVisibility(View.GONE);
                 } else {
                     if (billerFullfillmentAdapter != null) {
                         billerFullfillmentAdapter.getFilter().filter("");
@@ -143,13 +157,29 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     }
 
     @Override
-    public void onRightArrowClickedContinue(int position) {
-        if (omsHeaderList != null && omsHeaderList.size() > 0 && omsHeaderList.size() > position) {
-            Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
-            i.putExtra("fullfillmentDetails", omsHeaderList.get(position));
-//            startActivityForResult(i, 999);
-            startActivity(i);
-            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    public void onResume() {
+        super.onResume();
+        if (!isScanerBack) {
+            isScanerBack = true;
+            omsHeaderList.clear();
+            mPresenter.fetchFulfilmentOrderList();
+            activityBillerOrdersBinding.searchText.setText("");
+        }
+    }
+
+    @Override
+    public void onRightArrowClickedContinue(String refId) {
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj : omsHeaderList) {
+                if (omsHeaderObj.getREFNO().equals(refId)) {
+                    isScanerBack = false;
+                    Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
+                    i.putExtra("fullfillmentDetails", omsHeaderObj);
+                    startActivity(i);
+                    getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                    break;
+                }
+            }
         }
     }
 
@@ -162,6 +192,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
     }
 
+    private boolean isScanerBack = true;
+
     @Override
     public void onSuccessRackApi(RacksDataResponse body) {
         racksDataResponse = body.getFullfillmentDetails();
@@ -170,6 +202,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         activityBillerOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isScanerBack = true;
                 isBillerActivity = true;
                 new IntentIntegrator(getActivity()).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
                 getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -178,14 +211,16 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     }
 
     @Override
-    public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-            if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && omsHeader.getOMSHeader().get(i).getOrderPacked()) {
-                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+    public void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader) {
+        for (int i = 0; i < omsHeader.getOMSHeaderArr().size(); i++) {
+            if (omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().get(i).getOrderPickup() && omsHeader.getOMSHeaderArr().get(i).getOrderPacked()) {
+                omsHeaderList.add(omsHeader.getOMSHeaderArr().get(i));
             }
             PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
 
+
         }
+
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -332,7 +367,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         omsHeaderList.clear();
 
         // Customer type filter list.
-        List<TransactionHeaderResponse.OMSHeader> customerTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> customerTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel customerTypeFilter : customerTypeFilterList) {
             for (int i = 0; i < customerTypeOMSHeaderFilter.size(); i++) {
                 if (!customerTypeFilter.isSelected() && (customerTypeFilter.getName().equals(customerTypeOMSHeaderFilter.get(i).getCustomerType()))) {
@@ -345,7 +380,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
 
         // Order type filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> orderTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel orderTypeFilter : orderTypeFilterList) {
             for (int i = 0; i < orderTypeOMSHeaderFilter.size(); i++) {
                 if (!orderTypeFilter.isSelected() && (orderTypeFilter.getName().equals(orderTypeOMSHeaderFilter.get(i).getOrderType()))) {
@@ -354,9 +389,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+        for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeader : orderTypeOMSHeaderFilter) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                if (omsHeaderList.get(i).getREFNO().equals(omsHeader.getREFNO())) {
                     omsHeaderList.remove(i);
                     i--;
                 }
@@ -365,7 +400,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         omsHeaderList.addAll(orderTypeOMSHeaderFilter);
 
         // Order category filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderCategoryOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> orderCategoryOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel orderCategoryFilter : orderCategoryFilterList) {
             for (int i = 0; i < orderCategoryOMSHeaderFilter.size(); i++) {
                 if (!orderCategoryFilter.isSelected() && (orderCategoryFilter.getName().equals(orderCategoryOMSHeaderFilter.get(i).getCategoryType()))) {
@@ -374,9 +409,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderCategoryOMSHeaderFilter) {
+        for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeader : orderCategoryOMSHeaderFilter) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                if (omsHeaderList.get(i).getREFNO().equals(omsHeader.getREFNO())) {
                     omsHeaderList.remove(i);
                     i--;
                 }
@@ -385,7 +420,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         omsHeaderList.addAll(orderCategoryOMSHeaderFilter);
 
         // Payment type filter list.
-        List<TransactionHeaderResponse.OMSHeader> paymentTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> paymentTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel paymentTypeFilter : paymentTypeFilterList) {
             for (int i = 0; i < paymentTypeOMSHeaderFilter.size(); i++) {
                 if (!paymentTypeFilter.isSelected() && (paymentTypeFilter.getName().equals(paymentTypeOMSHeaderFilter.get(i).getPaymentSource()))) {
@@ -394,9 +429,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : paymentTypeOMSHeaderFilter) {
+        for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeader : paymentTypeOMSHeaderFilter) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                if (omsHeaderList.get(i).getREFNO().equals(omsHeader.getREFNO())) {
                     omsHeaderList.remove(i);
                     i--;
                 }
@@ -405,7 +440,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         omsHeaderList.addAll(paymentTypeOMSHeaderFilter);
 
         // Order source filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderSourceOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> orderSourceOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel orderSourceFilter : orderSourceFilterList) {
             for (int i = 0; i < orderSourceOMSHeaderFilter.size(); i++) {
                 if (!orderSourceFilter.isSelected() && (orderSourceFilter.getName().equals(orderSourceOMSHeaderFilter.get(i).getOrderSource()))) {
@@ -414,9 +449,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderSourceOMSHeaderFilter) {
+        for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeader : orderSourceOMSHeaderFilter) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                if (omsHeaderList.get(i).getREFNO().equals(omsHeader.getREFNO())) {
                     omsHeaderList.remove(i);
                     i--;
                 }
@@ -425,7 +460,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         omsHeaderList.addAll(orderSourceOMSHeaderFilter);
 
         // Stock availability filter list.
-        List<TransactionHeaderResponse.OMSHeader> stockAvailabilityOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        List<OMSTransactionHeaderResModel.OMSHeaderObj> stockAvailabilityOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
         for (FilterModel stockAvailabilityFilter : stockAvailabilityFilterList) {
             for (int i = 0; i < stockAvailabilityOMSHeaderFilter.size(); i++) {
                 if (!stockAvailabilityFilter.isSelected() && (stockAvailabilityFilter.getName().equals(stockAvailabilityOMSHeaderFilter.get(i).getStockStatus()))) {
@@ -434,9 +469,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+        for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeader : stockAvailabilityOMSHeaderFilter) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                if (omsHeaderList.get(i).getREFNO().equals(omsHeader.getREFNO())) {
                     omsHeaderList.remove(i);
                     i--;
                 }
@@ -452,7 +487,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                 for (int j = 0; j < Objects.requireNonNull(omsHeaderList).size(); j++) {
-                    if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(j).getRefno())) {
+                    if (selectedOmsHeaderList.get(i).getREFNO().equals(omsHeaderList.get(j).getREFNO())) {
                         omsHeaderList.get(j).setSelected(selectedOmsHeaderList.get(i).isSelected());
                     }
                 }
@@ -537,7 +572,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             } else {
                 Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityBillerOrdersBinding.searchText.setText(Result.getContents());
-                BillerOrdersActivity.isBillerActivity = false;            }
+                BillerOrdersActivity.isBillerActivity = false;
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

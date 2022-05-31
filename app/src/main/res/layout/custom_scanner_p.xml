@@ -67,6 +67,7 @@
                     android:textSize="@dimen/dimen16sp" />
 
                 <ImageView
+                    android:id="@+id/close_btn_w"
                     android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:layout_alignParentEnd="true"

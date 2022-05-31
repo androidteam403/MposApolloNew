@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Status: "
+                        android:text="Status : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
 
@@ -145,17 +145,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/roboto_medium"
-                        android:id="@+id/status_text"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen_11sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:id="@+id/status_text"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/dimen_11sp" />-->
 
                     <ImageView
                         android:id="@+id/status_icon"

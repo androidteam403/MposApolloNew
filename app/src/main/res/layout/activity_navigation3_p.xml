@@ -48,7 +48,7 @@
                     android:paddingTop="@dimen/three_dp"
                     android:paddingEnd="@dimen/ten_dp"
                     android:paddingBottom="@dimen/three_dp"
-                    android:text="Log Out"
+                    android:text="Logout"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black" />
             </RelativeLayout>

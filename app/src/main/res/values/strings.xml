@@ -561,5 +561,8 @@
     <string name="label_picker">Picker</string>
     <string name="label_packer">Packer</string>
     <string name="label_uhid">UHID</string>
+    <string name="proceed_action">Proceed Action</string>
+    <string name="label_biller">Biller</string>
+    <string name="label_continue_billing">continue billing</string>
 
 </resources>

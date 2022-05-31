@@ -230,6 +230,27 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             });
 
 
+        }else {
+            checkAllFalse();
+            batchlistBinding.notAvailableRadio.setChecked(true);
+            batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+            batchlistBinding.selectBatchesAutomatically.setVisibility(View.GONE);
+            batchlistBinding.update1.setVisibility(View.VISIBLE);
+
+            batchlistBinding.update1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    status = "NOT AVAILABLE";
+                    String finalStatus3 = status;
+                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
+                    Intent i = new Intent();
+                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                    i.putExtra("finalStatus", (String) status);
+                    setResult(RESULT_OK, i);
+                    finish();
+//
+                }
+            });
         }
 
         if (selectedOmsHeaderList != null
@@ -268,21 +289,21 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void onFailedBatchInfo(GetBatchInfoRes body) {
         checkAllFalse();
-        batchlistBinding.notAvailableRadio.setChecked(true);
-        batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
-        batchlistBinding.selectBatchesAutomatically.setVisibility(View.GONE);
-        batchlistBinding.update1.setVisibility(View.VISIBLE);
+                batchlistBinding.notAvailableRadio.setChecked(true);
+                batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+                batchlistBinding.selectBatchesAutomatically.setVisibility(View.GONE);
+                batchlistBinding.update1.setVisibility(View.VISIBLE);
 
-        batchlistBinding.update1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                status = "NOT AVAILABLE";
-                String finalStatus3 = status;
-                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
-                Intent i = new Intent();
-                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                i.putExtra("finalStatus", (String) status);
-                setResult(RESULT_OK, i);
+                batchlistBinding.update1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        status = "NOT AVAILABLE";
+                        String finalStatus3 = status;
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                        i.putExtra("finalStatus", (String) status);
+                        setResult(RESULT_OK, i);
                 finish();
 //
             }

@@ -453,42 +453,46 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
-            addItemBinding.setIsPaymentMode(false);
-            paymentMethodModel.setGenerateBill(false);
-            if (isDonePayment()) {
-                addItemBinding.setIsPaymentMode(true);
-                paymentMethodModel.setGenerateBill(true);
-                alertBackDialog();
-            } else if (paymentMethodModel.isBalanceAmount() && paymentMethodModel.getBalanceAmount() < 0) {
-                addItemBinding.setIsPaymentMode(true);
-                paymentMethodModel.setGenerateBill(true);
-                alertBackDialog();
-            }
+        if (mPresenter.getGlobalConfiguration().getMPOSVersion().equals("2")) {
+            super.onBackPressed();
         } else {
-            if (paymentDoneAmount == 0.0) {
-                alertDialog();
+            if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
+                addItemBinding.setIsPaymentMode(false);
+                paymentMethodModel.setGenerateBill(false);
+                if (isDonePayment()) {
+                    addItemBinding.setIsPaymentMode(true);
+                    paymentMethodModel.setGenerateBill(true);
+                    alertBackDialog();
+                } else if (paymentMethodModel.isBalanceAmount() && paymentMethodModel.getBalanceAmount() < 0) {
+                    addItemBinding.setIsPaymentMode(true);
+                    paymentMethodModel.setGenerateBill(true);
+                    alertBackDialog();
+                }
             } else {
-                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+                if (paymentDoneAmount == 0.0) {
+                    alertDialog();
+                } else {
+                    partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+                }
+
             }
+            double diagonalInches = UiUtils.displaymetrics(this);
+            if (diagonalInches >= 10) {
+                Log.i("Tab inches-->", "10 inches");
+                // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+            } else {
+                Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+            }
+            //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            addItemBinding.imageView.setVisibility(View.GONE);
         }
-        double diagonalInches = UiUtils.displaymetrics(this);
-        if (diagonalInches >= 10) {
-            Log.i("Tab inches-->", "10 inches");
-            // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-
-        } else {
-            Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        }
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        addItemBinding.imageView.setVisibility(View.GONE);
     }
 
     private void alertBackDialog() {
@@ -2373,6 +2377,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setEnableHdfcPayBtn(true);
         } else {
             paymentMethodModel.setEnableHdfcPayBtn(false);
+        }
+
+        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
         }
     }
 

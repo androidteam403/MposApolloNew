@@ -62,7 +62,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="FullFillment ID: "
+                            android:text="FullFillment ID : "
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/ten_sp" />
 
@@ -240,8 +240,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".25"
-                    android:gravity="center"
-                    android:text="@string/label_batch_no"
+android:paddingStart="@dimen/dimen5dp"                    android:text="@string/label_batch_no"
+                    android:fontFamily="@font/roboto_regular"
+
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />
 
@@ -251,6 +252,8 @@
                     android:layout_weight=".25"
                     android:gravity="center"
                     android:text="@string/label_exp_date"
+                    android:fontFamily="@font/roboto_regular"
+
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />
 
@@ -259,6 +262,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".25"
                     android:gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+
                     android:text="@string/label_mrp"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />
@@ -268,6 +273,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".25"
                     android:gravity="center"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="@string/requied_qty"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />

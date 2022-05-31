@@ -21,7 +21,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -39,6 +39,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     public PickerNavigationActivityCallback pickerNavigationActivityCallback;
     NavController navController;
     NavOptions navOptions;
+    private String fragmentName = null;
 
     public static Intent getStartIntent(Context mContext) {
         Intent intent = new Intent(mContext, PickerNavigationActivity.class);
@@ -62,7 +63,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         mInstance = this;
 //        activityNavigation3Binding.setCallback(mPresenter);
         setSupportActionBar(activityNavigation3Binding.appBarMain.toolbar);
-
+        if (getIntent() != null) {
+            fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
+        }
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_dashboard)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
@@ -79,7 +82,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 .setPopEnterAnim(R.anim.slide_from_right)
                 .setPopExitAnim(R.anim.slide_to_left)
                 .build();
-
+        if (fragmentName != null) {
+            decideFragment(fragmentName);
+        }
         activityNavigation3Binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -115,8 +120,20 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 logoutDialog();
             }
         });
+    }
 
+    private void decideFragment(String fragmentName) {
+        if (mAppBarConfiguration.getDrawerLayout() != null) {
+            mAppBarConfiguration.getDrawerLayout().closeDrawers();
+        }
 
+        if (fragmentName.equals("PICKER")) {
+            navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("PACKER")) {
+            navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("BILLER")) {
+            navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+        }
     }
 
     public void navigateToOpenOrders() {
@@ -137,8 +154,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         dialogView.setSubtitle("Are you sure want to logout the application ?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setPositiveListener(view -> {
-            dialogView.dismiss();
+
             mPresenter.logoutUser();
+
 
         });
         dialogView.setNegativeLabel("No");
@@ -156,9 +174,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
 //        userStore = findViewById(R.id.user_store);
 
-        userName.setText( mPresenter.getLoginUserName());
+        userName.setText(mPresenter.getLoginUserName());
 //        userStore.setText("Terminal ID - ");
-       userStore.setText( mPresenter.getLoinStoreLocation());
+        userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
     }
 
@@ -171,9 +189,14 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     @Override
     public void navigateLoginActivity() {
-        startActivity(SelectAppFlowActivity.getStartActivity(this));
-        finish();
+        Intent intent = new Intent(PickerNavigationActivity.this, PharmacistLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
+
+
     }
 
     public interface PickerNavigationActivityCallback {

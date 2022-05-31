@@ -50,6 +50,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
@@ -149,6 +150,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void getGlobalConfig() {
         getMvpView().getGlobalConfig(getDataManager().getGlobalJson());
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfiguration() {
+        return getDataManager().getGlobalJson();
     }
 
     @Override
