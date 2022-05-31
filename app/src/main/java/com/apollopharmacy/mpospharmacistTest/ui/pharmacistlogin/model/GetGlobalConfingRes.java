@@ -247,6 +247,13 @@ public class GetGlobalConfingRes {
     @SerializedName("UHIDHBPURL")
     private String UHIDHBPURL;
 
+    @Expose
+    @SerializedName("SendGlobalMessageURL")
+    private String SendGlobalMessageURL;
+
+    public String getSendGlobalMessageURL() {
+        return SendGlobalMessageURL;
+    }
 
     public String getCircleplanCorpCode() {
         return CircleplanCorpCode;

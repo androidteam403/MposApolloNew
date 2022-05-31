@@ -288,7 +288,7 @@ public class AddCustomerActivity extends BaseActivity implements AddCustomerMvpV
         customerEntity.setCorpId(addCustomerResModel.getCorpId());
         customerEntity.setMobileNo(addCustomerResModel.getMobile());
         customerEntity.setTelephoneNo(addCustomerResModel.getTelephone());
-
+        customerEntity.setExistingCustomerOrNot(true);
         Intent returnIntent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("customer_info", customerEntity);

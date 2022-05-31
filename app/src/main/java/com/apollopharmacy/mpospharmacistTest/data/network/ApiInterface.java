@@ -29,6 +29,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PharmacyStaffApiRe
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PhonepeGenerateQrCodeRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PhonepeGenerateQrCodeResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SendGlobalMessageRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SendGlobalMessageResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceReq;
@@ -364,4 +366,7 @@ public interface ApiInterface {
 
     @POST("WalletService.svc/GetHBPUHIDDetails")
     Call<GetHBPUHIDDetailsResponse> HBPUHID_DETAILS_RESPONSE_CALL(@Body GetHBPUHIDDetailsRequest getHBPUHIDDetailsRequest);
+
+    @POST("WalletService.svc/SendGlobalMessageAPI")
+    Call<SendGlobalMessageResponse> SEND_GLOBAL_MESSAGE_RESPONSE_CALL(@Body SendGlobalMessageRequest sendGlobalMessageRequest);
 }

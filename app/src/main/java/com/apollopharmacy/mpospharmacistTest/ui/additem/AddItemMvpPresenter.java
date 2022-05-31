@@ -7,6 +7,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentVoidReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 
 import java.util.ArrayList;
@@ -138,4 +139,12 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void getGlobalConfig();
 
     void getHBPConfig();
+
+    void checkCustomerExistOrNot(GetCustomerResponse.CustomerEntity mobileNumber);
+
+    void checkCustomerInOneApollo(GetCustomerResponse.CustomerEntity mobileNumber);
+
+    void generateOtp(String mobileNumber);
+
+    void createNewCustomer();
 }

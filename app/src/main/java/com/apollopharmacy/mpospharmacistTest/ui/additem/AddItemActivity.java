@@ -2383,6 +2383,38 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
+    public void showOTPDialog(String otp) {
+        OTPDialog dialogView = new OTPDialog(this);
+        dialogView.setOnOutSideCancel(false);
+        dialogView.setOTP(otp);
+        dialogView.setTitle("New customer details found");
+        dialogView.setSubTitle("OTP has been sent to " + customerEntity.getMobileNo()+ " Please verify");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dialogView.validateOTP()) {
+                    dialogView.dismiss();
+                    mPresenter.createNewCustomer();
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void addCustomerFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("onactivity result additem activity-->", "activity result");

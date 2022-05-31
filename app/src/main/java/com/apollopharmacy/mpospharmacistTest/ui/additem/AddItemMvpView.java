@@ -238,4 +238,8 @@ public interface AddItemMvpView extends MvpView {
     void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes);
 
     void getHBPConfig(HBPConfigResponse hbpConfigResponse);
+
+    void showOTPDialog(String otp);
+
+    void addCustomerFailed(String errMsg);
 }
