@@ -79,4 +79,10 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickRackItemStart(GetOMSTransactionResponse.SalesLine salesLine);
 
     void onClickForwardToPacker();
+
+    void onExpansionEshopCharge(int position, int newAdapterposition, GetOMSTransactionResponse.SalesLine salesLine);
+
+    void onFailedBatchInfo(GetBatchInfoRes body);
+
+    void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
 }

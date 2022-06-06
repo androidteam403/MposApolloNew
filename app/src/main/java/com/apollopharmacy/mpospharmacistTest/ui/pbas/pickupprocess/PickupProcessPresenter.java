@@ -104,7 +104,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     @Override
     public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+           getMvpView().showLoading();
             getMvpView().hideKeyboard();
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(salesLine.getItemId());
@@ -144,6 +144,52 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
 
+    public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
+        if (getMvpView().isNetworkConnected()) {
+//          getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
+            batchInfoReq.setArticleCode(itemId.getItemId());
+            batchInfoReq.setCustomerState("");
+            batchInfoReq.setDataAreaId("ahel");
+            batchInfoReq.setExpiryDays(90);
+            batchInfoReq.setSEZ(0);
+            batchInfoReq.setSearchType(1);
+            batchInfoReq.setStoreId(getDataManager().getStoreId());
+            batchInfoReq.setStoreState("AP");
+            batchInfoReq.setTerminalId(getDataManager().getTerminalId());
+
+            Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
+            call.enqueue(new Callback<GetBatchInfoRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+
+                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
+                            getMvpView().onFailedBatchInfo(response.body());
+                        }
+                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
+                        }else{
+                            getMvpView().onFailedBatchInfo(response.body());
+                        }
+
+                    }
+//                    getMvpView().hideLoading();
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
 //    @Override
 //    public void onClickBatchDetails() {
 //        getMvpView().onClickBatchDetails();
@@ -153,7 +199,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
 
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
@@ -170,12 +216,14 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                 @Override
                 public void onResponse(@NotNull Call<CheckBatchInventoryRes> call, @NotNull Response<CheckBatchInventoryRes> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+
                         if (response.isSuccessful() && response.body() != null)
                             getMvpView().checkBatchInventorySuccess(finalStatus, response.body());
                         else
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }
+
+//                    getMvpView().hideLoading();
                 }
 
                 @Override

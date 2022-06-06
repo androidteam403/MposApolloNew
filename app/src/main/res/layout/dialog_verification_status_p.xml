@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Pickup verified for"
+                android:text="Packer verified for"
                 android:textColor="@color/red"
                 android:textSize="@dimen/dimen12sp" />
 

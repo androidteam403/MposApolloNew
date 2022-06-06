@@ -372,13 +372,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        }
     }
 
-    @Override
-    public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
-        if (body != null && !status.isEmpty())
-            onClickItemStatusUpdate(orderAdapterPos, position, status);
 
-
-    }
 
     @Override
     public void checkBatchInventoryFailed(String message) {
@@ -446,16 +440,108 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         onClickContinue();
     }
 
-    private void checkAllFalse() {
-        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-        dialogUpdateStatusBinding.skipRadioBtn.setChecked(false);
+    int newwOrderPosition;
+    int newwAdapterposition;
+    GetOMSTransactionResponse.SalesLine salesLinessEshopCharge;
 
-        dialogUpdateStatusBinding.fullDetails.setVisibility(View.GONE);
-        dialogUpdateStatusBinding.partialDetails.setVisibility(View.GONE);
+    @Override
+    public void onExpansionEshopCharge(int position, int newAdapterposition, GetOMSTransactionResponse.SalesLine salesLinesss) {
+
+        this.newwAdapterposition=newAdapterposition;
+        this.newwOrderPosition= position;
+        this.salesLinessEshopCharge= salesLinesss;
+        mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition));
+    }
+
+    @Override
+    public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
+        if (body != null && !status.isEmpty())
+            onClickItemStatusUpdate(newwOrderPosition, newwAdapterposition, status);
+
 
     }
+    @Override
+    public void onFailedBatchInfo(GetBatchInfoRes body) {
+
+    }
+
+    @Override
+    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
+        if (body != null && body.size() > 0) {
+            double totalBatchDetailsQuantity = 0.0;
+            for (int i = 0; i < body.size(); i++) {
+                totalBatchDetailsQuantity = totalBatchDetailsQuantity + Double.parseDouble(body.get(i).getQ_O_H());
+            }
+//            batchlistBinding.availableQuantity.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
+            status = "";
+            if (totalBatchDetailsQuantity >= salesLinessEshopCharge.getQty()) {
+                status = "FULL";
+//                checkAllFalse();
+//                batchlistBinding.fullPickedRadio.setChecked(true);
+            } else if (totalBatchDetailsQuantity > 0.0) {
+                status = "PARTIAL";
+//                checkAllFalse();
+//                batchlistBinding.partiallyPickedRadio.setChecked(true);
+            } else {
+                status = "NOT AVAILABLE";
+//                checkAllFalse();
+//                batchlistBinding.notAvailableRadio.setChecked(true);
+            }
+
+            String finalStatus = status;
+            String finalStatus1 = status;
+//            batchlistBinding.selectBatchesAutomatically.setOnClickListener(view1 -> {
+
+                int requiredQty = salesLinessEshopCharge.getQty();
+                batchListObjsList = new ArrayList<>();
+                for (int i = 0; i < body.size(); i++) {
+                    if (Double.parseDouble(body.get(i).getQ_O_H()) >= requiredQty) {
+                        body.get(i).setSelected(true);
+                        body.get(i).setREQQTY(requiredQty);
+                        batchListObjsList.add(body.get(i));
+                        selectedOmsHeaderList.get(newwOrderPosition).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(finalStatus1);
+                        GetBatchInfoRes o = new GetBatchInfoRes();
+                        o.setBatchList(batchListObjsList);
+                        selectedOmsHeaderList.get(newwOrderPosition).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setGetBatchInfoRes(o);
+                        mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus);
+                        break;
+                    } else if (Double.parseDouble(body.get(i).getQ_O_H()) < requiredQty) {
+
+                        if (i == body.size() - 1) {
+                            body.get(i).setSelected(true);
+                            body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                            batchListObjsList.add(body.get(i));
+                            selectedOmsHeaderList.get(newwOrderPosition).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(finalStatus1);
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            o.setBatchList(batchListObjsList);
+                            selectedOmsHeaderList.get(newwOrderPosition).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setGetBatchInfoRes(o);
+                            mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus);
+                            requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
+                        } else {
+                            body.get(i).setSelected(true);
+                            body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                            batchListObjsList.add(body.get(i));
+                            mPresenter.checkBatchInventory(body.get(i), requiredQty, "");
+                            requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
+                        }
+                    }
+                }
+//            });
+
+
+        }
+    }
+
+//    private void checkAllFalse() {
+//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
+//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
+//        dialogUpdateStatusBinding.skipRadioBtn.setChecked(false);
+//
+//        dialogUpdateStatusBinding.fullDetails.setVisibility(View.GONE);
+//        dialogUpdateStatusBinding.partialDetails.setVisibility(View.GONE);
+
+//    }
 
     @SuppressLint({"WrongViewCast", "SetTextI18n"})
     @Override
