@@ -146,7 +146,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
 
     public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
         if (getMvpView().isNetworkConnected()) {
-//          getMvpView().showLoading();
+//         getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(itemId.getItemId());
@@ -199,7 +199,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
 
         if (getMvpView().isNetworkConnected()) {
-//            getMvpView().showLoading();
+          getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
@@ -223,7 +223,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }
 
-//                    getMvpView().hideLoading();
+                  getMvpView().hideLoading();
                 }
 
                 @Override
