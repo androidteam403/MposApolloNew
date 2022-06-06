@@ -72,6 +72,11 @@ public class OTPDialog {
         dialogOtpViewBinding.title.setText(title);
     }
 
+    public  void setSubTitle(String message){
+        dialogOtpViewBinding.subTitle.setText(message);
+        dialogOtpViewBinding.subTitle.setVisibility(View.VISIBLE);
+    }
+
     public void setPositiveLabel(String positive) {
         dialogOtpViewBinding.dialogButtonOK.setText(positive);
     }
@@ -87,6 +92,10 @@ public class OTPDialog {
 
     public String getEnteredOTP() {
         return dialogOtpViewBinding.otpEditText.getText().toString();
+    }
+
+    public void setOnOutSideCancel(boolean value){
+        dialog.setCanceledOnTouchOutside(value);
     }
 
 }

@@ -37,11 +37,12 @@
                 android:src="@drawable/tick_mark" />
 
             <TextView
+                android:id="@+id/pickup_verification_status_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Pickup verified for"
+                android:text="Packer verified for"
                 android:textColor="@color/red"
                 android:textSize="@dimen/dimen12sp" />
 
@@ -55,17 +56,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Fullfillment ID :"
+                    android:text="Fullfillment ID : "
                     android:textColor="@color/red"
                     android:textSize="@dimen/dimen12sp" />
 
                 <TextView
+                    android:id="@+id/fullfilment_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:fontFamily="@font/roboto_bold"
                     android:text="887766"
-                    android:id="@+id/fullfilment_id"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen12sp" />
             </LinearLayout>
