@@ -252,6 +252,6 @@
         <activity
             android:name=".ui.pbas.batchlist.BatchListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 </manifest>

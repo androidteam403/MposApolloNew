@@ -510,7 +510,7 @@ Do you want to proceed with Packing?"
                     android:gravity="center"
                     android:onClick="@{()->callback.onClickVerification()}"
                     android:padding="@dimen/seven_dp"
-                    android:text="pickup verified"
+                    android:text="Packing verified"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_grey"
                     tools:ignore="ButtonStyle" />

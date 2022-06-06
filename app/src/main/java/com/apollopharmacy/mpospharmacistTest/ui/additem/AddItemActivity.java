@@ -65,6 +65,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListActivity;
@@ -266,6 +267,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         Constant.getInstance().vendorcredit = false;
 
         mPresenter.getGlobalConfig();
+        mPresenter.getHBPConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
 
@@ -2376,6 +2378,48 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setEnableHdfcPayBtn(false);
         }
+
+        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
+        if(hbpConfigResponse.getUHIDBilling())
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+    }
+
+    @Override
+    public void showOTPDialog(String otp) {
+        OTPDialog dialogView = new OTPDialog(this);
+        dialogView.setOnOutSideCancel(false);
+        dialogView.setOTP(otp);
+        dialogView.setTitle("New customer details found");
+        dialogView.setSubTitle("OTP has been sent to " + customerEntity.getMobileNo()+ " Please verify");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dialogView.validateOTP()) {
+                    dialogView.dismiss();
+                    mPresenter.createNewCustomer();
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void addCustomerFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

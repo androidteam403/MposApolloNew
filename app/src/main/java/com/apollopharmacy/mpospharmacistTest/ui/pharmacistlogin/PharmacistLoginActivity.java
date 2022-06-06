@@ -59,7 +59,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
         double diagonalInches = UiUtils.displaymetrics(this);
         if (diagonalInches >= 10) {
-                    Log.i("Tab inches-->", "10 inches");
+            Log.i("Tab inches-->", "10 inches");
             //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 

@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
@@ -246,6 +247,49 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
                             getDataManager().storeGlobalJson(json);
+                            if(getDataManager().getGlobalJson().isISHBPStore())
+                                getHBPConfigration();
+                            else
+                                getTenderTypeApi();
+                        } else {
+                            getMvpView().hideLoading();
+                            if (response.body() != null)
+                                getMvpView().userLoginFailed(response.body().getReturnMessage());
+                            else
+                                handleApiError(1);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getHBPConfigration() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<HBPConfigResponse> call = api.GET_HBP_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
+            call.enqueue(new Callback<HBPConfigResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<HBPConfigResponse> call, @NotNull Response<HBPConfigResponse> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        // getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            getDataManager().storeHBPConfiRes(json);
                             getTenderTypeApi();
 
                         } else {
@@ -259,7 +303,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
+                public void onFailure(@NotNull Call<HBPConfigResponse> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
                     handleApiError(t);

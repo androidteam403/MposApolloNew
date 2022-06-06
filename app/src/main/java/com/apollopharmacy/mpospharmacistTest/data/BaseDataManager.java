@@ -20,6 +20,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 
 import java.util.List;
 
@@ -68,6 +69,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         return mPreferencesHelper.getGlobalJson();
+    }
+
+    @Override
+    public void storeHBPConfiRes(String json) {
+        mPreferencesHelper.storeHBPConfiRes(json);
+    }
+
+    @Override
+    public HBPConfigResponse getHBPConfigRes() {
+        return mPreferencesHelper.getHBPConfigRes();
     }
 
     @Override
