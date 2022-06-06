@@ -79,16 +79,16 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         }
 
-//            if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
-//                full = full + 1;
-//                pickupProcessMvpView.fullCount(String.valueOf(full));
-//            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
-//                par = par + 1;
-//                pickupProcessMvpView.partialCount(String.valueOf(par));
-//            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
-//                not = not + 1;
-//                pickupProcessMvpView.notAvailable(String.valueOf(not));
-//            }
+            if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
+                full = full + 1;
+                pickupProcessMvpView.fullCount(String.valueOf(full));
+            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
+                par = par + 1;
+                pickupProcessMvpView.partialCount(String.valueOf(par));
+            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
+                not = not + 1;
+                pickupProcessMvpView.notAvailable(String.valueOf(not));
+            }
    }
 
     private void multipleStatusCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position) {
