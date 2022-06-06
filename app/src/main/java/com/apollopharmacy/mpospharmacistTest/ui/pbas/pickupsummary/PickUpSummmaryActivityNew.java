@@ -315,28 +315,28 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             dialog.dismiss();
         });
         updateStatusBinding.yes.setOnClickListener(v -> {
-            if (!BluetoothManager.getInstance(this).isConnect()) {
-                ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
-                dialogView.setTitle("Please Connect to the Printer");
-                dialogView.setPositiveLabel("Ok");
-                dialogView.setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogView.dismiss();
-                        startActivityForResult(BluetoothActivity.getStartIntent(PickUpSummmaryActivityNew.this), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                    }
-
-                });
-                dialogView.setNegativeLabel("Cancel");
-                dialogView.setNegativeListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogView.dismiss();
-                    }
-                });
-                dialogView.show();
-            } else {
+//            if (!BluetoothManager.getInstance(this).isConnect()) {
+//                ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
+//                dialogView.setTitle("Please Connect to the Printer");
+//                dialogView.setPositiveLabel("Ok");
+//                dialogView.setPositiveListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialogView.dismiss();
+//                        startActivityForResult(BluetoothActivity.getStartIntent(PickUpSummmaryActivityNew.this), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//                    }
+//
+//                });
+//                dialogView.setNegativeLabel("Cancel");
+//                dialogView.setNegativeListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialogView.dismiss();
+//                    }
+//                });
+//                dialogView.show();
+//            } else {
                 int count = 1;
                 for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
                     omsOrderForwardRequest = new OMSOrderForwardRequest();
@@ -461,9 +461,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //            OmsOrderUpdateSuccess(o);
 //            Toast.makeText(this, "oms update", Toast.LENGTH_SHORT).show();
                     mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
-                }
-                dialog.dismiss();
-                dialog.cancel();
+//                }
+//                dialog.dismiss();
+//                dialog.cancel();
 
 //            mPresenter.ForwardToPickerRequest(request);
 

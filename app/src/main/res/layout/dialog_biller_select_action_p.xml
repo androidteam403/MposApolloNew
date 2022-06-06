@@ -76,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen15dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="GENERATE BILL"
+                    android:text="@string/label_continue_billing"
+                    android:textAllCaps="true"
                     android:textColor="@color/black" />
             </LinearLayout>
 
