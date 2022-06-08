@@ -170,12 +170,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
                 holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
                 holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
-                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
-                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
-                        newAdapterposition=i;
-                    }
-                }
-                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
+//                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
+//                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
+//                        newAdapterposition=i;
+//                    }
+//                }
+//                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
 
                 break;
             default:

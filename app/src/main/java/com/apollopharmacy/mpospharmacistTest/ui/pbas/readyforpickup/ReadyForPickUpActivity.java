@@ -360,10 +360,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                     connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
                     dialogView.show();
 
-                    //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
-                    // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                    // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                    // return;
+                    Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+                     startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                     return;
                 } else {
                     if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                         for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {

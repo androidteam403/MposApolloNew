@@ -426,8 +426,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         }
     }
 
+
+
     @Override
     public void onClickRackAdapter(int pos) {
+
+
+
         for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
             if (i == pos){
                if (rackWiseSortedDataList.get(i).isExpanded()){
@@ -437,7 +442,22 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 }
             }
         }
-        if (rackAdapter != null) {
+
+        boolean racksEshopCharge = false;
+        if (rackWiseSortedDataList.get(pos).getGetOMSTransactionResponse()!=null && rackWiseSortedDataList.get(pos).getGetOMSTransactionResponse().getSalesLine() != null && rackWiseSortedDataList.get(pos).getGetOMSTransactionResponse().getSalesLine().size()>0){
+
+            for (GetOMSTransactionResponse.SalesLine salesLine : rackWiseSortedDataList.get(pos).getGetOMSTransactionResponse().getSalesLine()){
+
+                if (salesLine.getItemId().equals("ESH0002") && (salesLine.getStatus()==null || salesLine.getStatus().equals(""))){
+                    racksEshopCharge=true;
+                    this.salesLinessEshopCharge = salesLine;
+                    this.newwAdapterposition=selectedOmsHeaderList.get(pos).getGetOMSTransactionResponse().getSalesLine().indexOf(salesLine);
+                    mPresenter.getBatchDetailsApi(salesLine);
+                    break;
+                }
+            }
+        }
+        if (rackAdapter != null && !racksEshopCharge) {
             rackAdapter.notifyDataSetChanged();
         }
     }
