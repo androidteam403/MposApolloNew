@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -81,6 +82,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //                pickupProcessMvpView.onClickOrderAdapterArrow(position);
 //        });
 
+
+        selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(0).setItemId("ESH0002");
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
         } else {
@@ -131,50 +134,52 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
 //      mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
-        if (selectedOmsHeaderList.get(position).isExpanded()) {
-            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
-            holder.orderBinding.rightArrow.setRotation(90);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-
-        } else if (!selectedOmsHeaderList.get(position).isExpanded()){
-            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
-            holder.orderBinding.rightArrow.setRotation(0);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-
-
-        }
+//        if (selectedOmsHeaderList.get(position).isExpanded()) {
+//            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+//            holder.orderBinding.rightArrow.setRotation(90);
+//            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+//
+//        } else if (!selectedOmsHeaderList.get(position).isExpanded()){
+//            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+//            holder.orderBinding.rightArrow.setRotation(0);
+//            holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+//
+//
+//        }
         switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
-                holder.orderBinding.rightArrow.setRotation(0);
-                selectedOmsHeaderList.get(position).setExpandStatus(90);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
+
+                    holder.orderBinding.rightArrow.setRotation(0);
+                   selectedOmsHeaderList.get(position).setExpandStatus(90);
+                    holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+                    holder.orderBinding.rackChild2Layout.setBackground(null);
+
+
+
 
 
                 break;
             case 1:
-                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                    holder.orderBinding.rightArrow.setRotation(90);
+                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0){
 
-//                    if(getOMSTransactionResponseList.get(position).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")){
-//                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
-//                        holder.fullfilmentBinding.notifytoadmin.setVisibility(View.VISIBLE);
+                        holder.orderBinding.rightArrow.setRotation(90);
+//                        selectedOmsHeaderList.get(position).setExpandStatus(1);
+                        holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+                        holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
+
+//                    for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
+//                        if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")){
+//                            newAdapterposition=i;
+//                            pickupProcessMvpView.onExpansionEshopCharge(omsHeader, position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
+//                        }else{
+//                            Toast.makeText(mContext, "not available", Toast.LENGTH_SHORT).show();
+//                        }
+//
 //                    }
 
                 }
 
-
-                holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-                holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
-                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
-                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
-                        newAdapterposition=i;
-                    }
-                }
-                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
-
                 break;
-            default:
         }
 
         holder.itemView.setOnClickListener(view -> {

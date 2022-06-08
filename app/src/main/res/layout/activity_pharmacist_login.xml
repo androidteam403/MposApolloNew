@@ -98,6 +98,7 @@
                         android:drawablePadding="@dimen/ten_dp"
                         android:fontFamily="@font/roboto_regular"
                         android:imeOptions="actionDone"
+                        android:text="Apollo@1234"
                         android:inputType="text"
                         android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>

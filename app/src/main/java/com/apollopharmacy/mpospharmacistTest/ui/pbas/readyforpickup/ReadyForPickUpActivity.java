@@ -166,7 +166,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             } else {
                 BillerOrdersActivity.isBillerActivity = false;
             }
-            Toast.makeText(this, "scanner back pressed", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "scanner back pressed", Toast.LENGTH_SHORT).show();
         }
         if (Result != null && !data.getBooleanExtra("IS_BACK_PRESSED", false)) {
             if (Result.getContents() == null) {

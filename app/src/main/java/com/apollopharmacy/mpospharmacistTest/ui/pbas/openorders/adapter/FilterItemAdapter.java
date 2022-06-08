@@ -36,7 +36,7 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
         FilterModel filterModel = filterModelList.get(position);
         holder.filterItemBinding.filterName.setText(filterModel.getName());
         if (filterModel.isSelected())
-            holder.filterItemBinding.parent.setBackground(mContext.getResources().getDrawable(R.drawable.yellowstroke));
+            holder.filterItemBinding.parent.setBackground(mContext.getResources().getDrawable(R.drawable.backgroundforfilter));
         else
             holder.filterItemBinding.parent.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
         holder.itemView.setOnClickListener(view -> {

@@ -223,7 +223,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }
 
-                  getMvpView().hideLoading();
+//                  getMvpView().hideLoading();
                 }
 
                 @Override

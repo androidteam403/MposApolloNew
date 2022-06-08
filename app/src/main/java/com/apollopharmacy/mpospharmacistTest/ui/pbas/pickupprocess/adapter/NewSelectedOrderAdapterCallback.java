@@ -15,4 +15,6 @@ public interface NewSelectedOrderAdapterCallback {
     void onClickSkip();
 
 
+
+
 }

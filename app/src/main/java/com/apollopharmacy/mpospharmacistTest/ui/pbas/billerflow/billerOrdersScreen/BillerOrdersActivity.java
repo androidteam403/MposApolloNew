@@ -56,6 +56,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
     private static final int ORDERDETAILS_SCREEN_ACTIVITY = 108;
+    public static boolean billerActivityScanner = false;
 
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
@@ -115,6 +116,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     @Override
     public void onclickScanCode() {
         BillerOrdersActivity.isBillerActivity = true;
+        billerActivityScanner = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
@@ -568,7 +570,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityBillerOrdersBinding.searchText.setText(Result.getContents());

@@ -52,6 +52,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
         holder.orderBinding.boxId.setText("-");
+        holder.orderBinding.taggedboxnumber.setText(selectedOmsHeaderList.get(position).getScannedBarcode());
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
                 pickupProcessMvpView.onClickItem(position);
