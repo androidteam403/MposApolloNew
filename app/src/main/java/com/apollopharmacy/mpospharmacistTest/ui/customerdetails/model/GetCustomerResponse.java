@@ -329,5 +329,25 @@ public class GetCustomerResponse {
         public void setRegisteredCustomer(boolean registeredCustomer) {
             this.registeredCustomer = registeredCustomer;
         }
+
+        private boolean isExistingCustomerOrNot;
+
+        public boolean isExistingCustomerOrNot() {
+            return isExistingCustomerOrNot;
+        }
+
+        public void setExistingCustomerOrNot(boolean reqValidateOTP) {
+            isExistingCustomerOrNot = reqValidateOTP;
+        }
+
+        private boolean isCardPayment;
+
+        public boolean isCardPayment() {
+            return isCardPayment;
+        }
+
+        public void setCardPayment(boolean cardPayment) {
+            isCardPayment = cardPayment;
+        }
     }
 }

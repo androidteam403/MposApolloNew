@@ -24,9 +24,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/constraint_layout"
         android:background="@color/white">
 
         <RelativeLayout
@@ -153,11 +153,11 @@
                                     <TextView
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/five_dp"
                                         android:layout_marginTop="@dimen/five_dp"
                                         android:layout_weight="0.33"
                                         android:fontFamily="@font/roboto_regular"
                                         android:maxLines="2"
-                                        android:layout_marginLeft="@dimen/five_dp"
                                         android:textSize="@dimen/text_dimen_12"
                                         app:full_text="@{@string/label_generic_mobile_number(model.mobileNO)}"
                                         app:span_color="@{@color/black}"
@@ -379,9 +379,9 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="0.5"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/five_dp"
+                                        android:layout_weight="0.5"
                                         android:fontFamily="@font/roboto_regular"
                                         android:textSize="@dimen/text_dimen_12"
                                         app:full_text="@{@string/label_generic_address(model.custAddress)}"
@@ -392,9 +392,9 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="0.5"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/five_dp"
+                                        android:layout_weight="0.5"
                                         android:fontFamily="@font/roboto_regular"
                                         android:textSize="@dimen/text_dimen_12"
                                         app:full_text="@{@string/label_FullFillmentid(model.REFNO)}"
@@ -433,8 +433,8 @@
                                 android:layout_marginEnd="@dimen/twenty_dp"
                                 android:contentDescription="@string/label_img"
                                 android:rotation="180"
-                                android:visibility="gone"
-                                android:src="@drawable/ic_down_arrow" />
+                                android:src="@drawable/ic_down_arrow"
+                                android:visibility="gone" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -470,25 +470,25 @@
                                     android:textColor="@color/add_item_header"
                                     android:textSize="@dimen/ten_dp" />
 
-                                  <TextView
-                                   android:layout_width="0dp"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="0.3"
-                                   android:fontFamily="@font/price_regular"
-                                   android:gravity="start"
-                                   android:text="Res.Qty"
-                                   android:textColor="@color/add_item_header"
-                                   android:textSize="@dimen/ten_dp" />
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.3"
+                                    android:fontFamily="@font/price_regular"
+                                    android:gravity="start"
+                                    android:text="Res.Qty"
+                                    android:textColor="@color/add_item_header"
+                                    android:textSize="@dimen/ten_dp" />
 
-                                  <TextView
-                                   android:layout_width="0dp"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="0.3"
-                                   android:fontFamily="@font/price_regular"
-                                   android:gravity="start"
-                                   android:text="V.MRP"
-                                   android:textColor="@color/add_item_header"
-                                   android:textSize="@dimen/ten_dp" />
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.3"
+                                    android:fontFamily="@font/price_regular"
+                                    android:gravity="start"
+                                    android:text="V.MRP"
+                                    android:textColor="@color/add_item_header"
+                                    android:textSize="@dimen/ten_dp" />
 
 
                                 <!--  <TextView
@@ -501,15 +501,15 @@
                                       android:textColor="@color/add_item_header"
                                       android:textSize="@dimen/ten_dp" />-->
 
-                              <!--  <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.3"
-                                    android:fontFamily="@font/price_regular"
-                                    android:gravity="center"
-                                    android:text="MRP(₹)"
-                                    android:textColor="@color/add_item_header"
-                                    android:textSize="@dimen/text_dimen_11" />-->
+                                <!--  <TextView
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:layout_weight="0.3"
+                                      android:fontFamily="@font/price_regular"
+                                      android:gravity="center"
+                                      android:text="MRP(₹)"
+                                      android:textColor="@color/add_item_header"
+                                      android:textSize="@dimen/text_dimen_11" />-->
                             </LinearLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -523,47 +523,46 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginTop="@dimen/five_dp"
-                            android:background="@color/apollo_btn_color"
-                            >
+                            android:background="@color/apollo_btn_color">
+
                             <TextView
                                 android:id="@+id/total_amount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="Total Amount"
                                 android:layout_gravity="center"
-                                android:gravity="center"
                                 android:fontFamily="@font/roboto_bold"
-                                android:textSize="@dimen/fifteen_dp"
-                                />
+                                android:gravity="center"
+                                android:text="Total Amount"
+                                android:textSize="@dimen/fifteen_dp" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:layout_marginLeft="@dimen/five_dp"
                             android:layout_marginTop="@dimen/fifteen_dp"
+                            android:layout_marginRight="@dimen/five_dp"
                             android:layout_marginBottom="@dimen/ten_dp"
                             android:gravity="center"
-                            android:layout_marginRight="@dimen/five_dp"
-                            android:layout_marginLeft="@dimen/five_dp"
-                            android:weightSum="4"
-                            >
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
                             <TextView
                                 android:id="@+id/prescription_preView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:layout_weight="1"
                                 android:background="@drawable/bg_cancel_btn"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:textSize="@dimen/nine_dp"
                                 android:maxLines="2"
-                                android:textAlignment="center"
                                 android:text="Rx\n            "
-                                android:layout_weight="1"
-                                android:textColor="@color/white" />
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/nine_dp" />
 
                             <TextView
                                 android:id="@+id/pickup_confirmation"
@@ -575,12 +574,12 @@
                                 android:background="@drawable/bg_cancel_btn"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:fontFamily="@font/roboto_regular"
-                                android:textSize="@dimen/nine_dp"
-                                android:maxLines="2"
                                 android:gravity="center"
+                                android:maxLines="2"
                                 android:onClick="@{()-> callback.onClickUpdateOMSOrder_pickingconfirmation()}"
                                 android:text="PickUp\nConfirmation"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/nine_dp" />
 
                             <TextView
                                 android:id="@+id/unpickup_conformation"
@@ -588,15 +587,15 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/text_dimen_20"
+                                android:layout_weight="1"
                                 android:background="@drawable/bg_cancel_btn"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="UnPickUp\nConfirmation"
-                                android:layout_weight="1"
-                                android:textSize="@dimen/nine_dp"
                                 android:onClick="@{()-> callback.onClickUpdateOMSOrder_unpickingconfirmation()}"
-                                android:textColor="@color/white" />
+                                android:text="UnPickUp\nConfirmation"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/nine_dp" />
 
 
                             <TextView
@@ -609,13 +608,13 @@
                                 android:background="@drawable/bg_cancel_btn"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:fontFamily="@font/roboto_regular"
-                                android:textSize="@dimen/nine_dp"
-                                android:maxLines="2"
                                 android:gravity="center"
-                                android:visibility="gone"
+                                android:maxLines="2"
                                 android:onClick="@{()-> callback.onClickUpdateOMSOrder_packingconfirmation()}"
                                 android:text="Packing\nConfirmation"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/nine_dp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/unpacking_conformation"
@@ -623,16 +622,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/text_dimen_20"
+                                android:layout_weight="1"
                                 android:background="@drawable/bg_cancel_btn"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center"
-                                android:text="Unpacking\nConfirmation"
-                                android:layout_weight="1"
-                                android:textSize="@dimen/nine_dp"
-                                android:visibility="gone"
                                 android:onClick="@{()-> callback.onClickUpdateOMSOrder_unpackingconfirmation()}"
-                                android:textColor="@color/white" />
+                                android:text="Unpacking\nConfirmation"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/nine_dp"
+                                android:visibility="gone" />
 
 
                             <TextView
@@ -655,88 +654,87 @@
                         </LinearLayout>
 
 
+                        <!--  <RelativeLayout
+                              android:id="@+id/barcode_expan_collapse_layout"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="@dimen/two_dp"
+                              android:background="@color/customer_search_border"
+                              android:orientation="horizontal">
 
-                      <!--  <RelativeLayout
-                            android:id="@+id/barcode_expan_collapse_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/two_dp"
-                            android:background="@color/customer_search_border"
-                            android:orientation="horizontal">
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginEnd="@dimen/twenty_dp"
+                                  android:fontFamily="@font/roboto_bold"
+                                  android:padding="@dimen/ten_dp"
+                                  android:text="BarCode Details"
+                                  android:textColor="@color/black" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/twenty_dp"
-                                android:fontFamily="@font/roboto_bold"
-                                android:padding="@dimen/ten_dp"
-                                android:text="BarCode Details"
-                                android:textColor="@color/black" />
+                              <ImageView
+                                  android:id="@+id/barcode_collapse_icon"
+                                  android:layout_width="@dimen/twenty_dp"
+                                  android:layout_height="@dimen/twenty_dp"
+                                  android:layout_alignParentEnd="true"
+                                  android:layout_centerInParent="true"
+                                  android:layout_gravity="end|center_vertical"
+                                  android:layout_marginEnd="@dimen/twenty_dp"
+                                  android:contentDescription="@string/label_img"
+                                  android:rotation="180"
+                                  android:src="@drawable/ic_down_arrow" />
+                          </RelativeLayout>
 
-                            <ImageView
-                                android:id="@+id/barcode_collapse_icon"
-                                android:layout_width="@dimen/twenty_dp"
-                                android:layout_height="@dimen/twenty_dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="@dimen/twenty_dp"
-                                android:contentDescription="@string/label_img"
-                                android:rotation="180"
-                                android:src="@drawable/ic_down_arrow" />
-                        </RelativeLayout>
+                          <RelativeLayout
+                              android:id="@+id/barcode_details_layout"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content">
 
-                        <RelativeLayout
-                            android:id="@+id/barcode_details_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                              <TextView
+                                  android:id="@+id/barcode_text_lable"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="@dimen/forty_dp"
+                                  android:text="OrderId BarCode"
+                                  android:textColor="@color/black"
+                                  android:layout_marginLeft="@dimen/twenty_dp"
+                                  android:layout_marginRight="@dimen/twenty_dp"
+                                  >
+                              </TextView>
 
-                            <TextView
-                                android:id="@+id/barcode_text_lable"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/forty_dp"
-                                android:text="OrderId BarCode"
-                                android:textColor="@color/black"
-                                android:layout_marginLeft="@dimen/twenty_dp"
-                                android:layout_marginRight="@dimen/twenty_dp"
-                                >
-                            </TextView>
+                              <LinearLayout
+                                  android:layout_below="@+id/barcode_text_lable"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:weightSum="2"
+                                  android:orientation="horizontal"
+                                  >
+                                  <ImageView
+                                      android:id="@+id/imageView"
+                                      android:layout_width="242dp"
+                                      android:layout_height="71dp"
+                                      android:layout_marginStart="20dp"
+                                      android:layout_marginTop="16dp"
+                                      app:layout_constraintStart_toStartOf="parent"
+                                      app:layout_constraintTop_toBottomOf="@+id/button"
+                                      app:srcCompat="?attr/actionBarDivider"
+                                      android:contentDescription="@string/barcode_todo" />
 
-                            <LinearLayout
-                                android:layout_below="@+id/barcode_text_lable"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                >
-                                <ImageView
-                                    android:id="@+id/imageView"
-                                    android:layout_width="242dp"
-                                    android:layout_height="71dp"
-                                    android:layout_marginStart="20dp"
-                                    android:layout_marginTop="16dp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/button"
-                                    app:srcCompat="?attr/actionBarDivider"
-                                    android:contentDescription="@string/barcode_todo" />
+                                  <TextView
+                                      android:id="@+id/print_barcode"
+                                      android:layout_width="100dp"
+                                      android:layout_height="50dp"
+                                      android:layout_gravity="center"
+                                      android:layout_marginTop="@dimen/ten_dp"
+                                      android:layout_marginBottom="@dimen/ten_dp"
+                                      android:background="@drawable/bg_cancel_btn"
+                                      android:backgroundTint="@color/colorPrimary"
+                                      android:fontFamily="@font/roboto_bold"
+                                      android:gravity="center"
+                                      android:layout_marginLeft="10dp"
+                                      android:text="Print"
+                                      android:textColor="@color/white" />
 
-                                <TextView
-                                    android:id="@+id/print_barcode"
-                                    android:layout_width="100dp"
-                                    android:layout_height="50dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/ten_dp"
-                                    android:layout_marginBottom="@dimen/ten_dp"
-                                    android:background="@drawable/bg_cancel_btn"
-                                    android:backgroundTint="@color/colorPrimary"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="center"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="Print"
-                                    android:textColor="@color/white" />
-
-                            </LinearLayout>
-                                   </RelativeLayout>-->
+                              </LinearLayout>
+                                     </RelativeLayout>-->
                     </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
@@ -762,13 +760,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.9"
                         android:background="@color/colorPrimary"
+                        android:enabled="false"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickOrderStockFulfilment()}"
                         android:text="Order Stock Fulfilment"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_12"
-                        android:enabled="false"
                         android:textStyle="bold" />
 
                     <View
@@ -781,13 +779,13 @@
                         android:layout_height="@dimen/fifty_dp"
                         android:layout_weight="0.9"
                         android:background="@color/colorPrimary"
+                        android:enabled="false"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickCancelOnlineOrder()}"
                         android:text="Cancel Online Order"
-                        android:textSize="@dimen/text_dimen_12"
-                        android:enabled="false"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
 
                     <View
@@ -800,13 +798,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
                         android:background="@color/colorPrimary"
+                        android:enabled="false"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickChangeSite()}"
                         android:text="Change Site"
-                        android:textSize="@dimen/text_dimen_12"
-                        android:enabled="false"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
 
                     <View
@@ -819,13 +817,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.6"
                         android:background="@color/colorPrimary"
+                        android:enabled="false"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickClose()}"
                         android:text="Close"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_12"
-                        android:enabled="false"
                         android:textStyle="bold" />
 
                     <View
@@ -842,8 +840,8 @@
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickContinueBilling()}"
                         android:text="Continue Billing"
-                        android:textSize="@dimen/text_dimen_12"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_12"
                         android:textStyle="bold" />
                 </LinearLayout>
             </RelativeLayout>
