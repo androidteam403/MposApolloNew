@@ -172,7 +172,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                     }
                 }
                 pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
-
                 break;
             default:
         }

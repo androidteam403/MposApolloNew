@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,17 +50,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
-
+            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#70FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
-
+            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#70FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.productListBinding.productStatus.setRotation(0);
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
+            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#70FFFF00"));
+        } else {
+            holder.productListBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
         if (salesLine.getGetBatchInfoRes() != null) {
             SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList());
