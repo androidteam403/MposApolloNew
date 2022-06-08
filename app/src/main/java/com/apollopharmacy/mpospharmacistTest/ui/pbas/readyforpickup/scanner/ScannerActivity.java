@@ -29,7 +29,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private boolean isFlashLightOn = false;
     private List<TransactionHeaderResponse.OMSHeader> racksDataResponse;
     Bundle savedInstanceState;
-    TextView barcodeCount;
+    TextView scannedText, barcodeCount;
     int position;
     private List<String> barcodeList = new ArrayList<>();
     //    String fullfillmentId;
@@ -47,15 +47,10 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         ImageView imageView = findViewById(R.id.close_btn_w);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        imageView.setOnClickListener(v -> onBackPressed());
 
-                onBackPressed();
-            }
-        });
-
-         barcodeCount = (TextView) findViewById(R.id.barcode_count);
+        scannedText = (TextView) findViewById(R.id.scanned_text);
+        barcodeCount = (TextView) findViewById(R.id.barcode_count);
         fulfilmentId = (TextView) findViewById(R.id.fulfilment_id_num);
         int scannedOrdersCount = 0;
         if (!BillerOrdersActivity.isBillerActivity) {
@@ -74,6 +69,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
                 }
 
             }
+        }
+        if (scannedOrdersCount == 0) {
+            scannedText.setTextColor(getResources().getColor(R.color.text_color_grey));
+        } else {
+            scannedText.setTextColor(getResources().getColor(R.color.white));
         }
         barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         if (getSupportActionBar() != null) {
@@ -189,6 +189,11 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         }
 
         TextView barcodeCount = (TextView) findViewById(R.id.barcode_count);
+        if (scannedOrdersCount == 0) {
+            scannedText.setTextColor(getResources().getColor(R.color.text_color_grey));
+        } else {
+            scannedText.setTextColor(getResources().getColor(R.color.white));
+        }
         barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
         fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
 
@@ -198,9 +203,6 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 //        capture.setBarcodeList(barcodeList);
 //        capture.initializeFromIntent(getIntent(), savedInstanceState);
 //        capture.decode();
-
-
-
 
 
 //        Toast.makeText(this, "naveen", Toast.LENGTH_SHORT).show();
@@ -225,7 +227,8 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
 
     @Override
-    public void onClickScanCode(String s, String refno) { ;
+    public void onClickScanCode(String s, String refno) {
+        ;
 
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle("");
@@ -243,7 +246,6 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         dialogView.show();
 
 
-
     }
 
 
@@ -258,9 +260,9 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 //
     }
 
-    public  void initiateScanner(){
+    public void initiateScanner() {
 
-       new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         capture.setOrderPos(pos);
         capture.setCaptureManagerCallback(this);
         capture.setBarcodeList(barcodeList);

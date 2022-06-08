@@ -22,12 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupVerificationPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.ConnectprinterDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
@@ -130,22 +130,21 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //        Toast.makeText(getApplicationContext(), omsHeader.getOverallOrderStatus(), Toast.LENGTH_SHORT).show();
 //        omsHeader.setOverallOrderStatus("3");
 
-            if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")){
+        if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")) {
 
 //                activityPickupVerificationBinding.parent.setBackgroundColor(Color.TRANSPARENT);
-                activityPickupVerificationBinding.parent.setClickable(false);
-                activityPickupVerificationBinding.parent.setBackgroundColor(getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
-                activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
-                activityPickupVerificationBinding.warningText.setVisibility(View.VISIBLE);
-            }else if(omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")){
+            activityPickupVerificationBinding.parent.setClickable(false);
+            activityPickupVerificationBinding.parent.setBackgroundColor(getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
+            activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
+            activityPickupVerificationBinding.warningText.setVisibility(View.VISIBLE);
+        } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")) {
             activityPickupVerificationBinding.parent.setClickable(false);
             activityPickupVerificationBinding.parent.setBackgroundColor(getResources().getColor(R.color.white));
             activityPickupVerificationBinding.parent.setAlpha((float) 0.4);
             activityPickupVerificationBinding.buttonParent.setAlpha((float) 0.4);
             activityPickupVerificationBinding.warningTextNotAvailable.setVisibility(View.VISIBLE);
         }
-
 
 
         activityPickupVerificationBinding.backClick.setOnClickListener(new View.OnClickListener() {
@@ -733,6 +732,9 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     public void onClickItemUpdate(GetOMSTransactionResponse.SalesLine salesLine, int pos) {
         Dialog updateStatusdialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         DialogUpdateStatusPBinding dialogUpdateStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
+        dialogUpdateStatusPBinding.fullPickedRadio.setText(R.string.label_fully_packed);
+        dialogUpdateStatusPBinding.partiallyPickedRadio.setText(R.string.label_partially_packed);
+        dialogUpdateStatusPBinding.notAvailableRadio.setText(R.string.label_not_available);
         updateStatusdialog.setContentView(dialogUpdateStatusPBinding.getRoot());
         if (updateStatusdialog.getWindow() != null)
             updateStatusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -818,16 +820,18 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void onClickTakePrint() {
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-            ConnectprinterDialog dialogView = new ConnectprinterDialog(this);
-            dialogView.setTitle("Do you want to Connect the Printer");
-            dialogView.setPositiveLabel("Ok");
-            dialogView.setPositiveListener(view -> {
+            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+            dialogView.setContentView(connectPrinterBinding.getRoot());
+            dialogView.setCancelable(false);
+            connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
                 dialogView.dismiss();
                 startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
             });
-            dialogView.setNegativeLabel("Cancel");
-            dialogView.setNegativeListener(v -> dialogView.dismiss());
+            connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
             dialogView.show();
 
             //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
