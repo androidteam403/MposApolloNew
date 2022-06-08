@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -50,6 +51,7 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
         OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
         holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
+
         if (fullfilmentModel.getOverallOrderStatus().equals("1")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("FULL");
         } else if (fullfilmentModel.getOverallOrderStatus().equals("2")) {

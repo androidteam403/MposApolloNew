@@ -208,7 +208,8 @@
 
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.4">
+                                android:layout_weight="0.4"
+                                android:gravity="center_vertical">
 
                                 <TextView
 
@@ -221,8 +222,9 @@
 
                                 <ImageView
                                     android:id="@+id/status_icon"
-                                    android:layout_width="23dp"
-                                    android:layout_height="23dp" />
+                                    android:layout_width="15dp"
+                                    android:layout_height="@dimen/dimen15dp"
+                                    android:contentDescription="@string/app_name" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -623,12 +625,12 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-
                             android:layout_marginStart="@dimen/five_dp"
                             android:layout_marginEnd="@dimen/five_dp"
+                            android:background="@color/white"
+
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:paddingTop="@dimen/five_dp"
                             android:paddingBottom="@dimen/five_dp"
                             android:weightSum="1">
@@ -653,8 +655,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.15"
                                 android:fontFamily="@font/price_bold"
-                                android:text="Qty"
                                 android:gravity="center"
+                                android:text="Qty"
                                 android:textColor="@color/text_color_grey"
                                 android:textSize="@dimen/dimen12sp" />
 
@@ -664,8 +666,8 @@
                                 android:layout_weight="0.15"
                                 android:contentDescription="@string/app_name"
                                 android:fontFamily="@font/price_bold"
-                                android:text="Status"
                                 android:gravity="center"
+                                android:text="Status"
                                 android:textColor="@color/text_color_grey"
                                 android:textSize="@dimen/dimen12sp" />
                         </LinearLayout>
@@ -674,10 +676,10 @@
                             android:id="@+id/product_list_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dimen100dp"
                             android:layout_marginStart="@dimen/five_dp"
                             android:layout_marginEnd="@dimen/five_dp"
-                            android:nestedScrollingEnabled="false"/>
+                            android:layout_marginBottom="@dimen/dimen100dp"
+                            android:nestedScrollingEnabled="false" />
                     </LinearLayout>
 
                     <!--                    <TextView-->

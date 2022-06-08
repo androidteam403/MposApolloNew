@@ -227,6 +227,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         activityBillerOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         activityBillerOrdersBinding.fullfilmentRecycler.setAdapter(billerFullfillmentAdapter);
         filterOrdersLists();
+        noOrderFound(omsHeaderList.size());
     }
 
     @Override
