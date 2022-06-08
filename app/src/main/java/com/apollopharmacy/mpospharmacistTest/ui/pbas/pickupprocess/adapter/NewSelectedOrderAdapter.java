@@ -215,6 +215,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
     }
 
+
     private void checkAllFalse() {
         dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
         dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);

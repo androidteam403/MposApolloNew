@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -81,6 +82,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //                pickupProcessMvpView.onClickOrderAdapterArrow(position);
 //        });
 
+
+        selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(0).setItemId("ESH0002");
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
         } else {
@@ -145,10 +148,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
         switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
-                holder.orderBinding.rightArrow.setRotation(0);
-                selectedOmsHeaderList.get(position).setExpandStatus(90);
-                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                holder.orderBinding.rackChild2Layout.setBackground(null);
+
+                    holder.orderBinding.rightArrow.setRotation(0);
+                   selectedOmsHeaderList.get(position).setExpandStatus(90);
+                    holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+                    holder.orderBinding.rackChild2Layout.setBackground(null);
 
 
                 break;
@@ -166,12 +170,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
                 holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
                 holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
-                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
-                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
-                        newAdapterposition=i;
-                    }
-                }
-                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
+//                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
+//                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
+//                        newAdapterposition=i;
+//                    }
+//                }
+//                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
+
                 break;
             default:
         }

@@ -63,6 +63,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    public static  boolean isPickedUpOrdersActivity = false;
 
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
@@ -196,6 +197,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         isScannerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
+
+        isPickedUpOrdersActivity = true;
+
+//        Intent i = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class).initiateScan();
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //        IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
@@ -645,7 +650,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityPickedUpOrdersBinding.searchText.setText(Result.getContents());

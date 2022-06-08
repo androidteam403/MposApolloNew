@@ -50,6 +50,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private ActivityOpenOrdersPBinding openOrdersBinding;
     //    private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
     private FullfilmentAdapter fullfilmentAdapter;
+    public static  boolean isopenOrderActivity = false;
 
     private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList;
@@ -618,6 +619,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     public void onClickScanCode() {
         isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
+        isopenOrderActivity = true;
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
@@ -741,7 +743,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (Result != null) {
                 if (Result.getContents() == null) {
-                    Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                     openOrdersBinding.searchByfulfimentid.setText(Result.getContents());

@@ -90,7 +90,7 @@
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/two_dp"
-                android:text="Select Fullfillment or ScanCode to verify pickup"
+                android:text="Select Fulfilment or ScanCode to verify pickup"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve_sp" />
 
