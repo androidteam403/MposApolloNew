@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -60,7 +63,9 @@
         <ImageView
             android:layout_width="@dimen/one_hundred_fifty_dp"
             android:layout_height="@dimen/one_hundred_dp"
+            android:id="@+id/squarebox"
             android:src="@drawable/bg_cancel_btn"
             android:contentDescription="@string/app_name"/>
     </LinearLayout>
 </merge>
+</layout>
