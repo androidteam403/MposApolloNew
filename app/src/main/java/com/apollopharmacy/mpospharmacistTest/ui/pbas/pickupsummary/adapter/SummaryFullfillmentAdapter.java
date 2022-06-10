@@ -52,7 +52,13 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
         holder.orderBinding.boxId.setText("-");
-        holder.orderBinding.taggedboxnumber.setText(selectedOmsHeaderList.get(position).getScannedBarcode());
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
+            holder.orderBinding.taggedboxnumber.setText(lastFiveDigits(String.valueOf(selectedOmsHeaderList.get(position).getScannedBarcode())));
+        }else
+        {
+            holder.orderBinding.taggedboxnumber.setText("-");
+
+        }
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
                 pickupProcessMvpView.onClickItem(position);
@@ -257,7 +263,17 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         }
 
     }
+    public static String lastFiveDigits(String data) {
+        String lastFourDigits ="";   //substring containing last 4 characters
 
+        if (data.length() > 5) {
+            lastFourDigits = data.substring(data.length() - 5);
+        } else {
+            lastFourDigits = data;
+        }
+
+        return lastFourDigits;
+    }
     @Override
     public int getItemCount() {
         return selectedOmsHeaderList.size();

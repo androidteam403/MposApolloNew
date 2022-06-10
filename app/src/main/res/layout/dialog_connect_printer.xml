@@ -9,7 +9,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/fifty_dp"
             android:background="@color/white"
@@ -25,13 +25,20 @@
                 android:src="@drawable/delete_white_icon"
                 android:tint="@color/black" />
 
+            <ImageView
+                android:layout_width="@dimen/forty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_printer"/>
+
 
             <TextView
                 android:id="@+id/dialog_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dimen30dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="@string/label_do_you_want_to_connect_the_printer"

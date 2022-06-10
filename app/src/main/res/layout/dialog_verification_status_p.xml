@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Fullfillment ID : "
+                    android:text="Fulfilment ID : "
                     android:textColor="@color/red"
                     android:textSize="@dimen/dimen12sp" />
 
@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="887766"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen12sp" />
             </LinearLayout>

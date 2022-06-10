@@ -568,7 +568,27 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
                 activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
                 activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
+                if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+                    for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002")) {
+                            int qty = 0;
+                            for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
+                                if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals("ESH0002")) {
+                                    qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
+                                }
+                            }
+                            if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
+                            } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
+                            } else if (qty <= 0) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
+                            }
 
+                        }
+                    }
+                }
+                reSendVerPickVernEableChecked();
                 pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);

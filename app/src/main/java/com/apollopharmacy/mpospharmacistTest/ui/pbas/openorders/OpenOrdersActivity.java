@@ -729,11 +729,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     }
 
                 if (isAnyoneSelect) {
-                    openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedItemCount + "/" + omsHeaderList.size());
+                    openOrdersBinding.selectedFullfillment.setText("Selected fulfilment " + selectedItemCount + "/" + omsHeaderList.size());
                     openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
                     openOrdersBinding.setIsContinueSelect(true);
                 } else {
-                    openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
+                    openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pichup process.");
                     openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
                     openOrdersBinding.setIsContinueSelect(false);
                 }
@@ -757,12 +757,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            openOrdersBinding.selectedFullfillment.setText("Selected fullfillment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            openOrdersBinding.selectedFullfillment.setText("Selected fulfilment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
             openOrdersBinding.setIsContinueSelect(true);
             openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         } else {
-            openOrdersBinding.selectedFullfillment.setText("Select fullfilment to start pichup process.");
+            openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pichup process.");
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
             openOrdersBinding.setIsContinueSelect(false);
         }

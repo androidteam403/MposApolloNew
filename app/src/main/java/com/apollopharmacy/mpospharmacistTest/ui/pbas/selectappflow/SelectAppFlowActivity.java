@@ -69,43 +69,43 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Sealer");
-        selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
-
-        selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Admin");
-        selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+//        selectAppFlowModel = new SelectAppFlowModel();
+//        selectAppFlowModel.setAppFlowName("Sealer");
+//        selectAppFlowModel.setSelected(false);
+//        selectAppFlowModelList.add(selectAppFlowModel);
+//
+//        selectAppFlowModel = new SelectAppFlowModel();
+//        selectAppFlowModel.setAppFlowName("Admin");
+//        selectAppFlowModel.setSelected(false);
+//        selectAppFlowModelList.add(selectAppFlowModel);
     }
 
     @Override
     public void onClickContinue() {
-//        for (int i = 0; i < selectAppFlowModelList.size(); i++) {
-//            if (selectAppFlowModelList.get(i).isSelected()) {
-//                switch (selectAppFlowModelList.get(i).getAppFlowName()) {
-//                    case "Picker":
-        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this));
-        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//                        break;
-//                    case "Packer":
-//                        startActivity(PickedUpOrdersActivity.getStartActivity(SelectAppFlowActivity.this));
-//                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//                        break;
-//                    case "Biller":
-//                        startActivity(BillerOrdersActivity.getStartIntent(SelectAppFlowActivity.this));
-//                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//                        break;
-//                    case "Sealer":
-//                        break;
-//                    case "Admin":
-//                        break;
-//                    default:
-//                }
-//                break;
-//            }
-//        }
+        for (int i = 0; i < selectAppFlowModelList.size(); i++) {
+            if (selectAppFlowModelList.get(i).isSelected()) {
+                switch (selectAppFlowModelList.get(i).getAppFlowName()) {
+                    case "Picker":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PICKER"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "Packer":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PACKER"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "Biller":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "BILLER"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "Sealer":
+                        break;
+                    case "Admin":
+                        break;
+                    default:
+                }
+                break;
+            }
+        }
     }
 
     @Override

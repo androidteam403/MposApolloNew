@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Fullfillment Id : "
+                            android:text="Fulfilment Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />

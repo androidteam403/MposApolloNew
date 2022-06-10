@@ -467,8 +467,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                             customerDataResBean.getSalesLine().get(i).setQty(selectedBatchList.get(j).getREQQTY());
                             customerDataResBean.getSalesLine().get(i).setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
                             customerDataResBean.getSalesLine().get(i).setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(i).getMRP());
+                            customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(j).getTotalTax());
+                            customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(j).getMRP());
                         } else {
                             SalesLineEntity salesLineEntityTemp = customerDataResBean.getSalesLine().get(i);
                             salesLineEntityTemp.setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
@@ -480,8 +480,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                             salesLineEntityTemp.setQty(selectedBatchList.get(j).getREQQTY());
                             salesLineEntityTemp.setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
                             salesLineEntityTemp.setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            salesLineEntityTemp.setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            salesLineEntityTemp.setUnitPrice(selectedBatchList.get(i).getMRP());
+                            salesLineEntityTemp.setTotalTax(selectedBatchList.get(j).getTotalTax());
+                            salesLineEntityTemp.setUnitPrice(selectedBatchList.get(j).getMRP());
                             customerDataResBean.getSalesLine().add(i + 1, salesLineEntityTemp);
                         }
                     }

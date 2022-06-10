@@ -35,7 +35,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Fullfillment ID : "
+                            android:text="Fulfilment ID : "
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -192,7 +192,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
 
                             <TextView
