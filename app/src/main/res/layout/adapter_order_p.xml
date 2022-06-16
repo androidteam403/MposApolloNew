@@ -329,7 +329,7 @@
                 android:background="@drawable/stroke_yellow_bg"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/two_dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <LinearLayout

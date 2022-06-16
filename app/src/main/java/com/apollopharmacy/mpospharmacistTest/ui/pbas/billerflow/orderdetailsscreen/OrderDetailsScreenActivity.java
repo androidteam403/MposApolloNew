@@ -448,6 +448,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onClickProceedAction() {
         if (selectActionLayoutBinding.checkedGenerateBill.getVisibility() == View.VISIBLE) {
             for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
+
                 boolean isItemHaveMoreThanOneBatch = false;
                 for (int j = 0; j < selectedBatchList.size(); j++) {
                     if (customerDataResBean.getSalesLine().get(i).getItemId().equals(selectedBatchList.get(j).getItemID())) {

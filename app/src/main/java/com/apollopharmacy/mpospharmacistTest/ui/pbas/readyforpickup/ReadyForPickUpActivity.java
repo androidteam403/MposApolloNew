@@ -343,40 +343,40 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
-        if (requestType == 1) {
-            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
-                if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-                    Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-                    DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
-                    dialogView.setContentView(connectPrinterBinding.getRoot());
-                    dialogView.setCancelable(false);
-                    connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
-                        dialogView.dismiss();
-                        startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
-                    });
-                    connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-                    connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
-                    dialogView.show();
-
-                    Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
-                     startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                     return;
-                } else {
-                    if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
-                            generatebarcode(omsHeader.getRefno());
-                        }
+//        if (requestType == 1) {
+//            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+//                if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+//                    Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+//                    DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+//                    dialogView.setContentView(connectPrinterBinding.getRoot());
+//                    dialogView.setCancelable(false);
+//                    connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+//                        dialogView.dismiss();
+//                        startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//
+//                    });
+//                    connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+//                    connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//                    dialogView.show();
+//
+//                    Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+//                     startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//                     return;
+//                } else {
+//                    if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+//                        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
+//                            generatebarcode(omsHeader.getRefno());
+//                        }
                         startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-                    }
-                }
-            }
-        } else if (requestType == 2) {
-            doBackPressed();
-        }
+//                    }
+//                }
+//            }
+//        } else if (requestType == 2) {
+//            doBackPressed();
+//        }
     }
 
     public class FullfillmentData {
