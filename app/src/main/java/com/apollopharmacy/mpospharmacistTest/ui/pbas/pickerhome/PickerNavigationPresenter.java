@@ -15,4 +15,24 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
     public PickerNavigationPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public String getLoginUserName() {
+//        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String getLoinStoreLocation() {
+        return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
+    }
+
+    @Override
+    public void logoutUser() {
+        getDataManager().logoutUser();
+        getMvpView().navigateLoginActivity();
+    }
+
+
 }
+

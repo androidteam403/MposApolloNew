@@ -5,796 +5,263 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sixty_dp"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen60dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/dimen25dp"
-                        android:layout_height="@dimen/dimen20dp"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/filter" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen10dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="FILTERS"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="@dimen/dimen80dp"
-                        android:layout_height="@dimen/dimen22dp"
-                        android:layout_marginLeft="@dimen/dimen10dp"
-                        android:background="@drawable/rectangular_box_clear"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="3dp"
-                        android:text="CLEAR ALL"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen12sp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/filter_close_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="@dimen/dimen25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/five_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/black_delete_icon" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen3dp"
-                android:background="#A9A9A9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen18sp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Customer Type"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/priority"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:layout_marginTop="@dimen/dimen5dp"
+                android:layout_height="match_parent"
                 android:background="@color/white"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/MediumPriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:background="@drawable/yellowstroke"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Medium Priority"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/non_mediumpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="Medium Priority"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/non_normalpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="Normal Priority"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/normalpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/yellowstroke"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="Normal Priority"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:background="#A9A9A9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Order Type"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp"/>
-
-            <LinearLayout
-                android:id="@+id/ordertype"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/cart_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Cart"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/cart_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Cart"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/noncart_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="Non Cart"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/noncart_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="Non Cart"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:layout_marginTop="@dimen/dimen5dp"
-                android:background="#A9A9A9" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:text="Order Category"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
-
-            <LinearLayout
-                android:id="@+id/order_category"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/pharmapriority"
-                    gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Pharma"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/pharma_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Pharma"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/Fcmg_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="FMCG"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/both_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="BOTH"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/Fmcg_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="FMCG"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/both_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="BOTH"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:layout_marginTop="@dimen/dimen5dp"
-                android:background="#A9A9A9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Payment Type"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp"/>
-
-            <LinearLayout
-                android:id="@+id/payment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/cod_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="COD"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/cod_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="COD"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/prepaid_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Prepaid"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-
-                <TextView
-                    android:id="@+id/prepaid_nonpriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Prepaid"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:layout_marginTop="@dimen/dimen5dp"
-                android:background="#A9A9A9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Order Source"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
-
-
-            <LinearLayout
-                android:id="@+id/order_sourcegrey"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/oms_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="OMS Circle"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/epos_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="ePOS"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/hnb_Indiapriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="HnB India"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/omscircle_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="OMS Circle"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/epos_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="ePOS"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/hnbIndia_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:text="HnB India"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/apollo247_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Apollo247"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/Apollo_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen5dp"
-                    android:paddingRight="@dimen/dimen5dp"
-                    android:text="Apollo247"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/dimen100dp"
-                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/omsoa_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen15dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="OMSOA"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:gravity="center_vertical">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen60dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen20dp"
+                            android:layout_marginStart="@dimen/dimen10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/filter" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dimen10dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="FILTERS"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen18sp"
+                            android:textStyle="bold" />
+
+                        <!--                        <TextView-->
+
+                        <!--                            android:layout_width="@dimen/dimen80dp"-->
+                        <!--                            android:layout_height="21dp"-->
+                        <!--                            android:layout_marginLeft="@dimen/dimen10dp"-->
+                        <!--                            android:background="@drawable/rectangular_box_clear"-->
+                        <!--                            android:fontFamily="@font/roboto_regular"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:text="CLEAR ALL"-->
+                        <!--                            android:textAlignment="center"-->
+                        <!--                            android:textColor="@color/white"-->
+                        <!--                            android:textSize="@dimen/dimen12sp"-->
+                        <!--                            android:textStyle="normal" />-->
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/filter_close_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/black_delete_icon" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen3dp"
+                    android:background="#A9A9A9" />
 
                 <TextView
-                    android:id="@+id/omsoa_prority"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen15dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="OMSOA"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
+                    android:text="Customer Type"
                     android:textColor="@color/black"
-                    android:visibility="gone" />
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/customer_type_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Order Type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_type_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="Order Category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_category_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Payment Type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/payment_type_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Order Source"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_source_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Stock Availability"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stock_available_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/dimen60dp" />
+
+                <!--                <View-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="@dimen/dimen1dp"-->
+                <!--                    android:layout_marginTop="@dimen/dimen5dp"-->
+                <!--                    android:background="#A9A9A9" />-->
+
+
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:layout_marginTop="@dimen/dimen5dp"
-                android:background="#A9A9A9" />
+        </ScrollView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Stock Availability"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/five_dp">
 
             <LinearLayout
-                android:id="@+id/stock_availabilityyelow"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/full_prority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:textSize="@dimen/dimen12sp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Full"
+                <Button
+                    android:id="@+id/clear"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen50dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/red_ripple_btn_bg"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Clear All"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="visible" />
+                    android:textColor="@color/white" />
 
-                <TextView
-                    android:id="@+id/partial_prority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Partial"
-                    android:textSize="@dimen/dimen12sp"
+                <Button
+                    android:id="@+id/apply_filters"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen50dp"
+                    android:layout_marginStart="@dimen/_4dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/btn_continue_ripple_login"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="APPLY FILTERS"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
+                    android:textColor="@color/white" />
 
-
-                <TextView
-                    android:id="@+id/full_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Full"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/partial_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Partial"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/notavailable_nonprority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/square_stroke_bg"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Not Available"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/notavailable_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:background="@drawable/yellowstroke"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dimen10dp"
-                    android:paddingRight="@dimen/dimen10dp"
-                    android:text="Not Available"
-                    android:textSize="@dimen/dimen12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
             </LinearLayout>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen50dp"
-                android:layout_marginTop="@dimen/dimen100dp"
-                android:background="#fdb813"
-                android:fontFamily="@font/roboto_regular"
-                android:text="APPLY FILTERS"
-                android:textAlignment="center"
-                android:textColor="@color/black" />
-        </LinearLayout>
 
-
+        </RelativeLayout>
     </RelativeLayout>
 </layout>
