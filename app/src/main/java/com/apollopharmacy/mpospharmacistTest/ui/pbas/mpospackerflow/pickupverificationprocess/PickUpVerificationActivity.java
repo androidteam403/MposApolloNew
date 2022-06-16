@@ -78,6 +78,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     String fId;
     TransactionHeaderResponse.OMSHeader omsHeader;
     private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
+    private String boxId;
 
     //    public static Intent getStartActivity(Context context, int position, String status, String productDataList, String fullFillModelList, RacksDataResponse.FullfillmentDetail fillModel) {
 //        Intent intent = new Intent(context, PickUpVerificationActivity.class);
@@ -114,13 +115,24 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
 
             if (omsHeader != null) {
-                activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
-                if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("1")) {
+                if (omsHeader.getPickPackUser() != null && !omsHeader.getPickPackUser().isEmpty()) {
+                    activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
+                } else {
+                    activityPickupVerificationBinding.pickPackUser.setText("-");
+                }
+                if (omsHeader.getOverallOrderStatus() != null && omsHeader.getOverallOrderStatus().length() > 2) {
+                    this.boxId = omsHeader.getOverallOrderStatus().substring(2);
+                    activityPickupVerificationBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+                } else {
+                    this.boxId = "-";
+                }
+                assert omsHeader.getOverallOrderStatus() != null;
+                if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("1")) {
                     activityPickupVerificationBinding.statusText.setText("FULL");
 
-                } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("2")) {
+                } else if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("2")) {
                     activityPickupVerificationBinding.statusText.setText("PARTIAL");
-                } else if (omsHeader.getOverallOrderStatus().equalsIgnoreCase("3")) {
+                } else if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("3")) {
                     activityPickupVerificationBinding.statusText.setText("NOT AVAILABLE");
                 }
                 mpresenter.mposPickPackOrderReservationApiCall(3, omsHeader);
@@ -568,7 +580,27 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
                 activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
                 activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
+                if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+                    for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002")) {
+                            int qty = 0;
+                            for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
+                                if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals("ESH0002")) {
+                                    qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
+                                }
+                            }
+                            if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
+                            } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
+                            } else if (qty <= 0) {
+                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
+                            }
 
+                        }
+                    }
+                }
+                reSendVerPickVernEableChecked();
                 pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
@@ -740,7 +772,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             updateStatusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updateStatusdialog.setCancelable(false);
         dialogUpdateStatusPBinding.fullfillmentId.setText(omsHeader.getGetOMSTransactionResponse().getRefno());
-        dialogUpdateStatusPBinding.boxId.setText("-");
+        dialogUpdateStatusPBinding.boxId.setText(boxId.substring(boxId.length() - 5));
         dialogUpdateStatusPBinding.productName.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getItemName());
         dialogUpdateStatusPBinding.qty.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getQty()));
         dialogUpdateStatusPBinding.update.setText("Save Status");

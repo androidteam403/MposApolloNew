@@ -63,6 +63,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     private GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
     private String eprescription_corpcode = "0";
     private int salesLineCount = 0;
+    private String boxId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,20 +89,26 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             onBackPressed();
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         });
+        if (orderInfoItem.getOverallOrderStatus() != null && orderInfoItem.getOverallOrderStatus().length() > 2) {
+            this.boxId = orderInfoItem.getOverallOrderStatus().substring(2);
+            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+        } else {
+            this.boxId = "-";
+        }
 //        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
-        if (orderInfoItem.getOverallOrderStatus().equals("0")) {
+        if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("0")) {
 
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
-        } else if (orderInfoItem.getOverallOrderStatus().equals("1")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("1")) {
             activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
 
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
 
-        } else if (orderInfoItem.getOverallOrderStatus().equals("2")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("2")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
 
 
-        } else if (orderInfoItem.getOverallOrderStatus().equals("3")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("3")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
 
 
@@ -257,7 +264,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                 }
                 tempposition++;
             }
-            item = corporateList.get(position);
+            if (corporateList != null && corporateList.size() > 0)
+                item = corporateList.get(position);
         }
 
         Singletone.getInstance().itemsArrayList.clear();
@@ -468,8 +476,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                             customerDataResBean.getSalesLine().get(i).setQty(selectedBatchList.get(j).getREQQTY());
                             customerDataResBean.getSalesLine().get(i).setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
                             customerDataResBean.getSalesLine().get(i).setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(i).getMRP());
+                            customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(j).getTotalTax());
+                            customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(j).getMRP());
                         } else {
                             SalesLineEntity salesLineEntityTemp = customerDataResBean.getSalesLine().get(i);
                             salesLineEntityTemp.setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
@@ -481,8 +489,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                             salesLineEntityTemp.setQty(selectedBatchList.get(j).getREQQTY());
                             salesLineEntityTemp.setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
                             salesLineEntityTemp.setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            salesLineEntityTemp.setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            salesLineEntityTemp.setUnitPrice(selectedBatchList.get(i).getMRP());
+                            salesLineEntityTemp.setTotalTax(selectedBatchList.get(j).getTotalTax());
+                            salesLineEntityTemp.setUnitPrice(selectedBatchList.get(j).getMRP());
                             customerDataResBean.getSalesLine().add(i + 1, salesLineEntityTemp);
                         }
                     }

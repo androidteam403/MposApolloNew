@@ -40,8 +40,8 @@
                                 android:layout_width="@dimen/dimen20dp"
                                 android:layout_height="@dimen/dimen20dp"
                                 android:contentDescription="@string/app_name"
-                                android:padding="@dimen/dimen3dp"
                                 android:onClick="@{()-> callback.onClickBack()}"
+                                android:padding="@dimen/dimen3dp"
                                 android:src="@drawable/ic_back_arrow_white" />
 
                             <LinearLayout
@@ -69,8 +69,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
                                         android:text="Box ID : "
-                                        android:textSize="@dimen/dimen12sp"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
 
                                     <TextView
                                         android:id="@+id/box_id"
@@ -78,8 +78,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
                                         android:text=" -"
-                                        android:textSize="@dimen/dimen12sp"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -116,7 +116,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Fullfillment ID : "
+                                        android:text="Fulfilment ID : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -126,7 +126,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/dimen5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="887766"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
@@ -335,7 +334,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
 
                                 <TextView
@@ -353,7 +352,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -370,7 +369,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -387,7 +386,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -404,7 +403,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 
@@ -493,7 +492,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -544,7 +543,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -562,7 +561,7 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="---"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 

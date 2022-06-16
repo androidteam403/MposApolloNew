@@ -1186,7 +1186,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void validateOmsOrder(double totalamount, CalculatePosTransactionRes calculatePosTransactionRes, CustomerDataResBean customerDataResBean) {
-        if (calculatePosTransactionRes.getISOnlineOrder()) {
+        if (calculatePosTransactionRes.getISOMSOrder()) {
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
 
@@ -2481,7 +2481,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     private void saveRetailTransaction() {
         CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
-        if (posTransactionRes.getISOnlineOrder()) {
+//        if (posTransactionRes.getISOnlineOrder()) {
 
             if (getMvpView().isNetworkConnected()) {
                 getMvpView().showLoading();
@@ -2546,31 +2546,31 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else {
                 getMvpView().onError("Internet Connection Not Available");
             }
-        } else {
-            Dialog dialog = new Dialog(getMvpView().getContext(), R.style.Theme_AppCompat_DayNight_NoActionBar);
-            DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getMvpView().getContext()), R.layout.dialog_cancel, null, false);
-            dialogCancelBinding.dialogMessage.setText("Reference not available please clear transaction and do again!....");
-            dialog.setContentView(dialogCancelBinding.getRoot());
-            dialog.setCancelable(false);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-            dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
-            dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
-                if (getGlobalConfiguration().getMPOSVersion().equals("2")) {
-                    Intent intent = new Intent(getMvpView().getContext(), PickerNavigationActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("FRAGMENT_NAME", "BILLER");
-                    intent.putExtra("EXIT", true);
-                    getMvpView().getContext().startActivity(intent);
-//                getMvpView().getContext().overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-                } else {
-                    onClickBackPressed();
-                }
-                dialog.dismiss();
-                dialog.dismiss();
-            });
-            dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
-        }
+//        } else {
+//            Dialog dialog = new Dialog(getMvpView().getContext(), R.style.Theme_AppCompat_DayNight_NoActionBar);
+//            DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getMvpView().getContext()), R.layout.dialog_cancel, null, false);
+//            dialogCancelBinding.dialogMessage.setText("Reference not available please clear transaction and do again!....");
+//            dialog.setContentView(dialogCancelBinding.getRoot());
+//            dialog.setCancelable(false);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            dialog.show();
+//            dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+//            dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+//                if (getGlobalConfiguration().getMPOSVersion().equals("2")) {
+//                    Intent intent = new Intent(getMvpView().getContext(), PickerNavigationActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.putExtra("FRAGMENT_NAME", "BILLER");
+//                    intent.putExtra("EXIT", true);
+//                    getMvpView().getContext().startActivity(intent);
+////                getMvpView().getContext().overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+//                } else {
+//                    onClickBackPressed();
+//                }
+//                dialog.dismiss();
+//                dialog.dismiss();
+//            });
+//            dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+//        }
     }
 
     // Generate TenderLine Request Formation

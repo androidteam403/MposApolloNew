@@ -109,7 +109,6 @@
                 android:layout_marginStart="@dimen/ten_dp"
                 android:layout_weight="0.40"
                 android:background="@drawable/rounded_corners_white"
-                android:enabled="false"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center_horizontal"
                 android:imeOptions="actionDone"

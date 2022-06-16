@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -18,7 +17,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogItemStatusDropdow
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -46,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         this.mContext = mContext;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
-        this.batchList =  batchList;
+        this.batchList = batchList;
 
     }
 
@@ -81,9 +79,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            if (pickupProcessMvpView != null)
 //                pickupProcessMvpView.onClickOrderAdapterArrow(position);
 //        });
-
-
-        selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(0).setItemId("ESH0002");
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
         } else {
@@ -139,7 +134,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.rightArrow.setRotation(90);
             holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
 
-        } else if (!selectedOmsHeaderList.get(position).isExpanded()){
+        } else if (!selectedOmsHeaderList.get(position).isExpanded()) {
             holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
             holder.orderBinding.rightArrow.setRotation(0);
             holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
@@ -149,10 +144,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
 
-                    holder.orderBinding.rightArrow.setRotation(0);
-                   selectedOmsHeaderList.get(position).setExpandStatus(90);
-                    holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
-                    holder.orderBinding.rackChild2Layout.setBackground(null);
+                holder.orderBinding.rightArrow.setRotation(0);
+                selectedOmsHeaderList.get(position).setExpandStatus(90);
+                holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+                holder.orderBinding.rackChild2Layout.setBackground(null);
 
 
                 break;

@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -63,7 +64,8 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
                 order.setTransactionID(omsHeader.getRefno());
-                order.setOverallOrderStatus(omsHeader.getOverallOrderStatus());
+                order.setOverallOrderStatus(omsHeader.getOverallOrderStatus().substring(0, 1));
+                order.setRefID(omsHeader.getOverallOrderStatus().length() > 2 ? omsHeader.getOverallOrderStatus().substring(2) : "");
                 ordersList.add(order);
             }
 
@@ -81,7 +83,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
 
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            Call<MPOSPickPackOrderReservationResponse> call = Objects.requireNonNull(api).OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {

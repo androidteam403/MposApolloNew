@@ -101,8 +101,10 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
             List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
                     .distinct()
                     .collect(Collectors.toList());
-
-            holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
+            if (newList != null && newList.size() > 0)
+                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
+            else
+                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
             SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, newList, products);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
