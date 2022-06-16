@@ -104,7 +104,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     @Override
     public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-           getMvpView().showLoading();
+            getMvpView().showLoading();
             getMvpView().hideKeyboard();
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(salesLine.getItemId());
@@ -166,12 +166,11 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
 
-                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
+                        if (response.isSuccessful() && response.body().getBatchList().size() == 0 || response.body().getBatchList() == null) {
                             getMvpView().onFailedBatchInfo(response.body());
-                        }
-                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                        } else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0) {
                             getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                        }else{
+                        } else {
                             getMvpView().onFailedBatchInfo(response.body());
                         }
 
@@ -199,7 +198,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
 
         if (getMvpView().isNetworkConnected()) {
-          getMvpView().showLoading();
+            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID(getDataManager().getDataAreaId());

@@ -126,32 +126,31 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/statusandicon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/status_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto_medium"
-                            android:id="@+id/status_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_11sp" />
 
 
                         <ImageView
                             android:id="@+id/status_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/dimen20dp"
+                            android:layout_height="@dimen/dimen20dp"
                             android:layout_marginStart="@dimen/dimen3dp"
                             android:layout_marginEnd="@dimen/_8dp"
                             android:contentDescription="@string/app_name"
-                            android:rotation="270"
-                            />
+                            android:rotation="270" />
 
 
                     </LinearLayout>
@@ -174,8 +173,8 @@
                         android:contentDescription="@string/app_name"
                         android:padding="@dimen/five_dp"
                         android:rotation="90"
-                        android:visibility="gone"
-                        android:src="@drawable/right_arrow_black"  />
+                        android:src="@drawable/right_arrow_black"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -347,9 +346,9 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Customer type"
                             android:textColor="@color/text_color_grey"
@@ -364,9 +363,9 @@
                             android:textSize="@dimen/ten_sp" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order date"
                             android:textColor="@color/text_color_grey"
@@ -381,9 +380,9 @@
                             android:textSize="@dimen/ten_sp" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Shipping method Type"
                             android:textColor="@color/text_color_grey"
@@ -398,9 +397,9 @@
                             android:textSize="@dimen/ten_sp" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Payment source"
                             android:textColor="@color/text_color_grey"
@@ -418,9 +417,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Name"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -435,9 +434,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Mobile Number"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -452,9 +451,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Doctor Name"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -469,9 +468,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="City"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -486,9 +485,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Pincode"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -511,9 +510,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order source"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -528,9 +527,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Delivery date"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -545,9 +544,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Stock status"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -562,9 +561,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order type"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -579,9 +578,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Vendor ID"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -596,9 +595,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="OrderBillValue"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -613,9 +612,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="State Code"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -630,9 +629,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Address"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -647,18 +646,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Comments"
-                            android:layout_marginTop="@dimen/dimen2dp"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
                         <TextView
                             android:id="@+id/comments"
-                            android:text="---"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/price_bold"
+                            android:text="---"
                             android:textColor="@color/black"
                             android:textSize="@dimen/ten_sp" />
 

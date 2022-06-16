@@ -61,14 +61,30 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dimen14sp" />
 
-                                <TextView
-                                    android:id="@+id/header_fullfillmentId"
+
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:text="Box ID: "
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/dimen12sp" />
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/header_fullfillmentId"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_bold"
+                                        android:text="Box ID : "
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
+
+                                    <TextView
+                                        android:id="@+id/box_id"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_bold"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
+                                </LinearLayout>
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -87,7 +103,6 @@
                                     android:textSize="@dimen/dimen14sp" />
 
                                 <TextView
-                                    android:id="@+id/box_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_bold"
@@ -205,11 +220,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.4"
-                                android:gravity="center_vertical">
+                                android:gravity="end|center_vertical">
 
                                 <TextView
 
@@ -380,7 +394,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
 
                                 <TextView
@@ -398,7 +412,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -415,7 +429,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -432,7 +446,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -449,7 +463,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 
@@ -538,7 +552,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -555,7 +569,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -572,7 +586,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -589,7 +603,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -607,7 +621,7 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="---"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 

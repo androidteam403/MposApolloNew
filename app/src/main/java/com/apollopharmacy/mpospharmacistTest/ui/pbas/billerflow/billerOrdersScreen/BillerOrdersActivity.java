@@ -44,7 +44,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     BillerOrdersMvpPresenter<BillerOrdersMvpView> mPresenter;
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     ActivityBillerOrdersPBinding activityBillerOrdersBinding;
-    private List<BillerFullfillmentAdapter.FullfilmentModel> fullfilmentModelList;
     private BillerFullfillmentAdapter billerFullfillmentAdapter;
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
     public static boolean isBillerActivity;

@@ -569,5 +569,9 @@
     <string name="label_do_you_want_to_connect_the_printer">Do you want to Connect the Printer</string>
     <string name="label_scanned">Scanned</string>
     <string name="label_sfulfilment_id">Fulfilment ID : </string>
+    <string name="label_update">Update</string>
+    <string name="label__0">0</string>
+    <string name="label_selected">Selected</string>
+    <string name="label_enter_last_3_digits_of_physical_batch">Enter last 3 digits of Physical Batch</string>
 
 </resources>

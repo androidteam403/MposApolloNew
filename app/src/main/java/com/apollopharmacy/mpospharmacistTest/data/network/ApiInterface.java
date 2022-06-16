@@ -353,14 +353,18 @@ public interface ApiInterface {
     @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 
+    //UAT
     @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
     Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
+
+    //Production
 //    @POST("OMSService.svc/MPOSOrderUpdate")
 //    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
 
     //created by naveen
     @POST("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")
     Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Body MPOSPickPackOrderReservationRequest request);
+
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionResponse> CALCULATE_POS_TRANSACTION_RES(@Body PostTransactionEntityReq posTransactionReq);
 
@@ -369,6 +373,7 @@ public interface ApiInterface {
 
     @POST("WalletService.svc/SendGlobalMessageAPI")
     Call<SendGlobalMessageResponse> SEND_GLOBAL_MESSAGE_RESPONSE_CALL(@Body SendGlobalMessageRequest sendGlobalMessageRequest);
+
     @POST("SalesTransactionService.svc/CheckBatchStock/0")
     Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
 }

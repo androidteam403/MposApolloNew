@@ -283,8 +283,20 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         this.salesLinee = salesLine;
         this.omsHeaderObj = omsHeader;
 //     if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+        if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+            for (int i = 0; i < getBatchDetailsResponse.getBatchList().size(); i++) {
+                if (getBatchDetailsResponse.getBatchList().get(i).isNearByExpiry()) {
+                    getBatchDetailsResponse.getBatchList().remove(i);
+                    i--;
+                }
+            }
+        }
 
-        onClickBatchDetails(orderAdapterPos, salesLine, position);
+        if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
+            onClickBatchDetails(orderAdapterPos, salesLine, position);
+        } else {
+            onClickItemStatusUpdate(orderAdapterPos, position, "Not Available");
+        }
 //            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
 //            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
 //            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
@@ -513,11 +525,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
-        if (body != null && !status.isEmpty())
+        if (body != null && !status.isEmpty()) {
             hideLoading();
-        onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status);
-
-
+            onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status);
+        }
     }
 
     @Override
@@ -558,6 +569,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 if (Double.parseDouble(body.get(i).getQ_O_H()) >= requiredQty) {
                     body.get(i).setSelected(true);
                     body.get(i).setREQQTY(requiredQty);
+                    body.get(i).setPhysicalBatchID(body.get(i).getBatchNo());
                     batchListObjsList.add(body.get(i));
                     selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(finalStatus1);
                     GetBatchInfoRes o = new GetBatchInfoRes();
@@ -570,6 +582,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     if (i == body.size() - 1) {
                         body.get(i).setSelected(true);
                         body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                        body.get(i).setPhysicalBatchID(body.get(i).getBatchNo());
                         batchListObjsList.add(body.get(i));
                         selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(finalStatus1);
                         GetBatchInfoRes o = new GetBatchInfoRes();
@@ -580,6 +593,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     } else {
                         body.get(i).setSelected(true);
                         body.get(i).setREQQTY(Double.parseDouble(body.get(i).getQ_O_H()));
+                        body.get(i).setPhysicalBatchID(body.get(i).getBatchNo());
                         batchListObjsList.add(body.get(i));
                         mPresenter.checkBatchInventory(body.get(i), requiredQty, "");
                         requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
