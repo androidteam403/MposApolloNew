@@ -22,6 +22,11 @@
             android:id="@+id/nav_biller_vtwo"
             android:icon="@drawable/ic_menu_billing"
             android:title="@string/label_biller" />
+
+        <item
+            android:id="@+id/nav_ePrescription_vtwo"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="ePrescription" />
         <!--        <item-->
         <!--            android:id="@+id/nav_biller_vtwo"-->
         <!--            android:title="Biller" />-->

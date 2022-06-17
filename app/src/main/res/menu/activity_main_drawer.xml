@@ -37,6 +37,13 @@
             android:icon="@drawable/ic_menu_manual_billing"
             android:title="@string/menu_eprescriptionPickingList" />
 
+
+        <item
+            android:id="@+id/nav_ePrescription_vOne"
+            android:icon="@drawable/ic_menu_manual_billing"
+            android:title="EPrescription"
+            />
+
         <item
             android:id="@+id/nav_Packing"
             android:icon="@drawable/ic_menu_manual_billing"
@@ -58,6 +65,7 @@
             android:title="@string/menu_open_screen"
             android:visible="false"
             />
+
     </group>
 
 

@@ -314,21 +314,23 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             dialog.dismiss();
         });
         updateStatusBinding.yes.setOnClickListener(v -> {
-            if (!BluetoothManager.getInstance(this).isConnect()) {
-                Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-                DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
-                dialogView.setContentView(connectPrinterBinding.getRoot());
-                dialogView.setCancelable(false);
-                connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
-                    dialogView.dismiss();
-                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            if (!BluetoothManager.getInstance(this).isConnect()) {
+//                Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+//                DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+//                dialogView.setContentView(connectPrinterBinding.getRoot());
+//                dialogView.setCancelable(false);
+//                connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+//                    dialogView.dismiss();
+//                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//
+//                });
+//                connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+//                connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//                dialogView.show();
+//            }
 
-                });
-                connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-                connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
-                dialogView.show();
-            } else {
+//            else {
                 int count = 1;
                 for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
                     omsOrderForwardRequest = new OMSOrderForwardRequest();
@@ -453,9 +455,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //            OmsOrderUpdateSuccess(o);
 //            Toast.makeText(this, "oms update", Toast.LENGTH_SHORT).show();
                     mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
-                }
-                dialog.dismiss();
-                dialog.cancel();
+//                }
+//                dialog.dismiss();
+//                dialog.cancel();
 
 //            mPresenter.ForwardToPickerRequest(request);
 
