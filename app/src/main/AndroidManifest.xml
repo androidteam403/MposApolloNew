@@ -65,6 +65,11 @@
             android:name=".ui.eprescriptionorderlist.EprescriptionOrderListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.storesetup.StoreSetupActivity"
             android:screenOrientation="portrait"

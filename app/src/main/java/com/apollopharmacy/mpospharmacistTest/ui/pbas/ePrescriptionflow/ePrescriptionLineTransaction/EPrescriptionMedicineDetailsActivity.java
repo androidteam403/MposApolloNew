@@ -378,7 +378,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setManufacturerCode("");
                     salesLineEntity.setManufacturerName("");
 //                    salesLineEntity.setExpiry();
-                    salesLineEntity.setQty(Integer.valueOf(ePrescriptionMedicineResponse.getQty()));
+                    salesLineEntity.setQty(1);
                     salesLineEntity.setStockQty(0);
                     salesLineEntity.setReturnQty(0);
                     salesLineEntity.setRemainingQty(0);
@@ -443,8 +443,13 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setCGSTTaxCode(null);
                     salesLineEntity.setSGSTTaxCode(null);
                     salesLineEntity.setDiscountStructureType(0);
+//                    if(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode()!=null){
+//                        salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
+//                    }
+//                    else{
+                        salesLineEntity.setSubstitudeItemId("");
+//                    }
 
-                    salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
                     salesLineEntity.setCategoryReference("");
                     salesLineEntity.setOrderStatus(0);
                     salesLineEntity.setOmsLineID(0);
@@ -593,7 +598,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Override
     public void CheckBatchStockSuccess(CustomerDataResBean customerDataResBean) {
         if (customerDataResBean != null) {
-            customerDataResBean = customerDataResBean;
+//            customerDataResBean = customerDataResBean;
 //            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
                 mPresenter.onOnlineBillApiCall(customerDataResBean);
 //            }
@@ -609,6 +614,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean body) {
+        this.customerDataResBean=body;
         String message = body.getReturnMessage();
         message = message + "Stock Partial Available \n Do you want Continue this bill";
 
@@ -675,13 +681,13 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         boolean is_onlineOrder = true;
         orderInfoItem.setREFNO(prescriptionLineList.get(position).getPrescriptionNo());
 
-        startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+        startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void onFailureOnlineBill(CustomerDataResBean customerDataResBean) {
-
+        Toast.makeText(getApplicationContext(), "" + customerDataResBean.getReturnMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
