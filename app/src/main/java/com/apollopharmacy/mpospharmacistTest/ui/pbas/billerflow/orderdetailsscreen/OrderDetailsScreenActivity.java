@@ -279,7 +279,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void LoadOmsOrderFailure(CustomerDataResBean response) {
-
+        Toast.makeText(this, response.getReturnMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
