@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.pbas.ePrescription.EPrescriptionActivity">
-
-        <!--    <TextView-->
-        <!--        android:id="@+id/selected_fullfillment"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="25dp"-->
-        <!--       -->
-        <!--        android:fontFamily="@font/roboto_regular"-->
-        <!--        android:gravity="center_vertical"-->
-        <!--        android:paddingStart="@dimen/dimen10dp"-->
-        <!--        android:text="Select fulfilment to start"-->
-        <!--        android:textColor="@color/black"-->
-        <!--        android:textSize="@dimen/dimen10sp"-->
-        <!--        tools:ignore="RtlSymmetry" />-->
-
 
         <LinearLayout
             android:id="@+id/action_bar_view"
@@ -94,175 +78,80 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_11" />
         </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:id="@+id/selected_fullfillment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="25dp"-->
-<!--            android:background="#fdb813"-->
-<!--            android:padding="3dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:weightSum="1">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="@dimen/text_dimen_6"-->
-<!--                android:layout_weight="0.30"-->
-<!--                android:gravity="center">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:text="Site Name"-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/site_id"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="@dimen/text_dimen_6"-->
-<!--                android:layout_weight="0.40"-->
-<!--                android:gravity="center">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:text="Site Id "-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/storeName"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="@dimen/text_dimen_6"-->
-<!--                android:layout_weight="0.30"-->
-<!--                android:gravity="center">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:text="Terminal Id: "-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/terminal_id"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/text_dimen_11" />-->
-
-<!--            </LinearLayout>-->
-
-<!--        </LinearLayout>-->
-
 
         <LinearLayout
-            android:id="@+id/searchbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/action_bar_view"
-            android:orientation="horizontal"
-            android:padding="@dimen/seven_dp"
-            android:weightSum="1">
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/search_byfulfimentid"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_five_dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_rectangular_shape"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="Search by PrescNo, Doc Name, Customer Name, PhoneNo."
-                android:padding="@dimen/five_dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="10dp" />
+            <LinearLayout
+                android:id="@+id/searchbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/searchIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/thirty_five_dp"
-                android:background="@drawable/ic_rectangular_shape"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/five_dp"
-                android:src="@drawable/search_icon" />
+                <EditText
+                    android:id="@+id/search_byfulfimentid"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/label_search_by_prescno_doc_name_customer_name_phoneno"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:padding="@dimen/five_dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
 
-            <ImageView
-                android:id="@+id/deleteCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/thirty_five_dp"
-                android:background="@drawable/ic_rectangular_shape"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/five_dp"
-                android:src="@drawable/cross_black"
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/search_icon" />
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fullfilment_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp" />
+
+            <TextView
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/label_no_order_found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp"
                 android:visibility="gone" />
 
-
         </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fullfilment_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/searchbox"
-            android:layout_marginBottom="@dimen/five_dp" />
-
-        <TextView
-            android:id="@+id/no_order_found_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center"
-            android:text="No Order Found"
-            android:textColor="@color/red"
-            android:textSize="@dimen/dimen14sp"
-            android:visibility="gone" />
-
-
     </RelativeLayout>
 
-
     <data>
-
 
         <variable
             name="callback"

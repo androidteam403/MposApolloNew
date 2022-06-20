@@ -241,7 +241,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             batchlistBinding.notAvailableRadio.setChecked(true);
             batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
             batchlistBinding.selectBatchesAutomatically.setVisibility(View.GONE);
-            batchlistBinding.update1.setVisibility(View.VISIBLE);
+//            batchlistBinding.update1.setVisibility(View.VISIBLE);
 
             batchlistBinding.update1.setOnClickListener(new View.OnClickListener() {
                 @Override

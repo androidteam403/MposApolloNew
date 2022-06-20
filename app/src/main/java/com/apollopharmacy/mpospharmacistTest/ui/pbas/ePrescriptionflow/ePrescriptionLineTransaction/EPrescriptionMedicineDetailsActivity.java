@@ -25,8 +25,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.adapter.EPrescriptionMedicineDetailsAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -48,7 +46,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Inject
     EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> mPresenter;
     ActivityEPrescriptionMedicineDetailsBinding detailsBinding;
-    private OMSTransactionHeaderResModel.OMSHeaderObj orderInfoItem= new OMSTransactionHeaderResModel.OMSHeaderObj();
+    private OMSTransactionHeaderResModel.OMSHeaderObj orderInfoItem = new OMSTransactionHeaderResModel.OMSHeaderObj();
     EPrescriptionMedicineDetailsAdapter ePrescriptionListAdapter;
     private EPrescriptionMedicineDetailsMvpView mvpView;
     List<EPrescriptionModelClassResponse> prescriptionLineList;
@@ -229,7 +227,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
             public void onClick(View v) {
 
 //                CheckBatchModelRequest customerDataResBean= new CheckBatchModelRequest();
-            customerDataResBean = new CustomerDataResBean();
+                customerDataResBean = new CustomerDataResBean();
                 customerDataResBean.setRemainingamount(0);
                 customerDataResBean.setHDOrder(false);
                 customerDataResBean.setTPASeller(false);
@@ -447,7 +445,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 //                        salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
 //                    }
 //                    else{
-                        salesLineEntity.setSubstitudeItemId("");
+                    salesLineEntity.setSubstitudeItemId("");
 //                    }
 
                     salesLineEntity.setCategoryReference("");
@@ -557,7 +555,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     public void onSuccessSubstituteList(EPrescriptionSubstituteModelResponse substituteLists) {
         this.substituteList = substituteLists;
         if (medicineResponseList != null && medicineResponseList.size() > 0) {
-            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(getContext(), this, medicineResponseList, substituteList);
+            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(this, this, medicineResponseList, substituteList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(EPrescriptionMedicineDetailsActivity.this);
             detailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
             detailsBinding.productListRecycler.setAdapter(ePrescriptionListAdapter);
@@ -572,7 +570,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Override
     public void onFailureSubstituteList(EPrescriptionSubstituteModelResponse substituteList) {
         if (medicineResponseList != null && medicineResponseList.size() > 0) {
-            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(getContext(), this, medicineResponseList, substituteList);
+            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(this, this, medicineResponseList, substituteList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(EPrescriptionMedicineDetailsActivity.this);
             detailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
             detailsBinding.productListRecycler.setAdapter(ePrescriptionListAdapter);
@@ -592,7 +590,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     public void getCorporateList(CorporateModel corporateModel) {
         this.corporateModel = corporateModel;
         corporateList.addAll(corporateModel.get_DropdownValue());
-        Toast.makeText(getApplicationContext(), "CorporateList Success!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "CorporateList Success!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -600,7 +598,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         if (customerDataResBean != null) {
 //            customerDataResBean = customerDataResBean;
 //            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-                mPresenter.onOnlineBillApiCall(customerDataResBean);
+            mPresenter.onOnlineBillApiCall(customerDataResBean);
 //            }
 //        else {
 //                CheckBatchStockFailure(customerDataResBean);
@@ -614,7 +612,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean body) {
-        this.customerDataResBean=body;
+        this.customerDataResBean = body;
         String message = body.getReturnMessage();
         message = message + "Stock Partial Available \n Do you want Continue this bill";
 
@@ -687,7 +685,20 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
     @Override
     public void onFailureOnlineBill(CustomerDataResBean customerDataResBean) {
-        Toast.makeText(getApplicationContext(), "" + customerDataResBean.getReturnMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), customerDataResBean.getReturnMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse) {
+        if (medicineResponseList != null && medicineResponseList.size() > 0) {
+            for (int i = 0; i < medicineResponseList.size(); i++) {
+                if (medicineResponseList.get(i).getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
+                    medicineResponseList.get(i).setReqQty(medicineResponse.getReqQty());
+                }
+            }
+            if (ePrescriptionListAdapter != null)
+                ePrescriptionListAdapter.notifyDataSetChanged();
+        }
     }
 
 

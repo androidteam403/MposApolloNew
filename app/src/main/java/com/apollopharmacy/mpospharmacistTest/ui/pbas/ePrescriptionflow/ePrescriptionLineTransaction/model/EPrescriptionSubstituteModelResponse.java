@@ -45,7 +45,7 @@ public class EPrescriptionSubstituteModelResponse implements Serializable
             this.substituteList = substituteList;
         }
 
-        public class Substitute implements Serializable
+        public static class Substitute implements Serializable
         {
 
             @SerializedName("ArtCode")

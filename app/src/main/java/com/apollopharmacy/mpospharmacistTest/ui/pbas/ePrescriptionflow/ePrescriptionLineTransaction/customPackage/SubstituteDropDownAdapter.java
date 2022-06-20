@@ -48,7 +48,6 @@ public class SubstituteDropDownAdapter extends BaseAdapter {
         View view = inflter.inflate(R.layout.substitutedropdown, null);
         TextView names = view.findViewById(R.id.reason_id);
         names.setText(substituteList.get(position).getSubstituteArtCode());
-
         return view;
     }
 }
