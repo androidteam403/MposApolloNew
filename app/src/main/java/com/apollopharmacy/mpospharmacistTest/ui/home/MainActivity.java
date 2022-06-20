@@ -217,6 +217,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                     navigateprinterscreen();
                     // navController.navigate(R.id.nav_Invoice, null, navOptions, null);
                     // Constant.getInstance().Orders_type = "Invoice";
+                }else if(menuItem.getItemId() == R.id.nav_ePrescription_vOne){
+                    navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
+                    Constant.getInstance().Orders_type = "EPrescription";
                 }
                 /*else if (menuItem.getItemId() == R.id.nav_exit_kiosk) {
                     KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this, mvpPresenter);

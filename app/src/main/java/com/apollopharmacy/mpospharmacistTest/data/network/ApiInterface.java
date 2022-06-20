@@ -75,6 +75,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadReques
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
@@ -371,4 +378,22 @@ public interface ApiInterface {
     Call<SendGlobalMessageResponse> SEND_GLOBAL_MESSAGE_RESPONSE_CALL(@Body SendGlobalMessageRequest sendGlobalMessageRequest);
     @POST("SalesTransactionService.svc/CheckBatchStock/0")
     Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOnlineOrderTransaction")
+    Call <List<EPrescriptionModelClassResponse>> GET_ONLINE_ORDER_TRANSACTION(@Body EPrescriptionModelClassRequest ePrescriptionModelClassRequest);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOnlineOrderLineTransaction")
+    Call<List<EPrescriptionMedicineResponse>> GET_ONLINEORDER_LINE_TRANSACTION(@Body EPrescriptionMedicineRequest ePrescriptionMedicineRequest);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/GetOnlineOrderSubstituteDetails/{prescriptionNo}")
+    Call<EPrescriptionSubstituteModelResponse> GET_SUBSTITUTE_DETAILS(@Path("prescriptionNo") String prescriptionNo);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/CheckBatchStock/0")
+    Call<CheckBatchModelResponse> CHECK_BATCH_STOCK(@Body CustomerDataResBean customerDataResBean);
+
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+    Call<CustomerDataResBean> omscheckbatchstocks(@Body CustomerDataResBean customerDataResBean);
+
+    @POST("SalesTransactionService.svc/OnlineBill")
+    Call<CustomerDataResBean> ONLINE_BILL_APICALL(@Body CustomerDataResBean request);
 }

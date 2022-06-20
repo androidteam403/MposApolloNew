@@ -101,6 +101,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                     navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
                 } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
                     navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+                }else if(menuItem.getItemId() == R.id.nav_ePrescription_vtwo){
+                    navController.navigate(R.id.nav_ePrescription_vtwo, null, navOptions, null);
                 }
 
                 return true;
@@ -133,6 +135,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("BILLER")) {
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+        }else if(fragmentName.equals("ePrescription")){
+            navController.navigate(R.id.nav_ePrescription_vtwo, null, navOptions, null);
         }
     }
 
