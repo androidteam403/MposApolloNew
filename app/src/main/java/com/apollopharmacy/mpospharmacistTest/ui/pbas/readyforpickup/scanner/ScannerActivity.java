@@ -90,7 +90,10 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         //switch flashlight button
         switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
         switchFlashlightButton.setVisibility(View.GONE);
-
+        if (!BillerOrdersActivity.isBillerActivity) {
+            pos = ReadyForPickUpActivity.scannedItemPos;
+            fulfilmentId.setText(ReadyForPickUpActivity.selectedOmsHeaderListTest.get(pos).getRefno());
+        }
         //start capture
         capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
         capture.setOrderPos(pos);

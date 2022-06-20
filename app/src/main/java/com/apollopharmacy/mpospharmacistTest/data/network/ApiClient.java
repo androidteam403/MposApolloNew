@@ -31,9 +31,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -49,9 +49,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -67,9 +67,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -84,9 +84,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -139,9 +139,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -163,9 +163,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -186,9 +186,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         return new Retrofit.Builder()
@@ -211,9 +211,9 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor()); }
         OkHttpClient client = builder
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
                 .addInterceptor(interceptor).build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)

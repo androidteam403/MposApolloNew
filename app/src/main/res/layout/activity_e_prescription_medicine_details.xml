@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -161,9 +160,9 @@
                         android:layout_marginEnd="@dimen/twenty_dp"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="7dp"
-                        android:textSize="11sp"
                         android:text="CUSTOMER INFO"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="11sp" />
 
 
                     <LinearLayout
@@ -174,18 +173,7 @@
                         android:orientation="vertical">
 
                         <ImageView
-
                             android:id="@+id/right_arrow"
-                            android:layout_width="27dp"
-                            android:layout_height="@dimen/dimen30dp"
-                            android:layout_gravity="end"
-                            android:contentDescription="@string/app_name"
-                            android:padding="@dimen/five_dp"
-                            android:rotation="0"
-                            android:src="@drawable/right_arrow_black" />
-
-                        <ImageView
-                            android:id="@+id/backArrow"
                             android:layout_width="27dp"
                             android:layout_height="@dimen/dimen30dp"
                             android:layout_gravity="end"
@@ -194,6 +182,16 @@
                             android:rotation="90"
                             android:src="@drawable/right_arrow_black"
                             android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/backArrow"
+                            android:layout_width="27dp"
+                            android:layout_height="@dimen/dimen30dp"
+                            android:layout_gravity="end"
+                            android:contentDescription="@string/app_name"
+                            android:padding="@dimen/five_dp"
+                            android:rotation="270"
+                            android:src="@drawable/right_arrow_black" />
 
                     </LinearLayout>
 
@@ -207,8 +205,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen2dp"
 
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -228,9 +226,9 @@
                             android:layout_height="wrap_content"
 
                             android:orientation="horizontal"
-                            android:paddingEnd="@dimen/text_dimen_10"
-                            android:paddingTop="@dimen/text_dimen_10"
                             android:paddingLeft="@dimen/text_dimen_10"
+                            android:paddingTop="@dimen/text_dimen_10"
+                            android:paddingEnd="@dimen/text_dimen_10"
                             android:weightSum="1">
 
                             <LinearLayout
@@ -362,7 +360,6 @@
                                     android:textSize="@dimen/ten_sp" />
 
 
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -474,9 +471,6 @@
                                     android:textSize="@dimen/ten_sp" />
 
 
-
-
-
                             </LinearLayout>
 
 
@@ -486,8 +480,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingBottom="@dimen/text_dimen_10"
-                            android:paddingStart="@dimen/text_dimen_10">
+                            android:paddingStart="@dimen/text_dimen_10"
+                            android:paddingBottom="@dimen/text_dimen_10">
 
 
                             <TextView
@@ -508,9 +502,9 @@
                                 android:textSize="@dimen/ten_sp" />
 
                             <TextView
-                                android:layout_marginTop="@dimen/dimen3dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen3dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Address : "
                                 android:textColor="@color/text_color_grey"
@@ -525,14 +519,10 @@
                                 android:textSize="@dimen/ten_sp" />
 
 
-
-
                         </LinearLayout>
 
 
                     </LinearLayout>
-
-
 
 
                 </LinearLayout>
@@ -552,14 +542,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen5dp"
                             android:layout_marginEnd="@dimen/twenty_dp"
                             android:fontFamily="@font/roboto_bold"
                             android:padding="7dp"
-                            android:layout_marginStart="@dimen/dimen5dp"
-                            android:textAlignment="center"
-                            android:textSize="11sp"
                             android:text="ORDER LIST"
-                            android:textColor="@color/black"/>
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="11sp" />
 
                         <RelativeLayout
                             android:id="@+id/batch_details1"
@@ -576,6 +566,7 @@
                                 android:background="@color/batch_header_bg"
                                 android:orientation="horizontal"
                                 android:padding="@dimen/ten_dp"
+                                android:weightSum="1"
                                 tools:ignore="UselessParent">
 
                                 <TextView
@@ -587,23 +578,24 @@
                                     android:maxLines="2"
                                     android:text="PrescNo"
                                     android:textColor="@color/white"
-                                    android:textSize="9dp" />
+                                    android:textSize="@dimen/dimen_9_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.6"
+                                    android:layout_weight="0.12"
                                     android:fontFamily="@font/roboto_regular"
                                     android:maxLines="2"
-                                    android:textAlignment="center"
                                     android:text="Art Code"
+                                    android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="9dp" />
 
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.8"
+                                    android:layout_weight="0.26"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center"
                                     android:maxLines="2"
@@ -614,7 +606,7 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.3"
+                                    android:layout_weight="0.11"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center"
                                     android:maxLines="2"
@@ -648,11 +640,11 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.6"
+                                    android:layout_weight="0.11"
                                     android:fontFamily="@font/roboto_regular"
                                     android:maxLines="2"
-                                    android:textAlignment="center"
                                     android:text="MRP"
+                                    android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="9dp" />
 
@@ -672,17 +664,18 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.5"
+                                    android:layout_weight="0.12"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center"
                                     android:maxLines="2"
                                     android:text="REQ.QTY"
                                     android:textColor="@color/white"
                                     android:textSize="9dp" />
+
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_weight="0.27"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center_horizontal"
                                     android:maxLines="2"
@@ -699,9 +692,9 @@
                             android:id="@+id/product_list_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_4dp"
-                            android:layout_marginEnd="@dimen/_4dp"
-                            android:layout_marginBottom="@dimen/dimen5dp" />
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:paddingStart="@dimen/ten_dp"
+                            android:paddingEnd="@dimen/ten_dp" />
 
 
                     </LinearLayout>

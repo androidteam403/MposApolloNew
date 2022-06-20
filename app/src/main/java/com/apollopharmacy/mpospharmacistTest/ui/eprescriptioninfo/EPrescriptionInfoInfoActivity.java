@@ -702,6 +702,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
                 customerEntity.setMobileNo(response.get(0).getMobileNO());
                 customerEntity.setCardName(response.get(0).getCustomerName());
                 customerEntity.setCorpId(response.get(0).getCorpCode());
+
                 customerEntity.setCustId(response.get(0).getCustomerID());
                 customerEntity.setGender(String.valueOf(response.get(0).getGender()));
 
@@ -1045,7 +1046,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         }
 
         customerDataResBean_pass.setSalesLine(saleslineentity);
-
+//corp code
         int position = 0;
         int tempposition = 0;
         if (corporateList != null) {
@@ -1069,6 +1070,7 @@ public class EPrescriptionInfoInfoActivity extends BaseActivity implements EPres
         startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
+        // order info item null
     }
 
     @Override

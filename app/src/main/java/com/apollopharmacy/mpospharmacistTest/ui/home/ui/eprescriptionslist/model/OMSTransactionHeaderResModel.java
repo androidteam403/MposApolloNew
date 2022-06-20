@@ -58,7 +58,6 @@ public class OMSTransactionHeaderResModel {
         @Expose
         @SerializedName("OrderType")
         private String OrderType;
-
         @SerializedName("OverallOrderStatus")
         @Expose
         private String OverallOrderStatus;

@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Fullfillment Id : "
+                            android:text="Fulfilment Id : "
                             android:textColor="@color/white" />
 
                         <TextView
@@ -240,7 +240,8 @@
                             android:layout_height="@dimen/dimen20dp"
                             android:layout_marginStart="@dimen/dimen5dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_partial" />
+                            android:rotation="90"
+                            android:src="@drawable/partialcirculargreeenorange" />
                     </LinearLayout>
 
                     <LinearLayout

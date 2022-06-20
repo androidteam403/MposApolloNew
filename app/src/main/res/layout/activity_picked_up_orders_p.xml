@@ -108,7 +108,7 @@
                     android:layout_weight="0.7"
                     android:background="@drawable/ic_rectangular_shape"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="Search by Fullfillment ID"
+                    android:hint="Search by Fulfilment ID"
                     android:padding="@dimen/five_dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"

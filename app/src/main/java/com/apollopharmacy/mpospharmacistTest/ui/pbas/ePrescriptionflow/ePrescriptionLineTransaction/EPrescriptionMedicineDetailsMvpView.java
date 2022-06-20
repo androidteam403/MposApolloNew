@@ -3,7 +3,6 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescri
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -14,10 +13,10 @@ import java.util.List;
 public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
 
     void onSuccessTransactionList(List<EPrescriptionMedicineResponse> body);
-    
+
     void onClickDropDown(ArrayList<String> items);
 
-    void  onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position);
+    void onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position);
 
     void onSuccessSubstituteList(EPrescriptionSubstituteModelResponse body);
 
@@ -34,5 +33,7 @@ public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
     void onSuccessOnlineBill(CustomerDataResBean customerDataResBean);
 
     void onFailureOnlineBill(CustomerDataResBean customerDataResBean);
+
+    void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse);
 }
 

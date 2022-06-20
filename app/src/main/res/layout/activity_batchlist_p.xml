@@ -8,21 +8,19 @@
         android:background="@color/white">
 
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/add_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dimen6dp">
+            android:layout_marginBottom="@dimen/dimen6dp"
+            android:orientation="vertical">
 
 
             <TextView
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:background="@drawable/bg_cancel_btn"
                 android:backgroundTint="@color/colorPrimary"
@@ -30,9 +28,37 @@
                 android:gravity="center"
                 android:onClick="@{()-> callback.onAddItemsClicked()}"
                 android:paddingBottom="@dimen/dimen6dp"
-                android:text="Add Items"
+                android:text="@string/label_add_items"
                 android:textColor="@color/white" />
-        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/select_batches_automatically"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginTop="@dimen/dimen5dp"
+                android:background="@drawable/btn_signin_ripple_effect"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/label_select_batch_automatically"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/update1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginTop="@dimen/dimen5dp"
+                android:background="@drawable/btn_signin_ripple_effect"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/label_update"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -52,9 +78,9 @@
                     android:layout_width="@dimen/dimen20dp"
                     android:layout_height="@dimen/dimen20dp"
                     android:layout_marginStart="@dimen/dimen15dp"
-                    android:padding="@dimen/dimen3dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickBack()}"
+                    android:padding="@dimen/dimen3dp"
                     android:src="@drawable/ic_back_arrow_white" />
 
                 <LinearLayout
@@ -73,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Fullfillment Id : "
+                            android:text="Fulfilment Id : "
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
@@ -153,12 +179,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen3dp"
-                android:background="#A9A9A9" />
+                android:background="#A9A9A9"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -313,9 +341,9 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
-                            android:text="Selected"
+                            android:text="@string/label_selected"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/dimen13sp" />
 
                     </LinearLayout>
 
@@ -334,7 +362,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
-                            android:text="10"
+                            android:text="@string/label__0"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -345,7 +373,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
-                            android:text="1"
+                            android:text="@string/label__0"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -365,8 +393,7 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:importantForAutofill="no"
-                                android:inputType="number"
-                                android:text="1"
+                                android:text="@string/label__0"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
                                 tools:ignore="LabelFor" />
@@ -374,32 +401,6 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/select_batches_automatically"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty_dp"
-                        android:layout_marginTop="@dimen/dimen3dp"
-                        android:background="@drawable/btn_signin_ripple_effect"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="@string/label_select_batch_automatically"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/update1"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/forty_dp"
-                        android:layout_marginTop="@dimen/dimen3dp"
-                        android:background="@drawable/btn_signin_ripple_effect"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Update"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen16sp"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -414,7 +415,8 @@
                 android:text="@string/label_or"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"

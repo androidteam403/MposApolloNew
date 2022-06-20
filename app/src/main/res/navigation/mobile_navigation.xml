@@ -82,6 +82,6 @@
         android:id="@+id/nav_ePrescription_vOne"
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"
         tools:layout="@layout/activity_e_prescription2"
-        android:label="EPrescription"/>
+        android:label="E-Prescription"/>
 
 </navigation>

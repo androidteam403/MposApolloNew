@@ -194,7 +194,6 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         if (count == omsOrderForwardRequests.size()) {
             generatebarcode(selectedOmsHeaderList);
             mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
-            Toast.makeText(getApplicationContext(), "SUCCESS!!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -389,7 +388,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                                     reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
                                     reservedSalesLine.setManufacturerName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
                                     reservedSalesLine.setMixMode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
-                                    reservedSalesLine.setModifyBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getBatchNo());
+                                    reservedSalesLine.setModifyBatchId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getPhysicalBatchID());
                                     reservedSalesLine.setNetAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmount());
                                     reservedSalesLine.setNetAmountInclTax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmountInclTax());
                                     reservedSalesLine.setOfferAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getOfferAmount());

@@ -230,6 +230,20 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, TransactionIDResModel transactionIDResModel, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("sales_list_data", salesLineEntities);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("orderinfo_item", orderinfoitem);
+        intent.putExtra("customerbean_info", customerDataResBean);
+        intent.putExtra("transaction_id", transactionIDResModel);
+        intent.putExtra("is_online", is_online);
+        intent.putExtra("corporate_info", item);
+        intent.putExtra("doctor_info", doctor);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -397,6 +411,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getSerializableExtra("is_omsorder");
+            boolean isOnline = (boolean) getIntent().getSerializableExtra("is_online");
             if (is_omsorder == true) {
                 boolean itemNotFound = true;
                 ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) getIntent().getSerializableExtra("sales_list_data");
@@ -428,6 +443,40 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     mPresenter.checkAllowedPaymentMode(paymentMethodModel);
                     mPresenter.checkProductTrackingWise();
                     mPresenter.calculatePosTransaction();
+                    medicinesDetailAdapter.notifyDataSetChanged();
+                }
+
+            } else if (isOnline) {
+                ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) getIntent().getSerializableExtra("sales_list_data");
+                if (itemsArrayList != null) {
+
+//                    Constant.getInstance().isomsorder = true;
+//                    Constant.getInstance().isomsorder_check = true;
+
+
+                    Singletone.getInstance().itemsArrayList.clear();
+                    Singletone.getInstance().itemsArrayList.addAll(itemsArrayList);
+
+                    corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+                    customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+                    OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem = (OMSTransactionHeaderResModel.OMSHeaderObj) getIntent().getSerializableExtra("orderinfo_item");
+                    customerDataResBean = (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info");
+                    // Log.d("corpoarte data", corporateEntity.getCode());
+                    //if(customerDataResBean != null)
+                    //{
+                    customerDataResBean.setREFNO(orderinfoitem.getREFNO());
+                    //}
+                    addItemBinding.setCustomer(customerEntity);
+                    addItemBinding.setCorporate(corporateEntity);
+                    addItemBinding.detailsLayout.prgTrackingEdit.setText(orderinfoitem.getREFNO());
+                    transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+                    if (transactionIdModel != null) {
+                        addItemBinding.setTransaction(transactionIdModel);
+                    }
+                    mPresenter.checkAllowedPaymentMode(paymentMethodModel);
+                    mPresenter.checkProductTrackingWise();
+                    mPresenter.calculatePosTransaction();
+                    mPresenter.getUnpostedTransaction();
                     medicinesDetailAdapter.notifyDataSetChanged();
                 }
 
@@ -2386,7 +2435,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
-        if(hbpConfigResponse.getUHIDBilling())
+        if (hbpConfigResponse.getUHIDBilling())
             addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
     }
 
@@ -2396,7 +2445,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         dialogView.setOnOutSideCancel(false);
         dialogView.setOTP(otp);
         dialogView.setTitle("New customer details found");
-        dialogView.setSubTitle("OTP has been sent to " + customerEntity.getMobileNo()+ " Please verify");
+        dialogView.setSubTitle("OTP has been sent to " + customerEntity.getMobileNo() + " Please verify");
         dialogView.setPositiveLabel("Ok");
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
