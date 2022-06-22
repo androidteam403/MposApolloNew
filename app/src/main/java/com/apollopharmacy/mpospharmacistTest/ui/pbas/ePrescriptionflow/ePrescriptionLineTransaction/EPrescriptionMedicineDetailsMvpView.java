@@ -16,7 +16,7 @@ public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
 
     void onClickDropDown(ArrayList<String> items);
 
-    void onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position);
+    void onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position, EPrescriptionSubstituteModelResponse.Substitute substituteArtCode, List<EPrescriptionSubstituteModelResponse.Substitute> substituteLists);
 
     void onSuccessSubstituteList(EPrescriptionSubstituteModelResponse body);
 
@@ -35,5 +35,7 @@ public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
     void onFailureOnlineBill(CustomerDataResBean customerDataResBean);
 
     void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse);
+
+
 }
 
