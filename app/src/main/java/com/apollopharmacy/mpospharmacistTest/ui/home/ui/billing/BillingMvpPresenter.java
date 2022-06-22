@@ -6,6 +6,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 
 import java.util.List;
 
@@ -54,5 +56,9 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
     void onDownloadApiCall(String filePath, String fileName, int pos);
 
     boolean enablescreens();
+
+    void getUHIDDetails(String uhId);
+
+    HBPConfigResponse getHBPConfing();
 
 }

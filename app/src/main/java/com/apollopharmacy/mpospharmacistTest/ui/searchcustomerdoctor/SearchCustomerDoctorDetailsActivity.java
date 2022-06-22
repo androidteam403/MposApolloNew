@@ -151,6 +151,7 @@ public class SearchCustomerDoctorDetailsActivity extends BaseActivity implements
     public void getCorporateList(CorporateModel corporateModel) {
         this.corporateModel = corporateModel;
         corporateList.addAll(corporateModel.get_DropdownValue());
+
         searchCutomerDetailsBinding.setCorporate(corporateModel.get_DropdownValue().get(0));
     }
 

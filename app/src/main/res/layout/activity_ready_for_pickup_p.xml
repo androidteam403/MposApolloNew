@@ -30,22 +30,38 @@
 
                     <ImageView
                         android:id="@+id/header_back"
-                        android:layout_width="@dimen/dimen30dp"
-                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_width="@dimen/dimen20dp"
+                        android:layout_height="@dimen/dimen20dp"
                         android:contentDescription="@string/app_name"
+                        android:padding="@dimen/dimen3dp"
                         android:onClick="@{()-> callback.onClickBack()}"
-                        android:src="@drawable/left_forward_white_arrow" />
+                        android:src="@drawable/ic_back_arrow_white" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/label_ready_for_pickup"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen16sp" />
+                        android:layout_marginStart="@dimen/twenty_five_dp"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/label_ready_for_pickup"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen14sp" />
+
+                        <TextView
+                            android:id="@+id/header_orders_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen12sp" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -65,43 +81,43 @@
                 android:id="@+id/ready_for_pickup_recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/fifteen_dp" />
+                android:layout_marginTop="@dimen/ten_dp" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/dimen45dp"-->
-<!--                android:layout_marginStart="@dimen/ten_dp"-->
-<!--                android:layout_marginTop="@dimen/ten_dp"-->
-<!--                android:layout_marginEnd="@dimen/ten_dp"-->
-<!--                android:onClick="@{()-> callback.onClickTakePrint()}"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:weightSum="1">-->
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/dimen45dp"-->
+            <!--                android:layout_marginStart="@dimen/ten_dp"-->
+            <!--                android:layout_marginTop="@dimen/ten_dp"-->
+            <!--                android:layout_marginEnd="@dimen/ten_dp"-->
+            <!--                android:onClick="@{()-> callback.onClickTakePrint()}"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:weightSum="1">-->
 
-<!--                &lt;!&ndash;                    <ImageView&ndash;&gt;-->
-<!--                &lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
-<!--                &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                &lt;!&ndash;                        android:background="@color/black"&ndash;&gt;-->
-<!--                &lt;!&ndash;                        android:src="@drawable/ic_white_printer"&ndash;&gt;-->
-<!--                &lt;!&ndash;                        android:contentDescription="@string/app_name" />&ndash;&gt;-->
-<!--                <View-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight=".5" />-->
+            <!--                &lt;!&ndash;                    <ImageView&ndash;&gt;-->
+            <!--                &lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--                &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--                &lt;!&ndash;                        android:background="@color/black"&ndash;&gt;-->
+            <!--                &lt;!&ndash;                        android:src="@drawable/ic_white_printer"&ndash;&gt;-->
+            <!--                &lt;!&ndash;                        android:contentDescription="@string/app_name" />&ndash;&gt;-->
+            <!--                <View-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_weight=".5" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/take_print"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="@dimen/dimen45dp"-->
-<!--                    android:layout_marginStart="@dimen/fifteen_dp"-->
-<!--                    android:layout_weight=".5"-->
-<!--                    android:background="@drawable/take_print_btn_bg"-->
-<!--                    android:fontFamily="@font/roboto_bold"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="Take Print"-->
-<!--                    android:textAllCaps="true"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    tools:ignore="ButtonStyle" />-->
-<!--            </LinearLayout>-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/take_print"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="@dimen/dimen45dp"-->
+            <!--                    android:layout_marginStart="@dimen/fifteen_dp"-->
+            <!--                    android:layout_weight=".5"-->
+            <!--                    android:background="@drawable/take_print_btn_bg"-->
+            <!--                    android:fontFamily="@font/roboto_bold"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="Take Print"-->
+            <!--                    android:textAllCaps="true"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    tools:ignore="ButtonStyle" />-->
+            <!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,13 +130,14 @@
                 android:weightSum="1">
 
                 <Button
+                    android:id="@+id/cancel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:background="@drawable/red_ripple_btn_bg"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:onClick="@{()-> callback.cancel()}"
                     android:padding="@dimen/seven_dp"
                     android:text="Cancel"
                     android:textAllCaps="true"
