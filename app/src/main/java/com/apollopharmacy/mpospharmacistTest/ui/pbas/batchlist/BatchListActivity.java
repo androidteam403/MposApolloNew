@@ -428,8 +428,19 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 dialog.setCancelable(false);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
-                dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
+                dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(view -> dialog.dismiss());
                 dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                    statusBatchlist = "FULL";
+                    GetBatchInfoRes o = new GetBatchInfoRes();
+                    if (batchListObjsList != null && batchListObjsList.size() > 0)
+                        o.setBatchList(batchListObjsList);
+                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                    Intent i = new Intent();
+                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                    i.putExtra("finalStatus", (String) statusBatchlist);
+                    setResult(RESULT_OK, i);
+                    finish();
                     dialog.dismiss();
                 });
                 dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());

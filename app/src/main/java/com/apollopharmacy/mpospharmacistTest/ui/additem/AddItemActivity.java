@@ -411,7 +411,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getSerializableExtra("is_omsorder");
-            boolean isOnline = (boolean) getIntent().getSerializableExtra("is_online");
+            boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
             if (is_omsorder == true) {
                 boolean itemNotFound = true;
                 ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) getIntent().getSerializableExtra("sales_list_data");
