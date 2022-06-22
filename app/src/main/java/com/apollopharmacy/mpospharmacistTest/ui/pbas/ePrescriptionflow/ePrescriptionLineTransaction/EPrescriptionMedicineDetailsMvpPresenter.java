@@ -15,6 +15,8 @@ public interface EPrescriptionMedicineDetailsMvpPresenter <V extends EPrescripti
 
     void getCorporateList();
 
+
+
     void omscheckbatchstocks(CustomerDataResBean customerDataResBean);
 
     String getLoginUserName();

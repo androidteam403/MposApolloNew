@@ -56,6 +56,18 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
         searchByFulfilmentId();
         ((MainActivity) Objects.requireNonNull(getActivity())).setOnUserIneractionListener(this);
         ((MainActivity) Objects.requireNonNull(getActivity())).setOnBackPressedListener(this);
+
+        activityEPrescription2Binding.deleteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityEPrescription2Binding.searchByfulfimentid.setText("");
+                activityEPrescription2Binding.searchIcon.setVisibility(View.VISIBLE);
+                activityEPrescription2Binding.deleteCancel.setVisibility(View.GONE);
+//                recyclerView();
+
+            }
+        });
+
     }
 
     private void searchByFulfilmentId() {
@@ -76,8 +88,10 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
                     activityEPrescription2Binding.searchIcon.setVisibility(View.GONE);
                     activityEPrescription2Binding.deleteCancel.setVisibility(View.VISIBLE);
                     if (ePrescriptionListAdapter != null) {
+
                         ePrescriptionListAdapter.getFilter().filter(editable);
                     }
+
                 } else if (activityEPrescription2Binding.searchByfulfimentid.getText().toString().equals("")) {
                     if (ePrescriptionListAdapter != null) {
                         ePrescriptionListAdapter.getFilter().filter("");

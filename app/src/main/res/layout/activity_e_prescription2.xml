@@ -143,6 +143,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
+
                 android:text="@string/label_no_order_found"
                 android:textColor="@color/red"
                 android:textSize="@dimen/dimen14sp"

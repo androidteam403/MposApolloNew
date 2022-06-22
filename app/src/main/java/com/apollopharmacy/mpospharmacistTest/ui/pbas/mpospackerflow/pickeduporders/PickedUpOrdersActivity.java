@@ -110,7 +110,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 activityPickedUpOrdersBinding.searchText.setText("");
                 activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                 activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
-                recyclerView();
+//                recyclerView();
 
             }
         });
