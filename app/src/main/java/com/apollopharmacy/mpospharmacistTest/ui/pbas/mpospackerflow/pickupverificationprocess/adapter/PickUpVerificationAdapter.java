@@ -2,42 +2,44 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverif
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPickupVerificationPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerificationAdapter.ViewHolder> {
     private Context mContext;
     private List<GetOMSTransactionResponse> transactionList = new ArrayList<>();
     private PickUpVerificationMvpView pickUpVerificationMvpView;
     private DialogUpdateStatusPBinding dialogUpdateStatusBinding;
-    List<GetOMSTransactionResponse.SalesLine> salesLineList;
+    private List<GetOMSTransactionResponse.SalesLine> salesLineList;
+    private GetOMSTransactionResponse getOMSTransactionResponse;
+    private List<GetBatchInfoRes.BatchListObj> selectedBatchList;
 
-    public PickUpVerificationAdapter(Context mContext, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickUpVerificationMvpView pickUpVerificationMvpView) {
+    public PickUpVerificationAdapter(Context mContext, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickUpVerificationMvpView pickUpVerificationMvpView, List<GetBatchInfoRes.BatchListObj> selectedBatchList, GetOMSTransactionResponse getOMSTransactionResponse) {
         this.mContext = mContext;
         this.salesLineList = salesLineList;
         this.pickUpVerificationMvpView = pickUpVerificationMvpView;
+        this.getOMSTransactionResponse = getOMSTransactionResponse;
+        this.selectedBatchList = selectedBatchList;
     }
-
-//
-//    public PickUpVerificationAdapter(Activity activity, List<RackAdapter.RackBoxModel.ProductData> productDataList, PickUpVerificationMvpView pickUpVerificationMvpView) {
-//        this.activity = activity;
-//        this.productDataList = productDataList;
-//        this.pickUpVerificationMvpView = pickUpVerificationMvpView;
-//    }
 
     @NonNull
     @Override
@@ -47,6 +49,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
         return new PickUpVerificationAdapter.ViewHolder(adapterPickupVerificationBinding);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PickUpVerificationAdapter.ViewHolder holder, int position) {
@@ -98,58 +101,31 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
             }
         });
 
-//        if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
-//
-//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-//
-//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
-//
-//        } else if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-//
-//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
-//
-//        } else if (customerData.getStockStatus() != null && customerData.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-//            holder.adapterPickupVerificationBinding.statusIcon.setRotation(0);
-//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-//
-//            holder.adapterPickupVerificationBinding.statusIcon.setVisibility(View.VISIBLE);
-//        }
-
-//        RackAdapter.RackBoxModel.ProductData productData = productDataList.get(position);
-//        holder.adapterPickupVerificationBinding.productName.setText(productData.getProductName());
-//        if (productData.getCapturedQuantity() != null && !productData.getCapturedQuantity().equalsIgnoreCase("")) {
-//            holder.adapterPickupVerificationBinding.capturesQty.setText(productData.getCapturedQuantity().toString() + "/");
-//        }
-//
-//        holder.adapterPickupVerificationBinding.availableQty.setText(productData.getAvailableQuantity());
-//        if (productData.getStatus().equalsIgnoreCase("Full")) {
-//            holder.adapterPickupVerificationBinding.fullStatusColor.setVisibility(View.VISIBLE);
-//        } else if (productData.getStatus().equalsIgnoreCase("Partial")) {
-//            holder.adapterPickupVerificationBinding.partialStatusColor.setVisibility(View.VISIBLE);
-//        } else if (productData.getStatus().equalsIgnoreCase("NotAvailable")) {
-//            holder.adapterPickupVerificationBinding.notAvailableStatusColor.setVisibility(View.VISIBLE);
-//        }
-//        if (productData.getPackerStatus() != null) {
-//            if (productData.getPackerStatus().equalsIgnoreCase("Full")) {
-//                holder.adapterPickupVerificationBinding.pacerFullStatusColor.setVisibility(View.VISIBLE);
-//                holder.adapterPickupVerificationBinding.packerStatus.setVisibility(View.GONE);
-//            } else if (productData.getPackerStatus().equalsIgnoreCase("Partial")) {
-//                holder.adapterPickupVerificationBinding.pacerPartialStatusColor.setVisibility(View.VISIBLE);
-//                holder.adapterPickupVerificationBinding.packerStatus.setVisibility(View.GONE);
-//            } else if (productData.getPackerStatus().equalsIgnoreCase("Not Available")) {
-//                holder.adapterPickupVerificationBinding.pacerNotAvailableStatusColor.setVisibility(View.VISIBLE);
-//                holder.adapterPickupVerificationBinding.packerStatus.setVisibility(View.GONE);
-//          }
-//        }
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (pickUpVerificationMvpView.recyclerItemClickableStatus()) {
-//                    pickUpVerificationMvpView.onItemClick(position, productData);
-//                }
-//            }
-//        });
+        if (selectedBatchList != null && selectedBatchList.size() > 0) {
+            List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
+            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatchList) {
+                if (batchListObj.getItemID().equals(salesLine.getItemId())) {
+                    for (GetOMSTransactionResponse.PickPackReservation pickPackReservation : getOMSTransactionResponse.getPickPackReservation()) {
+                        if (pickPackReservation.getPickupItemId().equals(batchListObj.getItemID())
+                                && pickPackReservation.getPickupInventBatchId().equals(batchListObj.getBatchNo())) {
+                            batchListObj.setREQQTY(pickPackReservation.getPickupQty());
+                            selectedBatchListTemp.add(batchListObj);
+                        }
+                    }
+                }
+            }
+            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+            if (newList != null && newList.size() > 0)
+                holder.adapterPickupVerificationBinding.headings.setVisibility(View.VISIBLE);
+            else
+                holder.adapterPickupVerificationBinding.headings.setVisibility(View.GONE);
+            PackerBatchDetailsAdapter packerBatchDetailsAdapter = new PackerBatchDetailsAdapter(mContext, newList);
+            new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
+            holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+            holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setAdapter(packerBatchDetailsAdapter);
+        }
     }
 
     @Override

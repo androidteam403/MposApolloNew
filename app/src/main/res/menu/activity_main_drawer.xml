@@ -38,10 +38,10 @@
             android:title="@string/menu_eprescriptionPickingList" />
 
 
-        <item
-            android:id="@+id/nav_ePrescription_vOne"
-            android:icon="@drawable/ic_menu_manual_billing"
-            android:title="@string/label_e_prescription" />
+<!--        <item-->
+<!--            android:id="@+id/nav_ePrescription_vOne"-->
+<!--            android:icon="@drawable/ic_menu_manual_billing"-->
+<!--            android:title="@string/label_e_prescription" />-->
 
         <item
             android:id="@+id/nav_Packing"

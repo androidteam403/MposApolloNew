@@ -244,6 +244,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            response.body().setMPOSVersion("1");
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
                             getDataManager().storeGlobalJson(json);
