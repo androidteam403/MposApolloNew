@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -30,6 +31,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.Corporate
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
@@ -178,6 +180,11 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
 
 
+    }
+
+    @Override
+    public void onDownloadPdfButton() {
+        mPresenter.downloadPdf();
     }
 
     private List<RowsEntity> rowsEntitiesList;
@@ -335,5 +342,15 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onSuccessPdfResponse(PdfModelResponse body) {
+        Toast.makeText(getContext(), "Pdf api is successfull", Toast.LENGTH_SHORT ).show();
+    }
+
+    @Override
+    public void onFailurePdfResponse(PdfModelResponse body) {
+
     }
 }

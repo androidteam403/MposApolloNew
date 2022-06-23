@@ -73,6 +73,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesT
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
@@ -401,4 +403,7 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/OnlineBill")
     Call<CustomerDataResBean> ONLINE_BILL_APICALL(@Body CustomerDataResBean request);
+
+    @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/PrintReceipt")
+    Call<PdfModelResponse> DOWNLOAD_PDF(@Body PdfModelRequest response);
 }

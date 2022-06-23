@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.FileEntity;
@@ -13,6 +14,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListData
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Media_libraryEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist_mediaEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -25,6 +30,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -51,6 +57,11 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     @Override
     public void onNewPlaceOrderClicked() {
         getMvpView().onNewPlaceOrderClicked();
+    }
+
+    @Override
+    public void onDownloadPdfButton() {
+        getMvpView().onDownloadPdfButton();
     }
 
     @Override
@@ -164,6 +175,47 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     {
         return getDataManager().isOpenScreens();
     }
+
+    @Override
+    public void downloadPdf() {
+
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            PdfModelRequest reqModel = new PdfModelRequest();
+            reqModel.setStoreCode("16001");
+            reqModel.setTerminalID("005");
+            reqModel.setDataAreaID("AHEL");
+            reqModel.setRequestStatus(0);
+            reqModel.setReturnMessage("");
+            reqModel.setTransactionId("300006125");
+            reqModel.setBillingType(5);
+            reqModel.setDigitalReceiptRequired(false);
+            Call<PdfModelResponse> call = apiInterface.DOWNLOAD_PDF(reqModel);
+            call.enqueue(new Callback<PdfModelResponse>() {
+                @Override
+                public void onResponse(Call<PdfModelResponse> call, Response<PdfModelResponse> response) {
+                    if(response.isSuccessful()){
+                        if(response.body()!=null){
+                            getMvpView().onSuccessPdfResponse(response.body());
+                        }
+                    }else{
+                        getMvpView().onFailurePdfResponse(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PdfModelResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+
+
+        }
+    }
+
     @Override
     public void onDownloadApiCall(String filePath, String fileName, int pos) {
         if (getMvpView().isNetworkConnected()) {
