@@ -1,135 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
-    <!--Bar code Scanner window-->
-    <com.journeyapps.barcodescanner.BarcodeView
-        android:id="@+id/zxing_barcode_surface"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/roboto_regular"
-        app:zxing_framing_rect_height="@dimen/one_hundred_seventy_dp"
-        app:zxing_framing_rect_width="@dimen/two_hundred_eighty_dp" />
+    <merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--Full Camera Window with viewfinder-->
-    <com.journeyapps.barcodescanner.ViewfinderView
-        android:id="@+id/zxing_viewfinder_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/roboto_regular"
-        app:zxing_possible_result_points="@color/colorPrimary"
-        app:zxing_result_view="@color/colorPrimary"
-        app:zxing_viewfinder_laser="#ff0101"
-        app:zxing_viewfinder_mask="#80000000" />
-
-    <!--Help Text-->
-    <TextView
-        android:id="@+id/zxing_status_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/roboto_regular"
-        android:gravity="center"
-        android:text="Place a barcode inside the viewfinder rectangle to scan it."
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/zxing_status_text"
-        android:textSize="@dimen/dimen20dp"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <!--Bar code Scanner window-->
+        <com.journeyapps.barcodescanner.BarcodeView
+            android:id="@+id/zxing_barcode_surface"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_regular"
+            app:zxing_framing_rect_height="@dimen/one_hundred_seventy_dp"
+            app:zxing_framing_rect_width="@dimen/two_hundred_eighty_dp" />
+
+        <!--Full Camera Window with viewfinder-->
+        <com.journeyapps.barcodescanner.ViewfinderView
+            android:id="@+id/zxing_viewfinder_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_regular"
+            app:zxing_possible_result_points="@color/colorPrimary"
+            app:zxing_result_view="@color/colorPrimary"
+            app:zxing_viewfinder_laser="#ff0101"
+            app:zxing_viewfinder_mask="#80000000" />
+
+        <!--Help Text-->
+        <TextView
+            android:id="@+id/zxing_status_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="Place a barcode inside the viewfinder rectangle to scan it."
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/zxing_status_text"
+            android:textSize="@dimen/dimen20dp"
+            android:visibility="gone" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="Scan QR / barCode to tagbox for\nFullfillment ID: 887766"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dimen16sp" />
-
-                <ImageView
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/thirty_dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/dimen10dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/delete_white_icon" />
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="@dimen/one_hundred_fifty_dp"
-                android:layout_height="@dimen/one_hundred_dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/icon_scanning_image" />
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/fifty_dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/barcode_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/white" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:background="@drawable/green_corners_bg"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/five_dp"
-                android:paddingTop="@dimen/three_dp"
-                android:paddingEnd="@dimen/five_dp"
-                android:paddingBottom="@dimen/three_dp">
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/fullfillmentIdscanner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/close_btn_w"
+                        android:layout_width="24dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/delete_white_icon" />
+                </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="@dimen/fifteen_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_width="@dimen/one_hundred_fifty_dp"
+                    android:layout_height="@dimen/one_hundred_dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/tick_mark" />
+                    android:src="@drawable/icon_scanning_image" />
 
                 <TextView
+                    android:id="@+id/fulfilment_id_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/three_dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Scanned"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/white" />
-
-                <ImageView
-                    android:layout_width="@dimen/fifteen_dp"
-                    android:layout_height="@dimen/fifteen_dp"
-                    android:layout_marginStart="@dimen/three_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_not_available" />
             </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
 
-</merge>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/fifty_dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/scanned_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_scanned"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/barcode_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="@drawable/green_corners_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingEnd="@dimen/five_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/fifteen_dp"
+                        android:layout_height="@dimen/fifteen_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/tick_mark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Scanned"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/fifteen_dp"
+                        android:layout_height="@dimen/fifteen_dp"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_not_available" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </merge>
+</layout>
