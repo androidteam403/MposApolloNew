@@ -63,7 +63,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         holder.adapterBatchlistBinding.expiryDate.setText(batchListModel.getExpDate());
         holder.adapterBatchlistBinding.phisicalbatchEdit.setText(batchListModel.getPhysicalBatchID() != null && !batchListModel.getPhysicalBatchID().isEmpty() ? batchListModel.getPhysicalBatchID() : batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
-
         if (batchListModel.isSelected()) {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         } else {

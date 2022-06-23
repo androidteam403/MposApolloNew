@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescri
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,11 +26,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.adapter.EPrescriptionMedicineDetailsAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionPdfScreen.EPrescriptionPdfActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 
@@ -49,8 +47,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Inject
     EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> mPresenter;
     ActivityEPrescriptionMedicineDetailsBinding detailsBinding;
-    private OMSTransactionHeaderResModel.OMSHeaderObj orderInfoItem= new OMSTransactionHeaderResModel.OMSHeaderObj();
-    EPrescriptionMedicineDetailsAdapter ePrescriptionListAdapter;
+    private OMSTransactionHeaderResModel.OMSHeaderObj orderInfoItem = new OMSTransactionHeaderResModel.OMSHeaderObj();
+    EPrescriptionMedicineDetailsAdapter ePrescriptionMedicineDetailsAdapter;
     private EPrescriptionMedicineDetailsMvpView mvpView;
     List<EPrescriptionModelClassResponse> prescriptionLineList;
     private String eprescription_corpcode = "0";
@@ -62,6 +60,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     String loinStoreLocation, terminalId;
     private TransactionIDResModel transactionIDResModel;
     private CorporateModel corporateModel;
+    String sub1;
     private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
 
 
@@ -96,7 +95,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @SuppressLint("SetTextI18n")
     @Override
     protected void setUp() {
-//        detailsBinding.setCallback(mPresenter);
+//        detailsBinding.setCallback((EPrescriptionMedicineDetailsActivity) mPresenter);
 
         if (getIntent() != null) {
             prescriptionLineList = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
@@ -201,6 +200,13 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 //            }
 //        });
 
+        detailsBinding.backarrowtop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         detailsBinding.rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,265 +235,277 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
             @Override
             public void onClick(View v) {
 
-             Intent i = new Intent(EPrescriptionMedicineDetailsActivity.this, EPrescriptionPdfActivity.class);
-            i.putExtra("ePrescriptionList", (Serializable) prescriptionLineList);
-            i.putExtra("medicineResponse", (Serializable) medicineResponseList);
-            startActivity(i);
+                String sub = "";
+                for (EPrescriptionMedicineResponse ePrescriptionMedicineResponse : medicineResponseList) {
+                    if (ePrescriptionMedicineResponse.getSubstitute() != null && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null) {
+                        if (ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                            sub = sub + ePrescriptionMedicineResponse.getArtCode();
+                        }
+                    }
+                }
+                if (sub.isEmpty()) {
+                    //             CheckBatchModelRequest customerDataResBean= new CheckBatchModelRequest();
+                    customerDataResBean = new CustomerDataResBean();
+                    customerDataResBean.setRemainingamount(0);
+                    customerDataResBean.setHDOrder(false);
+                    customerDataResBean.setTPASeller(false);
+                    customerDataResBean.setDonationAmount(0);
+                    customerDataResBean.setBulkDiscount(false);
+                    customerDataResBean.setReturnRequestId("");
+                    customerDataResBean.setOMSJurnalsScreen(false);
+                    customerDataResBean.setiSOMSReturn(false);
+                    customerDataResBean.setRiderMobile("");
+                    customerDataResBean.setRiderCode("");
+                    customerDataResBean.setDspName("");
+                    customerDataResBean.setRevReturnOtp("");
+                    customerDataResBean.setPickupOtp("");
+                    customerDataResBean.setFwdReturnOtp("");
+                    customerDataResBean.setrTOStatus(false);
+                    customerDataResBean.setPickupStatus(false);
+                    customerDataResBean.setTier("");
+                    customerDataResBean.setCustomerType("");
+                    customerDataResBean.setStockStatus("");
+                    customerDataResBean.setUHIDBilling(false);
+                    customerDataResBean.setHCOfferCode("");
+                    customerDataResBean.setDiscountStatus(0);
+                    customerDataResBean.setDiscountReferenceID("");
+                    customerDataResBean.setISOnlineOrder(false);
+                    customerDataResBean.setISCancelled(false);
+                    customerDataResBean.setISReserved(false);
+                    customerDataResBean.setVendorCode("");
+                    customerDataResBean.setISBulkBilling(false);
+                    customerDataResBean.setDeliveryDate("");
+                    customerDataResBean.setOrderType(prescriptionLineList.get(position).getOrderType());
+                    customerDataResBean.setShippingMethod(prescriptionLineList.get(position).getShippingmethod());
+                    customerDataResBean.setShippingMethodDesc("");
+                    customerDataResBean.setBillingCity("");
+                    customerDataResBean.setVendorId(prescriptionLineList.get(position).getCorpCode());
+                    customerDataResBean.setPaymentSource("");
+                    customerDataResBean.setISPrescibeDiscount(false);
+                    customerDataResBean.setCancelReasonCode("");
+                    customerDataResBean.setStoreName("");
+                    customerDataResBean.setRegionCode("");
+                    customerDataResBean.setCustomerID("");
+                    customerDataResBean.setCorpCode(prescriptionLineList.get(position).getCorpCode());
+                    customerDataResBean.setMobileNO(prescriptionLineList.get(position).getPhoneNo());
+                    customerDataResBean.setDOB("");
+                    customerDataResBean.setCustomerName(prescriptionLineList.get(position).getPatientName());
+                    customerDataResBean.setCustAddress(prescriptionLineList.get(position).getAddr());
+                    customerDataResBean.setCustomerState("");
+                    customerDataResBean.setGender(0);
+                    customerDataResBean.setPincode(prescriptionLineList.get(position).getPinCode());
+                    customerDataResBean.setDoctorName(prescriptionLineList.get(position).getDoctorName());
+                    customerDataResBean.setDoctorCode(prescriptionLineList.get(position).getDoctorConCode());
+                    customerDataResBean.setSalesOrigin("");
+                    customerDataResBean.setTrackingRef(prescriptionLineList.get(position).getPrescriptionNo());
+                    customerDataResBean.setREFNO(prescriptionLineList.get(position).getPrescriptionNo());
+                    customerDataResBean.setIPNO("");
+                    customerDataResBean.setIPSerialNO("");
+                    customerDataResBean.setReciptId("");
+                    customerDataResBean.setBatchTerminalid("");
+                    customerDataResBean.setBusinessDate(todaysDate);
+                    customerDataResBean.setChannel("");
+                    customerDataResBean.setComment("");
+                    customerDataResBean.setCreatedonPosTerminal("");
+                    customerDataResBean.setCurrency("");
+                    customerDataResBean.setCustAccount("");
+                    customerDataResBean.setCustDiscamount(0);
+                    customerDataResBean.setDiscAmount(0);
+                    customerDataResBean.setEntryStatus(0);
+                    customerDataResBean.setGrossAmount(0);
+                    customerDataResBean.setNetAmount(0);
+                    customerDataResBean.setNetAmountInclTax(0);
+                    customerDataResBean.setNumberofItemLines(0);
+                    customerDataResBean.setNumberofItems(0);
+                    customerDataResBean.setRoundedAmount(0);
+                    customerDataResBean.setStaff(mPresenter.getLoginUserName());
+                    customerDataResBean.setStore(prescriptionLineList.get(0).getShopId());
+                    customerDataResBean.setState("");
+                    customerDataResBean.setTerminal(terminalId);
+                    customerDataResBean.setReturnStore("");
+                    customerDataResBean.setReturnTerminal("");
+                    customerDataResBean.setReturnTransactionId("");
+                    customerDataResBean.setReturnReceiptId("");
+                    customerDataResBean.setTimewhenTransClosed(0);
+                    customerDataResBean.setTotalDiscAmount(0);
+                    customerDataResBean.setTotalManualDiscountAmount(0);
+                    customerDataResBean.setTotalManualDiscountPercentage(0);
+                    customerDataResBean.setTotalMRP(0);
+                    customerDataResBean.setTotalTaxAmount(0);
+                    customerDataResBean.setTransactionId("");
+                    customerDataResBean.setTransDate("");
+                    customerDataResBean.setType(0);
+                    customerDataResBean.setDataAreaId("AHEL");
+                    customerDataResBean.setVoid(false);
+                    customerDataResBean.setReturn(false);
+                    customerDataResBean.setISBatchModifiedAllowed(false);
+                    customerDataResBean.setISReturnAllowed(false);
+                    customerDataResBean.setManualBill(false);
+                    customerDataResBean.setReturnType(0);
+                    customerDataResBean.setCurrentSalesLine(0);
+                    customerDataResBean.setRequestStatus(0);
+                    customerDataResBean.setRequestStatus(0);
+                    customerDataResBean.setReturnMessage("");
+                    customerDataResBean.setPosEvent(0);
+                    customerDataResBean.setTransType(0);
+                    customerDataResBean.setStockCheck(true);
+                    customerDataResBean.setISPosted(false);
+                    customerDataResBean.setSEZ(0);
+                    customerDataResBean.setISAdvancePayment(false);
+                    customerDataResBean.setAmounttoAccount(0);
+                    customerDataResBean.setReminderDays(0);
+                    customerDataResBean.setISOMSOrder(false);
+                    customerDataResBean.setISHBPStore(false);
+                    customerDataResBean.setPatientID("");
+                    customerDataResBean.setApprovedID("");
+                    customerDataResBean.setDiscountRef("");
+                    customerDataResBean.setAWBNo("");
+                    customerDataResBean.setDSPCode("");
+                    customerDataResBean.setISHyperLocalDelivery(false);
+                    customerDataResBean.setISHyperDelivered(false);
+                    customerDataResBean.setCreatedDateTime(todaysDate);
+                    customerDataResBean.setISOMSValidate(false);
+                    customerDataResBean.setAllowedTenderType("");
+                    customerDataResBean.setShippingCharges(0);
+                    customerDataResBean.setAgeGroup("");
+                    customerDataResBean.setExpiryDays(30);
 
 
+                    ArrayList<SalesLineEntity> salesLineEntityList = new ArrayList<>();
+                    for (EPrescriptionMedicineResponse ePrescriptionMedicineResponse : medicineResponseList) {
+                        SalesLineEntity salesLineEntity = new SalesLineEntity();
+                        salesLineEntity.setVariantId("");
+                        salesLineEntity.setPriceVariation(false);
+                        salesLineEntity.setqCPass(false);
+                        salesLineEntity.setqCFail(false);
+                        salesLineEntity.setqCStatus(0);
+                        salesLineEntity.setqCDate("");
+                        salesLineEntity.setqCRemarks("");
+                        salesLineEntity.setAlternetItemID("");
+                        salesLineEntity.setLineNo(1);
+                        salesLineEntity.setItemId(ePrescriptionMedicineResponse.getArtCode());
+                        salesLineEntity.setItemName("");
+                        salesLineEntity.setCategory("");
+                        salesLineEntity.setCategoryCode("");
+                        salesLineEntity.setSubCategory("");
+                        salesLineEntity.setSubCategoryCode("");
+                        salesLineEntity.setScheduleCategory("");
+                        salesLineEntity.setScheduleCategoryCode("");
+                        salesLineEntity.setManufacturerCode("");
+                        salesLineEntity.setManufacturerName("");
+//                    salesLineEntity.setExpiry();
 
-//                CheckBatchModelRequest customerDataResBean= new CheckBatchModelRequest();
-//            customerDataResBean = new CustomerDataResBean();
-//                customerDataResBean.setRemainingamount(0);
-//                customerDataResBean.setHDOrder(false);
-//                customerDataResBean.setTPASeller(false);
-//                customerDataResBean.setDonationAmount(0);
-//                customerDataResBean.setBulkDiscount(false);
-//                customerDataResBean.setReturnRequestId("");
-//                customerDataResBean.setOMSJurnalsScreen(false);
-//                customerDataResBean.setiSOMSReturn(false);
-//                customerDataResBean.setRiderMobile("");
-//                customerDataResBean.setRiderCode("");
-//                customerDataResBean.setDspName("");
-//                customerDataResBean.setRevReturnOtp("");
-//                customerDataResBean.setPickupOtp("");
-//                customerDataResBean.setFwdReturnOtp("");
-//                customerDataResBean.setrTOStatus(false);
-//                customerDataResBean.setPickupStatus(false);
-//                customerDataResBean.setTier("");
-//                customerDataResBean.setCustomerType("");
-//                customerDataResBean.setStockStatus("");
-//                customerDataResBean.setUHIDBilling(false);
-//                customerDataResBean.setHCOfferCode("");
-//                customerDataResBean.setDiscountStatus(0);
-//                customerDataResBean.setDiscountReferenceID("");
-//                customerDataResBean.setISOnlineOrder(false);
-//                customerDataResBean.setISCancelled(false);
-//                customerDataResBean.setISReserved(false);
-//                customerDataResBean.setVendorCode("");
-//                customerDataResBean.setISBulkBilling(false);
-//                customerDataResBean.setDeliveryDate("");
-//                customerDataResBean.setOrderType(prescriptionLineList.get(position).getOrderType());
-//                customerDataResBean.setShippingMethod(prescriptionLineList.get(position).getShippingmethod());
-//                customerDataResBean.setShippingMethodDesc("");
-//                customerDataResBean.setBillingCity("");
-//                customerDataResBean.setVendorId("");
-//                customerDataResBean.setPaymentSource("");
-//                customerDataResBean.setISPrescibeDiscount(false);
-//                customerDataResBean.setCancelReasonCode("");
-//                customerDataResBean.setStoreName("");
-//                customerDataResBean.setRegionCode("");
-//                customerDataResBean.setCustomerID("");
-//                customerDataResBean.setCorpCode(prescriptionLineList.get(position).getCorpCode());
-//                customerDataResBean.setMobileNO(prescriptionLineList.get(position).getPhoneNo());
-//                customerDataResBean.setDOB("");
-//                customerDataResBean.setCustomerName(prescriptionLineList.get(position).getPatientName());
-//                customerDataResBean.setCustAddress(prescriptionLineList.get(position).getAddr());
-//                customerDataResBean.setCustomerState("");
-//                customerDataResBean.setGender(0);
-//                customerDataResBean.setPincode(prescriptionLineList.get(position).getPinCode());
-//                customerDataResBean.setDoctorName(prescriptionLineList.get(position).getDoctorName());
-//                customerDataResBean.setDoctorCode(prescriptionLineList.get(position).getDoctorConCode());
-//                customerDataResBean.setSalesOrigin("");
-//                customerDataResBean.setTrackingRef(prescriptionLineList.get(position).getPrescriptionNo());
-//                customerDataResBean.setREFNO(prescriptionLineList.get(position).getPrescriptionNo());
-//                customerDataResBean.setIPNO("");
-//                customerDataResBean.setIPSerialNO("");
-//                customerDataResBean.setReciptId("");
-//                customerDataResBean.setBatchTerminalid("");
-//                customerDataResBean.setBusinessDate(todaysDate);
-//                customerDataResBean.setChannel("");
-//                customerDataResBean.setComment("");
-//                customerDataResBean.setCreatedonPosTerminal("");
-//                customerDataResBean.setCurrency("");
-//                customerDataResBean.setCustAccount("");
-//                customerDataResBean.setCustDiscamount(0);
-//                customerDataResBean.setDiscAmount(0);
-//                customerDataResBean.setEntryStatus(0);
-//                customerDataResBean.setGrossAmount(0);
-//                customerDataResBean.setNetAmount(0);
-//                customerDataResBean.setNetAmountInclTax(0);
-//                customerDataResBean.setNumberofItemLines(0);
-//                customerDataResBean.setNumberofItems(0);
-//                customerDataResBean.setRoundedAmount(0);
-//                customerDataResBean.setStaff(mPresenter.getLoginUserName());
-//                customerDataResBean.setStore(prescriptionLineList.get(0).getShopId());
-//                customerDataResBean.setState("");
-//                customerDataResBean.setTerminal(terminalId);
-//                customerDataResBean.setReturnStore("");
-//                customerDataResBean.setReturnTerminal("");
-//                customerDataResBean.setReturnTransactionId("");
-//                customerDataResBean.setReturnReceiptId("");
-//                customerDataResBean.setTimewhenTransClosed(0);
-//                customerDataResBean.setTotalDiscAmount(0);
-//                customerDataResBean.setTotalManualDiscountAmount(0);
-//                customerDataResBean.setTotalManualDiscountPercentage(0);
-//                customerDataResBean.setTotalMRP(0);
-//                customerDataResBean.setTotalTaxAmount(0);
-//                customerDataResBean.setTransactionId("");
-//                customerDataResBean.setTransDate("");
-//                customerDataResBean.setType(0);
-//                customerDataResBean.setDataAreaId("AHEL");
-//                customerDataResBean.setVoid(false);
-//                customerDataResBean.setReturn(false);
-//                customerDataResBean.setISBatchModifiedAllowed(false);
-//                customerDataResBean.setISReturnAllowed(false);
-//                customerDataResBean.setManualBill(false);
-//                customerDataResBean.setReturnType(0);
-//                customerDataResBean.setCurrentSalesLine(0);
-//                customerDataResBean.setRequestStatus(0);
-//                customerDataResBean.setRequestStatus(0);
-//                customerDataResBean.setReturnMessage("");
-//                customerDataResBean.setPosEvent(0);
-//                customerDataResBean.setTransType(0);
-//                customerDataResBean.setStockCheck(true);
-//                customerDataResBean.setISPosted(false);
-//                customerDataResBean.setSEZ(0);
-//                customerDataResBean.setISAdvancePayment(false);
-//                customerDataResBean.setAmounttoAccount(0);
-//                customerDataResBean.setReminderDays(0);
-//                customerDataResBean.setISOMSOrder(false);
-//                customerDataResBean.setISHBPStore(false);
-//                customerDataResBean.setPatientID("");
-//                customerDataResBean.setApprovedID("");
-//                customerDataResBean.setDiscountRef("");
-//                customerDataResBean.setAWBNo("");
-//                customerDataResBean.setDSPCode("");
-//                customerDataResBean.setISHyperLocalDelivery(false);
-//                customerDataResBean.setISHyperDelivered(false);
-//                customerDataResBean.setCreatedDateTime(todaysDate);
-//                customerDataResBean.setISOMSValidate(false);
-//                customerDataResBean.setAllowedTenderType("");
-//                customerDataResBean.setShippingCharges(0);
-//                customerDataResBean.setAgeGroup("");
-//                customerDataResBean.setExpiryDays(30);
-//
-//
-//                ArrayList<SalesLineEntity> salesLineEntityList = new ArrayList<>();
-//                for (EPrescriptionMedicineResponse ePrescriptionMedicineResponse : medicineResponseList) {
-//                    SalesLineEntity salesLineEntity = new SalesLineEntity();
-//                    salesLineEntity.setVariantId("");
-//                    salesLineEntity.setPriceVariation(false);
-//                    salesLineEntity.setqCPass(false);
-//                    salesLineEntity.setqCFail(false);
-//                    salesLineEntity.setqCStatus(0);
-//                    salesLineEntity.setqCDate("");
-//                    salesLineEntity.setqCRemarks("");
-//                    salesLineEntity.setAlternetItemID("");
-//                    salesLineEntity.setLineNo(1);
-//                    salesLineEntity.setItemId(ePrescriptionMedicineResponse.getArtCode());
-//                    salesLineEntity.setItemName("");
-//                    salesLineEntity.setCategory("");
-//                    salesLineEntity.setCategoryCode("");
-//                    salesLineEntity.setSubCategory("");
-//                    salesLineEntity.setSubCategoryCode("");
-//                    salesLineEntity.setScheduleCategory("");
-//                    salesLineEntity.setScheduleCategoryCode("");
-//                    salesLineEntity.setManufacturerCode("");
-//                    salesLineEntity.setManufacturerName("");
-////                    salesLineEntity.setExpiry();
-//                    salesLineEntity.setQty(1);
-//                    salesLineEntity.setStockQty(0);
-//                    salesLineEntity.setReturnQty(0);
-//                    salesLineEntity.setRemainingQty(0);
-//                    salesLineEntity.setMRP(10);
-//                    salesLineEntity.setTax(0);
-//                    salesLineEntity.setAdditionaltax(0);
-//                    salesLineEntity.setBarcode("");
-//                    salesLineEntity.setComment("");
-//                    salesLineEntity.setDiscAmount(0);
-//                    salesLineEntity.setDiscOfferId("");
-//                    salesLineEntity.setHsncode_In("");
-//                    salesLineEntity.setInventBatchId("");
-//                    salesLineEntity.setPreviewText("");
-//                    salesLineEntity.setLinedscAmount(0);
-//                    salesLineEntity.setLineManualDiscountAmount(0);
-//                    salesLineEntity.setLineManualDiscountPercentage(0);
-//                    salesLineEntity.setNetAmount(0);
-//                    salesLineEntity.setNetAmountInclTax(0);
-//                    salesLineEntity.setOriginalPrice(0);
-//                    salesLineEntity.setPeriodicDiscAmount(0);
-//                    salesLineEntity.setPrice(10);
-//                    salesLineEntity.setTaxAmount(0);
-//                    salesLineEntity.setBaseAmount(0);
-//                    salesLineEntity.setTotalDiscAmount(0);
-//                    salesLineEntity.setTotalDiscPct(0);
-//                    salesLineEntity.setTotalRoundedAmount(0);
-//                    salesLineEntity.setUnit("");
-//                    salesLineEntity.setUnitPrice(0);
-//                    salesLineEntity.setUnitQty(0);
-//                    salesLineEntity.setVariantId("");
-//                    salesLineEntity.setTotal(0);
-//                    salesLineEntity.setISPrescribed(0);
-//                    salesLineEntity.setRemainderDays(0);
-//                    salesLineEntity.setVoid(false);
-//                    salesLineEntity.setPriceOverride(false);
-//                    salesLineEntity.setChecked(false);
-//                    salesLineEntity.setRetailCategoryRecID("");
-//                    salesLineEntity.setRetailSubCategoryRecID("");
-//                    salesLineEntity.setRetailMainCategoryRecID("");
-//                    salesLineEntity.setDPCO(false);
-//                    salesLineEntity.setProductRecID("");
-//                    salesLineEntity.setModifyBatchId("");
-//                    salesLineEntity.setDiseaseType("");
-//                    salesLineEntity.setSubClassification("");
-//                    salesLineEntity.setOfferQty(0);
-//                    salesLineEntity.setOfferAmount(0);
-//                    salesLineEntity.setOfferDiscountType(0);
-//                    salesLineEntity.setOfferDiscountValue(0);
-//                    salesLineEntity.setDiscountType("");
-//                    salesLineEntity.setMixMode(false);
-//                    salesLineEntity.setMMGroupId("");
-//                    salesLineEntity.setDiscId("");
-//                    salesLineEntity.setOfferType(0);
-//                    salesLineEntity.setLineDiscPercentage(0);
-//                    salesLineEntity.setApplyDiscount(false);
-//                    salesLineEntity.setIGSTPerc(0);
-//                    salesLineEntity.setCESSPerc(0);
-//                    salesLineEntity.setCGSTPerc(0);
-//                    salesLineEntity.setSGSTPerc(0);
-//                    salesLineEntity.setIGSTTaxCode(null);
-//                    salesLineEntity.setCESSTaxCode(null);
-//                    salesLineEntity.setCGSTTaxCode(null);
-//                    salesLineEntity.setSGSTTaxCode(null);
-//                    salesLineEntity.setDiscountStructureType(0);
-////                    if(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode()!=null){
-////                        salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
-////                    }
-////                    else{
-//                        salesLineEntity.setSubstitudeItemId("");
-////                    }
-//
-//                    salesLineEntity.setCategoryReference("");
-//                    salesLineEntity.setOrderStatus(0);
-//                    salesLineEntity.setOmsLineID(0);
-//                    salesLineEntity.setSubsitute(false);
-//                    salesLineEntity.setGeneric(false);
-//                    salesLineEntity.setOmsLineRECID(0);
-//                    salesLineEntity.setISReserved(false);
-//                    salesLineEntity.setISStockAvailable(false);
-//                    salesLineEntity.setPhysicalBatchID(null);
-//                    salesLineEntity.setPhysicalMRP(0);
-//                    salesLineEntity.setPhysicalExpiry(null);
-//                    salesLineEntity.setCancelReasonCode("");
-//
-//                    salesLineEntityList.add(salesLineEntity);
-//                }
-//                customerDataResBean.setSalesLine(salesLineEntityList);
-//                customerDataResBean.setTenderLine(null);
-//                ArrayList<CustomerDataResBean.OrderPrescriptionObj> orderPrescriptionURL = new ArrayList<>();
-//                CustomerDataResBean.OrderPrescriptionObj orderPrescriptionObj = new CustomerDataResBean.OrderPrescriptionObj();
-//                orderPrescriptionObj.setPERSCRIPTIONURL(prescriptionLineList.get(position).getPrescriptionURL());
-//                orderPrescriptionObj.setPRESCRIPTIONNO(prescriptionLineList.get(position).getPrescriptionNo());
-//                orderPrescriptionURL.add(orderPrescriptionObj);
-//                customerDataResBean.setOrderPrescriptionURL(orderPrescriptionURL);
-//
-//                mPresenter.omscheckbatchstocks(customerDataResBean);
+                        if (ePrescriptionMedicineResponse.getReqQty() != 0) {
+                            salesLineEntity.setQty(Double.parseDouble(String.valueOf(ePrescriptionMedicineResponse.getReqQty())));
+                        }
+
+                        salesLineEntity.setStockQty(0);
+                        salesLineEntity.setReturnQty(0);
+                        salesLineEntity.setRemainingQty(0);
+                        salesLineEntity.setMRP(10);
+                        salesLineEntity.setTax(0);
+                        salesLineEntity.setAdditionaltax(0);
+                        salesLineEntity.setBarcode("");
+                        salesLineEntity.setComment("");
+                        salesLineEntity.setDiscAmount(0);
+                        salesLineEntity.setDiscOfferId("");
+                        salesLineEntity.setHsncode_In("");
+                        salesLineEntity.setInventBatchId("");
+                        salesLineEntity.setPreviewText("");
+                        salesLineEntity.setLinedscAmount(0);
+                        salesLineEntity.setLineManualDiscountAmount(0);
+                        salesLineEntity.setLineManualDiscountPercentage(0);
+                        salesLineEntity.setNetAmount(0);
+                        salesLineEntity.setNetAmountInclTax(0);
+                        salesLineEntity.setOriginalPrice(0);
+                        salesLineEntity.setPeriodicDiscAmount(0);
+                        salesLineEntity.setPrice(10);
+                        salesLineEntity.setTaxAmount(0);
+                        salesLineEntity.setBaseAmount(0);
+                        salesLineEntity.setTotalDiscAmount(0);
+                        salesLineEntity.setTotalDiscPct(0);
+                        salesLineEntity.setTotalRoundedAmount(0);
+                        salesLineEntity.setUnit("");
+                        salesLineEntity.setUnitPrice(0);
+                        salesLineEntity.setUnitQty(0);
+                        salesLineEntity.setVariantId("");
+                        salesLineEntity.setTotal(0);
+                        salesLineEntity.setISPrescribed(0);
+                        salesLineEntity.setRemainderDays(0);
+                        salesLineEntity.setVoid(false);
+                        salesLineEntity.setPriceOverride(false);
+                        salesLineEntity.setChecked(false);
+                        salesLineEntity.setRetailCategoryRecID("");
+                        salesLineEntity.setRetailSubCategoryRecID("");
+                        salesLineEntity.setRetailMainCategoryRecID("");
+                        salesLineEntity.setDPCO(false);
+                        salesLineEntity.setProductRecID("");
+                        salesLineEntity.setModifyBatchId("");
+                        salesLineEntity.setDiseaseType("");
+                        salesLineEntity.setSubClassification("");
+                        salesLineEntity.setOfferQty(0);
+                        salesLineEntity.setOfferAmount(0);
+                        salesLineEntity.setOfferDiscountType(0);
+                        salesLineEntity.setOfferDiscountValue(0);
+                        salesLineEntity.setDiscountType("");
+                        salesLineEntity.setMixMode(false);
+                        salesLineEntity.setMMGroupId("");
+                        salesLineEntity.setDiscId("");
+                        salesLineEntity.setOfferType(0);
+                        salesLineEntity.setLineDiscPercentage(0);
+                        salesLineEntity.setApplyDiscount(false);
+                        salesLineEntity.setIGSTPerc(0);
+                        salesLineEntity.setCESSPerc(0);
+                        salesLineEntity.setCGSTPerc(0);
+                        salesLineEntity.setSGSTPerc(0);
+                        salesLineEntity.setIGSTTaxCode(null);
+                        salesLineEntity.setCESSTaxCode(null);
+                        salesLineEntity.setCGSTTaxCode(null);
+                        salesLineEntity.setSGSTTaxCode(null);
+                        salesLineEntity.setDiscountStructureType(0);
+                        if (ePrescriptionMedicineResponse.getSubstitute() != null && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()) {
+                            salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
+                        } else {
+                            salesLineEntity.setSubstitudeItemId("");
+                        }
+
+                        salesLineEntity.setCategoryReference("");
+                        salesLineEntity.setOrderStatus(0);
+                        salesLineEntity.setOmsLineID(0);
+                        salesLineEntity.setSubsitute(false);
+                        salesLineEntity.setGeneric(false);
+                        salesLineEntity.setOmsLineRECID(0);
+                        salesLineEntity.setISReserved(false);
+                        salesLineEntity.setISStockAvailable(false);
+                        salesLineEntity.setPhysicalBatchID(null);
+                        salesLineEntity.setPhysicalMRP(0);
+                        salesLineEntity.setPhysicalExpiry(null);
+                        salesLineEntity.setCancelReasonCode("");
+
+                        salesLineEntityList.add(salesLineEntity);
+                    }
+                    customerDataResBean.setSalesLine(salesLineEntityList);
+                    customerDataResBean.setTenderLine(null);
+                    ArrayList<CustomerDataResBean.OrderPrescriptionObj> orderPrescriptionURL = new ArrayList<>();
+                    CustomerDataResBean.OrderPrescriptionObj orderPrescriptionObj = new CustomerDataResBean.OrderPrescriptionObj();
+                    orderPrescriptionObj.setPERSCRIPTIONURL(prescriptionLineList.get(position).getPrescriptionURL());
+                    orderPrescriptionObj.setPRESCRIPTIONNO(prescriptionLineList.get(position).getPrescriptionNo());
+                    orderPrescriptionURL.add(orderPrescriptionObj);
+                    customerDataResBean.setOrderPrescriptionURL(orderPrescriptionURL);
+
+                    mPresenter.omscheckbatchstocks(customerDataResBean);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please select substitute ids for " + sub, Toast.LENGTH_SHORT).show();
+
+                }
+
+
             }
+
         });
 
-        }
 
+    }
 
     List<EPrescriptionMedicineResponse> medicineResponseList;
 
@@ -549,13 +567,21 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
     }
 
+    EPrescriptionSubstituteModelResponse.Substitute selectedItem;
+    EPrescriptionSubstituteModelResponse.Substitute substitute1;
+    List<EPrescriptionSubstituteModelResponse.Substitute> substituteLists;
+
     @Override
-    public void onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position) {
+    public void onSubstituteSelectedItem(EPrescriptionSubstituteModelResponse.Substitute substitute, int position, EPrescriptionSubstituteModelResponse.Substitute selectedItem, List<EPrescriptionSubstituteModelResponse.Substitute> substituteLists) {
+        this.selectedItem = selectedItem;
+        this.substitute1 = substitute1;
+        this.substituteLists = substituteLists;
         if (medicineResponseList != null && medicineResponseList.size() > 0) {
             if (substitute != null) {
                 medicineResponseList.get(position).setSubstitute(substitute);
+                medicineResponseList.get(position).getSubstitute().setSubstituteArtCode(substitute.getSubstituteArtCode());
+//            selectedItem.setSubstituteArtCode(substitute.getSubstituteArtCode());
             }
-
         }
     }
 
@@ -565,10 +591,10 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     public void onSuccessSubstituteList(EPrescriptionSubstituteModelResponse substituteLists) {
         this.substituteList = substituteLists;
         if (medicineResponseList != null && medicineResponseList.size() > 0) {
-            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(getContext(), this, medicineResponseList, substituteList);
+            ePrescriptionMedicineDetailsAdapter = new EPrescriptionMedicineDetailsAdapter(this, this, medicineResponseList, substituteList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(EPrescriptionMedicineDetailsActivity.this);
             detailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
-            detailsBinding.productListRecycler.setAdapter(ePrescriptionListAdapter);
+            detailsBinding.productListRecycler.setAdapter(ePrescriptionMedicineDetailsAdapter);
 
         } else {
             Toast.makeText(getApplicationContext(), "No order found", Toast.LENGTH_SHORT).show();
@@ -580,10 +606,10 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Override
     public void onFailureSubstituteList(EPrescriptionSubstituteModelResponse substituteList) {
         if (medicineResponseList != null && medicineResponseList.size() > 0) {
-            ePrescriptionListAdapter = new EPrescriptionMedicineDetailsAdapter(getContext(), this, medicineResponseList, substituteList);
+            ePrescriptionMedicineDetailsAdapter = new EPrescriptionMedicineDetailsAdapter(this, this, medicineResponseList, substituteList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(EPrescriptionMedicineDetailsActivity.this);
             detailsBinding.productListRecycler.setLayoutManager(mLayoutManager);
-            detailsBinding.productListRecycler.setAdapter(ePrescriptionListAdapter);
+            detailsBinding.productListRecycler.setAdapter(ePrescriptionMedicineDetailsAdapter);
 
         } else {
             Toast.makeText(getApplicationContext(), "No order found", Toast.LENGTH_SHORT).show();
@@ -593,14 +619,14 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     @Override
     public void showTransactionID(TransactionIDResModel model) {
         this.transactionIDResModel = model;
-        Toast.makeText(getApplicationContext(), "TransactionId Success!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "TransactionId Success!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getCorporateList(CorporateModel corporateModel) {
         this.corporateModel = corporateModel;
         corporateList.addAll(corporateModel.get_DropdownValue());
-        Toast.makeText(getApplicationContext(), "CorporateList Success!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "CorporateList Success!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -608,7 +634,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         if (customerDataResBean != null) {
 //            customerDataResBean = customerDataResBean;
 //            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-                mPresenter.onOnlineBillApiCall(customerDataResBean);
+            mPresenter.onOnlineBillApiCall(customerDataResBean);
 //            }
 //        else {
 //                CheckBatchStockFailure(customerDataResBean);
@@ -617,12 +643,12 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
 
         }
-        Toast.makeText(getApplicationContext(), "CheckBatchStock Success!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "CheckBatchStock Success!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean body) {
-        this.customerDataResBean=body;
+        this.customerDataResBean = body;
         String message = body.getReturnMessage();
         message = message + "Stock Partial Available \n Do you want Continue this bill";
 
@@ -687,15 +713,37 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
         boolean is_onlineOrder = true;
-        orderInfoItem.setREFNO(prescriptionLineList.get(position).getPrescriptionNo());
-
+        orderInfoItem.setREFNO(prescriptionLineList.get(this.position).getPrescriptionNo());
+        customerDataResBean_pass.setISOnlineOrder(true);
         startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
     public void onFailureOnlineBill(CustomerDataResBean customerDataResBean) {
-        Toast.makeText(getApplicationContext(), "" + customerDataResBean.getReturnMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), customerDataResBean.getReturnMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse) {
+        if (medicineResponseList != null && medicineResponseList.size() > 0) {
+            for (int i = 0; i < medicineResponseList.size(); i++) {
+                if (medicineResponseList.get(i).getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
+                    int pos = i;
+                    medicineResponseList.get(pos).setReqQty(medicineResponse.getReqQty());
+                }
+            }
+            if (ePrescriptionMedicineDetailsAdapter != null)
+                ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
 

@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBind
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
@@ -79,17 +80,8 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     TransactionHeaderResponse.OMSHeader omsHeader;
     private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
     private String boxId;
+    private int salesLineCount = 0;
 
-    //    public static Intent getStartActivity(Context context, int position, String status, String productDataList, String fullFillModelList, RacksDataResponse.FullfillmentDetail fillModel) {
-//        Intent intent = new Intent(context, PickUpVerificationActivity.class);
-//        intent.putExtra("position", position);
-////        intent.putExtra("status", status);
-//        intent.putExtra("productDataList", productDataList);
-////        intent.putExtra("fullFillModelList", fullFillModelList);
-////        intent.putExtra("fillModel", (Serializable) fillModel);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//        return intent;
-//    }
     public static Intent getStartActivity(Context context, TransactionHeaderResponse.OMSHeader omsHeader) {
         Intent intent = new Intent(context, PickUpVerificationActivity.class);
         intent.putExtra("OMS_HEADER", (Serializable) omsHeader);
@@ -564,7 +556,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
                     int pickedQty = 0, qty = 0;
                     if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty() != null && !omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty().isEmpty()) {
-                        if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                        if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
                             omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("FULL");
                         } else if (Integer.parseInt(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getPickedQty()) == 0) {
                             omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPickerStatus("NOT AVAILABLE");
@@ -601,11 +593,16 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                     }
                 }
                 reSendVerPickVernEableChecked();
-                pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this);
+                pickUpVerificationAdapter = new PickUpVerificationAdapter(this, omsHeader.getGetOMSTransactionResponse().getSalesLine(), this, selectedBatchList, omsHeader.getGetOMSTransactionResponse());
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 activityPickupVerificationBinding.recyclerView.setLayoutManager(mLayoutManager1);
                 activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
                 activityPickupVerificationBinding.recyclerView.setAdapter(pickUpVerificationAdapter);
+
+                if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+                    showLoading();
+                    mpresenter.getBatchDetailsApi(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(salesLineCount).getItemId());
+                }
             }
         } else {
             Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
@@ -772,7 +769,8 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             updateStatusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updateStatusdialog.setCancelable(false);
         dialogUpdateStatusPBinding.fullfillmentId.setText(omsHeader.getGetOMSTransactionResponse().getRefno());
-        dialogUpdateStatusPBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+
+        dialogUpdateStatusPBinding.boxId.setText(boxId.length() >= 5 ? boxId.substring(boxId.length() - 5) : boxId);
         dialogUpdateStatusPBinding.productName.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getItemName());
         dialogUpdateStatusPBinding.qty.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getQty()));
         dialogUpdateStatusPBinding.update.setText("Save Status");
@@ -873,6 +871,41 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
         } else {
             generatebarcode(omsHeader.getRefno());
         }
+    }
+
+    private List<GetBatchInfoRes.BatchListObj> selectedBatchList = new ArrayList<>();
+
+
+    @Override
+    public void onSuccessBatchInfo(GetBatchInfoRes response) {
+        if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation() != null && omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size() > 0 && response != null && response.getBatchList() != null && response.getBatchList().size() > 0) {
+            for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); i++) {
+                for (int j = 0; j < response.getBatchList().size(); j++) {
+                    if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupItemId().equals(response.getBatchList().get(j).getItemID()) && omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(i).getPickupInventBatchId().equals(response.getBatchList().get(j).getBatchNo())) {
+                        selectedBatchList.add(response.getBatchList().get(j));
+
+                    }
+                }
+            }
+        }
+        if (salesLineCount + 1 != omsHeader.getGetOMSTransactionResponse().getSalesLine().size()) {
+            salesLineCount++;
+            mpresenter.getBatchDetailsApi(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(salesLineCount).getItemId());
+        } else {
+            hideLoading();
+        }
+        pickUpVerificationAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailedBatchInfo(GetBatchInfoRes body) {
+        salesLineCount++;
+        if (salesLineCount + 1 != omsHeader.getGetOMSTransactionResponse().getSalesLine().size()) {
+            mpresenter.getBatchDetailsApi(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(salesLineCount).getItemId());
+        } else {
+            hideLoading();
+        }
+        Toast.makeText(this, "No batch available", Toast.LENGTH_SHORT).show();
     }
 
     public void generatebarcode(String refnumber) {

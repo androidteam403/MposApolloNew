@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverif
 
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
@@ -39,4 +40,8 @@ public interface PickUpVerificationMvpView extends MvpView {
     void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
 
     void onClickTakePrint();
+
+    void onSuccessBatchInfo(GetBatchInfoRes response);
+
+    void onFailedBatchInfo(GetBatchInfoRes body);
 }

@@ -511,7 +511,7 @@
     <string name="order_details">ORDER DETAILS</string>
     <string name="customer_type">Customer type</string>
     <string name="normal_priority">Normal Priority</string>
-    <string name="order_date">order date</string>
+    <string name="order_date">Order Date</string>
     <string name="_19_feb_2022_10_35_44">19 Feb, 2022 - 10:35:44</string>
     <string name="select">Select</string>
     <string name="total_items_5">Total Items: 5</string>
@@ -573,5 +573,13 @@
     <string name="label__0">0</string>
     <string name="label_selected">Selected</string>
     <string name="label_enter_last_3_digits_of_physical_batch">Enter last 3 digits of Physical Batch</string>
+    <string name="label_search_by_prescno_doc_name_customer_name_phoneno">Search by PrescNo, Doc Name, Customer Name, PhoneNo.</string>
+    <string name="label_e_prescription">E-Prescription</string>
+    <string name="label_prescription_no">Prescription No.</string>
+    <string name="label_customer_no">Customer No.</string>
+    <string name="label_amount">Amount</string>
+    <string name="label_doctor_names">Doctor Name</string>
+    <string name="label_payment_mode">Payment Mode</string>
+    <string name="label_patient_name">Patient Name</string>
 
 </resources>

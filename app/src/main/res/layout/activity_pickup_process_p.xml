@@ -106,6 +106,7 @@
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/three_dp"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eleven_sp" />
 

@@ -42,7 +42,7 @@
                 android:text="@string/label_select_batch_automatically"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/update1"
@@ -179,12 +179,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen3dp"
-                android:background="#A9A9A9" />
+                android:background="#A9A9A9"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -413,7 +415,8 @@
                 android:text="@string/label_or"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"

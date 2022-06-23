@@ -20,4 +20,6 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
     void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
 
     void onClickTakePrint();
+
+    void getBatchDetailsApi(String itemId);
 }

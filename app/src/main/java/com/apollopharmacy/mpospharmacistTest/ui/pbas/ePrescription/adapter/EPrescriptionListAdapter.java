@@ -13,37 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterEprescriptionVtwoBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFullfilmentPBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
-import com.google.android.gms.common.api.Api;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class EPrescriptionListAdapter  extends RecyclerView.Adapter<EPrescriptionListAdapter.ViewHolder> {
+public class EPrescriptionListAdapter extends RecyclerView.Adapter<EPrescriptionListAdapter.ViewHolder> {
 
     Context context;
     List<EPrescriptionModelClassResponse> prescriptionLine;
     private List<EPrescriptionModelClassResponse> prescriptionList = new ArrayList<>();
     private List<EPrescriptionModelClassResponse> filteredPrescriptionList = new ArrayList<>();
     private List<EPrescriptionModelClassResponse> filteredList = new ArrayList<>();
-    private  EPrescriptionMvpView mvpView;
+    private EPrescriptionMvpView mvpView;
 
     public EPrescriptionListAdapter(Context context, List<EPrescriptionModelClassResponse> prescriptionLine, EPrescriptionMvpView mvpView) {
-        this.context=context;
-        this.prescriptionList=prescriptionLine;
+        this.context = context;
+        this.prescriptionList = prescriptionLine;
         this.prescriptionLine = prescriptionLine;
         this.filteredPrescriptionList = prescriptionLine;
-        this.mvpView=mvpView;
+        this.mvpView = mvpView;
     }
-
 
 
     @NonNull
@@ -57,13 +48,28 @@ public class EPrescriptionListAdapter  extends RecyclerView.Adapter<EPrescriptio
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EPrescriptionModelClassResponse ePrescription = filteredPrescriptionList.get(position);
         holder.adapterEprescriptionVtwoBinding.prescriptionNo.setText(filteredPrescriptionList.get(position).getPrescriptionNo());
-        holder.adapterEprescriptionVtwoBinding.orderDate.setText(filteredPrescriptionList.get(position).getPresDate());
+        String dtStart = filteredPrescriptionList.get(position).getPresDate();
+        if (dtStart != null && !dtStart.isEmpty()) {
+            String date[] = dtStart.split(" ");
+            if (date.length < 2) {
+                holder.adapterEprescriptionVtwoBinding.orderDate.setText(date[0]);
+            } else {
+                String dat = "";
+                for (int i = 0; i < date.length; i++) {
+                    if (i < date.length - 1)
+                        dat = dat + date[i];
+                }
+                holder.adapterEprescriptionVtwoBinding.orderDate.setText(dat);
+            }
+
+        }
+
         holder.adapterEprescriptionVtwoBinding.paymentmode.setText(String.valueOf(filteredPrescriptionList.get(position).getShippingmethod()));
 //        holder.adapterEprescriptionVtwoBinding.receiptId.setText(filteredPrescriptionList.get(position).getPrescriptionNo());
         holder.adapterEprescriptionVtwoBinding.patientName.setText(filteredPrescriptionList.get(position).getPatientName());
         holder.adapterEprescriptionVtwoBinding.doctorName.setText(filteredPrescriptionList.get(position).getDoctorName());
         holder.adapterEprescriptionVtwoBinding.customerno.setText(filteredPrescriptionList.get(position).getPhoneNo());
-        holder.adapterEprescriptionVtwoBinding.amount.setText(String.valueOf(filteredPrescriptionList.get(position).getOrderbillvalue()));
+        holder.adapterEprescriptionVtwoBinding.amount.setText("₹" + String.valueOf(filteredPrescriptionList.get(position).getOrderbillvalue()));
 //            receiptid, orderdate, patientname, doctorname, paymentmode, fulfilmentid, cxno.
 
 
@@ -85,7 +91,6 @@ public class EPrescriptionListAdapter  extends RecyclerView.Adapter<EPrescriptio
     }
 
 
-
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -98,11 +103,11 @@ public class EPrescriptionListAdapter  extends RecyclerView.Adapter<EPrescriptio
                     for (EPrescriptionModelClassResponse row : prescriptionList) {
                         if (!filteredList.contains(row) && (row.getPrescriptionNo().contains(charString))) {
                             filteredList.add(row);
-                        } else if(!filteredList.contains(row) && (row.getPatientName().contains(charString))){
+                        } else if (!filteredList.contains(row) && (row.getPatientName().contains(charString))) {
                             filteredList.add(row);
-                        }else if(!filteredList.contains(row) && (row.getDoctorName().contains(charString))){
+                        } else if (!filteredList.contains(row) && (row.getDoctorName().contains(charString))) {
                             filteredList.add(row);
-                        }else if(!filteredList.contains(row) && (row.getPhoneNo().contains(charString))){
+                        } else if (!filteredList.contains(row) && (row.getPhoneNo().contains(charString))) {
                             filteredList.add(row);
                         }
 
@@ -137,9 +142,10 @@ public class EPrescriptionListAdapter  extends RecyclerView.Adapter<EPrescriptio
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         AdapterEprescriptionVtwoBinding adapterEprescriptionVtwoBinding;
+
         public ViewHolder(@NonNull AdapterEprescriptionVtwoBinding adapterEprescriptionVtwoBinding) {
             super(adapterEprescriptionVtwoBinding.getRoot());
-            this.adapterEprescriptionVtwoBinding=adapterEprescriptionVtwoBinding;
+            this.adapterEprescriptionVtwoBinding = adapterEprescriptionVtwoBinding;
         }
     }
 }

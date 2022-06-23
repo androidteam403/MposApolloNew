@@ -100,6 +100,7 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
 //            }
 //        }
         batchInfoRecycleAdapter = new BatchInfoRecycleAdapter(Constant.getInstance().arrBatchList, mContext);
+        batchInfoRecycleAdapter.setMedicineItemQty(item.getQty());
         holder.batchinfolist.setAdapter(batchInfoRecycleAdapter);
         batchInfoRecycleAdapter.setClickListiner(ePrescriptionInfoMvpView);
 

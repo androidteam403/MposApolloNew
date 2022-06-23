@@ -9,8 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDataResBean  implements Serializable
-{
+public class CustomerDataResBean implements Serializable {
 
     @Expose
     @SerializedName("VendorId")
@@ -243,6 +242,7 @@ public class CustomerDataResBean  implements Serializable
     @SerializedName("PickPackReservation")
     @Expose
     private List<PickPackReservation> pickPackReservation = null;
+
     public List<PickPackReservation> getPickPackReservation() {
         return pickPackReservation;
     }
@@ -573,8 +573,7 @@ public class CustomerDataResBean  implements Serializable
         return TrackingRef;
     }
 
-    public double getTotalTaxAmount()
-    {
+    public double getTotalTaxAmount() {
         return TotalTaxAmount;
     }
 
@@ -606,9 +605,8 @@ public class CustomerDataResBean  implements Serializable
         return Terminal;
     }
 
-    public void setTerminal(String terminal)
-    {
-        this.Terminal=terminal;
+    public void setTerminal(String terminal) {
+        this.Terminal = terminal;
     }
 
     public List<String> getTenderLine() {
@@ -638,6 +636,7 @@ public class CustomerDataResBean  implements Serializable
     public String getShippingMethod() {
         return ShippingMethod;
     }
+
     public String getShippingMethodDesc() {
         return ShippingMethodDesc;
     }
@@ -654,14 +653,12 @@ public class CustomerDataResBean  implements Serializable
         return SalesLine;
     }
 
-    public void setgetSalesLine(ArrayList<SalesLineEntity> SalesLine1)
-    {
-        this.SalesLine=SalesLine1;
+    public void setgetSalesLine(ArrayList<SalesLineEntity> SalesLine1) {
+        this.SalesLine = SalesLine1;
     }
 
-    public void setSalesLine(ArrayList<SalesLineEntity> salesLine)
-    {
-        this.SalesLine=salesLine;
+    public void setSalesLine(ArrayList<SalesLineEntity> salesLine) {
+        this.SalesLine = salesLine;
     }
 
     public double getSEZ() {
@@ -720,9 +717,8 @@ public class CustomerDataResBean  implements Serializable
         return REFNO;
     }
 
-    public  void setREFNO(String refno)
-    {
-        this.REFNO=refno;
+    public void setREFNO(String refno) {
+        this.REFNO = refno;
     }
 
     public double getPosEvent() {
@@ -1413,9 +1409,8 @@ public class CustomerDataResBean  implements Serializable
         return CreatedonPosTerminal;
     }
 
-    public  void setCreatedonPosTerminal(String createdonPosTerminal)
-    {
-        this.CreatedonPosTerminal=createdonPosTerminal;
+    public void setCreatedonPosTerminal(String createdonPosTerminal) {
+        this.CreatedonPosTerminal = createdonPosTerminal;
     }
 
     public String getCreatedDateTime() {
@@ -2107,7 +2102,7 @@ public class CustomerDataResBean  implements Serializable
         }
     }*/
 
-    public static class OrderPrescriptionObj{
+    public static class OrderPrescriptionObj implements Serializable {
         @Expose
         @SerializedName("CATEGORYCODE")
         private String CATEGORYCODE;

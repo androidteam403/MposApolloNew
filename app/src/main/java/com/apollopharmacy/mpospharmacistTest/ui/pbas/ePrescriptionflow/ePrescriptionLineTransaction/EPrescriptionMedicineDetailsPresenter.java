@@ -39,6 +39,8 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
         super(manager, schedulerProvider, compositeDisposable);
     }
 
+
+
     @Override
     public void fetchLineTransactionList(String prescriptionNo) {
         if (getMvpView().isNetworkConnected()) {
