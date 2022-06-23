@@ -27,6 +27,7 @@
                     android:id="@+id/product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:fontFamily="@font/roboto_regular"
                     android:text="Ascoril D Plus SyrupSugar Free"
                     android:textColor="@color/black"
@@ -63,7 +64,10 @@
                 android:layout_weight=".15"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1/1"
-                android:textColor="@color/black" />
+                android:textAlignment="center"
+                android:layout_marginRight="@dimen/text_dimen_15"
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
             <RelativeLayout
                 android:layout_width="0dp"

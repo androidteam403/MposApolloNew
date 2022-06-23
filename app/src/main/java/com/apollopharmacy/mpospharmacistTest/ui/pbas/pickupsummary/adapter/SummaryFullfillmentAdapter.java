@@ -52,6 +52,13 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
         holder.orderBinding.boxId.setText("-");
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
+            holder.orderBinding.taggedboxnumber.setText(lastFiveDigits(String.valueOf(selectedOmsHeaderList.get(position).getScannedBarcode())));
+        }else
+        {
+            holder.orderBinding.taggedboxnumber.setText("-");
+
+        }
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
                 pickupProcessMvpView.onClickItem(position);
@@ -60,20 +67,20 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-            holder.orderBinding.statusText.setText("NOT AVAILABLE");
+//            holder.orderBinding.statusText.setText("NOT AVAILABLE");
             holder.orderBinding.statuss.setText("Not Available");
             omsHeader.setOverallOrderStatus("3");
 
         }else if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-            holder.orderBinding.statusText.setText("FULL");
+//            holder.orderBinding.statusText.setText("FULL");
             holder.orderBinding.statusIcon.setRotation(0);
             holder.orderBinding.statuss.setText("Full");
             omsHeader.setOverallOrderStatus("1");
 
         }  if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-            holder.orderBinding.statusText.setText("PARTIAL");
+//            holder.orderBinding.statusText.setText("PARTIAL");
             holder.orderBinding.statuss.setText("Partial");
             omsHeader.setOverallOrderStatus("2");
 
@@ -256,7 +263,17 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         }
 
     }
+    public static String lastFiveDigits(String data) {
+        String lastFourDigits ="";   //substring containing last 4 characters
 
+        if (data.length() > 5) {
+            lastFourDigits = data.substring(data.length() - 5);
+        } else {
+            lastFourDigits = data;
+        }
+
+        return lastFourDigits;
+    }
     @Override
     public int getItemCount() {
         return selectedOmsHeaderList.size();

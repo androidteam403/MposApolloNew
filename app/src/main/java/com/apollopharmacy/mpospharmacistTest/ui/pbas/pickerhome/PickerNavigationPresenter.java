@@ -18,7 +18,8 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
 
     @Override
     public String getLoginUserName() {
-        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
+//        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
+        return getDataManager().getUserName();
     }
 
     @Override

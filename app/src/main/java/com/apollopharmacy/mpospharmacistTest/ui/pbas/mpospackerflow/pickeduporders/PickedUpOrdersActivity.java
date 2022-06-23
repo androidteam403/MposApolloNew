@@ -63,6 +63,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    public static  boolean isPickedUpOrdersActivity = false;
 
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
@@ -109,7 +110,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 activityPickedUpOrdersBinding.searchText.setText("");
                 activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                 activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
-
+//                recyclerView();
 
             }
         });
@@ -167,11 +168,12 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                     }
 
                 } else if (activityPickedUpOrdersBinding.searchText.getText().toString().equals("")) {
+                    if (pickedUpOrdersAdapter != null) {
+                        pickedUpOrdersAdapter.getFilter().filter("");
+                    }
                     activityPickedUpOrdersBinding.search.setVisibility(View.VISIBLE);
                     activityPickedUpOrdersBinding.deleteCancel.setVisibility(View.GONE);
-                }
-
-                else {
+                } else {
                     if (pickedUpOrdersAdapter != null) {
                         pickedUpOrdersAdapter.getFilter().filter("");
                     }
@@ -186,14 +188,19 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     }
 
     private boolean removeItsStatis;
-
+    private boolean isScannerBack;
 
     @Override
     public void onClickScanCode() {
 //        Intent intent = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        isScannerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
+
+        isPickedUpOrdersActivity = true;
+
+//        Intent i = new Intent(PickedUpOrdersActivity.this, ScannerActivity.class).initiateScan();
         new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //        IntentIntegrator intentIntegrator = new IntentIntegrator(PickedUpOrdersActivity.this);
@@ -565,11 +572,22 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     @Override
     public void onResume() {
         super.onResume();
-        omsHeaderList.clear();
-        mvpPresenter.fetchFulfilmentOrderList();
-        activityPickedUpOrdersBinding.searchText.setText("");
+        if (!isScannerBack) {
+            omsHeaderList.clear();
+            mvpPresenter.fetchFulfilmentOrderList();
+            activityPickedUpOrdersBinding.searchText.setText("");
+        } else {
+            isScannerBack = false;
+        }
     }
 
+    public void recyclerView(){
+        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
+        activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
+    }
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
@@ -632,7 +650,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
-                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                 activityPickedUpOrdersBinding.searchText.setText(Result.getContents());

@@ -37,22 +37,17 @@
 
                             <ImageView
                                 android:id="@+id/header_back"
-                                android:layout_width="@dimen/thirty_dp"
-                                android:layout_height="@dimen/thirty_dp"
-                                android:layout_gravity="center_vertical"
+                                android:layout_width="@dimen/dimen20dp"
+                                android:layout_height="@dimen/dimen20dp"
                                 android:contentDescription="@string/app_name"
-                                android:paddingStart="@dimen/seven_dp"
                                 android:onClick="@{()-> callback.onClickBack()}"
-
-                                android:src="@drawable/left_forward_white_arrow" />
-
-
-
+                                android:padding="@dimen/dimen3dp"
+                                android:src="@drawable/ic_back_arrow_white" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/fifteen_dp"
+                                android:layout_marginLeft="@dimen/twenty_five_dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -62,7 +57,7 @@
                                     android:text="@string/label_pickup_summary"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/dimen16sp" />
+                                    android:textSize="@dimen/dimen14sp" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -74,7 +69,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
                                         android:text="Box ID : "
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
 
                                     <TextView
                                         android:id="@+id/box_id"
@@ -82,7 +78,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
                                         android:text=" -"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/dimen12sp" />
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -119,7 +116,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_regular"
-                                        android:text="Fullfillment ID : "
+                                        android:text="Fulfilment ID : "
                                         android:textColor="@color/text_color_grey"
                                         android:textSize="@dimen/dimen10sp" />
 
@@ -129,7 +126,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/dimen5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="887766"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/dimen10sp" />
                                 </LinearLayout>
@@ -338,7 +334,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
 
                                 <TextView
@@ -356,7 +352,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -373,7 +369,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -390,7 +386,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -407,7 +403,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 
@@ -496,7 +492,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -547,7 +543,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -565,7 +561,7 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="---"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 
@@ -583,39 +579,46 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
+                            android:layout_marginStart="@dimen/five_dp"
                             android:layout_marginTop="@dimen/five_dp"
-                            android:layout_marginEnd="@dimen/ten_dp"
+                            android:layout_marginEnd="@dimen/five_dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
 
+                            <!--                    <RelativeLayout-->
+                            <!--                        android:layout_width="0dp"-->
+                            <!--                        android:layout_height="wrap_content"-->
+                            <!--                        android:layout_weight="0.1"-->
+                            <!--                        android:gravity="center" />-->
+
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".7"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_marginLeft="@dimen/dimen5dp"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Products"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_weight="0.15"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Qty"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
+                                android:textSize="@dimen/dimen12sp" />
 
                             <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight=".15"
-                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.15"
+                                android:contentDescription="@string/app_name"
+                                android:fontFamily="@font/price_bold"
                                 android:text="Status"
                                 android:textColor="@color/text_color_grey"
-                                android:textSize="@dimen/twelve_sp" />
-
+                                android:textSize="@dimen/dimen12sp" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

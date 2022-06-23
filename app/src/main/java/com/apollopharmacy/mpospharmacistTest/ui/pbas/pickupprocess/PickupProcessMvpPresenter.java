@@ -24,6 +24,7 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void onClickNotAvailable();
 
+    void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId);
 
     void onClickSkip();
 

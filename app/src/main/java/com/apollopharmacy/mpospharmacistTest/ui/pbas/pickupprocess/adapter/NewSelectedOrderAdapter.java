@@ -2,6 +2,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,17 +84,20 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-
+            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-
+            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+        } else {
+            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
 
 
@@ -210,6 +214,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         dialogUpdateStatusBinding.skipRadioBtn.setChecked(true);
 
     }
+
 
     private void checkAllFalse() {
         dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);

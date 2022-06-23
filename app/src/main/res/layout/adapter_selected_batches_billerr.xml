@@ -20,8 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".25"
+            android:layout_marginStart="@dimen/dimen5dp"
             android:fontFamily="@font/roboto_regular"
-            android:paddingStart="@dimen/dimen10dp"
             android:textColor="@color/black"
             android:textSize="@dimen/eight_sp" />
 

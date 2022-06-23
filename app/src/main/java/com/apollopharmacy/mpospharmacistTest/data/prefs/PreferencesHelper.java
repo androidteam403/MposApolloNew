@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 
 import java.util.List;
 
@@ -91,6 +92,10 @@ public interface PreferencesHelper {
     void storeGlobalJson(String json);
 
     GetGlobalConfingRes getGlobalJson();
+
+    void storeHBPConfiRes(String json);
+
+    HBPConfigResponse getHBPConfigRes();
 
     void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing);
 

@@ -87,7 +87,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/dimen10dp"
-                android:text="@string/label_select_fullfilment_to_start_pickup_process"
+                android:text="Select fulfilment to start pickup process"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen10sp"
                 tools:ignore="RtlSymmetry" />
@@ -106,7 +106,7 @@
                     android:layout_weight="0.7"
                     android:background="@drawable/ic_rectangular_shape"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="Search by Fullfillment ID"
+                    android:hint="Search by Fulfilment ID"
                     android:padding="@dimen/five_dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"

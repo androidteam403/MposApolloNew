@@ -5,6 +5,8 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
@@ -18,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -63,7 +66,8 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
                 order.setTransactionID(omsHeader.getRefno());
-                order.setOverallOrderStatus(omsHeader.getOverallOrderStatus());
+                order.setOverallOrderStatus(omsHeader.getOverallOrderStatus().substring(0, 1));
+                order.setRefID(omsHeader.getOverallOrderStatus().length() > 2 ? omsHeader.getOverallOrderStatus().substring(2) : "");
                 ordersList.add(order);
             }
 
@@ -81,7 +85,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
 
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            Call<MPOSPickPackOrderReservationResponse> call = Objects.requireNonNull(api).OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
@@ -196,5 +200,46 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void onClickTakePrint() {
         getMvpView().onClickTakePrint();
+    }
+
+    @Override
+    public void getBatchDetailsApi(String itemId) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
+            batchInfoReq.setArticleCode(itemId);
+            batchInfoReq.setCustomerState("");
+            batchInfoReq.setDataAreaId(getDataManager().getDataAreaId());
+            batchInfoReq.setSearchType(1);
+            batchInfoReq.setSEZ(0);
+            batchInfoReq.setStoreId(getDataManager().getStoreId());
+            batchInfoReq.setStoreState(getDataManager().getGlobalJson().getStateCode());
+            batchInfoReq.setTerminalId(getDataManager().getTerminalId());
+            batchInfoReq.setExpiryDays(getDataManager().getGlobalJson().getOMSExpiryDays());
+            Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
+            call.enqueue(new Callback<GetBatchInfoRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+//                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessBatchInfo(response.body());
+                        } else {
+                            getMvpView().onFailedBatchInfo(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }

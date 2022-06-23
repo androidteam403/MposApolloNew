@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.view.MenuItemCompat;
@@ -20,6 +21,9 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityScannerBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -71,14 +75,32 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
 
 
         //Initialize barcode scanner view
-        barcodeScannerView = findViewById(R.id.zxing_barcode_scanner);
+        barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
+        ImageView imageView = findViewById(R.id.squarebox);
 //        textView= findViewById(R.id.fullfillmentIdscanner);
 
 //        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID" + fullfillmentId);
+        if(PickedUpOrdersActivity.isPickedUpOrdersActivity){
+            imageView.setVisibility(View.GONE);
+           PickedUpOrdersActivity.isPickedUpOrdersActivity=false;
+        }
 
+        if (OpenOrdersActivity.isopenOrderActivity) {
+            imageView.setVisibility(View.GONE);
+            OpenOrdersActivity.isopenOrderActivity=false;
+        }
+
+        if(BillerOrdersActivity.billerActivityScanner){
+            imageView.setVisibility(View.GONE);
+            BillerOrdersActivity.billerActivityScanner=false;
+        }
 
 
         barcodeScannerView.setTorchListener(this);
+
+
+
+//
 
         activityScannerBinding.switchFlashlight.setVisibility(View.VISIBLE);
         capture = new CaptureManager(this, barcodeScannerView);

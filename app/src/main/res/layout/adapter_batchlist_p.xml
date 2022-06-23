@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -93,12 +94,12 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center_horizontal"
                 android:imeOptions="actionDone"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:singleLine="true"
-                android:textSize="@dimen/ten_sp"
-                android:importantForAutofill="no" />
+                android:textSize="@dimen/ten_sp" />
 
 
             <EditText
@@ -116,7 +117,9 @@
                 android:paddingBottom="@dimen/five_dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/ten_dp" />
+                android:textSize="@dimen/ten_sp"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
 
             <Button

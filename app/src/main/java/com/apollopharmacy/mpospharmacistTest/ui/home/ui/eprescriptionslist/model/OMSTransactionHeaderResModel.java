@@ -44,6 +44,11 @@ public class OMSTransactionHeaderResModel {
         @Expose
         @SerializedName("DeliveryDate")
         private String DeliveryDate;
+
+        public void setREFNO(String REFNO) {
+            this.REFNO = REFNO;
+        }
+
         @Expose
         @SerializedName("ExpiryDays")
         private int ExpiryDays;
@@ -53,7 +58,6 @@ public class OMSTransactionHeaderResModel {
         @Expose
         @SerializedName("OrderType")
         private String OrderType;
-
         @SerializedName("OverallOrderStatus")
         @Expose
         private String OverallOrderStatus;

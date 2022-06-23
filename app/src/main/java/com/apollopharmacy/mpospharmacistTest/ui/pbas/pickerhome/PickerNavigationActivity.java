@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -21,8 +22,6 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -42,9 +41,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     public PickerNavigationActivityCallback pickerNavigationActivityCallback;
     NavController navController;
     NavOptions navOptions;
+    private String fragmentName = null;
 
-    public static Intent getStartIntent(Context mContext) {
+    public static Intent getStartIntent(Context mContext, String fragmentName) {
         Intent intent = new Intent(mContext, PickerNavigationActivity.class);
+        intent.putExtra("FRAGMENT_NAME", fragmentName);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -65,9 +66,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         mInstance = this;
 //        activityNavigation3Binding.setCallback(mPresenter);
         setSupportActionBar(activityNavigation3Binding.appBarMain.toolbar);
+        if (getIntent() != null) {
+            fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
+        }
 
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_dashboard)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
@@ -82,28 +85,33 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 .setPopEnterAnim(R.anim.slide_from_right)
                 .setPopExitAnim(R.anim.slide_to_left)
                 .build();
-
-        activityNavigation3Binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (mAppBarConfiguration.getDrawerLayout() != null) {
-                    mAppBarConfiguration.getDrawerLayout().closeDrawers();
-                }
-
-                System.out.println("openscren status--->" + menuItem.getItemId());
-                if (menuItem.getItemId() == R.id.nav_dashboard) {
-                    navController.navigate(R.id.nav_dashboard, null, navOptions, null);
-                } else if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
-                    navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
-                } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
-                    navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
-                } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
-                    navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
-                }
-
-                return true;
-            }
-        });
+        if (fragmentName != null) {
+            decideFragment(fragmentName);
+        }
+//        activityNavigation3Binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                if (mAppBarConfiguration.getDrawerLayout() != null) {
+//                    mAppBarConfiguration.getDrawerLayout().closeDrawers();
+//                }
+//
+//                System.out.println("openscren status--->" + menuItem.getItemId());
+////                if (menuItem.getItemId() == R.id.nav_dashboard) {
+////                    navController.navigate(R.id.nav_dashboard, null, navOptions, null);
+////                } else
+//                if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
+//                    getSupportFragmentManager().popBackStack();
+//                    navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
+//                } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
+//                    getSupportFragmentManager().popBackStack();
+//                    navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+//                } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
+//                    getSupportFragmentManager().popBackStack();
+//                    navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+//                }
+//                return true;
+//            }
+//        });
 
         activityNavigation3Binding.appBarMain.icFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,8 +126,20 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 logoutDialog();
             }
         });
+    }
 
+    private void decideFragment(String fragmentName) {
+        if (mAppBarConfiguration.getDrawerLayout() != null) {
+            mAppBarConfiguration.getDrawerLayout().closeDrawers();
+        }
 
+        if (fragmentName.equals("PICKER")) {
+            navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("PACKER")) {
+            navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("BILLER")) {
+            navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+        }
     }
 
     public void navigateToOpenOrders() {
@@ -160,9 +180,9 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
 //        userStore = findViewById(R.id.user_store);
 
-        userName.setText( mPresenter.getLoginUserName());
+        userName.setText(mPresenter.getLoginUserName());
 //        userStore.setText("Terminal ID - ");
-       userStore.setText( mPresenter.getLoinStoreLocation());
+        userStore.setText(mPresenter.getLoinStoreLocation());
         return true;
     }
 
@@ -176,11 +196,11 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     @Override
     public void navigateLoginActivity() {
         Intent intent = new Intent(PickerNavigationActivity.this, PharmacistLoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("EXIT", true);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
 
 
     }
@@ -196,5 +216,15 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         super.onActivityResult(requestCode, resultCode, data);
         if (pickerNavigationActivityCallback != null)
             pickerNavigationActivityCallback.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PickerNavigationActivity.this, SelectAppFlowActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 }

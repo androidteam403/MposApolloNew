@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dimen30dp"
+                android:gravity="center"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Do You Really Want to Exit?"
                 android:textColor="@color/red"

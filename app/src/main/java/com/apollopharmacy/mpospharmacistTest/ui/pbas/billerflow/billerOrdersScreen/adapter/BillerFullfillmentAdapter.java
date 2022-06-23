@@ -24,8 +24,6 @@ import java.util.List;
 public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfillmentAdapter.ViewHolder> implements Filterable {
 
     private Context context;
-
-
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> fullfillmentList;
     private BillerOrdersMvpView mvpView;
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> filteredList = new ArrayList<>();
@@ -50,59 +48,49 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
         OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
         holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
-        if (fullfilmentModel.getOverallOrderStatus().equals("1")) {
+
+        if (fullfilmentModel.getOverallOrderStatus().startsWith("1")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("FULL");
-        } else if (fullfilmentModel.getOverallOrderStatus().equals("2")) {
+        } else if (fullfilmentModel.getOverallOrderStatus().startsWith("2")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("PARTIAL");
-        } else if (fullfilmentModel.getOverallOrderStatus().equals("3")) {
+        } else if (fullfilmentModel.getOverallOrderStatus().startsWith("3")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("NOT AVAILABLE");
         }
         if (fullfilmentModel.getOrderPickup()) {
             holder.adapterBillerOrdersScreenBinding.pickuporderstatus.setText("Completed");
-
         } else {
             holder.adapterBillerOrdersScreenBinding.pickuporderstatus.setText("Pending");
         }
 
         if (fullfilmentModel.getOrderPickup()) {
             holder.adapterBillerOrdersScreenBinding.packerorderstatus.setText("Completed");
-
         } else {
             holder.adapterBillerOrdersScreenBinding.packerorderstatus.setText("Pending");
         }
 
-        if (fullfilmentModel.getOverallOrderStatus().equals("0")) {
-
+        if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("0")) {
             holder.adapterBillerOrdersScreenBinding.status.setVisibility(View.GONE);
             holder.adapterBillerOrdersScreenBinding.statusText.setVisibility(View.GONE);
             holder.adapterBillerOrdersScreenBinding.statusIcon.setVisibility(View.GONE);
-        } else if (fullfilmentModel.getOverallOrderStatus().equals("1")) {
+        } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("1")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("Full");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setRotation(0);
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Full");
-
             holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-
-        } else if (fullfilmentModel.getOverallOrderStatus().equals("2")) {
+        } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("2")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("Partial");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Partial");
-
-        } else if (fullfilmentModel.getOverallOrderStatus().equals("3")) {
+        } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("3")) {
             holder.adapterBillerOrdersScreenBinding.status.setText("Not Available");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Not Available");
-
         }
         holder.itemView.setOnClickListener(view -> {
             if (mvpView != null)
                 mvpView.onRightArrowClickedContinue(fullfilmentModel.getREFNO());
         });
-
     }
-
 
     @Override
     public int getItemCount() {

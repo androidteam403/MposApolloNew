@@ -423,7 +423,7 @@
     <string name="label_generic_pincode"> Pincode: \n%1$s</string>
     <string name="label_generic_state_code"> State Code: \n%1$s</string>
     <string name="label_generic_address"> Address: \n%1$s</string>
-    <string name="label_FullFillmentid"> FullFillment ID: \n%1$s</string>
+    <string name="label_FullFillmentid"> Fulfilment ID: \n%1$s</string>
     <string name="label_generic_comments"> Comments: \n%1$s</string>
     <string name="label_generic_prescription_ref"> Prescription Ref: \n%1$s</string>
     <string name="label_generic_order_id"> Order ID: \n%1$s</string>
@@ -467,8 +467,8 @@
     <string name="btn_retry">Retry</string>
     <string name="title_home">Home</string>
     <string name="label_open_orders">open orders</string>
-    <string name="label_select_fullfilment_to_start_pickup_process">Select fullfilment to start pickup process.</string>
-    <string name="label_fullfillment_id">Fullfillment ID: </string>
+    <string name="label_select_fullfilment_to_start_pickup_process">Select fulfilment to start pickup process.</string>
+    <string name="label_fullfillment_id">Fulfilment ID: </string>
     <string name="label_total_items">Total Items: </string>
     <string name="label_space">\u00A0</string>
     <string name="label_ready_for_pickup">Ready for pickup</string>
@@ -511,11 +511,11 @@
     <string name="order_details">ORDER DETAILS</string>
     <string name="customer_type">Customer type</string>
     <string name="normal_priority">Normal Priority</string>
-    <string name="order_date">order date</string>
+    <string name="order_date">Order Date</string>
     <string name="_19_feb_2022_10_35_44">19 Feb, 2022 - 10:35:44</string>
     <string name="select">Select</string>
     <string name="total_items_5">Total Items: 5</string>
-    <string name="fullfillment_id">Fullfillment ID:</string>
+    <string name="fullfillment_id">Fulfilment ID:</string>
     <string name="products">Products</string>
     <string name="qty">Qty</string>
     <string name="ascoril_d_plus_syrup_sugar_free">Ascoril D plus Syrup Sugar Free</string>
@@ -560,7 +560,26 @@
     <string name="label_dashboards">Dashboard</string>
     <string name="label_picker">Picker</string>
     <string name="label_packer">Packer</string>
+    <string name="label_uhid">UHID</string>
     <string name="proceed_action">Proceed Action</string>
     <string name="label_biller">Biller</string>
+    <string name="label_continue_billing">continue billing</string>
+    <string name="label_fully_packed">Fully Packed</string>
+    <string name="label_partially_packed">Partially Packed</string>
+    <string name="label_do_you_want_to_connect_the_printer">Do you want to Connect the Printer</string>
+    <string name="label_scanned">Scanned</string>
+    <string name="label_sfulfilment_id">Fulfilment ID : </string>
+    <string name="label_update">Update</string>
+    <string name="label__0">0</string>
+    <string name="label_selected">Selected</string>
+    <string name="label_enter_last_3_digits_of_physical_batch">Enter last 3 digits of Physical Batch</string>
+    <string name="label_search_by_prescno_doc_name_customer_name_phoneno">Search by PrescNo, Doc Name, Customer Name, PhoneNo.</string>
+    <string name="label_e_prescription">E-Prescription</string>
+    <string name="label_prescription_no">Prescription No.</string>
+    <string name="label_customer_no">Customer No.</string>
+    <string name="label_amount">Amount</string>
+    <string name="label_doctor_names">Doctor Name</string>
+    <string name="label_payment_mode">Payment Mode</string>
+    <string name="label_patient_name">Patient Name</string>
 
 </resources>

@@ -6,7 +6,7 @@
         <item
             android:id="@+id/nav_dash_board"
             android:icon="@drawable/ic_menu_dashboard"
-            android:title="@string/menu_dashboard"/>
+            android:title="@string/menu_dashboard" />
         <item
             android:id="@+id/nav_doc_master"
             android:icon="@drawable/ic_menu_doctor"
@@ -23,10 +23,10 @@
             android:id="@+id/nav_order"
             android:icon="@drawable/ic_menu_orders"
             android:title="@string/menu_orders" />
-       <!-- <item
-            android:id="@+id/nav_manual_billing"
-            android:icon="@drawable/ic_menu_manual_billing"
-            android:title="@string/menu_manual_billing" />-->
+        <!-- <item
+             android:id="@+id/nav_manual_billing"
+             android:icon="@drawable/ic_menu_manual_billing"
+             android:title="@string/menu_manual_billing" />-->
         <item
             android:id="@+id/nav_eprescription"
             android:icon="@drawable/ic_menu_manual_billing"
@@ -36,6 +36,12 @@
             android:id="@+id/nav_Picking"
             android:icon="@drawable/ic_menu_manual_billing"
             android:title="@string/menu_eprescriptionPickingList" />
+
+
+<!--        <item-->
+<!--            android:id="@+id/nav_ePrescription_vOne"-->
+<!--            android:icon="@drawable/ic_menu_manual_billing"-->
+<!--            android:title="@string/label_e_prescription" />-->
 
         <item
             android:id="@+id/nav_Packing"
@@ -56,8 +62,8 @@
             android:id="@+id/nav_digitalsignage_screen_exit"
             android:icon="@drawable/ic_menu_manual_billing"
             android:title="@string/menu_open_screen"
-            android:visible="false"
-            />
+            android:visible="false" />
+
     </group>
 
 

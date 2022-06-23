@@ -17,7 +17,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogItemStatusDropdow
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -37,6 +36,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private int getOrderPos;
     private int getPos;
     private String status;
+    int newAdapterposition;
     List<GetBatchInfoRes.BatchListObj> batchList;
 
 
@@ -44,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         this.mContext = mContext;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.pickupProcessMvpView = pickupProcessMvpView;
-        this.batchList =  batchList;
+        this.batchList = batchList;
 
     }
 
@@ -79,7 +79,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            if (pickupProcessMvpView != null)
 //                pickupProcessMvpView.onClickOrderAdapterArrow(position);
 //        });
-
         if (omsHeader.getOrderPickup()) {
             holder.orderBinding.orderStatus.setText("Completed");
         } else {
@@ -129,22 +128,28 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         holder.orderBinding.productListRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
-
+//      mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         if (selectedOmsHeaderList.get(position).isExpanded()) {
             holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
             holder.orderBinding.rightArrow.setRotation(90);
             holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
-        } else if (!selectedOmsHeaderList.get(position).isExpanded()){
+
+        } else if (!selectedOmsHeaderList.get(position).isExpanded()) {
             holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
             holder.orderBinding.rightArrow.setRotation(0);
             holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
+
+
         }
         switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
+
                 holder.orderBinding.rightArrow.setRotation(0);
                 selectedOmsHeaderList.get(position).setExpandStatus(90);
                 holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
                 holder.orderBinding.rackChild2Layout.setBackground(null);
+
+
                 break;
             case 1:
                 if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -160,6 +165,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
                 holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
                 holder.orderBinding.orderChildLayout.setVisibility(View.VISIBLE);
+//                for(int i=0; i<selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size();i++){
+//                    if(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemName().equalsIgnoreCase("E SHOP SHIPING CHARGE")){
+//                        newAdapterposition=i;
+//                    }
+//                }
+//                pickupProcessMvpView.onExpansionEshopCharge(position, newAdapterposition, omsHeader.getGetOMSTransactionResponse().getSalesLine().get(newAdapterposition) );
 
                 break;
             default:

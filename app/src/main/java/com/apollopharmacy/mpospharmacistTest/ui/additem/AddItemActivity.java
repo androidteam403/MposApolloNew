@@ -65,6 +65,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.presenter.CustDocEditMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListActivity;
@@ -229,6 +230,20 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, TransactionIDResModel transactionIDResModel, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("sales_list_data", salesLineEntities);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("orderinfo_item", orderinfoitem);
+        intent.putExtra("customerbean_info", customerDataResBean);
+        intent.putExtra("transaction_id", transactionIDResModel);
+        intent.putExtra("is_online", is_online);
+        intent.putExtra("corporate_info", item);
+        intent.putExtra("doctor_info", doctor);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,6 +281,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         Constant.getInstance().vendorcredit = false;
 
         mPresenter.getGlobalConfig();
+        mPresenter.getHBPConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
 
@@ -394,7 +410,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         mPresenter.checkAllowedPaymentMode(paymentMethodModel);
 
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
-            boolean is_omsorder = (boolean) getIntent().getSerializableExtra("is_omsorder");
+            boolean is_omsorder = (boolean) getIntent().getBooleanExtra("is_omsorder", false);
+            boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
             if (is_omsorder == true) {
                 boolean itemNotFound = true;
                 ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) getIntent().getSerializableExtra("sales_list_data");
@@ -429,6 +446,42 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     medicinesDetailAdapter.notifyDataSetChanged();
                 }
 
+            } else if (isOnline) {
+                ArrayList<SalesLineEntity> itemsArrayList = (ArrayList<SalesLineEntity>) getIntent().getSerializableExtra("sales_list_data");
+                if (itemsArrayList != null) {
+
+//                    Constant.getInstance().isomsorder = true;
+//                    Constant.getInstance().isomsorder_check = true;
+
+
+                    Singletone.getInstance().itemsArrayList.clear();
+                    Singletone.getInstance().itemsArrayList.addAll(itemsArrayList);
+
+                    corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
+                    customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
+                    OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem = (OMSTransactionHeaderResModel.OMSHeaderObj) getIntent().getSerializableExtra("orderinfo_item");
+                    customerDataResBean = (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info");
+                    // Log.d("corpoarte data", corporateEntity.getCode());
+                    //if(customerDataResBean != null)
+                    //{
+                    customerDataResBean.setREFNO(orderinfoitem.getREFNO());
+                    //}
+                    addItemBinding.setCustomer(customerEntity);
+                    addItemBinding.setCorporate(corporateEntity);
+                    addItemBinding.detailsLayout.prgTrackingEdit.setText(orderinfoitem.getREFNO());
+                    transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+                    if (transactionIdModel != null) {
+                        addItemBinding.setTransaction(transactionIdModel);
+                    }
+
+                    mPresenter.checkAllowedPaymentMode(paymentMethodModel);
+                    mPresenter.checkProductTrackingWise();
+                    mPresenter.getUnpostedTransaction();
+                    mPresenter.calculatePosTransaction();
+
+                    medicinesDetailAdapter.notifyDataSetChanged();
+                }
+
             }
         }
 
@@ -451,46 +504,46 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onBackPressed() {
-        if (mPresenter.getGlobalConfiguration().getMPOSVersion().equals("2")) {
-            super.onBackPressed();
+//        if (mPresenter.getGlobalConfiguration().getMPOSVersion().equals("2")) {
+//            super.onBackPressed();
+//        } else {
+        if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
+            addItemBinding.setIsPaymentMode(false);
+            paymentMethodModel.setGenerateBill(false);
+            if (isDonePayment()) {
+                addItemBinding.setIsPaymentMode(true);
+                paymentMethodModel.setGenerateBill(true);
+                alertBackDialog();
+            } else if (paymentMethodModel.isBalanceAmount() && paymentMethodModel.getBalanceAmount() < 0) {
+                addItemBinding.setIsPaymentMode(true);
+                paymentMethodModel.setGenerateBill(true);
+                alertBackDialog();
+            }
         } else {
-            if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
-                addItemBinding.setIsPaymentMode(false);
-                paymentMethodModel.setGenerateBill(false);
-                if (isDonePayment()) {
-                    addItemBinding.setIsPaymentMode(true);
-                    paymentMethodModel.setGenerateBill(true);
-                    alertBackDialog();
-                } else if (paymentMethodModel.isBalanceAmount() && paymentMethodModel.getBalanceAmount() < 0) {
-                    addItemBinding.setIsPaymentMode(true);
-                    paymentMethodModel.setGenerateBill(true);
-                    alertBackDialog();
-                }
+            if (paymentDoneAmount == 0.0) {
+                alertDialog();
             } else {
-                if (paymentDoneAmount == 0.0) {
-                    alertDialog();
-                } else {
-                    partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
-                }
-
+                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
             }
-            double diagonalInches = UiUtils.displaymetrics(this);
-            if (diagonalInches >= 10) {
-                Log.i("Tab inches-->", "10 inches");
-                // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-            } else {
-                Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-            }
-            //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            addItemBinding.imageView.setVisibility(View.GONE);
         }
+        double diagonalInches = UiUtils.displaymetrics(this);
+        if (diagonalInches >= 10) {
+            Log.i("Tab inches-->", "10 inches");
+            // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+        } else {
+            Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        }
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        addItemBinding.imageView.setVisibility(View.GONE);
+//        }
     }
 
     private void alertBackDialog() {
@@ -2376,6 +2429,48 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             paymentMethodModel.setEnableHdfcPayBtn(false);
         }
+
+        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
+        if (hbpConfigResponse.getUHIDBilling())
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+    }
+
+    @Override
+    public void showOTPDialog(String otp) {
+        OTPDialog dialogView = new OTPDialog(this);
+        dialogView.setOnOutSideCancel(false);
+        dialogView.setOTP(otp);
+        dialogView.setTitle("New customer details found");
+        dialogView.setSubTitle("OTP has been sent to " + customerEntity.getMobileNo() + " Please verify");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dialogView.validateOTP()) {
+                    dialogView.dismiss();
+                    mPresenter.createNewCustomer();
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
+
+    @Override
+    public void addCustomerFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

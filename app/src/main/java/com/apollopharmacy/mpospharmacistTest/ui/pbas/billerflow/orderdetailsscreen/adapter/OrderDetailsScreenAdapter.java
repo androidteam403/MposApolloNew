@@ -2,11 +2,13 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Customer
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetailsScreenAdapter.ViewHolder> {
     private Context context;
@@ -43,37 +46,44 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         return new ViewHolder(adapterBillerOrdersScreenBinding);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OrderDetailsScreenAdapter.ViewHolder holder, int position) {
         SalesLineEntity fullfillmentDetail = products.get(position);
-
         holder.adapterOrderDetailsScreenBinding.productName.setText(fullfillmentDetail.getItemName());
-//        holder.adapterOrderDetailsScreenBinding.quantity.setText(fullfillmentDetail.getRequiredQuantity() + "/10");
-//        holder.adapterOrderDetailsScreenBinding.batchNo.setText(fullfillmentDetail.getInventBatchId());
-//        holder.adapterOrderDetailsScreenBinding.apolloMrp.setText("-");
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
-//        holder.adapterOrderDetailsScreenBinding.stripMrp.setText(String.valueOf(fullfillmentDetail.getMRP()));
-
         holder.adapterOrderDetailsScreenBinding.availableQty.setText("/" + Math.round(fullfillmentDetail.getQty()));
         if (responseList != null) {
-            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(responseList.get(position).getPickupQty())));
+            double pickedUpQty = 0.0;
+            for (PickPackReservation pickPackReservation : responseList) {
+                if (pickPackReservation.getPickupItemId().equals(fullfillmentDetail.getItemId())) {
+                    pickedUpQty = pickedUpQty + pickPackReservation.getPickupQty();
+                }
+            }
+            holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(pickedUpQty)));
 
-        }
-
-
-        if (responseList != null && fullfillmentDetail != null) {
-            if (responseList.get(position).getPickupQty() >= fullfillmentDetail.getQty()) {
+            if (pickedUpQty >= fullfillmentDetail.getQty()) {
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
-            } else if (responseList.get(position).getPickupQty() > 0 && responseList.get(position).getPickupQty() < fullfillmentDetail.getQty()) {
+            } else if (pickedUpQty > 0 && pickedUpQty < fullfillmentDetail.getQty()) {
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-
             } else {
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-
             }
         }
+//        if (responseList != null && fullfillmentDetail != null) {
+//            if (responseList.get(position).getPickupQty() >= fullfillmentDetail.getQty()) {
+//                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
+//                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+//            } else if (responseList.get(position).getPickupQty() > 0 && responseList.get(position).getPickupQty() < fullfillmentDetail.getQty()) {
+//                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//
+//            } else {
+//                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+//
+//            }
+//        }
 
         if (selectedBatchList != null && selectedBatchList.size() > 0) {
             List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
@@ -88,9 +98,14 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
                     }
                 }
             }
-
-            holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
-            SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, selectedBatchListTemp, products);
+            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+            if (newList != null && newList.size() > 0)
+                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
+            else
+                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
+            SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, newList, products);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setAdapter(selectedBatchesListAdapterr);

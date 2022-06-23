@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
@@ -27,7 +30,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.dialog.StockNotVailableDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.adapter.OrderDetailsScreenAdapter;
@@ -63,6 +65,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     private GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
     private String eprescription_corpcode = "0";
     private int salesLineCount = 0;
+    private String boxId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,23 +91,22 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             onBackPressed();
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         });
+        if (orderInfoItem.getOverallOrderStatus() != null && orderInfoItem.getOverallOrderStatus().length() > 2) {
+            this.boxId = orderInfoItem.getOverallOrderStatus().substring(2);
+            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+        } else {
+            this.boxId = "-";
+        }
 //        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
-        if (orderInfoItem.getOverallOrderStatus().equals("0")) {
-
+        if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("0")) {
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
-        } else if (orderInfoItem.getOverallOrderStatus().equals("1")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("1")) {
             activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
-
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
-
-        } else if (orderInfoItem.getOverallOrderStatus().equals("2")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("2")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-
-
-        } else if (orderInfoItem.getOverallOrderStatus().equals("3")) {
+        } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("3")) {
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
-
-
         }
     }
 
@@ -144,6 +146,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessGetOMSTransaction(ArrayList<CustomerDataResBean> getOMSTransactionResponses) {
         for (int i = 0; i < getOMSTransactionResponses.size(); i++) {
@@ -257,7 +260,8 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                 }
                 tempposition++;
             }
-            item = corporateList.get(position);
+            if (corporateList != null && corporateList.size() > 0)
+                item = corporateList.get(position);
         }
 
         Singletone.getInstance().itemsArrayList.clear();
@@ -271,7 +275,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void LoadOmsOrderFailure(CustomerDataResBean response) {
-
+        Toast.makeText(this, response.getReturnMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -294,19 +298,22 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         String message = response.getReturnMessage();
         message = message + "Stock Partial Available \n Do you want Continue this bill";
 
-        StockNotVailableDialog dialogView = new StockNotVailableDialog(this);
-        dialogView.setTitle(message);
-        dialogView.setPositiveLabel("Proceed");
-        dialogView.setNegativeLabel("Cancel");
-
-        dialogView.setPositiveListener(view -> {
-            dialogView.dismiss();
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogCancelBinding.dialogMessage.setText(message);
+        dialogCancelBinding.dialogButtonNO.setText("Cancel");
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setText("Proceed");
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
             customerDataResBean = response;
             mPresenter.onLoadOmsOrder(customerDataResBean);
         });
-
-        dialogView.setNegativeListener(v -> dialogView.dismiss());
-        dialogView.show();
+        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     @Override
@@ -448,41 +455,48 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void onClickProceedAction() {
         if (selectActionLayoutBinding.checkedGenerateBill.getVisibility() == View.VISIBLE) {
             for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
-                boolean isItemHaveMoreThanOneBatch = false;
-                for (int j = 0; j < selectedBatchList.size(); j++) {
-                    if (customerDataResBean.getSalesLine().get(i).getItemId().equals(selectedBatchList.get(j).getItemID())) {
-                        if (!isItemHaveMoreThanOneBatch) {
-                            isItemHaveMoreThanOneBatch = true;
-                            customerDataResBean.getSalesLine().get(i).setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
-                            customerDataResBean.getSalesLine().get(i).setCGSTTaxCode(selectedBatchList.get(j).getCGSTTaxCode());
-                            customerDataResBean.getSalesLine().get(i).setExpiry(selectedBatchList.get(j).getExpDate());
-                            customerDataResBean.getSalesLine().get(i).setInventBatchId(selectedBatchList.get(j).getBatchNo());
-                            customerDataResBean.getSalesLine().get(i).setMRP(selectedBatchList.get(j).getMRP());
-                            customerDataResBean.getSalesLine().get(i).setPrice(selectedBatchList.get(j).getPrice());
-                            for (int k = 0; k < customerDataResBean.getPickPackReservation().size(); k++) {
-                                if (customerDataResBean.getPickPackReservation().get(k).getPickupItemId().equals(selectedBatchList.get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(k).getPickupInventBatchId().equals(selectedBatchList.get(j).getBatchNo())) {
-                                    selectedBatchList.get(j).setREQQTY(customerDataResBean.getPickPackReservation().get(k).getPickupQty());
+                if (customerDataResBean.getSalesLine().get(i).getInventBatchId() == null || customerDataResBean.getSalesLine().get(i).getInventBatchId().isEmpty()) {
+                    boolean isItemHaveMoreThanOneBatch = false;
+                    for (int j = 0; j < selectedBatchList.size(); j++) {
+                        if (customerDataResBean.getSalesLine().get(i).getItemId().equals(selectedBatchList.get(j).getItemID())) {
+                            if (!isItemHaveMoreThanOneBatch) {
+                                isItemHaveMoreThanOneBatch = true;
+                                customerDataResBean.getSalesLine().get(i).setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
+                                customerDataResBean.getSalesLine().get(i).setCGSTTaxCode(selectedBatchList.get(j).getCGSTTaxCode());
+                                customerDataResBean.getSalesLine().get(i).setExpiry(selectedBatchList.get(j).getExpDate());
+                                customerDataResBean.getSalesLine().get(i).setInventBatchId(selectedBatchList.get(j).getBatchNo());
+                                customerDataResBean.getSalesLine().get(i).setMRP(selectedBatchList.get(j).getMRP());
+                                customerDataResBean.getSalesLine().get(i).setPrice(selectedBatchList.get(j).getPrice());
+                                for (int k = 0; k < customerDataResBean.getPickPackReservation().size(); k++) {
+                                    if (customerDataResBean.getPickPackReservation().get(k).getPickupItemId().equals(selectedBatchList.get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(k).getPickupInventBatchId().equals(selectedBatchList.get(j).getBatchNo())) {
+                                        selectedBatchList.get(j).setREQQTY(customerDataResBean.getPickPackReservation().get(k).getPickupQty());
+                                    }
                                 }
+                                customerDataResBean.getSalesLine().get(i).setQty(selectedBatchList.get(j).getREQQTY());
+                                customerDataResBean.getSalesLine().get(i).setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
+                                customerDataResBean.getSalesLine().get(i).setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
+                                customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(j).getTotalTax());
+                                customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(j).getMRP());
+                            } else {
+                                SalesLineEntity salesLineEntityTemp = customerDataResBean.getSalesLine().get(i);
+                                salesLineEntityTemp.setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
+                                salesLineEntityTemp.setCGSTTaxCode(selectedBatchList.get(j).getCGSTTaxCode());
+                                salesLineEntityTemp.setExpiry(selectedBatchList.get(j).getExpDate());
+                                salesLineEntityTemp.setInventBatchId(selectedBatchList.get(j).getBatchNo());
+                                salesLineEntityTemp.setMRP(selectedBatchList.get(j).getMRP());
+                                salesLineEntityTemp.setPrice(selectedBatchList.get(j).getPrice());
+                                for (int k = 0; k < customerDataResBean.getPickPackReservation().size(); k++) {
+                                    if (customerDataResBean.getPickPackReservation().get(k).getPickupItemId().equals(selectedBatchList.get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(k).getPickupInventBatchId().equals(selectedBatchList.get(j).getBatchNo())) {
+                                        selectedBatchList.get(j).setREQQTY(customerDataResBean.getPickPackReservation().get(k).getPickupQty());
+                                    }
+                                }
+                                salesLineEntityTemp.setQty(selectedBatchList.get(j).getREQQTY());
+                                salesLineEntityTemp.setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
+                                salesLineEntityTemp.setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
+                                salesLineEntityTemp.setTotalTax(selectedBatchList.get(j).getTotalTax());
+                                salesLineEntityTemp.setUnitPrice(selectedBatchList.get(j).getMRP());
+                                customerDataResBean.getSalesLine().add(salesLineEntityTemp);
                             }
-                            customerDataResBean.getSalesLine().get(i).setQty(selectedBatchList.get(j).getREQQTY());
-                            customerDataResBean.getSalesLine().get(i).setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
-                            customerDataResBean.getSalesLine().get(i).setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            customerDataResBean.getSalesLine().get(i).setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            customerDataResBean.getSalesLine().get(i).setUnitPrice(selectedBatchList.get(i).getMRP());
-                        } else {
-                            SalesLineEntity salesLineEntityTemp = customerDataResBean.getSalesLine().get(i);
-                            salesLineEntityTemp.setCGSTPerc(selectedBatchList.get(j).getCGSTPerc());
-                            salesLineEntityTemp.setCGSTTaxCode(selectedBatchList.get(j).getCGSTTaxCode());
-                            salesLineEntityTemp.setExpiry(selectedBatchList.get(j).getExpDate());
-                            salesLineEntityTemp.setInventBatchId(selectedBatchList.get(j).getBatchNo());
-                            salesLineEntityTemp.setMRP(selectedBatchList.get(j).getMRP());
-                            salesLineEntityTemp.setPrice(selectedBatchList.get(j).getPrice());
-                            salesLineEntityTemp.setQty(selectedBatchList.get(j).getREQQTY());
-                            salesLineEntityTemp.setSGSTPerc(selectedBatchList.get(j).getSGSTPerc());
-                            salesLineEntityTemp.setSGSTTaxCode(selectedBatchList.get(j).getSGSTTaxCode());
-                            salesLineEntityTemp.setTotalTax(selectedBatchList.get(i).getTotalTax());
-                            salesLineEntityTemp.setUnitPrice(selectedBatchList.get(i).getMRP());
-                            customerDataResBean.getSalesLine().add(i + 1, salesLineEntityTemp);
                         }
                     }
                 }

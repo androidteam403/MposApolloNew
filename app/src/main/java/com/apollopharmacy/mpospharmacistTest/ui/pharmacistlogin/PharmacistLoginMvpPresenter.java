@@ -29,6 +29,8 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
 
     void getGlobalConfigration();
 
+    void getHBPConfigration();
+
     void onMposPosiflexApiCall();
 
     List<RowsEntity> getPosiflextDataListEntity();
