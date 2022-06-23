@@ -109,8 +109,6 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         detailsBinding.terminalId.setText(terminalId);
 
 
-
-
         String todaysDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         detailsBinding.prescriptionNo.setText("#" + prescriptionLineList.get(position).getPrescriptionNo());
 
@@ -191,7 +189,6 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         }
 
 
-
 //        detailsBinding.customerType.setText(prescriptionLineList.get(position).);
 
 
@@ -206,7 +203,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         detailsBinding.backarrowtop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -398,7 +395,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                         salesLineEntity.setManufacturerName("");
 //                    salesLineEntity.setExpiry();
 
-                        if(ePrescriptionMedicineResponse.getReqQty()!=0){
+                        if (ePrescriptionMedicineResponse.getReqQty() != 0) {
                             salesLineEntity.setQty(Double.parseDouble(String.valueOf(ePrescriptionMedicineResponse.getReqQty())));
                         }
 
@@ -716,8 +713,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
         boolean is_onlineOrder = true;
-        orderInfoItem.setREFNO(prescriptionLineList.get(position).getPrescriptionNo());
-
+        orderInfoItem.setREFNO(prescriptionLineList.get(this.position).getPrescriptionNo());
+        customerDataResBean_pass.setISOnlineOrder(true);
         startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
@@ -736,11 +733,10 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     medicineResponseList.get(pos).setReqQty(medicineResponse.getReqQty());
                 }
             }
-            if (ePrescriptionMedicineDetailsAdapter!=null)
+            if (ePrescriptionMedicineDetailsAdapter != null)
                 ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
         }
     }
-
 
 
     @Override

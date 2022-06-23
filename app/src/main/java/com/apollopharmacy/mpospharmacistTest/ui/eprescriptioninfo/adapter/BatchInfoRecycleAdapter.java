@@ -12,7 +12,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -35,11 +34,16 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
     private EPrescriptionInfoMvpView ePrescriptionInfoMvpView;
     Context mcontext;
     boolean alertcheck = true;
+    private double medicineItemQty = 0.0;
 
     public BatchInfoRecycleAdapter(ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList, Context context) {
         this.arrBatchList = arrBatchList;
         this.ePrescriptionInfoMvpView = ePrescriptionInfoMvpView;
         this.mcontext = context;
+    }
+
+    public void setMedicineItemQty(double medicineItemQty) {
+        this.medicineItemQty = medicineItemQty;
     }
 
     @NonNull
@@ -155,7 +159,7 @@ public class BatchInfoRecycleAdapter extends RecyclerView.Adapter<BatchInfoRecyc
                 for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
                     totalBatchSelectedQty = totalBatchSelectedQty + Constant.getInstance().arrBatchList.get(i).getREQQTY();
                 }
-                if (totalBatchSelectedQty > Constant.getInstance().requestqty) {
+                if (totalBatchSelectedQty > medicineItemQty) {//Constant.getInstance().requestqty
 //                    Toast.makeText(mcontext, "You have enter more than request Qty", Toast.LENGTH_SHORT).show();
                     ePrescriptionInfoMvpView.showtoastmessage("You have enter more than request Qty");
                 } else {
