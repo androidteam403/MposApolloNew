@@ -34,6 +34,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionPdfScreen.EPrescriptionPdfActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
@@ -176,4 +177,6 @@ public interface ActivityComponent {
     void inject(EPrescriptionActivity ePrescriptionActivity);
 
     void inject(EPrescriptionMedicineDetailsActivity ePrescriptionMedicineDetailsActivity);
+
+    void inject(EPrescriptionPdfActivity ePrescriptionPdfActivity);
 }
