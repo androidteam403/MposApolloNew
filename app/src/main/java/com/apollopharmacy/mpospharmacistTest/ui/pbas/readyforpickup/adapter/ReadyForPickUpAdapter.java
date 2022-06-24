@@ -64,12 +64,12 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         if (omsHeader.isTagBox()) {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.VISIBLE);
-            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.VISIBLE);
+//            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.VISIBLE);
 
         } else {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.GONE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.GONE);
-            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
+//            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
         }
         holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
             readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
@@ -80,11 +80,11 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
                 readyForPickUpMvpView.onTagBoxClick(omsHeader.getRefno(), position);
             }
         });
-        holder.adapterReadyForPickupBinding.takePrint1.setOnClickListener(view -> {
-            if (readyForPickUpMvpView != null) {
-                readyForPickUpMvpView.onClickTakePrint(omsHeader);
-            }
-        });
+//        holder.adapterReadyForPickupBinding.takePrint1.setOnClickListener(view -> {
+//            if (readyForPickUpMvpView != null) {
+//                readyForPickUpMvpView.onClickTakePrint(omsHeader);
+//            }
+//        });
 
 
     }

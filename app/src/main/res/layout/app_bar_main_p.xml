@@ -69,6 +69,29 @@
                                 android:textColor="@color/white"
                                 android:textSize="12sp" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/stock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/white"
+                            android:layout_marginLeft="@dimen/dimen25dp"
+                            android:visibility="visible"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/stocknew"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            android:layout_marginLeft="@dimen/dimen25dp"
+                            android:textSize="13sp" />
+
+
+
                     </LinearLayout>
 
                     <LinearLayout

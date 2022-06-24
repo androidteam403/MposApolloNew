@@ -22,6 +22,7 @@ public interface ReadyForPickUpMvpView extends MvpView {
     void onClickStartPickingWithoutQrCode();
 
     void onClickScanCode();
+    void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 }

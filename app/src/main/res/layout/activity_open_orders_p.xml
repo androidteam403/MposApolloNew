@@ -59,7 +59,27 @@
                             android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/stock"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:fontFamily="@font/roboto_bold"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:text="Stock Available"-->
+<!--                            android:textSize="13sp" />-->
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="stock available"
+                        android:textAllCaps="true"
+                        android:id="@+id/stock_avail"
+                        android:layout_marginLeft="@dimen/text_dimen_25"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
                 </LinearLayout>
 
                 <LinearLayout

@@ -88,6 +88,16 @@
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
+
+
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="200dp"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -181,7 +191,7 @@
                         android:textSize="@dimen/dimen_11sp" />
 
                     <ImageView
-                        android:id="@+id/status_icon"
+                        android:id="@+id/status_ico"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
                         android:layout_marginStart="@dimen/dimen2dp"

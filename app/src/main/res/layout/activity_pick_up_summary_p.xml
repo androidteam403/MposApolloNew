@@ -173,6 +173,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_five_dp"
+                android:background="@drawable/take_print_btn_bg"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickprint()}"
+                android:text="take print"
+                android:textAllCaps="true"
+                android:layout_marginBottom="@dimen/dimen5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp" />
 
             <TextView
                 android:layout_width="match_parent"
