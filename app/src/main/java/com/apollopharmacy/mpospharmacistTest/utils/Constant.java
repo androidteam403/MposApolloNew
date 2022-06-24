@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.utils;
 
 import android.graphics.Bitmap;
 
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLine;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.FiltersModel;
@@ -61,6 +62,8 @@ public   class   Constant {
     public  boolean isSelectedBatch=false;
     public int enteredQuantity=0;
     public   SalesLineEntity selectedItem=new SalesLineEntity();
+    public SalesLine selectedItems=new SalesLine();
+
     public ArrayList<GetBatchInfoRes.BatchListObj> selectedBatches = new ArrayList<>();
     public  int batchServiceCall = 0;
     public String batchNoTemp;

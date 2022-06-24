@@ -31,7 +31,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Fullfillment ID : "
+                        android:text="Fulfilment ID : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
 
@@ -77,15 +77,47 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Status: "
+                        android:text="Status : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/statuss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="200dp"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partially Picked"
+                        android:text="Tagged box number : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/taggedboxnumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
                 </LinearLayout>
@@ -145,6 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
 
@@ -153,18 +186,17 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partial"
+                        android:id="@+id/status_text"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 
                     <ImageView
-                        android:id="@+id/status_icon"
-                        android:layout_width="@dimen/fifteen_dp"
+                        android:id="@+id/status_ico"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginStart="@dimen/dimen2dp"
                         android:contentDescription="@string/app_name"
-                        android:rotation="270"
-                        android:src="@drawable/partialcirculargreeenorange" />
+                        android:rotation="270" />
 
                 </LinearLayout>
 

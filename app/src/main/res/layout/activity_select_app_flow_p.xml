@@ -26,14 +26,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/forty_five_dp"
             android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginEnd="@dimen/forty_five_dp" />
+            android:layout_marginEnd="@dimen/forty_five_dp"
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/fifty_dp"
             android:layout_marginEnd="@dimen/twenty_dp"
             android:background="@drawable/btn_continue_ripple_login"
             android:fontFamily="@font/roboto_bold"
