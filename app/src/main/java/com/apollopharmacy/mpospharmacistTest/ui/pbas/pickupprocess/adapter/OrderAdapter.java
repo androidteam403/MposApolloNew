@@ -74,6 +74,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 //        holder.orderBinding.rightArrow.setOnClickListener(v -> {
 //            if (pickupProcessMvpView != null)

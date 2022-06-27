@@ -62,6 +62,13 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     }
 
     @Override
+    public void onClickPrint() {
+        TransactionHeaderResponse.OMSHeader omsHeader = getDataManager().getTotalOmsHeaderList().get(0);
+        getMvpView().onClickPrint( omsHeader );
+
+    }
+
+    @Override
     public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();

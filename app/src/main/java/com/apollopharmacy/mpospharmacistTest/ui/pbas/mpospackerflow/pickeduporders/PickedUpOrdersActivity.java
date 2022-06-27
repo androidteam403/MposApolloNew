@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,7 +64,9 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
-    public static  boolean isPickedUpOrdersActivity = false;
+    public static boolean isPickedUpOrdersActivity = false;
+    int getPos;
+    int itemPos;
 
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
@@ -98,6 +101,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
+        PickerNavigationActivity.mInstance.setStock("");
+
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 //        mvpPresenter.fetchFulfilmentOrderList();
         searchByFulfilmentId();
@@ -581,13 +586,14 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         }
     }
 
-    public void recyclerView(){
+    public void recyclerView() {
         pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
         activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
     }
+
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
@@ -726,4 +732,11 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     public void onClickFilters() {
         onClickFilterIcon();
     }
+
+    @Override
+    public void onItemClick() {
+
+    }
+
+
 }

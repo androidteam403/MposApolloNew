@@ -245,7 +245,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //        decideVersionFlowDialog.setContentView(dialogDecideVersionFlowBinding.getRoot());
 //        decideVersionFlowDialog.setCancelable(false);
 //        dialogDecideVersionFlowBinding.mposOneUserFlow.setOnClickListener(v -> {
-            startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
+            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            decideVersionFlowDialog.dismiss();
             finish();

@@ -23,6 +23,11 @@ public interface OpenOrdersMvpView extends MvpView {
     void onClickScanCode();
 
 
+    void onStockAvailability();
+
+    void onClickItem();
+
+
     void onClickStausIcon(int fullFillmentPos, int pos);
 
     void ondownArrowClicked(String refId, int position);
@@ -32,7 +37,6 @@ public interface OpenOrdersMvpView extends MvpView {
     void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
 
     void noOrderFound(int count);
-
 
 
 }

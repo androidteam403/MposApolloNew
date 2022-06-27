@@ -1,11 +1,13 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,16 +19,29 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class PickerNavigationActivity extends BaseActivity implements PickerNavigationMvpView {
 
@@ -40,7 +55,14 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     TextView userStore;
     public PickerNavigationActivityCallback pickerNavigationActivityCallback;
     NavController navController;
+    int itemPos;
+    private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
+
+    List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     NavOptions navOptions;
+    int getPos;
+
+    FullfilmentAdapter fullfilmentAdapter;
     private String fragmentName = null;
 
     public static Intent getStartIntent(Context mContext, String fragmentName) {
@@ -150,6 +172,65 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         activityNavigation3Binding.appBarMain.title.setText(tittle);
     }
 
+    public void setStock(String stock) {
+        RecyclerView recyclerView = findViewById(R.id.fullfilment_recycler);
+
+        activityNavigation3Binding.appBarMain.stock.setText(stock);
+        activityNavigation3Binding.appBarMain.stocknew.setText(stock);
+        activityNavigation3Binding.appBarMain.stock.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View v) {
+                activityNavigation3Binding.appBarMain.stocknew.setVisibility(VISIBLE);
+                activityNavigation3Binding.appBarMain.stock.setVisibility(GONE);
+                pickerNavigationActivityCallback.onItemClick();
+
+//                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+//                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+//                    if (mPresenter.getTotalOmsHeaderList().get(i).getStockStatus().equalsIgnoreCase("Stock available")) {
+//                        omsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
+//                    }
+//                }
+////                omsHeaderList = mPresenter.getTotalOmsHeaderList();
+////                activityNavigation3Binding.appBarMain.stock.setTextColor(R.color.black);
+//                pickerNavigationActivityCallback.onItemClick();
+//                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), omsHeaderList, PickerNavigationActivity.this, null);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                recyclerView.setLayoutManager(mLayoutManager);
+//                recyclerView.setAdapter(fullfilmentAdapter);
+//                fullfilmentAdapter.notifyDataSetChanged();
+//            }
+
+
+            }
+        });
+
+
+        activityNavigation3Binding.appBarMain.stocknew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityNavigation3Binding.appBarMain.stocknew.setVisibility(GONE);
+                activityNavigation3Binding.appBarMain.stock.setVisibility(VISIBLE);
+
+                List<TransactionHeaderResponse.OMSHeader> newomsHeaderList = new ArrayList<>();
+//                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+//                    if (!mPresenter.getTotalOmsHeaderList().get(i).getOrderPickup()) {
+//                        newomsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
+//                    }
+//                }
+//
+//                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), newomsHeaderList, PickerNavigationActivity.this, null);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                recyclerView.setLayoutManager(mLayoutManager);
+//                recyclerView.setAdapter(fullfilmentAdapter);
+//                fullfilmentAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+    }
+
     public void setWelcome(String welcomeText) {
         activityNavigation3Binding.appBarMain.welcome.setText(welcomeText);
     }
@@ -205,8 +286,56 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     }
 
+
+    @Override
+    public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
+//        LinearLayout linearLayout = findViewById(R.id.continue_btn);
+//        RecyclerView recyclerView = findViewById(R.id.fullfilment_recycler);
+//        if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
+//            omsHeaderList.get(getPos).setExpandStatus(1);
+//        } else {
+//            omsHeaderList.get(getPos).setExpandStatus(0);
+//        }
+//        fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), omsHeaderList, this, body);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setAdapter(fullfilmentAdapter);
+//        recyclerView.scrollToPosition(getPos);
+//        linearLayout.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.continue_select_color));
+
+    }
+
+    @Override
+    public void onSuccessGetOmsTransactionItemClick(List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
+//        LinearLayout linearLayout = findViewById(R.id.continue_btn);
+//        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//            omsHeaderList.get(getPos).setSelected(!omsHeaderList.get(getPos).isSelected());
+//            if (omsHeaderList.get(getPos).isSelected()) {
+//
+//                omsHeaderList.get(getPos).setGetOMSTransactionResponse(getOMSTransactionResponseList.get(0));
+//                selectedOmsHeaderList.add(omsHeaderList.get(getPos));
+//            } else {
+//                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+//                    for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                        if (selectedOmsHeaderList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())) {
+//                            selectedOmsHeaderList.remove(i);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            if (fullfilmentAdapter != null) {
+//                fullfilmentAdapter.notifyItemChanged(itemPos);
+//            }
+//            linearLayout.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.continue_select_color));
+//        }
+    }
+
+
     public interface PickerNavigationActivityCallback {
         void onClickFilters();
+
+        void onItemClick();
 
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }

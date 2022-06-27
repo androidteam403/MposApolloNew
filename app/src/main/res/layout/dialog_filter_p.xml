@@ -83,7 +83,7 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Customer Type"
+                    android:text="Stock Availabilty"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 
@@ -200,7 +200,7 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Stock Availability"
+                    android:text="Customer Type"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 

@@ -35,6 +35,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
@@ -186,6 +187,29 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         return fullCount;
     }
 
+    @Override
+    public void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+            dialogView.setContentView(connectPrinterBinding.getRoot());
+            dialogView.setCancelable(false);
+            connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+                dialogView.dismiss();
+                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+            });
+            connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+            dialogView.show();}
+        else {
+
+            generatecode(omsHeader.getRefno());
+
+        }
+    }
+
     int count = 0;
 
     @Override
@@ -314,21 +338,23 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             dialog.dismiss();
         });
         updateStatusBinding.yes.setOnClickListener(v -> {
-            if (!BluetoothManager.getInstance(this).isConnect()) {
-                Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-                DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
-                dialogView.setContentView(connectPrinterBinding.getRoot());
-                dialogView.setCancelable(false);
-                connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
-                    dialogView.dismiss();
-                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            if (!BluetoothManager.getInstance(this).isConnect()) {
+//                Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+//                DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+//                dialogView.setContentView(connectPrinterBinding.getRoot());
+//                dialogView.setCancelable(false);
+//                connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+//                    dialogView.dismiss();
+//                    startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//
+//                });
+//                connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+//                connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//                dialogView.show();
+//            } else {
 
-                });
-                connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-                connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
-                dialogView.show();
-            } else {
+
                 int count = 1;
                 for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
                     omsOrderForwardRequest = new OMSOrderForwardRequest();
@@ -459,7 +485,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
 //            mPresenter.ForwardToPickerRequest(request);
 
-            }
+
 
 
         });
@@ -502,95 +528,120 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         dialog.show();
     }
 
-    public static class SummaryProductsData {
-        private String product;
-        private String qty;
-        private int productStatus;
 
-        public String getProduct() {
-            return product;
-        }
-
-        public void setProduct(String product) {
-            this.product = product;
-        }
-
-        public String getQty() {
-            return qty;
-        }
-
-        public void setQty(String qty) {
-            this.qty = qty;
-        }
-
-        public int getProductStatus() {
-            return productStatus;
-        }
-
-        public void setProductStatus(int productStatus) {
-            this.productStatus = productStatus;
-        }
-    }
-
-    public static class SummaryFullfillmentData {
-        private String fullfilmentId;
-        private int totalItems;
-        private int boxId;
-        private int orderStatus;
-
-        public int getBoxId() {
-            return boxId;
-        }
-
-        public void setBoxId(int boxId) {
-            this.boxId = boxId;
-        }
-
-        public String getFullfilmentId() {
-            return fullfilmentId;
-        }
-
-        public void setFullfilmentId(String fullfilmentId) {
-            this.fullfilmentId = fullfilmentId;
-        }
-
-        public int getTotalItems() {
-            return totalItems;
-        }
-
-        public void setTotalItems(int totalItems) {
-            this.totalItems = totalItems;
-        }
-
-        public int getOrderStatus() {
-            return orderStatus;
-        }
-
-        public void setOrderStatus(int orderStatus) {
-            this.orderStatus = orderStatus;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        ReadyForPickUpActivity.fullfillmentDetailList.clear();
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (Result != null) {
-            if (Result.getContents() == null) {
-                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-                BillerOrdersActivity.isBillerActivity = false;
-            }
+    public void generatecode(String refnumber) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            Toast.makeText(getContext(), "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode", Toast.LENGTH_LONG).show();
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            PrintfTSPLManager instance = PrintfTSPLManager.getInstance(PickUpSummmaryActivityNew.this);
+            instance.clearCanvas();
+            instance.initCanvas(90, 23);
+            instance.setDirection(0);
+            //打印条形码
+            //Print barcode
+            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+            instance.beginPrintf(1);
         }
     }
+
+
+        public static class SummaryProductsData {
+            private String product;
+            private String qty;
+            private int productStatus;
+
+            public String getProduct() {
+                return product;
+            }
+
+            public void setProduct(String product) {
+                this.product = product;
+            }
+
+            public String getQty() {
+                return qty;
+            }
+
+            public void setQty(String qty) {
+                this.qty = qty;
+            }
+
+            public int getProductStatus() {
+                return productStatus;
+            }
+
+            public void setProductStatus(int productStatus) {
+                this.productStatus = productStatus;
+            }
+        }
+
+
+        public static class SummaryFullfillmentData {
+            private String fullfilmentId;
+            private int totalItems;
+            private int boxId;
+            private int orderStatus;
+
+            public int getBoxId() {
+                return boxId;
+            }
+
+            public void setBoxId(int boxId) {
+                this.boxId = boxId;
+            }
+
+            public String getFullfilmentId() {
+                return fullfilmentId;
+            }
+
+            public void setFullfilmentId(String fullfilmentId) {
+                this.fullfilmentId = fullfilmentId;
+            }
+
+            public int getTotalItems() {
+                return totalItems;
+            }
+
+            public void setTotalItems(int totalItems) {
+                this.totalItems = totalItems;
+            }
+
+            public int getOrderStatus() {
+                return orderStatus;
+            }
+
+            public void setOrderStatus(int orderStatus) {
+                this.orderStatus = orderStatus;
+            }
+        }
+
+        @Override
+        public void onBackPressed () {
+            super.onBackPressed();
+        }
+
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+//        ReadyForPickUpActivity.fullfillmentDetailList.clear();
+            IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (Result != null) {
+                if (Result.getContents() == null) {
+                    Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                    BillerOrdersActivity.isBillerActivity = false;
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
+
+
+
+
+
+
 
     public void generatebarcode(List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
