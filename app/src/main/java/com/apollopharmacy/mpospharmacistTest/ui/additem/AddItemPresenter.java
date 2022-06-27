@@ -24,6 +24,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipC
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CouponDiscount;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
@@ -58,6 +60,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -402,7 +406,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onClickCardPayment() {
         getMvpView().getCustomerModule().setCardPayment(true);
         if (!getMvpView().getCustomerModule().isExistingCustomerOrNot()) {
-            checkCustomerExistOrNot(getMvpView().getCustomerModule());
+            if (!getMvpView().isOnleneOrder()) {
+                checkCustomerExistOrNot(getMvpView().getCustomerModule());
+            } else {
+                doPayment(2);
+            }
         } else {
             doPayment(2);
         }
@@ -540,7 +548,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else {
 
                 if (!getMvpView().getCustomerModule().isExistingCustomerOrNot()) {
-                    checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                    if (!getMvpView().isOnleneOrder()) {
+                        checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                    } else {
+                        generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
+                    }
                 } else {
                     generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
                 }
@@ -1466,70 +1478,91 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 // System.out.println("Paymentmethod combination code--->" + entity.getCombinationCode());
                 // System.out.println("Payment mode--->1-->" + entity.getPaymentMode());
                 //System.out.println("Payment corprate mode--->2-->" + getMvpView().getCorporateModule().getPayMode());
-                if (getMvpView().getCorporateModule().getPayMode() != null)
-                    if (getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())) {
-                        // System.out.println("Paymentmode--->3-->" + getMvpView().getCorporateModule().getPayMode());
-                        //Cash Tender
-                        if (!entity.getCombinationCode().contains("1")) {
-                            paymentMethodModel.setEnableCashBtn(false);
-                        } else {
-                            paymentMethodModel.setEnableCashBtn(true);
-                        }
+                boolean isHbpStore = true;
+                if (getMvpView().isOnleneOrder() && isHbpStore) {//getGlobalConfiguration().isISHBPStore()
+                    paymentMethodModel.setEnableCashBtn(true);
+                    paymentMethodModel.setEnableCardBtn(true);
+                    paymentMethodModel.setEnableWalletBtn(true);
+                    paymentMethodModel.setEnableVendorPayBtn(false);
+                    paymentMethodModel.setEnableCreaditBtn(false);
+                    paymentMethodModel.setEnableApolloBtn(false);
+                    paymentMethodModel.setSmsPayMode(false);
 
-                        //Credit Tender
-                        if (!entity.getCombinationCode().contains("3")) {
-                            paymentMethodModel.setEnableCreaditBtn(false);
-                        } else {
-                            if (getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
-                                paymentMethodModel.setEnableCreaditBtn(false);
-                            } else if (!getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
-                                paymentMethodModel.setEnableCreaditBtn(true);
+                    if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed()) {
+                        paymentMethodModel.setEnableCashBtn(false);
+                        paymentMethodModel.setEnableCardBtn(false);
+                        paymentMethodModel.setSmsPayMode(false);
+                        paymentMethodModel.setEnableApolloBtn(false);
+                        paymentMethodModel.setEnableWalletBtn(false);
+                        paymentMethodModel.setEnableCreaditBtn(false);
+                        paymentMethodModel.setEnableVendorPayBtn(false);
+                    }
+                } else {
+                    if (getMvpView().getCorporateModule().getPayMode() != null)
+                        if (getMvpView().getCorporateModule().getPayMode().equals(entity.getPaymentMode())) {
+                            // System.out.println("Paymentmode--->3-->" + getMvpView().getCorporateModule().getPayMode());
+                            //Cash Tender
+                            if (!entity.getCombinationCode().contains("1")) {
+                                paymentMethodModel.setEnableCashBtn(false);
                             } else {
-                                paymentMethodModel.setEnableCreaditBtn(false);
+                                paymentMethodModel.setEnableCashBtn(true);
                             }
-                        }
-
-                        //Card Tender
-                        if (!entity.getCombinationCode().contains("2")) {
-                            paymentMethodModel.setEnableCardBtn(false);
-                        } else {
-                            paymentMethodModel.setEnableCardBtn(true);
-                        }
 
 
-                        //  paymentMethodModel.setEnableSmsPayBtn(true);
-                        //Gift Tender
-                        if (!entity.getCombinationCode().contains("6")) {
-                            paymentMethodModel.setEnableApolloBtn(false);
-                        } else {
-                            paymentMethodModel.setEnableApolloBtn(true);
-                        }
+                            //Credit Tender
+                            if (!entity.getCombinationCode().contains("3")) {
+                                paymentMethodModel.setEnableCreaditBtn(false);
+                            } else {
+                                if (getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
+                                    paymentMethodModel.setEnableCreaditBtn(false);
+                                } else if (!getMvpView().getCorporateModule().getCode().equals(getDataManager().getGlobalJson().getHealingCardCorpId())) {
+                                    paymentMethodModel.setEnableCreaditBtn(true);
+                                } else {
+                                    paymentMethodModel.setEnableCreaditBtn(false);
+                                }
+                            }
 
-                        //Vendor Payment Tender
-                        if (!entity.getCombinationCode().contains("7")) {
-                            paymentMethodModel.setEnableVendorPayBtn(false);
-                        } else {
-                            paymentMethodModel.setEnableVendorPayBtn(true);
-                        }
-
-                        //Wallets Tender
-                        if (!entity.getCombinationCode().contains("5")) {
-                            paymentMethodModel.setEnableWalletBtn(false);
-                        } else {
-                            paymentMethodModel.setEnableWalletBtn(true);
-                        }
+                            //Card Tender
+                            if (!entity.getCombinationCode().contains("2")) {
+                                paymentMethodModel.setEnableCardBtn(false);
+                            } else {
+                                paymentMethodModel.setEnableCardBtn(true);
+                            }
 
 
-                        //Smspay tender.......
-                        if (!entity.getCombinationCode().contains("5")) {
-                            //  System.out.println("Smspay false--->" + entity.getCombinationCode());
-                            paymentMethodModel.setEnableSmsPayBtn(false);
-                        } else {
-                            //  System.out.println("smspay true--->" + entity.getCombinationCode());
-                            paymentMethodModel.setEnableSmsPayBtn(true);
-                        }
+                            //  paymentMethodModel.setEnableSmsPayBtn(true);
+                            //Gift Tender
+                            if (!entity.getCombinationCode().contains("6")) {
+                                paymentMethodModel.setEnableApolloBtn(false);
+                            } else {
+                                paymentMethodModel.setEnableApolloBtn(true);
+                            }
 
-                        //paymentMethodModel.setEnableSmsPayBtn(true);
+                            //Vendor Payment Tender
+                            if (!entity.getCombinationCode().contains("7")) {
+                                paymentMethodModel.setEnableVendorPayBtn(false);
+                            } else {
+                                paymentMethodModel.setEnableVendorPayBtn(true);
+                            }
+
+                            //Wallets Tender
+                            if (!entity.getCombinationCode().contains("5")) {
+                                paymentMethodModel.setEnableWalletBtn(false);
+                            } else {
+                                paymentMethodModel.setEnableWalletBtn(true);
+                            }
+
+
+                            //Smspay tender.......
+                            if (!entity.getCombinationCode().contains("5")) {
+                                //  System.out.println("Smspay false--->" + entity.getCombinationCode());
+                                paymentMethodModel.setEnableSmsPayBtn(false);
+                            } else {
+                                //  System.out.println("smspay true--->" + entity.getCombinationCode());
+                                paymentMethodModel.setEnableSmsPayBtn(true);
+                            }
+
+                            //paymentMethodModel.setEnableSmsPayBtn(true);
 //            if (drpTrackingRef.EditValue.ToString() == "172")
 //            {
 //                btnIPPayment.Enabled = true;
@@ -1548,17 +1581,17 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 btnWallets.Enabled = false;
                             }*/
 
-                        if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed()) {
-                            paymentMethodModel.setEnableCashBtn(false);
-                            paymentMethodModel.setEnableCardBtn(false);
-                            paymentMethodModel.setSmsPayMode(false);
-                            paymentMethodModel.setEnableApolloBtn(false);
-                            paymentMethodModel.setEnableWalletBtn(false);
-                            paymentMethodModel.setEnableCreaditBtn(false);
-                            paymentMethodModel.setEnableVendorPayBtn(false);
+                            if (!getDataManager().getGlobalJson().isISBillingPaymentAllowed()) {
+                                paymentMethodModel.setEnableCashBtn(false);
+                                paymentMethodModel.setEnableCardBtn(false);
+                                paymentMethodModel.setSmsPayMode(false);
+                                paymentMethodModel.setEnableApolloBtn(false);
+                                paymentMethodModel.setEnableWalletBtn(false);
+                                paymentMethodModel.setEnableCreaditBtn(false);
+                                paymentMethodModel.setEnableVendorPayBtn(false);
+                            }
                         }
-                    }
-
+                }
             }
         }
     }
@@ -2284,6 +2317,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         phonepeQrPaymentDialog.setPaymentMethod(getMvpView().getPaymentMethod());
         phonepeQrPaymentDialog.ValidatePaymentStatussetdisabled();
         String providerReferenceId = "";
+        phonepeQrPaymentDialog.setGenerateQrCodeEnable();
+        phonepeQrPaymentDialog.setValidatePaymentDisable();
+        phonepeQrPaymentDialog.setCancelPaymentDisable();
+        phonepeQrPaymentDialog.setCloseBtnEnable();
         phonepeQrPaymentDialog.setGenerateQrcodeListner(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2294,14 +2331,21 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 request.setReqType("GENERATEQRCODE");
                 request.setUrl(tenderurl);
                 request.setStoreId(getDataManager().getGlobalJson().getStoreID());
-                request.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
+                SimpleDateFormat timeStampFormat = new SimpleDateFormat("mmss");
+                Date myDate = new Date();
+                String date = timeStampFormat.format(myDate);
+
+                String transactionid = getDataManager().getGlobalJson().getStoreID() + getMvpView().getTransactionModule().getTransactionID() + date;
+                Constant.getInstance().originaltransactionid = transactionid;
+                request.setTransactionId(transactionid);
+//                request.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
                 request.setAmount(phonepeQrPaymentDialog.getWalletAmount());
                 request.setExpiresIn(2000);
                 request.setProviderReferenceId("");
                 request.setMessage("");
                 request.setOriginalTransactionId("");
                 if (getMvpView().isNetworkConnected()) {
-                    // getMvpView().showLoading();
+                    getMvpView().showLoading();
                     ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
                     Call<PhonepeGenerateQrCodeResponse> call = api.PhonepeQrCodeGenerateApi(request);
                     call.enqueue(new Callback<PhonepeGenerateQrCodeResponse>() {
@@ -2313,6 +2357,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 if (response.isSuccessful() && response.body() != null) {
                                     if (response.body().getStatus() == true) {
                                         // phonepeQrPaymentDialog.dismiss();
+
+                                        phonepeQrPaymentDialog.setGenerateQrCodeDisable();
+                                        phonepeQrPaymentDialog.setValidatePaymentEnable();
+                                        phonepeQrPaymentDialog.setCancelPaymentEnable();
+                                        phonepeQrPaymentDialog.setCloseBtnDisable();
                                         phonepeQrPaymentDialog.setproviderReferenceId((String) response.body().getProviderReferenceId());
                                         phonepeQrPaymentDialog.ValidatePaymentStatussetenabled();
 
@@ -2360,7 +2409,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     request.setReqType("CHECKPAYMENTSTATUS");
                     request.setUrl(tenderurl);
                     request.setStoreId(getDataManager().getGlobalJson().getStoreID());
-                    request.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
+                    request.setTransactionId(Constant.getInstance().originaltransactionid);
+//                    request.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
                     request.setAmount(phonepeQrPaymentDialog.getWalletAmount());
                     request.setExpiresIn(2000);
                     request.setProviderReferenceId(phonepeQrPaymentDialog.getProviderReferenceId());
@@ -2379,6 +2429,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     if (response.isSuccessful() && response.body() != null) {
                                         if (response.body().getStatus() == true) {
                                             //getMvpView().onSuccessPhonepeGenerateQrCode(response.body());
+                                            phonepeQrPaymentDialog.setGenerateQrCodeDisable();
+                                            phonepeQrPaymentDialog.setValidatePaymentDisable();
+                                            phonepeQrPaymentDialog.setCancelPaymentDisable();
+                                            phonepeQrPaymentDialog.setCloseBtnEnable();
                                             walletServiceReq.setMobileNo(phonepeQrPaymentDialog.getWalletMobileNumber());
                                             walletServiceReq.setWalletAmount(phonepeQrPaymentDialog.getWalletAmount());
                                             walletServiceReq.setWalletRequestType(5);
@@ -2412,6 +2466,74 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
 
                 }
+            }
+        });
+        phonepeQrPaymentDialog.setCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (phonepeQrPaymentDialog.isValidateAmount(walletServiceReq)) {
+                    //  walletServiceReq.setMobileNo(phonepeQrPaymentDialog.getWalletMobileNumber());
+                    //  walletServiceReq.setWalletAmount(phonepeQrPaymentDialog.getWalletAmount());
+                    //  walletServiceReq.setWalletRequestType(3);
+                    // generateWalletOTP(walletServiceReq);
+
+                    PhonepeGenerateQrCodeRequest request = new PhonepeGenerateQrCodeRequest();
+                    request.setReqType("PAYMENTCANCEL");
+                    request.setUrl(tenderurl);
+                    request.setStoreId(getDataManager().getGlobalJson().getStoreID());
+                    request.setTransactionId(Constant.getInstance().originaltransactionid);
+//                    request.setTransactionId(getMvpView().getTransactionModule().getTransactionID());
+                    request.setAmount(phonepeQrPaymentDialog.getWalletAmount());
+                    request.setExpiresIn(2000);
+                    request.setProviderReferenceId(phonepeQrPaymentDialog.getProviderReferenceId());
+                    request.setMessage("");
+                    request.setOriginalTransactionId("");
+                    if (getMvpView().isNetworkConnected()) {
+                        getMvpView().showLoading();
+                        ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+                        Call<PhonepeGenerateQrCodeResponse> call = api.PhonepeQrCodeGenerateApi(request);
+                        call.enqueue(new Callback<PhonepeGenerateQrCodeResponse>() {
+                            @Override
+                            public void onResponse(@NotNull Call<PhonepeGenerateQrCodeResponse> call, @NotNull Response<PhonepeGenerateQrCodeResponse> response) {
+                                if (response.isSuccessful()) {
+                                    //Dismiss Dialog
+                                    getMvpView().hideLoading();
+                                    if (response.isSuccessful() && response.body() != null) {
+                                        if (response.body().getStatus() == true) {
+                                            //getMvpView().onSuccessPhonepeGenerateQrCode(response.body());
+                                            phonepeQrPaymentDialog.setGenerateQrCodeEnable();
+                                            phonepeQrPaymentDialog.setValidatePaymentDisable();
+                                            phonepeQrPaymentDialog.setCancelPaymentDisable();
+                                            phonepeQrPaymentDialog.setCloseBtnEnable();
+
+                                            phonepeQrPaymentDialog.setQrcodeimage("REMOVE_QR_CODE");
+
+                                        } else {
+                                            getMvpView().onSuccessPhonepeGenerateQrCode(response.body());
+                                        }
+
+                                    } else {
+                                        getMvpView().onSuccessPhonepeGenerateQrCode(response.body());
+                                        ;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull Call<PhonepeGenerateQrCodeResponse> call, @NotNull Throwable t) {
+                                //Dismiss Dialog
+                                getMvpView().hideLoading();
+                                handleApiError(t);
+                            }
+                        });
+
+                    } else {
+                        getMvpView().onError("Internet Connection Not Available");
+                    }
+
+
+                }
+
             }
         });
 
@@ -2481,96 +2603,69 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     private void saveRetailTransaction() {
         CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
-//        if (posTransactionRes.getISOnlineOrder()) {
-
-            if (getMvpView().isNetworkConnected()) {
-                getMvpView().showLoading();
-                //Creating an object of our api interface
-                ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 //            CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
-                ArrayList<SalesLineEntity> salesLineEntities = new ArrayList<>();
-                for (SalesLineEntity salesLineEntity : posTransactionRes.getSalesLine()) {
-                    if (!salesLineEntity.getIsVoid()) {
-                        salesLineEntities.add(salesLineEntity);
-                    }
+            ArrayList<SalesLineEntity> salesLineEntities = new ArrayList<>();
+            for (SalesLineEntity salesLineEntity : posTransactionRes.getSalesLine()) {
+                if (!salesLineEntity.getIsVoid()) {
+                    salesLineEntities.add(salesLineEntity);
                 }
-                posTransactionRes.setSalesLine(salesLineEntities);
+            }
+            posTransactionRes.setSalesLine(salesLineEntities);
 
-                List<TenderLineEntity> tenderLineEntitieList = new ArrayList<>();
-                for (TenderLineEntity tenderLineEntity : posTransactionRes.getTenderLine()) {
-                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("PhonePe") || tenderLineEntity.getTenderName().equalsIgnoreCase("PAYTM") || tenderLineEntity.getTenderName().equalsIgnoreCase("Airtel") || tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code")) {
-                        tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
-                        tenderLineEntitieList.add(tenderLineEntity);
-                    } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("Cash") || tenderLineEntity.getTenderName().equalsIgnoreCase("card") || tenderLineEntity.getTenderName().equalsIgnoreCase("gift") || tenderLineEntity.getTenderName().equalsIgnoreCase("Credit") || tenderLineEntity.getTenderName().equalsIgnoreCase("COD")) {
-                        tenderLineEntity.setMobileNo("");
-                        tenderLineEntitieList.add(tenderLineEntity);
-                    } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("SMS PAY")) {
-                        tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
-                        tenderLineEntitieList.add(tenderLineEntity);
-                    } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("HDFC PAYMENT")) {
-                        tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
-                        tenderLineEntitieList.add(tenderLineEntity);
-                    }
-
+            List<TenderLineEntity> tenderLineEntitieList = new ArrayList<>();
+            for (TenderLineEntity tenderLineEntity : posTransactionRes.getTenderLine()) {
+                if (tenderLineEntity.getTenderName().equalsIgnoreCase("PhonePe") || tenderLineEntity.getTenderName().equalsIgnoreCase("PAYTM") || tenderLineEntity.getTenderName().equalsIgnoreCase("Airtel") || tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                    tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
+                    tenderLineEntitieList.add(tenderLineEntity);
+                } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("Cash") || tenderLineEntity.getTenderName().equalsIgnoreCase("card") || tenderLineEntity.getTenderName().equalsIgnoreCase("gift") || tenderLineEntity.getTenderName().equalsIgnoreCase("Credit") || tenderLineEntity.getTenderName().equalsIgnoreCase("COD")) {
+                    tenderLineEntity.setMobileNo("");
+                    tenderLineEntitieList.add(tenderLineEntity);
+                } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("SMS PAY")) {
+                    tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
+                    tenderLineEntitieList.add(tenderLineEntity);
+                } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("HDFC PAYMENT")) {
+                    tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
+                    tenderLineEntitieList.add(tenderLineEntity);
                 }
-                posTransactionRes.setTrackingRef(getMvpView().getPrgTracking());
-                posTransactionRes.setTenderLine(tenderLineEntitieList);
+
+            }
+            posTransactionRes.setTrackingRef(getMvpView().getPrgTracking());
+            posTransactionRes.setTenderLine(tenderLineEntitieList);
 //            calculatePosTransactionResData = posTransactionRes;
 
-                //  Gson gson=new Gson();
-                //   String json=gson.toJson(posTransactionRes);
-                //  System.out.println("void data"+json);
+            //  Gson gson=new Gson();
+            //   String json=gson.toJson(posTransactionRes);
+            //  System.out.println("void data"+json);
 
-                Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);
+            Call<SaveRetailsTransactionRes> call = api.SAVE_RETAILS_TRANSACTION_RES_CALL(posTransactionRes);
 
-                call.enqueue(new Callback<SaveRetailsTransactionRes>() {
-                    @Override
-                    public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
-                        if (response.isSuccessful()) {
-                            //Dismiss Dialog
-                            getMvpView().hideLoading();
-                            if (response.isSuccessful() && response.body() != null)
-                                getMvpView().onSuccessSaveRetailTransaction(response.body());
-                            else
-                                getMvpView().onFailedSaveRetailsTransaction(response.body());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Throwable t) {
+            call.enqueue(new Callback<SaveRetailsTransactionRes>() {
+                @Override
+                public void onResponse(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Response<SaveRetailsTransactionRes> response) {
+                    if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        handleApiError(t);
+                        if (response.isSuccessful() && response.body() != null)
+                            getMvpView().onSuccessSaveRetailTransaction(response.body());
+                        else
+                            getMvpView().onFailedSaveRetailsTransaction(response.body());
                     }
-                });
-            } else {
-                getMvpView().onError("Internet Connection Not Available");
-            }
-//        } else {
-//            Dialog dialog = new Dialog(getMvpView().getContext(), R.style.Theme_AppCompat_DayNight_NoActionBar);
-//            DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getMvpView().getContext()), R.layout.dialog_cancel, null, false);
-//            dialogCancelBinding.dialogMessage.setText("Reference not available please clear transaction and do again!....");
-//            dialog.setContentView(dialogCancelBinding.getRoot());
-//            dialog.setCancelable(false);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            dialog.show();
-//            dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
-//            dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
-//                if (getGlobalConfiguration().getMPOSVersion().equals("2")) {
-//                    Intent intent = new Intent(getMvpView().getContext(), PickerNavigationActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    intent.putExtra("FRAGMENT_NAME", "BILLER");
-//                    intent.putExtra("EXIT", true);
-//                    getMvpView().getContext().startActivity(intent);
-////                getMvpView().getContext().overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-//                } else {
-//                    onClickBackPressed();
-//                }
-//                dialog.dismiss();
-//                dialog.dismiss();
-//            });
-//            dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
-//        }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<SaveRetailsTransactionRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 
     // Generate TenderLine Request Formation
@@ -3676,4 +3771,113 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         }
         return paymentVoidReq;
     }
+
+    @Override
+    public void getPostOnlineOrderApiCall(EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, SaveRetailsTransactionRes saveRetailsTransactionRes, CustomerDataResBean customerDataResBean) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+
+            GetPostOnlineOrderApiRequest getPostOnlineOrderApiRequest = new GetPostOnlineOrderApiRequest();
+            getPostOnlineOrderApiRequest.setOnlineOfferID(ePrescriptionModelClassResponse.getOnlineOfferID());
+            getPostOnlineOrderApiRequest.setISPreEnqiryRequired(ePrescriptionModelClassResponse.getISPreEnqiryRequired());
+            getPostOnlineOrderApiRequest.setISAddItem(ePrescriptionModelClassResponse.getISAddItem());
+            getPostOnlineOrderApiRequest.setISDecreaseQty(ePrescriptionModelClassResponse.getISDecreaseQty());
+            getPostOnlineOrderApiRequest.setISRemoveLine(ePrescriptionModelClassResponse.getISRemoveLine());
+            getPostOnlineOrderApiRequest.setIsSTKFulFillment(ePrescriptionModelClassResponse.getIsSTKFulFillment());
+            getPostOnlineOrderApiRequest.setCorpCode(ePrescriptionModelClassResponse.getCorpCode());
+
+            GetPostOnlineOrderApiRequest.RequestData requestData = new GetPostOnlineOrderApiRequest.RequestData();
+            requestData.setCorpCode(ePrescriptionModelClassResponse.getCorpCode());
+            requestData.setTrackingRef(saveRetailsTransactionRes.getTrackingRef());
+            requestData.setUrl("http://10.4.14.4:83/PosInterface.svc/PREBILLING");// Need clarify
+            requestData.setOrderNo(saveRetailsTransactionRes.getTrackingRef());// Need clarify
+            requestData.setSiteId(ePrescriptionModelClassResponse.getShopId());
+            requestData.setVendorOrderno(ePrescriptionModelClassResponse.getAtmNo());// Need clarify
+            requestData.setPaymentMode("COD");
+            requestData.setAtmNO(ePrescriptionModelClassResponse.getAtmNo());
+            requestData.setDocnum("");
+            requestData.setRemarks("");
+            requestData.setRequestType("BILLUPDATE");//Need clarify
+            requestData.setOtp("");
+            requestData.setVendorName("BHEL");//Need clarify
+            requestData.setDoctorName(ePrescriptionModelClassResponse.getDoctorName());
+
+            GetPostOnlineOrderApiRequest.BillDetails billDetails = new GetPostOnlineOrderApiRequest.BillDetails();
+            billDetails.setEmpID("");
+            billDetails.setBillDateTime(saveRetailsTransactionRes.getTransDate());
+            billDetails.setBillNumber(saveRetailsTransactionRes.getReciptId());
+            billDetails.setBilledBy(getDataManager().getUserName());
+            billDetails.setInvoiceValue(saveRetailsTransactionRes.getTotalMRP());// Need clarify
+            billDetails.setCashValue(saveRetailsTransactionRes.getTotalMRP());// Need clarify
+            billDetails.setCreditValue(0);// Need clarify
+            billDetails.setCodValue(0);// Need clarify
+            requestData.setBillDetails(billDetails);
+
+            List<GetPostOnlineOrderApiRequest.ItemDetail> itemDetailList = new ArrayList<>();
+            GetPostOnlineOrderApiRequest.ItemDetail itemDetail = new GetPostOnlineOrderApiRequest.ItemDetail();
+            for (SaveRetailsTransactionRes.SalesLineEntity salesLineEntity : saveRetailsTransactionRes.getSalesLine()) {
+                itemDetail.setPosItemId(salesLineEntity.getItemId());
+                itemDetail.setItemId(salesLineEntity.getItemId());
+                itemDetail.setItemName(salesLineEntity.getItemName());
+                itemDetail.setBatchId(salesLineEntity.getInventBatchId());
+                itemDetail.setReqQty(salesLineEntity.getQty());
+                itemDetail.setIssuedQty(salesLineEntity.getQty());// Need clarify
+                itemDetail.setMrp(salesLineEntity.getMRP());
+                itemDetail.setDiscountMRP(salesLineEntity.getDiscAmount());
+                itemDetail.setLineAmount((int) (salesLineEntity.getQty() * salesLineEntity.getMRP()));// Need clarify
+                itemDetail.setLineAmountWithDiscount((double) (salesLineEntity.getQty() * salesLineEntity.getDiscAmount()));// Need clarify
+                itemDetail.setStatus(false);// Need clarify
+                itemDetail.setIsSubstitute(false);// Need clarify
+                List<GetPostOnlineOrderApiRequest.Substitute> substituteList = new ArrayList<>();
+                GetPostOnlineOrderApiRequest.Substitute substitute = new GetPostOnlineOrderApiRequest.Substitute();
+                for (SalesLineEntity salesLine : customerDataResBean.getSalesLine()) {
+                    if (salesLine.getItemId().equalsIgnoreCase(salesLineEntity.getItemId())) {
+                        substitute.setSubstituteItemID(salesLine.getSubstitudeItemId());
+                        substitute.setSubstituteItemName("");
+                        substitute.setSubstituteBatchId("");
+                        substitute.setIssuedQty(0);
+                        substituteList.add(substitute);
+                        break;
+                    }
+                }
+
+
+                itemDetail.setSubstitute(substituteList);
+                itemDetailList.add(itemDetail);
+
+            }
+
+            requestData.setItemDetails(itemDetailList);
+
+            getPostOnlineOrderApiRequest.setRequestData(requestData);
+
+            Call<GetPostOnlineOrderApiResponse> call = api.GET_POST_ONLINE_ORDER_API_CALL(getPostOnlineOrderApiRequest);
+
+            call.enqueue(new Callback<GetPostOnlineOrderApiResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<GetPostOnlineOrderApiResponse> call, @NotNull Response<GetPostOnlineOrderApiResponse> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null)
+                            getMvpView().onSuccessGetPostOnlineOrderApi(response.body());
+                        else
+                            getMvpView().onFailedGetPostOnlineOrderApi(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetPostOnlineOrderApiResponse> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
 }

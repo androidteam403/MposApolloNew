@@ -3,7 +3,6 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescri
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
@@ -64,8 +63,10 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
         holder.adapterEprescriptionMedicinedetailsVtwoBinding.mrp.setText("₹" + String.valueOf(filteredMedicineList.get(position).getPackMrp()));
         if (medicineResponse.getReqQty() != 0) {
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText((String.valueOf(medicineResponse.getReqQty())));
+            medicineResponse.setReqQty(medicineResponse.getReqQty());
         } else {
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+            medicineResponse.setReqQty(Integer.valueOf(medicineResponse.getQty()));
         }
 
 
@@ -83,11 +84,11 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString() != null && !editable.toString().isEmpty()) {
-                    if(dialog!=null && dialog.isShowing()){
+                    if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
                     if (Integer.parseInt(editable.toString()) == 0) {
-                         dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("Please enter valid qty");
@@ -108,7 +109,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
 //
                     } else if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                        dialog= new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required qty");
@@ -129,7 +130,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
 //                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                     } else if (Integer.parseInt(editable.toString()) < Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                         dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("You have entered less than required qty");
