@@ -43,6 +43,25 @@
             android:text="@string/label_continue"
             android:textAllCaps="true"
             android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/logout_btn"
+            android:layout_width="@dimen/dimen100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimen10dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:background="@drawable/rounded_corners"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:onClick="@{()-> callback.onClickLogout()}"
+            android:paddingStart="@dimen/ten_dp"
+            android:paddingTop="@dimen/three_dp"
+            android:paddingEnd="@dimen/ten_dp"
+            android:paddingBottom="@dimen/three_dp"
+            android:text="Logout"
+            android:textColor="@color/black" />
+
     </LinearLayout>
 
     <data>

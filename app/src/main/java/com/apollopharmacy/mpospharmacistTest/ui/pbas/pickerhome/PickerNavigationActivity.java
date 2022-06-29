@@ -1,36 +1,30 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityNavigation3PBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -39,9 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class PickerNavigationActivity extends BaseActivity implements PickerNavigationMvpView {
 
@@ -110,30 +101,30 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         if (fragmentName != null) {
             decideFragment(fragmentName);
         }
-//        activityNavigation3Binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                if (mAppBarConfiguration.getDrawerLayout() != null) {
-//                    mAppBarConfiguration.getDrawerLayout().closeDrawers();
-//                }
-//
-//                System.out.println("openscren status--->" + menuItem.getItemId());
-////                if (menuItem.getItemId() == R.id.nav_dashboard) {
-////                    navController.navigate(R.id.nav_dashboard, null, navOptions, null);
-////                } else
-//                if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
+        activityNavigation3Binding.navView.setNavigationItemSelectedListener(menuItem -> {
+            if (mAppBarConfiguration.getDrawerLayout() != null) {
+                mAppBarConfiguration.getDrawerLayout().closeDrawers();
+            }
+
+            System.out.println("openscren status--->" + menuItem.getItemId());
+//                if (menuItem.getItemId() == R.id.nav_dashboard) {
+//                    navController.navigate(R.id.nav_dashboard, null, navOptions, null);
+//                } else
+            if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
-//                    navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
-//                } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
+                navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
+                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.VISIBLE);
+            } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
-//                    navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
-//                } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
+                navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
+            } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
-//                    navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
-//                }
-//                return true;
-//            }
-//        });
+                navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
+            }
+            return true;
+        });
 
         activityNavigation3Binding.appBarMain.icFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +139,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 logoutDialog();
             }
         });
+        stockAvailable();
     }
 
     private void decideFragment(String fragmentName) {
@@ -172,61 +164,72 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         activityNavigation3Binding.appBarMain.title.setText(tittle);
     }
 
+    public void stockAvailable() {
+        activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (pickerNavigationActivityCallback != null) {
+                    pickerNavigationActivityCallback.onClickStockAvailable(b);
+                }
+            }
+        });
+    }
+
     public void setStock(String stock) {
-        RecyclerView recyclerView = findViewById(R.id.fullfilment_recycler);
-
-        activityNavigation3Binding.appBarMain.stock.setText(stock);
-        activityNavigation3Binding.appBarMain.stocknew.setText(stock);
-        activityNavigation3Binding.appBarMain.stock.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                activityNavigation3Binding.appBarMain.stocknew.setVisibility(VISIBLE);
-                activityNavigation3Binding.appBarMain.stock.setVisibility(GONE);
-                pickerNavigationActivityCallback.onItemClick();
-
-//                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
-//                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
-//                    if (mPresenter.getTotalOmsHeaderList().get(i).getStockStatus().equalsIgnoreCase("Stock available")) {
-//                        omsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
-//                    }
-//                }
-////                omsHeaderList = mPresenter.getTotalOmsHeaderList();
-////                activityNavigation3Binding.appBarMain.stock.setTextColor(R.color.black);
-//                pickerNavigationActivityCallback.onItemClick();
-//                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), omsHeaderList, PickerNavigationActivity.this, null);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                recyclerView.setLayoutManager(mLayoutManager);
-//                recyclerView.setAdapter(fullfilmentAdapter);
-//                fullfilmentAdapter.notifyDataSetChanged();
-//            }
-
-
-            }
-        });
-
-
-        activityNavigation3Binding.appBarMain.stocknew.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activityNavigation3Binding.appBarMain.stocknew.setVisibility(GONE);
-                activityNavigation3Binding.appBarMain.stock.setVisibility(VISIBLE);
-
-                List<TransactionHeaderResponse.OMSHeader> newomsHeaderList = new ArrayList<>();
-//                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
-//                    if (!mPresenter.getTotalOmsHeaderList().get(i).getOrderPickup()) {
-//                        newomsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
-//                    }
-//                }
+//        RecyclerView recyclerView = findViewById(R.id.fullfilment_recycler);
 //
-//                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), newomsHeaderList, PickerNavigationActivity.this, null);
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                recyclerView.setLayoutManager(mLayoutManager);
-//                recyclerView.setAdapter(fullfilmentAdapter);
-//                fullfilmentAdapter.notifyDataSetChanged();
-
-            }
-        });
+//        activityNavigation3Binding.appBarMain.stock.setText(stock);
+//        activityNavigation3Binding.appBarMain.stocknew.setText(stock);
+//        activityNavigation3Binding.appBarMain.stock.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("ResourceAsColor")
+//            @Override
+//            public void onClick(View v) {
+//                activityNavigation3Binding.appBarMain.stocknew.setVisibility(VISIBLE);
+//                activityNavigation3Binding.appBarMain.stock.setVisibility(GONE);
+//                pickerNavigationActivityCallback.onItemClick();
+//
+////                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+////                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+////                    if (mPresenter.getTotalOmsHeaderList().get(i).getStockStatus().equalsIgnoreCase("Stock available")) {
+////                        omsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
+////                    }
+////                }
+//////                omsHeaderList = mPresenter.getTotalOmsHeaderList();
+//////                activityNavigation3Binding.appBarMain.stock.setTextColor(R.color.black);
+////                pickerNavigationActivityCallback.onItemClick();
+////                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), omsHeaderList, PickerNavigationActivity.this, null);
+////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+////                recyclerView.setLayoutManager(mLayoutManager);
+////                recyclerView.setAdapter(fullfilmentAdapter);
+////                fullfilmentAdapter.notifyDataSetChanged();
+////            }
+//
+//
+//            }
+//        });
+//
+//
+//        activityNavigation3Binding.appBarMain.stocknew.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                activityNavigation3Binding.appBarMain.stocknew.setVisibility(GONE);
+//                activityNavigation3Binding.appBarMain.stock.setVisibility(VISIBLE);
+//
+//                List<TransactionHeaderResponse.OMSHeader> newomsHeaderList = new ArrayList<>();
+////                for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+////                    if (!mPresenter.getTotalOmsHeaderList().get(i).getOrderPickup()) {
+////                        newomsHeaderList.add(mPresenter.getTotalOmsHeaderList().get(i));
+////                    }
+////                }
+////
+////                FullfilmentAdapter fullfilmentAdapter = new FullfilmentAdapter(getApplicationContext(), newomsHeaderList, PickerNavigationActivity.this, null);
+////                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+////                recyclerView.setLayoutManager(mLayoutManager);
+////                recyclerView.setAdapter(fullfilmentAdapter);
+////                fullfilmentAdapter.notifyDataSetChanged();
+//
+//            }
+//        });
 
 
     }
@@ -241,10 +244,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         dialogView.setSubtitle("Are you sure want to logout the application ?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setPositiveListener(view -> {
-
             mPresenter.logoutUser();
-
-
         });
         dialogView.setNegativeLabel("No");
         dialogView.setNegativeListener(v -> dialogView.dismiss());
@@ -282,8 +282,6 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
-
-
     }
 
 
@@ -338,6 +336,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onItemClick();
 
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
+
+        void onClickStockAvailable(boolean isStockAvailableChecked);
     }
 
     @Override

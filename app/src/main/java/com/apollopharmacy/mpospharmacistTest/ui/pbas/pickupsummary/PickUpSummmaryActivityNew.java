@@ -204,9 +204,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
             dialogView.show();}
         else {
-
             generatecode(omsHeader.getRefno());
-
         }
     }
 
@@ -216,7 +214,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
         count++;
         if (count == omsOrderForwardRequests.size()) {
-            generatebarcode(selectedOmsHeaderList);
+//            generatebarcode(selectedOmsHeaderList);
             mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
         }
     }

@@ -68,4 +68,8 @@ public interface OrderDetailsScreenMvpView extends MvpView {
     void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String mposOrderUpdateRequestType);
 
     void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
+
+    void onClickSendtoPacker();
+
+    void onClickContinueBill();
 }

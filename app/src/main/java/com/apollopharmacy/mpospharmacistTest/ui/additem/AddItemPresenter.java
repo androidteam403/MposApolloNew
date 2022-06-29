@@ -1616,7 +1616,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
         if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
             for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
-                if (tenderTypeEntity.getTender().equalsIgnoreCase("Pay through QR Code")) {
+                if (tenderTypeEntity.getTender().equalsIgnoreCase("Pay through QR Code")  || tenderTypeEntity.getTender().equalsIgnoreCase("QR Code") ) {
                     walletServiceReq.setWalletType(Integer.parseInt(tenderTypeEntity.getTenderTypeId()));
                     walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
                     tenderurl = tenderTypeEntity.getTenderURL();
@@ -2310,6 +2310,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     PhonepeQrPaymentDialog phonepeQrPaymentDialog;
 
     private void showWalletPhonepeQrcodePaymentDialog(String title, boolean isEnableGenerateOtp, WalletServiceReq walletServiceReq, String tenderurl) {
+//        String tenderurl = "";
+//        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType() != null) {
+//            for (GetTenderTypeRes._TenderTypeEntity typeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+//                if (typeEntity.getTender().equalsIgnoreCase("QR Code")) {
+//                    tenderurl = typeEntity.getTenderURL();
+//                }
+//            }
+//        }
         phonepeQrPaymentDialog = new PhonepeQrPaymentDialog(getMvpView().getContext());
         // phonepeQrPaymentDialog.setTitle(title);
         //  walletPaymentDialog.setEnableGenerateOTP(isEnableGenerateOtp);
@@ -2438,7 +2446,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                             walletServiceReq.setWalletRequestType(5);
                                             Constant.getInstance().PhonepeQrcode_transactionid = (String) response.body().getProviderReferenceId();
                                             walletServiceReq.setWalletOrderID((String) response.body().getProviderReferenceId());
-                                            generateWalletOTP(walletServiceReq);
+//                                            generateWalletOTP(walletServiceReq);
+                                            generateTenterLineService(phonepeQrPaymentDialog.getWalletAmount(), null);
                                             phonepeQrPaymentDialog.dismiss();
 
                                         } else {
@@ -2618,7 +2627,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
             List<TenderLineEntity> tenderLineEntitieList = new ArrayList<>();
             for (TenderLineEntity tenderLineEntity : posTransactionRes.getTenderLine()) {
-                if (tenderLineEntity.getTenderName().equalsIgnoreCase("PhonePe") || tenderLineEntity.getTenderName().equalsIgnoreCase("PAYTM") || tenderLineEntity.getTenderName().equalsIgnoreCase("Airtel") || tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                if (tenderLineEntity.getTenderName().equalsIgnoreCase("PhonePe") || tenderLineEntity.getTenderName().equalsIgnoreCase("PAYTM") || tenderLineEntity.getTenderName().equalsIgnoreCase("Airtel") || tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code") || tenderLineEntity.getTenderName().equalsIgnoreCase("QR Code")) {
                     tenderLineEntity.setMobileNo(tenderLineEntity.getMobileNo());
                     tenderLineEntitieList.add(tenderLineEntity);
                 } else if (tenderLineEntity.getTenderName().equalsIgnoreCase("Cash") || tenderLineEntity.getTenderName().equalsIgnoreCase("card") || tenderLineEntity.getTenderName().equalsIgnoreCase("gift") || tenderLineEntity.getTenderName().equalsIgnoreCase("Credit") || tenderLineEntity.getTenderName().equalsIgnoreCase("COD")) {
@@ -2767,7 +2776,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
                     }
                 } else if (getMvpView().getPaymentMethod().isPhonePeQrMode()) {
-                    if (tenderTypeEntity.getTender().equalsIgnoreCase("Pay through QR Code")) {
+                    if (tenderTypeEntity.getTender().equalsIgnoreCase("Pay through QR Code") || tenderTypeEntity.getTender().equalsIgnoreCase("QR Code")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
                         typeEntity.setTenderCombinationType(tenderTypeEntity.getTenderCombinationType());
                         typeEntity.setTenderLimit(tenderTypeEntity.getTenderLimit());
@@ -2776,7 +2785,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         typeEntity.setRoundingMethod(tenderTypeEntity.getRoundingMethod());
                         typeEntity.setTenderURL(tenderTypeEntity.getTenderURL());
                     }
-
                 } else if (getMvpView().getPaymentMethod().isPaytmMode()) {
                     if (tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")) {
                         typeEntity.setTender(tenderTypeEntity.getTender());
@@ -3128,7 +3136,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     typeEntity().getTender().equalsIgnoreCase("gift") || typeEntity().getTender().equalsIgnoreCase("Credit")) {
                 wallet.setMobileNo("");
             } else if (typeEntity().getTender().equalsIgnoreCase("PhonePe") || typeEntity().getTender().equalsIgnoreCase("PAYTM") ||
-                    typeEntity().getTender().equalsIgnoreCase("Airtel") || typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
+                    typeEntity().getTender().equalsIgnoreCase("Airtel") || typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code")) {
                 wallet.setMobileNo(walletServiceRes.getMobileNo());
 
             } else if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
@@ -3160,7 +3168,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-            } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
+            } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")  || typeEntity().getTender().equalsIgnoreCase("QR Code") ) {
                 wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + getMvpView().getTransactionModule().getTransactionID() + String.valueOf(minutes) + String.valueOf(seconds));
                 wallet.setWalletOrderID(Constant.getInstance().PhonepeQrcode_transactionid);
             }
@@ -3169,7 +3177,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     typeEntity().getTender().equalsIgnoreCase("gift") || typeEntity().getTender().equalsIgnoreCase("Credit")) {
                 wallet.setMobileNo("");
             } else if (typeEntity().getTender().equalsIgnoreCase("PhonePe") || typeEntity().getTender().equalsIgnoreCase("PAYTM") ||
-                    typeEntity().getTender().equalsIgnoreCase("Airtel") || typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
+                    typeEntity().getTender().equalsIgnoreCase("Airtel") || typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code") ) {
                 wallet.setMobileNo(getMvpView().getCustomerModule().getMobileNo());
             } else if (typeEntity().getTender().equalsIgnoreCase("SMS PAY")) {
                 wallet.setMobileNo(smsPaymentDialog.getWalletMobileNumber());
@@ -3196,7 +3204,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-            } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
+            } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code") ) {
                 wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + getMvpView().getTransactionModule().getTransactionID() + String.valueOf(minutes) + String.valueOf(seconds));
                 wallet.setWalletOrderID(Constant.getInstance().PhonepeQrcode_transactionid);
             } else {
@@ -3213,7 +3221,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + smsPaymentDialog.getTransactionId());
             wallet.setWalletOrderID(getMvpView().getGetSMSPayAPIResponse().getPaytmId());
         }
-        if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code")) {
+        if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code") ) {
             wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + getMvpView().getTransactionModule().getTransactionID() + String.valueOf(minutes) + String.valueOf(seconds));
             wallet.setWalletOrderID(Constant.getInstance().PhonepeQrcode_transactionid);
         }

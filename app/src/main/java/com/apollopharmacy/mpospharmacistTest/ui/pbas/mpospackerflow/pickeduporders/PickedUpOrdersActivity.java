@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -586,14 +585,6 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         }
     }
 
-    public void recyclerView() {
-        pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
-        activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
-        activityPickedUpOrdersBinding.fullfilmentRecycler.setAdapter(pickedUpOrdersAdapter);
-    }
-
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
@@ -725,6 +716,11 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //                    break;
 //            }
 //        }
+    }
+
+    @Override
+    public void onClickStockAvailable(boolean isStockAvailableChecked) {
+
     }
 
 

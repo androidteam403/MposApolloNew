@@ -187,4 +187,9 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void onClickBack() {
         getMvpView().onClickBack();
     }
+
+    @Override
+    public void onClickNotAvailableBtn() {
+        getMvpView().onClickNotAvailableBtn();
+    }
 }

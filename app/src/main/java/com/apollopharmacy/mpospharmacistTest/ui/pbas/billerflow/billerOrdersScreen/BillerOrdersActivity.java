@@ -587,4 +587,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    @Override
+    public void onClickStockAvailable(boolean isStockAvailableChecked) {
+
+    }
 }

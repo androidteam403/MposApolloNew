@@ -99,7 +99,6 @@
                         android:fontFamily="@font/roboto_regular"
                         android:imeOptions="actionDone"
                         android:inputType="text"
-                        android:text="Apollo@1234"
                         android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 

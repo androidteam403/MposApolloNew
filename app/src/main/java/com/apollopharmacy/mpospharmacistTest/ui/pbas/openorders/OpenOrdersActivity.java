@@ -810,6 +810,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    @Override
+    public void onClickStockAvailable(boolean isStockAvailableChecked) {
+        if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size() > 0) {
+            for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+                if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+                    if (isStockAvailableChecked) {
+                        stockAvailabilityFilterList.get(i).setSelected(true);
+                    } else {
+                        stockAvailabilityFilterList.get(i).setSelected(false);
+                    }
+                    applyOrderFilters();
+                    break;
+                }
+            }
+        }
+    }
+
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             openOrdersBinding.selectedFullfillment.setText("Selected fulfilment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());

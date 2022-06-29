@@ -7,8 +7,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 
-import java.util.List;
-
 public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpView> extends MvpPresenter<V> {
 
     void onMinusCustomerDetails();
@@ -52,5 +50,9 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onClickProceedAction();
 
     void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
+
+    void onClickSendtoPacker();
+
+    void onClickContinueBill();
 
 }

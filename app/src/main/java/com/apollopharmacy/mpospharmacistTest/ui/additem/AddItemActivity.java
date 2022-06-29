@@ -225,6 +225,21 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    public static Intent getStartIntent(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, TransactionIDResModel transactionIDResModel, boolean is_omsorder, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, boolean isCameFromOrderDetailsScreenActivity) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("sales_list_data", salesLineEntities);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("orderinfo_item", orderinfoitem);
+        intent.putExtra("customerbean_info", customerDataResBean);
+        intent.putExtra("transaction_id", transactionIDResModel);
+        intent.putExtra("is_omsorder", is_omsorder);
+        intent.putExtra("corporate_info", item);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", isCameFromOrderDetailsScreenActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
     public static Intent getStartIntent(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, TransactionIDResModel transactionIDResModel, boolean is_omsorder, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("sales_list_data", salesLineEntities);
@@ -499,6 +514,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
 
         //mPresenter.calculatePosTransaction();
+        if (getIntent() != null) {
+            Boolean isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                onPayButtonClick();
+            }
+        }
     }
 
     @Override
@@ -1794,7 +1815,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             payAdapterModel.setCrossDis(1);
                         }
                     }
-                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                    if (tenderLineEntity.getTenderName().equalsIgnoreCase("Pay through QR Code") || tenderLineEntity.getTenderName().equalsIgnoreCase("QR Code")) {
                         if (getItemsCount() > 0) {
                             payAdapterModel.setCrossDis(1);
                         }
@@ -1929,7 +1950,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             if (calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PhonePe") ||
                     calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PAYTM") ||
                     calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Airtel") ||
-                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
+                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("QR Code")) {
                 arrPayAdapterModel.get(amountPosition).setCrossDis(1);
             }
             List<TenderLineEntity> tenderLineEntities = new ArrayList<>();
@@ -1969,7 +1991,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PhonePe") ||
                 calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PAYTM") ||
                 calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Airtel") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
+                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("QR Code")) {
             methodCalling = true;
             amounttoAdd = false;
             amountPosition = pos;
@@ -1985,6 +2008,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 wallet.setWalletType(2);
             } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
                 phonepay = "Pay through QR Code";
+                wallet.setWalletType(5);
+            } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("QR Code")) {
+                phonepay = "QR Code";
                 wallet.setWalletType(5);
             }
 
@@ -2063,7 +2089,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
+                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
+                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code") ) {
             methodCalling = true;
             amounttoAdd = true;
             amountPosition = position;
@@ -2079,6 +2106,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 wallet.setWalletType(2);
             } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
                 phonepay = "Pay through QR Code";
+                wallet.setWalletType(5);
+            }else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")){
+                phonepay = "QR Code";
                 wallet.setWalletType(5);
             }
             wallet.setMobileNo(calculatePosTransactionRes.getTenderLine().get(position).getMobileNo());
