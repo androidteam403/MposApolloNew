@@ -1373,6 +1373,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
                 paymentMethodModel.setCodPayMode(false);
+
                 addItemBinding.cashPaymentAmountEdit.setText(String.format("%.2f", (orderRemainingAmount())));
             }
         } else {

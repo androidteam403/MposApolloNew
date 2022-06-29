@@ -48,6 +48,13 @@
         android:label="@string/menu_manual_billing"
         tools:layout="@layout/fragment_manual_billing" />
 
+
+    <fragment
+        android:id="@+id/nav_ePrescription_vOne"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"
+        tools:layout="@layout/activity_e_prescription2"
+        android:label="E-Prescription"/>
+
   <fragment
         android:id="@+id/nav_eprescription"
         android:name="com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
@@ -78,10 +85,5 @@
         android:label="@string/menu_connect_barcodeprinter"
         tools:layout="@layout/activity_bluetooth_search" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_ePrescription_vOne"-->
-<!--        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"-->
-<!--        tools:layout="@layout/activity_e_prescription2"-->
-<!--        android:label="E-Prescription"/>-->
 
 </navigation>

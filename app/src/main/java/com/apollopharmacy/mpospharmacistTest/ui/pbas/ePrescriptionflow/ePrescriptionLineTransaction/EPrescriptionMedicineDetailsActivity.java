@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -30,7 +31,21 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescrip
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -231,9 +246,13 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
             }
         });
 
+
+
+
         detailsBinding.continueBillingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 String sub = "";
                 for (EPrescriptionMedicineResponse ePrescriptionMedicineResponse : medicineResponseList) {
@@ -506,6 +525,11 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 
 
     }
+
+
+
+
+
 
     List<EPrescriptionMedicineResponse> medicineResponseList;
 
