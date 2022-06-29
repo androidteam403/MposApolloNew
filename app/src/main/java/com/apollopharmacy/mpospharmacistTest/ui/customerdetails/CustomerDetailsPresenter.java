@@ -100,6 +100,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                         customerEntity.setAvailablePoints(response.body().get_Customer().get(i).getAvailablePoints());
                                         customerEntity.setTier(response.body().get_Customer().get(i).getTier());
                                         customerEntity.setCorpId(getDataManager().getGlobalJson().getCircleplanCorpCode());
+                                        customerEntity.setExistingCustomerOrNot(true);
                                         //Log.d("Corporate code-->",customerEntity.getCorpId());
                                         customerEntities.add(customerEntity);
                                         customerResponse.set_Customer(customerEntities);
@@ -197,6 +198,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                         entity.setCustActiveStatus(custdata.get_Customer().get(i).getCustActiveStatus());
                                         entity.setCustId(custdata.get_Customer().get(i).getCustId());
                                         entity.setTelephoneNo(custdata.get_Customer().get(i).getTelephoneNo());
+                                        entity.setExistingCustomerOrNot(true);
                                         customerEntities.add(entity);
                                     }
                                     if (custdata.get_Customer().size() == 0) {
