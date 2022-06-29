@@ -56,7 +56,8 @@
         <item
             android:id="@+id/nav_exit_kiosk"
             android:icon="@drawable/ic_menu_manual_billing"
-            android:title="@string/menu_exit_kiosk" />
+            android:title="@string/menu_exit_kiosk"
+            android:visible="false"/>
 
         <item
             android:id="@+id/nav_digitalsignage_screen_exit"

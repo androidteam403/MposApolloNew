@@ -219,10 +219,10 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                     // Constant.getInstance().Orders_type = "Invoice";
                 }
 
-                else if(menuItem.getItemId() == R.id.nav_ePrescription_vOne){
-                    navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
-                    Constant.getInstance().Orders_type = "E-Prescription";
-                }
+//                else if(menuItem.getItemId() == R.id.nav_ePrescription_vOne){
+//                    navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
+//                    Constant.getInstance().Orders_type = "E-Prescription";
+//                }
                 /*else if (menuItem.getItemId() == R.id.nav_exit_kiosk) {
                     KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this, mvpPresenter);
                     adminPwdDialog.setPositiveClickListener(new KioskExitClickListener() {
@@ -266,19 +266,20 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
     private void hideItem(GetGlobalConfingRes getGlobalConfingRes) {
         Menu nav_Menu = navigationView.getMenu();
-        if (getGlobalConfingRes != null) {
-            if (getGlobalConfingRes.isISHBPStore()) {
-                nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
-                nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
-                nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
-                nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
-            } else {
-                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
-            }
-        }
+//        if (getGlobalConfingRes != null) {
+//            if (getGlobalConfingRes.isISHBPStore()) {
+        nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+        nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(true);
+//            } else {
+//                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
+//            }
+//        }
     }
 
     public void navigateprinterscreen() {

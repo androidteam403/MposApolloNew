@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <RelativeLayout
@@ -748,6 +749,45 @@
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen45dp"
+                android:layout_margin="@dimen/dimen5dp"
+                android:layout_weight=".5"
+                android:background="@drawable/red_ripple_btn_bg"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickSendtoPacker()}"
+                android:padding="@dimen/seven_dp"
+                android:text="send to Packer"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen45dp"
+                android:layout_weight=".5"
+                android:background="@drawable/btn_signin_ripple_effect"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickContinueBill()}"
+                android:padding="@dimen/seven_dp"
+                android:text="Continue Bill"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/actions"
             android:layout_width="match_parent"
@@ -760,7 +800,8 @@
             android:padding="@dimen/seven_dp"
             android:text="Actions"
             android:textAllCaps="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <data>

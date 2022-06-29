@@ -565,6 +565,13 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     }
 
     @Override
+    public void onItemClick() {
+
+    }
+
+
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -579,5 +586,10 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onClickStockAvailable(boolean isStockAvailableChecked) {
+
     }
 }

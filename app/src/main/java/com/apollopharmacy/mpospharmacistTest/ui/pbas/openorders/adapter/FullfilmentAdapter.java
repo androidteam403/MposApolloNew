@@ -55,10 +55,16 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+
+
+
+
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
-        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
-        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+
+            holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+            holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+            holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+
 
         if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
             FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());

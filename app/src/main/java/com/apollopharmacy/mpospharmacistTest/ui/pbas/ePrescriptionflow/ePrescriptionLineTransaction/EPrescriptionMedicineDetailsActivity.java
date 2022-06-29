@@ -288,7 +288,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     customerDataResBean.setHCOfferCode("");
                     customerDataResBean.setDiscountStatus(0);
                     customerDataResBean.setDiscountReferenceID("");
-                    customerDataResBean.setISOnlineOrder(false);
+                    customerDataResBean.setISOnlineOrder(true);
                     customerDataResBean.setISCancelled(false);
                     customerDataResBean.setISReserved(false);
                     customerDataResBean.setVendorCode("");
@@ -739,8 +739,9 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         boolean is_onlineOrder = true;
         orderInfoItem.setREFNO(prescriptionLineList.get(this.position).getPrescriptionNo());
         customerDataResBean_pass.setISOnlineOrder(true);
-        startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+        startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_onlineOrder, item, doctorentyty, prescriptionLineList.get(this.position), medicineResponseList), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 
     @Override

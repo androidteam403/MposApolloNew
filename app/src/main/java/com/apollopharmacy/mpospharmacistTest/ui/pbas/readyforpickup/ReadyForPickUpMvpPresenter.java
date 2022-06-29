@@ -18,6 +18,7 @@ public interface ReadyForPickUpMvpPresenter<V extends ReadyForPickUpMvpView> ext
     void onClickStartPickingWithoutQrCode();
 
     void onClickScanCode();
+    void onClickPrint();
 
     void mposPickPackOrderReservationApiCall(int requestStatus, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 }

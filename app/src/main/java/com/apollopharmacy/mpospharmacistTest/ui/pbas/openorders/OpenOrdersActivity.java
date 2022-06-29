@@ -37,6 +37,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +52,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private ActivityOpenOrdersPBinding openOrdersBinding;
     //    private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
     private FullfilmentAdapter fullfilmentAdapter;
-    public static  boolean isopenOrderActivity = false;
+    public static boolean isopenOrderActivity = false;
 
     private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList;
@@ -103,6 +105,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
+        PickerNavigationActivity.mInstance.setStock("Stock Available");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
@@ -122,7 +125,6 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
 
     }
-
 
 
     private void searchByFulfilmentId() {
@@ -202,7 +204,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        }
     }
 
-    public void recyclerView(){
+    public void recyclerView() {
+
+//        List<TransactionHeaderResponse.OMSHeader> newOmsHeaderList = new ArrayList<>();
+//        for (int j = 0; j < omsHeaderList.size(); j++) {
+//            if ( omsHeaderList.get(j).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")&&omsHeaderList.get(j).getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
+//                newOmsHeaderList.remove(omsHeaderList.get(j));
+//            }
+//        }
+
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -362,9 +372,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
             }
         }
+
+//        PickerNavigationActivity.mInstance.setStock("Stock available");
         PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
+
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -404,9 +417,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
-        customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
         dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
+        dialogFilterBinding.customerTypeFilter.setAdapter(stockAvailabilityFilterAdapter);
+
 
         orderTypeFilterAdapter = new FilterItemAdapter(getContext(), orderTypeFilterList);
         dialogFilterBinding.orderTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -424,9 +438,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         dialogFilterBinding.orderSourceFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
-        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
         dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
+        dialogFilterBinding.stockAvailableFilter.setAdapter(customerTypeFilterAdapter);
 
 
     }
@@ -440,12 +454,25 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 omsHeaderList.add(omsHeader.getOMSHeader().get(i));
             }
         }
-
+        Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+            @Override
+            public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                return -o1.getStockStatus().compareTo(o2.getStockStatus());
+            }
+        });
+//        Collections.sort(omsHeaderList, new Comparator<CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel>() {
+//            @Override
+//            public int compare(CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel o1, CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel o2) {
+//                return o1.getCategoryName().compareTo(o2.getCategoryName());
+//            }
+//        });
 
 //        omsHeaderList = omsHeader.getOMSHeader();
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+
+
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -585,6 +612,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
             omsHeaderList.get(getPos).setSelected(!omsHeaderList.get(getPos).isSelected());
             if (omsHeaderList.get(getPos).isSelected()) {
+
                 omsHeaderList.get(getPos).setGetOMSTransactionResponse(getOMSTransactionResponseList.get(0));
                 selectedOmsHeaderList.add(omsHeaderList.get(getPos));
             } else {
@@ -628,6 +656,33 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 
+    }
+
+    @Override
+    public void onStockAvailability() {
+
+        List<TransactionHeaderResponse.OMSHeader> filterList = new ArrayList<>();
+        for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+
+            if (!mPresenter.getTotalOmsHeaderList().get(i).getOrderPickup() && mPresenter.getTotalOmsHeaderList().get(i).getStockStatus().equalsIgnoreCase("stock available")) {
+                filterList.add(mPresenter.getTotalOmsHeaderList().get(i));
+            }
+
+
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+
+
+        }
+
+
+    }
+
+    @Override
+    public void onClickItem() {
+        onFullfillmentItemClick(getPos, itemPos);
     }
 
     @Override
@@ -755,6 +810,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    @Override
+    public void onClickStockAvailable(boolean isStockAvailableChecked) {
+        if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size() > 0) {
+            for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+                if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+                    if (isStockAvailableChecked) {
+                        stockAvailabilityFilterList.get(i).setSelected(true);
+                    } else {
+                        stockAvailabilityFilterList.get(i).setSelected(false);
+                    }
+                    applyOrderFilters();
+                    break;
+                }
+            }
+        }
+    }
+
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             openOrdersBinding.selectedFullfillment.setText("Selected fulfilment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
@@ -771,5 +843,28 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onClickFilters() {
         onClickFilterIcon();
+
+
     }
+
+    @Override
+    public void onItemClick() {
+        List<TransactionHeaderResponse.OMSHeader> filterList = new ArrayList<>();
+        for (int i = 0; i < mPresenter.getTotalOmsHeaderList().size(); i++) {
+
+            if (!mPresenter.getTotalOmsHeaderList().get(i).getOrderPickup() && mPresenter.getTotalOmsHeaderList().get(i).getStockStatus().equalsIgnoreCase("stock available")) {
+                filterList.add(mPresenter.getTotalOmsHeaderList().get(i));
+            }
+
+
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+
+
+        }
+    }
+
+
 }

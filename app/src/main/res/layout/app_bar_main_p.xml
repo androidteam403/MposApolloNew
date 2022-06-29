@@ -69,6 +69,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="12sp" />
                         </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -102,6 +103,16 @@
                         android:layout_marginEnd="@dimen/five_dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/stock_available_checkbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:buttonTint="@color/white"
+                            android:checked="false"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Stock Available" />
 
                         <ImageView
                             android:id="@+id/ic_filter"

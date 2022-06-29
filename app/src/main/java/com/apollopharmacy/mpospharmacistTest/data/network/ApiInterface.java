@@ -11,6 +11,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipC
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CouponDiscount;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
@@ -79,7 +81,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
@@ -406,4 +407,7 @@ public interface ApiInterface {
 
     @POST("http://online.apollopharmacy.org:51/EPOS/SalesTransactionService.svc/PrintReceipt")
     Call<PdfModelResponse> DOWNLOAD_PDF(@Body PdfModelRequest response);
+
+    @POST("WalletService.svc/GetPostOnlineOrderAPI")
+    Call<GetPostOnlineOrderApiResponse> GET_POST_ONLINE_ORDER_API_CALL(@Body GetPostOnlineOrderApiRequest getPostOnlineOrderApiRequest);
 }

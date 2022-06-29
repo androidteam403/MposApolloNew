@@ -179,8 +179,38 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
+            <Button
+                android:id="@+id/start_Picking_without_qr_cod"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen45dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@drawable/take_print_btn_bg"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickPrint()}"
+                android:padding="@dimen/seven_dp"
+                android:text="Take print"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+
 
         </LinearLayout>
+
+
+
+<!--        <ImageView-->
+<!--            android:layout_width="@dimen/dimen25dp"-->
+<!--            android:layout_height="@dimen/dimen25dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="200dp"-->
+<!--            android:layout_marginStart="@dimen/dimen35dp"-->
+<!--            android:background="@drawable/take_print_btn_bg"-->
+<!--            android:contentDescription="@string/app_name"-->
+<!--            android:src="@drawable/white_printer" />-->
     </RelativeLayout>
 
     <data>

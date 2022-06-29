@@ -644,6 +644,18 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     }
 
     @Override
+    public void onClickNotAvailableBtn() {
+        status = "NOT AVAILABLE";
+        String finalStatus3 = status;
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
+        Intent i = new Intent();
+        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+        i.putExtra("finalStatus", (String) status);
+        setResult(RESULT_OK, i);
+        finish();
+    }
+
+    @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
 
 

@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_regular"
-            app:zxing_framing_rect_height="@dimen/one_hundred_seventy_dp"
+            app:zxing_framing_rect_height="280dp"
             app:zxing_framing_rect_width="@dimen/two_hundred_eighty_dp" />
 
         <!--Full Camera Window with viewfinder-->

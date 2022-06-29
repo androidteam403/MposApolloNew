@@ -431,5 +431,15 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
             });
         }
     }
+
+    @Override
+    public void onClickSendtoPacker() {
+        getMvpView().onClickSendtoPacker();
+    }
+
+    @Override
+    public void onClickContinueBill() {
+        getMvpView().onClickContinueBill();
+    }
 }
 

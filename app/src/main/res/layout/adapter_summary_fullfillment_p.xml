@@ -88,6 +88,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -167,21 +169,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
 
                     <TextView
+                        android:id="@+id/status_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_medium"
-                        android:id="@+id/status_text"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 
                     <ImageView
-                        android:id="@+id/status_icon"
+                        android:id="@+id/status_ico"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
                         android:layout_marginStart="@dimen/dimen2dp"
@@ -190,14 +192,29 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/right_arrow"
-                    android:layout_width="@dimen/dimen30dp"
-                    android:layout_height="@dimen/dimen30dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:contentDescription="@string/app_name"
-                    android:padding="@dimen/five_dp"
-                    android:src="@drawable/right_arrow_black" />
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270" />
+
+                    <ImageView
+                        android:id="@+id/right_arrow"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/right_arrow_black" />
+
+                </LinearLayout>
             </LinearLayout>
 
 

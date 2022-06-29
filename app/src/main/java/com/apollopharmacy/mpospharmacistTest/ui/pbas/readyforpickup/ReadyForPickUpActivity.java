@@ -258,38 +258,41 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onClickStartPickup() {
-        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-            DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
-            dialogView.setContentView(connectPrinterBinding.getRoot());
-            dialogView.setCancelable(false);
-            connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
-                dialogView.dismiss();
-                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
 
-            });
-            connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
-            dialogView.show();
-
-            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
-            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
-            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            // return;
-        } else {
-            boolean isAlltagBox = true;
-            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-                if (!omsHeader.isTagBox())
-                    isAlltagBox = false;
-            if (isAlltagBox) {
-                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
-//            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
-//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-            } else {
-                Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+//            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+//            DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+//            dialogView.setContentView(connectPrinterBinding.getRoot());
+//            dialogView.setCancelable(false);
+//            connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+//                dialogView.dismiss();
+//                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//
+//            });
+//            connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+//            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//            dialogView.show();
+//
+//            //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+//            // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+//            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            // return;
+//        } else {
+//            boolean isAlltagBox = true;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+//                if (!omsHeader.isTagBox())
+//                    isAlltagBox = false;
+//            if (isAlltagBox) {
+//                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+////            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+////            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//            } else {
+//                Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
     }
 
     @Override
@@ -386,6 +389,29 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         BillerOrdersActivity.isBillerActivity = true;
         new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
+            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
+            dialogView.setContentView(connectPrinterBinding.getRoot());
+            dialogView.setCancelable(false);
+            connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
+                dialogView.dismiss();
+                startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+            });
+            connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
+            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+            dialogView.show();}else {
+
+            generatebarcode(omsHeader.getRefno());
+
+        }
+
     }
 
     @Override
