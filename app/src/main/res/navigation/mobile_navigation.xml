@@ -78,4 +78,10 @@
         android:label="@string/menu_connect_barcodeprinter"
         tools:layout="@layout/activity_bluetooth_search" />
 
+    <fragment
+        android:id="@+id/nav_ePrescription_vOne"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"
+        tools:layout="@layout/activity_e_prescription2"
+        android:label="E-Prescription"/>
+
 </navigation>
