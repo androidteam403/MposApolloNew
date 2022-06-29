@@ -61,7 +61,7 @@
                     android:layout_marginTop="@dimen/fifteen_dp"
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Login Page"
+                    android:text="@string/label_pharmacist_login"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_18" />
@@ -99,6 +99,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:imeOptions="actionDone"
                         android:inputType="text"
+                        android:text="Apollo@123"
                         android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
