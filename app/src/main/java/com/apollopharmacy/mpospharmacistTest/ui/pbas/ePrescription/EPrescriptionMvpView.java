@@ -9,7 +9,7 @@ public interface EPrescriptionMvpView extends MvpView {
 
     void onSucessPrescriptionList(List<EPrescriptionModelClassResponse> prescriptionLine);
 
-    void onClickRightArrow(int position);
+    void onClickRightArrow(EPrescriptionModelClassResponse ePrescription);
 
     void noOrderFound(int count);
 }

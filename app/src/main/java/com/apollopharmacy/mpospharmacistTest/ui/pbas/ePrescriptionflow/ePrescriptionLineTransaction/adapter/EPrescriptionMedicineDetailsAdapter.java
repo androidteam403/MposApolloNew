@@ -59,7 +59,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
         holder.adapterEprescriptionMedicinedetailsVtwoBinding.prescriptionNo.setText(filteredMedicineList.get(position).getPrescriptionNo());
         holder.adapterEprescriptionMedicinedetailsVtwoBinding.artCode.setText(filteredMedicineList.get(position).getArtCode());
         holder.adapterEprescriptionMedicinedetailsVtwoBinding.artName.setText(filteredMedicineList.get(position).getArtName());
-        holder.adapterEprescriptionMedicinedetailsVtwoBinding.qoh.setText(filteredMedicineList.get(position).getQty());
+        holder.adapterEprescriptionMedicinedetailsVtwoBinding.qoh.setText(filteredMedicineList.get(position).getONHand());
         holder.adapterEprescriptionMedicinedetailsVtwoBinding.mrp.setText("₹" + String.valueOf(filteredMedicineList.get(position).getPackMrp()));
         if (medicineResponse.getReqQty() != 0) {
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText((String.valueOf(medicineResponse.getReqQty())));
@@ -167,8 +167,12 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
         });
 
-
-        substituteSpinner(holder.adapterEprescriptionMedicinedetailsVtwoBinding, medicineResponse, position, holder.adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.getSelectedItem());
+        if (substituteList != null){
+            substituteSpinner(holder.adapterEprescriptionMedicinedetailsVtwoBinding, medicineResponse, position, holder.adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.getSelectedItem());
+        }else{
+            holder.adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.GONE);
+            holder.adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.VISIBLE);
+        }
     }
 
     EPrescriptionSubstituteModelResponse.Substitute substitute;
