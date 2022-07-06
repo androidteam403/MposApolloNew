@@ -70,13 +70,14 @@ public class EPrescriptionListAdapter extends RecyclerView.Adapter<EPrescription
         holder.adapterEprescriptionVtwoBinding.doctorName.setText(filteredPrescriptionList.get(position).getDoctorName());
         holder.adapterEprescriptionVtwoBinding.customerno.setText(filteredPrescriptionList.get(position).getPhoneNo());
         holder.adapterEprescriptionVtwoBinding.amount.setText("₹" + String.valueOf(filteredPrescriptionList.get(position).getOrderbillvalue()));
+        holder.adapterEprescriptionVtwoBinding.orderSource.setText((ePrescription.getDoctorConCode() != null && !ePrescription.getDoctorConCode().isEmpty()) ? ePrescription.getDoctorConCode() : "-");
 //            receiptid, orderdate, patientname, doctorname, paymentmode, fulfilmentid, cxno.
 
 
         holder.adapterEprescriptionVtwoBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mvpView.onClickRightArrow(position);
+                mvpView.onClickRightArrow(ePrescription);
             }
         });
     }

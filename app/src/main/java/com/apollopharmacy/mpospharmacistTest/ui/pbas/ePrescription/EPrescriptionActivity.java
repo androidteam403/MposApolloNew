@@ -1,11 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityEPrescription2Binding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.adapter.EPrescriptionListAdapter;
-
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity;
-
 
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +38,9 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activityEPrescription2Binding = DataBindingUtil.inflate(inflater,R.layout.activity_e_prescription2, container, false);
+        activityEPrescription2Binding = DataBindingUtil.inflate(inflater, R.layout.activity_e_prescription2, container, false);
         getActivityComponent().inject(this);
-        mPresenter.onAttach( EPrescriptionActivity.this);
+        mPresenter.onAttach(EPrescriptionActivity.this);
 
         return activityEPrescription2Binding.getRoot();
 
@@ -108,6 +106,7 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
     }
 
     List<EPrescriptionModelClassResponse> prescriptionLine;
+
     @Override
     public void onSucessPrescriptionList(List<EPrescriptionModelClassResponse> prescriptionLine) {
         this.prescriptionLine = prescriptionLine;
@@ -125,8 +124,14 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
     }
 
     @Override
-    public void onClickRightArrow(int position) {
-        startActivity(EPrescriptionMedicineDetailsActivity.getStartActivity(getContext(), prescriptionLine, position, mPresenter.getLoinStoreLocation(),mPresenter.getTerminalId() ));
+    public void onClickRightArrow(EPrescriptionModelClassResponse ePrescription) {
+        int position = -1;
+        for (int i = 0; i < prescriptionLine.size(); i++) {
+            if (prescriptionLine.get(i).getPrescriptionNo().equalsIgnoreCase(ePrescription.getPrescriptionNo())) {
+                position = i;
+            }
+        }
+        startActivity(EPrescriptionMedicineDetailsActivity.getStartActivity(getContext(), prescriptionLine, position, mPresenter.getLoinStoreLocation(), mPresenter.getTerminalId()));
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
     }

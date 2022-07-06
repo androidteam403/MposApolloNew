@@ -2,15 +2,19 @@ package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -26,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityAddItemBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogNoStockAvailableBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
@@ -143,6 +148,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private boolean isOnlineOrder;
     private EPrescriptionModelClassResponse ePrescriptionModelClassResponse;
     private List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList;
+    private String onlineTransactionId;
+    private CalculatePosTransactionRes unPostedTransactionResponseBody;
     /*public static Intent getStartIntent(Context context,List<CircleMemebershipCashbackPlanResponse.Category> circlecashbackmodel)
     {
         Intent intent = new Intent(context, AddItemActivity.class);
@@ -270,6 +277,20 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("sales_list_data", salesLineEntities);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("orderinfo_item", orderinfoitem);
+        intent.putExtra("customerbean_info", customerDataResBean);
+        intent.putExtra("is_online", is_online);
+        intent.putExtra("corporate_info", item);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("ePrescription_model_class_response", ePrescriptionModelClassResponse);
+        intent.putExtra("ePrescription_medicine_response_list", (Serializable) ePrescriptionMedicineResponseList);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -497,29 +518,23 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     addItemBinding.setCustomer(customerEntity);
                     addItemBinding.setCorporate(corporateEntity);
                     addItemBinding.detailsLayout.prgTrackingEdit.setText(orderinfoitem.getREFNO());
-                    transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
-                    if (transactionIdModel != null) {
-                        addItemBinding.setTransaction(transactionIdModel);
-                    }
+//                    transactionIdModel = (TransactionIDResModel) getIntent().getSerializableExtra("transaction_id");
+//                    if (transactionIdModel != null) {
+//                        addItemBinding.setTransaction(transactionIdModel);
+//                    }
 
                     mPresenter.checkAllowedPaymentMode(paymentMethodModel);
-                    mPresenter.checkProductTrackingWise();
+//                    mPresenter.checkProductTrackingWise();
                     mPresenter.getUnpostedTransaction();
-                    mPresenter.calculatePosTransaction();
+//                    mPresenter.calculatePosTransaction();
 
-                    medicinesDetailAdapter.notifyDataSetChanged();
+//                    medicinesDetailAdapter.notifyDataSetChanged();
                 }
 
             }
         }
 
         //mPresenter.calculatePosTransaction();
-        if (getIntent() != null) {
-            Boolean isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
-            if (isCameFromOrderDetailsScreenActivity) {
-                onPayButtonClick();
-            }
-        }
     }
 
     @Override
@@ -1595,6 +1610,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
         calculatePosTransactionRes = posTransactionRes;
+        if (getIntent() != null) {
+            Boolean isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                onPayButtonClick();
+            }
+        }
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
         orderPriceInfoModel.setOrderSavingsAmount(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
@@ -1623,7 +1644,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             Singletone.getInstance().itemsArrayList.clear();
             Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
             medicinesDetailAdapter.notifyDataSetChanged();
+        } else {
+            Singletone.getInstance().itemsArrayList.clear();
+            if (medicinesDetailAdapter != null) {
+                medicinesDetailAdapter.notifyDataSetChanged();
+            }
         }
+
         if (getItemsCount() != 0) {
             addItemBinding.setItemsCount(getItemsCount());
             addItemBinding.setProductCount(getItemsCount());
@@ -1772,7 +1799,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.cardPaymentAmountEditText.setText("");
         addItemBinding.oneApolloAmountEditText.setText("");
         addItemBinding.creditPaymentAmountEdit.setText("");
-        if (transactionRes.getTenderLine().size() > 0) {
+        if (transactionRes != null && transactionRes.getTenderLine() != null && transactionRes.getTenderLine().size() > 0) {
             paymentMethodModel.setPaymentInitiate(true);
             if (arrPayAdapterModel.size() > 0) {
                 for (int i = 0; i < arrPayAdapterModel.size(); i++) {
@@ -2091,7 +2118,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel") ||
                 calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code") ) {
+                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")) {
             methodCalling = true;
             amounttoAdd = true;
             amountPosition = position;
@@ -2108,7 +2135,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code")) {
                 phonepay = "Pay through QR Code";
                 wallet.setWalletType(5);
-            }else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")){
+            } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")) {
                 phonepay = "QR Code";
                 wallet.setWalletType(5);
             }
@@ -2425,7 +2452,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
         medicinesDetailAdapter.notifyDataSetChanged();
-        mPresenter.calculatePosTransaction();
+        if (!isOnleneOrder())
+            mPresenter.calculatePosTransaction();
     }
 
     private String strTxnId = null, emiID = null;
@@ -2539,6 +2567,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             onClickGenerateBill();
         } else {
             Toast.makeText(this, getPostOnlineOrderApiResponse.getRequestMessage(), Toast.LENGTH_SHORT).show();
+            onClickGenerateBill();
         }
 
     }
@@ -2546,6 +2575,72 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onFailedGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse) {
 
+    }
+
+    @Override
+    public void noStockAvailableClearAll() {
+        if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
+            addItemBinding.setIsPaymentMode(false);
+            paymentMethodModel.setGenerateBill(false);
+            if (isDonePayment()) {
+                addItemBinding.setIsPaymentMode(true);
+                paymentMethodModel.setGenerateBill(true);
+                alertBackDialog();
+            } else if (paymentMethodModel.isBalanceAmount() && paymentMethodModel.getBalanceAmount() < 0) {
+                addItemBinding.setIsPaymentMode(true);
+                paymentMethodModel.setGenerateBill(true);
+                alertBackDialog();
+            }
+        } else {
+            if (paymentDoneAmount == 0.0) {
+                noStockAlertDialog();
+            } else {
+                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+            }
+
+        }
+        double diagonalInches = UiUtils.displaymetrics(this);
+        if (diagonalInches >= 10) {
+            Log.i("Tab inches-->", "10 inches");
+            // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+        } else {
+            Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        }
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        addItemBinding.imageView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public String getOnlineTransactionId() {
+        return onlineTransactionId;
+    }
+
+    @Override
+    public CalculatePosTransactionRes getUnPostedTransactionResponseBody() {
+        return unPostedTransactionResponseBody;
+    }
+
+    private void noStockAlertDialog() {
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        DialogNoStockAvailableBinding dialogNoStockAvailableBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_no_stock_available, null, false);
+        dialog.setContentView(dialogNoStockAvailableBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogNoStockAvailableBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (calculatePosTransactionRes != null)
+                mPresenter.closeOrderVoidTransaction();
+            else
+                closeOrderSuccess();
+        });
+        dialog.show();
     }
 
     @Override
@@ -2787,14 +2882,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         }
         TransactionIDResModel transactionIdModel = new TransactionIDResModel();
         transactionIdModel.setTransactionID(body.getTransactionId());
+        addItemBinding.setTransaction(transactionIdModel);
         ArrayList<SalesLineEntity> saleslineentity = new ArrayList<>();
         saleslineentity = body.getSalesLine();
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(saleslineentity);
 
         // medicinesDetailAdapter.notifyDataSetChanged();
+        this.onlineTransactionId = body.getTransactionId();
+        this.unPostedTransactionResponseBody = body;
         mPresenter.calculatePosTransaction();
-
     }
 
 

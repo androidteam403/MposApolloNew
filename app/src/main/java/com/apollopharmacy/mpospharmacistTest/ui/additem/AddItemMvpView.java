@@ -249,4 +249,10 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
 
     void onFailedGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
+
+    void noStockAvailableClearAll();
+
+    String getOnlineTransactionId();
+
+    CalculatePosTransactionRes getUnPostedTransactionResponseBody();
 }
