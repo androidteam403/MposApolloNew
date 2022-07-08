@@ -22,4 +22,12 @@ public interface EPrescriptionMedicineDetailsMvpPresenter <V extends EPrescripti
     String getLoginUserName();
 
     void onOnlineBillApiCall(CustomerDataResBean customerDataResBean);
+
+    String getStoreId();
+
+    String getAreaId();
+
+    String getTerminalId();
+
+//    void getUnpostedTransaction();
 }

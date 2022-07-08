@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -25,6 +26,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 
 import java.io.Serializable;
@@ -44,6 +46,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     GetOMSTransactionResponse.SalesLine salesLine;
     String itemName;
     boolean noBatchDetails;
+    private boolean allowChangeQty;
+    private boolean allowMultiBatch;
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -77,6 +81,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
         noBatchDetails = intent.getExtras().getBoolean("noBatchDetails");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
+        for (GetGlobalConfingRes.OMSVendorWiseConfigration omsVendorWiseConfigration : mPresenter.getGlobalConfigRes().getOMSVendorWiseConfigration()) {
+            if (omsVendorWiseConfigration.getCorpCode().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getVendorId())) {
+                this.allowChangeQty = omsVendorWiseConfigration.getAllowChangeQTY();
+                this.allowMultiBatch = omsVendorWiseConfigration.getAllowMultiBatch();
+            }
+        }
 
         if (noBatchDetails) {
         }
@@ -277,7 +287,28 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         if (body.size() > 0) {
+
+            if (!allowChangeQty) {
+                int qty = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).getQty();
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (qty <= Double.parseDouble(this.body.get(i).getQ_O_H())) {
+                        this.body.get(i).setREQQTY((double) qty);
+                        qty = 0;
+                        break;
+                    } else {
+                        this.body.get(i).setREQQTY(Double.parseDouble(this.body.get(i).getQ_O_H()));
+                        qty = (int) (qty - Double.parseDouble(this.body.get(i).getQ_O_H()));
+                    }
+                    if (!allowMultiBatch) {
+                        break;
+                    }
+                }
+
+            }
+
+
             batchListAdapter = new BatchListAdapter(this, this.body, this);
+            batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
@@ -347,7 +378,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void onAddItemsClicked() {
         double selectedBatchesQty = 0.0;
-        if (batchListObjsList != null && batchListObjsList.size() > 0) {
+        if (!allowMultiBatch && batchListObjsList != null && batchListObjsList.size() > 1) {
+            Toast.makeText(this, "Select only one batch..!", Toast.LENGTH_SHORT).show();
+        } else if (batchListObjsList != null && batchListObjsList.size() > 0) {
             for (int i = 0; i < batchListObjsList.size(); i++) {
                 selectedBatchesQty = selectedBatchesQty + batchListObjsList.get(i).getREQQTY();
             }

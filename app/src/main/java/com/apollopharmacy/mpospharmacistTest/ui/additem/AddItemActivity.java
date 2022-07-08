@@ -150,6 +150,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList;
     private String onlineTransactionId;
     private CalculatePosTransactionRes unPostedTransactionResponseBody;
+    private boolean isPrescription;
     /*public static Intent getStartIntent(Context context,List<CircleMemebershipCashbackPlanResponse.Category> circlecashbackmodel)
     {
         Intent intent = new Intent(context, AddItemActivity.class);
@@ -206,6 +207,21 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("transaction_id", transactionID);
         intent.putExtra("corporate_model", corporateModel);
         intent.putExtra("calculatedPosRes", calculatePosTransactionRes);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, CalculatePosTransactionRes calculatePosTransactionRes, boolean isEPrescriptionScreen, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList) {
+        Intent intent = new Intent(context, AddItemActivity.class);
+        intent.putExtra("customer_info", customerEntity);
+        intent.putExtra("doctor_info", doctor);
+        intent.putExtra("corporate_info", corporate);
+        intent.putExtra("transaction_id", transactionID);
+        intent.putExtra("corporate_model", corporateModel);
+        intent.putExtra("calculatedPosRes", calculatePosTransactionRes);
+        intent.putExtra("E-PRESCRIPTION_SCREEN", isEPrescriptionScreen);
+        intent.putExtra("ePrescription_model_class_response", ePrescriptionModelClassResponse);
+        intent.putExtra("ePrescription_medicine_response_list", (Serializable) ePrescriptionMedicineResponseList);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -331,7 +347,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         mPresenter.getHBPConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
-
+            isPrescription = (Boolean) getIntent().getBooleanExtra("E-PRESCRIPTION_SCREEN", false);
+            if (isPrescription) {
+                ePrescriptionModelClassResponse = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("ePrescription_model_class_response");
+                ePrescriptionMedicineResponseList = (List<EPrescriptionMedicineResponse>) getIntent().getSerializableExtra("ePrescription_medicine_response_list");
+            }
             customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
@@ -525,6 +545,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
                     mPresenter.checkAllowedPaymentMode(paymentMethodModel);
 //                    mPresenter.checkProductTrackingWise();
+                    showLoading();
                     mPresenter.getUnpostedTransaction();
 //                    mPresenter.calculatePosTransaction();
 
@@ -2513,9 +2534,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setEnableHdfcPayBtn(false);
         }
 
-        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
-            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
-        }
+//        if (getGlobalConfingRes != null && getGlobalConfingRes.getMPOSVersion().equals("2")) {
+//            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+//        }
     }
 
     @Override
@@ -2628,11 +2649,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     private void noStockAlertDialog() {
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        Dialog dialog = new Dialog(this);
         DialogNoStockAvailableBinding dialogNoStockAvailableBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_no_stock_available, null, false);
         dialog.setContentView(dialogNoStockAvailableBinding.getRoot());
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if (dialog.getWindow() != null)
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogNoStockAvailableBinding.dialogButtonOK.setOnClickListener(v -> {
             dialog.dismiss();
             if (calculatePosTransactionRes != null)

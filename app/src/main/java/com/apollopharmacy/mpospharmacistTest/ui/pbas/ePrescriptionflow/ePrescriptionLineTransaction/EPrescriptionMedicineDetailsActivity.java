@@ -40,8 +40,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
-
 public class EPrescriptionMedicineDetailsActivity extends BaseActivity implements EPrescriptionMedicineDetailsMvpView, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     @Inject
@@ -327,9 +325,9 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                 customerDataResBean.setNumberofItems(0);
                 customerDataResBean.setRoundedAmount(0);
                 customerDataResBean.setStaff(mPresenter.getLoginUserName());
-                customerDataResBean.setStore(prescriptionLineList.get(0).getShopId());
+                customerDataResBean.setStore(mPresenter.getStoreId());//prescriptionLineList.get(0).getShopId();
                 customerDataResBean.setState("");
-                customerDataResBean.setTerminal(terminalId);
+                customerDataResBean.setTerminal(mPresenter.getTerminalId());
                 customerDataResBean.setReturnStore("");
                 customerDataResBean.setReturnTerminal("");
                 customerDataResBean.setReturnTransactionId("");
@@ -343,7 +341,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                 customerDataResBean.setTransactionId("");
                 customerDataResBean.setTransDate("");
                 customerDataResBean.setType(0);
-                customerDataResBean.setDataAreaId("AHEL");
+                customerDataResBean.setDataAreaId(mPresenter.getAreaId());
                 customerDataResBean.setVoid(false);
                 customerDataResBean.setReturn(false);
                 customerDataResBean.setISBatchModifiedAllowed(false);
@@ -647,6 +645,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     public void getCorporateList(CorporateModel corporateModel) {
         this.corporateModel = corporateModel;
         corporateList.addAll(corporateModel.get_DropdownValue());
+//        showLoading();
+//        mPresenter.getUnpostedTransaction();
 //        Toast.makeText(getApplicationContext(), "CorporateList Success!!", Toast.LENGTH_SHORT).show();
     }
 
@@ -679,8 +679,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 //            customerDataResBean = body;
                 String[] itemsCodeList = body.getReturnMessage().split(",");
 
-                for (int i = 0; i<itemsCodeList.length; i++){
-                    for (int j = 0; j<customerDataResBean.getSalesLine().size(); j++){
+                for (int i = 0; i < itemsCodeList.length; i++) {
+                    for (int j = 0; j < customerDataResBean.getSalesLine().size(); j++) {
 
                     }
                 }
@@ -746,9 +746,12 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         customerDataResBean_pass.setISOnlineOrder(true);
 
 
-        startActivityForResult(AddItemActivity.getStartIntents(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, is_onlineOrder, item, doctorentyty, prescriptionLineList.get(this.position), medicineResponseList), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+        startActivityForResult(AddItemActivity.getStartIntents(this, saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, is_onlineOrder, item, doctorentyty, prescriptionLineList.get(this.position), medicineResponseList), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
+
+//        showLoading();
+//        mPresenter.getCorporateList();
     }
 
     @Override
@@ -793,4 +796,38 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     public void onClick(View v) {
 
     }
+
+//    @Override
+//    public void onSuccessGetUnPostedPOSTransaction(CalculatePosTransactionRes body) {
+//        GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
+//        entity.setCustId(body.getCustomerID());
+//        entity.setPostalAddress(body.getCustAddress());
+//        entity.setState(body.getCustomerState());
+//        entity.setCardName(body.getCustomerName());
+//        entity.setMobileNo(body.getMobileNO());
+//        entity.setSearchId(body.getMobileNO());
+//        entity.setCardNo(body.getTrackingRef());
+//        DoctorSearchResModel.DropdownValueBean doctorModule = new DoctorSearchResModel.DropdownValueBean();
+//        doctorModule.setCode(body.getDoctorCode());
+//        doctorModule.setDisplayText(body.getDoctorName());
+//        CorporateModel.DropdownValueBean corporateModule = new CorporateModel.DropdownValueBean();
+//        if (corporateModel != null) {
+//            for (CorporateModel.DropdownValueBean valueBean : corporateModel.get_DropdownValue()) {
+//                if (body.getCorpCode().equalsIgnoreCase(valueBean.getCode())) {
+//                    corporateModule.setCode(body.getCorpCode());
+//                    corporateModule.setDescription(valueBean.getDescription());
+//                    corporateModule.setPayMode(valueBean.getPayMode());
+//                    break;
+//                }
+//            }
+//        }
+//        TransactionIDResModel transactionIdModel = new TransactionIDResModel();
+//        transactionIdModel.setTransactionID(body.getTransactionId());
+//        Singletone.getInstance().itemsArrayList.addAll(body.getSalesLine());
+//
+//        startActivity(AddItemActivity.getStartIntent(this, entity, doctorModule, corporateModule, transactionIdModel, corporateModel, body, true, prescriptionLineList.get(this.position), medicineResponseList));
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//        finish();
+//        hideLoading();
+//    }
 }

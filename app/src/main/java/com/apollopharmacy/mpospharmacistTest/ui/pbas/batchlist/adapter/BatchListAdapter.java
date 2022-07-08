@@ -22,6 +22,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogPhysicalBatchIdBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     double reqqty;
     double Reservedqty;
     boolean alertcheck = true;
+    private GetGlobalConfingRes getGlobalConfingRes;
+    private boolean allowChangeQty;
 
     public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView) {
         this.mContext = mContext;
@@ -43,7 +46,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         this.omsHeaderList = batchListModelList1;
         this.batchListMvpView = mvpView;
         this.reqqty = reqqty;
+    }
 
+    public void setGetGlobalConfingRes(GetGlobalConfingRes getGlobalConfingRes) {
+        this.getGlobalConfingRes = getGlobalConfingRes;
+    }
+
+    public void setAllowChangeQty(boolean allowChangeQty) {
+        this.allowChangeQty = allowChangeQty;
     }
 
     @NonNull
@@ -67,6 +77,16 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         } else {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
+        }
+
+        if (getGlobalConfingRes != null
+                && getGlobalConfingRes.getOMSVendorWiseConfigration() != null
+                && getGlobalConfingRes.getOMSVendorWiseConfigration().size() > 0) {
+
+        }
+
+        if (!allowChangeQty){
+            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         }
 
         holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));

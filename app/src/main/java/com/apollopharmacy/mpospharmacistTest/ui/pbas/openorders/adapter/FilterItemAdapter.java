@@ -47,8 +47,7 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
             notifyItemChanged(position);
         });
 
-        }
-
+    }
 
 
     @Override
