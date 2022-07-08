@@ -93,6 +93,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginPresenter;
@@ -252,6 +258,12 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
+    EPrescriptionMvpPresenter<EPrescriptionMvpView> ePrescriptionMvpViewEPrescriptionMvpPresenter(EPrescriptionPresenter<EPrescriptionMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
     CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> provideCustomerDocDetailsActivity(CustomerDoctorInfoPresenter<CustomerDoctorInfoMvpView> presenter) {
         return presenter;
     }
@@ -265,6 +277,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails (EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
         return presenter;
     }
 
