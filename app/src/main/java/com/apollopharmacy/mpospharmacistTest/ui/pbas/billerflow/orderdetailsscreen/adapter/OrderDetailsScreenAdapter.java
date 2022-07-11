@@ -19,10 +19,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservatio
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetailsScreenAdapter.ViewHolder> {
     private Context context;
@@ -85,33 +85,39 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
 //            }
 //        }
 
-        if (selectedBatchList != null && selectedBatchList.size() > 0) {
-            List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
-            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatchList) {
-                if (batchListObj.getItemID().equals(products.get(position).getItemId())) {
-                    for (PickPackReservation pickPackReservation : customerDataResBean.getPickPackReservation()) {
-                        if (pickPackReservation.getPickupItemId().equals(batchListObj.getItemID())
-                                && pickPackReservation.getPickupInventBatchId().equals(batchListObj.getBatchNo())) {
-                            batchListObj.setREQQTY(pickPackReservation.getPickupQty());
-                            selectedBatchListTemp.add(batchListObj);
-                        }
-                    }
-                }
+//        if (selectedBatchList != null && selectedBatchList.size() > 0) {
+//            List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
+//            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatchList) {
+//                if (batchListObj.getItemID().equals(products.get(position).getItemId())) {
+//                    for (PickPackReservation pickPackReservation : customerDataResBean.getPickPackReservation()) {
+//                        if (pickPackReservation.getPickupItemId().equals(batchListObj.getItemID())
+//                                && pickPackReservation.getPickupInventBatchId().equals(batchListObj.getBatchNo())) {
+//                            batchListObj.setREQQTY(pickPackReservation.getPickupQty());
+//                            selectedBatchListTemp.add(batchListObj);
+//                        }
+//                    }
+//                }
+//            }
+//            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
+//                    .distinct()
+//                    .collect(Collectors.toList());
+
+
+        List<PickPackReservation> pickPackReservationList = new ArrayList<>();
+        for (PickPackReservation pickPackReservation : customerDataResBean.getPickPackReservation()) {
+            if (pickPackReservation.getPickupItemId().equalsIgnoreCase(fullfillmentDetail.getItemId())) {
+                pickPackReservationList.add(pickPackReservation);
             }
-            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
-                    .distinct()
-                    .collect(Collectors.toList());
-            if (newList != null && newList.size() > 0)
-                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
-            else
-                holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
-            SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, newList, products);
-            new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
-            holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
-            holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setAdapter(selectedBatchesListAdapterr);
         }
-
-
+        if (pickPackReservationList.size() > 0)
+            holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
+        else
+            holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
+        SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, pickPackReservationList, products);
+        new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
+        holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
+        holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setAdapter(selectedBatchesListAdapterr);
+//    }
     }
 
     @Override

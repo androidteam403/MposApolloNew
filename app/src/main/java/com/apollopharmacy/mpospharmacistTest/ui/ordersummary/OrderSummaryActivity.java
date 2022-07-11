@@ -1,21 +1,29 @@
 package com.apollopharmacy.mpospharmacistTest.ui.ordersummary;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +36,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,8 +61,11 @@ import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -461,10 +473,11 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     public void onDownloadPdfButton() {
-
-        Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
-        bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-        createPdf();
+        if (isStoragePermissionGranted()) {
+            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+            createPdf();
+        }
     }
 
     private Bitmap LoadBitmap(View v, int width, int height) {
@@ -513,8 +526,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
         // close the document
         document.close();
-        Toast.makeText(this, "successfully pdf created", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(this, "successfully pdf created", Toast.LENGTH_SHORT).show();
         openPdf();
 
     }
@@ -523,26 +535,113 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
         if (file.exists()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri photoURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
-
-
-//            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(photoURI, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-
-            try {
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                Toast.makeText(this, "No Application for pdf view", Toast.LENGTH_SHORT).show();
-            }
+            //Button To start print
+            PrintManager printManager = (PrintManager) this.getSystemService(Context.PRINT_SERVICE);
+            String jobName = this.getString(R.string.app_name) + " Document";
+            printManager.print(jobName, pda, null);
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            Uri photoURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+////            Uri uri = Uri.fromFile(file);
+//            intent.setDataAndType(photoURI, "application/pdf");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//
+//            try {
+//                startActivity(intent);
+//            } catch (ActivityNotFoundException e) {
+//                Toast.makeText(this, "No Application for pdf view", Toast.LENGTH_SHORT).show();
+//            }
+        } else {
+            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
         }
     }
+
+    PrintDocumentAdapter pda = new PrintDocumentAdapter() {
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onWrite(PageRange[] pages, ParcelFileDescriptor destination, CancellationSignal cancellationSignal, WriteResultCallback callback) {
+            InputStream input = null;
+            OutputStream output = null;
+            try {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
+
+                input = new FileInputStream(file);//"/storage/emulated/0/Documents/my-document-1656940186153.pdf"
+                output = new FileOutputStream(destination.getFileDescriptor());
+                byte[] buf = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = input.read(buf)) > 0) {
+                    output.write(buf, 0, bytesRead);
+                }
+            } catch (Exception e) {
+
+            } finally {
+                try {
+                    if (input != null) {
+                        input.close();
+                    } else {
+                        Toast.makeText(OrderSummaryActivity.this, "FileInputStream getting null", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (output != null) {
+                        output.close();
+                    } else {
+                        Toast.makeText(OrderSummaryActivity.this, "FileOutStream getting null", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes, CancellationSignal cancellationSignal, LayoutResultCallback callback, Bundle extras) {
+            if (cancellationSignal.isCanceled()) {
+                callback.onLayoutCancelled();
+                return;
+            }
+            //int pages = computePageCount(newAttributes);
+            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder("file_name.pdf").setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
+            callback.onLayoutFinished(pdi, true);
+        }
+
+    };
 
     @Override
     public void onFailurePdfResponse(PdfModelResponse body) {
 
+    }
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+//                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+//                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+//            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+            createPdf();
+//            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
     }
 }

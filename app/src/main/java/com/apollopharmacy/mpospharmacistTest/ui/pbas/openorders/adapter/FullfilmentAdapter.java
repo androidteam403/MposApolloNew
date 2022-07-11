@@ -1,7 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +53,6 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
 
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
@@ -63,6 +61,14 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             omsHeaderList.get(position).setOverAllStatusfromList(true);
         }
 
+        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+        if (omsHeader.getReVerification() == 1) {
+            holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
+        } else {
+            holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
+        }
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));

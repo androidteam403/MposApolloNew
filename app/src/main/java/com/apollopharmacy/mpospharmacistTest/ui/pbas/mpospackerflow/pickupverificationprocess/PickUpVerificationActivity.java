@@ -599,10 +599,10 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 activityPickupVerificationBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
                 activityPickupVerificationBinding.recyclerView.setAdapter(pickUpVerificationAdapter);
 
-                if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
-                    showLoading();
-                    mpresenter.getBatchDetailsApi(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(salesLineCount).getItemId());
-                }
+//                if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+//                    showLoading();
+//                    mpresenter.getBatchDetailsApi(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(salesLineCount).getItemId());
+//                }
             }
         } else {
             Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();

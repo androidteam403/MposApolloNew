@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,12 +51,11 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
+                        if (response.isSuccessful() && response.body().getBatchList().size() == 0 && response.body().getBatchList() == null) {
                             getMvpView().onFailedBatchInfo(response.body());
-                        }
-                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                        } else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0) {
                             getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                        }else{
+                        } else {
                             getMvpView().onFailedBatchInfo(response.body());
                         }
 
@@ -191,5 +191,10 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     @Override
     public void onClickNotAvailableBtn() {
         getMvpView().onClickNotAvailableBtn();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 }

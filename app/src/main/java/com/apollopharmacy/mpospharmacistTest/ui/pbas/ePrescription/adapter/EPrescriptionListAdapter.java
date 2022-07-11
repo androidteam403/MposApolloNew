@@ -102,15 +102,16 @@ public class EPrescriptionListAdapter extends RecyclerView.Adapter<EPrescription
                 } else {
                     filteredList.clear();
                     for (EPrescriptionModelClassResponse row : prescriptionList) {
-                        if (!filteredList.contains(row) && (row.getPrescriptionNo().contains(charString))) {
-                            filteredList.add(row);
-                        } else if (!filteredList.contains(row) && (row.getPatientName().contains(charString))) {
-                            filteredList.add(row);
-                        } else if (!filteredList.contains(row) && (row.getDoctorName().contains(charString))) {
-                            filteredList.add(row);
-                        } else if (!filteredList.contains(row) && (row.getPhoneNo().contains(charString))) {
+                        if ((!filteredList.contains(row) && (row.getPrescriptionNo().contains(charString))) || (!filteredList.contains(row) && (row.getPatientName().contains(charString))) || (!filteredList.contains(row) && (row.getDoctorName().contains(charString))) || (!filteredList.contains(row) && (row.getPhoneNo().contains(charString)))) {
                             filteredList.add(row);
                         }
+//                        else if (!filteredList.contains(row) && (row.getPatientName().contains(charString))) {
+//                            filteredList.add(row);
+//                        } else if (!filteredList.contains(row) && (row.getDoctorName().contains(charString))) {
+//                            filteredList.add(row);
+//                        } else if (!filteredList.contains(row) && (row.getPhoneNo().contains(charString))) {
+//                            filteredList.add(row);
+//                        }
 
 //                       orderno, docname, patiname, phoneno.
 

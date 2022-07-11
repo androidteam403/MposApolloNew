@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
@@ -247,6 +248,21 @@ public class EPrescriptionMedicineDetailsPresenter<V extends EPrescriptionMedici
         }
     }
 
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getAreaId() {
+        return getDataManager().getDataAreaId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 //    @Override
 //    public void checkBatchStock(CustomerDataResBean customerDataResBean) {
 //
@@ -282,5 +298,34 @@ public class EPrescriptionMedicineDetailsPresenter<V extends EPrescriptionMedici
     public String getLoginUserName() {
         return getDataManager().getUserName();
     }
+
+//    @Override
+//    public void getUnpostedTransaction() {
+//        if (getMvpView().isNetworkConnected()) {
+//            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+//            Call<CalculatePosTransactionRes> call = api.GET_UNPOSTED_TRANSACTION(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
+//            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+//                @Override
+//                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+//                    if (response.isSuccessful()) {
+//                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+//                            if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0)
+//                                getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
+//                        } else
+//                            getMvpView().hideLoading();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+//                    //Dismiss Dialog
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
+//    }
 }
 

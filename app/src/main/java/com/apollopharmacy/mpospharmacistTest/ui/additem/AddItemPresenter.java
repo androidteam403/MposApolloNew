@@ -145,6 +145,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0) {
                                 getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
                             } else {
+                                getMvpView().hideLoading();
                                 getMvpView().noStockAvailableClearAll();
                             }
                         } else
@@ -714,7 +715,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         getMvpView().isManualDisc(false);
@@ -1764,7 +1765,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public boolean validTenderLimit(double amount, String tenderName) {
-        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType() != null) {
+        if (Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType() != null) {
             for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(tenderName)) {
                     if (tenderTypeEntity.getTenderLimit() < amount) {
@@ -2200,6 +2201,14 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public void showHdfcPaymentDialog() {
+        String tenderurl = "";
+        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+                if (tenderTypeEntity.getTenderTypeId().equalsIgnoreCase("34")) {
+                    tenderurl = tenderTypeEntity.getTenderURL();
+                }
+            }
+        }
         hdfcPaymentDialog = new HdfcPaymentDialog(getMvpView().getContext());
 
         hdfcPaymentDialog.setCalculatedPosTransaction(getMvpView().getCalculatedPosTransactionRes());
@@ -2209,12 +2218,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         hdfcPaymentDialog.setDialogCloseEnable();
         hdfcPaymentDialog.setCloseListener(v -> hdfcPaymentDialog.dismiss());
 
+        String finalTenderurl = tenderurl;
         hdfcPaymentDialog.setGenerateLinkListener(v -> {
             if (hdfcPaymentDialog.isValidateAmount()) {
                 if (getMvpView().isNetworkConnected()) {
                     getMvpView().showLoading();
                     HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
-                    hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
+                    hdfcLinkGenerateRequest.setUrl(finalTenderurl);
                     hdfcLinkGenerateRequest.setRequestType("GENOTP");
                     hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
                     hdfcLinkGenerateRequest.setCustEmailID("");
@@ -2262,12 +2272,12 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         hdfcPaymentDialog.setValidateLinkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isHdfcLinkGenerated) {
+//                if (isHdfcLinkGenerated) {
                     if (hdfcPaymentDialog.isValidateAmount()) {
                         if (getMvpView().isNetworkConnected()) {
                             getMvpView().showLoading();
                             HdfcLinkGenerateRequest hdfcLinkGenerateRequest = new HdfcLinkGenerateRequest();
-                            hdfcLinkGenerateRequest.setUrl("http://172.16.2.251:8881");
+                            hdfcLinkGenerateRequest.setUrl(finalTenderurl);
                             hdfcLinkGenerateRequest.setRequestType("CHECKPAYMENTSTATUS");
                             hdfcLinkGenerateRequest.setCustName(getMvpView().getCalculatedPosTransactionRes().getCustomerName());
                             hdfcLinkGenerateRequest.setCustEmailID("");
@@ -2307,9 +2317,9 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             getMvpView().onError("Internet Connection Not Available");
                         }
                     }
-                } else {
-                    Toast.makeText(getMvpView().getContext(), "Generate hdfc link before validate", Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(getMvpView().getContext(), "Generate hdfc link before validate", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -2955,7 +2965,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         posTransactionEntity.setVendorId("");
         //  System.out.println("isoms order status-->"+Constant.getInstance().isomsorder);
         if (getMvpView().isOnleneOrder()) {
-            posTransactionEntity.setISOMSOrder(true);
+            posTransactionEntity.setISOMSOrder(false);
             posTransactionEntity.setBillingCity(getMvpView().getUnPostedTransactionResponseBody().getBillingCity());
             posTransactionEntity.setCurrentSalesLine(0);
             posTransactionEntity.setCustAddress(getMvpView().getUnPostedTransactionResponseBody().getCustAddress());

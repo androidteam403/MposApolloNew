@@ -11,7 +11,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.Corporate
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataReqBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
@@ -310,9 +309,9 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
     }
 
     @Override
-    public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader) {
+    public void mposPickPackOrderReservationApiCall(int requestType, CustomerDataResBean omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(requestType);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
@@ -322,7 +321,7 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
                 order.setDataAreaID("AHEL");
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
-                order.setTransactionID(omsHeader.getRefno());
+                order.setTransactionID(omsHeader.getREFNO());
                 ordersList.add(order);
             }
 
@@ -411,7 +410,7 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().OmsOrderUpdateSuccess(response.body(), omsOrderForwardRequest.getRequestType());

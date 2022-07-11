@@ -245,10 +245,12 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
 //                            response.body().setMPOSVersion("1");
+//                            response.body().getOMSVendorWiseConfigration().get(3).setAllowMultiBatch(false);
+//                            response.body().getOMSVendorWiseConfigration().get(3).setAllowChangeQTY(false);
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
                             getDataManager().storeGlobalJson(json);
-                            if(getDataManager().getGlobalJson().isISHBPStore())
+                            if (getDataManager().getGlobalJson().isISHBPStore())
                                 getHBPConfigration();
                             else
                                 getTenderTypeApi();

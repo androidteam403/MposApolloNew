@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction;
 
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
@@ -36,6 +37,6 @@ public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
 
     void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse);
 
-
+//    void onSuccessGetUnPostedPOSTransaction(CalculatePosTransactionRes body);
 }
 
