@@ -136,6 +136,7 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isTagBox;
         private boolean isSelected;
         private boolean scanView;
+        private boolean isOverAllStatusfromList;
         private String itemStatus = "";
         private String scannedBarcode;
         private boolean isExpanded;
@@ -375,6 +376,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setGetOMSTransactionResponse(GetOMSTransactionResponse getOMSTransactionResponse) {
             this.getOMSTransactionResponse = getOMSTransactionResponse;
+        }
+
+        public boolean isOverAllStatusfromList() {
+            return isOverAllStatusfromList;
+        }
+
+        public void setOverAllStatusfromList(boolean overAllStatusfromList) {
+            isOverAllStatusfromList = overAllStatusfromList;
         }
 
         public boolean isTagBox() {

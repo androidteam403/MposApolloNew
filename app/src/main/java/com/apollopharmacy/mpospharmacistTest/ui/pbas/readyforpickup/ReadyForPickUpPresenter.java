@@ -67,7 +67,7 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
         getMvpView().onClickPrint( omsHeader );
 
     }
-
+    int i;
     @Override
     public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         if (getMvpView().isNetworkConnected()) {
@@ -77,12 +77,13 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for ( i = 0; i < selectedOmsHeaderList.size(); i++) {
                     MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
                     order.setDataAreaID("AHEL");
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
+                    order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
                     ordersList.add(order);
                 }
             }
@@ -108,9 +109,12 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+//                            response.body().setReturnMessage("BARCODE , 9781234567897");
+
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
 
-                        } else {
+
+                        } else  {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
                         }
 

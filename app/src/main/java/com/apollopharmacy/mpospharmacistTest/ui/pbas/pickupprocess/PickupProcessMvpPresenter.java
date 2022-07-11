@@ -4,6 +4,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void onClickNotAvailable();
 
+    void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
+
     void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId);
 
     void onClickSkip();
@@ -35,5 +39,7 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
     void onClickForwardToPacker();
+
+    void mposPickPackOrderReservationApiCalls(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
 }

@@ -51,6 +51,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
             holder.adapterReadyForPickupBinding.scannedCode.setText(lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
+
         }else
         {
             holder.adapterReadyForPickupBinding.scannedCode.setText("");
@@ -61,15 +62,20 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
 
 
         holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+
+
         if (omsHeader.isTagBox()) {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.VISIBLE);
 //            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.VISIBLE);
-
         } else {
             holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.GONE);
             holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.GONE);
 //            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
+        }
+
+        if(omsHeader.isOverAllStatusfromList()){
+            holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
         }
         holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
             readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
