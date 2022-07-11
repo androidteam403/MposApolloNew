@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityReadyForPickupP
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterReadyForPickupPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -101,9 +103,16 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
                 activityReadyForPickupBinding.readyForPickupRecycleView.setItemAnimator(new DefaultItemAnimator());
                 activityReadyForPickupBinding.readyForPickupRecycleView.setAdapter(readyForPickUpAdapter);
+
+
+
+
+
+
+                }
             }
         }
-    }
+
 
     ScanQrCodeDialog scanQrCodeDialog;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -283,7 +292,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                if (!omsHeader.isTagBox())
 //                    isAlltagBox = false;
 //            if (isAlltagBox) {
-                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+        mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
 ////            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
 ////            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //            } else {
@@ -415,7 +424,47 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
-        if (requestType == 1) {
+        if (requestType == 1 && mposPickPackOrderReservationResponse.getReturnMessage() != null && !mposPickPackOrderReservationResponse.getReturnMessage().equalsIgnoreCase("")) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle("");
+            dialogView.setPositiveLabel("OK");
+            dialogView.setSubtitle(mposPickPackOrderReservationResponse.getReturnMessage() + "\nplease choose another box id's.");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String returnMessage = mposPickPackOrderReservationResponse.getReturnMessage();
+                    String[] messageList = returnMessage.split(",");
+                    for (int k = 0; k < messageList.length; k++) {
+                        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                            if (selectedOmsHeaderList.get(i).getScannedBarcode().contains(messageList[k])) {
+                                int positionRemove = i;
+                                selectedOmsHeaderList.get(positionRemove).setTagBox(false);
+                                selectedOmsHeaderList.get(positionRemove).setScanView(false);
+                                selectedOmsHeaderList.get(positionRemove).setScannedBarcode("");
+                                readyForPickUpAdapter.notifyDataSetChanged();
+                                boolean isAlltagBox = true;
+                                for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                                    if (!omsHeader.isTagBox())
+                                        isAlltagBox = false;
+                                if (isAlltagBox) {
+                                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
+                                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.black));
+                                } else {
+                                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
+                                    activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
+                                }
+
+                            }
+
+                        }
+
+                        dialogView.dismiss();
+                    }
+
+                }
+            });
+            dialogView.show();
+        } else if (requestType == 1 && mposPickPackOrderReservationResponse.getReturnMessage().equalsIgnoreCase("")) {
             if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
                 if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                     for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {

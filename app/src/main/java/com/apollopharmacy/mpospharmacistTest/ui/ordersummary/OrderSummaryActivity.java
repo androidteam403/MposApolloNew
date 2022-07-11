@@ -406,7 +406,12 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
             orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
             orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
-            orderSummaryBinding.doctornamepdf.setText("Doctor" + "--");
+            if(pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")){
+                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--" );
+            }else{
+                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
+            }
+
             if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
                 orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
             } else {

@@ -20,6 +20,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFullfilmentPBind
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,16 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
+
+        String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
+        if (messageList.length > 1) {
+            omsHeaderList.get(position).setScannedBarcode(messageList[1]);
+            omsHeaderList.get(position).setOverAllStatusfromList(true);
+        }
+
+        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
         } else {

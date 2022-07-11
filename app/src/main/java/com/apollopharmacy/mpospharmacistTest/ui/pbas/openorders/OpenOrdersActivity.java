@@ -474,6 +474,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
 
 
+
+
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
