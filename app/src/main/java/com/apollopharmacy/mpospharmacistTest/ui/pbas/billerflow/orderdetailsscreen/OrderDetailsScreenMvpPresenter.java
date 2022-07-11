@@ -39,7 +39,7 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
 
     void onGenerateBill();
 
-    void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
+    void mposPickPackOrderReservationApiCall(int requestType, CustomerDataResBean omsHeader);
 
     void onPrintLabel();
 

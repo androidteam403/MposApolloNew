@@ -1,7 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFullfilmentPBind
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,16 +52,15 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-
-
-
-
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
-
-            holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
-            holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-            holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+        if (omsHeader.getReVerification() == 1) {
+            holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
+        } else {
+            holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
+        }
+        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
 
 
         if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
@@ -137,13 +134,13 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         });
         holder.itemView.setOnClickListener(v -> {
 //            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-                if (mvpView != null)
-                    for (int i = 0; i < omsHeaderList.size(); i++) {
-                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                            mvpView.onFullfillmentItemClick(i, position);
-                            break;
-                        }
+            if (mvpView != null)
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                        mvpView.onFullfillmentItemClick(i, position);
+                        break;
                     }
+                }
 //            } else {
 //                Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
 //            }

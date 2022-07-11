@@ -79,12 +79,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
         }
 
-        if (getGlobalConfingRes != null
-                && getGlobalConfingRes.getOMSVendorWiseConfigration() != null
-                && getGlobalConfingRes.getOMSVendorWiseConfigration().size() > 0) {
-
-        }
-
         if (!allowChangeQty){
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         }

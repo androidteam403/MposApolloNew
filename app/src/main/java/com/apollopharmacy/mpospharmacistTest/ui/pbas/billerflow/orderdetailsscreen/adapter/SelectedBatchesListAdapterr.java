@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSelectedBatchesBillerrBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 
@@ -19,10 +20,12 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
     Context context;
     List<GetBatchInfoRes.BatchListObj> selectedBatchList;
     List<SalesLineEntity> products;
+    private List<PickPackReservation> pickPackReservationList;
 
-    public SelectedBatchesListAdapterr(Context context, List<GetBatchInfoRes.BatchListObj> selectedBatchList, List<SalesLineEntity> products) {
+    public SelectedBatchesListAdapterr(Context context, List<PickPackReservation> pickPackReservationList, List<SalesLineEntity> products) {
         this.context = context;
-        this.selectedBatchList = selectedBatchList;
+//        this.selectedBatchList = selectedBatchList;
+        this.pickPackReservationList = pickPackReservationList;
         this.products = products;
     }
 
@@ -35,19 +38,19 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
 
     @Override
     public void onBindViewHolder(@NonNull SelectedBatchesListAdapterr.ViewHolder holder, int position) {
-        GetBatchInfoRes.BatchListObj batchListObj = selectedBatchList.get(position);
-
-        holder.adapterSelectedBatchesBinding.batchno.setText(batchListObj.getBatchNo());
-        holder.adapterSelectedBatchesBinding.expDate.setText(batchListObj.getExpDate());
-        holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(batchListObj.getMRP()));
-        holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(Math.round(batchListObj.getREQQTY())));
+//        GetBatchInfoRes.BatchListObj batchListObj = selectedBatchList.get(position);
+        PickPackReservation pickPackReservation = pickPackReservationList.get(position);
+        holder.adapterSelectedBatchesBinding.batchno.setText(pickPackReservation.getPickupInventBatchId());
+        holder.adapterSelectedBatchesBinding.expDate.setText(pickPackReservation.getExpiry());
+        holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(pickPackReservation.getPrice()));
+        holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(Math.round(pickPackReservation.getPickupQty())));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return selectedBatchList.size();
+        return pickPackReservationList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

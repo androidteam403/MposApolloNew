@@ -104,6 +104,10 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("REFNO")
         @Expose
         private String refno;
+
+        @SerializedName("ReVerification")
+        @Expose
+        private int ReVerification;
         @SerializedName("ReciptId")
         @Expose
         private String reciptId;
@@ -295,6 +299,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setRefno(String refno) {
             this.refno = refno;
+        }
+
+        public int getReVerification() {
+            return ReVerification;
+        }
+
+        public void setReVerification(int reVerification) {
+            ReVerification = reVerification;
         }
 
         public String getReciptId() {

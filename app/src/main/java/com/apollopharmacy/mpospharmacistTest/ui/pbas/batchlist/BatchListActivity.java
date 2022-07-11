@@ -303,7 +303,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                         break;
                     }
                 }
-
             }
 
 

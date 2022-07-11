@@ -2597,7 +2597,7 @@ public class GetOMSTransactionResponse implements Serializable {
         this.vendorId = vendorId;
     }
 
-    public class PickPackReservation implements Serializable {
+    public static class PickPackReservation implements Serializable {
 
         @SerializedName("Expiry")
         @Expose
