@@ -444,19 +444,41 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
+
                                         <TextView
-                                            android:layout_width="0dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/ten_dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginStart="@dimen/dimen15dp"
                                             android:fontFamily="@font/price_regular"
                                             android:text="@{@string/label_disc_type(order_info.discType)}"
                                             android:textColor="@color/black"
+
                                             android:textSize="@dimen/text_dimen_12" />
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/dimen25dp"
+                                            android:fontFamily="@font/price_regular"
+                                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
+                                            android:textColor="@color/black"
+
+                                            android:textSize="@dimen/text_dimen_12" />
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/dimen5dp"
+                                        android:orientation="horizontal">
 
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/dimen15dp"
                                             android:layout_weight="1"
                                             android:fontFamily="@font/price_regular"
                                             android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
@@ -466,7 +488,9 @@
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
                                             android:layout_weight="1"
+                                            android:ellipsize="end"
                                             android:fontFamily="@font/price_regular"
                                             android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
                                             android:textColor="@color/black"
@@ -475,12 +499,16 @@
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
                                             android:layout_weight="1"
                                             android:fontFamily="@font/price_regular"
                                             android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_dimen_12" />
+
+
                                     </LinearLayout>
+
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -488,21 +516,11 @@
                                         android:layout_marginBottom="@dimen/ten_dp"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/ten_dp"
-                                            android:layout_marginTop="@dimen/five_dp"
-                                            android:layout_weight="1"
-                                            android:ellipsize="end"
-                                            android:fontFamily="@font/price_regular"
-                                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_dimen_12" />
 
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/dimen15dp"
                                             android:layout_marginTop="@dimen/five_dp"
                                             android:layout_weight="1"
                                             android:fontFamily="@font/price_regular"
@@ -530,6 +548,8 @@
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_dimen_12" />
                                     </LinearLayout>
+
+
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -1551,7 +1571,7 @@
             <LinearLayout
                 android:id="@+id/footer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
+                android:layout_height="@dimen/dimen100dp"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:visibility="@{isPaymentMode || product_count == 0 ? View.GONE : View.VISIBLE}"
@@ -1568,22 +1588,40 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:orientation="horizontal"
-                        android:weightSum="4">
+                        android:orientation="horizontal">
+
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_disc_type(order_info.discType)}"
                             android:textColor="@color/white"
+
                             android:textSize="@dimen/text_dimen_12" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen25dp"
+                            android:fontFamily="@font/price_regular"
+                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
@@ -1593,6 +1631,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen5dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
@@ -1602,33 +1641,28 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_12" />
+
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/dimen5dp"
+
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/price_regular"
-                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_12" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_MRP_Total_price(@string/price_format(order_info.MrpTotalAmount))}"
@@ -1676,6 +1710,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen5dp"
                         android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_savings_price(@string/price_format(order_info.discTotalAmount)) + ` (`+@string/price_format(order_info.OrderSavingsPercentage)+`%)`}"
                         android:textColor="@color/black"
