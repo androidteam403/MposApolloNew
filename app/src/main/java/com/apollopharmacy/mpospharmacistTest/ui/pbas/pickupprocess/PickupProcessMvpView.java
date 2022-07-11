@@ -91,7 +91,4 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
 
-    void onSuccessMposPickPackOrderReservationApiCalls(int requestType, MPOSPickPackOrderReservationResponse body);
-
-    void onFailureMposPickPackOrderReservationApiCalls(int requestType, MPOSPickPackOrderReservationResponse body);
 }

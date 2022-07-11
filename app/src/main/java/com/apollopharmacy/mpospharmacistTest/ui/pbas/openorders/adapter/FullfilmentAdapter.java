@@ -58,7 +58,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
         if (messageList.length > 1) {
             omsHeaderList.get(position).setScannedBarcode(messageList[1]);
-            omsHeaderList.get(position).setOverAllStatusfromList(true);
+            omsHeaderList.get(position).setTagBox(true);
         }
 
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());

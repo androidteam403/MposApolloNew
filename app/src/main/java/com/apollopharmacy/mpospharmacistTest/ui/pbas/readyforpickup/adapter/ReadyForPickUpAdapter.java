@@ -16,7 +16,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAdapter.ViewHolder> {
@@ -31,7 +30,6 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         this.activity = activity;
         this.selectedOmsHeaderList = selectedOmsHeaderList;
         this.readyForPickUpMvpView = readyForPickUpMvpView;
-
 
 
     }
@@ -49,13 +47,10 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
     public void onBindViewHolder(@NonNull ReadyForPickUpAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
-        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()) {
             holder.adapterReadyForPickupBinding.scannedCode.setText(lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
-
-        }else
-        {
+        } else {
             holder.adapterReadyForPickupBinding.scannedCode.setText("");
-
         }
 
 //  holder.adapterReadyForPickupBinding.filmentIdNum.setText(lastFourDigits(String.valueOf(omsHeader.getFulfilId())));
@@ -74,11 +69,11 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
 //            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
         }
 
-        if(omsHeader.isOverAllStatusfromList()){
-            holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
-        }
+//        if (omsHeader.isOverAllStatusfromList()) {
+//            holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
+//        }
         holder.adapterReadyForPickupBinding.scanDelete.setOnClickListener(v -> {
-            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(),  lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
+            readyForPickUpMvpView.onDeleteClick(position, omsHeader.getRefno(), lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
         });
 
         holder.adapterReadyForPickupBinding.tagBox.setOnClickListener(v -> {
@@ -116,7 +111,7 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
     }
 
     public static String lastFiveDigits(String data) {
-        String lastFourDigits ="";   //substring containing last 4 characters
+        String lastFourDigits = "";   //substring containing last 4 characters
 
         if (data.length() > 5) {
             lastFourDigits = data.substring(data.length() - 5);
