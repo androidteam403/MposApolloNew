@@ -234,9 +234,9 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            finish();
 //        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
-            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            finish();
+//            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
+//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//            finish();
 //        } else {
 //            Toast.makeText(this, "MPOS version other than verion 1 & 2", Toast.LENGTH_SHORT).show();
 //        }
