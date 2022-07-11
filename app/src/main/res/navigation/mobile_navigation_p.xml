@@ -3,17 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_dashboard">
+    app:startDestination="@+id/nav_picker_vtwo">
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_dashboard"-->
+<!--        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"-->
+<!--        tools:layout="@layout/fragment_dashboard_p" />-->
 
     <fragment
-        android:id="@+id/nav_dashboard"
-        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"
-        android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard_p" />
+        android:id="@+id/nav_picker_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity"
+        tools:layout="@layout/activity_open_orders_p" />
+    <fragment
+        android:id="@+id/nav_packer_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"
+        tools:layout="@layout/activity_picked_up_orders_p" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_slideshow"-->
-    <!--        android:name="com.thresholdsoft.mpospicker.ui.navigationActivity3.slideshowFragment.SlideshowFragment"-->
-    <!--        android:label="Slideshow"-->
-    <!--        tools:layout="@layout/fragment_slideshow" />-->
+    <fragment
+        android:id="@+id/nav_biller_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"
+        tools:layout="@layout/activity_biller_orders_p" />
+
+   <!-- <fragment
+        android:id="@+id/nav_ePrescription_vtwo"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"
+        tools:layout="@layout/activity_e_prescription2" />
+-->
+
+
 </navigation>

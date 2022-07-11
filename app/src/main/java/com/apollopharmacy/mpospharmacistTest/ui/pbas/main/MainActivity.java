@@ -22,6 +22,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainMvpView, RssAdapter.Callback {
 
+
     RecyclerView mRecyclerView;
 
     @Inject

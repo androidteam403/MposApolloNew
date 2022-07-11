@@ -1,14 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem.model;
 
-import androidx.databinding.BaseObservable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class PickPackReservation
-{
+public class PickPackReservation {
 
     @SerializedName("PickupFullfillmentId")
     @Expose
@@ -40,34 +35,46 @@ public class PickPackReservation
     @Expose
     private String TaxCode;
 
-    public  double getPrice()
-    {
+    private boolean isPickPackSelected;
+
+    public double getPrice() {
         return Price;
     }
 
-    public void  setPrice(double price)
-    {
-        this.Price=price;
+    public void setPrice(double price) {
+        this.Price = price;
     }
 
-    public String getExpiry()
-    {
-        return  Expiry;
+    public String getExpiry() {
+        return Expiry;
     }
 
-    public  void setExpiry(String expiry)
-    {
-        this.Expiry=expiry;
+    public void setExpiry(String expiry) {
+        this.Expiry = expiry;
     }
 
-    public  String getTaxCode()
-    {
+    public String getTaxCode() {
         return TaxCode;
     }
 
-    public  void setTaxCode(String taxCode)
-    {
-        this.TaxCode=taxCode;
+    public void setTaxCode(String taxCode) {
+        this.TaxCode = taxCode;
+    }
+
+    public boolean isBatchupdated() {
+        return isBatchupdated;
+    }
+
+    public void setBatchupdated(boolean batchupdated) {
+        isBatchupdated = batchupdated;
+    }
+
+    public boolean isPickPackSelected() {
+        return isPickPackSelected;
+    }
+
+    public void setPickPackSelected(boolean pickPackSelected) {
+        isPickPackSelected = pickPackSelected;
     }
 
     public boolean getisBatchupdated() {

@@ -120,4 +120,5 @@
     <color name="trans_red">#FBEAEA</color>
     <color name="partial_color">#ffc12f</color>
     <color name="orange">#f7941d</color>
+    <color name="color_takeprint">#00adef</color>
 </resources>
