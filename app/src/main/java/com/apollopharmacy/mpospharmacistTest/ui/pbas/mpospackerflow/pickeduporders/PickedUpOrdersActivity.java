@@ -101,6 +101,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
         PickerNavigationActivity.mInstance.setStock("");
+        PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
 
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 //        mvpPresenter.fetchFulfilmentOrderList();

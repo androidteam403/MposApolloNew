@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
@@ -27,7 +25,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,15 +110,12 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
                 navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
-                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.VISIBLE);
             } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
                 navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
-                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
             } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
                 navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
-                activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
             }
             return true;
         });
@@ -173,6 +167,13 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 }
             }
         });
+    }
+
+    public void setStockAvailableVisibilty(boolean isVisible) {
+        if (isVisible)
+            activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.VISIBLE);
+        else
+            activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
     }
 
     public void setStock(String stock) {

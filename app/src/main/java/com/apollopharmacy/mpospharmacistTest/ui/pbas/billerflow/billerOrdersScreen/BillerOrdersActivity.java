@@ -93,6 +93,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
+        PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
         mPresenter.fetchFulfilmentOrderList();
@@ -568,7 +569,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     public void onItemClick() {
 
     }
-
 
 
     @Override
