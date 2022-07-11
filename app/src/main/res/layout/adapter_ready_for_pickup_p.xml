@@ -30,17 +30,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Fullfillment ID : "
-                        android:textColor="@color/jumbo"
+                        android:text="Fulfilment ID : "
+                        android:textColor="#b6b4af"
                         android:textSize="@dimen/thirteen_sp" />
 
                     <TextView
                         android:id="@+id/filment_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/dimen14sp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:textColor="@color/black" />
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -53,16 +53,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Total Items : "
-                        android:textColor="@color/aluminum"
+                        android:textColor="#b6b4af"
                         android:textSize="@dimen/ten_sp" />
 
                     <TextView
                         android:id="@+id/total_items"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -70,120 +70,119 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/linearlayout"
-              android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1236"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="@dimen/dimen10dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"/>
 
                 <LinearLayout
-                    android:id="@+id/tag_box"
+                    android:id="@+id/linearlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="@dimen/dimen6dp">
-
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="@dimen/dimen30dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/tag_box" />
-
-                        <ImageView
-                            android:id="@+id/tick_mark"
-                            android:layout_width="@dimen/fifteen_dp"
-                            android:layout_height="@dimen/fifteen_dp"
-                            android:layout_centerInParent="true"
-                            android:background="@drawable/ic_circular_shape"
-                            android:src="@drawable/tick_mark"
-                            android:visibility="gone" />
-                    </RelativeLayout>
-
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center_horizontal"
-                        android:text="Click on Tag Box icon"
-                        android:visibility="gone"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
-                </LinearLayout>
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/price_bold"
+                        android:id="@+id/scanned_code"
+                        android:text=""                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10dp" />
 
-                <ImageView
+                    <LinearLayout
+                        android:id="@+id/tag_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                    android:id="@+id/scan_delete"
-                    android:layout_width="19dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/dimen_9_sp"
-                    android:layout_marginEnd="@dimen/five_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/cross_red_delete_icon"
-                    android:visibility="visible" />
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="@dimen/dimen6dp">
 
 
-            </LinearLayout>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="@dimen/dimen30dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/tag_box" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:padding="4dp"
-                    android:id="@+id/take_print1"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:background="@drawable/take_print_btn_bg">
+                            <ImageView
+                                android:id="@+id/tick_mark"
+                                android:layout_width="@dimen/fifteen_dp"
+                                android:layout_height="@dimen/fifteen_dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/ic_circular_shape"
+                                android:src="@drawable/tick_mark"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="center_horizontal"
+                            android:text="Click on Tag Box icon"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/ten_sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <ImageView
-                        android:layout_marginStart="@dimen/dimen2dp"
+
+                        android:id="@+id/scan_delete"
+                        android:layout_width="19dp"
+                        android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen15dp"
-                        android:layout_height="@dimen/dimen15dp"
-                        android:background="@drawable/take_print_btn_bg"
+                        android:layout_marginStart="@dimen/dimen_9_sp"
+                        android:layout_marginEnd="@dimen/five_dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/white_printer" />
-
-                    <TextView
-                    android:id="@+id/take_print"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:text="Take Print"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/dimen_11sp"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="4dp"
-                    android:visibility="visible"
-                    android:textColor="@color/white"
-                    tools:ignore="ButtonStyle" />
-
+                        android:src="@drawable/cross_red_delete_icon"
+                        android:visibility="visible" />
 
 
                 </LinearLayout>
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/take_print1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="23dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginTop="@dimen/_4dp"-->
+<!--                    android:background="@drawable/take_print_btn_bg"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="4dp"-->
+<!--                    android:visibility="gone">-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="@dimen/dimen15dp"-->
+<!--                        android:layout_height="@dimen/dimen15dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginStart="@dimen/dimen2dp"-->
+<!--                        android:background="@drawable/take_print_btn_bg"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/white_printer" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/take_print"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="23dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="4dp"-->
+<!--                        android:fontFamily="@font/roboto_medium"-->
+<!--                        android:text="Take Print"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="@dimen/dimen_11sp"-->
+<!--                        android:visibility="visible"-->
+<!--                        tools:ignore="ButtonStyle" />-->
+
+
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 
