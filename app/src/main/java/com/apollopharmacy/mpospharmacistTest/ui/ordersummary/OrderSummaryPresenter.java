@@ -167,8 +167,7 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     }
 
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
     }
 
@@ -180,9 +179,9 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
             getMvpView().hideKeyboard();
             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
             PdfModelRequest reqModel = new PdfModelRequest();
-            reqModel.setStoreCode("16001");
-            reqModel.setTerminalID("005");
-            reqModel.setDataAreaID("AHEL");
+            reqModel.setStoreCode(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
             reqModel.setRequestStatus(0);
             reqModel.setReturnMessage("");
             reqModel.setTransactionId(transactionId);
@@ -193,11 +192,11 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
                 @Override
                 public void onResponse(Call<PdfModelResponse> call, Response<PdfModelResponse> response) {
                     getMvpView().hideLoading();
-                    if(response.isSuccessful()){
-                        if(response.body()!=null){
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
                             getMvpView().onSuccessPdfResponse(response.body());
                         }
-                    }else{
+                    } else {
                         getMvpView().onFailurePdfResponse(response.body());
                     }
                 }
@@ -256,26 +255,26 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-              //  Log.d(TAG, "File Size=" + fileSize);
+                //  Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-              //  Log.d(TAG, destinationFile.getParent());
+                //  Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessPlayList();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-          //  Log.d(TAG, "Failed to save the file!");
+            //  Log.d(TAG, "Failed to save the file!");
         }
     }
 

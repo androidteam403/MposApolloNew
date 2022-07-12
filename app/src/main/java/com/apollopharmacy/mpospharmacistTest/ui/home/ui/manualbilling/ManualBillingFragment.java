@@ -30,6 +30,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearch
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -242,9 +243,14 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
     }
 
     @Override
-    public void updateUHIDDetails(Uhid_details uhid_details) {
+    public void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse) {
 
     }
+
+//    @Override
+//    public void updateUHIDDetails(Uhid_details uhid_details) {
+//
+//    }
 
     @Override
     public void onFaliureStaffListData() {
