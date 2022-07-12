@@ -424,8 +424,8 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 public void onResponse(@NotNull Call<GetHBPUHIDDetailsResponse> call, @NotNull Response<GetHBPUHIDDetailsResponse> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
-                        if (response.body() != null && response.body().isStatus() ) {
-                            getMvpView().updateUHIDDetails(response.body().getUhid_details());
+                        if (response.body() != null) {
+                            getMvpView().updateUHIDDetails(response.body());
                         } else {
 
                         }

@@ -406,9 +406,9 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
             orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
             orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
-            if(pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")){
-                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--" );
-            }else{
+            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
+                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
+            } else {
                 orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
             }
 
@@ -466,7 +466,9 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
             orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
 
-
+            new Handler().postDelayed(() -> {
+                onDownloadPdfButton();
+            }, 2000);
         }
     }
 
