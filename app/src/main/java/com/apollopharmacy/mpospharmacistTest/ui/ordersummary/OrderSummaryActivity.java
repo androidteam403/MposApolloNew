@@ -1,12 +1,30 @@
 package com.apollopharmacy.mpospharmacistTest.ui.ordersummary;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +32,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderSummaryBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.LayoutpdfBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.ViewMedicineInfoBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.ViewPaymentInfoBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OrderPriceInfoModel;
@@ -27,15 +52,20 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
-import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.adapter.PdfAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +76,16 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     @Inject
     OrderSummaryMvpPresenter<OrderSummaryMvpView> mPresenter;
     ActivityOrderSummaryBinding orderSummaryBinding;
+    String dirpath;
     private ArrayList<SaveRetailsTransactionRes.SalesLineEntity> medicineArrList = new ArrayList<>();
     private ArrayList<SaveRetailsTransactionRes.TenderLineEntity> paidAmountArr = new ArrayList<>();
     private CorporateModel.DropdownValueBean corporateEntity;
     ViewPaymentInfoBinding childView;
     SaveRetailsTransactionRes transactionRes;
     PaymentMethodModel paymentMethodModel;
+    RelativeLayout relativeLayout;
+    Bitmap bitmap;
+    String transactionId;
 
     public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel, PaymentMethodModel paymentMethodModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
@@ -70,7 +104,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         double diagonalInches = UiUtils.displaymetrics(this);
         if (diagonalInches >= 10) {
             Log.i("Tab inches-->", "10 inches");
-          //  setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            //  setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
@@ -80,6 +114,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
         }
         orderSummaryBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_summary);
+
         getActivityComponent().inject(this);
         mPresenter.onAttach(OrderSummaryActivity.this);
         setUp();
@@ -87,12 +122,17 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
     @Override
     protected void setUp() {
+//        orderSummaryBinding.pflayout.setVisibility(View.GONE);
         orderSummaryBinding.siteName.setText(mPresenter.getStoreName());
         orderSummaryBinding.siteId.setText(mPresenter.getStoreId());
         orderSummaryBinding.terminalId.setText(mPresenter.getTerminalId());
         orderSummaryBinding.setCallback(mPresenter);
         paymentMethodModel = (PaymentMethodModel) getIntent().getSerializableExtra("payment_mathod_data");
         transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
+
+        transactionId = transactionRes.getTransactionId();
+
+
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
         }
@@ -102,6 +142,9 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
                 orderSummaryBinding.setCorporate(corporateEntity);
             }
         }
+
+        mPresenter.downloadPdf(transactionId);
+
 
         medicineArrList.addAll(transactionRes.getSalesLine());
         orderSummaryBinding.setItemCount(medicineArrList.size());
@@ -159,7 +202,6 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 
 
-
     }
 
     @Override
@@ -171,14 +213,12 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);*/
 
-        Constant.getInstance().ordersource=transactionRes.getOrderSource();
+        Constant.getInstance().ordersource = transactionRes.getOrderSource();
         onClickNewOrder();
 
 
-
-
-
     }
+
 
     private List<RowsEntity> rowsEntitiesList;
 
@@ -240,8 +280,8 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         orderSummaryBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -330,10 +370,280 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
     }
 
+    Dialog pdfDialog;
+    LayoutpdfBinding layoutpdfBinding;
+    Bitmap bm;
 
     @Nullable
     @Override
     public Context getContext() {
         return this;
+    }
+
+    PdfModelResponse pdfModelResponse;
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onSuccessPdfResponse(PdfModelResponse pdfModelResponse) {
+
+        this.pdfModelResponse = pdfModelResponse;
+
+        if (pdfModelResponse != null) {
+
+
+//        Toast.makeText(getContext(), "Pdf api is successfull", Toast.LENGTH_SHORT ).show();
+
+//        orderSummaryBinding.postesting.setText(pdfModelResponse.getSalesHeader().get(0).getBranch());
+            orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
+            orderSummaryBinding.address.setText(pdfModelResponse.getSalesHeader().get(0).getAddress());
+            orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
+            orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
+            orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
+            orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+
+
+            orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
+            orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
+            orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
+            orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
+            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
+                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
+            } else {
+                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
+            }
+
+            if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
+                orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+            } else {
+                orderSummaryBinding.cgstin.setText("--");
+            }
+            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo() + "  TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
+            orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
+
+
+            if (pdfModelResponse != null) {
+                PdfAdapter pdfAdapter = new PdfAdapter(pdfModelResponse, getApplicationContext(), this);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrderSummaryActivity.this);
+                orderSummaryBinding.pdfRecyclerView.setLayoutManager(mLayoutManager);
+                orderSummaryBinding.pdfRecyclerView.setAdapter(pdfAdapter);
+            }
+
+
+            orderSummaryBinding.taxablevaluepdf.setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable());
+//        orderSummaryBinding.cgstamtpdf.setText("CGstAMT:" +pdfModelResponse.getSalesLine().get(0).getCgs);
+//        orderSummaryBinding.sgstamtpdf.setText();
+            orderSummaryBinding.grosspdf.setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal());
+            orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
+            orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
+            orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+            double cgstAmount = 0.0;
+            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+                        && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
+                    cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+
+                }
+            }
+            orderSummaryBinding.cgstamtpdf.setText("CGstAMT : " + String.valueOf(cgstAmount));
+            double sgstAmount = 0.0;
+            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+                        && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
+                        && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
+                    sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+
+                }
+            }
+            orderSummaryBinding.sgstamtpdf.setText("SGstAmt: " + String.valueOf(sgstAmount));
+            orderSummaryBinding.cinpdf.setText("CIN : U52500TN2016PLC111328");
+            orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
+            orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
+
+            new Handler().postDelayed(() -> {
+                onDownloadPdfButton();
+            }, 2000);
+        }
+    }
+
+
+    @Override
+    public void onDownloadPdfButton() {
+        if (isStoragePermissionGranted()) {
+            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+            createPdf();
+        }
+    }
+
+    private Bitmap LoadBitmap(View v, int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
+    }
+
+    private void createPdf() {
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        //  Display display = wm.getDefaultDisplay();
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//        float hight = displaymetrics.heightPixels;
+//        float width = displaymetrics.widthPixels;
+//
+//        int convertHighet = (int) hight, convertWidth = (int) width;
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(2225, 1080, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+        Paint paint = new Paint();
+        canvas.drawPaint(paint);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, 2225, 1080, true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        document.finishPage(page);
+
+        // write the document content
+        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+        File file = new File(pdfPath, transactionId.concat(".pdf"));
+        try {
+            document.writeTo(new FileOutputStream(file));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }////////////////////
+
+        // close the document
+        document.close();
+//        Toast.makeText(this, "successfully pdf created", Toast.LENGTH_SHORT).show();
+        openPdf();
+
+    }
+
+    private void openPdf() {
+
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
+        if (file.exists()) {
+            //Button To start print
+            PrintManager printManager = (PrintManager) this.getSystemService(Context.PRINT_SERVICE);
+            String jobName = this.getString(R.string.app_name) + " Document";
+            printManager.print(jobName, pda, null);
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            Uri photoURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+////            Uri uri = Uri.fromFile(file);
+//            intent.setDataAndType(photoURI, "application/pdf");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//
+//            try {
+//                startActivity(intent);
+//            } catch (ActivityNotFoundException e) {
+//                Toast.makeText(this, "No Application for pdf view", Toast.LENGTH_SHORT).show();
+//            }
+        } else {
+            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    PrintDocumentAdapter pda = new PrintDocumentAdapter() {
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onWrite(PageRange[] pages, ParcelFileDescriptor destination, CancellationSignal cancellationSignal, WriteResultCallback callback) {
+            InputStream input = null;
+            OutputStream output = null;
+            try {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
+
+                input = new FileInputStream(file);//"/storage/emulated/0/Documents/my-document-1656940186153.pdf"
+                output = new FileOutputStream(destination.getFileDescriptor());
+                byte[] buf = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = input.read(buf)) > 0) {
+                    output.write(buf, 0, bytesRead);
+                }
+            } catch (Exception e) {
+
+            } finally {
+                try {
+                    if (input != null) {
+                        input.close();
+                    } else {
+                        Toast.makeText(OrderSummaryActivity.this, "FileInputStream getting null", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (output != null) {
+                        output.close();
+                    } else {
+                        Toast.makeText(OrderSummaryActivity.this, "FileOutStream getting null", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes, CancellationSignal cancellationSignal, LayoutResultCallback callback, Bundle extras) {
+            if (cancellationSignal.isCanceled()) {
+                callback.onLayoutCancelled();
+                return;
+            }
+            //int pages = computePageCount(newAttributes);
+            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder("file_name.pdf").setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
+            callback.onLayoutFinished(pdi, true);
+        }
+
+    };
+
+    @Override
+    public void onFailurePdfResponse(PdfModelResponse body) {
+
+    }
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+//                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+//                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+//            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+            createPdf();
+//            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
     }
 }
