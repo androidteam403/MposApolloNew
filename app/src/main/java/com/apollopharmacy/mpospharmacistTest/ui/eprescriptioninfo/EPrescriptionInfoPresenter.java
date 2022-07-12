@@ -1,12 +1,8 @@
 package com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo;
 
-import android.content.Context;
-
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.model.POSTransactionEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
@@ -20,24 +16,15 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Medicine
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
-import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,7 +101,7 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
                 @Override
                 public void onFailure(@NotNull Call<MedicineBatchResBean> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
-                   // handleApiError(t);
+                    // handleApiError(t);
                 }
             });
         } else {
@@ -158,7 +145,6 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
     }
 
 
-
     @Override
     public void onClickChangeSite() {
         getMvpView().onClickChangeSite();
@@ -192,7 +178,6 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
                         } else {
                             getMvpView().CheckBatchStockFailure(response.body());
                         }
-
                     }
                 }
 
@@ -252,23 +237,21 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
             getMvpView().showLoading();
             omsOrderUpdateRequest.setTerminalID(getDataManager().getTerminalId());
             //ApiInterface api = ApiClient.getApiService(Constant.UPDATEOMSORDER);
-           // text.replace("/"","");
-            String check_epos=getDataManager().getEposURL();
-            String replace_url=getDataManager().getEposURL();
-            if(check_epos.contains("EPOS/"))
-            {
-                replace_url=check_epos.replace("EPOS/","");
+            // text.replace("/"","");
+            String check_epos = getDataManager().getEposURL();
+            String replace_url = getDataManager().getEposURL();
+            if (check_epos.contains("EPOS/")) {
+                replace_url = check_epos.replace("EPOS/", "");
 
             }
-            if(check_epos.contains("9880"))
-            {
-                replace_url=check_epos.replace("9880","9887");
+            if (check_epos.contains("9880")) {
+                replace_url = check_epos.replace("9880", "9887");
 
             }
             // ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             ApiInterface api = ApiClient.getApiService(replace_url);
 
-         // ApiInterface api = ApiClient.getApiService3();
+            // ApiInterface api = ApiClient.getApiService3();
             Call<OMSOrderUpdateResponse> call = api.UPDATE_OMS_ORDER(omsOrderUpdateRequest);
             call.enqueue(new Callback<OMSOrderUpdateResponse>() {
                 @Override
@@ -299,7 +282,7 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
 
 
     @Override
-    public void getBatchDetailsApi(SalesLineEntity selected_item) {
+    public void getBatchDetailsApi(SalesLineEntity selected_item, boolean isEshopChecking) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
@@ -320,10 +303,15 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0)
-                            getMvpView().onSuccessBatchInfo(response.body(),selected_item.getMRP());
-                        else
+                        if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
+                            if (isEshopChecking) {
+                                getMvpView().onSuccessBatchInfoEshopChecking(response.body(), selected_item.getMRP());
+                            } else {
+                                getMvpView().onSuccessBatchInfo(response.body(), selected_item.getMRP());
+                            }
+                        } else {
                             getMvpView().onFailedBatchInfo(response.body());
+                        }
                     }
                 }
 
@@ -342,6 +330,7 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
     public void checkeshopshippingcharges() {
         getMvpView().checkeshopshippingcharges();
     }
+
     @Override
     public void getBatchDetailsApi_pickpack(SalesLineEntity selected_item, PickPackReservation pickPackReservation) {
         if (getMvpView().isNetworkConnected()) {
@@ -365,7 +354,7 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
                         //Dismiss Dialog
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0)
-                            getMvpView().onSuccessBatchInfo_pickpack(response.body(),pickPackReservation,selected_item.getMRP());
+                            getMvpView().onSuccessBatchInfo_pickpack(response.body(), pickPackReservation, selected_item.getMRP());
                         else
                             getMvpView().onFailedBatchInfo(response.body());
                     }
