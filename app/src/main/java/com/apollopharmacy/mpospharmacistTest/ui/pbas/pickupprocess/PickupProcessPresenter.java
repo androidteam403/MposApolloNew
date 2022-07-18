@@ -341,33 +341,31 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
         }
     }
 
-
     @Override
-    public void mposPickPackOrderReservationApiCalls(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+    public void mposPickPackOrderReservationApiCalls(int requestType, TransactionHeaderResponse.OMSHeader selectedOmsHeader) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(requestType);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
-            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
-                    MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-                    order.setDataAreaID("AHEL");
-                    order.setStoreID(getDataManager().getStoreId());
-                    order.setTerminalID(getDataManager().getTerminalId());
-                    order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
-                    if (selectedOmsHeaderList.get(i).getItemStatus().equals("FULL")) {
-                        order.setOverallOrderStatus("1");
-                    } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("PARTIAL")) {
-                        order.setOverallOrderStatus("2");
-                    } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("NOT AVAILABLE")) {
-                        order.setOverallOrderStatus("3");
-                    }
-                    ordersList.add(order);
+            if (selectedOmsHeader != null) {
+                MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
+                order.setDataAreaID("AHEL");
+                order.setStoreID(getDataManager().getStoreId());
+                order.setTerminalID(getDataManager().getTerminalId());
+                order.setTransactionID(selectedOmsHeader.getRefno());
+                order.setRefID(selectedOmsHeader.getScannedBarcode());
+                if (selectedOmsHeader.getItemStatus().equals("FULL")) {
+                    order.setOverallOrderStatus("1");
+                } else if (selectedOmsHeader.getItemStatus().equals("PARTIAL")) {
+                    order.setOverallOrderStatus("2");
+                } else if (selectedOmsHeader.getItemStatus().equals("NOT AVAILABLE")) {
+                    order.setOverallOrderStatus("3");
                 }
+                ordersList.add(order);
             }
+
 
             mposPickPackOrderReservationRequest.setOrderList(ordersList);
             String check_epos = getDataManager().getEposURL();
@@ -389,10 +387,10 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
-                            getMvpView().onSuccessMposPickPackOrderReservationApiCalls(requestType, response.body());
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
 
                         } else {
-                            getMvpView().onFailureMposPickPackOrderReservationApiCalls(requestType, response.body());
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
                         }
                     }
                 }

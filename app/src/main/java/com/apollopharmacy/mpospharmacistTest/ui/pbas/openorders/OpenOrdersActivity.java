@@ -106,6 +106,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
         PickerNavigationActivity.mInstance.setStock("Stock Available");
+        PickerNavigationActivity.mInstance.setStockAvailableVisibilty(true);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
@@ -471,9 +472,6 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         mPresenter.setTotalOmsHeaderList(omsHeaderList);
         PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
-
-
-
 
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

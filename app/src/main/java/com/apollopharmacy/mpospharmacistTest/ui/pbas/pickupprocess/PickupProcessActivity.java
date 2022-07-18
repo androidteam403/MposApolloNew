@@ -436,6 +436,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (requestType == 2) {
             if (mposPickPackOrderReservationResponse != null)
                 doBackPressed();
+        } else if (requestType == 5) {
+
         }
     }
 
@@ -612,20 +614,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 
         }
-    }
-
-    @Override
-    public void onSuccessMposPickPackOrderReservationApiCalls(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
-
-//        Toast.makeText(getApplicationContext(), "MposPickPackReservation is Successfull", Toast.LENGTH_SHORT).show();
-        onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist);
-
-    }
-
-    @Override
-    public void onFailureMposPickPackOrderReservationApiCalls(int requestType, MPOSPickPackOrderReservationResponse body) {
-       Toast.makeText(getApplicationContext(), "MposPickPackReservation is not Successfull", Toast.LENGTH_SHORT).show();
-
     }
 
 //    private void checkAllFalse() {
@@ -940,8 +928,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     }
 
-    public void mposOrderUpdate(int j){
-        if(selectedOmsHeaderList!=null && selectedOmsHeaderList.size()>=j) {
+    private int j = -1;
+
+    public void mposOrderUpdate(int j) {
+        this.j = j;
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() >= j) {
             int count = 1;
 //        for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
             omsOrderForwardRequest = new OMSOrderForwardRequest();
@@ -1103,8 +1094,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
 
-
-
     @Override
     public void onClickContinue() {
         startActivity(PickUpSummmaryActivityNew.getStartActivity(this, selectedOmsHeaderList, pickupProcessBinding.time.getText().toString(), pickupProcessBinding.chrono.getText().toString(), omsHeaderObj, salesLinee, orderAdapterPos, position));
@@ -1136,12 +1125,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
-//        Toast.makeText(getApplicationContext(), "OrderUpdate is Successfull", Toast.LENGTH_SHORT).show();
-
-        count++;
-        if (count == omsOrderForwardRequests.size()) {
-            mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList);
-        }
+        mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
     }
 
     @Override

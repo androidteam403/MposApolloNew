@@ -242,4 +242,5 @@
     <dimen name="dimen15sp">15sp</dimen>
     <dimen name="dimen110dp">110dp</dimen>
     <dimen name="thrity_nine_dp">39dp</dimen>
+    <dimen name="dimen220dp">220dp</dimen>
 </resources>

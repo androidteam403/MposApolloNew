@@ -711,6 +711,7 @@
                         android:layout_marginBottom="@dimen/dimen6dp"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -726,7 +727,6 @@
                             android:id="@+id/downloadpdf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:fontFamily="@font/roboto_bold"
                             android:onClick="@{()-> callback.onDownloadPdfButton()}"
                             android:padding="@dimen/dimen3dp"

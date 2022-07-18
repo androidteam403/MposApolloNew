@@ -20,7 +20,6 @@ import com.apollopharmacy.mpospharmacistTest.databinding.AdapterFullfilmentPBind
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
         if (messageList.length > 1) {
             omsHeaderList.get(position).setScannedBarcode(messageList[1]);
-            omsHeaderList.get(position).setOverAllStatusfromList(true);
+            omsHeaderList.get(position).setTagBox(true);
         }
 
         holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
@@ -144,17 +143,17 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             }
         });
         holder.itemView.setOnClickListener(v -> {
-//            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-            if (mvpView != null)
-                for (int i = 0; i < omsHeaderList.size(); i++) {
-                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                        mvpView.onFullfillmentItemClick(i, position);
-                        break;
+            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
+                if (mvpView != null)
+                    for (int i = 0; i < omsHeaderList.size(); i++) {
+                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                            mvpView.onFullfillmentItemClick(i, position);
+                            break;
+                        }
                     }
-                }
-//            } else {
-//                Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
-//            }
+            } else {
+                Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
+            }
         });
         holder.fullfilmentBinding.selectbutton.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
