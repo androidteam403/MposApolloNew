@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="ID: "
+                        android:text="ID : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/ten_sp" />
 

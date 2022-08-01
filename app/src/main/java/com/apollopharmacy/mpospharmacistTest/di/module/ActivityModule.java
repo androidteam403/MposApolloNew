@@ -36,9 +36,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsPrese
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogPresenter;
-
-
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoPresenter;
@@ -93,6 +90,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginPresenter;
@@ -118,6 +121,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessPresenter;
@@ -252,6 +258,12 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
+    EPrescriptionMvpPresenter<EPrescriptionMvpView> ePrescriptionMvpViewEPrescriptionMvpPresenter(EPrescriptionPresenter<EPrescriptionMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
     CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> provideCustomerDocDetailsActivity(CustomerDoctorInfoPresenter<CustomerDoctorInfoMvpView> presenter) {
         return presenter;
     }
@@ -265,6 +277,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails(EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
         return presenter;
     }
 
@@ -494,6 +512,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     OrderDetailsScreenMvpPresenter<OrderDetailsScreenMvpView> orderDetailsScreenPresenter(OrderDetailsScreenPresenter<OrderDetailsScreenMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ShippingLabelMvpPresenter<ShippingLabelMvpView> shippingLabelPresenter(ShippingLabelPresenter<ShippingLabelMvpView> presenter) {
         return presenter;
     }
 }
