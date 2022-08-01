@@ -33,7 +33,7 @@ public interface EPrescriptionInfoMvpPresenter<V extends EPrescriptionInfoMvpVie
     void  onLoadOmsOrder(CustomerDataResBean customerDataResBean);
 
 
-    void getBatchDetailsApi(SalesLineEntity selected_item);
+    void getBatchDetailsApi(SalesLineEntity selected_item, boolean isEshopChecking);
 
     void getBatchDetailsApi_pickpack(SalesLineEntity selected_item, PickPackReservation pickPackReservation);
 

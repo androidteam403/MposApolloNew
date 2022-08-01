@@ -22,7 +22,11 @@ public class OMSTransactionHeaderReqModel {
     @Expose
     @SerializedName("TransactionID")
     private String TransactionID;
-
+    @Expose
+    private String IsMPOS;
+    @SerializedName("UserName")
+    @Expose
+    private String UserName;
     public void setDataAreaID(String DataAreaID) {
         this.DataAreaID = DataAreaID;
     }
@@ -45,5 +49,21 @@ public class OMSTransactionHeaderReqModel {
 
     public void setTransactionID(String TransactionID) {
         this.TransactionID = TransactionID;
+    }
+
+    public String getIsMPOS() {
+        return IsMPOS;
+    }
+
+    public void setIsMPOS(String isMPOS) {
+        IsMPOS = isMPOS;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 }
