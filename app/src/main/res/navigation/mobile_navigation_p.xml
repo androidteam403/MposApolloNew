@@ -24,11 +24,17 @@
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"
         tools:layout="@layout/activity_biller_orders_p" />
 
-   <!-- <fragment
-        android:id="@+id/nav_ePrescription_vtwo"
-        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"
-        tools:layout="@layout/activity_e_prescription2" />
--->
+    <fragment
+        android:id="@+id/nav_shipping_label"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment"
+        tools:layout="@layout/fragment_shipping_label" />
+
+
+<!--   <fragment-->
+<!--         android:id="@+id/nav_ePrescription_vtwo"-->
+<!--         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"-->
+<!--         tools:layout="@layout/activity_e_prescription2" />-->
+
 
 
 </navigation>

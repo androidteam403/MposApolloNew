@@ -80,7 +80,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
         }
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
@@ -116,6 +116,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
                 navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_shipping_label) {
+                navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
             }
             return true;
         });
@@ -147,6 +149,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("BILLER")) {
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("SHIPPING_LABEL")) {
+            navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
         }
     }
 

@@ -22,6 +22,11 @@
             android:id="@+id/nav_biller_vtwo"
             android:icon="@drawable/ic_menu_billing"
             android:title="@string/label_biller" />
+        <item
+            android:id="@+id/nav_shipping_label"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="@string/label_shipping_label" />
+
 
         <!--        <item-->
         <!--            android:id="@+id/nav_biller_vtwo"-->

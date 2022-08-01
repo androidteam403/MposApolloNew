@@ -585,5 +585,7 @@
     <string name="label_kindly_enter_the_last_3_values_of_the_physical_batch">Kindly enter the last 3 values of the Physical batch</string>
     <string name="label_print_bill">Print Bill</string>
     <string name="label_packer_status_update">Packer status Update</string>
+    <string name="label_shipping_label">Shipping Label</string>
+    <string name="label_transaction_id_colon">Transaction ID :</string>
 
 </resources>
