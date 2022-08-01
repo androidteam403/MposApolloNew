@@ -93,10 +93,12 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         });
         if (orderInfoItem.getOverallOrderStatus() != null && orderInfoItem.getOverallOrderStatus().length() > 2) {
             this.boxId = orderInfoItem.getOverallOrderStatus().substring(2);
-            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+            activityOrderDetailsScreenBinding.boxId.setText(boxId);
+//            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
         } else {
             this.boxId = "-";
         }
+        activityOrderDetailsScreenBinding.boxId.setText(boxId);
 //        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
         if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("0")) {
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
@@ -104,8 +106,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
         } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("2")) {
+            activityOrderDetailsScreenBinding.statusIcon.setRotation(90);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
         } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("3")) {
+            activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
         }
     }
@@ -299,9 +303,9 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean response) {
         String message = response.getReturnMessage();
-        message = message + "Stock Partial Available \n Do you want Continue this bill";
+        message = message + "is not available! \nThe Stock status is Partially Available\n Do you still need to continue to Billing.";
 
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
         dialog.setContentView(dialogCancelBinding.getRoot());
         dialog.setCancelable(false);
@@ -315,7 +319,6 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             customerDataResBean = response;
             mPresenter.onLoadOmsOrder(customerDataResBean);
         });
-        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
@@ -510,21 +513,23 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         } else if (selectActionLayoutBinding.checkedShippingLabel.getVisibility() == View.VISIBLE) {
             Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         } else if (selectActionLayoutBinding.checkedSendToPacker.getVisibility() == View.VISIBLE) {
-            Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
             DialogVerificationStatusPBinding dialogVerificationStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_p, null, false);
-            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
-            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
+//            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
+//            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
             dialogVerificationStatusPBinding.title.setText("Send back to pcker");
+            dialogVerificationStatusPBinding.dialogMessage.setText("Biller verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Push to billing");
             dialog.setContentView(dialogVerificationStatusPBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
             dialogVerificationStatusPBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
             dialogVerificationStatusPBinding.dialogButtonOK.setOnClickListener(v -> {
-                unPacking();
                 dialog.dismiss();
+                unPacking();
+
             });
-            dialogVerificationStatusPBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+//            dialogVerificationStatusPBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
         }
     }
 

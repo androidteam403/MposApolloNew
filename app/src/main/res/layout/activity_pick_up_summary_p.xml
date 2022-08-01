@@ -64,6 +64,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/print_flid_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -74,8 +75,7 @@
                     android:onClick="@{()-> callback.onClickprint()}"
                     android:paddingStart="@dimen/seven_dp"
                     android:paddingEnd="@dimen/seven_dp"
-                    android:text="take print"
-                    android:textAllCaps="true"
+                    android:text="Print FLID"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dimen14sp" />
 

@@ -20,16 +20,16 @@ public class UnTagQrCodeDialog {
 
     public UnTagQrCodeDialog(Context context, String id) {
 
-         dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        dialog = new Dialog(context);
 
         dialogUntagQrcodeBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_untag_qrcode_p, null, false);
         dialog.setContentView(dialogUntagQrcodeBinding.getRoot());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (dialog.getWindow() != null)
 
-        dialog.setCancelable(false);
+            dialog.setCancelable(false);
 
-        dialogUntagQrcodeBinding.title.setText(id);
+        dialogUntagQrcodeBinding.dialogMessage.setText("Un-tag the fullfillment id: " + id + "\nwith the current QR code");
     }
 
 
@@ -40,7 +40,7 @@ public class UnTagQrCodeDialog {
 
     public void setNegativeListener(View.OnClickListener okListener) {
         dialogUntagQrcodeBinding.dialogButtonNO.setOnClickListener(okListener);
-        dialogUntagQrcodeBinding.dialogButtonNot.setOnClickListener(okListener);
+//        dialogUntagQrcodeBinding.dialogButtonNot.setOnClickListener(okListener);
     }
 
     public void show() {

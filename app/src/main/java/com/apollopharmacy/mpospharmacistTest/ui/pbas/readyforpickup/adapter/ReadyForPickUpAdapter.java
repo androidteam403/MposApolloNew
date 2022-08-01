@@ -48,7 +48,8 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.adapterReadyForPickupBinding.filmentId.setText(omsHeader.getRefno());
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()) {
-            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
+            holder.adapterReadyForPickupBinding.scannedCode.setText(omsHeader.getScannedBarcode());
+//            holder.adapterReadyForPickupBinding.scannedCode.setText(lastFiveDigits(String.valueOf(omsHeader.getScannedBarcode())));
         } else {
             holder.adapterReadyForPickupBinding.scannedCode.setText("");
         }

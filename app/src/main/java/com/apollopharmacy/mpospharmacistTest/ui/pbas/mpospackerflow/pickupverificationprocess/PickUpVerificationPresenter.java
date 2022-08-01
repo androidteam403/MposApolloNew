@@ -242,4 +242,9 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public void onClickPackerStatusUpdate() {
+        getMvpView().onClickPackerStatusUpdate();
+    }
 }

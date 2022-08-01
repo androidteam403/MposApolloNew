@@ -4,6 +4,9 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.Chronometer;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +39,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
@@ -95,6 +98,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         setUp();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void setUp() {
 
@@ -105,7 +109,18 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             salesLineEntit = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
             if (selectedOmsHeaderList != null) {
                 activityPickUpSummaryBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+                boolean isAllTagBox = true;
+                for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
+                    if (!omsHeader.isTagBox()) {
+                        isAllTagBox = false;
+                        break;
+                    }
+                }
+                takePrintEnableHandled(isAllTagBox);
+
             }
+
+
 //            Gson gson = new Gson();
 //            String json = getIntent().getStringExtra("rackListOfListFiltered");
 //            Type type = new TypeToken<List<List<RackAdapter.RackBoxModel.ProductData>>>() {
@@ -169,6 +184,22 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
+    private void takePrintEnableHandled(boolean isTakePrintEnable) {
+        if (!isTakePrintEnable) {
+            activityPickUpSummaryBinding.printFlidBtn.setVisibility(View.VISIBLE);
+//            activityReadyForPickupBinding.takePrint.setBackground(getResources().getDrawable(R.drawable.rounde_corner_takeprint_bg));
+//            activityReadyForPickupBinding.takePrint.setTextColor(getResources().getColor(R.color.white));
+//            activityReadyForPickupBinding.takePrint.setEnabled(true);
+
+        } else {
+            activityPickUpSummaryBinding.printFlidBtn.setVisibility(View.GONE);
+//            activityReadyForPickupBinding.takePrint.setBackground(getResources().getDrawable(R.drawable.rounded_corner_takeprint_bg_disabled));
+//            activityReadyForPickupBinding.takePrint.setTextColor(getResources().getColor(R.color.text_color_grey));
+//            activityReadyForPickupBinding.takePrint.setEnabled(false);
+        }
+
+    }
+
     @Override
     public List<List<OrderAdapter.RackBoxModel.ProductData>> fullfilListOfList() {
         return fullfillmentListOfListFiltered;
@@ -188,12 +219,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
-    public void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+    public void onClickPrint() {
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            Dialog dialogView = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
             DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
             dialogView.setContentView(connectPrinterBinding.getRoot());
             dialogView.setCancelable(false);
+            dialogView.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
                 dialogView.dismiss();
                 startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
@@ -201,10 +233,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
             });
             connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
             dialogView.show();
         } else {
-            generatecode(omsHeader.getRefno());
+            for (TransactionHeaderResponse.OMSHeader omsHeaders : selectedOmsHeaderList) {
+                if (!omsHeaders.isTagBox())
+                    generatecode(omsHeaders.getRefno());
+            }
         }
     }
 

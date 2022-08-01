@@ -88,7 +88,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                         dialog.dismiss();
                     }
                     if (Integer.parseInt(editable.toString()) == 0) {
-                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("Please enter valid qty");
@@ -109,7 +109,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
 //
                     } else if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required qty");
@@ -130,7 +130,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
 //                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                     } else if (Integer.parseInt(editable.toString()) < Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                        dialog = new Dialog(context, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
                         dialogBatchAlertBinding.dialogMessage.setText("You have entered less than required qty");

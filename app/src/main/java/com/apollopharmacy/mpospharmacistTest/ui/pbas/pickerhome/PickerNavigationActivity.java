@@ -169,6 +169,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         });
     }
 
+    public void setStockAvailableBoxCheck(boolean isCheck) {
+        activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(isCheck);
+    }
+
     public void setStockAvailableVisibilty(boolean isVisible) {
         if (isVisible)
             activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.VISIBLE);

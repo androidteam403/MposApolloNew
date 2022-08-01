@@ -20,4 +20,6 @@ public interface OrderSummaryMvpView extends MvpView {
     void onSuccessPdfResponse(PdfModelResponse body);
 
     void onFailurePdfResponse(PdfModelResponse body);
+
+    void onClickBillPrint();
 }

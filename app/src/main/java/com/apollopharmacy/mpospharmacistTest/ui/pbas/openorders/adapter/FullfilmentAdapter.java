@@ -190,7 +190,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 } else {
                     filteredList.clear();
                     for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
+                        if (!filteredList.contains(row) && (row.getRefno().contains(charString) || row.getOverallOrderStatus().contains(charSequence))) {
                             filteredList.add(row);
                         }
 

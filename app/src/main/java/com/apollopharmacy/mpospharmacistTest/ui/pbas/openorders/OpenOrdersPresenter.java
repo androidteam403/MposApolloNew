@@ -92,8 +92,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }
                 }
 

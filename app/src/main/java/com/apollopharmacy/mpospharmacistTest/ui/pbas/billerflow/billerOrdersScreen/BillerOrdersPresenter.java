@@ -57,7 +57,7 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
                 @Override
                 public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
                     getMvpView().hideLoading();
-                    if (response.isSuccessful() && response.body() != null)
+                    if (response.isSuccessful())
                         getMvpView().onSucessfullFulfilmentIdList(response.body());
                 }
 

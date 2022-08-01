@@ -90,21 +90,21 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 if (holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().length() > 2) {
                     if (holder.adapterBatchlistBinding.requiredQuantity.getText().toString() != null && !holder.adapterBatchlistBinding.requiredQuantity.getText().toString().isEmpty()) {
                         if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) == 0 || holder.adapterBatchlistBinding.requiredQuantity.getText().toString().isEmpty()) {
-                            Dialog dialog = new Dialog(mContext, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                            Dialog dialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                             DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_batch_alert, null, false);
                             dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                            dialogBatchAlertBinding.dialogMessage.setText("Please enter request qty");
+                            dialogBatchAlertBinding.dialogMessage.setText("Please enter request quantity");
                             dialog.setCancelable(false);
                             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             dialog.show();
                             dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
                             dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
-                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
+//                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) <= Double.parseDouble(batchListModel.getQ_O_H())) {
                             batchListModel.setSelected(true);
                             batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
                             batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
-                            Dialog physicalBatchIdDialog = new Dialog(mContext, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                            Dialog physicalBatchIdDialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                             DialogPhysicalBatchIdBinding dialogPhysicalBatchIdBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_physical_batch_id, null, false);
                             physicalBatchIdDialog.setContentView(dialogPhysicalBatchIdBinding.getRoot());
                             physicalBatchIdDialog.setCancelable(false);
@@ -130,32 +130,32 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                     dialogPhysicalBatchIdBinding.physicalBatchCompareText.requestFocus();
                                 }
                             });
-                            dialogPhysicalBatchIdBinding.dialogButtonNot.setOnClickListener(v3 -> physicalBatchIdDialog.dismiss());
+//                            dialogPhysicalBatchIdBinding.dialogButtonNot.setOnClickListener(v3 -> physicalBatchIdDialog.dismiss());
                             physicalBatchIdDialog.show();
 
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) > Double.parseDouble(batchListModel.getQ_O_H())) {
-                            Dialog dialog = new Dialog(mContext, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                            Dialog dialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                             DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_batch_alert, null, false);
                             dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                            dialogBatchAlertBinding.dialogMessage.setText("You have entered more than batch qty.");
+                            dialogBatchAlertBinding.dialogMessage.setText("You have entered more than batch quantity.");
                             dialog.setCancelable(false);
                             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             dialog.show();
                             dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
                             dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
-                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
+//                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                         }
                     } else {
-                        Dialog dialog = new Dialog(mContext, R.style.Theme_AppCompat_DayNight_NoActionBar);
+                        Dialog dialog = new Dialog(mContext);//R.style.Theme_AppCompat_DayNight_NoActionBar
                         DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_batch_alert, null, false);
                         dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("Please enter request qty");
+                        dialogBatchAlertBinding.dialogMessage.setText("Please enter request quantity");
                         dialog.setCancelable(false);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
                         dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
                         dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
-                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
+//                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                     }
 
 

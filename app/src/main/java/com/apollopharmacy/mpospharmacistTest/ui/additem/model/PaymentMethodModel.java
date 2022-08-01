@@ -19,6 +19,7 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
     private boolean codpaymode = false;
     private boolean oneApolloMode = false;
     private boolean walletMode = false;
+    private boolean phonePeQrCodeMode = false;//
     private boolean creditMode = false;
     private boolean phonePeMode = false;
     private boolean phonePeQrMode = false;
@@ -86,6 +87,16 @@ public class PaymentMethodModel extends BaseObservable implements Serializable {
     public void setWalletMode(boolean walletMode) {
         this.walletMode = walletMode;
         notifyPropertyChanged(BR.walletMode);
+    }
+
+    @Bindable
+    public boolean isPhonePeQrCodeMode() {
+        return phonePeQrCodeMode;
+    }
+
+    public void setPhonePeQrCodeMode(boolean phonePeQrCodeMode) {
+        this.phonePeQrCodeMode = phonePeQrCodeMode;
+        notifyPropertyChanged(BR.phonePeQrCodeMode);
     }
 
     @Bindable

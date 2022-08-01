@@ -90,7 +90,10 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         fragmentBillingBinding.terminalId.setText(mPresenter.getTerminalId());
         mPresenter.getTransactionID();
         fragmentBillingBinding.setCallbacks(mPresenter);
-        if (mPresenter.getHBPConfing() != null && mPresenter.getHBPConfing().getUHIDBilling()) {
+        if (mPresenter.getGlobalCDonfiguration() != null
+                && mPresenter.getGlobalCDonfiguration().isISHBPStore()
+                && mPresenter.getHBPConfing() != null
+                && mPresenter.getHBPConfing().getUHIDBilling()) {
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.VISIBLE);
         } else
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.GONE);
@@ -330,6 +333,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             String codeDes = fragmentBillingBinding.salesOrigin.getSelectedItem().toString();
             String[] parts = codeDes.split("-");
             String salesCode = parts[0];
+
+            fragmentBillingBinding.getCustomer().setCardNo(fragmentBillingBinding.prgTrackingEdit.getText().toString().trim());
 
             startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

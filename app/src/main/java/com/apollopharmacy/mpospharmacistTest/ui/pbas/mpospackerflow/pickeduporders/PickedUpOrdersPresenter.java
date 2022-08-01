@@ -61,14 +61,9 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
-
                     if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
-                        else {
-                            getMvpView().hideLoading();
-                        }
-                    }else {
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    } else {
                         getMvpView().hideLoading();
                     }
                 }

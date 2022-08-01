@@ -55,7 +55,10 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
         }
         if (omsHeader.getOverallOrderStatus() != null && omsHeader.getOverallOrderStatus().length() > 2) {
             String boxId = omsHeader.getOverallOrderStatus().substring(2);
-            holder.orderBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+//            if (boxId.length() > 5)
+                holder.orderBinding.boxId.setText(boxId);//boxId.substring(boxId.length() - 5)
+//            else
+//                holder.orderBinding.boxId.setText(boxId.substring(boxId.length()));
         } else {
             holder.orderBinding.boxId.setText("-");
         }
@@ -63,11 +66,11 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
             pickupProcessMvpView.onItmClick(position, omsHeader);
         });
         if (omsHeader.getOverallOrderStatus().startsWith("1")) {
-            holder.orderBinding.orderOverallStatus.setText("FULL");
+            holder.orderBinding.orderOverallStatus.setText("Fully Available");
         } else if (omsHeader.getOverallOrderStatus().startsWith("2")) {
-            holder.orderBinding.orderOverallStatus.setText("PARTIAL");
+            holder.orderBinding.orderOverallStatus.setText("Partially Available");
         } else if (omsHeader.getOverallOrderStatus().startsWith("3")) {
-            holder.orderBinding.orderOverallStatus.setText("NOT AVAILABLE");
+            holder.orderBinding.orderOverallStatus.setText("Not Available");
         }
         if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
@@ -106,7 +109,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
                 } else {
                     filteredList.clear();
                     for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
+                        if (!filteredList.contains(row) && (row.getRefno().contains(charString) || row.getOverallOrderStatus().contains(charSequence))) {
                             filteredList.add(row);
                         }
 

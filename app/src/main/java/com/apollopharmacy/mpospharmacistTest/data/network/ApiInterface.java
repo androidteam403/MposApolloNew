@@ -332,10 +332,10 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/ValidateOMSOrder")
     Call<GenerateTenderLineRes> VALIDATE_OMS_ORDER(@Body GenerateTenderLineReq tenderLineReq);
 
-    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
+    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")// UAT
     Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
-//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    @POST("OMSService.svc/MPOSOrderUpdate")// Production
 //    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
     /*@POST("SalesTransactionService.svc/GetOMSSubstitute")

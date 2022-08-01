@@ -213,6 +213,11 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     }
 
     @Override
+    public void onClickBillPrint() {
+        getMvpView().onClickBillPrint();
+    }
+
+    @Override
     public void onDownloadApiCall(String filePath, String fileName, int pos) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();

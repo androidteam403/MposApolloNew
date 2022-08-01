@@ -61,4 +61,6 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
 
     HBPConfigResponse getHBPConfing();
 
+    GetGlobalConfingRes getGlobalCDonfiguration();
+
 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
@@ -18,7 +17,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummaryMvpView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFullfillmentAdapter.ViewHolder> {
@@ -52,12 +50,11 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
         holder.orderBinding.boxId.setText("-");
-        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()){
-            holder.orderBinding.taggedboxnumber.setText(lastFiveDigits(String.valueOf(selectedOmsHeaderList.get(position).getScannedBarcode())));
-        }else
-        {
+        if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()) {
+            holder.orderBinding.taggedboxnumber.setText(selectedOmsHeaderList.get(position).getScannedBarcode());
+//            holder.orderBinding.taggedboxnumber.setText(lastFiveDigits(String.valueOf(selectedOmsHeaderList.get(position).getScannedBarcode())));
+        } else {
             holder.orderBinding.taggedboxnumber.setText("-");
-
         }
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
@@ -65,20 +62,21 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             }
         });
 
-        if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")){
+        if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
 //            holder.orderBinding.statusText.setText("NOT AVAILABLE");
             holder.orderBinding.statuss.setText("Not Available");
             omsHeader.setOverallOrderStatus("3");
 
-        }else if(omsHeader.getItemStatus()!=null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+        } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.orderBinding.statusText.setText("FULL");
             holder.orderBinding.statusIcon.setRotation(0);
             holder.orderBinding.statuss.setText("Full");
             omsHeader.setOverallOrderStatus("1");
 
-        }  if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
+        }
+        if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
 //            holder.orderBinding.statusText.setText("PARTIAL");
             holder.orderBinding.statuss.setText("Partial");
@@ -86,17 +84,17 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         }
 
-            if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
-                full = full + 1;
-                pickupProcessMvpView.fullCount(String.valueOf(full));
-            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
-                par = par + 1;
-                pickupProcessMvpView.partialCount(String.valueOf(par));
-            } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
-                not = not + 1;
-                pickupProcessMvpView.notAvailable(String.valueOf(not));
-            }
-   }
+        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
+            full = full + 1;
+            pickupProcessMvpView.fullCount(String.valueOf(full));
+        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
+            par = par + 1;
+            pickupProcessMvpView.partialCount(String.valueOf(par));
+        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
+            not = not + 1;
+            pickupProcessMvpView.notAvailable(String.valueOf(not));
+        }
+    }
 
     private void multipleStatusCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position) {
         boolean full = false;
@@ -216,7 +214,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         if (partial) {
             fullfillmentList.get(position).setExpandStatus(3);
-           rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
+            rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
         } else if (notAvailable) {
             fullfillmentList.get(position).setExpandStatus(5);
             rackBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
@@ -263,8 +261,9 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         }
 
     }
+
     public static String lastFiveDigits(String data) {
-        String lastFourDigits ="";   //substring containing last 4 characters
+        String lastFourDigits = "";   //substring containing last 4 characters
 
         if (data.length() > 5) {
             lastFourDigits = data.substring(data.length() - 5);
@@ -274,6 +273,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         return lastFourDigits;
     }
+
     @Override
     public int getItemCount() {
         return selectedOmsHeaderList.size();

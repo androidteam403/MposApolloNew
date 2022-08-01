@@ -32,4 +32,6 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
     boolean enablescreens();
 
     void downloadPdf(String transactionId);
+
+    void onClickBillPrint();
 }

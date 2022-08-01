@@ -120,8 +120,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
     @Override
     public void onClickprint() {
-        TransactionHeaderResponse.OMSHeader omsHeader = getDataManager().getTotalOmsHeaderList().get(0);
-        getMvpView().onClickPrint(omsHeader);
+        getMvpView().onClickPrint();
 
     }
 

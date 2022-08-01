@@ -75,9 +75,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         if (omsHeader.getScannedBarcode() != null) {
-            if (omsHeader.getScannedBarcode().length() > 5)
-                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
-            else
+//            if (omsHeader.getScannedBarcode().length() > 5)
+//                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
+//            else
                 holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
         } else {
             holder.orderBinding.boxNumber.setText("-");

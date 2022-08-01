@@ -1012,6 +1012,33 @@
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/eight_dp"
+                                            android:layout_marginEnd="@dimen/eight_dp"
+                                            android:background="@{paymentMode.isPhonePeQrCodeMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                            android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
+                                            android:orientation="vertical"
+                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/thirty_dp"
+                                                android:layout_height="@dimen/thirty_dp"
+                                                android:layout_gravity="center"
+                                                android:contentDescription="@string/app_name"
+                                                android:src="@drawable/ic_wallet_black"
+                                                android:tint="@color/white" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/three_dp"
+                                                android:fontFamily="@font/roboto_regular"
+                                                android:text="QR Code Scan"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/text_dimen_13" />
+                                        </LinearLayout>
 
                                         <LinearLayout
                                             android:layout_width="wrap_content"
@@ -1407,14 +1434,14 @@
                                         android:onClick="@{()-> callback.onSelectPhonePe()}"
                                         android:src="@drawable/ic_phonepe" />
 
-                                    <ImageView
-                                        android:id="@+id/PhonePeQrMode"
-                                        android:layout_width="@dimen/sixty_dp"
-                                        android:layout_height="@dimen/sixty_dp"
-                                        android:layout_centerVertical="true"
-                                        android:contentDescription="@string/app_name"
-                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
-                                        android:src="@drawable/phonepeqrcodeimage" />
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/PhonePeQrMode"-->
+<!--                                        android:layout_width="@dimen/sixty_dp"-->
+<!--                                        android:layout_height="@dimen/sixty_dp"-->
+<!--                                        android:layout_centerVertical="true"-->
+<!--                                        android:contentDescription="@string/app_name"-->
+<!--                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"-->
+<!--                                        android:src="@drawable/phonepeqrcodeimage" />-->
 
                                     <ImageView
                                         android:layout_width="@dimen/sixty_dp"

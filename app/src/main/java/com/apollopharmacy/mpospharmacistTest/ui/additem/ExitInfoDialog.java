@@ -53,6 +53,10 @@ public class ExitInfoDialog {
         dialog.show();
     }
 
+    public boolean isShowing() {
+        return dialog.isShowing();
+    }
+
     public void dismiss() {
         dialog.dismiss();
     }

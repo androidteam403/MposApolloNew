@@ -56,6 +56,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEnti
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.adapter.PdfAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
+import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
@@ -86,6 +87,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     RelativeLayout relativeLayout;
     Bitmap bitmap;
     String transactionId;
+    private boolean isActivityFinished;
 
     public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel, PaymentMethodModel paymentMethodModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
@@ -198,6 +200,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = false;
         Singletone.getInstance().isOrderCompleted = true;
+        isActivityFinished = true;
         finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 
@@ -395,7 +398,8 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
 //        orderSummaryBinding.postesting.setText(pdfModelResponse.getSalesHeader().get(0).getBranch());
             orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
-            orderSummaryBinding.address.setText(pdfModelResponse.getSalesHeader().get(0).getAddress());
+            orderSummaryBinding.addressOne.setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne());
+            orderSummaryBinding.addressTwo.setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo());
             orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
             orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
             orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
@@ -405,6 +409,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
             orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
             orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
+            orderSummaryBinding.trmnlId.setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
             orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
             if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
                 orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
@@ -417,7 +422,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             } else {
                 orderSummaryBinding.cgstin.setText("--");
             }
-            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo() + "  TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
+            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo());
             orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
 
 
@@ -436,6 +441,8 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
             orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
             orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+
+            orderSummaryBinding.costinwords.setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only");
             double cgstAmount = 0.0;
             for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
                 if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
@@ -466,8 +473,10 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
             orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
 
+
             new Handler().postDelayed(() -> {
-                onDownloadPdfButton();
+                if (!isActivityFinished)
+                    onDownloadPdfButton();
             }, 2000);
         }
     }
@@ -501,7 +510,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 //        int convertHighet = (int) hight, convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(2225, 1080, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1800, 1080, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -509,7 +518,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         Paint paint = new Paint();
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, 2225, 1080, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 1800, 1080, true);
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0, null);
@@ -538,9 +547,15 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
         if (file.exists()) {
             //Button To start print
+
+            PrintAttributes.Builder builder = new PrintAttributes.Builder();
+            builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
+
             PrintManager printManager = (PrintManager) this.getSystemService(Context.PRINT_SERVICE);
             String jobName = this.getString(R.string.app_name) + " Document";
-            printManager.print(jobName, pda, null);
+
+            printManager.print(jobName, pda, builder.build());
+
 //            Intent intent = new Intent(Intent.ACTION_VIEW);
 //            Uri photoURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
 ////            Uri uri = Uri.fromFile(file);
@@ -555,7 +570,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 //                Toast.makeText(this, "No Application for pdf view", Toast.LENGTH_SHORT).show();
 //            }
         } else {
-            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -615,6 +630,15 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     @Override
     public void onFailurePdfResponse(PdfModelResponse body) {
 
+    }
+
+    @Override
+    public void onClickBillPrint() {
+        if (isStoragePermissionGranted()) {
+            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+            createPdf();
+        }
     }
 
     public boolean isStoragePermissionGranted() {

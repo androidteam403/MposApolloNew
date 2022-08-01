@@ -2,131 +2,137 @@
 <layout>
 
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.24"
-            android:id="@+id/productNamepdf"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:id="@+id/sch"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/productNamepdf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.24"
+                android:fontFamily="@font/cambria"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.10"
-            android:id="@+id/hsncode"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/sch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:id="@+id/mfg"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/hsncode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.10"
-            android:id="@+id/batch"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/mfg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.09"
-            android:id="@+id/expiry"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/batch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.08"
-            android:id="@+id/qty"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/expiry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:id="@+id/rate"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:id="@+id/amount"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <!--                   <TextView-->
-        <!--                       android:layout_width="0dp"-->
-        <!--                       android:layout_height="wrap_content"-->
-        <!--                       android:layout_weight="0.08"-->
-        <!--                       android:text="AMOUNT"-->
-        <!--                       android:textAlignment="center"-->
-        <!--                       android:textColor="@color/black"-->
-        <!--                       android:textSize="9dp"-->
-        <!--                       android:gravity="center_horizontal" />-->
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.08"
-            android:id="@+id/gst"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="6sp"
-            android:gravity="center_horizontal" />
+            <!--                   <TextView-->
+            <!--                       android:layout_width="0dp"-->
+            <!--                       android:layout_height="wrap_content"-->
+            <!--                       android:layout_weight="0.08"-->
+            <!--                       android:text="AMOUNT"-->
+            <!--                       android:textAlignment="center"-->
+            <!--                       android:textColor="@color/black"-->
+            <!--                       android:textSize="9dp"-->
+            <!--                       android:gravity="center_horizontal" />-->
+
+            <TextView
+                android:id="@+id/gst"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:fontFamily="@font/cambria"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen7sp" />
 
 
+        </LinearLayout>
 
-
-
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
 </layout>

@@ -143,6 +143,7 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isOverAllStatusfromList;
         private String itemStatus = "";
         private String scannedBarcode;
+        private boolean isPickupReserved;
         private boolean isExpanded;
         private GetOMSTransactionResponse getOMSTransactionResponse;
 
@@ -428,6 +429,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setScannedBarcode(String scannedBarcode) {
             this.scannedBarcode = scannedBarcode;
+        }
+
+        public boolean isPickupReserved() {
+            return isPickupReserved;
+        }
+
+        public void setPickupReserved(boolean pickupReserved) {
+            isPickupReserved = pickupReserved;
         }
 
         public boolean isExpanded() {

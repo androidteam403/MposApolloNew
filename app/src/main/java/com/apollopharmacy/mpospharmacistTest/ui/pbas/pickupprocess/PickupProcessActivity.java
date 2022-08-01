@@ -1205,10 +1205,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @SuppressLint("SetTextI18n")
     @Override
     public void onBackPressed() {
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        Dialog dialog = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(PickupProcessActivity.this), R.layout.dialog_cancel, null, false);
         dialog.setContentView(dialogCancelBinding.getRoot());
-        dialogCancelBinding.dialogMessage.setText("Do you really want to cancel orders");
+        dialogCancelBinding.dialogMessage.setText("The Changes made will be discarded and you'll be directed to Ready for Pickup Page.\n Do you still want to Continue?");
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
@@ -1217,7 +1217,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
             dialog.dismiss();
         });
-        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+//        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+//        doBackPressed();
     }
 
     private void doBackPressed() {

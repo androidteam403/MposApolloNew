@@ -45,6 +45,25 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
             else
                 filterModelList.get(position).setSelected(true);
             notifyItemChanged(position);
+//            if (filterModelList.get(position).isSelected()) {
+//                filterModelList.get(position).setSelected(false);
+//            } else {
+//                if (filterModelList.get(position).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                    for (int i = 0; i < filterModelList.size(); i++) {
+//                        if (!filterModelList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                            filterModelList.get(i).setSelected(false);
+//                        }
+//                    }
+//                } else {
+//                    for (int i = 0; i < filterModelList.size(); i++) {
+//                        if (filterModelList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                            filterModelList.get(i).setSelected(false);
+//                        }
+//                    }
+//                }
+//                filterModelList.get(position).setSelected(true);
+//            }
+//            notifyDataSetChanged();
         });
 
     }

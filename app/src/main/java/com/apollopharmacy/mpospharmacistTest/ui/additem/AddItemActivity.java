@@ -88,6 +88,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     private ArrayList<CircleMemebershipCashbackPlanResponse.Category> circlecashbackplan = null;
 
+    private Boolean isCameFromOrderDetailsScreenActivity;
 
     //changes made by naveen
     private boolean isOnlineOrder;
@@ -959,6 +961,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         calculatePosTransactionRes.setDoctorName(salesCode);
         calculatePosTransactionRes.setMobileNO(customerEntity.getMobileNo());
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
+        if (isCameFromOrderDetailsScreenActivity) {
+            calculatePosTransactionRes.setIsMPOSBill(2);
+        }
         return calculatePosTransactionRes;
     }
 
@@ -1003,6 +1008,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1015,6 +1021,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1050,6 +1057,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(true);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1065,6 +1073,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(true);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1104,6 +1113,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(true);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1119,6 +1129,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(true);
             paymentMethodModel.setVendorPayMode(false);
@@ -1175,6 +1186,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1200,6 +1212,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1278,6 +1291,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(true);
@@ -1303,6 +1317,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(true);
@@ -1435,6 +1450,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1452,6 +1468,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1497,6 +1514,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setLoadApolloPoints(true);
                 paymentMethodModel.setErrorApolloPoints(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1516,6 +1534,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setLoadApolloPoints(true);
             paymentMethodModel.setErrorApolloPoints(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1555,6 +1574,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(true);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1570,6 +1590,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(true);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1632,7 +1653,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
         calculatePosTransactionRes = posTransactionRes;
         if (getIntent() != null) {
-            Boolean isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
             if (isCameFromOrderDetailsScreenActivity) {
                 onPayButtonClick();
             }
@@ -1642,6 +1663,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
         orderPriceInfoModel.setTaxableTotalAmount(posTransactionRes.getNetAmount());
         orderPriceInfoModel.setOrderTotalAmount(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
+
+        if (calculatePosTransactionRes.getISOMSOrder()) {
+            // Creating an object of DecimalFormat class
+            DecimalFormat df_obj = new DecimalFormat("#.##");
+            String number = df_obj.format(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
+            double roundedvalue = Double.parseDouble(number);
+            // double tempbalanceAmt = orderTotalAmount() - roundedvalue;
+            orderPriceInfoModel.setOrderTotalAmount(roundedvalue);
+        }
+
         orderPriceInfoModel.setDiscTotalAmount(posTransactionRes.getDiscAmount());
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
@@ -1846,7 +1877,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             for (TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()) {
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
                     if (!tenderLineEntity.isVoid()) {
+
+
                         paymentDoneAmount += tenderLineEntity.getAmountTendered();
+
+                        if (calculatePosTransactionRes.getISOMSOrder()) {
+                            // Creating an object of DecimalFormat class
+                            DecimalFormat df_obj = new DecimalFormat("#.##");
+                            String number = df_obj.format(paymentDoneAmount);
+                            double roundedvalue = Double.parseDouble(number);
+                            double tempbalanceAmt = orderTotalAmount() - roundedvalue;
+                            if (tempbalanceAmt == 0) {
+                                paymentDoneAmount = roundedvalue;
+                            }
+                        }
+
+
                     }
                     payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                     if (tenderLineEntity.getTenderName().equalsIgnoreCase("card")) {
