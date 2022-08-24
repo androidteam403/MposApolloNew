@@ -7,7 +7,38 @@
 
         <item
             android:id="@+id/nav_dashboard"
-            android:title="Dashboard" />
+            android:icon="@drawable/ic_menu_dashboard"
+            android:title="@string/label_dashboards"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_picker_vtwo"
+            android:icon="@drawable/ic_menu_orders"
+            android:title="@string/label_picker" />
+        <item
+            android:id="@+id/nav_packer_vtwo"
+            android:icon="@drawable/ic_menu_orders"
+            android:title="@string/label_packer" />
+
+        <item
+            android:id="@+id/nav_biller_vtwo"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="@string/label_biller" />
+        <item
+            android:id="@+id/nav_shipping_label"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="@string/label_shipping_label" />
+
+
+        <!--        <item-->
+        <!--            android:id="@+id/nav_biller_vtwo"-->
+        <!--            android:title="Biller" />-->
+        <!--        <item-->
+        <!--            android:id="@+id/nav_sealer_vtwo"-->
+        <!--            android:title="Sealer" />-->
+        <!--        <item-->
+        <!--            android:id="@+id/nav_admin_vtwo"-->
+        <!--            android:title="Admin" />-->
+
 
         <!--        <item-->
         <!--            android:id="@+id/nav_gallery"-->

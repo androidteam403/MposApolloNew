@@ -44,8 +44,8 @@
                             android:layout_width="@dimen/dimen30dp"
                             android:layout_height="@dimen/dimen30dp"
                             android:contentDescription="@string/app_name"
-                            android:visibility="gone"
-                            android:src="@drawable/ic_menu" />
+                            android:src="@drawable/ic_menu"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -53,22 +53,23 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="@string/label_dashboard"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/dimen14sp" />
 
                             <TextView
+                                android:id="@+id/welcome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="@string/label_welcome"
                                 android:textColor="@color/white"
                                 android:textSize="12sp" />
                         </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -76,7 +77,8 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/picker_img"
@@ -93,6 +95,53 @@
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_dropdown" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/stock_available_checkbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:buttonTint="@color/white"
+                            android:checked="false"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Stock Available" />
+
+                        <ImageView
+                            android:id="@+id/ic_filter"
+                            android:layout_width="@dimen/dimen30dp"
+                            android:layout_height="@dimen/dimen30dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_filter_white" />
+
+                        <ImageView
+                            android:id="@+id/ic_paper_size"
+                            android:layout_width="@dimen/dimen30dp"
+                            android:layout_height="@dimen/dimen30dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_baseline_settings_24"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/refresh"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen25dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/refresh"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
                 </RelativeLayout>
 
             </androidx.appcompat.widget.Toolbar>

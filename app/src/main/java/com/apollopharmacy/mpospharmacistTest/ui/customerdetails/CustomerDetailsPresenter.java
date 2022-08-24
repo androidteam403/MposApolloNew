@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListData
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Media_libraryEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist_mediaEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -93,26 +94,25 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                 GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
 
                                 for (int i = 0; i < response.body().get_Customer().size(); i++) {
-                                    if (response.body().get_Customer().get(i).getCPEnquiry() == true)
-                                    {
+                                    if (response.body().get_Customer().get(i).getCPEnquiry() == true) {
                                         customerEntity.setMobileNo(response.body().get_Customer().get(i).getMobileNo());
                                         customerEntity.setCardName(response.body().get_Customer().get(i).getCardName());
                                         customerEntity.setAvailablePoints(response.body().get_Customer().get(i).getAvailablePoints());
                                         customerEntity.setTier(response.body().get_Customer().get(i).getTier());
                                         customerEntity.setCorpId(getDataManager().getGlobalJson().getCircleplanCorpCode());
+                                        customerEntity.setExistingCustomerOrNot(true);
                                         //Log.d("Corporate code-->",customerEntity.getCorpId());
                                         customerEntities.add(customerEntity);
                                         customerResponse.set_Customer(customerEntities);
                                         getMvpView().onSuccessCustomerSearch(customerResponse);
-                                    }
-                                   else if (response.body().get_Customer().get(i).getAvailablePoints() == null ||
+                                    } else if (response.body().get_Customer().get(i).getAvailablePoints() == null ||
                                             response.body().get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("") ||
                                             response.body().get_Customer().get(i).getAvailablePoints().equalsIgnoreCase("0")) {
-                                        getCustomerApi(response.body());
+                                        getCustomerApi(response.body(), true);
                                     }
                                 }
                             } else {
-                                getCustomerApi(response.body());
+                                getCustomerApi(response.body(), false);
                             }
                         }
                     }
@@ -145,7 +145,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     }
 
     @Override
-    public void getCustomerApi(GetCustomerResponse custdata) {
+    public void getCustomerApi(GetCustomerResponse custdata, boolean isCustomerDetailsFound) {
 
         if (!TextUtils.isEmpty(getMvpView().getCustomerNumber())) {
             if (getMvpView().isNetworkConnected()) {
@@ -197,6 +197,7 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                         entity.setCustActiveStatus(custdata.get_Customer().get(i).getCustActiveStatus());
                                         entity.setCustId(custdata.get_Customer().get(i).getCustId());
                                         entity.setTelephoneNo(custdata.get_Customer().get(i).getTelephoneNo());
+                                        entity.setExistingCustomerOrNot(true);
                                         customerEntities.add(entity);
                                     }
                                     if (custdata.get_Customer().size() == 0) {
@@ -208,8 +209,20 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                     }
                                     customerResponse.set_Customer(customerEntities);
                                     getMvpView().onSuccessCustomerSearch(customerResponse);
-                                } else
+                                } else {
+                                    if (!isCustomerDetailsFound) {
+                                        getMvpView().onFailedCustomerSearch();
+                                    }
+
+                                }
+                            } else {
+                                if (!isCustomerDetailsFound) {
                                     getMvpView().onFailedCustomerSearch();
+                                }
+                            }
+                        } else {
+                            if (!isCustomerDetailsFound) {
+                                getMvpView().onFailedCustomerSearch();
                             }
                         }
                     }
@@ -336,6 +349,11 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
     @Override
     public boolean enablescreens() {
         return getDataManager().isOpenScreens();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigResponse() {
+        return getDataManager().getGlobalJson();
     }
 
     @Override
