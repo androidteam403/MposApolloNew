@@ -139,7 +139,11 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    if (requestType == 2) {
+                        order.setRefID("");
+                    } else {
+                        order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    }
                     if (selectedOmsHeaderList.get(i).getItemStatus().equals("FULL")) {
                         order.setOverallOrderStatus("1");
                     } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("PARTIAL")) {
@@ -147,7 +151,9 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                     } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("NOT AVAILABLE")) {
                         order.setOverallOrderStatus("3");
                     }
-                    ordersList.add(order);
+                    if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                        ordersList.add(order);
                 }
             }
 

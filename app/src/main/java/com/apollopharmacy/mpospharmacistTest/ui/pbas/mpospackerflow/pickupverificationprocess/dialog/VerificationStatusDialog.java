@@ -38,22 +38,22 @@ public class VerificationStatusDialog {
             verificationStatusBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
             verificationStatusBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
         } else {
-            verificationStatusBinding.title.setText("Push to Billing");
-            verificationStatusBinding.dialogMessage.setText("Packer verified for\n Fulfilment ID : " + fullfillmentId + "\n Push to billing");
+            verificationStatusBinding.title.setText("Packer verified");
+            verificationStatusBinding.dialogMessage.setText("Packing verified for\n Fulfilment ID : " + fullfillmentId + "\n Pushed to billing");
         }
 //        verificationStatusBinding.fullfilmentId.setText(fullfillmentId);
     }
 
 
-    public void setPositiveListener(View.OnClickListener okListener) {
-        verificationStatusBinding.dialogButtonOK.setOnClickListener(okListener);
-    }
-
-
-    public void setNegativeListener(View.OnClickListener okListener) {
-        verificationStatusBinding.dialogButtonNO.setOnClickListener(okListener);
-//        verificationStatusBinding.dialogButtonNot.setOnClickListener(okListener);
-    }
+//    public void setPositiveListener(View.OnClickListener okListener) {
+//        verificationStatusBinding.dialogButtonOK.setOnClickListener(okListener);
+//    }
+//
+//
+//    public void setNegativeListener(View.OnClickListener okListener) {
+//        verificationStatusBinding.dialogButtonNO.setOnClickListener(okListener);
+////        verificationStatusBinding.dialogButtonNot.setOnClickListener(okListener);
+//    }
 
     public boolean isShowing() {
         return dialog.isShowing();

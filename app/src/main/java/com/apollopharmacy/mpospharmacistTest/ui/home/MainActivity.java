@@ -266,17 +266,17 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         Menu nav_Menu = navigationView.getMenu();
 //        if (getGlobalConfingRes != null) {
 //            if (getGlobalConfingRes.isISHBPStore()) {
-//        nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
-//        nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
-//        nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
-//        nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+        nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
+        nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
 //
-        nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(false);
+        nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(true);
 //            } else {
-                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
 //            }
 //        }
     }

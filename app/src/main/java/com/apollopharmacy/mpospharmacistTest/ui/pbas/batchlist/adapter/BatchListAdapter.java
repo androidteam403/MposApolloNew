@@ -79,7 +79,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
         }
 
-        if (!allowChangeQty){
+        if (!allowChangeQty) {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         }
 

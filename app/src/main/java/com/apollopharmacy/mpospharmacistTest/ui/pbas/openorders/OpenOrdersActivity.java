@@ -71,6 +71,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    private List<FilterModel> reverificationList = new ArrayList<>();
 
     // Temp filters headers list
     private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
@@ -79,10 +80,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> paymentTypeFilterListTemp = new ArrayList<>();
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
+    private List<FilterModel> reverificationListTemp = new ArrayList<>();
 
 
     private boolean isStockAvailable = false;
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
 
 
     public static Intent getStartActivity(Context context) {
@@ -120,6 +122,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.setStock("Stock Available");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(true);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
@@ -187,6 +191,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             stockAvailabilityModel.setSelected(filterModel.isSelected());
             stockAvailabilityModel.setName(filterModel.getName());
             stockAvailabilityFilterListTemp.add(stockAvailabilityModel);
+        }
+        //
+        reverificationListTemp = new ArrayList<>();
+        for (FilterModel filterModel : reverificationList) {
+            FilterModel reverificationModel = new FilterModel();
+            reverificationModel.setSelected(filterModel.isSelected());
+            reverificationModel.setName(filterModel.getName());
+            reverificationListTemp.add(reverificationModel);
         }
 
     }
@@ -302,6 +314,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 this.paymentTypeFilterList = paymentTypeFilterListTemp;
                 this.orderSourceFilterList = orderSourceFilterListTemp;
                 this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
+                this.reverificationList = reverificationListTemp;
 
                 filterDialog.dismiss();
                 hideLoading();
@@ -535,12 +548,53 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            }
 //            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
         }
+
+
+        // Reverification filter list.
+
+        boolean isReverificationFilter = false;
+        for (FilterModel orderTypeFilter : reverificationList) {
+            if (orderTypeFilter.isSelected()) {
+                isReverificationFilter = true;
+            }
+        }
+        if (isReverificationFilter) {
+            List<TransactionHeaderResponse.OMSHeader> reverificationOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                reverificationOMSHeaderFilter = omsHeaderList;
+            } else {
+                reverificationOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel reverificationFilter : reverificationList) {
+                for (int i = 0; i < reverificationOMSHeaderFilter.size(); i++) {
+                    if (!reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() == 1) {
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    }else if (reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() != 1){
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = reverificationOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
+        }
+
+
         //pickUpStatusFilter
 
 //        if (omsHeaderList != null && omsHeaderList.size() == 0) {
 //            omsHeaderList = mPresenter.getTotalOmsHeaderList();
 //        }
-        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter) {
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
         }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -665,6 +719,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
 
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
+
+        reverificationAdapter = new FilterItemAdapter(getContext(), reverificationList);
+        dialogFilterBinding.reverificationRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.reverificationRecycler.setAdapter(reverificationAdapter);
+
     }
 
 
@@ -677,7 +739,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
                 if (!omsHeader.getOMSHeader().get(i).getOrderPickup()) {
 //                    if (omsHeader.getOMSHeader().get(i).getOverallOrderStatus().length() > 3 && omsHeader.getOMSHeader().get(i).getReVerification() != 0) {
-                        omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
 //                    } else if (omsHeader.getOMSHeader().get(i).getOverallOrderStatus().length() < 3 && omsHeader.getOMSHeader().get(i).getReVerification() == 0) {
 //                        omsHeaderList.add(omsHeader.getOMSHeader().get(i));
 //                    }
@@ -726,6 +788,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 boolean isOrderSourceContain = false;
                 boolean isStockAvailabilityContain = false;
                 boolean isPickUpStatusContain = false;
+                boolean isReverification = false;
 
 
                 // customer type filter list.
@@ -810,6 +873,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     stockAvailabilityFilterList.add(filterModel);
                 }
             }
+            // reverification filter list.
+            FilterModel filterModel = new FilterModel();
+            filterModel.setName("Reverification");
+            filterModel.setSelected(false);
+
+            reverificationList.add(filterModel);
         }
     }
 
@@ -1129,6 +1198,16 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                applyOrderFilters();
 //            }
 //        }
+    }
+
+    @Override
+    public void onClicklabelSizeIcon() {
+
+    }
+
+    @Override
+    public void onClickRefresh() {
+
     }
 
 

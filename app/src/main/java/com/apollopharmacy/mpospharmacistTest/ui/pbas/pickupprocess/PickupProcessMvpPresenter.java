@@ -25,7 +25,7 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void onClickNotAvailable();
 
-    void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
+    void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest, String requestType);
 
     void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId);
 

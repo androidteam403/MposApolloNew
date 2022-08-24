@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -22,7 +23,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusBillerBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -42,6 +43,7 @@ import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -173,6 +175,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     activityOrderDetailsScreenBinding.mobileNumber.setText(customerDataResBean.getMobileNO());
                     activityOrderDetailsScreenBinding.doctorName.setText(customerDataResBean.getDoctorName());
                     activityOrderDetailsScreenBinding.statecode.setText(customerDataResBean.getState());
+                    activityOrderDetailsScreenBinding.orderbillvalue.setText(String.valueOf(customerDataResBean.getNetAmount()));
                     activityOrderDetailsScreenBinding.city.setText(customerDataResBean.getBillingCity());
                     activityOrderDetailsScreenBinding.address.setText(customerDataResBean.getCustAddress());
                     activityOrderDetailsScreenBinding.pincode.setText(customerDataResBean.getPincode());
@@ -227,6 +230,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void LoadOmsOrderSuccess(CustomerDataResBean response) {
         CorporateModel.DropdownValueBean item = new CorporateModel.DropdownValueBean();
@@ -256,20 +260,23 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
         customerDataResBean_pass.setSalesLine(saleslineentity);
 
-
-        int position = 0;
-        int tempposition = 0;
-        if (corporateList != null) {
-            for (CorporateModel.DropdownValueBean row : corporateList) {
-                if (row.getCode().contains(eprescription_corpcode)) {
-                    position = tempposition;
-                    break;
-                }
-                tempposition++;
-            }
-            if (corporateList != null && corporateList.size() > 0)
-                item = corporateList.get(position);
+        List<CorporateModel.DropdownValueBean> selectedCorporateList = corporateList.stream().filter(o -> o.getCode().equalsIgnoreCase(eprescription_corpcode)).collect(Collectors.toList());
+        if (selectedCorporateList.size() > 0) {
+            item = selectedCorporateList.get(0);
         }
+        //        int position = 0;
+//        int tempposition = 0;
+//        if (corporateList != null) {
+//            for (CorporateModel.DropdownValueBean row : corporateList) {
+//                if (row.getCode().contains(eprescription_corpcode)) {
+//                    position = tempposition;
+//                    break;
+//                }
+//                tempposition++;
+//            }
+//            if (corporateList != null && corporateList.size() > 0)
+//                item = corporateList.get(position);
+//        }
 
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
@@ -289,12 +296,12 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void CheckBatchStockSuccess(CustomerDataResBean response) {
         if (response != null) {
             customerDataResBean = response;
-            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-                mPresenter.onLoadOmsOrder(customerDataResBean);
-            } else {
-                CheckBatchStockFailure(customerDataResBean);
-
-            }
+//            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+            mPresenter.onLoadOmsOrder(customerDataResBean);
+//            } else {
+//                CheckBatchStockFailure(customerDataResBean);
+//
+//            }
 
 
         }
@@ -514,17 +521,20 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         } else if (selectActionLayoutBinding.checkedSendToPacker.getVisibility() == View.VISIBLE) {
             Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
-            DialogVerificationStatusPBinding dialogVerificationStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_p, null, false);
+            DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
 //            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
 //            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
-            dialogVerificationStatusPBinding.title.setText("Send back to pcker");
-            dialogVerificationStatusPBinding.dialogMessage.setText("Biller verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Push to billing");
-            dialog.setContentView(dialogVerificationStatusPBinding.getRoot());
+            dialogVerificationStatusBillerBinding.title.setText("Send back to pcker");
+            dialogVerificationStatusBillerBinding.dialogMessage.setText("Biller verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Push to billing");
+
+            dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+            dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+            dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-            dialogVerificationStatusPBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
-            dialogVerificationStatusPBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+            dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
                 dialog.dismiss();
                 unPacking();
 
@@ -671,7 +681,22 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void onClickSendtoPacker() {
-        unPacking();
+        Dialog dialog = new Dialog(this);
+        DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
+        dialogVerificationStatusBillerBinding.title.setText("Send to Packer");
+        dialogVerificationStatusBillerBinding.dialogMessage.setText("Biller not verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Send to Packer");
+        dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+        dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+        dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            unPacking();
+
+        });
     }
 
     @Override

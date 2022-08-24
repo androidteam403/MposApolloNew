@@ -36,7 +36,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSkip();
 
-    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response);
+    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType);
 
     void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
 

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,8 +33,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.Orde
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.PaidListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.OrderReturnModel;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.ViewAnimationUtils;
 
 import java.io.File;
@@ -53,8 +52,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     private OrderReturnAdapter orderReturnAdapter;
     private boolean isExpand = false;
     private int rotationAngle = 180;
-    private  String rating="10";
-    private  String comment="";
+    private String rating = "10";
+    private String comment = "";
     private CalculatePosTransactionRes orderHistoryItem = null;
     private PaidListAdapter payActivityAdapter;
     private ArrayList<OrderReturnModel> arrPayAdapterModel = new ArrayList<>();
@@ -325,7 +324,12 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
         if (isAllowed && orderHistoryItem.getTransType() == 0) {
             orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
         } else {
-            orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.GONE);
+            if (mvpPresenter.getGlobalConfing().isISHBPStore()) {
+                orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
+            } else {
+                orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -340,12 +344,11 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
 
     //feedback form diolg functionality....
     @Override
-    public void Feedbackfromdialog()
-    {
-        String odrer_id=orderHistoryItem.getReciptId();
-        String storeid=orderHistoryItem.getStore();
-        String mobilenumber=orderHistoryItem.getMobileNO();
-        mvpPresenter.showfeedbackformDialog(odrer_id,mobilenumber,storeid);
+    public void Feedbackfromdialog() {
+        String odrer_id = orderHistoryItem.getReciptId();
+        String storeid = orderHistoryItem.getStore();
+        String mobilenumber = orderHistoryItem.getMobileNO();
+        mvpPresenter.showfeedbackformDialog(odrer_id, mobilenumber, storeid);
 
     }
 
@@ -365,7 +368,16 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                     if (isCancelOrder) {
                         try {
                             if (isCardPayment) {
-                                showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
+                                if (orderHistoryItem.getTenderLine().get(0).getTenderId().equalsIgnoreCase("2")
+                                        && orderHistoryItem.getTenderLine().get(0).getTenderName().equalsIgnoreCase("card")
+                                        && mvpPresenter.getGlobalConfing().isISHBPStore()
+                                        && orderHistoryItem.getTenderLine().get(0).getWalletTransactionID().isEmpty()) {
+                                    orderHistoryItem.setReturnType(0);
+                                    orderHistoryItem.setReturn(true);
+                                    mvpPresenter.cancelDSBilling(orderHistoryItem);
+                                } else {
+                                    showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
+                                }
                             } else if (isSmapay) {
                                 showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!");
                             } else {
@@ -577,8 +589,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         orderReturnActiivtyBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
         new Handler().postDelayed(new Runnable() {
             @Override

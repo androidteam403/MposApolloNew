@@ -371,4 +371,14 @@ public class BaseDataManager implements DataManager {
     public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
         return mPreferencesHelper.getTotalOmsHeaderListObj();
     }
+
+    @Override
+    public void setLabelSize(String labelSize) {
+        mPreferencesHelper.setLabelSize(labelSize);
+    }
+
+    @Override
+    public String getLabelSize() {
+        return mPreferencesHelper.getLabelSize();
+    }
 }

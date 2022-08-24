@@ -135,4 +135,8 @@ public interface PreferencesHelper {
 
     List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj();
 
+    void setLabelSize(String labelSize);
+
+    String getLabelSize();
+
 }

@@ -42,7 +42,7 @@ public class EPrescriptionMedicineDetailsPresenter<V extends EPrescriptionMedici
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             EPrescriptionMedicineRequest reqModel = new EPrescriptionMedicineRequest();
             reqModel.setPosExpiry(30);
             reqModel.setStoreId("");
@@ -80,7 +80,7 @@ public class EPrescriptionMedicineDetailsPresenter<V extends EPrescriptionMedici
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             Call<EPrescriptionSubstituteModelResponse> call = apiInterface.GET_SUBSTITUTE_DETAILS(prescriptionNo);
             call.enqueue(new Callback<EPrescriptionSubstituteModelResponse>() {
                 @Override

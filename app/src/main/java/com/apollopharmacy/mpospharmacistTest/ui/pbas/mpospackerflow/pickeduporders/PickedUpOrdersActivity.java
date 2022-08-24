@@ -71,6 +71,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    private List<FilterModel> reverificationList = new ArrayList<>();
 
     // Temp filters headers list
     private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
@@ -79,6 +80,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> paymentTypeFilterListTemp = new ArrayList<>();
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
+    private List<FilterModel> reverificationListTemp = new ArrayList<>();
 
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
 
@@ -111,6 +113,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
         PickerNavigationActivity.mInstance.setStock("");
@@ -303,6 +307,15 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             stockAvailabilityFilterListTemp.add(stockAvailabilityModel);
         }
 
+        //
+        reverificationListTemp = new ArrayList<>();
+        for (FilterModel filterModel : reverificationList) {
+            FilterModel stockAvailabilityModel = new FilterModel();
+            stockAvailabilityModel.setSelected(filterModel.isSelected());
+            stockAvailabilityModel.setName(filterModel.getName());
+            reverificationListTemp.add(stockAvailabilityModel);
+        }
+
     }
 
 
@@ -324,6 +337,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 this.paymentTypeFilterList = paymentTypeFilterListTemp;
                 this.orderSourceFilterList = orderSourceFilterListTemp;
                 this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
+                this.reverificationList = reverificationListTemp;
 
                 filterDialog.dismiss();
                 hideLoading();
@@ -453,7 +467,15 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                     stockAvailabilityFilterList.add(filterModel);
                 }
             }
+            // reverification filter list.
+            FilterModel filterModel = new FilterModel();
+            filterModel.setName("Reverification");
+            filterModel.setSelected(false);
+
+            reverificationList.add(filterModel);
             applyOrderFilters();
+        } else {
+            noOrderFound(0);
         }
     }
 
@@ -609,6 +631,45 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             }
             omsHeaderList = stockAvailabilityOMSHeaderFilter;
         }
+
+        // Reverification filter list.
+
+        boolean isReverificationFilter = false;
+        for (FilterModel orderTypeFilter : reverificationList) {
+            if (orderTypeFilter.isSelected()) {
+                isReverificationFilter = true;
+            }
+        }
+        if (isReverificationFilter) {
+            List<TransactionHeaderResponse.OMSHeader> reverificationOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                reverificationOMSHeaderFilter = omsHeaderList;
+            } else {
+                reverificationOMSHeaderFilter = mvpPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel reverificationFilter : reverificationList) {
+                for (int i = 0; i < reverificationOMSHeaderFilter.size(); i++) {
+                    if (!reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() == 2) {
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    } else if (reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() != 2) {
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = reverificationOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
+        }
+
         if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter) {
             omsHeaderList = mvpPresenter.getTotalOmsHeaderList();
         }
@@ -989,6 +1050,16 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onClickStockAvailable(boolean isStockAvailableChecked) {
+
+    }
+
+    @Override
+    public void onClicklabelSizeIcon() {
+
+    }
+
+    @Override
+    public void onClickRefresh() {
 
     }
 

@@ -9,8 +9,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -21,7 +19,7 @@
                 android:layout_weight="0.24"
                 android:fontFamily="@font/cambria"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/sch"
@@ -31,7 +29,7 @@
                 android:fontFamily="@font/cambria"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/hsncode"
@@ -42,7 +40,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/mfg"
@@ -53,7 +51,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/batch"
@@ -64,7 +62,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/expiry"
@@ -75,7 +73,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/qty"
@@ -86,7 +84,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/rate"
@@ -97,7 +95,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <TextView
                 android:id="@+id/amount"
@@ -108,7 +106,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
             <!--                   <TextView-->
             <!--                       android:layout_width="0dp"-->
@@ -129,7 +127,7 @@
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen7sp" />
+                android:textSize="@dimen/dimen5sp" />
 
 
         </LinearLayout>

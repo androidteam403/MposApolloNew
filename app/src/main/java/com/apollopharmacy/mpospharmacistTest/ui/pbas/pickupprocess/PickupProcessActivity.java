@@ -272,7 +272,14 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.farwarToPackerBtn.setTextColor(getResources().getColor(R.color.text_color_grey));
         }
 
-        mposOrderUpdate(orderAdapterPos);
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos
+                && !selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE")
+                && !selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            mposOrderUpdate(orderAdapterPos, "1");
+        } else if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos
+                && selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            mposOrderUpdate(orderAdapterPos, "2");
+        }
     }
 
 
@@ -437,6 +444,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             if (mposPickPackOrderReservationResponse != null)
                 doBackPressed();
         } else if (requestType == 5) {
+
+        }else if (requestType == 1){
 
         }
     }
@@ -930,13 +939,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     private int j = -1;
 
-    public void mposOrderUpdate(int j) {
+    public void mposOrderUpdate(int j, String requestType) {
         this.j = j;
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() >= j) {
             int count = 1;
 //        for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
             omsOrderForwardRequest = new OMSOrderForwardRequest();
-            omsOrderForwardRequest.setRequestType("1");
+            omsOrderForwardRequest.setRequestType(requestType);
             omsOrderForwardRequest.setFulfillmentID(selectedOmsHeaderList.get(j).getRefno());
             List<OMSOrderForwardRequest.ReservedSalesLine> reservedSalesLineArrayList = new ArrayList<>();
 
@@ -1056,7 +1065,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //            OMSOrderForwardResponse o = new OMSOrderForwardResponse();
 //            OmsOrderUpdateSuccess(o);
 //            Toast.makeText(this, "oms update", Toast.LENGTH_SHORT).show();
-            mPresenter.UpdateOmsOrder(omsOrderForwardRequest);
+            mPresenter.UpdateOmsOrder(omsOrderForwardRequest, requestType);
 //        }
         }
 
@@ -1124,8 +1133,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     int count;
 
     @Override
-    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
-        mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
+    public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType) {
+        if (requestType.equalsIgnoreCase("1")) {
+            mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
+        } else if (requestType.equalsIgnoreCase("2")) {
+            mPresenter.mposPickPackOrderReservationApiCalls(1, selectedOmsHeaderList.get(j));
+        }
+
     }
 
     @Override
@@ -1208,6 +1222,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         Dialog dialog = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(PickupProcessActivity.this), R.layout.dialog_cancel, null, false);
         dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
         dialogCancelBinding.dialogMessage.setText("The Changes made will be discarded and you'll be directed to Ready for Pickup Page.\n Do you still want to Continue?");
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

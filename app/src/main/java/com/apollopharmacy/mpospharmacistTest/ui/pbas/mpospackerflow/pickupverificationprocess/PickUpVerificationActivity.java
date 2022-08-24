@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -25,6 +26,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupVerificat
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusBillerBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -319,11 +321,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void onClickReVerificatio() {
         VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, true, omsHeader.getRefno());
-        verificationStatusDialog.setPositiveListener(v -> {
-            verificationStatusDialog.dismiss();
-            mposOrderUpdate("2");
-        });
-        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
+//        verificationStatusDialog.setPositiveListener(v -> {
+//            verificationStatusDialog.dismiss();
+//            mposOrderUpdate("2");
+//        });
+//        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
 
         verificationStatusDialog.show();
 
@@ -418,11 +420,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void onClickVerification() {
         VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
-        verificationStatusDialog.setPositiveListener(v -> {
-            verificationStatusDialog.dismiss();
-            mposOrderUpdate("3");
-        });
-        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
+//        verificationStatusDialog.setPositiveListener(v -> {
+//            verificationStatusDialog.dismiss();
+//            mposOrderUpdate("3");
+//        });
+//        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
         verificationStatusDialog.show();
     }
 
@@ -925,11 +927,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     public void onClickPackerStatusUpdate() {
         if (isPackingVerified == 1) {
             VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
-            verificationStatusDialog.setPositiveListener(v -> {
-                verificationStatusDialog.dismiss();
-                mposOrderUpdate("3");
-            });
-            verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
+//            verificationStatusDialog.setPositiveListener(v -> {
+//                verificationStatusDialog.dismiss();
+//                mposOrderUpdate("3");
+//            });
+//            verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
             verificationStatusDialog.show();
 
             new Handler().postDelayed(() -> {
@@ -940,20 +942,29 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             }, 3000);
 
         } else if (isPackingVerified == 2) {
-            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, true, omsHeader.getRefno());
-            verificationStatusDialog.setPositiveListener(v -> {
-                verificationStatusDialog.dismiss();
+            Dialog dialog = new Dialog(this);
+            DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
+            dialogVerificationStatusBillerBinding.title.setText("Push to Re-verification");
+            dialogVerificationStatusBillerBinding.dialogMessage.setText("Packer not verified for\n Fulfilment ID :" + omsHeader.getRefno() + "\n Push to Picker");
+            dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+            dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+            dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+            dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
+                dialog.dismiss();
                 mposOrderUpdate("2");
-            });
-            verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
-            verificationStatusDialog.show();
 
-            new Handler().postDelayed(() -> {
-                if (verificationStatusDialog != null && verificationStatusDialog.isShowing()) {
-                    verificationStatusDialog.dismiss();
-                    mposOrderUpdate("2");
-                }
-            }, 3000);
+            });
+
+//            new Handler().postDelayed(() -> {
+//                if (dialog != null && dialog.isShowing()) {
+//                    dialog.dismiss();
+//                    mposOrderUpdate("2");
+//                }
+//            }, 3000);
         } else {
             Toast.makeText(this, "Update the packer status", Toast.LENGTH_SHORT).show();
         }

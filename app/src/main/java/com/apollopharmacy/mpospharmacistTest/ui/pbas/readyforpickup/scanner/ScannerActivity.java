@@ -19,7 +19,7 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityScannerBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogScanContinueBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -220,26 +220,19 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
     @Override
     public void dialogShow(int orderPos) {
-
-        ExitInfoDialog dialogView = new ExitInfoDialog(this);
-        dialogView.setTitle("");
-        dialogView.setPositiveLabel("CONTINUE");
-        dialogView.setSubtitle(" FLid: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getRefno() + "" + " tagged to Box Number: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getScannedBarcode());
-        dialogView.setPositiveListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogView.dismiss();
-                initiateScanner();
-            }
-        });
-
+        Dialog dialog = new Dialog(this);
+        DialogScanContinueBinding dialogScanContinueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_scan_continue, null, false);
+        dialogScanContinueBinding.message.setText(" FLid: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getRefno() + "" + " tagged to Box Number: " + ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).getScannedBarcode());
+        dialog.setContentView(dialogScanContinueBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         new Handler().postDelayed(() -> {
-            if (dialogView != null && dialogView.isShowing()) {
-                dialogView.dismiss();
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
                 initiateScanner();
             }
         }, 3000);
-        dialogView.show();
+        dialog.show();
     }
 
 
@@ -248,7 +241,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
         Dialog dialogView = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
-        connectPrinterBinding.dialogMessage.setText("Barcode " + s + " already tagged to " + refno + " Please tag another barcode");
+        connectPrinterBinding.dialogMessage.setText("Box id " + s + " already tagged to " + refno + " Please tag another box id");
         connectPrinterBinding.printImg.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
         dialogView.setContentView(connectPrinterBinding.getRoot());
         dialogView.setCancelable(false);

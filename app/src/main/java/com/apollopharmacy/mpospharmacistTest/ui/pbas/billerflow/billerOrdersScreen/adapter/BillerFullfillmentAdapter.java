@@ -48,6 +48,7 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
         OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
         holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
+        holder.adapterBillerOrdersScreenBinding.orderSourceHeader.setText(fullfilmentModel.getOrderSource());
         if (fullfilmentModel.getOverallOrderStatus() != null && fullfilmentModel.getOverallOrderStatus().length() > 2) {
             String boxId = fullfilmentModel.getOverallOrderStatus().substring(2);
             holder.adapterBillerOrdersScreenBinding.boxId.setText(boxId);

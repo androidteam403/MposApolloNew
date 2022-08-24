@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -125,15 +126,20 @@ public class EPrescriptionActivity extends BaseFragment implements MainActivity.
 
     @Override
     public void onClickRightArrow(EPrescriptionModelClassResponse ePrescription) {
-        int position = -1;
-        for (int i = 0; i < prescriptionLine.size(); i++) {
-            if (prescriptionLine.get(i).getPrescriptionNo().equalsIgnoreCase(ePrescription.getPrescriptionNo())) {
-                position = i;
+        try {
+            int position = -1;
+            for (int i = 0; i < prescriptionLine.size(); i++) {
+                if (prescriptionLine.get(i).getPrescriptionNo().equalsIgnoreCase(ePrescription.getPrescriptionNo())) {
+                    position = i;
+                }
             }
+            if (position != -1) {
+                startActivity(EPrescriptionMedicineDetailsActivity.getStartActivity(getContext(), prescriptionLine, position, mPresenter.getLoinStoreLocation(), mPresenter.getTerminalId()));
+                getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "*****************************************"+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        startActivity(EPrescriptionMedicineDetailsActivity.getStartActivity(getContext(), prescriptionLine, position, mPresenter.getLoinStoreLocation(), mPresenter.getTerminalId()));
-        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-
     }
 
     @Override

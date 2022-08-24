@@ -19,7 +19,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservatio
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +66,10 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             } else if (pickedUpQty > 0 && pickedUpQty < fullfillmentDetail.getQty()) {
+                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(90);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             } else {
+                holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             }
         }

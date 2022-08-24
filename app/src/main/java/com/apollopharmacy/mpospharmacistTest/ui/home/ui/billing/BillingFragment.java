@@ -437,7 +437,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     fragmentBillingBinding.tier.setText(customerResult.getTier());
                     fragmentBillingBinding.availablePoints.setText(customerResult.getAvailablePoints());
                     if (customerResult.getCardNo() == null || customerResult.getCardNo().equalsIgnoreCase("")) {
-                        fragmentBillingBinding.prgTrackingEdit.setText("--");
+                        fragmentBillingBinding.prgTrackingEdit.setText("");
                     } else {
                         fragmentBillingBinding.prgTrackingEdit.setText(customerResult.getCardNo());
                     }

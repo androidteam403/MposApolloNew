@@ -37,7 +37,7 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
             getOmsTransactionRequest.setDataAreaID("ahel");
             getOmsTransactionRequest.setExpiryDays(90);

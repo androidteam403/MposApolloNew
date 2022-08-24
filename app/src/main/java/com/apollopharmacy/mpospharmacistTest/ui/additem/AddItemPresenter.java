@@ -267,6 +267,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         onClickCashPaymentPay();
                                     }
                                 }
+                            }else {
+                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
+                                if (getMvpView().getCustomerModule().isCardPayment()) {
+                                    onClickCardPayment();
+                                } else {
+                                    onClickCashPaymentPay();
+                                }
                             }
                         }
                     }
@@ -3266,6 +3273,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive() && !getMvpView().isOnleneOrder()){
+                    wallet.setWalletTransactionID("");
+                    wallet.setWalletOrderID("");
+                }
             } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code")) {
                 if (getMvpView().isOnleneOrder()) {
                     wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + getMvpView().getOnlineTransactionId() + String.valueOf(minutes) + String.valueOf(seconds));
@@ -3310,6 +3321,10 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive() && !getMvpView().isOnleneOrder()){
+                    wallet.setWalletTransactionID("");
+                    wallet.setWalletOrderID("");
+                }
             } else if (typeEntity().getTender().equalsIgnoreCase("Pay through QR Code") || typeEntity().getTender().equalsIgnoreCase("QR Code")) {
                 if (getMvpView().isOnleneOrder()) {
                     wallet.setWalletTransactionID(getMvpView().getCalculatedPosTransactionRes().getStore() + getMvpView().getOnlineTransactionId() + String.valueOf(minutes) + String.valueOf(seconds));

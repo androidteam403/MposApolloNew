@@ -621,6 +621,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
         dialogCancelBinding.dialogMessage.setText("The Changes made will be discarded and you'll be directed to Open Orders Page.\n Do you still want to Continue?");
         dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();

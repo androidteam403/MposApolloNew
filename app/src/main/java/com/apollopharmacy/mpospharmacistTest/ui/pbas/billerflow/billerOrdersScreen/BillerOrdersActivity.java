@@ -104,6 +104,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 //
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
@@ -311,6 +313,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             temFiltersHeadersList();
             Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
             DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
+            dialogFilterBinding.reverificationView.setVisibility(View.GONE);
+            dialogFilterBinding.reverificationText.setVisibility(View.GONE);
+            dialogFilterBinding.reverificationRecycler.setVisibility(View.GONE);
             filterDialog.setContentView(dialogFilterBinding.getRoot());
             filterDialog.setCancelable(false);
             filtersList(dialogFilterBinding);
@@ -452,6 +457,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 }
             }
             applyOrderFilters();
+        } else {
+            noOrderFound(0);
         }
     }
 
@@ -856,6 +863,16 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     public void onClickStockAvailable(boolean isStockAvailableChecked) {
+
+    }
+
+    @Override
+    public void onClicklabelSizeIcon() {
+
+    }
+
+    @Override
+    public void onClickRefresh() {
 
     }
 }

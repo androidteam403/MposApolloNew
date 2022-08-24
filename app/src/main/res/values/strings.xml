@@ -515,7 +515,7 @@
     <string name="_19_feb_2022_10_35_44">19 Feb, 2022 - 10:35:44</string>
     <string name="select">Select</string>
     <string name="total_items_5">Total Items: 5</string>
-    <string name="fullfillment_id">Fulfilment ID:</string>
+    <string name="fullfillment_id">Fulfilment ID :\u0020</string>
     <string name="products">Products</string>
     <string name="qty">Qty</string>
     <string name="ascoril_d_plus_syrup_sugar_free">Ascoril D plus Syrup Sugar Free</string>
@@ -587,5 +587,16 @@
     <string name="label_packer_status_update">Packer status Update</string>
     <string name="label_shipping_label">Shipping Label</string>
     <string name="label_transaction_id_colon">Transaction ID :</string>
+    <string name="label_print_label">Print Label</string>
+    <string name="label_4x6">4x6</string>
+    <string name="label_a4">A4</string>
+    <string name="label_scan_code">Scan code</string>
+    <string name="label_shipping_label_orders">Shipping Label Orders</string>
+    <string name="label_shipping">Shipping</string>
+    <string name="label_shipping_orders">Shipping Orders</string>
+    <string name="label_receipt_id">Receipt Id :\u0020</string>
+    <string name="label_bill_date">Bill Date :\u0020</string>
+    <string name="label_box_id">Box Id :\u0020</string>
+    <string name="fullfillment_ids">Fulfilment Id :\u0020</string>
 
 </resources>

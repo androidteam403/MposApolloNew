@@ -840,7 +840,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="Apollo Pharmacy - "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:id="@+id/postesting"
@@ -849,7 +849,7 @@
                                         android:fontFamily="@font/cambriab"
                                         android:text="POS TESTING"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp"
+                                        android:textSize="@dimen/dimen5sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>
 
@@ -857,31 +857,31 @@
                                     android:id="@+id/address_one"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:fontFamily="@font/cambria"
                                     android:text="SHOP NO 1 and 2, SHUKAN HUB"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/address_two"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:fontFamily="@font/cambria"
                                     android:text="87365645"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/phonenumberpdf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:fontFamily="@font/cambria"
                                     android:text="PHONE: 9012952000"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                             </LinearLayout>
 
@@ -892,8 +892,8 @@
                                 android:gravity="end|center_vertical">
 
                                 <ImageView
-                                    android:layout_width="@dimen/dimen50dp"
-                                    android:layout_height="@dimen/dimen50dp"
+                                    android:layout_width="@dimen/dimen30dp"
+                                    android:layout_height="@dimen/dimen30dp"
                                     android:layout_centerVertical="true"
                                     android:layout_marginEnd="@dimen/twenty_dp"
                                     android:contentDescription="@string/app_name"
@@ -920,7 +920,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="FSSAI NO"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -929,7 +929,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text=":"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
 
                                     <TextView
@@ -940,14 +940,14 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="FSSAI12345678"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
 
@@ -958,7 +958,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="D.L.NO:"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -967,7 +967,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text=":"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
 
                                     <TextView
@@ -978,7 +978,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="GJ-139904-909(20,20B,20C,20D,21,21B)"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
 
                                 </LinearLayout>
@@ -986,7 +986,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
 
@@ -998,7 +998,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="GST NO"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -1007,7 +1007,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text=":"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
 
                                     <TextView
@@ -1018,14 +1018,14 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="36AAACA5443N3Z"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/three_dp"
+                                    android:layout_marginTop="@dimen/dimen1dp"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
 
@@ -1036,7 +1036,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text="C.GSTIN"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -1045,7 +1045,7 @@
                                         android:fontFamily="@font/cambria"
                                         android:text=":"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                     <TextView
                                         android:id="@+id/cgstin"
@@ -1054,7 +1054,7 @@
                                         android:layout_weight="0.79"
                                         android:fontFamily="@font/cambria"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/dimen7sp" />
+                                        android:textSize="@dimen/dimen5sp" />
 
                                 </LinearLayout>
 
@@ -1301,12 +1301,12 @@
                             android:layout_marginTop="1dp"
                             android:contentDescription="@string/app_name"
                             android:layerType="software"
-                            android:src="@drawable/dottedlines" />
+                            android:src="@drawable/dottedline_mobile" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/two_dp"
+                            android:layout_marginTop="@dimen/dimen1dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
 
@@ -1323,17 +1323,17 @@
                                     android:fontFamily="@font/cambria"
                                     android:text="Name: Pharmacy PC:500092"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/doctornamepdf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/cambria"
                                     android:text="Doctor: -"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
 
                             </LinearLayout>
@@ -1352,17 +1352,17 @@
                                     android:fontFamily="@font/cambria"
                                     android:text="Mobile No.:2349661401"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/refno.pdf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/cambria"
                                     android:text="Ref. NO : FL20220610101000013"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                             </LinearLayout>
 
@@ -1381,18 +1381,18 @@
                                     android:gravity="center"
                                     android:text="Bill No.:16001DS002953"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/trmnl_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/cambria"
                                     android:gravity="center"
                                     android:text="TID : 003"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
 
                             </LinearLayout>
@@ -1412,18 +1412,18 @@
                                     android:gravity="center"
                                     android:text="6711-APOLLO247"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:id="@+id/billdatepdf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
+                                    android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/cambria"
                                     android:gravity="center"
                                     android:text="Bill Date : 2022-Jun-14 10:19:00 AM"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                             </LinearLayout>
 
@@ -1487,7 +1487,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4sp"
-                            android:layout_marginTop="5sp"
+                            android:layout_marginTop="2dp"
                             android:weightSum="1">
 
 
@@ -1532,7 +1532,7 @@
                             android:layout_marginTop="1dp"
                             android:contentDescription="@string/app_name"
                             android:layerType="software"
-                            android:src="@drawable/dottedlines" />
+                            android:src="@drawable/dottedline_mobile" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1548,7 +1548,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="Product Name"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1558,7 +1558,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="SCH"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1569,7 +1569,7 @@
                                 android:text="HSNCODE"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1580,7 +1580,7 @@
                                 android:text="Mfg"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen8sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1591,7 +1591,7 @@
                                 android:text="BATCH"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1602,7 +1602,7 @@
                                 android:text="EXPIRY"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1613,7 +1613,7 @@
                                 android:text="Qty"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1624,7 +1624,7 @@
                                 android:text="RATE"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1636,7 +1636,7 @@
                                 android:text="AMOUNT"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <!--                   <TextView-->
                             <!--                       android:layout_width="0dp"-->
@@ -1657,7 +1657,7 @@
                                 android:text="GST%"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>
@@ -1668,15 +1668,13 @@
                             android:layout_marginTop="1dp"
                             android:contentDescription="@string/app_name"
                             android:layerType="software"
-                            android:src="@drawable/dottedlines" />
+                            android:src="@drawable/dottedline_mobile" />
 
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/pdfRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
                             android:visibility="visible" />
 
 
@@ -1697,7 +1695,7 @@
                                 android:gravity="center"
                                 android:text="Shipping Charge: -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:id="@+id/sacpdf"
@@ -1707,7 +1705,7 @@
                                 android:gravity="center"
                                 android:text="SAC: -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1718,7 +1716,7 @@
                                 android:gravity="center"
                                 android:text="GST: -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>
@@ -1729,7 +1727,7 @@
                             android:layout_marginTop="1dp"
                             android:contentDescription="@string/app_name"
                             android:layerType="software"
-                            android:src="@drawable/dottedlines" />
+                            android:src="@drawable/dottedline_mobile" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1746,7 +1744,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="TAXABLE VALUE: 330.50"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1757,7 +1755,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="CGstAMT: --"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:id="@+id/sgstamtpdf"
@@ -1767,7 +1765,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="SGstAmt: --"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>
@@ -1776,7 +1774,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="@dimen/dimen1dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
 
@@ -1789,7 +1787,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Gross: 430.00"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1800,7 +1798,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="DisAmt : 0.00"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <TextView
                                 android:id="@+id/dontaionpdf"
@@ -1810,7 +1808,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Donation: 0"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1821,7 +1819,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="NetAmt : 430.00"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>
@@ -1832,7 +1830,7 @@
                             android:layout_marginTop="1dp"
                             android:contentDescription="@string/app_name"
                             android:layerType="software"
-                            android:src="@drawable/dottedlines" />
+                            android:src="@drawable/dottedline_mobile" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1850,7 +1848,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="CIN: -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                             <TextView
@@ -1861,7 +1859,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Registered Office: -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>
@@ -1870,16 +1868,16 @@
                             android:id="@+id/adminoffcpdf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/dimen1dp"
                             android:fontFamily="@font/cambria"
                             android:text="Admin Office : -- "
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen7sp" />
+                            android:textSize="@dimen/dimen5sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/dimen1dp"
                             android:orientation="horizontal"
                             android:weightSum="1"
                             tools:ignore="RtlCompat">
@@ -1893,7 +1891,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text=" -- "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -1906,7 +1904,7 @@
                                     android:fontFamily="@font/cambria"
                                     android:text="for"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp" />
+                                    android:textSize="@dimen/dimen5sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1915,7 +1913,7 @@
                                     android:fontFamily="@font/cambria"
                                     android:text="@string/label_apollo_pharmacy"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen7sp"
+                                    android:textSize="@dimen/dimen5sp"
                                     android:textStyle="bold" />
 
 
@@ -1927,7 +1925,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/dimen1dp"
                             android:layout_marginBottom="20dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
@@ -1939,7 +1937,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Wishes You Speedy Recovery"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp"
+                                android:textSize="@dimen/dimen5sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -1949,7 +1947,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Next Purchased Use Coupon =[1203232]"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp"
+                                android:textSize="@dimen/dimen5sp"
                                 android:visibility="invisible" />
 
 
@@ -1961,7 +1959,7 @@
                                 android:fontFamily="@font/cambria"
                                 android:text="Registered pharmacist"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dimen7sp" />
+                                android:textSize="@dimen/dimen5sp" />
 
 
                         </LinearLayout>

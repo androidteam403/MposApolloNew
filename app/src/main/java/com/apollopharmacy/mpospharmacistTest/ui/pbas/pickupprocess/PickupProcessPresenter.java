@@ -99,7 +99,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
     @Override
-    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest) {
+    public void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest, String requestType) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             omsOrderForwardRequest.setTerminalID(getDataManager().getTerminalId());
@@ -127,7 +127,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
-                            getMvpView().OmsOrderUpdateSuccess(response.body());
+                            getMvpView().OmsOrderUpdateSuccess(response.body(), requestType);
 
                         } else {
                             getMvpView().OmsOrderUpdateFailure(response.body());
@@ -356,12 +356,14 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                 order.setTerminalID(getDataManager().getTerminalId());
                 order.setTransactionID(selectedOmsHeader.getRefno());
                 order.setRefID(selectedOmsHeader.getScannedBarcode());
-                if (selectedOmsHeader.getItemStatus().equals("FULL")) {
-                    order.setOverallOrderStatus("1");
-                } else if (selectedOmsHeader.getItemStatus().equals("PARTIAL")) {
-                    order.setOverallOrderStatus("2");
-                } else if (selectedOmsHeader.getItemStatus().equals("NOT AVAILABLE")) {
-                    order.setOverallOrderStatus("3");
+                if (requestType == 5) {
+                    if (selectedOmsHeader.getItemStatus().equals("FULL")) {
+                        order.setOverallOrderStatus("1");
+                    } else if (selectedOmsHeader.getItemStatus().equals("PARTIAL")) {
+                        order.setOverallOrderStatus("2");
+                    } else if (selectedOmsHeader.getItemStatus().equals("NOT AVAILABLE")) {
+                        order.setOverallOrderStatus("3");
+                    }
                 }
                 ordersList.add(order);
             }

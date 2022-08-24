@@ -502,7 +502,8 @@ Do you want to proceed with Packing?"
                     android:onClick="@{()-> callback.onClickPackerStatusUpdate()}"
                     android:text="@string/label_packer_status_update"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_14" />
+                    android:textSize="@dimen/text_dimen_14"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/send_re_ver"

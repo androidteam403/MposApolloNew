@@ -248,4 +248,5 @@
     <dimen name="dimen7sp">7sp</dimen>
     <dimen name="dimen70dp">70dp</dimen>
     <dimen name="dimen200dp">200dp</dimen>
+    <dimen name="dimen5sp">5sp</dimen>
 </resources>

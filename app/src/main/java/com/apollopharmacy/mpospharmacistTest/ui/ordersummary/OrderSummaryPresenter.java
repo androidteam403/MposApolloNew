@@ -177,7 +177,7 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             PdfModelRequest reqModel = new PdfModelRequest();
             reqModel.setStoreCode(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());

@@ -295,7 +295,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList) {
+    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, boolean isCameFromEprescriptionMedicineDetailsActivity) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("sales_list_data", salesLineEntities);
         intent.putExtra("customer_info", customerEntity);
@@ -306,6 +306,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("doctor_info", doctor);
         intent.putExtra("ePrescription_model_class_response", ePrescriptionModelClassResponse);
         intent.putExtra("ePrescription_medicine_response_list", (Serializable) ePrescriptionMedicineResponseList);
+        intent.putExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", isCameFromEprescriptionMedicineDetailsActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -358,7 +359,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
                 if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
-                    addItemBinding.detailsLayout.prgTrackingEdit.setText("--");
+                    addItemBinding.detailsLayout.prgTrackingEdit.setText("");
                 } else {
                     addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
                 }
@@ -481,6 +482,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getBooleanExtra("is_omsorder", false);
             boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
+            boolean isCameFromEprescriptionMedicineDetailsActivity = (boolean) getIntent().getBooleanExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", false);
+            if (isCameFromEprescriptionMedicineDetailsActivity) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+            }
+            //
             this.isOnlineOrder = isOnline;
             if (is_omsorder == true) {
                 boolean itemNotFound = true;
@@ -646,9 +652,37 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        if (customerEntity.getCardName().isEmpty()) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle("");
+            dialogView.setPositiveLabel("OK");
+            dialogView.setSubtitle("Kindly Select Customer");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+        } else if (doctorEntity.getDisplayText().isEmpty()) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle("");
+            dialogView.setPositiveLabel("OK");
+            dialogView.setSubtitle("Kindly Select Doctor");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+        } else {
+            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
+
     }
+
 
     @Override
     public void Posttratransactionrequest(POSTransactionEntity entity) {
@@ -963,6 +997,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
         if (isCameFromOrderDetailsScreenActivity) {
             calculatePosTransactionRes.setIsMPOSBill(2);
+        } else {
+            calculatePosTransactionRes.setIsMPOSBill(1);
         }
         return calculatePosTransactionRes;
     }
@@ -1655,6 +1691,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
             if (isCameFromOrderDetailsScreenActivity) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
                 onPayButtonClick();
             }
         }
@@ -2587,8 +2624,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
-        if (hbpConfigResponse.getUHIDBilling())
-            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+//        if (hbpConfigResponse.getUHIDBilling())
+//            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
     }
 
     @Override
@@ -2826,7 +2863,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         if (customerEntity != null) {
                             addItemBinding.setCustomer(customerEntity);
                             if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
-                                addItemBinding.detailsLayout.prgTrackingEdit.setText("--");
+                                addItemBinding.detailsLayout.prgTrackingEdit.setText("");
                             } else {
                                 addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
                             }
@@ -3061,6 +3098,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
 
     private void clearOrderData() {
+        customerEntity = new GetCustomerResponse.CustomerEntity();
+        customerEntity.setCardName("");
+        customerEntity.setMobileNo("");
+
+        corporateEntity = new CorporateModel.DropdownValueBean();
+        corporateEntity.setCode("");
+        corporateEntity.setDescription("");
+
+        doctorEntity = new DoctorSearchResModel.DropdownValueBean();
+        doctorEntity.setCode("");
+        doctorEntity.setDisplayText("");
+
+        addItemBinding.setCustomer(customerEntity);
+        addItemBinding.setCorporate(corporateEntity);
+        addItemBinding.setDoctor(doctorEntity);
+
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = true;
         addItemBinding.cardPaymentAmountEditText.setText("");

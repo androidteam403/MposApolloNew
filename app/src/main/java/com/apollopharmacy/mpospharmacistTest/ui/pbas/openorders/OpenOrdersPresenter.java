@@ -76,7 +76,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
@@ -116,7 +116,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
             getOmsTransactionRequest.setDataAreaID("ahel");
             getOmsTransactionRequest.setExpiryDays(90);

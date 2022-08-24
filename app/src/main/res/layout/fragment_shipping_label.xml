@@ -27,6 +27,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Search by Fulfilment ID, Box ID"
                     android:padding="@dimen/five_dp"
+                    android:focusable="true"
+                    android:focusedByDefault="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />
@@ -46,6 +48,7 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/ic_rectangular_shape"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickSearchTextClear()}"
                     android:padding="@dimen/five_dp"
                     android:src="@drawable/cross_black"
                     android:visibility="gone" />
@@ -78,8 +81,8 @@
                         android:background="@drawable/ic_rectangular_shape"
                         android:backgroundTint="@color/green"
                         android:fontFamily="@font/roboto_bold"
-
-                        android:text="Scan code"
+                        android:onClick="@{()-> callback.onClickScanCode()}"
+                        android:text="@string/label_scan_code"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/ten_sp" />
@@ -94,8 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="@dimen/five_dp" />
+                android:layout_marginEnd="@dimen/dimen10dp" />
 
             <TextView
                 android:id="@+id/no_order_found_text"
@@ -113,4 +115,11 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter" />
+    </data>
 </layout>

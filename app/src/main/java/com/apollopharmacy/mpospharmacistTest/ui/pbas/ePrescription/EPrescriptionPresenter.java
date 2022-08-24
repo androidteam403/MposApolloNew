@@ -34,7 +34,7 @@ public class EPrescriptionPresenter  <V extends EPrescriptionMvpView> extends Ba
         if (getMvpView().isNetworkConnected()) {
            getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             EPrescriptionModelClassRequest reqModel = new EPrescriptionModelClassRequest();
             reqModel.setPosExpiry(0);
             reqModel.setStoreId("16001");

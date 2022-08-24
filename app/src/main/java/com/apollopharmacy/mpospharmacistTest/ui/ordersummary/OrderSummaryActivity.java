@@ -501,16 +501,16 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
     private void createPdf() {
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //  Display display = wm.getDefaultDisplay();
+//          Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//        float hight = displaymetrics.heightPixels;
-//        float width = displaymetrics.widthPixels;
+        int hight = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
 //
 //        int convertHighet = (int) hight, convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1800, 1080, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight(), 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -518,7 +518,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
         Paint paint = new Paint();
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, 1800, 1080, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight(), true);
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0, null);
@@ -550,6 +550,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
 
             PrintAttributes.Builder builder = new PrintAttributes.Builder();
             builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
+            builder.setColorMode(PrintAttributes.COLOR_MODE_MONOCHROME);
 
             PrintManager printManager = (PrintManager) this.getSystemService(Context.PRINT_SERVICE);
             String jobName = this.getString(R.string.app_name) + " Document";
@@ -621,7 +622,7 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
                 return;
             }
             //int pages = computePageCount(newAttributes);
-            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder("file_name.pdf").setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
+            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder(transactionId + ".pdf").setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
             callback.onLayoutFinished(pdi, true);
         }
 

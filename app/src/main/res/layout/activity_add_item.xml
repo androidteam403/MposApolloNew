@@ -844,8 +844,9 @@
                                             android:background="@{paymentMode.isHdfcPayMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickHdfcPay()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{paymentMode.enableHdfcPayBtn ? View.VISIBLE : View.GONE}">
+                                            android:visibility="gone">
 
+                                            <!--                                            android:visibility="@{paymentMode.enableHdfcPayBtn ? View.VISIBLE : View.GONE}"-->
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
                                                 android:layout_height="@dimen/thirty_dp"
@@ -1012,6 +1013,7 @@
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
+
                                         <LinearLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -1434,14 +1436,14 @@
                                         android:onClick="@{()-> callback.onSelectPhonePe()}"
                                         android:src="@drawable/ic_phonepe" />
 
-<!--                                    <ImageView-->
-<!--                                        android:id="@+id/PhonePeQrMode"-->
-<!--                                        android:layout_width="@dimen/sixty_dp"-->
-<!--                                        android:layout_height="@dimen/sixty_dp"-->
-<!--                                        android:layout_centerVertical="true"-->
-<!--                                        android:contentDescription="@string/app_name"-->
-<!--                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"-->
-<!--                                        android:src="@drawable/phonepeqrcodeimage" />-->
+                                    <!--                                    <ImageView-->
+                                    <!--                                        android:id="@+id/PhonePeQrMode"-->
+                                    <!--                                        android:layout_width="@dimen/sixty_dp"-->
+                                    <!--                                        android:layout_height="@dimen/sixty_dp"-->
+                                    <!--                                        android:layout_centerVertical="true"-->
+                                    <!--                                        android:contentDescription="@string/app_name"-->
+                                    <!--                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"-->
+                                    <!--                                        android:src="@drawable/phonepeqrcodeimage" />-->
 
                                     <ImageView
                                         android:layout_width="@dimen/sixty_dp"

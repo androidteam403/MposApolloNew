@@ -121,6 +121,25 @@
                             android:layout_marginEnd="@dimen/five_dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_filter_white" />
+
+                        <ImageView
+                            android:id="@+id/ic_paper_size"
+                            android:layout_width="@dimen/dimen30dp"
+                            android:layout_height="@dimen/dimen30dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_baseline_settings_24"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/refresh"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen25dp"
+                            android:layout_marginEnd="@dimen/five_dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/refresh"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
                 </RelativeLayout>

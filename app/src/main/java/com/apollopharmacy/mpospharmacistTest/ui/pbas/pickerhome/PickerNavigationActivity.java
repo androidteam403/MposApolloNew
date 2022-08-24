@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -136,6 +137,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             }
         });
         stockAvailable();
+        onClickLabelSize();
+        onClickRefresh();
     }
 
     private void decideFragment(String fragmentName) {
@@ -154,6 +157,15 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            hideKeyboard();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void navigateToOpenOrders() {
         navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
     }
@@ -169,6 +181,22 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 if (pickerNavigationActivityCallback != null) {
                     pickerNavigationActivityCallback.onClickStockAvailable(b);
                 }
+            }
+        });
+    }
+
+    public void onClickLabelSize() {
+        activityNavigation3Binding.appBarMain.icPaperSize.setOnClickListener(view -> {
+            if (pickerNavigationActivityCallback != null) {
+                pickerNavigationActivityCallback.onClicklabelSizeIcon();
+            }
+        });
+    }
+
+    public void onClickRefresh() {
+        activityNavigation3Binding.appBarMain.refresh.setOnClickListener(view -> {
+            if (pickerNavigationActivityCallback != null) {
+                pickerNavigationActivityCallback.onClickRefresh();
             }
         });
     }
@@ -347,6 +375,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
 
         void onClickStockAvailable(boolean isStockAvailableChecked);
+
+        void onClicklabelSizeIcon();
+
+        void onClickRefresh();
     }
 
     @Override

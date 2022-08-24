@@ -49,7 +49,7 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS("3");
+            reqModel.setIsMPOS("2");//3
             reqModel.setUserName(getDataManager().getUserName());
 
             Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);

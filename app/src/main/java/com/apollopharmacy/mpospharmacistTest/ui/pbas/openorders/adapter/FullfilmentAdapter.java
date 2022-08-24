@@ -60,15 +60,16 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             omsHeaderList.get(position).setTagBox(true);
         }
 
-        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+        holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
         } else {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
-        holder.fullfilmentBinding.fullfilmentId.setText(context.getResources().getString(R.string.label_space) + omsHeader.getRefno());
+        holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
 

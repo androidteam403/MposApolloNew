@@ -65,8 +65,37 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText((String.valueOf(medicineResponse.getReqQty())));
             medicineResponse.setReqQty(medicineResponse.getReqQty());
         } else {
-            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
-            medicineResponse.setReqQty(Integer.valueOf(medicineResponse.getQty()));
+            if (medicineResponse.getSubstitute() != null) {
+                if (medicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                    if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
+                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                    } else {
+                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
+                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                    }
+                } else {
+                    if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
+                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                    } else {
+                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getSubstitute().getOnHand());
+                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getSubstitute().getOnHand()));
+                    }
+                }
+            } else {
+                if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
+                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                    medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                } else {
+                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
+                    medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                }
+            }
+//            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
+//            medicineResponse.setReqQty(0);
+//            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+//            medicineResponse.setReqQty(Integer.valueOf(medicineResponse.getQty()));
         }
 
 
@@ -87,79 +116,172 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
-                    if (Integer.parseInt(editable.toString()) == 0) {
-                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
-                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
-                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("Please enter valid qty");
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                            dialog.dismiss();
-                            if (mvpView != null) {
-
-//                                mvpView.onReqQtyUpdate(medicineResponse);
-                            }
-                            medicineResponse.setReqQty(Integer.parseInt((filteredMedicineList.get(position).getQty())));
-                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(filteredMedicineList.get(position).getQty());
-
-                        });
-
+//                    if (Integer.parseInt(editable.toString()) == 0) {
+//                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+//                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+//                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
+//                        dialogBatchAlertBinding.dialogMessage.setText("Please enter valid qty");
+//                        dialog.setCancelable(false);
+//                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                        dialog.show();
+//                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+//                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+//                            dialog.dismiss();
+//                            if (mvpView != null) {
 //
-                    } else if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
-                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
-                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required qty");
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                            dialog.dismiss();
-                            if (mvpView != null) {
+////                                mvpView.onReqQtyUpdate(medicineResponse);
+//                            }
+//                            medicineResponse.setReqQty(Integer.parseInt((filteredMedicineList.get(position).getQty())));
+//                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(filteredMedicineList.get(position).getQty());
+//
+//                        });
+//
+////
+//                    } else {
+                    if (medicineResponse.getSubstitute() != null) {
+                        if (medicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                            if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getONHand())) {
+                                dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+                                DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+                                dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                                dialogBatchAlertBinding.dialogMessage.setText("You have entered more than QOH");
+                                dialog.setCancelable(false);
+                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog.show();
+                                dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                                dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                    dialog.dismiss();
+                                    if (mvpView != null) {
 
 //                                mvpView.onReqQtyUpdate(medicineResponse);
+                                    }
+                                    if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
+                                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                    } else {
+                                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
+                                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                                    }
+//                                    medicineResponse.setReqQty(0);
+//                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
+
+                                });
                             }
-                            medicineResponse.setReqQty(Integer.parseInt((filteredMedicineList.get(position).getQty())));
-                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(filteredMedicineList.get(position).getQty());
-
-                        });
-
-//                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
-                    } else if (Integer.parseInt(editable.toString()) < Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
-                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
-                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("You have entered less than required qty");
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                            dialog.dismiss();
-
-                            if (mvpView != null) {
+                        } else {
+                            if (Integer.parseInt(editable.toString()) > Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
+                                dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+                                DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+                                dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                                dialogBatchAlertBinding.dialogMessage.setText("You have entered more than QOH");
+                                dialog.setCancelable(false);
+                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog.show();
+                                dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                                dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                    dialog.dismiss();
+                                    if (mvpView != null) {
 
 //                                mvpView.onReqQtyUpdate(medicineResponse);
+                                    }
+                                    if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
+                                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                    } else {
+                                        holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getSubstitute().getOnHand());
+                                        medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getSubstitute().getOnHand()));
+                                    }
+//                                    medicineResponse.setReqQty(0);
+//                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
 
+                                });
                             }
-                            medicineResponse.setReqQty(Integer.parseInt((editable.toString())));
-//                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(String.valueOf(medicineResponse.getReqQty()));
-                        });
-
-                    } else if (Integer.parseInt(editable.toString()) == Integer.parseInt(filteredMedicineList.get(position).getQty())) {
-//                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(String.valueOf(medicineResponse.getReqQty()));
-                        if (mvpView != null) {
-
-//                            mvpView.onReqQtyUpdate(medicineResponse);
-
                         }
-                        medicineResponse.setReqQty(Integer.parseInt((editable.toString())));
+                    } else {
+                        if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getONHand())) {
+                            dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+                            DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+                            dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                            dialogBatchAlertBinding.dialogMessage.setText("You have entered more than QOH");
+                            dialog.setCancelable(false);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.show();
+                            dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                            dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                dialog.dismiss();
+                                if (mvpView != null) {
 
+//                                mvpView.onReqQtyUpdate(medicineResponse);
+                                }
+                                if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
+                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                                    medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                } else {
+                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
+                                    medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                                }
+//                                medicineResponse.setReqQty(0);
+//                                holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
+
+                            });
+                        }
                     }
+//                    }
+//                    else if (Integer.parseInt(editable.toString()) > Integer.parseInt(filteredMedicineList.get(position).getQty())) {
+//
+//
+////                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+////                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+////                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
+////                        dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required qty");
+////                        dialog.setCancelable(false);
+////                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+////                        dialog.show();
+////                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+////                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+////                            dialog.dismiss();
+////                            if (mvpView != null) {
+////
+//////                                mvpView.onReqQtyUpdate(medicineResponse);
+////                            }
+//
+//                        medicineResponse.setReqQty(Integer.parseInt((editable.toString())));
+////                            medicineResponse.setReqQty(Integer.parseInt((filteredMedicineList.get(position).getQty())));
+////                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(filteredMedicineList.get(position).getQty());
+//
+////                        });
+//
+////                        dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
+//                    } else if (Integer.parseInt(editable.toString()) < Integer.parseInt(filteredMedicineList.get(position).getQty())) {
+////                        dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+////                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+////                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
+////                        dialogBatchAlertBinding.dialogMessage.setText("You have entered less than required qty");
+////                        dialog.setCancelable(false);
+////                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+////                        dialog.show();
+////                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+////                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+////                            dialog.dismiss();
+////
+////                            if (mvpView != null) {
+////
+//////                                mvpView.onReqQtyUpdate(medicineResponse);
+////
+////                            }
+//                        medicineResponse.setReqQty(Integer.parseInt((editable.toString())));
+////                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(String.valueOf(medicineResponse.getReqQty()));
+////                        });
+//
+//                    } else if (Integer.parseInt(editable.toString()) == Integer.parseInt(filteredMedicineList.get(position).getQty())) {
+////                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(String.valueOf(medicineResponse.getReqQty()));
+//                        if (mvpView != null) {
+//
+////                            mvpView.onReqQtyUpdate(medicineResponse);
+//
+//                        }
+//                        medicineResponse.setReqQty(Integer.parseInt((editable.toString())));
+//
+//                    }
                 }
 
             }
@@ -167,9 +289,9 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
 
         });
 
-        if (substituteList != null){
+        if (substituteList != null) {
             substituteSpinner(holder.adapterEprescriptionMedicinedetailsVtwoBinding, medicineResponse, position, holder.adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.getSelectedItem());
-        }else{
+        } else {
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.GONE);
             holder.adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.VISIBLE);
         }

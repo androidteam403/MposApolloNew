@@ -115,7 +115,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
             getOmsTransactionRequest.setDataAreaID("ahel");
             getOmsTransactionRequest.setExpiryDays(90);

@@ -292,7 +292,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         if (body.size() > 0) {
 
             if (!allowChangeQty) {
-                int qty = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).getQty();
+                int qty = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getQty();
                 for (int i = 0; i < this.body.size(); i++) {
                     if (qty <= Double.parseDouble(this.body.get(i).getQ_O_H())) {
                         this.body.get(i).setREQQTY((double) qty);
@@ -392,7 +392,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                 DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
                 dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                dialogBatchAlertBinding.dialogMessage.setText("You have entered less than Request quantity");
+                dialogBatchAlertBinding.printImg.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+                dialogBatchAlertBinding.printImg.setVisibility(View.VISIBLE);
+                dialogBatchAlertBinding.dialogMessage.setText("You have entered less than Request quantity\nDo you still want to continue?");
                 dialog.setCancelable(false);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -459,7 +461,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                 DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
                 dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required quantity");
+                dialogBatchAlertBinding.printImg.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+                dialogBatchAlertBinding.printImg.setVisibility(View.VISIBLE);
+                dialogBatchAlertBinding.dialogMessage.setText("You have entered more than required quantity\nDo you still want to continue?");
                 dialog.setCancelable(false);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();

@@ -61,6 +61,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST = "PREF_KEY_TOTAL_OMS_HEADER_LIST";
     private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ = "PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ";
 
+    private static final String PREF_KEY_PAPER_LABEL_SIZE = "PREF_KEY_PAPER_LABEL_SIZE";
+
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -407,6 +409,16 @@ public class PreferencesManager implements PreferencesHelper {
         Type type = new TypeToken<List<OMSTransactionHeaderResModel.OMSHeaderObj>>() {
         }.getType();
         return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setLabelSize(String labelSize) {
+        mPrefs.edit().putString(PREF_KEY_PAPER_LABEL_SIZE, labelSize).apply();
+    }
+
+    @Override
+    public String getLabelSize() {
+        return mPrefs.getString(PREF_KEY_PAPER_LABEL_SIZE, "4X6");
     }
 
 }
