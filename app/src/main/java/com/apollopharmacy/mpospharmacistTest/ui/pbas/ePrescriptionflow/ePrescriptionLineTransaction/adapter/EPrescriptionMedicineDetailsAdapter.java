@@ -35,6 +35,7 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
     SubstituteListAdapter substituteListAdapter;
     EPrescriptionSubstituteModelResponse substituteList;
     Dialog dialog;
+    String lastSelectedSubstitute = "";
 
     public EPrescriptionMedicineDetailsAdapter(Context applicationContext, EPrescriptionMedicineDetailsMvpView mvpView, List<EPrescriptionMedicineResponse> filteredMedicineList, EPrescriptionSubstituteModelResponse substituteList) {
         this.filteredMedicineList = filteredMedicineList;
@@ -70,26 +71,44 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                     if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                        if (mvpView != null) {
+                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                        }
                     } else {
                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                        if (mvpView != null) {
+                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                        }
                     }
                 } else {
                     if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                        if (mvpView != null) {
+                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                        }
                     } else {
                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getSubstitute().getOnHand());
                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getSubstitute().getOnHand()));
+                        if (mvpView != null) {
+                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                        }
                     }
                 }
             } else {
                 if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
                     holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                     medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                    if (mvpView != null) {
+                        mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                    }
                 } else {
                     holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
                     medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                    if (mvpView != null) {
+                        mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                    }
                 }
             }
 //            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
@@ -158,14 +177,26 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                                     if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
                                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                        if (mvpView != null) {
+                                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                        }
                                     } else {
                                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
                                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                                        if (mvpView != null) {
+                                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                        }
                                     }
 //                                    medicineResponse.setReqQty(0);
 //                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
 
                                 });
+                            }else {
+//                                holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(editable.toString());
+                                medicineResponse.setReqQty(Integer.parseInt(editable.toString()));
+                                if (mvpView != null) {
+                                    mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                }
                             }
                         } else {
                             if (Integer.parseInt(editable.toString()) > Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
@@ -186,14 +217,26 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                                     if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
                                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                        if (mvpView != null) {
+                                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                        }
                                     } else {
                                         holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getSubstitute().getOnHand());
                                         medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getSubstitute().getOnHand()));
+                                        if (mvpView != null) {
+                                            mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                        }
                                     }
 //                                    medicineResponse.setReqQty(0);
 //                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
 
                                 });
+                            }else {
+//                                holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(editable.toString());
+                                medicineResponse.setReqQty(Integer.parseInt(editable.toString()));
+                                if (mvpView != null) {
+                                    mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                }
                             }
                         }
                     } else {
@@ -215,14 +258,26 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
                                 if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
                                     holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
                                     medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                    if (mvpView != null) {
+                                        mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                    }
                                 } else {
                                     holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
                                     medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                                    if (mvpView != null) {
+                                        mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                    }
                                 }
 //                                medicineResponse.setReqQty(0);
 //                                holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
 
                             });
+                        }else {
+//                            holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(editable.toString());
+                            medicineResponse.setReqQty(Integer.parseInt(editable.toString()));
+                            if (mvpView != null) {
+                                mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                            }
                         }
                     }
 //                    }
@@ -309,15 +364,17 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
             substituteLists.add(substitutes);
 
             for (EPrescriptionSubstituteModelResponse.Substitute substitute : substituteList.getSubstituteList()) {
-                if (substitute.getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
-                    adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.VISIBLE);
-                    adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.GONE);
-                    substituteLists.add(substitute);
+                if (substitute.getArtCode() != null && medicineResponse.getArtCode() != null) {
+                    if (substitute.getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
+                        adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.VISIBLE);
+                        adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.GONE);
+                        substituteLists.add(substitute);
 
-                } else {
-                    adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.GONE);
-                    adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.VISIBLE);
+                    } else {
+                        adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setVisibility(View.GONE);
+                        adapterEprescriptionMedicinedetailsVtwoBinding.nosubstitutesfound.setVisibility(View.VISIBLE);
 
+                    }
                 }
             }
             SubstituteDropDownAdapter substituteDropDownAdapter = new SubstituteDropDownAdapter(context, substituteLists);
@@ -325,9 +382,82 @@ public class EPrescriptionMedicineDetailsAdapter extends RecyclerView.Adapter<EP
             adapterEprescriptionMedicinedetailsVtwoBinding.substitueId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
                     if (mvpView != null) {
                         mvpView.onSubstituteSelectedItem(substituteLists.get(pos), position, substitutes, substituteLists);
+
+
+                        if (medicineResponse.getSubstitute() != null) {
+                            if (medicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                                if (Integer.parseInt(adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.getText().toString()) > Integer.parseInt(filteredMedicineList.get(position).getONHand())) {
+                                    dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+                                    DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+                                    dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                                    dialogBatchAlertBinding.dialogMessage.setText("You have entered more than QOH");
+                                    dialog.setCancelable(false);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialog.show();
+                                    dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                                    dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                        dialog.dismiss();
+                                        if (mvpView != null) {
+
+//                                mvpView.onReqQtyUpdate(medicineResponse);
+                                        }
+                                        if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getONHand())) {
+                                            adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                                            medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                            if (mvpView != null) {
+                                                mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                            }
+                                        } else {
+                                            adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getONHand());
+                                            medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getONHand()));
+                                            if (mvpView != null) {
+                                                mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                            }
+                                        }
+//                                    medicineResponse.setReqQty(0);
+//                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
+
+                                    });
+                                }
+                            } else {
+                                if (Integer.parseInt(adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.getText().toString()) > Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
+                                    dialog = new Dialog(context);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+                                    DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_batch_alert, null, false);
+                                    dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                                    dialogBatchAlertBinding.dialogMessage.setText("You have entered more than QOH");
+                                    dialog.setCancelable(false);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialog.show();
+                                    dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+                                    dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                        dialog.dismiss();
+                                        if (mvpView != null) {
+
+//                                mvpView.onReqQtyUpdate(medicineResponse);
+                                        }
+                                        if (Integer.parseInt(medicineResponse.getQty()) <= Integer.parseInt(medicineResponse.getSubstitute().getOnHand())) {
+                                            adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getQty());
+                                            medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getQty()));
+                                            if (mvpView != null) {
+                                                mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                            }
+                                        } else {
+                                            adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText(medicineResponse.getSubstitute().getOnHand());
+                                            medicineResponse.setReqQty(Integer.parseInt(medicineResponse.getSubstitute().getOnHand()));
+                                            if (mvpView != null) {
+                                                mvpView.onReqQtyUpdateWhileEdit(medicineResponse);
+                                            }
+                                        }
+//                                    medicineResponse.setReqQty(0);
+//                                    holder.adapterEprescriptionMedicinedetailsVtwoBinding.reqQty.setText("0");
+
+                                    });
+                                }
+                            }
+                        }
+
 
                     }
                 }

@@ -329,17 +329,17 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            // return;
 //        } else {
-//            boolean isAlltagBox = true;
-//            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-//                if (!omsHeader.isTagBox())
-//                    isAlltagBox = false;
-//            if (isAlltagBox) {
-        mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+        boolean isAlltagBox = true;
+        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+            if (!omsHeader.isTagBox())
+                isAlltagBox = false;
+        if (isAlltagBox) {
+            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
 ////            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
 ////            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-//            } else {
-//                Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
-//            }
+        } else {
+//            Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
+        }
 //        }
 //    }
     }

@@ -268,12 +268,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     }
                                 }
                             }else {
-                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
-                                if (getMvpView().getCustomerModule().isCardPayment()) {
-                                    onClickCardPayment();
-                                } else {
-                                    onClickCashPaymentPay();
-                                }
+                                generateOtp(getMvpView().getCustomerModule().getMobileNo());
+//                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
+//                                if (getMvpView().getCustomerModule().isCardPayment()) {
+//                                    onClickCardPayment();
+//                                } else {
+//                                    onClickCashPaymentPay();
+//                                }
                             }
                         }
                     }

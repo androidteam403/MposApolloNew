@@ -556,8 +556,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     List<EPrescriptionMedicineResponse> medicineResponseList;
 
     @Override
-    public void onSuccessTransactionList(List<EPrescriptionMedicineResponse> medicineResponseList) {
-        this.medicineResponseList = medicineResponseList;
+    public void onSuccessTransactionList(List<EPrescriptionMedicineResponse> medicineResponseLists) {
+        this.medicineResponseList = medicineResponseLists;
 //        Toast.makeText(getApplicationContext(), " " + body.size(), Toast.LENGTH_SHORT).show();
         if (prescriptionLineList.get(position).getIssubstitute().equalsIgnoreCase("1")) {
             mPresenter.fetchSubstituteList(prescriptionLineList.get(position).getPrescriptionNo());
@@ -809,6 +809,20 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
             }
             if (ePrescriptionMedicineDetailsAdapter != null)
                 ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onReqQtyUpdateWhileEdit(EPrescriptionMedicineResponse medicineResponse) {
+        if (medicineResponseList != null && medicineResponseList.size() > 0) {
+            for (int i = 0; i < medicineResponseList.size(); i++) {
+                if (medicineResponseList.get(i).getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
+                    int pos = i;
+                    medicineResponseList.get(pos).setReqQty(medicineResponse.getReqQty());
+                }
+            }
+//            if (ePrescriptionMedicineDetailsAdapter != null)
+//                ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
         }
     }
 
