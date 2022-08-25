@@ -134,9 +134,12 @@ public class PDFTableView extends PDFView implements Serializable {
          * @return current instance
          */
         public PDFTableRowView addToRow(@NonNull PDFTextView TextViewToAdd) {
-            TextViewToAdd.setLayout(new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(
                     0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+                    ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+            layoutParams.setMargins(0,5,0,5);
+                    TextViewToAdd.setLayout(layoutParams);
+
             super.addView(TextViewToAdd);
 
             return this;

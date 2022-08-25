@@ -716,17 +716,17 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         verticalLayoutParam.setMargins(0,10,0,0);
-        PDFTextView pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Apollo Pharmacy-"+pdfModelResponse.getSalesHeader().get(0).getBranch());
         pdfTextView1.setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView.addView(pdfTextView1);
-        PDFTextView pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView.addView(pdfTextView2);
-        PDFTextView pdfTextView3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView pdfTextView3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView.addView(pdfTextView3);
-        PDFTextView pdfTextView4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView pdfTextView4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView.addView(pdfTextView4);
         verticalView.setLayout(verticalLayoutParam);
@@ -748,16 +748,16 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         PDFVerticalView verticalView3 = new PDFVerticalView(getApplicationContext());
         verticalLayoutParam.setMargins(0,10,0,0);
-        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("FSSAI NO : "+ pdfModelResponse.getSalesHeader().get(0).getFssaino()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView3.addView(pdfTextView1);
-        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("D.L.NO:"+pdfModelResponse.getSalesHeader().get(0).getDlno()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView3.addView(pdfTextView2);
-        pdfTextView3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("GST NO:"+pdfModelResponse.getSalesHeader().get(0).getGstin()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView3.addView(pdfTextView3);
-        pdfTextView4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        pdfTextView4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
             pdfTextView4.setText("C.GSTIN:"+pdfModelResponse.getSalesHeader().get(0).getCgstin()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         } else {
@@ -784,10 +784,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         verticalLayoutParam1.setMargins(0,10,0,0);
-        PDFTextView pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView1.addView(pdfTextView1);
-        PDFTextView pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        PDFTextView pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
             pdfTextView2.setText("Doctor :" + "--").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         } else {
@@ -799,10 +799,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         horizontalView.addView(verticalView1);
 
         PDFVerticalView verticalView2 = new PDFVerticalView(getApplicationContext());
-        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView2.addView(pdfTextView1);
-        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView2.addView(pdfTextView2);
         verticalView2.setLayout(verticalLayoutParam1);
@@ -810,10 +810,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         horizontalView.addView(verticalView2);
 
         PDFVerticalView verticalView3 = new PDFVerticalView(getApplicationContext());
-        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView3.addView(pdfTextView1);
-        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView3.addView(pdfTextView2);
         verticalView3.setLayout(verticalLayoutParam1);
@@ -822,10 +822,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
 
         PDFVerticalView verticalView4 = new PDFVerticalView(getApplicationContext());
-        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
-                .setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
+        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
+                .setText(pdfModelResponse.getSalesHeader().get(0).getCorporate()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView4.addView(pdfTextView1);
-        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalView4.addView(pdfTextView2);
 
@@ -852,18 +852,18 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         PDFTableView.PDFTableRowView tableHeader = new PDFTableView.PDFTableRowView(getApplicationContext());
         for (String s : textInTable) {
-            PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
-            pdfTextView.setText(s);
+            PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
+            pdfTextView.setText(s).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
             tableHeader.addToRow(pdfTextView);
         }
 
         // do not modify table first row
         PDFTableView.PDFTableRowView tableRowView1 = new PDFTableView.PDFTableRowView(getApplicationContext());
-        for (String s : textInTable) {
-            PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
-//            pdfTextView.setText( s);
-            tableRowView1.addToRow(pdfTextView);
-        }
+//        for (String s : textInTable) {
+//            PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
+////            pdfTextView.setText( s);
+//            tableRowView1.addToRow(pdfTextView);
+//        }
 
         PDFTableView tableView = new PDFTableView(getApplicationContext(), tableHeader, tableRowView1);
 
@@ -872,7 +872,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             // Create 10 rows
             PDFTableView.PDFTableRowView tableRowView = new PDFTableView.PDFTableRowView(getApplicationContext());
             for (int j = 0; j < textInTable.length; j++) {
-                PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+                PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
                 if(j==0){
                     pdfTextView.setText(salesLine.getItemName()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
                 }else if(j==1){
@@ -906,15 +906,16 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         pdfBody.addView(tableView);
 
         PDFLineSeparatorView lineSeparatorView4 = new PDFLineSeparatorView(getApplicationContext()).setBackgroundColor(Color.BLACK);
+        lineSeparatorView4.setLayout(layoutParams);
         pdfBody.addView(lineSeparatorView4);
 
         PDFHorizontalView taxbleView = new PDFHorizontalView(getApplicationContext());
-        PDFTextView taxableValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue.setLayout(verticalLayoutParam1);
         taxableValue.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView.addView(taxableValue);
-        PDFTextView taxableValue1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        PDFTextView taxableValue1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         double cgstAmount = 0.0;
         for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
             if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
@@ -931,7 +932,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         taxableValue1.setLayout(verticalLayoutParam1);
         taxableValue1.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView.addView(taxableValue1);
-        PDFTextView taxableValue2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        PDFTextView taxableValue2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         double sgstAmount = 0.0;
         for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
             if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
@@ -952,22 +953,22 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
 
         PDFHorizontalView taxbleView2 = new PDFHorizontalView(getApplicationContext());
-        PDFTextView taxableValue5 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue5 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue5.setLayout(verticalLayoutParam1);
         taxableValue5.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue5);
-        PDFTextView taxableValue3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue3.setLayout(verticalLayoutParam1);
         taxableValue3.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue3);
-        PDFTextView taxableValue4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue4.setLayout(verticalLayoutParam1);
         taxableValue4.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue4);
-        PDFTextView taxableValue6 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue6 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue6.setLayout(verticalLayoutParam1);
         taxableValue6.getView().setGravity(Gravity.CENTER_VERTICAL);
@@ -984,12 +985,12 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
 
         PDFHorizontalView footerView = new PDFHorizontalView(getApplicationContext());
-        PDFTextView cinValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView cinValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("CIN : U52500TN2016PLC111328").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         cinValue.setLayout(verticalLayoutParam1);
         cinValue.getView().setGravity(Gravity.CENTER_VERTICAL);
         footerView.addView(cinValue);
-        PDFTextView regsteredOffice = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView regsteredOffice = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,\nChennai-600028").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         regsteredOffice.setLayout(new LinearLayout.LayoutParams(
                 0,
@@ -1001,7 +1002,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
 
         PDFHorizontalView adminView = new PDFHorizontalView(getApplicationContext());
-        PDFTextView adminOffice = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView adminOffice = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         adminOffice.setLayout(verticalLayoutParam1);
         adminOffice.getView().setGravity(Gravity.CENTER_VERTICAL);
@@ -1010,13 +1011,13 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         PDFHorizontalView apolloWishesView = new PDFHorizontalView(getApplicationContext());
         PDFVerticalView verticalFooter = new PDFVerticalView(getApplicationContext());
-        PDFTextView wishesTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView wishesTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalFooter.addView(wishesTextView1);
-        PDFTextView wishesTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        PDFTextView wishesTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         SpannableString word = new SpannableString("Wishes You Speedy Recovery");
         word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wishesTextView2.setText(word).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria).defaultFromStyle(Typeface.BOLD));
+        wishesTextView2.setText(word).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         verticalFooter.addView(wishesTextView2);
         verticalFooter.setLayout(verticalLayoutParam1);
         verticalFooter.getView().setGravity(Gravity.CENTER_VERTICAL);
@@ -1027,13 +1028,13 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         verticalFooter2.setMargins(0,10,0,0);
-        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
+        pdfTextView1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         SpannableString word1 = new SpannableString("APOLLO PHARMACY");
         StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
         word1.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         pdfTextView1.setText("for "+word1).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         apolloWishesView2.addView(pdfTextView1);
-        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        pdfTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Registered Pharmacist").setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         apolloWishesView2.addView(pdfTextView2);
         apolloWishesView2.setLayout(verticalFooter2);
