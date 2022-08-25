@@ -81,7 +81,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
     private List<FilterModel> reverificationListTemp = new ArrayList<>();
-
+    private boolean isStockAvailableChecked = false;
 
     private boolean isStockAvailable = false;
     FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
@@ -570,7 +570,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (!reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() == 1) {
                         reverificationOMSHeaderFilter.remove(i);
                         i--;
-                    }else if (reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() != 1){
+                    } else if (reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() != 1) {
                         reverificationOMSHeaderFilter.remove(i);
                         i--;
                     }
@@ -596,6 +596,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        }
         if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
+
         }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
@@ -627,6 +628,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                }
 //            }
 //        }
+
+        if (isStockAvailableChecked) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (!omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+                    omsHeaderList.remove(i);
+                    i--;
+                }
+            }
+        }
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
 
@@ -1133,6 +1143,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     public void onClickStockAvailable(boolean isStockAvailableChecked) {
 
 //        omsHeaderList = mPresenter.getTotalOmsHeaderList();
+        this.isStockAvailableChecked = isStockAvailableChecked;
         if (isStockAvailableChecked) {
             for (int i = 0; i < omsHeaderList.size(); i++) {
                 if (!omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {

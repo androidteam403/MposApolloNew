@@ -361,15 +361,17 @@ public interface ApiInterface {
     @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
     Call<RacksDataResponse> doRackApiCall();
 
-    @POST("SalesTransactionService.svc/GetOMSTransaction")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetOMSTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<List<GetOMSTransactionResponse>> getOmsApiCall(@Body GetOmsTransactionRequest omsTransactionRequest);
 
-    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 
     //UAT
-    @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
-    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
+    @POST
+    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request, @Url String url);//OMSSERVICE/OMSService.svc/MPOSOrderUpdate
 
     //Production
 //    @POST("OMSService.svc/MPOSOrderUpdate")
@@ -391,16 +393,20 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/CheckBatchStock/0")
     Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
 
-    @POST("SalesTransactionService.svc/GetOnlineOrderTransaction")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetOnlineOrderTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<List<EPrescriptionModelClassResponse>> GET_ONLINE_ORDER_TRANSACTION(@Body EPrescriptionModelClassRequest ePrescriptionModelClassRequest);
 
-    @POST("SalesTransactionService.svc/GetOnlineOrderLineTransaction")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetOnlineOrderLineTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<List<EPrescriptionMedicineResponse>> GET_ONLINEORDER_LINE_TRANSACTION(@Body EPrescriptionMedicineRequest ePrescriptionMedicineRequest);
 
-    @POST("SalesTransactionService.svc/GetOnlineOrderSubstituteDetails/{prescriptionNo}")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetOnlineOrderSubstituteDetails/{prescriptionNo}")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<EPrescriptionSubstituteModelResponse> GET_SUBSTITUTE_DETAILS(@Path("prescriptionNo") String prescriptionNo);
 
-    @POST("SalesTransactionService.svc/CheckBatchStock/0")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<CheckBatchModelResponse> CHECK_BATCH_STOCK(@Body CustomerDataResBean customerDataResBean);
 
     @POST("SalesTransactionService.svc/CheckBatchStock/0")
@@ -409,15 +415,18 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/OnlineBill")
     Call<CustomerDataResBean> ONLINE_BILL_APICALL(@Body CustomerDataResBean request);
 
-    @POST("SalesTransactionService.svc/PrintReceipt")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/PrintReceipt")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<PdfModelResponse> DOWNLOAD_PDF(@Body PdfModelRequest response);
 
     @POST("WalletService.svc/GetPostOnlineOrderAPI")
     Call<GetPostOnlineOrderApiResponse> GET_POST_ONLINE_ORDER_API_CALL(@Body GetPostOnlineOrderApiRequest getPostOnlineOrderApiRequest);
 
-    @POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")//http://online.apollopharmacy.org:51/EPOS/
+    @POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
+//http://online.apollopharmacy.org:51/EPOS/
     Call<List<GetJounalOnlineOrderTransactionsResponse>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
 
-    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")///?FLID=FL20220722101000004&LABELSIZE=4X6
+    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
+///?FLID=FL20220722101000004&LABELSIZE=4X6
     Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
 }

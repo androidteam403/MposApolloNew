@@ -543,7 +543,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Order source"
+                            android:text="Source Order ID"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 

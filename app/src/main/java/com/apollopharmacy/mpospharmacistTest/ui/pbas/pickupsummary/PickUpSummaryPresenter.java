@@ -72,7 +72,13 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSOrderUpdate";
+            } else {
+                url = "OMSService.svc/MPOSOrderUpdate";
+            }
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest, url);
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {

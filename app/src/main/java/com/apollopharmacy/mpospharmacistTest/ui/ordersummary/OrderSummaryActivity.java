@@ -670,9 +670,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
     @Override
     public void onClickBillPrint() {
         if (isStoragePermissionGranted()) {
-            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
-            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-            createPdf();
+//            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+//            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+//            createPdf();
+            openPdf();
         }
     }
 
@@ -910,7 +911,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         pdfBody.addView(lineSeparatorView4);
 
         PDFHorizontalView taxbleView = new PDFHorizontalView(getApplicationContext());
-        PDFTextView taxableValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P)
+        PDFTextView taxableValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
         taxableValue.setLayout(verticalLayoutParam1);
         taxableValue.getView().setGravity(Gravity.CENTER_VERTICAL);
@@ -1017,7 +1018,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         PDFTextView wishesTextView2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.P);
         SpannableString word = new SpannableString("Wishes You Speedy Recovery");
         word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wishesTextView2.setText(word).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria).defaultFromStyle(Typeface.BOLD));
+        wishesTextView2.setText(word).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambriab));
         verticalFooter.addView(wishesTextView2);
         verticalFooter.setLayout(verticalLayoutParam1);
         verticalFooter.getView().setGravity(Gravity.CENTER_VERTICAL);
