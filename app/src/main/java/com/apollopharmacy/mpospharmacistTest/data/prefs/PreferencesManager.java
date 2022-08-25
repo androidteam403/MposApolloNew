@@ -8,11 +8,14 @@ import com.apollopharmacy.mpospharmacistTest.di.AdminPreferenceInfo;
 import com.apollopharmacy.mpospharmacistTest.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacistTest.di.PreferenceInfo;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,6 +36,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_USER_PROFILE_PIC_URL = "PREF_KEY_USER_PROFILE_PIC_URL";
     private static final String PREF_KEY_COACH_MARK = "PREF_KEY_COACH_MARK";
     private static final String PREF_KEY_GLOBAL_JSON = "PREF_KEY_GLOBAL_JSON";
+    private static final String PREF_KEY_HBP_JSON = "PREF_KEY_HBP_JSON";
     private static final String PREF_KEY_ADMIN_LOGIN = "PREF_KEY_ADMIN_LOGIN";
     private static final String PREF_KEY_ADMIN_LOGIN_ID = "PREF_KEY_ADMIN_LOGIN_ID";
     private static final String PREF_KEY_ADMIN_SET_UP = "PREF_KEY_ADMIN_SET_UP";
@@ -54,7 +58,10 @@ public class PreferencesManager implements PreferencesHelper {
 
     private static final String PREF_KEY_FULLFILLMENT_DETAILS = "PREF_KEY_FULLFILLMENT_DETAILS";
     private static final String PREF_KEY_FULLFILLMENT_LIST_OF_LIST_DETAILS = "PREF_KEY_FULLFILLMENT_LIST_OF_LIST_DETAILS";
+    private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST = "PREF_KEY_TOTAL_OMS_HEADER_LIST";
+    private static final String PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ = "PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ";
 
+    private static final String PREF_KEY_PAPER_LABEL_SIZE = "PREF_KEY_PAPER_LABEL_SIZE";
 
 
     private final SharedPreferences mPrefs;
@@ -89,6 +96,18 @@ public class PreferencesManager implements PreferencesHelper {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_KEY_GLOBAL_JSON, "");
         return gson.fromJson(json, GetGlobalConfingRes.class);
+    }
+
+    @Override
+    public void storeHBPConfiRes(String json) {
+        mPrefs.edit().putString(PREF_KEY_HBP_JSON, json).apply();
+    }
+
+    @Override
+    public HBPConfigResponse getHBPConfigRes() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_HBP_JSON, "");
+        return gson.fromJson(json, HBPConfigResponse.class);
     }
 
     @Override
@@ -173,8 +192,6 @@ public class PreferencesManager implements PreferencesHelper {
     public boolean isOpenScreens() {
         return mAdminPrefs.getBoolean(PREF_KEY_OPEN_SCREENS, false);
     }
-
-
 
 
     @Override
@@ -337,6 +354,7 @@ public class PreferencesManager implements PreferencesHelper {
     public void logoutUser() {
         mPrefs.edit().clear().apply();
     }
+
     @Override
     public void setFullFillmentList(List<RacksDataResponse.FullfillmentDetail> fullfillmentDetailList) {
         mPrefs.edit().putString(PREF_KEY_FULLFILLMENT_DETAILS, new Gson().toJson(fullfillmentDetailList)).apply();
@@ -363,6 +381,44 @@ public class PreferencesManager implements PreferencesHelper {
         Type type = new TypeToken<List<List<RackAdapter.RackBoxModel.ProductData>>>() {
         }.getType();
         return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPrefs.edit().putString(PREF_KEY_TOTAL_OMS_HEADER_LIST, new Gson().toJson(totalOmsHeaderList)).apply();
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_TOTAL_OMS_HEADER_LIST, "");
+        Type type = new TypeToken<List<TransactionHeaderResponse.OMSHeader>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeaderObj(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList) {
+        mPrefs.edit().putString(PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ, new Gson().toJson(totalOmsHeaderList)).apply();
+    }
+
+    @Override
+    public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_TOTAL_OMS_HEADER_LIST_OBJ, "");
+        Type type = new TypeToken<List<OMSTransactionHeaderResModel.OMSHeaderObj>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setLabelSize(String labelSize) {
+        mPrefs.edit().putString(PREF_KEY_PAPER_LABEL_SIZE, labelSize).apply();
+    }
+
+    @Override
+    public String getLabelSize() {
+        return mPrefs.getString(PREF_KEY_PAPER_LABEL_SIZE, "4X6");
     }
 
 }

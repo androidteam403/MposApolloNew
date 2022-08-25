@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -20,7 +19,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/dimen10dp"
-                android:paddingEnd="@dimen/dimen10dp">
+                android:paddingEnd="@dimen/dimen10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_menu" />
+                        android:src="@drawable/left_forward_white_arrow" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/three_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Picked Up Orders"
+                            android:text="Picked Orders"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen14sp" />
@@ -56,8 +56,9 @@
                             android:id="@+id/header_orders_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/white"
+
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -69,31 +70,27 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
-                        android:padding="@dimen/five_dp"
-                        android:src="@drawable/nature"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="2dp" />
-
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/filter"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginEnd="@dimen/five_dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_dropdown" />
+
+                        android:onClick="@{()-> filter.onClickFilter()}"
+                        android:src="@drawable/ic_filter_white" />
                 </LinearLayout>
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/selected_fullfillment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/two_dp"
-                android:text="Select Fullfillment or ScanCode to verify pickup"
+                android:text="Select Fulfilment or ScanCode to verify pickup"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve_sp" />
 
@@ -105,21 +102,20 @@
                 android:weightSum="1">
 
                 <EditText
+                    android:id="@+id/search_text"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_weight="0.7"
                     android:background="@drawable/ic_rectangular_shape"
-                    android:clickable="false"
-                    android:editable="false"
-                    android:focusable="false"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="Search by Fullfillment ID"
+                    android:hint="Search by Fulfilment ID, Box ID"
                     android:padding="@dimen/five_dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />
 
                 <ImageView
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/ic_rectangular_shape"
@@ -127,14 +123,25 @@
                     android:padding="@dimen/five_dp"
                     android:src="@drawable/search_icon" />
 
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
+
                 <LinearLayout
+                    android:id="@+id/scancode"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_marginStart="@dimen/five_dp"
                     android:layout_weight="0.3"
                     android:background="@drawable/ic_rectangular_shape"
                     android:backgroundTint="@color/green"
-                    android:onClick="@{()->callback.onClickScanCode()}"
+                    android:onClick="@{()-> callback.onClickScanCode()}"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -167,41 +174,56 @@
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:layout_marginBottom="@dimen/dimen55dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/continue_btn"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen50dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/continue_unselect_color"
-            android:gravity="center"
-            android:onClick="@{()-> callback.startPickUp()}"
-            android:orientation="horizontal">
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/five_dp"  />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:fontFamily="@font/roboto_bold"
-                android:gravity="center_vertical"
-                android:text="Start pickup"
-                android:textAllCaps="true"
-                android:textColor="@color/jumbo"
-                android:textSize="@dimen/dimen14sp" />
+                android:gravity="center"
+                android:text="No Order Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
         </LinearLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/continue_btn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/dimen50dp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:background="@color/continue_unselect_color"-->
+        <!--            android:gravity="center"-->
+        <!--            android:visibility="gone"-->
+        <!--            android:onClick="@{()-> callback.startPickUp()}"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:fontFamily="@font/roboto_bold"-->
+        <!--                android:gravity="center_vertical"-->
+        <!--                android:text="Start pickup"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:visibility="visible"-->
+        <!--                android:textColor="@color/jumbo"-->
+        <!--                android:textSize="@dimen/dimen14sp" />-->
+        <!--        </LinearLayout>-->
 
         <TextView
             android:id="@+id/zeropicked"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_bold"
             android:text="Zero Picked Up Orders"
             android:textColor="@color/red"
-            android:textSize="@dimen/dimen16sp" />
+            android:textSize="@dimen/dimen16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <data>
@@ -213,6 +235,10 @@
         <variable
             name="view"
             type="android.view.View" />
+
+        <variable
+            name="filter"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersMvpPresenter" />
 
         <variable
             name="callback"
