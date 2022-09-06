@@ -43,7 +43,6 @@ import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -68,6 +67,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     private String eprescription_corpcode = "0";
     private int salesLineCount = 0;
     private String boxId;
+    private DoctorSearchResModel doctorSearchResModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             }
         }
         mPresenter.getTransactionID();
+        mPresenter.getDoctorsList();
 
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(v -> {
             onBackPressed();
@@ -248,8 +249,19 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         customerEntity.setGender(String.valueOf(response.getGender()));
 
         DoctorSearchResModel.DropdownValueBean doctorentyty = new DoctorSearchResModel.DropdownValueBean();
-        doctorentyty.setDisplayText(response.getDoctorName());
-        doctorentyty.setCode("R00123");
+        if (!response.getDoctorName().isEmpty()) {
+            doctorentyty.setDisplayText(response.getDoctorName());
+            doctorentyty.setCode("0");
+        } else {
+            if (doctorSearchResModel != null && doctorSearchResModel.get_DropdownValue() != null && doctorSearchResModel.get_DropdownValue().size() > 0) {
+                doctorentyty.setDisplayText(doctorSearchResModel.get_DropdownValue().get(0).getDisplayText());
+                doctorentyty.setCode(doctorSearchResModel.get_DropdownValue().get(0).getCode());
+            } else {
+                doctorentyty.setDisplayText("");
+                doctorentyty.setCode("0");
+            }
+        }
+
 
         ArrayList<SalesLineEntity> saleslineentity = new ArrayList<>();
         for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
@@ -260,31 +272,36 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
         customerDataResBean_pass.setSalesLine(saleslineentity);
 
-        List<CorporateModel.DropdownValueBean> selectedCorporateList = corporateList.stream().filter(o -> o.getCode().equalsIgnoreCase(eprescription_corpcode)).collect(Collectors.toList());
-        if (selectedCorporateList.size() > 0) {
-            item = selectedCorporateList.get(0);
-        }
-        //        int position = 0;
-//        int tempposition = 0;
-//        if (corporateList != null) {
-//            for (CorporateModel.DropdownValueBean row : corporateList) {
-//                if (row.getCode().contains(eprescription_corpcode)) {
-//                    position = tempposition;
-//                    break;
-//                }
-//                tempposition++;
-//            }
-//            if (corporateList != null && corporateList.size() > 0)
-//                item = corporateList.get(position);
+//        List<CorporateModel.DropdownValueBean> selectedCorporateList = corporateList.stream().filter(o -> o.getCode().equalsIgnoreCase(eprescription_corpcode)).collect(Collectors.toList());
+//        if (selectedCorporateList.size() > 0) {
+//            item = selectedCorporateList.get(0);
+//
 //        }
 
-        Singletone.getInstance().itemsArrayList.clear();
-        Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
-        boolean is_omsorder = true;
 
-        startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+        int position = 0;
+        int tempposition = 0;
+        if (corporateList != null) {
+            for (CorporateModel.DropdownValueBean row : corporateList) {
+                if (row.getCode().contains(eprescription_corpcode)) {
+                    position = tempposition;
+                    item = corporateList.get(position);
+                    Singletone.getInstance().itemsArrayList.clear();
+                    Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
+                    boolean is_omsorder = true;
+
+                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    finish();
+                    break;
+                }
+                tempposition++;
+            }
+//            if (corporateList != null && corporateList.size() > 0)
+//                item = corporateList.get(position);
+        }
+
+
     }
 
     @Override
@@ -890,5 +907,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //            }
 //        }
 //        mPresenter.onCheckBatchStock(customerDataResBean);
+    }
+
+    @Override
+    public void getDoctorSearchList(DoctorSearchResModel doctorSearchResModel) {
+        this.doctorSearchResModel = doctorSearchResModel;
     }
 }

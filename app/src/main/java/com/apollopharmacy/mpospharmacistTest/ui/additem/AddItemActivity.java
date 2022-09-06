@@ -186,7 +186,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData, boolean isUhidSelected) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -197,6 +197,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("staff_avail_amt", staffApiRes);
         intent.putExtra("prg_track", trackingData);
         intent.putExtra("sales_list_data", saleslistData);
+        intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -235,7 +236,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData, boolean isUhidSelected) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -246,6 +247,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("staff_avail_amt", staffApiRes);
         intent.putExtra("prg_track", prgTrackingData);
         intent.putExtra("sales_list_data", saleslistData);
+        intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -344,6 +346,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.setCall(this);
         addItemBinding.setClearMvpView(this);
         addItemBinding.setPaymentMode(paymentMethodModel);
+        addItemBinding.setGlobalConfiguration(mPresenter.getGlobalConfiguration());
         Constant.getInstance().vendorcredit = false;
 
         mPresenter.getGlobalConfig();
@@ -355,6 +358,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 ePrescriptionModelClassResponse = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("ePrescription_model_class_response");
                 ePrescriptionMedicineResponseList = (List<EPrescriptionMedicineResponse>) getIntent().getSerializableExtra("ePrescription_medicine_response_list");
             }
+            boolean isUhidSelected = (Boolean) getIntent().getBooleanExtra("IS_UHID_SELECTED", false);
+            if (isUhidSelected) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+            }
+
             customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
@@ -2595,7 +2603,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             this.hdfcTransactionMarchantId = hdfcLinkGenerateResponse.getTransactionMerchantID();
             Toast.makeText(this, hdfcLinkGenerateResponse.getSuccessMsg(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Payment is pending", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, hdfcLinkGenerateResponse.getErrorDesc(), Toast.LENGTH_LONG).show();
         }
     }
 

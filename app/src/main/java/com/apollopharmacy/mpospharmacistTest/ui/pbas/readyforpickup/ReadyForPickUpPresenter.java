@@ -108,8 +108,13 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {

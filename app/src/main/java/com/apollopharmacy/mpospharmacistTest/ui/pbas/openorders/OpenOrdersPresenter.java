@@ -118,7 +118,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             getMvpView().hideKeyboard();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
-            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setDataAreaID(getDataManager().getDataAreaId());
             getOmsTransactionRequest.setExpiryDays(90);
             getOmsTransactionRequest.setRefID("");
             getOmsTransactionRequest.setStoreID(getDataManager().getStoreId());

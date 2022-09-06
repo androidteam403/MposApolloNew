@@ -1982,6 +1982,18 @@
 
             </RelativeLayout>
         </ScrollView>
+        <LinearLayout
+            android:id="@+id/layoutPdfPreview"
+            android:layout_width="@dimen/pdf_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/pdf_margin_vertical"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/pdf_margin_vertical"
+            android:visibility="invisible"/>
 
 
     </LinearLayout>

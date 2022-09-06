@@ -310,7 +310,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
             onClickBatchDetails(orderAdapterPos, salesLine, position);
         } else {
-            onClickItemStatusUpdate(orderAdapterPos, position, "Not Available");
+            onClickItemStatusUpdate(orderAdapterPos, position, "NOT AVAILABLE");
         }
 //            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
 //            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);

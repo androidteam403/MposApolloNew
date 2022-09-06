@@ -124,6 +124,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+
+
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
@@ -700,6 +703,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             stockAvailabilityFilterList.get(i).setSelected(false);
         }
         stockAvailabilityFilterAdapter.notifyDataSetChanged();
+
+        for (int i = 0; i < reverificationList.size(); i++) {
+            reverificationList.get(i).setSelected(false);
+        }
+        reverificationAdapter.notifyDataSetChanged();
+
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
@@ -744,6 +753,25 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
 
+        this.customerTypeFilterList.clear();
+        this.customerTypeFilterListTemp.clear();
+        this.orderTypeFilterList.clear();
+        this.orderTypeFilterListTemp.clear();
+        this.orderCategoryFilterList.clear();
+        this.orderCategoryFilterListTemp.clear();
+        this.paymentTypeFilterList.clear();
+        this.paymentTypeFilterListTemp.clear();
+        this.orderSourceFilterList.clear();
+        this.orderSourceFilterListTemp.clear();
+        this.stockAvailabilityFilterList.clear();
+        this.stockAvailabilityFilterListTemp.clear();
+        this.reverificationList.clear();
+        this.reverificationListTemp.clear();
+
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            omsHeaderList.clear();
+        }
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
 
             for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
@@ -883,12 +911,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     stockAvailabilityFilterList.add(filterModel);
                 }
             }
+            boolean isReverificationContain = false;
             // reverification filter list.
             FilterModel filterModel = new FilterModel();
             filterModel.setName("Reverification");
             filterModel.setSelected(false);
+            for (int j = 0; j < reverificationList.size(); j++) {
+                if (reverificationList.get(j).getName().equals(filterModel.getName())) {
+                    isReverificationContain = true;
+                }
+            }
+            if (!isReverificationContain) {
+                reverificationList.add(filterModel);
+            }
 
-            reverificationList.add(filterModel);
         }
     }
 
@@ -906,17 +942,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
-        if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
-            omsHeaderList.get(getPos).setExpandStatus(1);
-        } else {
-            omsHeaderList.get(getPos).setExpandStatus(0);
+        if (body != null && body.size() > 0){
+            if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
+                omsHeaderList.get(getPos).setExpandStatus(1);
+            } else {
+                omsHeaderList.get(getPos).setExpandStatus(0);
+            }
+            omsHeaderList.get(getPos).setGetOMSTransactionResponse(body.get(0));
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
+            onContinueBtnEnable();
         }
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-        openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
-        onContinueBtnEnable();
     }
 
     @Override

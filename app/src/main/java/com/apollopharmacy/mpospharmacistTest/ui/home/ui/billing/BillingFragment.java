@@ -1,12 +1,15 @@
 package com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -30,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentBillingBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
@@ -336,7 +340,13 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
             fragmentBillingBinding.getCustomer().setCardNo(fragmentBillingBinding.prgTrackingEdit.getText().toString().trim());
 
-            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode));
+            boolean isUhidSelected = false;
+            if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                isUhidSelected = true;
+            }
+
+
+            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode, isUhidSelected));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         } else {
             if (fragmentBillingBinding.customerName.getText().toString().isEmpty()) {
@@ -350,7 +360,14 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                 GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                 entity.setCardName(fragmentBillingBinding.customerName.getText().toString());
                 entity.setMobileNo(fragmentBillingBinding.customerMobile.getText().toString());
-                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1));
+
+                boolean isUhidSelected = false;
+                if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                    isUhidSelected = true;
+                }
+
+
+                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1, isUhidSelected));
                 getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         }
@@ -680,7 +697,19 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
     @Override
     public void doBack() {
-        getActivity().finish();
-        stopLooping = true;
+//        onBackPressedClick();
+        Dialog dialog = new Dialog(getContext());//R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialogCancelBinding.title.setText("Alert!");
+        dialogCancelBinding.dialogMessage.setText("Do you want to exit?");
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            getActivity().finish();
+            stopLooping = true;
+        });
+        dialog.show();
     }
 }

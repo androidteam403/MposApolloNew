@@ -71,12 +71,10 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         shippingLabelBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_shipping_label, container, false);
         getActivityComponent().inject(this);
         mPresenter.onAttach(ShippingLabelFragment.this);
         return shippingLabelBinding.getRoot();
-
     }
 
     @Override
@@ -90,7 +88,6 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         PickerNavigationActivity.mInstance.setTitle("Shipping Label");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
         PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
-
         mPresenter.getJounalOnlineOrderTransactionApiCall();
         searchByFulfilmentId();
     }

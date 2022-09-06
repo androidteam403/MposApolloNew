@@ -4,6 +4,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
@@ -72,4 +73,6 @@ public interface OrderDetailsScreenMvpView extends MvpView {
     void onClickSendtoPacker();
 
     void onClickContinueBill();
+
+    void getDoctorSearchList(DoctorSearchResModel doctorSearchResModel);
 }

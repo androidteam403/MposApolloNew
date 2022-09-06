@@ -378,8 +378,9 @@ public interface ApiInterface {
 //    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
 
     //created by naveen
-    @POST("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")
-    Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Body MPOSPickPackOrderReservationRequest request);
+    @POST
+//("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")
+    Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Url String url, @Body MPOSPickPackOrderReservationRequest request);
 
     @POST("SalesTransactionService.svc/CalculatePosTransaction")
     Call<CalculatePosTransactionResponse> CALCULATE_POS_TRANSACTION_RES(@Body PostTransactionEntityReq posTransactionReq);

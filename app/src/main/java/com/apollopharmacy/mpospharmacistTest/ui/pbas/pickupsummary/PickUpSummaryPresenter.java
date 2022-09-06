@@ -141,7 +141,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-                    order.setDataAreaID("AHEL");
+                    order.setDataAreaID(getDataManager().getDataAreaId());
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
@@ -175,8 +175,13 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {

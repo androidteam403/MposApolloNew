@@ -82,7 +82,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
     private List<FilterModel> reverificationListTemp = new ArrayList<>();
 
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
 
     public static Intent getStartActivity(Context mContext) {
         Intent intent = new Intent(mContext, PickedUpOrdersActivity.class);
@@ -468,11 +468,18 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 }
             }
             // reverification filter list.
+            boolean isReverificationContain = false;
             FilterModel filterModel = new FilterModel();
             filterModel.setName("Reverification");
             filterModel.setSelected(false);
-
-            reverificationList.add(filterModel);
+            for (int j = 0; j < reverificationList.size(); j++) {
+                if (reverificationList.get(j).getName().equals(filterModel.getName())) {
+                    isReverificationContain = true;
+                }
+            }
+            if (!isReverificationContain) {
+                reverificationList.add(filterModel);
+            }
             applyOrderFilters();
         } else {
             noOrderFound(0);
@@ -670,7 +677,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
         }
 
-        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter) {
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
             omsHeaderList = mvpPresenter.getTotalOmsHeaderList();
         }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -865,7 +872,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             stockAvailabilityFilterList.get(i).setSelected(false);
         }
         stockAvailabilityFilterAdapter.notifyDataSetChanged();
-
+        for (int i = 0; i < reverificationList.size(); i++) {
+            reverificationList.get(i).setSelected(false);
+        }
+        reverificationAdapter.notifyDataSetChanged();
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
@@ -893,6 +903,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
+        reverificationAdapter = new FilterItemAdapter(getContext(), reverificationList);
+        dialogFilterBinding.reverificationRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.reverificationRecycler.setAdapter(reverificationAdapter);
+
 
     }
 
@@ -915,6 +929,27 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
+
+        this.customerTypeFilterList.clear();
+        this.customerTypeFilterListTemp.clear();
+        this.orderTypeFilterList.clear();
+        this.orderTypeFilterListTemp.clear();
+        this.orderCategoryFilterList.clear();
+        this.orderCategoryFilterListTemp.clear();
+        this.paymentTypeFilterList.clear();
+        this.paymentTypeFilterListTemp.clear();
+        this.orderSourceFilterList.clear();
+        this.orderSourceFilterListTemp.clear();
+        this.stockAvailabilityFilterList.clear();
+        this.stockAvailabilityFilterListTemp.clear();
+        this.reverificationList.clear();
+        this.reverificationListTemp.clear();
+
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            omsHeaderList.clear();
+        }
+
+
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
             for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
                 if (omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().get(i).getOrderPickup() && !omsHeader.getOMSHeader().get(i).getOrderPacked()) {

@@ -58,7 +58,10 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
     private PaidListAdapter payActivityAdapter;
     private ArrayList<OrderReturnModel> arrPayAdapterModel = new ArrayList<>();
     private boolean isCardPayment = false;
+    private boolean isCashPayment = false;
     private boolean isSmapay = false;
+    private boolean cardWalletTransactionId = false;
+    private boolean isHdfcPayment = false;
 
 
     public static Intent getStartIntent(Context context, CalculatePosTransactionRes model) {
@@ -299,7 +302,19 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
             OrderReturnModel orderReturnModel = new OrderReturnModel(orderHistoryItem.getTenderLine().get(i).getTenderName(), orderHistoryItem.getTenderLine().get(i).getAmountTendered());
             arrPayAdapterModel.add(orderReturnModel);
             if (orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("2") || orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("card")) {
+                if (orderHistoryItem.getTenderLine().get(i).getWalletTransactionID().isEmpty()) {
+                    cardWalletTransactionId = true;
+                } else {
+                    cardWalletTransactionId = false;
+                }
                 isCardPayment = true;
+            }
+
+            if (orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("34") || orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("HDFC PAYMENT")) {
+                isHdfcPayment = true;
+            }
+            if (orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("1") || orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("Cash")) {
+                isCashPayment = true;
             }
             if (orderHistoryItem.getTenderLine().get(i).getTenderId().equalsIgnoreCase("5") && orderHistoryItem.getTenderLine().get(i).getTenderName().equalsIgnoreCase("SMS PAY")) {
 
@@ -368,10 +383,7 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                     if (isCancelOrder) {
                         try {
                             if (isCardPayment) {
-                                if (orderHistoryItem.getTenderLine().get(0).getTenderId().equalsIgnoreCase("2")
-                                        && orderHistoryItem.getTenderLine().get(0).getTenderName().equalsIgnoreCase("card")
-                                        && mvpPresenter.getGlobalConfing().isISHBPStore()
-                                        && orderHistoryItem.getTenderLine().get(0).getWalletTransactionID().isEmpty()) {
+                                if (mvpPresenter.getGlobalConfing().isISHBPStore() && cardWalletTransactionId) {
                                     orderHistoryItem.setReturnType(0);
                                     orderHistoryItem.setReturn(true);
                                     mvpPresenter.cancelDSBilling(orderHistoryItem);
@@ -379,6 +391,8 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                                     showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
                                 }
                             } else if (isSmapay) {
+                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!");
+                            } else if (isHdfcPayment) {
                                 showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!");
                             } else {
                                 if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
@@ -400,6 +414,27 @@ public class OrderReturnActivity extends BaseActivity implements OrederReturnMvp
                             orderHistoryItem.setReturnType(0);
                             orderHistoryItem.setReturn(true);
                             mvpPresenter.orderReturnAll(orderHistoryItem);
+//                            if (isCardPayment && isCashPayment) {
+//                                if (mvpPresenter.getGlobalConfing().isISHBPStore() && cardWalletTransactionId) {
+//                                    orderHistoryItem.setReturnType(0);
+//                                    orderHistoryItem.setReturn(true);
+//                                    mvpPresenter.orderReturnAll(orderHistoryItem);
+//                                } else {
+//                                    showCancelOrderSuccess("", "Return All Not Allowed!!");
+//                                }
+//                            } else if (isCardPayment){
+//                                if (mvpPresenter.getGlobalConfing().isISHBPStore() && cardWalletTransactionId) {
+//                                    orderHistoryItem.setReturnType(0);
+//                                    orderHistoryItem.setReturn(true);
+//                                    mvpPresenter.orderReturnAll(orderHistoryItem);
+//                                } else {
+//                                    showCancelOrderSuccess("", "Return All Not Allowed!!");
+//                                }
+//                            }else {
+//                                orderHistoryItem.setReturnType(0);
+//                                orderHistoryItem.setReturn(true);
+//                                mvpPresenter.orderReturnAll(orderHistoryItem);
+//                            }
                         } else {
                             showCancelOrderSuccess("", "Transaction Already Return!!");
                         }

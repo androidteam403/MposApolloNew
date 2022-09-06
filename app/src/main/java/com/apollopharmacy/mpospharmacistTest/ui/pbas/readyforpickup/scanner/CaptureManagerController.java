@@ -75,8 +75,14 @@ public class CaptureManagerController {
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
+            String url = "";
+            if (storeId.equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
 
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {

@@ -30,14 +30,14 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private final OpenOrdersMvpView mvpView;
-    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
+//    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
     public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
         this.context = context;
         this.omsHeaderList = omsHeaderList;
         this.filteredOmsHeaderList = omsHeaderList;
         this.mvpView = mvpView;
-        this.getOMSTransactionResponseList = getOMSTransactionResponseList;
+//        this.getOMSTransactionResponseList = getOMSTransactionResponseList;
     }
 
 
@@ -74,8 +74,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
 
 
-        if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
-            FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, getOMSTransactionResponseList.get(0).getSalesLine());
+        if (omsHeader.getGetOMSTransactionResponse() != null) {
+            FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, omsHeader.getGetOMSTransactionResponse().getSalesLine());
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.fullfilmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             holder.fullfilmentBinding.recyclerView.setAdapter(productListAdapter);
@@ -96,26 +96,26 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 holder.fullfilmentBinding.rackChild2Layout.setBackground(null);
                 break;
             case 1:
-                if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
+                if (omsHeader.getGetOMSTransactionResponse() != null) {
                     holder.fullfilmentBinding.rightArrow.setRotation(90);
-                    holder.fullfilmentBinding.customerType.setText(getOMSTransactionResponseList.get(0).getCustomerType());
-                    holder.fullfilmentBinding.ordersource.setText(getOMSTransactionResponseList.get(0).getOrderSource());
-                    holder.fullfilmentBinding.orderDate.setText(getOMSTransactionResponseList.get(0).getCreatedDateTime());
-                    holder.fullfilmentBinding.deliveryDate.setText(getOMSTransactionResponseList.get(0).getDeliveryDate());
-                    holder.fullfilmentBinding.shippingMethodType.setText(getOMSTransactionResponseList.get(0).getShippingMethod());
-                    holder.fullfilmentBinding.stockStatus.setText(getOMSTransactionResponseList.get(0).getStockStatus());
-                    holder.fullfilmentBinding.paymentSource.setText(getOMSTransactionResponseList.get(0).getPaymentSource());
-                    holder.fullfilmentBinding.orderType.setText(getOMSTransactionResponseList.get(0).getOrderType());
-                    holder.fullfilmentBinding.customerName.setText(getOMSTransactionResponseList.get(0).getCustomerName());
-                    holder.fullfilmentBinding.vendorId.setText(getOMSTransactionResponseList.get(0).getVendorId());
-                    holder.fullfilmentBinding.mobileNumber.setText(getOMSTransactionResponseList.get(0).getMobileNO());
-                    holder.fullfilmentBinding.orderbillvalue.setText(String.valueOf(getOMSTransactionResponseList.get(0).getNetAmount()));
-                    holder.fullfilmentBinding.doctorName.setText(getOMSTransactionResponseList.get(0).getDoctorName());
-                    holder.fullfilmentBinding.statecode.setText(getOMSTransactionResponseList.get(0).getCustomerState());
-                    holder.fullfilmentBinding.city.setText(getOMSTransactionResponseList.get(0).getBillingCity());
-                    holder.fullfilmentBinding.address.setText(getOMSTransactionResponseList.get(0).getCustAddress());
-                    holder.fullfilmentBinding.pincode.setText(getOMSTransactionResponseList.get(0).getPincode());
-                    holder.fullfilmentBinding.comments.setText(getOMSTransactionResponseList.get(0).getComment());
+                    holder.fullfilmentBinding.customerType.setText(omsHeader.getGetOMSTransactionResponse().getCustomerType());
+                    holder.fullfilmentBinding.ordersource.setText(omsHeader.getGetOMSTransactionResponse().getOrderSource());
+                    holder.fullfilmentBinding.orderDate.setText(omsHeader.getGetOMSTransactionResponse().getCreatedDateTime());
+                    holder.fullfilmentBinding.deliveryDate.setText(omsHeader.getGetOMSTransactionResponse().getDeliveryDate());
+                    holder.fullfilmentBinding.shippingMethodType.setText(omsHeader.getGetOMSTransactionResponse().getShippingMethod());
+                    holder.fullfilmentBinding.stockStatus.setText(omsHeader.getGetOMSTransactionResponse().getStockStatus());
+                    holder.fullfilmentBinding.paymentSource.setText(omsHeader.getGetOMSTransactionResponse().getPaymentSource());
+                    holder.fullfilmentBinding.orderType.setText(omsHeader.getGetOMSTransactionResponse().getOrderType());
+                    holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+                    holder.fullfilmentBinding.vendorId.setText(omsHeader.getGetOMSTransactionResponse().getVendorId());
+                    holder.fullfilmentBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+                    holder.fullfilmentBinding.orderbillvalue.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getNetAmount()));
+                    holder.fullfilmentBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+                    holder.fullfilmentBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getCustomerState());
+                    holder.fullfilmentBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+                    holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+                    holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
+                    holder.fullfilmentBinding.comments.setText(omsHeader.getGetOMSTransactionResponse().getComment());
 //                    if(getOMSTransactionResponseList.get(position).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")){
 //                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
 //                        holder.fullfilmentBinding.notifytoadmin.setVisibility(View.VISIBLE);

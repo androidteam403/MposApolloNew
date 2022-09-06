@@ -2287,7 +2287,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         isHdfcLinkGenerated = true;
                                         hdfcPaymentDialog.setDialogGenerateLinkBtnDisable();
                                         hdfcPaymentDialog.setWalletAmountdisable();
-                                        hdfcPaymentDialog.setDialogClosedisable();
+//                                        hdfcPaymentDialog.setDialogClosedisable();
                                     }
                                     getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
                                 }
@@ -3274,7 +3274,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive() && !getMvpView().isOnleneOrder()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }
@@ -3322,7 +3322,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive() && !getMvpView().isOnleneOrder()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }

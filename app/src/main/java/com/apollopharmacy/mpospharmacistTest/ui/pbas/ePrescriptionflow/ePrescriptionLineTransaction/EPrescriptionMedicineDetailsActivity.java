@@ -62,7 +62,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
 
 
-    public static Intent getStartActivity(Context context, List<EPrescriptionModelClassResponse> prescriptionLine, int position, String loinStoreLocation, String terminalId) {
+    public static Intent getStartActivity(Context context, EPrescriptionModelClassResponse prescriptionLine, int position, String loinStoreLocation, String terminalId) {
         Intent i = new Intent(context, EPrescriptionMedicineDetailsActivity.class);
         i.putExtra("prescriptionLine", (Serializable) prescriptionLine);
         i.putExtra("position", (int) position);
@@ -98,12 +98,16 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         if (getIntent() != null) {
             try {
 
-
-                prescriptionLineList = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
+//                prescriptionLineList = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
+                EPrescriptionModelClassResponse prescriptionLine = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("prescriptionLine");
+                prescriptionLineList = new ArrayList<>();
+                prescriptionLineList.add(prescriptionLine);
+//                        = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
                 loinStoreLocation = (String) getIntent().getStringExtra("loinStoreLocation");
                 terminalId = (String) getIntent().getStringExtra("terminalId");
 
-                position = getIntent().getExtras().getInt("position");
+                position = 0;
+                //= getIntent().getExtras().getInt("position");
             } catch (Exception e) {
                 Toast.makeText(this, "########################## " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
