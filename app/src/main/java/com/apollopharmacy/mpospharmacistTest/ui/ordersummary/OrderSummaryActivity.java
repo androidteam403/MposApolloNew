@@ -66,6 +66,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -436,6 +437,9 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
             orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
             orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+
+
+
             double cgstAmount = 0.0;
             for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
                 if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
@@ -646,4 +650,9 @@ public class OrderSummaryActivity extends BaseActivity implements OrderSummaryMv
             //resume tasks needing this permission
         }
     }
+
+
+
 }
+
+

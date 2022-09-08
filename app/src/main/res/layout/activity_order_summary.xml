@@ -906,6 +906,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_weight="0.02"
                                             android:text=":"
+
                                             android:textColor="@color/black"
                                             android:textSize="6sp" />
 
@@ -940,6 +941,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_weight="0.02"
                                             android:text=":"
+                                            android:textStyle=""
                                             android:textColor="@color/black"
                                             android:textSize="6sp" />
 
