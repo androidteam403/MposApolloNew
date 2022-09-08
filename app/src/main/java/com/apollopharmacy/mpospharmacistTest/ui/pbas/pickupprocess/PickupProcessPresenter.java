@@ -337,9 +337,10 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
 
-                        } else {
-                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
                         }
+//                        else {
+//                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+//                        }
                     }
                 }
 
@@ -420,6 +421,11 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                 }
             });
         }
+    }
+
+    @Override
+    public void onClickOnHoldAll() {
+        getMvpView().onClickOnHoldAll();
     }
 
     @Override

@@ -249,15 +249,21 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         customerEntity.setGender(String.valueOf(response.getGender()));
 
         DoctorSearchResModel.DropdownValueBean doctorentyty = new DoctorSearchResModel.DropdownValueBean();
+
         if (!response.getDoctorName().isEmpty()) {
             doctorentyty.setDisplayText(response.getDoctorName());
             doctorentyty.setCode("0");
         } else {
-            if (doctorSearchResModel != null && doctorSearchResModel.get_DropdownValue() != null && doctorSearchResModel.get_DropdownValue().size() > 0) {
-                doctorentyty.setDisplayText(doctorSearchResModel.get_DropdownValue().get(0).getDisplayText());
-                doctorentyty.setCode(doctorSearchResModel.get_DropdownValue().get(0).getCode());
-            } else {
-                doctorentyty.setDisplayText("");
+            if (!isTherePharmaItem(customerDataResBean_pass)) {
+                if (doctorSearchResModel != null && doctorSearchResModel.get_DropdownValue() != null && doctorSearchResModel.get_DropdownValue().size() > 0) {
+                    doctorentyty.setDisplayText(doctorSearchResModel.get_DropdownValue().get(0).getDisplayText());
+                    doctorentyty.setCode(doctorSearchResModel.get_DropdownValue().get(0).getCode());
+                } else {
+                    doctorentyty.setDisplayText("");
+                    doctorentyty.setCode("0");
+                }
+            }else {
+                doctorentyty.setDisplayText("Apollo");
                 doctorentyty.setCode("0");
             }
         }
@@ -302,6 +308,19 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
 
 
+    }
+
+    private boolean isTherePharmaItem(CustomerDataResBean customerDataResBean_pass) {
+        boolean isTherePharmaItem = false;
+        if (customerDataResBean_pass != null && customerDataResBean_pass.getSalesLine() != null && customerDataResBean_pass.getSalesLine().size() > 0) {
+            for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
+                if (salesLineEntity.getCategoryCode().equalsIgnoreCase("P")) {
+                    isTherePharmaItem = true;
+                    break;
+                }
+            }
+        }
+        return isTherePharmaItem;
     }
 
     @Override

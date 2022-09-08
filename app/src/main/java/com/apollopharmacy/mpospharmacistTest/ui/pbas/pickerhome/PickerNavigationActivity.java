@@ -81,7 +81,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
         }
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
@@ -119,6 +119,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
             } else if (menuItem.getItemId() == R.id.nav_shipping_label) {
                 navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_on_hold) {
+                navController.navigate(R.id.nav_on_hold, null, navOptions, null);
             }
             return true;
         });
@@ -154,12 +156,13 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("SHIPPING_LABEL")) {
             navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+        } else if (fragmentName.equals("ON_HOLD")) {
+            navController.navigate(R.id.nav_on_hold, null, navOptions, null);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             hideKeyboard();
         }

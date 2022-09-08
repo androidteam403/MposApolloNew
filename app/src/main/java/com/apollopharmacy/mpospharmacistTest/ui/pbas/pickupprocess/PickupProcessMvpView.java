@@ -91,4 +91,8 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
 
+    void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onClickOnHoldAll();
+
 }

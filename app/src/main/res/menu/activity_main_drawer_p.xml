@@ -28,6 +28,11 @@
             android:icon="@drawable/ic_menu_billing"
             android:title="@string/label_shipping_label" />
 
+        <item
+            android:id="@+id/nav_on_hold"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="@string/label_on_hold" />
+
 
         <!--        <item-->
         <!--            android:id="@+id/nav_biller_vtwo"-->

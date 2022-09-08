@@ -30,13 +30,15 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private final OpenOrdersMvpView mvpView;
+    private String userId;
 //    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
-    public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
+    public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList, String userId) {
         this.context = context;
         this.omsHeaderList = omsHeaderList;
         this.filteredOmsHeaderList = omsHeaderList;
         this.mvpView = mvpView;
+        this.userId = userId;
 //        this.getOMSTransactionResponseList = getOMSTransactionResponseList;
     }
 
@@ -72,7 +74,9 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
-
+        if (omsHeader.getPickPackStatus().equalsIgnoreCase("1") && userId.equalsIgnoreCase(omsHeader.getPickPackUser())) {
+            holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.middle_drop_orders_bg));
+        }
 
         if (omsHeader.getGetOMSTransactionResponse() != null) {
             FulfilmentDetailsAdapter productListAdapter = new FulfilmentDetailsAdapter(context, null, mvpView, position, omsHeader.getGetOMSTransactionResponse().getSalesLine());

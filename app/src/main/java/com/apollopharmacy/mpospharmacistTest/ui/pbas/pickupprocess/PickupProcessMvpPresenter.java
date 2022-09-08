@@ -41,4 +41,6 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void mposPickPackOrderReservationApiCalls(int requestType, TransactionHeaderResponse.OMSHeader selectedOmsHeaderList);
 
+    void onClickOnHoldAll();
+
 }

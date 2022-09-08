@@ -111,6 +111,12 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         activityPickUpSummaryBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                if (selectedOmsHeaderList.get(i).isOnHold()) {
+                    selectedOmsHeaderList.remove(i);
+                    i--;
+                }
+            }
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("omsHeader");
             salesLineEntit = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
             if (selectedOmsHeaderList != null) {

@@ -427,7 +427,10 @@ public interface ApiInterface {
 //http://online.apollopharmacy.org:51/EPOS/
     Call<List<GetJounalOnlineOrderTransactionsResponse>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
 
-    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
-///?FLID=FL20220722101000004&LABELSIZE=4X6
-    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
+    @GET
+    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Url String url);
+
+//    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
+/////?FLID=FL20220722101000004&LABELSIZE=4X6
+//    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
 }

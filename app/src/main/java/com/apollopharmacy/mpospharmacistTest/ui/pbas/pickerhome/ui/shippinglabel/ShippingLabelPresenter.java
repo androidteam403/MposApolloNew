@@ -92,7 +92,14 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<GeneratePdfbyFlidResponse> call = apiInterface.generatePdfByFlidApiCall(flid, paperSize);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOSUAT/Apollo/SAVEPDF/GENERATEPDFBYFLID/?FLID=" + flid + "&LABELSIZE=" + paperSize;
+            } else {
+                url = "http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flid + "&LABELSIZE=" + paperSize;
+            }
+
+            Call<GeneratePdfbyFlidResponse> call = apiInterface.generatePdfByFlidApiCall(url);
             call.enqueue(new Callback<GeneratePdfbyFlidResponse>() {
                 @Override
                 public void onResponse(Call<GeneratePdfbyFlidResponse> call, Response<GeneratePdfbyFlidResponse> response) {

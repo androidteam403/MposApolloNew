@@ -598,5 +598,9 @@
     <string name="label_bill_date">Bill Date :\u0020</string>
     <string name="label_box_id">Box Id :\u0020</string>
     <string name="fullfillment_ids">Fulfilment Id :\u0020</string>
+    <string name="label_on_hold">On Hold</string>
+    <string name="label_search_by_fulfilment_id_box_id">Search by Fulfilment ID, Box ID</string>
+    <string name="label_release_fulfilment_to_start_pickup_process">Release fulfilment to start pickup process</string>
+    <string name="label_unhold">UnHold</string>
 
 </resources>

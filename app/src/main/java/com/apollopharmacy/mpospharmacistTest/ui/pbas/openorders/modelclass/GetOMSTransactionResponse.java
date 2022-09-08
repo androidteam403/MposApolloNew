@@ -700,6 +700,7 @@ public class GetOMSTransactionResponse implements Serializable {
         private String orderItemNo;
         private String pickedQty;
         private String pickerStatus;
+        private boolean isOnHold;
 
 
         public GetBatchInfoRes getGetBatchInfoRes() {
@@ -1512,6 +1513,13 @@ public class GetOMSTransactionResponse implements Serializable {
             this.pickerStatus = pickerStatus;
         }
 
+        public boolean isOnHold() {
+            return isOnHold;
+        }
+
+        public void setOnHold(boolean onHold) {
+            isOnHold = onHold;
+        }
     }
 
     @SerializedName("SalesOrigin")

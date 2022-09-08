@@ -121,6 +121,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelPresenter;
@@ -518,6 +521,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ShippingLabelMvpPresenter<ShippingLabelMvpView> shippingLabelPresenter(ShippingLabelPresenter<ShippingLabelMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OnHoldMvpPresenter<OnHoldMvpView> OnHoldPresenter(OnHoldPresenter<OnHoldMvpView> presenter) {
         return presenter;
     }
 }

@@ -29,6 +29,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterIt
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -218,8 +219,6 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     @Override
     public void onSuccessRackApi(RacksDataResponse body) {
         racksDataResponse = body.getFullfillmentDetails();
-
-
         activityBillerOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,6 +232,11 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     public void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader) {
+        if (omsHeaderList != null) {
+            omsHeaderList.clear();
+            mPresenter.setTotalOmsHeaderList(omsHeaderList);
+        }
+
         if (omsHeader != null && omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().size() > 0) {
             for (int i = 0; i < omsHeader.getOMSHeaderArr().size(); i++) {
                 if (omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().get(i).getOrderPickup() && omsHeader.getOMSHeaderArr().get(i).getOrderPacked()) {
@@ -346,6 +350,18 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             filterDialog.show();
         } else {
             Toast.makeText(getContext(), "No Orders are available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onClickUnHold(OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj) {
+        mPresenter.mposPickPackOrderReservationApiCall(omsHeaderObj);
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+            mPresenter.fetchFulfilmentOrderList();
         }
     }
 

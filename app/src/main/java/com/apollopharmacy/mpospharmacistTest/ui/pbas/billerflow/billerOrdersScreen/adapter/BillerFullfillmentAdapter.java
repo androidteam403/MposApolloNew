@@ -97,6 +97,12 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
             if (mvpView != null)
                 mvpView.onRightArrowClickedContinue(fullfilmentModel.getREFNO());
         });
+
+        holder.adapterBillerOrdersScreenBinding.onHold.setOnClickListener(view -> {
+            if (mvpView != null) {
+                mvpView.onClickUnHold(fullfilmentModel);
+            }
+        });
     }
 
     @Override

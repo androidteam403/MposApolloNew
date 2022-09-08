@@ -146,6 +146,7 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isPickupReserved;
         private boolean isExpanded;
         private GetOMSTransactionResponse getOMSTransactionResponse;
+        private boolean isOnHold = false;
 
         public String getFulfilId() {
             return FulfilId;
@@ -445,6 +446,14 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setExpanded(boolean expanded) {
             isExpanded = expanded;
+        }
+
+        public boolean isOnHold() {
+            return isOnHold;
+        }
+
+        public void setOnHold(boolean onHold) {
+            isOnHold = onHold;
         }
     }
 }

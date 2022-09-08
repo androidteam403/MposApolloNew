@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScr
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 public interface BillerOrdersMvpView extends MvpView {
 
@@ -18,4 +19,8 @@ public interface BillerOrdersMvpView extends MvpView {
     void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader);
 
     void onClickFilterIcon();
+
+    void onClickUnHold(OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj);
+
+    void onSuccessMposPickPackOrderReservationApiCall(MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 }

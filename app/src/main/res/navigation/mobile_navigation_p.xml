@@ -5,10 +5,10 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_picker_vtwo">
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_dashboard"-->
-<!--        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"-->
-<!--        tools:layout="@layout/fragment_dashboard_p" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_dashboard"-->
+    <!--        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment"-->
+    <!--        tools:layout="@layout/fragment_dashboard_p" />-->
 
     <fragment
         android:id="@+id/nav_picker_vtwo"
@@ -29,12 +29,16 @@
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment"
         tools:layout="@layout/fragment_shipping_label" />
 
+    <fragment
+        android:id="@+id/nav_on_hold"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment"
+        tools:layout="@layout/fragment_on_hold" />
 
-<!--   <fragment-->
-<!--         android:id="@+id/nav_ePrescription_vtwo"-->
-<!--         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"-->
-<!--         tools:layout="@layout/activity_e_prescription2" />-->
 
+    <!--   <fragment-->
+    <!--         android:id="@+id/nav_ePrescription_vtwo"-->
+    <!--         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity"-->
+    <!--         tools:layout="@layout/activity_e_prescription2" />-->
 
 
 </navigation>

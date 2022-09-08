@@ -292,7 +292,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            }
 //        }
 
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -643,7 +643,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -802,7 +802,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
             openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -949,7 +949,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 omsHeaderList.get(getPos).setExpandStatus(0);
             }
             omsHeaderList.get(getPos).setGetOMSTransactionResponse(body.get(0));
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1028,7 +1028,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
 
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1192,7 +1192,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
             if (omsHeaderList != null && omsHeaderList.size() > 0) {
 
-                fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+                fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
                 openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1291,7 +1291,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
 
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);

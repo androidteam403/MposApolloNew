@@ -102,6 +102,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     handleApiError(t);
                 }
             });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
         }
     }
 
@@ -159,6 +161,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public GetGlobalConfingRes getGlobalConfiguration() {
         return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public String getUserId() {
+        return getDataManager().getUserId();
     }
 }
 
