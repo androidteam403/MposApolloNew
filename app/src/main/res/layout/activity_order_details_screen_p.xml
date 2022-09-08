@@ -14,7 +14,8 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen45dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -467,7 +468,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Order source"
+                                    android:text="Source Order ID"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -709,7 +710,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five_dp"
                             android:layout_marginEnd="@dimen/five_dp"
-                            android:layout_marginBottom="@dimen/dimen100dp"
+                            android:layout_marginBottom="@dimen/dimen1dp"
                             android:nestedScrollingEnabled="false" />
                     </LinearLayout>
 

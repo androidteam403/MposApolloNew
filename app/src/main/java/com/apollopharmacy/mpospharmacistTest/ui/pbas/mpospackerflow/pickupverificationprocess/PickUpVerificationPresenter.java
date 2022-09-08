@@ -62,7 +62,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             if (omsHeader != null) {
                 MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-                order.setDataAreaID("AHEL");
+                order.setDataAreaID(getDataManager().getDataAreaId());
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
                 order.setTransactionID(omsHeader.getRefno());
@@ -84,8 +84,13 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = Objects.requireNonNull(api).OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = Objects.requireNonNull(api).OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
@@ -115,9 +120,9 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
-            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setDataAreaID(getDataManager().getDataAreaId());
             getOmsTransactionRequest.setExpiryDays(90);
             getOmsTransactionRequest.setRefID("");
             getOmsTransactionRequest.setStoreID(getDataManager().getStoreId());
@@ -172,7 +177,13 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSOrderUpdate";
+            } else {
+                url = "OMSService.svc/MPOSOrderUpdate";
+            }
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest, url);
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
@@ -241,5 +252,10 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void onClickPackerStatusUpdate() {
+        getMvpView().onClickPackerStatusUpdate();
     }
 }

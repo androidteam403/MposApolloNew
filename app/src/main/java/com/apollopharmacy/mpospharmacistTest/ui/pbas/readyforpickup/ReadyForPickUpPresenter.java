@@ -63,11 +63,12 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
 
     @Override
     public void onClickPrint() {
-        TransactionHeaderResponse.OMSHeader omsHeader = getDataManager().getTotalOmsHeaderList().get(0);
-        getMvpView().onClickPrint( omsHeader );
+        getMvpView().onClickPrint();
 
     }
+
     int i;
+
     @Override
     public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         if (getMvpView().isNetworkConnected()) {
@@ -77,14 +78,20 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                for ( i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for (i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                    if ((requestType == 1 && !selectedOmsHeaderList.get(i).isPickupReserved()) || requestType == 2) {
                     MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
                     order.setDataAreaID("AHEL");
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    if (requestType == 2) {
+                        order.setRefID("");
+                    } else {
+                        order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    }
                     ordersList.add(order);
+//                    }
                 }
             }
 
@@ -101,8 +108,13 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
@@ -114,7 +126,7 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
 
 
-                        } else  {
+                        } else {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
                         }
 
@@ -128,5 +140,25 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
                 }
             });
         }
+    }
+
+    @Override
+    public String userName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String storeId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String terminalId() {
+        return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public String eposUrl() {
+        return getDataManager().getEposURL();
     }
 }

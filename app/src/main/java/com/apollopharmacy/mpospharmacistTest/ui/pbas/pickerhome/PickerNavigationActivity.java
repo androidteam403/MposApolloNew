@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -80,7 +81,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
         }
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
@@ -116,6 +117,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
                 navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_shipping_label) {
+                navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_on_hold) {
+                navController.navigate(R.id.nav_on_hold, null, navOptions, null);
             }
             return true;
         });
@@ -134,6 +139,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             }
         });
         stockAvailable();
+        onClickLabelSize();
+        onClickRefresh();
     }
 
     private void decideFragment(String fragmentName) {
@@ -147,7 +154,19 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("BILLER")) {
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+        } else if (fragmentName.equals("SHIPPING_LABEL")) {
+            navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+        } else if (fragmentName.equals("ON_HOLD")) {
+            navController.navigate(R.id.nav_on_hold, null, navOptions, null);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            hideKeyboard();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void navigateToOpenOrders() {
@@ -167,6 +186,26 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 }
             }
         });
+    }
+
+    public void onClickLabelSize() {
+        activityNavigation3Binding.appBarMain.icPaperSize.setOnClickListener(view -> {
+            if (pickerNavigationActivityCallback != null) {
+                pickerNavigationActivityCallback.onClicklabelSizeIcon();
+            }
+        });
+    }
+
+    public void onClickRefresh() {
+        activityNavigation3Binding.appBarMain.refresh.setOnClickListener(view -> {
+            if (pickerNavigationActivityCallback != null) {
+                pickerNavigationActivityCallback.onClickRefresh();
+            }
+        });
+    }
+
+    public void setStockAvailableBoxCheck(boolean isCheck) {
+        activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(isCheck);
     }
 
     public void setStockAvailableVisibilty(boolean isVisible) {
@@ -339,6 +378,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
 
         void onClickStockAvailable(boolean isStockAvailableChecked);
+
+        void onClicklabelSizeIcon();
+
+        void onClickRefresh();
     }
 
     @Override

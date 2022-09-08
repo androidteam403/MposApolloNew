@@ -62,7 +62,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
 
 
-    public static Intent getStartActivity(Context context, List<EPrescriptionModelClassResponse> prescriptionLine, int position, String loinStoreLocation, String terminalId) {
+    public static Intent getStartActivity(Context context, EPrescriptionModelClassResponse prescriptionLine, int position, String loinStoreLocation, String terminalId) {
         Intent i = new Intent(context, EPrescriptionMedicineDetailsActivity.class);
         i.putExtra("prescriptionLine", (Serializable) prescriptionLine);
         i.putExtra("position", (int) position);
@@ -96,11 +96,21 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
 //        detailsBinding.setCallback((EPrescriptionMedicineDetailsActivity) mPresenter);
 
         if (getIntent() != null) {
-            prescriptionLineList = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
-            loinStoreLocation = (String) getIntent().getStringExtra("loinStoreLocation");
-            terminalId = (String) getIntent().getStringExtra("terminalId");
+            try {
 
-            position = getIntent().getExtras().getInt("position");
+//                prescriptionLineList = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
+                EPrescriptionModelClassResponse prescriptionLine = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("prescriptionLine");
+                prescriptionLineList = new ArrayList<>();
+                prescriptionLineList.add(prescriptionLine);
+//                        = (List<EPrescriptionModelClassResponse>) getIntent().getSerializableExtra("prescriptionLine");
+                loinStoreLocation = (String) getIntent().getStringExtra("loinStoreLocation");
+                terminalId = (String) getIntent().getStringExtra("terminalId");
+
+                position = 0;
+                //= getIntent().getExtras().getInt("position");
+            } catch (Exception e) {
+                Toast.makeText(this, "########################## " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
         detailsBinding.siteName.setText(loinStoreLocation);
         detailsBinding.siteId.setText(prescriptionLineList.get(0).getShopId());
@@ -389,8 +399,18 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setqCRemarks("");
                     salesLineEntity.setAlternetItemID("");
                     salesLineEntity.setLineNo(1);
-                    salesLineEntity.setItemId(ePrescriptionMedicineResponse.getArtCode());
-                    salesLineEntity.setItemName(ePrescriptionMedicineResponse.getActName());
+                    if (ePrescriptionMedicineResponse.getSubstitute() != null
+                            && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                        salesLineEntity.setItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
+                        salesLineEntity.setItemName(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArt());
+                    } else {
+                        salesLineEntity.setItemId(ePrescriptionMedicineResponse.getArtCode());
+                        salesLineEntity.setItemName(ePrescriptionMedicineResponse.getActName());
+                    }
+
+
                     salesLineEntity.setCategory("");
                     salesLineEntity.setCategoryCode("");
                     salesLineEntity.setSubCategory("");
@@ -408,7 +428,17 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setStockQty(0);
                     salesLineEntity.setReturnQty(0);
                     salesLineEntity.setRemainingQty(0);
-                    salesLineEntity.setMRP(Double.valueOf(ePrescriptionMedicineResponse.getMrp()));
+
+                    if (ePrescriptionMedicineResponse.getSubstitute() != null
+                            && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                        salesLineEntity.setMRP(ePrescriptionMedicineResponse.getSubstitute().getMrp());
+                    } else {
+                        salesLineEntity.setMRP(Double.valueOf(ePrescriptionMedicineResponse.getMrp()));
+                    }
+
+
                     salesLineEntity.setTax(0);
                     salesLineEntity.setAdditionaltax(0);
                     salesLineEntity.setBarcode("");
@@ -425,7 +455,17 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setNetAmountInclTax(0);
                     salesLineEntity.setOriginalPrice(0);
                     salesLineEntity.setPeriodicDiscAmount(0);
-                    salesLineEntity.setPrice(Double.valueOf(ePrescriptionMedicineResponse.getMrp()));
+
+                    if (ePrescriptionMedicineResponse.getSubstitute() != null
+                            && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
+                        salesLineEntity.setPrice(ePrescriptionMedicineResponse.getSubstitute().getMrp());
+                    } else {
+                        salesLineEntity.setPrice(Double.valueOf(ePrescriptionMedicineResponse.getMrp()));
+                    }
+
+
                     salesLineEntity.setTaxAmount(0);
                     salesLineEntity.setBaseAmount(0);
                     salesLineEntity.setTotalDiscAmount(0);
@@ -469,7 +509,10 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
                     salesLineEntity.setCGSTTaxCode(null);
                     salesLineEntity.setSGSTTaxCode(null);
                     salesLineEntity.setDiscountStructureType(0);
-                    if (ePrescriptionMedicineResponse.getSubstitute() != null && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()) {
+                    if (ePrescriptionMedicineResponse.getSubstitute() != null
+                            && ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode() != null
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().isEmpty()
+                            && !ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode().equalsIgnoreCase("Select")) {
                         salesLineEntity.setSubstitudeItemId(ePrescriptionMedicineResponse.getSubstitute().getSubstituteArtCode());
                     } else {
                         salesLineEntity.setSubstitudeItemId("");
@@ -517,8 +560,8 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
     List<EPrescriptionMedicineResponse> medicineResponseList;
 
     @Override
-    public void onSuccessTransactionList(List<EPrescriptionMedicineResponse> medicineResponseList) {
-        this.medicineResponseList = medicineResponseList;
+    public void onSuccessTransactionList(List<EPrescriptionMedicineResponse> medicineResponseLists) {
+        this.medicineResponseList = medicineResponseLists;
 //        Toast.makeText(getApplicationContext(), " " + body.size(), Toast.LENGTH_SHORT).show();
         if (prescriptionLineList.get(position).getIssubstitute().equalsIgnoreCase("1")) {
             mPresenter.fetchSubstituteList(prescriptionLineList.get(position).getPrescriptionNo());
@@ -746,7 +789,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         customerDataResBean_pass.setISOnlineOrder(true);
 
 
-        startActivityForResult(AddItemActivity.getStartIntents(this, saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, is_onlineOrder, item, doctorentyty, prescriptionLineList.get(this.position), medicineResponseList), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+        startActivityForResult(AddItemActivity.getStartIntents(this, saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, is_onlineOrder, item, doctorentyty, prescriptionLineList.get(this.position), medicineResponseList, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
 
@@ -770,6 +813,20 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
             }
             if (ePrescriptionMedicineDetailsAdapter != null)
                 ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onReqQtyUpdateWhileEdit(EPrescriptionMedicineResponse medicineResponse) {
+        if (medicineResponseList != null && medicineResponseList.size() > 0) {
+            for (int i = 0; i < medicineResponseList.size(); i++) {
+                if (medicineResponseList.get(i).getArtCode().equalsIgnoreCase(medicineResponse.getArtCode())) {
+                    int pos = i;
+                    medicineResponseList.get(pos).setReqQty(medicineResponse.getReqQty());
+                }
+            }
+//            if (ePrescriptionMedicineDetailsAdapter != null)
+//                ePrescriptionMedicineDetailsAdapter.notifyDataSetChanged();
         }
     }
 

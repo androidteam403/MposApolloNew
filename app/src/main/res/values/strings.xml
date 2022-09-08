@@ -117,7 +117,7 @@
     <string name="label_span_doctor_no">Doctor No.\n%1$s</string>
     <string name="label_span_slaes_origin">Sales Origin\n%1$s</string>
     <string name="label_transaction_id">Transaction ID\n%1$s</string>
-    <string name="requied_qty">Requied Qty.</string>
+    <string name="requied_qty">Required Qty.</string>
     <string name="label_forgot_password">Forgot Password?</string>
     <string name="label_contact_us">CONTACT US</string>
     <string name="label_e_mail_support_apollo_in">E-mail: support@apollo.in</string>
@@ -515,7 +515,7 @@
     <string name="_19_feb_2022_10_35_44">19 Feb, 2022 - 10:35:44</string>
     <string name="select">Select</string>
     <string name="total_items_5">Total Items: 5</string>
-    <string name="fullfillment_id">Fulfilment ID:</string>
+    <string name="fullfillment_id">Fulfilment ID :\u0020</string>
     <string name="products">Products</string>
     <string name="qty">Qty</string>
     <string name="ascoril_d_plus_syrup_sugar_free">Ascoril D plus Syrup Sugar Free</string>
@@ -581,5 +581,26 @@
     <string name="label_doctor_names">Doctor Name</string>
     <string name="label_payment_mode">Payment Mode</string>
     <string name="label_patient_name">Patient Name</string>
+    <string name="label_apollo_pharmacy">APOLLO PHARMACY</string>
+    <string name="label_kindly_enter_the_last_3_values_of_the_physical_batch">Kindly enter the last 3 values of the Physical batch</string>
+    <string name="label_print_bill">Print Bill</string>
+    <string name="label_packer_status_update">Packer status Update</string>
+    <string name="label_shipping_label">Shipping Label</string>
+    <string name="label_transaction_id_colon">Transaction ID :</string>
+    <string name="label_print_label">Print Label</string>
+    <string name="label_4x6">4x6</string>
+    <string name="label_a4">A4</string>
+    <string name="label_scan_code">Scan code</string>
+    <string name="label_shipping_label_orders">Shipping Label Orders</string>
+    <string name="label_shipping">Shipping</string>
+    <string name="label_shipping_orders">Shipping Orders</string>
+    <string name="label_receipt_id">Receipt Id :\u0020</string>
+    <string name="label_bill_date">Bill Date :\u0020</string>
+    <string name="label_box_id">Box Id :\u0020</string>
+    <string name="fullfillment_ids">Fulfilment Id :\u0020</string>
+    <string name="label_on_hold">On Hold</string>
+    <string name="label_search_by_fulfilment_id_box_id">Search by Fulfilment ID, Box ID</string>
+    <string name="label_release_fulfilment_to_start_pickup_process">Release fulfilment to start pickup process</string>
+    <string name="label_unhold">UnHold</string>
 
 </resources>

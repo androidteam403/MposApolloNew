@@ -175,6 +175,7 @@
                                 android:textSize="@dimen/text_dimen_13" />
 
                             <RelativeLayout
+                                android:id="@+id/customer_search_box"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/forty_dp"
                                 android:layout_marginTop="@dimen/five_dp"
@@ -694,7 +695,7 @@
                                         android:id="@+id/prg_tracking_edit"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789. "
                                         android:fontFamily="@font/roboto_regular"
                                         android:hint="Prg.Tracking"
                                         android:imeOptions="actionDone"

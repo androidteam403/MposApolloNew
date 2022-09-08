@@ -4,6 +4,10 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.widget.Chronometer;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +40,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
@@ -73,6 +77,11 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     ArrayList<GetOMSTransactionResponse.SalesLine> salesEntity = new ArrayList<>();
     private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
 
+    int fullOrdersCount = 0;
+    int partialOrdersCount = 0;
+    int notAvailableOrdersCount = 0;
+    int updateOmsOrderCount = 0;
+
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch, TransactionHeaderResponse.OMSHeader omsHeader, GetOMSTransactionResponse.SalesLine salesLine, int orderAdapterPos, int position) {
         Intent intent = new Intent(context, PickUpSummmaryActivityNew.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
@@ -95,17 +104,35 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         setUp();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void setUp() {
 
         activityPickUpSummaryBinding.setCallback(mPresenter);
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                if (selectedOmsHeaderList.get(i).isOnHold()) {
+                    selectedOmsHeaderList.remove(i);
+                    i--;
+                }
+            }
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("omsHeader");
             salesLineEntit = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
             if (selectedOmsHeaderList != null) {
                 activityPickUpSummaryBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+                boolean isAllTagBox = true;
+                for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
+                    if (!omsHeader.isTagBox()) {
+                        isAllTagBox = false;
+                        break;
+                    }
+                }
+                takePrintEnableHandled(isAllTagBox);
+
             }
+
+
 //            Gson gson = new Gson();
 //            String json = getIntent().getStringExtra("rackListOfListFiltered");
 //            Type type = new TypeToken<List<List<RackAdapter.RackBoxModel.ProductData>>>() {
@@ -169,6 +196,22 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
+    private void takePrintEnableHandled(boolean isTakePrintEnable) {
+        if (!isTakePrintEnable) {
+            activityPickUpSummaryBinding.printFlidBtn.setVisibility(View.VISIBLE);
+//            activityReadyForPickupBinding.takePrint.setBackground(getResources().getDrawable(R.drawable.rounde_corner_takeprint_bg));
+//            activityReadyForPickupBinding.takePrint.setTextColor(getResources().getColor(R.color.white));
+//            activityReadyForPickupBinding.takePrint.setEnabled(true);
+
+        } else {
+            activityPickUpSummaryBinding.printFlidBtn.setVisibility(View.GONE);
+//            activityReadyForPickupBinding.takePrint.setBackground(getResources().getDrawable(R.drawable.rounded_corner_takeprint_bg_disabled));
+//            activityReadyForPickupBinding.takePrint.setTextColor(getResources().getColor(R.color.text_color_grey));
+//            activityReadyForPickupBinding.takePrint.setEnabled(false);
+        }
+
+    }
+
     @Override
     public List<List<OrderAdapter.RackBoxModel.ProductData>> fullfilListOfList() {
         return fullfillmentListOfListFiltered;
@@ -188,12 +231,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
-    public void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader) {
+    public void onClickPrint() {
         if (!BluetoothManager.getInstance(getContext()).isConnect()) {
-            Dialog dialogView = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+            Dialog dialogView = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
             DialogConnectPrinterBinding connectPrinterBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_connect_printer, null, false);
             dialogView.setContentView(connectPrinterBinding.getRoot());
             dialogView.setCancelable(false);
+            dialogView.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             connectPrinterBinding.dialogButtonOK.setOnClickListener(view -> {
                 dialogView.dismiss();
                 startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
@@ -201,10 +245,13 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
             });
             connectPrinterBinding.dialogButtonNO.setOnClickListener(view -> dialogView.dismiss());
-            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+//            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
             dialogView.show();
         } else {
-            generatecode(omsHeader.getRefno());
+            for (TransactionHeaderResponse.OMSHeader omsHeaders : selectedOmsHeaderList) {
+                if (!omsHeaders.isTagBox())
+                    generatecode(omsHeaders.getRefno());
+            }
         }
     }
 
@@ -213,9 +260,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     @Override
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response) {
         count++;
-        if (count == omsOrderForwardRequests.size()) {
+        if (count == (fullOrdersCount + partialOrdersCount)) {//omsOrderForwardRequests.size()
 //            generatebarcode(selectedOmsHeaderList);
-            mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
+            mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
         }
     }
 
@@ -317,7 +364,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         updateStatusBinding.fullCount.setText(String.valueOf(full));
         updateStatusBinding.partialCount.setText(String.valueOf(partial));
         updateStatusBinding.notAvailableCount.setText(String.valueOf(notAvailable));
-
+        this.fullOrdersCount = full;
+        this.partialOrdersCount = partial;
+        this.notAvailableOrdersCount = notAvailable;
 
 //        if (fullCount != null)
 //            updateStatusBinding.fullCount.setText(fullCount);
@@ -351,7 +400,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //                connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
 //                dialogView.show();
 //            } else {
-
+            omsOrderForwardRequests = new ArrayList<>();
 
             int count = 1;
             for (int j = 0; j < selectedOmsHeaderList.size(); j++) {
@@ -471,12 +520,16 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 omsOrderForwardRequest.setReservedSalesLine(reservedSalesLineArrayList);
                 omsOrderForwardRequests.add(omsOrderForwardRequest);
             }
-
+            boolean isAnyOrderAvailable = false;
             for (p = 0; p < omsOrderForwardRequests.size(); p++) {
-//            OMSOrderForwardResponse o = new OMSOrderForwardResponse();
-//            OmsOrderUpdateSuccess(o);
-//            Toast.makeText(this, "oms update", Toast.LENGTH_SHORT).show();
-                mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
+                if (omsOrderForwardRequests.get(p).getReservedSalesLine() != null
+                        && omsOrderForwardRequests.get(p).getReservedSalesLine().size() > 0) {
+                    isAnyOrderAvailable = true;
+                    mPresenter.UpdateOmsOrder(omsOrderForwardRequests.get(p));
+                }
+            }
+            if (!isAnyOrderAvailable) {
+                mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
             }
             dialog.dismiss();
             dialog.cancel();
@@ -497,16 +550,30 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
-        if (requestType == 5) {
+        if (requestType == 2) {
+            if (partialOrdersCount != 0 || fullOrdersCount != 0) {
+                mPresenter.mposPickPackOrderReservationApiCall(5, selectedOmsHeaderList);
+            } else {
+                gotoOpenOrder("FAILED");
+            }
+        } else if (requestType == 5) {
             if (mposPickPackOrderReservationResponse != null)
-                gotoOpenOrder();
+                gotoOpenOrder("SUCCESS");
         }
     }
 
-    private void gotoOpenOrder() {
+    private void gotoOpenOrder(String status) {
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_p, null, false);
+        if (status.equalsIgnoreCase("SUCCESS")) {
+            updateStatusBinding.message.setText("Forwarded to Packer");
+            updateStatusBinding.statusImage.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
+        } else {
+            updateStatusBinding.message.setText("Orders Not Available");
+            updateStatusBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+            updateStatusBinding.statusImage.setImageDrawable(getResources().getDrawable(R.drawable.delete_white_icon));
+        }
         dialog.setContentView(updateStatusBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

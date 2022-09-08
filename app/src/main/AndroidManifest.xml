@@ -214,13 +214,14 @@
         <activity
             android:name=".ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"
-            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".ui.pbas.pickerhome.PickerNavigationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PickerNavigationActivityAppTheme" />
+            android:theme="@style/PickerNavigationActivityAppTheme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity"
             android:screenOrientation="portrait" />

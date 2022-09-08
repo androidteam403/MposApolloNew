@@ -36,7 +36,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSkip();
 
-    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response);
+    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType);
 
     void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
 
@@ -90,5 +90,9 @@ public interface PickupProcessMvpView extends MvpView {
     void onFailedBatchInfo(GetBatchInfoRes body);
 
     void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
+
+    void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onClickOnHoldAll();
 
 }

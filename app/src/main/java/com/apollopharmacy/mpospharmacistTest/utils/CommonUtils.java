@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -95,6 +96,30 @@ public class CommonUtils {
         return sdf.format(new Date());
     }
 
+    public static String getDateThreeDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -3);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+
+    public static String getDateSevenDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+//DateTime lastWeek = new DateTime().minusDays(7);
 
     public static String convertDecimalFormat(double value) {
         return new DecimalFormat("##.##").format(value);

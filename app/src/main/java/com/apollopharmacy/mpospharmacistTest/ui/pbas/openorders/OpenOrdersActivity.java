@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     //    private List<FullfilmentAdapter.FullfilmentModel> fullfilmentModelList;
     private FullfilmentAdapter fullfilmentAdapter;
     public static boolean isopenOrderActivity = false;
+    public static final int READYFORPICKUP = 110;
 
     private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList;
@@ -62,15 +64,27 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
     public static String TOTAL_ORDERS = null;
 
+    // Main filters headers list
     private List<FilterModel> customerTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderCategoryFilterList = new ArrayList<>();
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    private List<FilterModel> reverificationList = new ArrayList<>();
 
+    // Temp filters headers list
+    private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
+    private List<FilterModel> orderTypeFilterListTemp = new ArrayList<>();
+    private List<FilterModel> orderCategoryFilterListTemp = new ArrayList<>();
+    private List<FilterModel> paymentTypeFilterListTemp = new ArrayList<>();
+    private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
+    private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
+    private List<FilterModel> reverificationListTemp = new ArrayList<>();
+    private boolean isStockAvailableChecked = false;
 
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
+    private boolean isStockAvailable = false;
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
 
 
     public static Intent getStartActivity(Context context) {
@@ -108,6 +122,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.setStock("Stock Available");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(true);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+
+
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         mPresenter.fetchFulfilmentOrderList();
@@ -127,6 +146,65 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     }
 
+    private void temFiltersHeadersList() {
+        //
+        customerTypeFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : customerTypeFilterList) {
+            FilterModel customerTypeModel = new FilterModel();
+            customerTypeModel.setSelected(filterModel.isSelected());
+            customerTypeModel.setName(filterModel.getName());
+            customerTypeFilterListTemp.add(customerTypeModel);
+        }
+        //
+        orderTypeFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : orderTypeFilterList) {
+            FilterModel orderTypeModel = new FilterModel();
+            orderTypeModel.setSelected(filterModel.isSelected());
+            orderTypeModel.setName(filterModel.getName());
+            orderTypeFilterListTemp.add(orderTypeModel);
+        }
+        //
+        orderCategoryFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : orderCategoryFilterList) {
+            FilterModel orderCategoryModel = new FilterModel();
+            orderCategoryModel.setSelected(filterModel.isSelected());
+            orderCategoryModel.setName(filterModel.getName());
+            orderCategoryFilterListTemp.add(orderCategoryModel);
+        }
+        //
+        paymentTypeFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : paymentTypeFilterList) {
+            FilterModel paymentTypeModel = new FilterModel();
+            paymentTypeModel.setSelected(filterModel.isSelected());
+            paymentTypeModel.setName(filterModel.getName());
+            paymentTypeFilterListTemp.add(paymentTypeModel);
+        }
+        //
+        orderSourceFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : orderSourceFilterList) {
+            FilterModel orderSourceModel = new FilterModel();
+            orderSourceModel.setSelected(filterModel.isSelected());
+            orderSourceModel.setName(filterModel.getName());
+            orderSourceFilterListTemp.add(orderSourceModel);
+        }
+        //
+        stockAvailabilityFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : stockAvailabilityFilterList) {
+            FilterModel stockAvailabilityModel = new FilterModel();
+            stockAvailabilityModel.setSelected(filterModel.isSelected());
+            stockAvailabilityModel.setName(filterModel.getName());
+            stockAvailabilityFilterListTemp.add(stockAvailabilityModel);
+        }
+        //
+        reverificationListTemp = new ArrayList<>();
+        for (FilterModel filterModel : reverificationList) {
+            FilterModel reverificationModel = new FilterModel();
+            reverificationModel.setSelected(filterModel.isSelected());
+            reverificationModel.setName(filterModel.getName());
+            reverificationListTemp.add(reverificationModel);
+        }
+
+    }
 
     private void searchByFulfilmentId() {
         openOrdersBinding.searchByfulfimentid.addTextChangedListener(new TextWatcher() {
@@ -214,7 +292,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            }
 //        }
 
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -222,148 +300,307 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onClickFilterIcon() {
-        Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
-        DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
-        filterDialog.setContentView(dialogFilterBinding.getRoot());
-        filterDialog.setCancelable(false);
-        filtersList(dialogFilterBinding);
-        dialogFilterBinding.filterCloseIcon.setOnClickListener(view -> {
-            applyOrderFilters();
-            filterDialog.dismiss();
-            hideLoading();
-        });
-        dialogFilterBinding.applyFilters.setOnClickListener(view -> {
-            showLoading();
-            applyOrderFilters();
-            filterDialog.dismiss();
-            hideLoading();
-        });
-        dialogFilterBinding.clear.setOnClickListener(view -> {
-            clearFilter();
-        });
-        filterDialog.show();
+        if (mPresenter.getTotalOmsHeaderList() != null && mPresenter.getTotalOmsHeaderList().size() > 0) {
+
+
+            temFiltersHeadersList();
+            Dialog filterDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
+            DialogFilterPBinding dialogFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_filter_p, null, false);
+            filterDialog.setContentView(dialogFilterBinding.getRoot());
+            filterDialog.setCancelable(false);
+            filtersList(dialogFilterBinding);
+            dialogFilterBinding.filterCloseIcon.setOnClickListener(view -> {
+//            applyOrderFilters();
+                this.customerTypeFilterList = customerTypeFilterListTemp;
+                this.orderTypeFilterList = orderTypeFilterListTemp;
+                this.orderCategoryFilterList = orderCategoryFilterListTemp;
+                this.paymentTypeFilterList = paymentTypeFilterListTemp;
+                this.orderSourceFilterList = orderSourceFilterListTemp;
+                this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
+                this.reverificationList = reverificationListTemp;
+
+                filterDialog.dismiss();
+                hideLoading();
+            });
+            dialogFilterBinding.applyFilters.setOnClickListener(view -> {
+                showLoading();
+                applyOrderFilters();
+                filterDialog.dismiss();
+                hideLoading();
+            });
+            dialogFilterBinding.clear.setOnClickListener(view -> {
+                clearFilter();
+                filterDialog.dismiss();
+                applyOrderFilters();
+            });
+            filterDialog.show();
+        } else {
+            Toast.makeText(getContext(), "No Orders are available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void applyOrderFilters() {
         omsHeaderList.clear();
 
         // Customer type filter list.
-        List<TransactionHeaderResponse.OMSHeader> customerTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel customerTypeFilter : customerTypeFilterList) {
-            for (int i = 0; i < customerTypeOMSHeaderFilter.size(); i++) {
-                if (!customerTypeFilter.isSelected() && (customerTypeFilter.getName().equals(customerTypeOMSHeaderFilter.get(i).getCustomerType()))) {
-                    customerTypeOMSHeaderFilter.remove(i);
-                    i--;
-                }
+        boolean isCustomerTypeFilter = false;
+        for (FilterModel orderTypeFilter : customerTypeFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isCustomerTypeFilter = true;
             }
         }
-        omsHeaderList.addAll(customerTypeOMSHeaderFilter);
+        if (isCustomerTypeFilter) {
+            List<TransactionHeaderResponse.OMSHeader> customerTypeOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                customerTypeOMSHeaderFilter = omsHeaderList;
+            } else {
+                customerTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+//            List<TransactionHeaderResponse.OMSHeader> customerTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            for (FilterModel customerTypeFilter : customerTypeFilterList) {
+                for (int i = 0; i < customerTypeOMSHeaderFilter.size(); i++) {
+                    if (!customerTypeFilter.isSelected() && (customerTypeFilter.getName().equals(customerTypeOMSHeaderFilter.get(i).getCustomerType()))) {
+                        customerTypeOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = customerTypeOMSHeaderFilter;
+//            omsHeaderList.addAll(customerTypeOMSHeaderFilter);
+        }
 
         // Order type filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+
+        boolean isorderTypeFilter = false;
         for (FilterModel orderTypeFilter : orderTypeFilterList) {
-            for (int i = 0; i < orderTypeOMSHeaderFilter.size(); i++) {
-                if (!orderTypeFilter.isSelected() && (orderTypeFilter.getName().equals(orderTypeOMSHeaderFilter.get(i).getOrderType()))) {
-                    orderTypeOMSHeaderFilter.remove(i);
-                    i--;
-                }
+            if (orderTypeFilter.isSelected()) {
+                isorderTypeFilter = true;
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
+        if (isorderTypeFilter) {
+            List<TransactionHeaderResponse.OMSHeader> orderTypeOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                orderTypeOMSHeaderFilter = omsHeaderList;
+            } else {
+                orderTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel orderTypeFilter : orderTypeFilterList) {
+                for (int i = 0; i < orderTypeOMSHeaderFilter.size(); i++) {
+                    if (!orderTypeFilter.isSelected() && (orderTypeFilter.getName().equals(orderTypeOMSHeaderFilter.get(i).getOrderType()))) {
+                        orderTypeOMSHeaderFilter.remove(i);
+                        i--;
+                    }
                 }
             }
+            omsHeaderList = orderTypeOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
         }
-        omsHeaderList.addAll(orderTypeOMSHeaderFilter);
 
         // Order category filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderCategoryOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel orderCategoryFilter : orderCategoryFilterList) {
-            for (int i = 0; i < orderCategoryOMSHeaderFilter.size(); i++) {
-                if (!orderCategoryFilter.isSelected() && (orderCategoryFilter.getName().equals(orderCategoryOMSHeaderFilter.get(i).getCategoryType()))) {
-                    orderCategoryOMSHeaderFilter.remove(i);
-                    i--;
-                }
+
+//        List<TransactionHeaderResponse.OMSHeader> orderCategoryOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        boolean isOrderCategoryFilter = false;
+        for (FilterModel orderTypeFilter : orderCategoryFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isOrderCategoryFilter = true;
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderCategoryOMSHeaderFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
+        if (isOrderCategoryFilter) {
+            List<TransactionHeaderResponse.OMSHeader> orderCategoryOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                orderCategoryOMSHeaderFilter = omsHeaderList;
+            } else {
+                orderCategoryOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel orderCategoryFilter : orderCategoryFilterList) {
+                for (int i = 0; i < orderCategoryOMSHeaderFilter.size(); i++) {
+                    if (!orderCategoryFilter.isSelected() && (orderCategoryFilter.getName().equals(orderCategoryOMSHeaderFilter.get(i).getCategoryType()))) {
+                        orderCategoryOMSHeaderFilter.remove(i);
+                        i--;
+                    }
                 }
             }
+            omsHeaderList = orderCategoryOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderCategoryOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderCategoryOMSHeaderFilter);
         }
-        omsHeaderList.addAll(orderCategoryOMSHeaderFilter);
 
         // Payment type filter list.
-        List<TransactionHeaderResponse.OMSHeader> paymentTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel paymentTypeFilter : paymentTypeFilterList) {
-            for (int i = 0; i < paymentTypeOMSHeaderFilter.size(); i++) {
-                if (!paymentTypeFilter.isSelected() && (paymentTypeFilter.getName().equals(paymentTypeOMSHeaderFilter.get(i).getPaymentSource()))) {
-                    paymentTypeOMSHeaderFilter.remove(i);
-                    i--;
-                }
-            }
-        }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : paymentTypeOMSHeaderFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
-                }
-            }
-        }
-        omsHeaderList.addAll(paymentTypeOMSHeaderFilter);
 
+//        List<TransactionHeaderResponse.OMSHeader> paymentTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        boolean isPaymentTypeFilter = false;
+        for (FilterModel orderTypeFilter : paymentTypeFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isPaymentTypeFilter = true;
+            }
+        }
+        if (isPaymentTypeFilter) {
+            List<TransactionHeaderResponse.OMSHeader> paymentTypeOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                paymentTypeOMSHeaderFilter = omsHeaderList;
+            } else {
+                paymentTypeOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel paymentTypeFilter : paymentTypeFilterList) {
+                for (int i = 0; i < paymentTypeOMSHeaderFilter.size(); i++) {
+                    if (!paymentTypeFilter.isSelected() && (paymentTypeFilter.getName().equals(paymentTypeOMSHeaderFilter.get(i).getPaymentSource()))) {
+                        paymentTypeOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = paymentTypeOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : paymentTypeOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(paymentTypeOMSHeaderFilter);
+        }
         // Order source filter list.
-        List<TransactionHeaderResponse.OMSHeader> orderSourceOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel orderSourceFilter : orderSourceFilterList) {
-            for (int i = 0; i < orderSourceOMSHeaderFilter.size(); i++) {
-                if (!orderSourceFilter.isSelected() && (orderSourceFilter.getName().equals(orderSourceOMSHeaderFilter.get(i).getOrderSource()))) {
-                    orderSourceOMSHeaderFilter.remove(i);
-                    i--;
-                }
-            }
-        }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : orderSourceOMSHeaderFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
-                }
-            }
-        }
-        omsHeaderList.addAll(orderSourceOMSHeaderFilter);
 
+//        List<TransactionHeaderResponse.OMSHeader> orderSourceOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        boolean isOrderSourceFilter = false;
+        for (FilterModel orderTypeFilter : orderSourceFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isOrderSourceFilter = true;
+            }
+        }
+        if (isOrderSourceFilter) {
+            List<TransactionHeaderResponse.OMSHeader> orderSourceOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                orderSourceOMSHeaderFilter = omsHeaderList;
+            } else {
+                orderSourceOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel orderSourceFilter : orderSourceFilterList) {
+                for (int i = 0; i < orderSourceOMSHeaderFilter.size(); i++) {
+                    if (!orderSourceFilter.isSelected() && (orderSourceFilter.getName().equals(orderSourceOMSHeaderFilter.get(i).getOrderSource()))) {
+                        orderSourceOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = orderSourceOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderSourceOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderSourceOMSHeaderFilter);
+        }
         // Stock availability filter list.
-        List<TransactionHeaderResponse.OMSHeader> stockAvailabilityOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
-        for (FilterModel stockAvailabilityFilter : stockAvailabilityFilterList) {
-            for (int i = 0; i < stockAvailabilityOMSHeaderFilter.size(); i++) {
-                if (!stockAvailabilityFilter.isSelected() && (stockAvailabilityFilter.getName().equals(stockAvailabilityOMSHeaderFilter.get(i).getStockStatus()))) {
-                    stockAvailabilityOMSHeaderFilter.remove(i);
-                    i--;
-                }
+//        boolean isStockAvailableSelected = false;
+//        for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+//            if (stockAvailabilityFilterList.get(i).isSelected() && stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                isStockAvailableSelected = true;
+//            }
+//        }
+
+//        List<TransactionHeaderResponse.OMSHeader> stockAvailabilityOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+        boolean isStockAvailabilityFilter = false;
+        for (FilterModel orderTypeFilter : stockAvailabilityFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isStockAvailabilityFilter = true;
             }
         }
-        for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                    omsHeaderList.remove(i);
-                    i--;
+        if (isStockAvailabilityFilter) {
+            List<TransactionHeaderResponse.OMSHeader> stockAvailabilityOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                stockAvailabilityOMSHeaderFilter = omsHeaderList;
+            } else {
+                stockAvailabilityOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel stockAvailabilityFilter : stockAvailabilityFilterList) {
+                for (int i = 0; i < stockAvailabilityOMSHeaderFilter.size(); i++) {
+                    if (!stockAvailabilityFilter.isSelected() && (stockAvailabilityFilter.getName().equals(stockAvailabilityOMSHeaderFilter.get(i).getStockStatus()))) {
+                        stockAvailabilityOMSHeaderFilter.remove(i);
+                        i--;
+                    }
                 }
             }
+            omsHeaderList = stockAvailabilityOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
         }
-        omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
+
+
+        // Reverification filter list.
+
+        boolean isReverificationFilter = false;
+        for (FilterModel orderTypeFilter : reverificationList) {
+            if (orderTypeFilter.isSelected()) {
+                isReverificationFilter = true;
+            }
+        }
+        if (isReverificationFilter) {
+            List<TransactionHeaderResponse.OMSHeader> reverificationOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                reverificationOMSHeaderFilter = omsHeaderList;
+            } else {
+                reverificationOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel reverificationFilter : reverificationList) {
+                for (int i = 0; i < reverificationOMSHeaderFilter.size(); i++) {
+                    if (!reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() == 1) {
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    } else if (reverificationFilter.isSelected() && reverificationOMSHeaderFilter.get(i).getReVerification() != 1) {
+                        reverificationOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = reverificationOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : orderTypeOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
+        }
+
+
         //pickUpStatusFilter
 
-        if (omsHeaderList != null && omsHeaderList.size() == 0) {
+//        if (omsHeaderList != null && omsHeaderList.size() == 0) {
+//            omsHeaderList = mPresenter.getTotalOmsHeaderList();
+//        }
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
-        }
 
+        }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                 for (int j = 0; j < Objects.requireNonNull(omsHeaderList).size(); j++) {
@@ -375,17 +612,68 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
 
 //        PickerNavigationActivity.mInstance.setStock("Stock available");
-        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
-        openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+//        if (isStockAvailable) {
+//            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (!omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//        } else {
+//            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//        }
+
+        if (isStockAvailableChecked) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (!omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+                    omsHeaderList.remove(i);
+                    i--;
+                }
+            }
+        }
+
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
             noOrderFound(omsHeaderList.size());
         } else {
             noOrderFound(0);
+        }
+
+        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
+        openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+//        PickerNavigationActivity.mInstance.setStockAvailableBoxCheck(isStockAvailableSelected);
+    }
+
+    private void applyFiltersTemp() {
+        omsHeaderList.clear();
+        List<TransactionHeaderResponse.OMSHeader> omsHeaderMainList = mPresenter.getTotalOmsHeaderList();
+
+        for (TransactionHeaderResponse.OMSHeader omsHeader : omsHeaderMainList) {
+            boolean isValidOrder = true;
+            for (FilterModel filterModel : stockAvailabilityFilterList) {
+                if (filterModel.isSelected() && filterModel.getName().equalsIgnoreCase(omsHeader.getStockStatus())) {
+                    omsHeaderList.add(omsHeader);
+                }
+            }
+            for (FilterModel filterModel : orderTypeFilterList) {
+                if (filterModel.isSelected() && filterModel.getName().equalsIgnoreCase(omsHeader.getOrderType())) {
+                    if (!omsHeaderList.contains(omsHeader))
+                        omsHeaderList.add(omsHeader);
+                }
+            }
         }
     }
 
@@ -415,12 +703,18 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             stockAvailabilityFilterList.get(i).setSelected(false);
         }
         stockAvailabilityFilterAdapter.notifyDataSetChanged();
+
+        for (int i = 0; i < reverificationList.size(); i++) {
+            reverificationList.get(i).setSelected(false);
+        }
+        reverificationAdapter.notifyDataSetChanged();
+
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
         stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
-        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        dialogFilterBinding.customerTypeFilter.setAdapter(stockAvailabilityFilterAdapter);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
 
         orderTypeFilterAdapter = new FilterItemAdapter(getContext(), orderTypeFilterList);
@@ -440,9 +734,17 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         dialogFilterBinding.orderSourceFilter.setAdapter(orderSourceFilterAdapter);
 
         customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
-        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        dialogFilterBinding.stockAvailableFilter.setAdapter(customerTypeFilterAdapter);
+        dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
 
+
+        stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
+        dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
+
+        reverificationAdapter = new FilterItemAdapter(getContext(), reverificationList);
+        dialogFilterBinding.reverificationRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.reverificationRecycler.setAdapter(reverificationAdapter);
 
     }
 
@@ -450,17 +752,44 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     //    public TransactionHeaderResponse omsHeader;
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
-        for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
-            if (!omsHeader.getOMSHeader().get(i).getOrderPickup()) {
-                omsHeaderList.add(omsHeader.getOMSHeader().get(i));
-            }
+
+        this.customerTypeFilterList.clear();
+        this.customerTypeFilterListTemp.clear();
+        this.orderTypeFilterList.clear();
+        this.orderTypeFilterListTemp.clear();
+        this.orderCategoryFilterList.clear();
+        this.orderCategoryFilterListTemp.clear();
+        this.paymentTypeFilterList.clear();
+        this.paymentTypeFilterListTemp.clear();
+        this.orderSourceFilterList.clear();
+        this.orderSourceFilterListTemp.clear();
+        this.stockAvailabilityFilterList.clear();
+        this.stockAvailabilityFilterListTemp.clear();
+        this.reverificationList.clear();
+        this.reverificationListTemp.clear();
+
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            omsHeaderList.clear();
         }
-        Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
-            @Override
-            public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                return -o1.getStockStatus().compareTo(o2.getStockStatus());
+        if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
+
+            for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
+                if (!omsHeader.getOMSHeader().get(i).getOrderPickup()) {
+//                    if (omsHeader.getOMSHeader().get(i).getOverallOrderStatus().length() > 3 && omsHeader.getOMSHeader().get(i).getReVerification() != 0) {
+                    omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+//                    } else if (omsHeader.getOMSHeader().get(i).getOverallOrderStatus().length() < 3 && omsHeader.getOMSHeader().get(i).getReVerification() == 0) {
+//                        omsHeaderList.add(omsHeader.getOMSHeader().get(i));
+//                    }
+
+                }
             }
-        });
+            Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                @Override
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    return -o1.getStockStatus().compareTo(o2.getStockStatus());
+                }
+            });
 //        Collections.sort(omsHeaderList, new Comparator<CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel>() {
 //            @Override
 //            public int compare(CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel o1, CategoryListAdapter.CategoryModel.SubCategoryModel.LeafCategoryModel o2) {
@@ -469,16 +798,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        });
 
 //        omsHeaderList = omsHeader.getOMSHeader();
-        mPresenter.setTotalOmsHeaderList(omsHeaderList);
-        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
-        openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+            mPresenter.setTotalOmsHeaderList(omsHeaderList);
+            PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
+            openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
 
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-        TOTAL_ORDERS = String.valueOf(omsHeaderList.size());
-        filterOrdersLists();
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            TOTAL_ORDERS = String.valueOf(omsHeaderList.size());
+            noOrderFound(omsHeaderList.size());
+            filterOrdersLists();
+        } else {
+            noOrderFound(0);
+        }
     }
 
 
@@ -493,6 +826,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 boolean isOrderSourceContain = false;
                 boolean isStockAvailabilityContain = false;
                 boolean isPickUpStatusContain = false;
+                boolean isReverification = false;
 
 
                 // customer type filter list.
@@ -577,6 +911,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     stockAvailabilityFilterList.add(filterModel);
                 }
             }
+            boolean isReverificationContain = false;
+            // reverification filter list.
+            FilterModel filterModel = new FilterModel();
+            filterModel.setName("Reverification");
+            filterModel.setSelected(false);
+            for (int j = 0; j < reverificationList.size(); j++) {
+                if (reverificationList.get(j).getName().equals(filterModel.getName())) {
+                    isReverificationContain = true;
+                }
+            }
+            if (!isReverificationContain) {
+                reverificationList.add(filterModel);
+            }
+
         }
     }
 
@@ -594,17 +942,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
-        if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
-            omsHeaderList.get(getPos).setExpandStatus(1);
-        } else {
-            omsHeaderList.get(getPos).setExpandStatus(0);
+        if (body != null && body.size() > 0){
+            if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
+                omsHeaderList.get(getPos).setExpandStatus(1);
+            } else {
+                omsHeaderList.get(getPos).setExpandStatus(0);
+            }
+            omsHeaderList.get(getPos).setGetOMSTransactionResponse(body.get(0));
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body, mPresenter.getUserId());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
+            onContinueBtnEnable();
         }
-        fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
-        openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-        openOrdersBinding.fullfilmentRecycler.scrollToPosition(getPos);
-        onContinueBtnEnable();
     }
 
     @Override
@@ -636,8 +987,16 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     public void noOrderFound(int count) {
         if (count > 0) {
             openOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+            openOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
+
+            PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
+            openOrdersBinding.headerOrdersCount.setText("Total " + count + " orders");
         } else {
+            openOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
             openOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+
+            PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+            openOrdersBinding.headerOrdersCount.setText("Total 0 orders");
         }
     }
 
@@ -669,7 +1028,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
 
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -736,7 +1095,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onClickContinue() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            startActivity(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList));
+            startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList), READYFORPICKUP);
             getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             Toast.makeText(getContext(), "No Orders Selected.", Toast.LENGTH_SHORT).show();
@@ -794,6 +1153,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
                 openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
             }
+        } else if (resultCode == Activity.RESULT_OK && requestCode == READYFORPICKUP) {
+            selectedOmsHeaderList.clear();
+            omsHeaderList.clear();
+            if (fullfilmentAdapter != null) {
+                fullfilmentAdapter.notifyDataSetChanged();
+            }
+            onContinueBtnEnable();
+            mPresenter.fetchFulfilmentOrderList();
+
         } else {
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (Result != null) {
@@ -812,20 +1180,86 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onClickStockAvailable(boolean isStockAvailableChecked) {
-        if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size() > 0) {
-            for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
-                if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
-                    if (isStockAvailableChecked) {
-                        stockAvailabilityFilterList.get(i).setSelected(true);
-                    } else {
-                        stockAvailabilityFilterList.get(i).setSelected(false);
-                    }
-                    applyOrderFilters();
-                    break;
+
+//        omsHeaderList = mPresenter.getTotalOmsHeaderList();
+        this.isStockAvailableChecked = isStockAvailableChecked;
+        if (isStockAvailableChecked) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (!omsHeaderList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+                    omsHeaderList.remove(i);
+                    i--;
                 }
             }
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+
+                fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+                openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+                noOrderFound(omsHeaderList.size());
+            } else {
+                noOrderFound(0);
+            }
+            PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
+            openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+        } else {
+            applyOrderFilters();
         }
+
+
+//        this.isStockAvailable = isStockAvailableChecked;
+//
+//        if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size() > 0) {
+//            if (isStockAvailableChecked) {
+//                for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+//                    if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                        stockAvailabilityFilterList.get(i).setSelected(true);
+//                    } else {
+//                        stockAvailabilityFilterList.get(i).setSelected(false);
+//                    }
+//                }
+//            } else {
+//                for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+//                    if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                        stockAvailabilityFilterList.get(i).setSelected(false);
+//                    }
+//                }
+//            }
+//        }
+//        applyOrderFilters();
+
+
+//        if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size() > 0) {
+//            boolean isStockAvailable = false;
+//            for (int i = 0; i < stockAvailabilityFilterList.size(); i++) {
+//                if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
+//                    isStockAvailable = true;
+//                    if (isStockAvailableChecked) {
+//                        stockAvailabilityFilterList.get(i).setSelected(true);
+//
+//                    } else {
+//                        stockAvailabilityFilterList.get(i).setSelected(false);
+//                    }
+//                    applyOrderFilters();
+//                    break;
+//                }
+//            }
+//            if (!isStockAvailable) {
+//                applyOrderFilters();
+//            }
+//        }
     }
+
+    @Override
+    public void onClicklabelSizeIcon() {
+
+    }
+
+    @Override
+    public void onClickRefresh() {
+
+    }
+
 
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -857,7 +1291,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
 
 
-            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null);
+            fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -865,6 +1299,4 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
         }
     }
-
-
 }

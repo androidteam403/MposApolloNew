@@ -24,6 +24,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListData
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Media_libraryEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist_mediaEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -399,9 +400,9 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             return null;
         }
     }
+
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
     }
 
@@ -451,6 +452,11 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public GetGlobalConfingRes getGlobalCDonfiguration() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
     public void onDownloadApiCall(String filePath, String fileName, int pos) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -494,26 +500,26 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-             //   Log.d(TAG, "File Size=" + fileSize);
+                //   Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-               // Log.d(TAG, destinationFile.getParent());
+                // Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessPlayList();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-           // Log.d(TAG, "Failed to save the file!");
+            // Log.d(TAG, "Failed to save the file!");
         }
     }
 

@@ -17,7 +17,7 @@ public interface PickUpSummaryMvpView extends MvpView {
     List<List<RackAdapter.RackBoxModel.ProductData>> productList();
 
     String fullCount(String fullCount);
-    void onClickPrint(TransactionHeaderResponse.OMSHeader omsHeader);
+    void onClickPrint();
 
 
     void OmsOrderUpdateSuccess(OMSOrderForwardResponse response);

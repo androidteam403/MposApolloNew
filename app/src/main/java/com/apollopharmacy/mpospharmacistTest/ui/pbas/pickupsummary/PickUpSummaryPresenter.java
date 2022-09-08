@@ -72,7 +72,13 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSOrderUpdate";
+            } else {
+                url = "OMSService.svc/MPOSOrderUpdate";
+            }
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest, url);
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
@@ -120,8 +126,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
     @Override
     public void onClickprint() {
-        TransactionHeaderResponse.OMSHeader omsHeader = getDataManager().getTotalOmsHeaderList().get(0);
-        getMvpView().onClickPrint(omsHeader);
+        getMvpView().onClickPrint();
 
     }
 
@@ -136,11 +141,15 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
                 for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                     MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-                    order.setDataAreaID("AHEL");
+                    order.setDataAreaID(getDataManager().getDataAreaId());
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    if (requestType == 2) {
+                        order.setRefID("");
+                    } else {
+                        order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    }
                     if (selectedOmsHeaderList.get(i).getItemStatus().equals("FULL")) {
                         order.setOverallOrderStatus("1");
                     } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("PARTIAL")) {
@@ -148,7 +157,9 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                     } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("NOT AVAILABLE")) {
                         order.setOverallOrderStatus("3");
                     }
-                    ordersList.add(order);
+                    if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                        ordersList.add(order);
                 }
             }
 
@@ -164,8 +175,13 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {

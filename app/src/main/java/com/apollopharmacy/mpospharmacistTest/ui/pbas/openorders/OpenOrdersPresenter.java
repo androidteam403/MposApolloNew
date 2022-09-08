@@ -76,7 +76,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
@@ -92,8 +92,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }
                 }
 
@@ -103,6 +102,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     handleApiError(t);
                 }
             });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
         }
     }
 
@@ -117,9 +118,9 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
-            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setDataAreaID(getDataManager().getDataAreaId());
             getOmsTransactionRequest.setExpiryDays(90);
             getOmsTransactionRequest.setRefID("");
             getOmsTransactionRequest.setStoreID(getDataManager().getStoreId());
@@ -160,6 +161,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public GetGlobalConfingRes getGlobalConfiguration() {
         return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public String getUserId() {
+        return getDataManager().getUserId();
     }
 }
 

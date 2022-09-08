@@ -25,4 +25,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList();
 
     GetGlobalConfingRes getGlobalConfiguration();
+
+    String getUserId();
 }

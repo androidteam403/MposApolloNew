@@ -545,6 +545,18 @@ public class CustomerDataResBean implements Serializable {
     @SerializedName("AWBNo")
     private String AWBNo;
 
+    @Expose
+    @SerializedName("IsPickPackOrder")
+    private Boolean isPickPackOrder;
+
+    public Boolean getIsPickPackOrder() {
+        return isPickPackOrder;
+    }
+
+    public void setIsPickPackOrder(Boolean isPickPackOrder) {
+        this.isPickPackOrder = isPickPackOrder;
+    }
+
     public String getVendorId() {
         return VendorId;
     }

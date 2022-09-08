@@ -8,8 +8,9 @@ public interface CaptureManagerCallback {
     void dialogShow(int orderPos);
 
 
-
     void onClickScanCode(String s, String refno);
 
     void onBackPressed();
+
+    void isoxIdAlreadyAvailable();
 }

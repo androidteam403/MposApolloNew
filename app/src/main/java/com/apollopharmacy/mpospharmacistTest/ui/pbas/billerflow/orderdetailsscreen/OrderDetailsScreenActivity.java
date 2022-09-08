@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -22,7 +23,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderDetailsScreenPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBillerSelectActionPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusBillerBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
@@ -66,6 +67,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     private String eprescription_corpcode = "0";
     private int salesLineCount = 0;
     private String boxId;
+    private DoctorSearchResModel doctorSearchResModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             }
         }
         mPresenter.getTransactionID();
+        mPresenter.getDoctorsList();
 
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(v -> {
             onBackPressed();
@@ -93,10 +96,12 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         });
         if (orderInfoItem.getOverallOrderStatus() != null && orderInfoItem.getOverallOrderStatus().length() > 2) {
             this.boxId = orderInfoItem.getOverallOrderStatus().substring(2);
-            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+            activityOrderDetailsScreenBinding.boxId.setText(boxId);
+//            activityOrderDetailsScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
         } else {
             this.boxId = "-";
         }
+        activityOrderDetailsScreenBinding.boxId.setText(boxId);
 //        activityOrderDetailsScreenBinding.fullfillmentId.setText(orderInfoItem.getREFNO());
         if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("0")) {
             activityOrderDetailsScreenBinding.statusIcon.setVisibility(View.GONE);
@@ -104,8 +109,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_circle_tick));
         } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("2")) {
+            activityOrderDetailsScreenBinding.statusIcon.setRotation(90);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.partialcirculargreeenorange));
         } else if (orderInfoItem.getOverallOrderStatus().substring(0, 1).equals("3")) {
+            activityOrderDetailsScreenBinding.statusIcon.setRotation(0);
             activityOrderDetailsScreenBinding.statusIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
         }
     }
@@ -169,6 +176,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     activityOrderDetailsScreenBinding.mobileNumber.setText(customerDataResBean.getMobileNO());
                     activityOrderDetailsScreenBinding.doctorName.setText(customerDataResBean.getDoctorName());
                     activityOrderDetailsScreenBinding.statecode.setText(customerDataResBean.getState());
+                    activityOrderDetailsScreenBinding.orderbillvalue.setText(String.valueOf(customerDataResBean.getNetAmount()));
                     activityOrderDetailsScreenBinding.city.setText(customerDataResBean.getBillingCity());
                     activityOrderDetailsScreenBinding.address.setText(customerDataResBean.getCustAddress());
                     activityOrderDetailsScreenBinding.pincode.setText(customerDataResBean.getPincode());
@@ -223,6 +231,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void LoadOmsOrderSuccess(CustomerDataResBean response) {
         CorporateModel.DropdownValueBean item = new CorporateModel.DropdownValueBean();
@@ -240,8 +249,25 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         customerEntity.setGender(String.valueOf(response.getGender()));
 
         DoctorSearchResModel.DropdownValueBean doctorentyty = new DoctorSearchResModel.DropdownValueBean();
-        doctorentyty.setDisplayText(response.getDoctorName());
-        doctorentyty.setCode("R00123");
+
+        if (!response.getDoctorName().isEmpty()) {
+            doctorentyty.setDisplayText(response.getDoctorName());
+            doctorentyty.setCode("0");
+        } else {
+            if (!isTherePharmaItem(customerDataResBean_pass)) {
+                if (doctorSearchResModel != null && doctorSearchResModel.get_DropdownValue() != null && doctorSearchResModel.get_DropdownValue().size() > 0) {
+                    doctorentyty.setDisplayText(doctorSearchResModel.get_DropdownValue().get(0).getDisplayText());
+                    doctorentyty.setCode(doctorSearchResModel.get_DropdownValue().get(0).getCode());
+                } else {
+                    doctorentyty.setDisplayText("");
+                    doctorentyty.setCode("0");
+                }
+            }else {
+                doctorentyty.setDisplayText("Apollo");
+                doctorentyty.setCode("0");
+            }
+        }
+
 
         ArrayList<SalesLineEntity> saleslineentity = new ArrayList<>();
         for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
@@ -252,6 +278,12 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
         customerDataResBean_pass.setSalesLine(saleslineentity);
 
+//        List<CorporateModel.DropdownValueBean> selectedCorporateList = corporateList.stream().filter(o -> o.getCode().equalsIgnoreCase(eprescription_corpcode)).collect(Collectors.toList());
+//        if (selectedCorporateList.size() > 0) {
+//            item = selectedCorporateList.get(0);
+//
+//        }
+
 
         int position = 0;
         int tempposition = 0;
@@ -259,21 +291,36 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             for (CorporateModel.DropdownValueBean row : corporateList) {
                 if (row.getCode().contains(eprescription_corpcode)) {
                     position = tempposition;
+                    item = corporateList.get(position);
+                    Singletone.getInstance().itemsArrayList.clear();
+                    Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
+                    boolean is_omsorder = true;
+
+                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    finish();
                     break;
                 }
                 tempposition++;
             }
-            if (corporateList != null && corporateList.size() > 0)
-                item = corporateList.get(position);
+//            if (corporateList != null && corporateList.size() > 0)
+//                item = corporateList.get(position);
         }
 
-        Singletone.getInstance().itemsArrayList.clear();
-        Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
-        boolean is_omsorder = true;
 
-        startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+    }
+
+    private boolean isTherePharmaItem(CustomerDataResBean customerDataResBean_pass) {
+        boolean isTherePharmaItem = false;
+        if (customerDataResBean_pass != null && customerDataResBean_pass.getSalesLine() != null && customerDataResBean_pass.getSalesLine().size() > 0) {
+            for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
+                if (salesLineEntity.getCategoryCode().equalsIgnoreCase("P")) {
+                    isTherePharmaItem = true;
+                    break;
+                }
+            }
+        }
+        return isTherePharmaItem;
     }
 
     @Override
@@ -285,12 +332,12 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     public void CheckBatchStockSuccess(CustomerDataResBean response) {
         if (response != null) {
             customerDataResBean = response;
-            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-                mPresenter.onLoadOmsOrder(customerDataResBean);
-            } else {
-                CheckBatchStockFailure(customerDataResBean);
-
-            }
+//            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+            mPresenter.onLoadOmsOrder(customerDataResBean);
+//            } else {
+//                CheckBatchStockFailure(customerDataResBean);
+//
+//            }
 
 
         }
@@ -299,9 +346,9 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
     @Override
     public void CheckBatchStockFailure(CustomerDataResBean response) {
         String message = response.getReturnMessage();
-        message = message + "Stock Partial Available \n Do you want Continue this bill";
+        message = message + "is not available! \nThe Stock status is Partially Available\n Do you still need to continue to Billing.";
 
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
+        Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
         dialog.setContentView(dialogCancelBinding.getRoot());
         dialog.setCancelable(false);
@@ -315,7 +362,6 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             customerDataResBean = response;
             mPresenter.onLoadOmsOrder(customerDataResBean);
         });
-        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
@@ -510,21 +556,26 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         } else if (selectActionLayoutBinding.checkedShippingLabel.getVisibility() == View.VISIBLE) {
             Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
         } else if (selectActionLayoutBinding.checkedSendToPacker.getVisibility() == View.VISIBLE) {
-            Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_DayNight_NoActionBar);
-            DialogVerificationStatusPBinding dialogVerificationStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_p, null, false);
-            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
-            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
-            dialogVerificationStatusPBinding.title.setText("Send back to pcker");
-            dialog.setContentView(dialogVerificationStatusPBinding.getRoot());
+            Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+            DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
+//            dialogVerificationStatusPBinding.pickupVerificationStatusText.setText("Biller verified for");
+//            dialogVerificationStatusPBinding.fullfilmentId.setText(customerDataResBean.getREFNO());
+            dialogVerificationStatusBillerBinding.title.setText("Send back to pcker");
+            dialogVerificationStatusBillerBinding.dialogMessage.setText("Biller verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Push to billing");
+
+            dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+            dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+            dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-            dialogVerificationStatusPBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
-            dialogVerificationStatusPBinding.dialogButtonOK.setOnClickListener(v -> {
-                unPacking();
+            dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+            dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
                 dialog.dismiss();
+                unPacking();
+
             });
-            dialogVerificationStatusPBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+//            dialogVerificationStatusPBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
         }
     }
 
@@ -666,7 +717,22 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void onClickSendtoPacker() {
-        unPacking();
+        Dialog dialog = new Dialog(this);
+        DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
+        dialogVerificationStatusBillerBinding.title.setText("Send to Packer");
+        dialogVerificationStatusBillerBinding.dialogMessage.setText("Biller not verified for\n Fulfilment ID :" + customerDataResBean.getREFNO() + "\n Send to Packer");
+        dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+        dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+        dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            unPacking();
+
+        });
     }
 
     @Override
@@ -860,5 +926,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //            }
 //        }
 //        mPresenter.onCheckBatchStock(customerDataResBean);
+    }
+
+    @Override
+    public void getDoctorSearchList(DoctorSearchResModel doctorSearchResModel) {
+        this.doctorSearchResModel = doctorSearchResModel;
     }
 }

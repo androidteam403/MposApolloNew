@@ -79,8 +79,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_selectuser"
-                    app:spinnerMode="bottomsheet" />
+                    android:hint="@string/label_selectuser"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/LoginEditTextInputLayoutStyle"
@@ -89,7 +88,9 @@
                     android:layout_marginStart="@dimen/fifteen_dp"
                     android:layout_marginEnd="@dimen/fifteen_dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_password">
+                    android:hint="@string/label_password"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"

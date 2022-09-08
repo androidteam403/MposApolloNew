@@ -88,6 +88,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     private ArrayList<CircleMemebershipCashbackPlanResponse.Category> circlecashbackplan = null;
 
+    private Boolean isCameFromOrderDetailsScreenActivity;
 
     //changes made by naveen
     private boolean isOnlineOrder;
@@ -184,7 +186,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData, boolean isUhidSelected) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -195,6 +197,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("staff_avail_amt", staffApiRes);
         intent.putExtra("prg_track", trackingData);
         intent.putExtra("sales_list_data", saleslistData);
+        intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -233,7 +236,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData, boolean isUhidSelected) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -244,6 +247,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("staff_avail_amt", staffApiRes);
         intent.putExtra("prg_track", prgTrackingData);
         intent.putExtra("sales_list_data", saleslistData);
+        intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -293,7 +297,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList) {
+    public static Intent getStartIntents(Context context, ArrayList<SalesLineEntity> salesLineEntities, GetCustomerResponse.CustomerEntity customerEntity, OMSTransactionHeaderResModel.OMSHeaderObj orderinfoitem, CustomerDataResBean customerDataResBean, boolean is_online, CorporateModel.DropdownValueBean item, DoctorSearchResModel.DropdownValueBean doctor, EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, boolean isCameFromEprescriptionMedicineDetailsActivity) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("sales_list_data", salesLineEntities);
         intent.putExtra("customer_info", customerEntity);
@@ -304,6 +308,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("doctor_info", doctor);
         intent.putExtra("ePrescription_model_class_response", ePrescriptionModelClassResponse);
         intent.putExtra("ePrescription_medicine_response_list", (Serializable) ePrescriptionMedicineResponseList);
+        intent.putExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", isCameFromEprescriptionMedicineDetailsActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -341,6 +346,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.setCall(this);
         addItemBinding.setClearMvpView(this);
         addItemBinding.setPaymentMode(paymentMethodModel);
+        addItemBinding.setGlobalConfiguration(mPresenter.getGlobalConfiguration());
         Constant.getInstance().vendorcredit = false;
 
         mPresenter.getGlobalConfig();
@@ -352,11 +358,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 ePrescriptionModelClassResponse = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("ePrescription_model_class_response");
                 ePrescriptionMedicineResponseList = (List<EPrescriptionMedicineResponse>) getIntent().getSerializableExtra("ePrescription_medicine_response_list");
             }
+            boolean isUhidSelected = (Boolean) getIntent().getBooleanExtra("IS_UHID_SELECTED", false);
+            if (isUhidSelected) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+            }
+
             customerEntity = (GetCustomerResponse.CustomerEntity) getIntent().getSerializableExtra("customer_info");
             if (customerEntity != null) {
                 addItemBinding.setCustomer(customerEntity);
                 if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
-                    addItemBinding.detailsLayout.prgTrackingEdit.setText("--");
+                    addItemBinding.detailsLayout.prgTrackingEdit.setText("");
                 } else {
                     addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
                 }
@@ -479,6 +490,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getBooleanExtra("is_omsorder", false);
             boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
+            boolean isCameFromEprescriptionMedicineDetailsActivity = (boolean) getIntent().getBooleanExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", false);
+            if (isCameFromEprescriptionMedicineDetailsActivity) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+            }
+            //
             this.isOnlineOrder = isOnline;
             if (is_omsorder == true) {
                 boolean itemNotFound = true;
@@ -644,9 +660,37 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onManualSearchClick() {
-        startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        if (customerEntity.getCardName().isEmpty()) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle("");
+            dialogView.setPositiveLabel("OK");
+            dialogView.setSubtitle("Kindly Select Customer");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+        } else if (doctorEntity.getDisplayText().isEmpty()) {
+            ExitInfoDialog dialogView = new ExitInfoDialog(this);
+            dialogView.setTitle("");
+            dialogView.setPositiveLabel("OK");
+            dialogView.setSubtitle("Kindly Select Doctor");
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                }
+            });
+            dialogView.show();
+        } else {
+            startActivityForResult(ProductListActivity.getStartIntent(this, getCorporateModule(), getTransactionModule(), "1"), ACTIVITY_ADD_PRODUCT_CODE);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
+
     }
+
 
     @Override
     public void Posttratransactionrequest(POSTransactionEntity entity) {
@@ -959,6 +1003,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         calculatePosTransactionRes.setDoctorName(salesCode);
         calculatePosTransactionRes.setMobileNO(customerEntity.getMobileNo());
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
+        if (isCameFromOrderDetailsScreenActivity) {
+            calculatePosTransactionRes.setIsMPOSBill(2);
+        } else {
+            calculatePosTransactionRes.setIsMPOSBill(1);
+        }
         return calculatePosTransactionRes;
     }
 
@@ -1003,6 +1052,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1015,6 +1065,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1050,6 +1101,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(true);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1065,6 +1117,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(true);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1104,6 +1157,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(true);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1119,6 +1173,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(true);
             paymentMethodModel.setVendorPayMode(false);
@@ -1175,6 +1230,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(false);
@@ -1200,6 +1256,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(false);
@@ -1278,6 +1335,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setSmsPayMode(false);
                 paymentMethodModel.setVendorPayMode(true);
@@ -1303,6 +1361,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setSmsPayMode(false);
             paymentMethodModel.setVendorPayMode(true);
@@ -1435,6 +1494,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1452,6 +1512,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1497,6 +1558,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setLoadApolloPoints(true);
                 paymentMethodModel.setErrorApolloPoints(false);
                 paymentMethodModel.setWalletMode(false);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1516,6 +1578,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setLoadApolloPoints(true);
             paymentMethodModel.setErrorApolloPoints(false);
             paymentMethodModel.setWalletMode(false);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1555,6 +1618,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 paymentMethodModel.setHdfcPayMode(false);
                 paymentMethodModel.setOneApolloMode(false);
                 paymentMethodModel.setWalletMode(true);
+                paymentMethodModel.setPhonePeQrCodeMode(false);
                 paymentMethodModel.setCreditMode(false);
                 paymentMethodModel.setPhonePeMode(false);
                 paymentMethodModel.setPhonePeQrMode(false);
@@ -1570,6 +1634,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setHdfcPayMode(false);
             paymentMethodModel.setOneApolloMode(false);
             paymentMethodModel.setWalletMode(true);
+            paymentMethodModel.setPhonePeQrCodeMode(false);
             paymentMethodModel.setCreditMode(false);
             paymentMethodModel.setPhonePeMode(false);
             paymentMethodModel.setPhonePeQrMode(false);
@@ -1632,8 +1697,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
         calculatePosTransactionRes = posTransactionRes;
         if (getIntent() != null) {
-            Boolean isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
             if (isCameFromOrderDetailsScreenActivity) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
                 onPayButtonClick();
             }
         }
@@ -1642,6 +1708,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
         orderPriceInfoModel.setTaxableTotalAmount(posTransactionRes.getNetAmount());
         orderPriceInfoModel.setOrderTotalAmount(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
+
+        if (calculatePosTransactionRes.getISOMSOrder()) {
+            // Creating an object of DecimalFormat class
+            DecimalFormat df_obj = new DecimalFormat("#.##");
+            String number = df_obj.format(posTransactionRes.getGrossAmount() - posTransactionRes.getDiscAmount());
+            double roundedvalue = Double.parseDouble(number);
+            // double tempbalanceAmt = orderTotalAmount() - roundedvalue;
+            orderPriceInfoModel.setOrderTotalAmount(roundedvalue);
+        }
+
         orderPriceInfoModel.setDiscTotalAmount(posTransactionRes.getDiscAmount());
         orderPriceInfoModel.setRoundedAmount(posTransactionRes.getRoundedAmount());
         orderPriceInfoModel.setOrderSavingsPercentage(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
@@ -1846,7 +1922,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             for (TenderLineEntity tenderLineEntity : transactionRes.getTenderLine()) {
                 if (!TextUtils.isEmpty(tenderLineEntity.getTenderId())) {
                     if (!tenderLineEntity.isVoid()) {
+
+
                         paymentDoneAmount += tenderLineEntity.getAmountTendered();
+
+                        if (calculatePosTransactionRes.getISOMSOrder()) {
+                            // Creating an object of DecimalFormat class
+                            DecimalFormat df_obj = new DecimalFormat("#.##");
+                            String number = df_obj.format(paymentDoneAmount);
+                            double roundedvalue = Double.parseDouble(number);
+                            double tempbalanceAmt = orderTotalAmount() - roundedvalue;
+                            if (tempbalanceAmt == 0) {
+                                paymentDoneAmount = roundedvalue;
+                            }
+                        }
+
+
                     }
                     payAdapterModel = new PayAdapterModel(tenderLineEntity.getTenderName(), " " + tenderLineEntity.getAmountTendered(), tenderLineEntity.getAmountTendered());
                     if (tenderLineEntity.getTenderName().equalsIgnoreCase("card")) {
@@ -2512,7 +2603,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             this.hdfcTransactionMarchantId = hdfcLinkGenerateResponse.getTransactionMerchantID();
             Toast.makeText(this, hdfcLinkGenerateResponse.getSuccessMsg(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Payment is pending", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, hdfcLinkGenerateResponse.getErrorDesc(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -2541,8 +2632,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void getHBPConfig(HBPConfigResponse hbpConfigResponse) {
-        if (hbpConfigResponse.getUHIDBilling())
-            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+//        if (hbpConfigResponse.getUHIDBilling())
+//            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
     }
 
     @Override
@@ -2780,7 +2871,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         if (customerEntity != null) {
                             addItemBinding.setCustomer(customerEntity);
                             if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
-                                addItemBinding.detailsLayout.prgTrackingEdit.setText("--");
+                                addItemBinding.detailsLayout.prgTrackingEdit.setText("");
                             } else {
                                 addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
                             }
@@ -3015,6 +3106,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
 
     private void clearOrderData() {
+        customerEntity = new GetCustomerResponse.CustomerEntity();
+        customerEntity.setCardName("");
+        customerEntity.setMobileNo("");
+
+        corporateEntity = new CorporateModel.DropdownValueBean();
+        corporateEntity.setCode("");
+        corporateEntity.setDescription("");
+
+        doctorEntity = new DoctorSearchResModel.DropdownValueBean();
+        doctorEntity.setCode("");
+        doctorEntity.setDisplayText("");
+
+        addItemBinding.setCustomer(customerEntity);
+        addItemBinding.setCorporate(corporateEntity);
+        addItemBinding.setDoctor(doctorEntity);
+
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().isPlaceNewOrder = true;
         addItemBinding.cardPaymentAmountEditText.setText("");

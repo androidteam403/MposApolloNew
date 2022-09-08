@@ -143,8 +143,10 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isOverAllStatusfromList;
         private String itemStatus = "";
         private String scannedBarcode;
+        private boolean isPickupReserved;
         private boolean isExpanded;
         private GetOMSTransactionResponse getOMSTransactionResponse;
+        private boolean isOnHold = false;
 
         public String getFulfilId() {
             return FulfilId;
@@ -430,12 +432,28 @@ public class TransactionHeaderResponse implements Serializable {
             this.scannedBarcode = scannedBarcode;
         }
 
+        public boolean isPickupReserved() {
+            return isPickupReserved;
+        }
+
+        public void setPickupReserved(boolean pickupReserved) {
+            isPickupReserved = pickupReserved;
+        }
+
         public boolean isExpanded() {
             return isExpanded;
         }
 
         public void setExpanded(boolean expanded) {
             isExpanded = expanded;
+        }
+
+        public boolean isOnHold() {
+            return isOnHold;
+        }
+
+        public void setOnHold(boolean onHold) {
+            isOnHold = onHold;
         }
     }
 }

@@ -2,7 +2,6 @@ package com.apollopharmacy.mpospharmacistTest.ui.ordersummary.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,16 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPdfBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSummaryProductsPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryProductsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>{
+public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
 
     Context context;
 
@@ -29,9 +25,9 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>{
 
 
     public PdfAdapter(PdfModelResponse salesLine, Context applicationContext, OrderSummaryActivity orderSummaryActivity) {
-        this.salesLine=salesLine;
-        this.context=applicationContext;
-        this.salesLineList=salesLine.getSalesLine();
+        this.salesLine = salesLine;
+        this.context = applicationContext;
+        this.salesLineList = salesLine.getSalesLine();
     }
 
     @NonNull
@@ -44,29 +40,33 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull PdfAdapter.ViewHolder holder, int position) {
         PdfModelResponse.SalesLine salesLine = salesLineList.get(position);
-        holder.adapterPdfBinding.productNamepdf.setText(salesLineList.get(position).getItemName());
-        holder.adapterPdfBinding.batch.setText(salesLineList.get(position).getBatchNo());
-        holder.adapterPdfBinding.expiry.setText(salesLineList.get(position).getExpDate());
-        holder.adapterPdfBinding.gst.setText(salesLineList.get(position).getSGSTPer());
-        holder.adapterPdfBinding.hsncode.setText(salesLineList.get(position).getHSNCode());
-        holder.adapterPdfBinding.mfg.setText(salesLineList.get(position).getManufacturer());
-        holder.adapterPdfBinding.qty.setText(salesLineList.get(position).getQty());
-        holder.adapterPdfBinding.rate.setText(salesLineList.get(position).getLineTotAmount());
-         holder.adapterPdfBinding.sch.setText(salesLineList.get(position).getSch());
-         holder.adapterPdfBinding.amount.setText(salesLineList.get(position).getMrp());
+        holder.adapterPdfBinding.productNamepdf.setText(salesLine.getItemName());
+        holder.adapterPdfBinding.batch.setText(salesLine.getBatchNo());
+        if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
+            holder.adapterPdfBinding.expiry.setText(salesLine.getExpDate().substring(5));
+        }else {
+            holder.adapterPdfBinding.expiry.setText("-");
+        }
+        holder.adapterPdfBinding.gst.setText(String.valueOf(Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer())));
+        holder.adapterPdfBinding.hsncode.setText(salesLine.getHSNCode());
+        holder.adapterPdfBinding.mfg.setText(salesLine.getManufacturer());
+        holder.adapterPdfBinding.qty.setText(salesLine.getQty());
+        holder.adapterPdfBinding.rate.setText(salesLine.getMrp());
+        holder.adapterPdfBinding.sch.setText(salesLine.getSch());
+        holder.adapterPdfBinding.amount.setText(salesLine.getLineTotAmount());
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return salesLineList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         AdapterPdfBinding adapterPdfBinding;
-        public ViewHolder(@NonNull AdapterPdfBinding adapterPdfBinding ) {
+
+        public ViewHolder(@NonNull AdapterPdfBinding adapterPdfBinding) {
             super(adapterPdfBinding.getRoot());
-            this.adapterPdfBinding=adapterPdfBinding;
+            this.adapterPdfBinding = adapterPdfBinding;
         }
     }
 }

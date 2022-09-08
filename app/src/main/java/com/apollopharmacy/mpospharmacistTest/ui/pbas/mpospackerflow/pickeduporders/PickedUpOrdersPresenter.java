@@ -47,7 +47,7 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
@@ -55,20 +55,15 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS("1");
+            reqModel.setIsMPOS("2");//1
             reqModel.setUserName(getDataManager().getUserName());
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
-
                     if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
-                        else {
-                            getMvpView().hideLoading();
-                        }
-                    }else {
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    } else {
                         getMvpView().hideLoading();
                     }
                 }

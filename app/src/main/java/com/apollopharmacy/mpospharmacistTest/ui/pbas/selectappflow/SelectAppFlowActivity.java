@@ -70,6 +70,16 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
+        selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Shipping Label");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);
+
+        selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("On Hold");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);
+
 //        selectAppFlowModel = new SelectAppFlowModel();
 //        selectAppFlowModel.setAppFlowName("Sealer");
 //        selectAppFlowModel.setSelected(false);
@@ -96,6 +106,14 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
                         break;
                     case "Biller":
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "BILLER"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "Shipping Label":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "SHIPPING_LABEL"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "On Hold":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "ON_HOLD"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
                     case "Sealer":
