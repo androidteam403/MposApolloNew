@@ -84,6 +84,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Shipping Label");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
@@ -133,6 +134,11 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     @Override
     public void onClickRefresh() {
         mPresenter.getJounalOnlineOrderTransactionApiCall();
+    }
+
+    @Override
+    public void onClickUnHold() {
+
     }
 
     @Override

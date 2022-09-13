@@ -15,7 +15,7 @@ public interface OnHoldMvpPresenter<V extends OnHoldMvpView> extends MvpPresente
 
     void onClickUnHold(TransactionHeaderResponse.OMSHeader omsHeader);
 
-    void mposPickPackOrderReservationApiCall(TransactionHeaderResponse.OMSHeader omsHeader);
+    void mposPickPackOrderReservationApiCall(List<TransactionHeaderResponse.OMSHeader> omsHeaderList);
 
     void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> omsHeaderList);
 

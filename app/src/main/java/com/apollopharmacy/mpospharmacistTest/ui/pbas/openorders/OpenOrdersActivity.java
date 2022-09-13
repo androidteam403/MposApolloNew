@@ -124,6 +124,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
 
 
@@ -942,7 +943,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onSucessGetOmsTransaction(List<GetOMSTransactionResponse> body) {
-        if (body != null && body.size() > 0){
+        if (body != null && body.size() > 0) {
             if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
                 omsHeaderList.get(getPos).setExpandStatus(1);
             } else {
@@ -1257,6 +1258,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     @Override
     public void onClickRefresh() {
+
+    }
+
+    @Override
+    public void onClickUnHold() {
 
     }
 
