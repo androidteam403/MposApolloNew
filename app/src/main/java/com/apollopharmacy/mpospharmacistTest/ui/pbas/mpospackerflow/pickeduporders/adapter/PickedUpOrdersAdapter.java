@@ -87,7 +87,11 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
             holder.orderBinding.status.setText("Full");
             holder.orderBinding.statusIcon.setVisibility(View.VISIBLE);
         }
-
+        holder.orderBinding.onHold.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.onClickUnHold(omsHeader);
+            }
+        });
     }
 
     @Override

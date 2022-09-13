@@ -97,7 +97,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
-        PickerNavigationActivity.mInstance.setTitle("On Hold");
+        PickerNavigationActivity.mInstance.setTitle("ADMIN");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
         PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
     }
