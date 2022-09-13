@@ -2,6 +2,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentOnHoldBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
@@ -92,6 +95,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("On Hold");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
@@ -159,22 +163,40 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
     }
 
     @Override
+    public void onClickUnHold() {
+        Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
+        dialogCancelBinding.dialogMessage.setText("Do you want to Unhold all the orders?");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(omsHeaderList);
+            dialog.dismiss();
+        });
+    }
+
+    @Override
     public void onSuccessGetOMSHeaderTransactionApi(TransactionHeaderResponse omsHeader) {
         mPresenter.setTotalOmsHeaderList(omsHeader.getOMSHeader());
-        this.customerTypeFilterList.clear();
-        this.customerTypeFilterListTemp.clear();
-        this.orderTypeFilterList.clear();
-        this.orderTypeFilterListTemp.clear();
-        this.orderCategoryFilterList.clear();
-        this.orderCategoryFilterListTemp.clear();
-        this.paymentTypeFilterList.clear();
-        this.paymentTypeFilterListTemp.clear();
-        this.orderSourceFilterList.clear();
-        this.orderSourceFilterListTemp.clear();
-        this.stockAvailabilityFilterList.clear();
-        this.stockAvailabilityFilterListTemp.clear();
-        this.reverificationList.clear();
-        this.reverificationListTemp.clear();
+//        this.customerTypeFilterList.clear();
+//        this.customerTypeFilterListTemp.clear();
+//        this.orderTypeFilterList.clear();
+//        this.orderTypeFilterListTemp.clear();
+//        this.orderCategoryFilterList.clear();
+//        this.orderCategoryFilterListTemp.clear();
+//        this.paymentTypeFilterList.clear();
+//        this.paymentTypeFilterListTemp.clear();
+//        this.orderSourceFilterList.clear();
+//        this.orderSourceFilterListTemp.clear();
+//        this.stockAvailabilityFilterList.clear();
+//        this.stockAvailabilityFilterListTemp.clear();
+//        this.reverificationList.clear();
+//        this.reverificationListTemp.clear();
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
             omsHeaderList.clear();
@@ -311,6 +333,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
             }
 
         }
+        applyOrderFilters();
     }
 
     @Override
@@ -319,10 +342,14 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
             onHoldBinding.noOrderFoundText.setVisibility(View.GONE);
             onHoldBinding.onHoldListRecycler.setVisibility(View.VISIBLE);
             PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setEnabled(true);
         } else {
             onHoldBinding.onHoldListRecycler.setVisibility(View.GONE);
             onHoldBinding.noOrderFoundText.setVisibility(View.VISIBLE);
             PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setEnabled(false);
         }
     }
 
@@ -343,7 +370,23 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
 
     @Override
     public void onClickUnHold(TransactionHeaderResponse.OMSHeader omsHeader) {
-        mPresenter.mposPickPackOrderReservationApiCall(omsHeader);
+        List<TransactionHeaderResponse.OMSHeader> omsHeaders = new ArrayList<>();
+        omsHeaders.add(omsHeader);
+        Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
+        dialogCancelBinding.dialogMessage.setText("Do you want to Unhold the order?");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(omsHeaders);
+            dialog.dismiss();
+        });
+
     }
 
     @Override

@@ -76,7 +76,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModelList.add(selectAppFlowModel);
 
         selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("On Hold");
+        selectAppFlowModel.setAppFlowName("Admin");
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
@@ -112,14 +112,13 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "SHIPPING_LABEL"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
-                    case "On Hold":
-                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "ON_HOLD"));
+                    case "Admin":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "ADMIN"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
                     case "Sealer":
                         break;
-                    case "Admin":
-                        break;
+
                     default:
                 }
                 break;

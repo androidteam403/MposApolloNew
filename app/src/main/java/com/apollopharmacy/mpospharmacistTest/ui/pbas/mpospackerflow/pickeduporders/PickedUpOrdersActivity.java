@@ -115,6 +115,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Picked Orders");
         PickerNavigationActivity.mInstance.setStock("");
@@ -1095,6 +1096,11 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onClickRefresh() {
+
+    }
+
+    @Override
+    public void onClickUnHold() {
 
     }
 

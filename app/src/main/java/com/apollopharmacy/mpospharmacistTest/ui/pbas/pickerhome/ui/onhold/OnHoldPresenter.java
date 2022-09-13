@@ -82,23 +82,25 @@ public class OnHoldPresenter<V extends OnHoldMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void mposPickPackOrderReservationApiCall(TransactionHeaderResponse.OMSHeader omsHeader) {
+    public void mposPickPackOrderReservationApiCall(List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(2);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
-            MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-            order.setDataAreaID(getDataManager().getDataAreaId());
-            order.setStoreID(getDataManager().getStoreId());
-            order.setTerminalID(getDataManager().getTerminalId());
-            order.setTransactionID(omsHeader.getRefno());
-            order.setRefID("");
-            ordersList.add(order);
 
+            for (TransactionHeaderResponse.OMSHeader omsHeader : omsHeaderList) {
+                MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
+                order.setDataAreaID(getDataManager().getDataAreaId());
+                order.setStoreID(getDataManager().getStoreId());
+                order.setTerminalID(getDataManager().getTerminalId());
+                order.setTransactionID(omsHeader.getRefno());
+                order.setRefID("");
+                ordersList.add(order);
+                mposPickPackOrderReservationRequest.setOrderList(ordersList);
+            }
 
-            mposPickPackOrderReservationRequest.setOrderList(ordersList);
             String check_epos = getDataManager().getEposURL();
             String replace_url = getDataManager().getEposURL();
             if (check_epos.contains("EPOS/")) {

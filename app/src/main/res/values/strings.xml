@@ -602,5 +602,6 @@
     <string name="label_search_by_fulfilment_id_box_id">Search by Fulfilment ID, Box ID</string>
     <string name="label_release_fulfilment_to_start_pickup_process">Release fulfilment to start pickup process</string>
     <string name="label_unhold">UnHold</string>
+    <string name="lanel_admin">Admin</string>
 
 </resources>

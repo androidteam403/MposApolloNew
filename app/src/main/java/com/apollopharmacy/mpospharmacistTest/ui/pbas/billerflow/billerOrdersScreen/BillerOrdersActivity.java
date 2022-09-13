@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScr
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBillerOrdersPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
@@ -107,6 +110,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
@@ -355,7 +359,20 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     public void onClickUnHold(OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj) {
-        mPresenter.mposPickPackOrderReservationApiCall(omsHeaderObj);
+        Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
+        dialogCancelBinding.dialogMessage.setText("Do you want to on hold the order?");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(omsHeaderObj);
+            dialog.dismiss();
+        });
     }
 
     @Override
@@ -889,6 +906,11 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     public void onClickRefresh() {
+
+    }
+
+    @Override
+    public void onClickUnHold() {
 
     }
 }

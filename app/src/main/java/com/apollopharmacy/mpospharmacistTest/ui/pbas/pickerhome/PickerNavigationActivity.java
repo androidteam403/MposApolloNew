@@ -132,6 +132,13 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                     pickerNavigationActivityCallback.onClickFilters();
             }
         });
+        activityNavigation3Binding.appBarMain.unHold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pickerNavigationActivityCallback != null)
+                    pickerNavigationActivityCallback.onClickUnHold();
+            }
+        });
         activityNavigation3Binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +163,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("SHIPPING_LABEL")) {
             navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
-        } else if (fragmentName.equals("ON_HOLD")) {
+        } else if (fragmentName.equals("ADMIN")) {
             navController.navigate(R.id.nav_on_hold, null, navOptions, null);
         }
     }
@@ -382,6 +389,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onClicklabelSizeIcon();
 
         void onClickRefresh();
+
+        void onClickUnHold();
     }
 
     @Override
