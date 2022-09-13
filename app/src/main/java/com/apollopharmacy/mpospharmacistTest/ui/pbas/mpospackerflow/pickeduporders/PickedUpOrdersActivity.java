@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickedupord
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickedUpOrdersPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
@@ -35,6 +38,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -991,6 +995,31 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     public void onSuccessGetOMSTransactionList(OMSTransactionResponse response) {
 
 
+    }
+
+    @Override
+    public void onClickUnHold(TransactionHeaderResponse.OMSHeader omsHeader) {
+        Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
+        dialogCancelBinding.dialogMessage.setText("Do you want to on hold the order?");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mvpPresenter.mposPickPackOrderReservationApiCall(omsHeader);
+            dialog.dismiss();
+        });
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+            mvpPresenter.fetchFulfilmentOrderList();
+        }
     }
 
 

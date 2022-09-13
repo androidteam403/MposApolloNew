@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickedupord
 
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
@@ -26,5 +27,7 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
 
     // created by naveen
     void fetchFulfilmentOrderList();
+
+    void mposPickPackOrderReservationApiCall(TransactionHeaderResponse.OMSHeader omsHeaderObj);
 
 }
