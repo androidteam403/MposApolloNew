@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.customerdetails;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface CustomerDetailsMvpPresenter<V extends CustomerDetailsMvpView> e
 
     void onClickEditBtn(GetCustomerResponse.CustomerEntity customerEntity);
 
-    void getCustomerApi(GetCustomerResponse body);
+    void getCustomerApi(GetCustomerResponse body, boolean isCustomerDetailsFound);
 
     String getStoreName();
 
@@ -38,5 +39,7 @@ public interface CustomerDetailsMvpPresenter<V extends CustomerDetailsMvpView> e
     void onDownloadApiCall(String filePath, String fileName, int pos);
 
     boolean enablescreens();
+
+    GetGlobalConfingRes getGlobalConfigResponse();
 
 }

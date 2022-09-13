@@ -32,6 +32,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivit
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
@@ -39,6 +41,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivi
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
@@ -170,4 +174,12 @@ public interface ActivityComponent {
     void inject(BillerOrdersActivity billerOrdersActivity);
 
     void inject(OrderDetailsScreenActivity orderDetailsScreenActivity);
+
+    void inject(EPrescriptionActivity ePrescriptionActivity);
+
+    void inject(EPrescriptionMedicineDetailsActivity ePrescriptionMedicineDetailsActivity);
+
+    void inject(ShippingLabelFragment shippingLabelFragment);
+
+    void inject(OnHoldFragment onHoldFragment);
 }

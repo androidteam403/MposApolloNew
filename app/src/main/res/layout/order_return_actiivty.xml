@@ -385,12 +385,12 @@
                     android:layout_marginTop="@dimen/five_dp"
                     android:orientation="horizontal"
                     android:visibility="visible"
-                    android:weightSum="5.3">
+                    android:weightSum="1">
 
                     <TextView
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.8"
+                        android:layout_weight="0.25"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -406,7 +406,7 @@
                     <TextView
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="@dimen/fifty_dp"
-                        android:layout_weight="0.9"
+                        android:layout_weight="0.25"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -422,7 +422,7 @@
                     <TextView
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight=".25"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -439,7 +439,7 @@
                         android:id="@+id/sms_sent"
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.3"
+                        android:layout_weight="0.25"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
@@ -450,7 +450,8 @@
 
                     <View
                         android:layout_width="2.5dp"
-                        android:layout_height="@dimen/fifty_dp" />
+                        android:layout_height="@dimen/fifty_dp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/feed_back"
@@ -462,6 +463,7 @@
                         android:gravity="center"
                         android:text="Feed Back"
                         android:textSize="@dimen/text_dimen_16"
+                        android:visibility="gone"
                         android:onClick="@{()-> callback.onFeedbackformCLick(item)}"
                         android:textStyle="bold" />
                 </LinearLayout>

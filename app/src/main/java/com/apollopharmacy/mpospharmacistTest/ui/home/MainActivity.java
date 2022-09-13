@@ -32,7 +32,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -49,16 +48,15 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.dialog.KioskExitClickListener;
 import com.apollopharmacy.mpospharmacistTest.ui.home.dialog.KioskExitDialog;
-import com.apollopharmacy.mpospharmacistTest.ui.home.dialog.SearchBTDialog;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.BTSearchItem;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.DialogManager;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.DownloadController;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.bixolon.commonlib.BXLCommonConst;
 import com.bixolon.commonlib.log.LogService;
 import com.bixolon.labelprinter.BixolonLabelPrinter;
@@ -142,12 +140,12 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 R.id.nav_dash_board, R.id.nav_doc_master, R.id.nav_cust_master)
                 .setDrawerLayout(drawer)
                 .build();
-        Constant.getInstance().isomsorder_check=false;
+        Constant.getInstance().isomsorder_check = false;
 
-       // Constant.getInstance().Orders_type = "Packing";
+        // Constant.getInstance().Orders_type = "Packing";
         //navController = Navigation.findNavController(this, R.id.nav_eprescription);
-          navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-          NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
         navOptions = new NavOptions.Builder()
@@ -157,7 +155,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 .setPopExitAnim(R.anim.slide_to_left)
                 .build();
 
-       // navController.navigate(R.id.nav_Packing, null, navOptions, null);
+        // navController.navigate(R.id.nav_Packing, null, navOptions, null);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -219,6 +217,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                     navigateprinterscreen();
                     // navController.navigate(R.id.nav_Invoice, null, navOptions, null);
                     // Constant.getInstance().Orders_type = "Invoice";
+                } else if (menuItem.getItemId() == R.id.nav_ePrescription_vOne) {
+                    navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
+                    Constant.getInstance().Orders_type = "E-Prescription";
                 }
                 /*else if (menuItem.getItemId() == R.id.nav_exit_kiosk) {
                     KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this, mvpPresenter);
@@ -257,8 +258,31 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             logoutDialog();
         });
 
-        Constant.getInstance().ordersource="";
+        Constant.getInstance().ordersource = "";
         setUp();
+    }
+
+    private void hideItem(GetGlobalConfingRes getGlobalConfingRes) {
+        Menu nav_Menu = navigationView.getMenu();
+        if (getGlobalConfingRes != null) {
+            if (getGlobalConfingRes.isISHBPStore()) {
+                nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+                nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(true);
+            } else {
+//                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
+                nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+                nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(false);
+            }
+        }
     }
 
     public void navigateprinterscreen() {
@@ -274,6 +298,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
     @Override
     protected void setUp() {
+        mvpPresenter.getGlobalConfig();
         userName.setText(mvpPresenter.getLoginUserName());
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
         mvpPresenter.getCorporateList();
@@ -525,15 +550,12 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             navController.popBackStack();
             Singletone.getInstance().isOrderCompleted = false;
-           if(Constant.getInstance().isomsorder_check)
-           {
-               Constant.getInstance().Orders_type = "Picking";
-               navController.navigate(R.id.nav_Picking);
-           }
-           else
-           {
-               navController.navigate(R.id.nav_dash_board);
-           }
+            if (Constant.getInstance().isomsorder_check) {
+                Constant.getInstance().Orders_type = "Picking";
+                navController.navigate(R.id.nav_Picking);
+            } else {
+                navController.navigate(R.id.nav_dash_board);
+            }
 
         }
 
@@ -541,8 +563,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         updateOpenScreens();
     }
 
-    public  void frompickuptodashboard()
-    {
+    public void frompickuptodashboard() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.popBackStack();
         navController.navigate(R.id.nav_dash_board);
@@ -725,6 +746,11 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes) {
+        hideItem(getGlobalConfingRes);
     }
 
 

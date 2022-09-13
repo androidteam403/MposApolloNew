@@ -30,7 +30,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearch
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -239,6 +241,16 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
     public void onSucessPlayList() {
 
     }
+
+    @Override
+    public void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse) {
+
+    }
+
+//    @Override
+//    public void updateUHIDDetails(Uhid_details uhid_details) {
+//
+//    }
 
     @Override
     public void onFaliureStaffListData() {
