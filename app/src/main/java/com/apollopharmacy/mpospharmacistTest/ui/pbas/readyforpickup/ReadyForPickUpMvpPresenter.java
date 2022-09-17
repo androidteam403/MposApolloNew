@@ -30,4 +30,6 @@ public interface ReadyForPickUpMvpPresenter<V extends ReadyForPickUpMvpView> ext
     String terminalId();
 
     String eposUrl();
+
+    String dataAreaId();
 }

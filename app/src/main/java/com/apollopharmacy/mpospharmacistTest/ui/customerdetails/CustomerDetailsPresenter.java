@@ -96,7 +96,8 @@ public class CustomerDetailsPresenter<V extends CustomerDetailsMvpView> extends 
                                 for (int i = 0; i < response.body().get_Customer().size(); i++) {
                                     if (response.body().get_Customer().get(i).getCPEnquiry() == true) {
                                         customerEntity.setMobileNo(response.body().get_Customer().get(i).getMobileNo());
-                                        customerEntity.setCardName(response.body().get_Customer().get(i).getCardName());
+//                                        customerEntity.setCardName(response.body().get_Customer().get(i).getCardName());
+                                        customerEntity.setCardName(response.body().get_Customer().get(i).getCustomerName());
                                         customerEntity.setAvailablePoints(response.body().get_Customer().get(i).getAvailablePoints());
                                         customerEntity.setTier(response.body().get_Customer().get(i).getTier());
                                         customerEntity.setCorpId(getDataManager().getGlobalJson().getCircleplanCorpCode());

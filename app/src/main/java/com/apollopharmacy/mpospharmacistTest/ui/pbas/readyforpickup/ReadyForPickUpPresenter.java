@@ -109,7 +109,8 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
-            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";
@@ -160,5 +161,10 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     @Override
     public String eposUrl() {
         return getDataManager().getEposURL();
+    }
+
+    @Override
+    public String dataAreaId() {
+        return getDataManager().getDataAreaId();
     }
 }

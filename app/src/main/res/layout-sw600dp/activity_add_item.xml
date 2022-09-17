@@ -63,6 +63,10 @@
             name="globalConfiguration"
             type="com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes" />
 
+        <variable
+            name="isCameFromVersionTwo"
+            type="Boolean" />
+
     </data>
 
     <LinearLayout
@@ -1001,11 +1005,11 @@
                                             android:background="@{paymentMode.isWalletMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickWalletPayment()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}">
+                                            android:visibility="gone">
 
+                                            <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
 
-
-<!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
+                                            <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
 
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
@@ -1033,7 +1037,8 @@
                                             android:background="@{paymentMode.isPhonePeQrCodeMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}">
+                                            android:visibility="gone">
+                                            <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
 
                                             <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
                                             <ImageView

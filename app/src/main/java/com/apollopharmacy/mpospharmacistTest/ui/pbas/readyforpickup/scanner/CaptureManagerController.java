@@ -47,7 +47,7 @@ public class CaptureManagerController {
     }
 
 
-    public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader selectedOmsHeader, String userName, String storeId, String terminalId, String eposUrl, String barcode) {
+    public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader selectedOmsHeader, String userName, String storeId, String terminalId, String eposUrl, String barcode, String dataAreaId) {
         if (isNetworkConnected()) {
             showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
@@ -55,7 +55,7 @@ public class CaptureManagerController {
             mposPickPackOrderReservationRequest.setUserName(userName);
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-            order.setDataAreaID("AHEL");
+            order.setDataAreaID(dataAreaId);
             order.setStoreID(storeId);
             order.setTerminalID(terminalId);
             order.setTransactionID(selectedOmsHeader.getRefno());
@@ -76,7 +76,8 @@ public class CaptureManagerController {
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
-            if (storeId.equalsIgnoreCase("16001")) {
+            //storeId.equalsIgnoreCase("16001") &&
+            if (eposUrl.equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";

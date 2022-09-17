@@ -76,7 +76,7 @@ public class OnHoldAdapter extends RecyclerView.Adapter<OnHoldAdapter.ViewHolder
                 } else {
                     filteredList.clear();
                     for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getRefno().contains(charString) || row.getOverallOrderStatus().contains(charSequence))) {
+                        if (!filteredList.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
                             filteredList.add(row);
                         }
 

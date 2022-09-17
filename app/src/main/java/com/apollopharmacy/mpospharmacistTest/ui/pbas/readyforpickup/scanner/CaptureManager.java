@@ -110,7 +110,7 @@ public class CaptureManager implements CallbackCaptureManager {
 
                 if (!sameBarcode) {
 
-                    new CaptureManagerController(activity, CaptureManager.this).mposPickPackOrderReservationApiCall(1, ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos), ReadyForPickUpActivity.userName, ReadyForPickUpActivity.storeId, ReadyForPickUpActivity.terminalId, ReadyForPickUpActivity.eposUrl, result.toString());
+                    new CaptureManagerController(activity, CaptureManager.this).mposPickPackOrderReservationApiCall(1, ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos), ReadyForPickUpActivity.userName, ReadyForPickUpActivity.storeId, ReadyForPickUpActivity.terminalId, ReadyForPickUpActivity.eposUrl, result.toString(), ReadyForPickUpActivity.dataAreaId);
 
 //                    barcodeList.add(result.toString());
 //                    ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());

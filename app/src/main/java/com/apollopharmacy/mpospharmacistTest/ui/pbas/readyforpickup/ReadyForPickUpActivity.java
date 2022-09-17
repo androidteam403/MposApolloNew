@@ -63,6 +63,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     public static String storeId;
     public static String terminalId;
     public static String eposUrl;
+    public static String dataAreaId;
 
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
     public IntentResult Result;
@@ -116,6 +117,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         storeId = mPresenter.storeId();
         terminalId = mPresenter.terminalId();
         eposUrl = mPresenter.eposUrl();
+        dataAreaId = mPresenter.dataAreaId();
 
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);

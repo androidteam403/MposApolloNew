@@ -115,7 +115,8 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
 
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
-            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";

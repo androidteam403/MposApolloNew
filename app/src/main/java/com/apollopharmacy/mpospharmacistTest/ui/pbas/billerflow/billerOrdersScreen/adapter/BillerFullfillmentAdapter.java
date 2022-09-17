@@ -127,7 +127,7 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
                     } else {
                         filteredList.clear();
                         for (OMSTransactionHeaderResModel.OMSHeaderObj row : omsHeaderList) {
-                            if (!filteredList.contains(row) && (row.getREFNO().contains(charString) || row.getOverallOrderStatus().contains(charSequence))) {
+                            if (!filteredList.contains(row) && (row.getREFNO().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
                                 filteredList.add(row);
                             }
 
