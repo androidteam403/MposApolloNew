@@ -128,6 +128,9 @@
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Search by Fulfilment ID, Box ID"
                     android:padding="@dimen/five_dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />

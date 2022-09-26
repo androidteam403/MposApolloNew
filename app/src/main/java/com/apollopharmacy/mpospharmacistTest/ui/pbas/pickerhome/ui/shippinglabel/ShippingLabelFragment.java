@@ -150,6 +150,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //                    i--;
 //                }
 //            }
+
+
             shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
             RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);

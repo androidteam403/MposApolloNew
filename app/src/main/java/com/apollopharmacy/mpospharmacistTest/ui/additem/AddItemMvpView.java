@@ -255,4 +255,6 @@ public interface AddItemMvpView extends MvpView {
     String getOnlineTransactionId();
 
     CalculatePosTransactionRes getUnPostedTransactionResponseBody();
+
+    Boolean isCameFromOrderDetailsScreenActivity();
 }

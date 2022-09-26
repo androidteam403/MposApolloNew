@@ -66,6 +66,11 @@
         <variable
             name="isCameFromVersionTwo"
             type="Boolean" />
+
+        <variable
+            name="isOMSOrder"
+            type="Boolean" />
+
     </data>
 
     <LinearLayout
@@ -1001,7 +1006,7 @@
                                             android:background="@{paymentMode.isWalletMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickWalletPayment()}"
                                             android:orientation="vertical"
-                                            android:visibility="gone">
+                                            android:visibility="@{globalConfiguration.ISHBPStore || isOMSOrder ? View.GONE : View.VISIBLE}">
                                             <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
                                             <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
 
@@ -1031,7 +1036,7 @@
                                             android:background="@{paymentMode.isPhonePeQrCodeMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
                                             android:orientation="vertical"
-                                            android:visibility="gone">
+                                            android:visibility="@{globalConfiguration.ISHBPStore || isOMSOrder ? View.GONE : View.VISIBLE}">
                                             <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
                                             <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
                                             <ImageView

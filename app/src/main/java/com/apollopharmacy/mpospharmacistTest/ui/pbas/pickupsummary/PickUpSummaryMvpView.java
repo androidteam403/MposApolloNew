@@ -17,6 +17,7 @@ public interface PickUpSummaryMvpView extends MvpView {
     List<List<RackAdapter.RackBoxModel.ProductData>> productList();
 
     String fullCount(String fullCount);
+
     void onClickPrint();
 
 
@@ -42,5 +43,5 @@ public interface PickUpSummaryMvpView extends MvpView {
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
-
+    void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
 }

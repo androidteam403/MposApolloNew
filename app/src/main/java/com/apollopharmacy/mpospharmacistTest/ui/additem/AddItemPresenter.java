@@ -267,7 +267,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         onClickCashPaymentPay();
                                     }
                                 }
-                            }else {
+                            } else {
                                 generateOtp(getMvpView().getCustomerModule().getMobileNo());
 //                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
 //                                if (getMvpView().getCustomerModule().isCardPayment()) {
@@ -1389,7 +1389,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             if (tenderLineEntities.getTenderLine().size() > 0) {
                 tenderLineEntities.getTenderLine().clear();
             }
-            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(getMvpView().getCalculatedPosTransactionRes());
+
+            CalculatePosTransactionRes calculatePosTransactionRes = getMvpView().getCalculatedPosTransactionRes();
+            if (getMvpView().isCameFromOrderDetailsScreenActivity()) {
+                calculatePosTransactionRes.setIsMPOSBill(2);
+            }
+
+            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(calculatePosTransactionRes);//getMvpView().getCalculatedPosTransactionRes()
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
@@ -1425,7 +1431,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(getMvpView().getCalculatedPosTransactionRes());
+
+            CalculatePosTransactionRes calculatePosTransactionRes = getMvpView().getCalculatedPosTransactionRes();
+            if (getMvpView().isCameFromOrderDetailsScreenActivity()) {
+                calculatePosTransactionRes.setIsMPOSBill(2);
+            }
+
+            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(calculatePosTransactionRes);//getMvpView().getCalculatedPosTransactionRes()
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
@@ -3274,7 +3286,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()) {
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }
@@ -3322,7 +3334,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()) {
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }

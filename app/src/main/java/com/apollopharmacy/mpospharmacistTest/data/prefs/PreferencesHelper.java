@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.data.prefs;
 
 import com.apollopharmacy.mpospharmacistTest.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -138,5 +139,9 @@ public interface PreferencesHelper {
     void setLabelSize(String labelSize);
 
     String getLabelSize();
+
+    void setTenderTypeResultEntity(GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity);
+
+    GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity();
 
 }

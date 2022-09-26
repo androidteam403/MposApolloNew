@@ -35,9 +35,11 @@
                 android:background="@drawable/ic_rectangular_shape"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/label_search_by_fulfilment_id_box_id"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:padding="@dimen/five_dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/twelve_sp" />

@@ -159,7 +159,8 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                         order.setOverallOrderStatus("3");
                     }
                     if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3"))
-                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3")
+                            || requestType == 10)
                         ordersList.add(order);
                 }
             }

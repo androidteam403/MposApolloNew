@@ -489,6 +489,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getBooleanExtra("is_omsorder", false);
+
+            addItemBinding.setIsOMSOrder(is_omsorder);
+
             boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
             boolean isCameFromEprescriptionMedicineDetailsActivity = (boolean) getIntent().getBooleanExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", false);
             if (isCameFromEprescriptionMedicineDetailsActivity) {
@@ -1003,11 +1006,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         calculatePosTransactionRes.setDoctorName(salesCode);
         calculatePosTransactionRes.setMobileNO(customerEntity.getMobileNo());
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
-        if (isCameFromOrderDetailsScreenActivity) {
-            calculatePosTransactionRes.setIsMPOSBill(2);
-        } else {
-            calculatePosTransactionRes.setIsMPOSBill(1);
-        }
+//        if (isCameFromOrderDetailsScreenActivity) {
+//            calculatePosTransactionRes.setIsMPOSBill(2);
+//        } else {
+        calculatePosTransactionRes.setIsMPOSBill(1);
+//        }
         return calculatePosTransactionRes;
     }
 
@@ -2737,6 +2740,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public CalculatePosTransactionRes getUnPostedTransactionResponseBody() {
         return unPostedTransactionResponseBody;
+    }
+
+    @Override
+    public Boolean isCameFromOrderDetailsScreenActivity() {
+        return isCameFromOrderDetailsScreenActivity;
     }
 
     private void noStockAlertDialog() {

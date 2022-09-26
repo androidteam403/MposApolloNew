@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickUpSummaryPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerPBinding;
@@ -548,6 +549,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
         if (requestType == 2) {
@@ -559,7 +561,46 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         } else if (requestType == 5) {
             if (mposPickPackOrderReservationResponse != null)
                 gotoOpenOrder("SUCCESS");
+        } else if (requestType == 10) {
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && mposPickPackOrderReservationResponse != null) {
+                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                    if (selectedOmsHeaderList.get(i).getRefno().equalsIgnoreCase(mposPickPackOrderReservationResponse.getOrderList().get(0).getTransactionID())) {
+                        selectedOmsHeaderList.remove(i);
+                        i--;
+                    }
+                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                selectedOmsHeaderList.removeIf(omsHeader -> omsHeader.getRefno().equalsIgnoreCase(mposPickPackOrderReservationResponse.getOrderList().get(0).getTransactionID()));
+                if (selectedOmsHeaderList.size() > 0) {
+                    summaryFullfillmentAdapter.notifyDataSetChanged();
+                } else {
+                    summaryFullfillmentAdapter.notifyDataSetChanged();
+                    gotoOpenOrder("FAILED");
+                }
+
+//                }
+            }
         }
+    }
+
+    @Override
+    public void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader) {
+        List<TransactionHeaderResponse.OMSHeader> omsHeadersListOnHold = new ArrayList<>();
+        omsHeadersListOnHold.add(omsHeader);
+        Dialog dialog = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialogCancelBinding.wraningIcon.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+        dialogCancelBinding.wraningIcon.setVisibility(View.VISIBLE);
+        dialogCancelBinding.dialogMessage.setText("Do you want to on hold the order?");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            mPresenter.mposPickPackOrderReservationApiCall(10, omsHeadersListOnHold);
+            dialog.dismiss();
+        });
     }
 
     private void gotoOpenOrder(String status) {
