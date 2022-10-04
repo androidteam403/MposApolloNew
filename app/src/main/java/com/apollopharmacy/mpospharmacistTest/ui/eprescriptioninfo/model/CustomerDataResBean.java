@@ -9,8 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDataResBean  implements Serializable
-{
+public class CustomerDataResBean implements Serializable {
 
     @Expose
     @SerializedName("VendorId")
@@ -21,9 +20,57 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("Type")
     private double Type;
+
+    @SerializedName("IsTPASeller")
+    @Expose
+    private Boolean isTPASeller;
+    @SerializedName("RiderCode")
+    @Expose
+    private String riderCode;
+
+    public String getRiderCode() {
+        return riderCode;
+    }
+
+    public void setRiderCode(String riderCode) {
+        this.riderCode = riderCode;
+    }
+
+    public String getRiderMobile() {
+        return riderMobile;
+    }
+
+    public void setRiderMobile(String riderMobile) {
+        this.riderMobile = riderMobile;
+    }
+
+    @SerializedName("RiderMobile")
+    @Expose
+    private String riderMobile;
+
+    public Boolean getTPASeller() {
+        return isTPASeller;
+    }
+
+    public void setTPASeller(Boolean TPASeller) {
+        isTPASeller = TPASeller;
+    }
+
     @Expose
     @SerializedName("TransactionId")
     private String TransactionId;
+    @SerializedName("IsBulkDiscount")
+    @Expose
+    private Boolean isBulkDiscount;
+
+    public Boolean getBulkDiscount() {
+        return isBulkDiscount;
+    }
+
+    public void setBulkDiscount(Boolean bulkDiscount) {
+        isBulkDiscount = bulkDiscount;
+    }
+
     @Expose
     @SerializedName("TransType")
     private double TransType;
@@ -54,6 +101,19 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("Tier")
     private String Tier;
+
+    @SerializedName("IsHDOrder")
+    @Expose
+    private Boolean isHDOrder;
+
+    public Boolean getHDOrder() {
+        return isHDOrder;
+    }
+
+    public void setHDOrder(Boolean HDOrder) {
+        isHDOrder = HDOrder;
+    }
+
     @Expose
     @SerializedName("Terminal")
     private String Terminal;
@@ -115,6 +175,42 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("ReturnMessage")
     private String ReturnMessage;
+    @SerializedName("ReturnRequestId")
+    @Expose
+    private String returnRequestId;
+
+    @SerializedName("IsOMSJurnalsScreen")
+    @Expose
+    private Boolean isOMSJurnalsScreen;
+
+    @SerializedName("ISOMSReturn")
+    @Expose
+    private Boolean iSOMSReturn;
+
+    public Boolean getiSOMSReturn() {
+        return iSOMSReturn;
+    }
+
+    public void setiSOMSReturn(Boolean iSOMSReturn) {
+        this.iSOMSReturn = iSOMSReturn;
+    }
+
+    public Boolean getOMSJurnalsScreen() {
+        return isOMSJurnalsScreen;
+    }
+
+    public void setOMSJurnalsScreen(Boolean OMSJurnalsScreen) {
+        isOMSJurnalsScreen = OMSJurnalsScreen;
+    }
+
+    public String getReturnRequestId() {
+        return returnRequestId;
+    }
+
+    public void setReturnRequestId(String returnRequestId) {
+        this.returnRequestId = returnRequestId;
+    }
+
     @Expose
     @SerializedName("RequestStatus")
     private double RequestStatus;
@@ -146,6 +242,7 @@ public class CustomerDataResBean  implements Serializable
     @SerializedName("PickPackReservation")
     @Expose
     private List<PickPackReservation> pickPackReservation = null;
+
     public List<PickPackReservation> getPickPackReservation() {
         return pickPackReservation;
     }
@@ -242,6 +339,18 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("ISBatchModifiedAllowed")
     private boolean ISBatchModifiedAllowed;
+
+    public Integer getDonationAmount() {
+        return donationAmount;
+    }
+
+    public void setDonationAmount(Integer donationAmount) {
+        this.donationAmount = donationAmount;
+    }
+
+    @SerializedName("DonationAmount")
+    @Expose
+    private Integer donationAmount;
     @Expose
     @SerializedName("ISAdvancePayment")
     private boolean ISAdvancePayment;
@@ -293,6 +402,52 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("DSPCode")
     private String DSPCode;
+    @SerializedName("RevReturnOtp")
+    @Expose
+    private String revReturnOtp;
+    @SerializedName("PickupOtp")
+    @Expose
+    private String pickupOtp;
+
+    @SerializedName("PickupStatus")
+    @Expose
+    private Boolean pickupStatus;
+
+    public Boolean getPickupStatus() {
+        return pickupStatus;
+    }
+
+    public void setPickupStatus(Boolean pickupStatus) {
+        this.pickupStatus = pickupStatus;
+    }
+
+    public String getPickupOtp() {
+        return pickupOtp;
+    }
+
+    public void setPickupOtp(String pickupOtp) {
+        this.pickupOtp = pickupOtp;
+    }
+
+    public String getRevReturnOtp() {
+        return revReturnOtp;
+    }
+
+    public void setRevReturnOtp(String revReturnOtp) {
+        this.revReturnOtp = revReturnOtp;
+    }
+
+    public String getDspName() {
+        return dspName;
+    }
+
+    public void setDspName(String dspName) {
+        this.dspName = dspName;
+    }
+
+    @SerializedName("DspName")
+    @Expose
+    private String dspName;
     @Expose
     @SerializedName("DOB")
     private String DOB;
@@ -347,6 +502,18 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("BillingCity")
     private String BillingCity;
+
+    public String getFwdReturnOtp() {
+        return fwdReturnOtp;
+    }
+
+    public void setFwdReturnOtp(String fwdReturnOtp) {
+        this.fwdReturnOtp = fwdReturnOtp;
+    }
+
+    @SerializedName("FwdReturnOtp")
+    @Expose
+    private String fwdReturnOtp;
     @Expose
     @SerializedName("BatchTerminalid")
     private String BatchTerminalid;
@@ -362,9 +529,44 @@ public class CustomerDataResBean  implements Serializable
     @Expose
     @SerializedName("AgeGroup")
     private String AgeGroup;
+
+    public Boolean getrTOStatus() {
+        return rTOStatus;
+    }
+
+    public void setrTOStatus(Boolean rTOStatus) {
+        this.rTOStatus = rTOStatus;
+    }
+
+    @SerializedName("RTOStatus")
+    @Expose
+    private Boolean rTOStatus;
     @Expose
     @SerializedName("AWBNo")
     private String AWBNo;
+    @Expose
+    @SerializedName("IsMPOSBill")
+    private int IsMPOSBill;
+
+    public int getIsMPOSBill() {
+        return IsMPOSBill;
+    }
+
+    public void setIsMPOSBill(int isMPOSBill) {
+        IsMPOSBill = isMPOSBill;
+    }
+
+    @Expose
+    @SerializedName("IsPickPackOrder")
+    private Boolean isPickPackOrder;
+
+    public Boolean getIsPickPackOrder() {
+        return isPickPackOrder;
+    }
+
+    public void setIsPickPackOrder(Boolean isPickPackOrder) {
+        this.isPickPackOrder = isPickPackOrder;
+    }
 
     public String getVendorId() {
         return VendorId;
@@ -394,8 +596,7 @@ public class CustomerDataResBean  implements Serializable
         return TrackingRef;
     }
 
-    public double getTotalTaxAmount()
-    {
+    public double getTotalTaxAmount() {
         return TotalTaxAmount;
     }
 
@@ -427,9 +628,8 @@ public class CustomerDataResBean  implements Serializable
         return Terminal;
     }
 
-    public void setTerminal(String terminal)
-    {
-        this.Terminal=terminal;
+    public void setTerminal(String terminal) {
+        this.Terminal = terminal;
     }
 
     public List<String> getTenderLine() {
@@ -459,6 +659,7 @@ public class CustomerDataResBean  implements Serializable
     public String getShippingMethod() {
         return ShippingMethod;
     }
+
     public String getShippingMethodDesc() {
         return ShippingMethodDesc;
     }
@@ -475,14 +676,12 @@ public class CustomerDataResBean  implements Serializable
         return SalesLine;
     }
 
-    public void setgetSalesLine(ArrayList<SalesLineEntity> SalesLine1)
-    {
-        this.SalesLine=SalesLine1;
+    public void setgetSalesLine(ArrayList<SalesLineEntity> SalesLine1) {
+        this.SalesLine = SalesLine1;
     }
 
-    public void setSalesLine(ArrayList<SalesLineEntity> salesLine)
-    {
-        this.SalesLine=salesLine;
+    public void setSalesLine(ArrayList<SalesLineEntity> salesLine) {
+        this.SalesLine = salesLine;
     }
 
     public double getSEZ() {
@@ -541,9 +740,8 @@ public class CustomerDataResBean  implements Serializable
         return REFNO;
     }
 
-    public  void setREFNO(String refno)
-    {
-        this.REFNO=refno;
+    public void setREFNO(String refno) {
+        this.REFNO = refno;
     }
 
     public double getPosEvent() {
@@ -770,6 +968,458 @@ public class CustomerDataResBean  implements Serializable
         return CustAddress;
     }
 
+    public void setVendorId(String vendorId) {
+        VendorId = vendorId;
+    }
+
+    public void setVendorCode(String vendorCode) {
+        VendorCode = vendorCode;
+    }
+
+    public void setType(double type) {
+        Type = type;
+    }
+
+    public void setTransactionId(String transactionId) {
+        TransactionId = transactionId;
+    }
+
+    public void setTransType(double transType) {
+        TransType = transType;
+    }
+
+    public void setTransDate(String transDate) {
+        TransDate = transDate;
+    }
+
+    public void setTrackingRef(String trackingRef) {
+        TrackingRef = trackingRef;
+    }
+
+    public void setTotalTaxAmount(double totalTaxAmount) {
+        TotalTaxAmount = totalTaxAmount;
+    }
+
+    public void setTotalManualDiscountPercentage(double totalManualDiscountPercentage) {
+        TotalManualDiscountPercentage = totalManualDiscountPercentage;
+    }
+
+    public void setTotalManualDiscountAmount(double totalManualDiscountAmount) {
+        TotalManualDiscountAmount = totalManualDiscountAmount;
+    }
+
+    public void setTotalMRP(double totalMRP) {
+        TotalMRP = totalMRP;
+    }
+
+    public void setTotalDiscAmount(double totalDiscAmount) {
+        TotalDiscAmount = totalDiscAmount;
+    }
+
+    public void setTimewhenTransClosed(double timewhenTransClosed) {
+        TimewhenTransClosed = timewhenTransClosed;
+    }
+
+    public void setTier(String tier) {
+        Tier = tier;
+    }
+
+    public void setTenderLine(List<String> tenderLine) {
+        TenderLine = tenderLine;
+    }
+
+    public void setStoreName(String storeName) {
+        StoreName = storeName;
+    }
+
+    public void setStore(String store) {
+        Store = store;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        StockStatus = stockStatus;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public void setStaff(String staff) {
+        Staff = staff;
+    }
+
+    public void setShippingMethod(String shippingMethod) {
+        ShippingMethod = shippingMethod;
+    }
+
+    public void setShippingMethodDesc(String shippingMethodDesc) {
+        ShippingMethodDesc = shippingMethodDesc;
+    }
+
+    public void setShippingCharges(double shippingCharges) {
+        ShippingCharges = shippingCharges;
+    }
+
+    public void setSalesOrigin(String salesOrigin) {
+        SalesOrigin = salesOrigin;
+    }
+
+    public void setSEZ(double SEZ) {
+        this.SEZ = SEZ;
+    }
+
+    public void setRoundedAmount(double roundedAmount) {
+        RoundedAmount = roundedAmount;
+    }
+
+    public void setReturnType(double returnType) {
+        ReturnType = returnType;
+    }
+
+    public void setReturnTransactionId(String returnTransactionId) {
+        ReturnTransactionId = returnTransactionId;
+    }
+
+    public void setReturnTerminal(String returnTerminal) {
+        ReturnTerminal = returnTerminal;
+    }
+
+    public void setReturnStore(String returnStore) {
+        ReturnStore = returnStore;
+    }
+
+    public void setReturnReceiptId(String returnReceiptId) {
+        ReturnReceiptId = returnReceiptId;
+    }
+
+    public void setReturnMessage(String returnMessage) {
+        ReturnMessage = returnMessage;
+    }
+
+    public void setRequestStatus(double requestStatus) {
+        RequestStatus = requestStatus;
+    }
+
+    public void setReminderDays(double reminderDays) {
+        ReminderDays = reminderDays;
+    }
+
+    public void setRemainingamount(double remainingamount) {
+        Remainingamount = remainingamount;
+    }
+
+    public void setRegionCode(String regionCode) {
+        RegionCode = regionCode;
+    }
+
+    public void setReciptId(String reciptId) {
+        ReciptId = reciptId;
+    }
+
+    public void setPosEvent(double posEvent) {
+        PosEvent = posEvent;
+    }
+
+    public void setPincode(String pincode) {
+        Pincode = pincode;
+    }
+
+    public void setPaymentSource(String paymentSource) {
+        PaymentSource = paymentSource;
+    }
+
+    public void setPatientID(String patientID) {
+        PatientID = patientID;
+    }
+
+    public void setOrderType(String orderType) {
+        OrderType = orderType;
+    }
+
+    public void setOrderSource(String orderSource) {
+        OrderSource = orderSource;
+    }
+
+    public void setOrderPrescriptionURL(ArrayList<OrderPrescriptionObj> orderPrescriptionURL) {
+        OrderPrescriptionURL = orderPrescriptionURL;
+    }
+
+    public void setOMSCreditAmount(double OMSCreditAmount) {
+        this.OMSCreditAmount = OMSCreditAmount;
+    }
+
+    public void setNumberofItems(double numberofItems) {
+        NumberofItems = numberofItems;
+    }
+
+    public void setNumberofItemLines(double numberofItemLines) {
+        NumberofItemLines = numberofItemLines;
+    }
+
+    public void setNetAmountInclTax(double netAmountInclTax) {
+        NetAmountInclTax = netAmountInclTax;
+    }
+
+    public void setNetAmount(double netAmount) {
+        NetAmount = netAmount;
+    }
+
+    public void setMobileNO(String mobileNO) {
+        MobileNO = mobileNO;
+    }
+
+    public boolean isVoid() {
+        return IsVoid;
+    }
+
+    public void setVoid(boolean aVoid) {
+        IsVoid = aVoid;
+    }
+
+    public void setUHIDBilling(boolean UHIDBilling) {
+        IsUHIDBilling = UHIDBilling;
+    }
+
+    public void setStockCheck(boolean stockCheck) {
+        IsStockCheck = stockCheck;
+    }
+
+    public void setReturn(boolean aReturn) {
+        IsReturn = aReturn;
+    }
+
+    public void setRepeatBill(boolean repeatBill) {
+        IsRepeatBill = repeatBill;
+    }
+
+    public void setManualBill(boolean manualBill) {
+        IsManualBill = manualBill;
+    }
+
+    public void setISReturnAllowed(boolean ISReturnAllowed) {
+        this.ISReturnAllowed = ISReturnAllowed;
+    }
+
+    public void setISReserved(boolean ISReserved) {
+        this.ISReserved = ISReserved;
+    }
+
+    public void setISPrescibeDiscount(boolean ISPrescibeDiscount) {
+        this.ISPrescibeDiscount = ISPrescibeDiscount;
+    }
+
+    public void setISPosted(boolean ISPosted) {
+        this.ISPosted = ISPosted;
+    }
+
+    public void setISOnlineOrder(boolean ISOnlineOrder) {
+        this.ISOnlineOrder = ISOnlineOrder;
+    }
+
+    public void setISOMSValidate(boolean ISOMSValidate) {
+        this.ISOMSValidate = ISOMSValidate;
+    }
+
+    public void setISOMSOrder(boolean ISOMSOrder) {
+        this.ISOMSOrder = ISOMSOrder;
+    }
+
+    public void setISHyperLocalDelivery(boolean ISHyperLocalDelivery) {
+        this.ISHyperLocalDelivery = ISHyperLocalDelivery;
+    }
+
+    public void setISHyperDelivered(boolean ISHyperDelivered) {
+        this.ISHyperDelivered = ISHyperDelivered;
+    }
+
+    public void setISHBPStore(boolean ISHBPStore) {
+        this.ISHBPStore = ISHBPStore;
+    }
+
+    public void setISCancelled(boolean ISCancelled) {
+        this.ISCancelled = ISCancelled;
+    }
+
+    public void setISBulkBilling(boolean ISBulkBilling) {
+        this.ISBulkBilling = ISBulkBilling;
+    }
+
+    public void setISBatchModifiedAllowed(boolean ISBatchModifiedAllowed) {
+        this.ISBatchModifiedAllowed = ISBatchModifiedAllowed;
+    }
+
+    public void setISAdvancePayment(boolean ISAdvancePayment) {
+        this.ISAdvancePayment = ISAdvancePayment;
+    }
+
+    public void setIPSerialNO(String IPSerialNO) {
+        this.IPSerialNO = IPSerialNO;
+    }
+
+    public void setIPNO(String IPNO) {
+        this.IPNO = IPNO;
+    }
+
+    public void setHCOfferCode(String HCOfferCode) {
+        this.HCOfferCode = HCOfferCode;
+    }
+
+    public void setGrossAmount(double grossAmount) {
+        GrossAmount = grossAmount;
+    }
+
+    public void setGender(double gender) {
+        Gender = gender;
+    }
+
+    public void setExpiryDays(double expiryDays) {
+        ExpiryDays = expiryDays;
+    }
+
+    public void setEntryStatus(double entryStatus) {
+        EntryStatus = entryStatus;
+    }
+
+    public void setDoctorName(String doctorName) {
+        DoctorName = doctorName;
+    }
+
+    public void setDoctorCode(String doctorCode) {
+        DoctorCode = doctorCode;
+    }
+
+    public void setDiscountStatus(double discountStatus) {
+        DiscountStatus = discountStatus;
+    }
+
+    public void setDiscountReferenceID(String discountReferenceID) {
+        DiscountReferenceID = discountReferenceID;
+    }
+
+    public void setDiscountRef(String discountRef) {
+        DiscountRef = discountRef;
+    }
+
+    public void setDiscAmount(double discAmount) {
+        DiscAmount = discAmount;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        DeliveryDate = deliveryDate;
+    }
+
+    public void setDataAreaId(String dataAreaId) {
+        DataAreaId = dataAreaId;
+    }
+
+    public void setDSPCode(String DSPCode) {
+        this.DSPCode = DSPCode;
+    }
+
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
+    }
+
+    public void setCustomerType(String customerType) {
+        CustomerType = customerType;
+    }
+
+    public void setCustomerState(String customerState) {
+        CustomerState = customerState;
+    }
+
+    public void setCustomerName(String customerName) {
+        CustomerName = customerName;
+    }
+
+    public void setCustomerID(String customerID) {
+        CustomerID = customerID;
+    }
+
+    public void setCustDiscamount(double custDiscamount) {
+        CustDiscamount = custDiscamount;
+    }
+
+    public void setCustAddress(String custAddress) {
+        CustAddress = custAddress;
+    }
+
+    public void setCustAccount(String custAccount) {
+        CustAccount = custAccount;
+    }
+
+    public void setCurrency(String currency) {
+        Currency = currency;
+    }
+
+    @SerializedName("CurrentSalesLine")
+    @Expose
+    private Integer currentSalesLine;
+
+    public Integer getCurrentSalesLine() {
+        return currentSalesLine;
+    }
+
+    public void setCurrentSalesLine(Integer currentSalesLine) {
+        this.currentSalesLine = currentSalesLine;
+    }
+
+    public void setCreatedDateTime(String createdDateTime) {
+        CreatedDateTime = createdDateTime;
+    }
+
+    public void setCouponCode(String couponCode) {
+        CouponCode = couponCode;
+    }
+
+    public void setCorpCode(String corpCode) {
+        CorpCode = corpCode;
+    }
+
+    public void setComment(String comment) {
+        Comment = comment;
+    }
+
+    public void setChannel(String channel) {
+        Channel = channel;
+    }
+
+    public void setCancelReasonCode(String cancelReasonCode) {
+        CancelReasonCode = cancelReasonCode;
+    }
+
+    public void setBusinessDate(String businessDate) {
+        BusinessDate = businessDate;
+    }
+
+    public void setBillingCity(String billingCity) {
+        BillingCity = billingCity;
+    }
+
+    public void setBatchTerminalid(String batchTerminalid) {
+        BatchTerminalid = batchTerminalid;
+    }
+
+    public void setApprovedID(String approvedID) {
+        ApprovedID = approvedID;
+    }
+
+    public void setAmounttoAccount(double amounttoAccount) {
+        AmounttoAccount = amounttoAccount;
+    }
+
+    public void setAllowedTenderType(String allowedTenderType) {
+        AllowedTenderType = allowedTenderType;
+    }
+
+    public void setAgeGroup(String ageGroup) {
+        AgeGroup = ageGroup;
+    }
+
+    public void setAWBNo(String AWBNo) {
+        this.AWBNo = AWBNo;
+    }
+
     public String getCustAccount() {
         return CustAccount;
     }
@@ -782,9 +1432,8 @@ public class CustomerDataResBean  implements Serializable
         return CreatedonPosTerminal;
     }
 
-    public  void setCreatedonPosTerminal(String createdonPosTerminal)
-    {
-        this.CreatedonPosTerminal=createdonPosTerminal;
+    public void setCreatedonPosTerminal(String createdonPosTerminal) {
+        this.CreatedonPosTerminal = createdonPosTerminal;
     }
 
     public String getCreatedDateTime() {
@@ -1476,7 +2125,7 @@ public class CustomerDataResBean  implements Serializable
         }
     }*/
 
-    public static class OrderPrescriptionObj{
+    public static class OrderPrescriptionObj implements Serializable {
         @Expose
         @SerializedName("CATEGORYCODE")
         private String CATEGORYCODE;
@@ -1500,6 +2149,22 @@ public class CustomerDataResBean  implements Serializable
 
         public String getPRESCRIPTIONNO() {
             return PRESCRIPTIONNO;
+        }
+
+        public void setCATEGORYCODE(String CATEGORYCODE) {
+            this.CATEGORYCODE = CATEGORYCODE;
+        }
+
+        public void setPERSCRIPTIONURL(String PERSCRIPTIONURL) {
+            this.PERSCRIPTIONURL = PERSCRIPTIONURL;
+        }
+
+        public void setPRESCRIPTIONNO(String PRESCRIPTIONNO) {
+            this.PRESCRIPTIONNO = PRESCRIPTIONNO;
+        }
+
+        public void setType(String type) {
+            Type = type;
         }
 
         public String getType() {

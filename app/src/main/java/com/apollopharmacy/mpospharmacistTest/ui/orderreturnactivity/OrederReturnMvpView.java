@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 
 public interface OrederReturnMvpView extends MvpView {
 
@@ -29,6 +30,10 @@ public interface OrederReturnMvpView extends MvpView {
 
     void Feedbackfromdialog();
 
+    void onClickBillReprint();
 
+    void onSuccessBillPrintResponse(PdfModelResponse body);
+
+    void onFailureBillPrintResponse(PdfModelResponse body);
 
 }

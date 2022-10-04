@@ -58,6 +58,15 @@
         <variable
             name="corporate"
             type="com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel.DropdownValueBean" />
+
+        <variable
+            name="globalConfiguration"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes" />
+
+        <variable
+            name="isCameFromVersionTwo"
+            type="Boolean" />
+
     </data>
 
     <LinearLayout
@@ -276,14 +285,13 @@
                                     <Button
                                         android:layout_width="wrap_content"
                                         android:layout_height="@dimen/thirty_dp"
+                                        android:layout_marginLeft="@dimen/fifteen_dp"
+                                        android:background="@color/apollo_btn_color"
                                         android:contentDescription="@string/app_name"
                                         android:onClick="@{()->callback.circlePlanButtonEvent()}"
-                                        android:background="@color/apollo_btn_color"
                                         android:text="Circle Plan"
                                         android:textAllCaps="false"
-                                        android:visibility="gone"
-                                        android:layout_marginLeft="@dimen/fifteen_dp"
-                                        />
+                                        android:visibility="gone" />
                                     <!--<Button
                                         android:layout_width="@dimen/one_hundred_dp"
                                         android:layout_height="@dimen/thirty_dp"
@@ -445,43 +453,71 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
+
                                         <TextView
-                                            android:layout_width="0dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/ten_dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginStart="@dimen/dimen15dp"
                                             android:fontFamily="@font/price_regular"
-                                            android:textColor="@color/black"
                                             android:text="@{@string/label_disc_type(order_info.discType)}"
+                                            android:textColor="@color/black"
+
                                             android:textSize="@dimen/text_dimen_12" />
 
-                                        <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:fontFamily="@font/price_regular"
-                                            android:textColor="@color/black"
-                                            android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
-                                            android:textSize="@dimen/text_dimen_12" />
 
                                         <TextView
-                                            android:layout_width="0dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
+                                            android:layout_marginStart="@dimen/dimen25dp"
                                             android:fontFamily="@font/price_regular"
+                                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
                                             android:textColor="@color/black"
-                                            android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
+
                                             android:textSize="@dimen/text_dimen_12" />
 
-                                        <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:fontFamily="@font/price_regular"
-                                            android:textColor="@color/black"
-                                            android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
-                                            android:textSize="@dimen/text_dimen_12" />
+
                                     </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/dimen5dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/dimen15dp"
+                                            android:layout_weight="1"
+                                            android:fontFamily="@font/price_regular"
+                                            android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_dimen_12" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_weight="1"
+                                            android:ellipsize="end"
+                                            android:fontFamily="@font/price_regular"
+                                            android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_dimen_12" />
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_weight="1"
+                                            android:fontFamily="@font/price_regular"
+                                            android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_dimen_12" />
+
+
+                                    </LinearLayout>
+
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -489,26 +525,16 @@
                                         android:layout_marginBottom="@dimen/ten_dp"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/ten_dp"
-                                            android:layout_marginTop="@dimen/five_dp"
-                                            android:layout_weight="1"
-                                            android:ellipsize="end"
-                                            android:textColor="@color/black"
-                                            android:fontFamily="@font/price_regular"
-                                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
-                                            android:textSize="@dimen/text_dimen_12" />
 
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/dimen15dp"
                                             android:layout_marginTop="@dimen/five_dp"
                                             android:layout_weight="1"
                                             android:fontFamily="@font/price_regular"
-                                            android:textColor="@color/black"
                                             android:text="@{@string/label_MRP_Total_price(@string/price_format(order_info.MrpTotalAmount))}"
+                                            android:textColor="@color/black"
                                             android:textSize="@dimen/text_dimen_12" />
 
                                         <TextView
@@ -517,8 +543,8 @@
                                             android:layout_marginTop="@dimen/five_dp"
                                             android:layout_weight="1"
                                             android:fontFamily="@font/price_regular"
-                                            android:textColor="@color/black"
                                             android:text="@{@string/label_Taxable_Amt_price(@string/price_format(order_info.TaxableTotalAmount))}"
+                                            android:textColor="@color/black"
                                             android:textSize="@dimen/text_dimen_12" />
 
                                         <TextView
@@ -526,11 +552,13 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/five_dp"
                                             android:layout_weight="1"
-                                            android:textColor="@color/black"
                                             android:fontFamily="@font/price_regular"
                                             android:text="@{@string/label_Disc_Amt_price(@string/price_format(order_info.taxAmount))}"
+                                            android:textColor="@color/black"
                                             android:textSize="@dimen/text_dimen_12" />
                                     </LinearLayout>
+
+
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -752,17 +780,15 @@
                                     android:textColor="@color/payment_type_header" />
 
                                 <HorizontalScrollView
+                                    android:id="@+id/horizontalScrollView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:nestedScrollingEnabled="false"
                                     android:fillViewport="true"
-                                    android:id="@+id/horizontalScrollView">
+                                    android:nestedScrollingEnabled="false">
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:gravity="center"
                                         android:orientation="horizontal">
 
                                         <LinearLayout
@@ -793,9 +819,6 @@
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
 
-
-
-
                                         <LinearLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -824,6 +847,35 @@
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
 
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/eight_dp"
+                                            android:layout_marginEnd="@dimen/eight_dp"
+                                            android:background="@{paymentMode.isHdfcPayMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                            android:onClick="@{()-> callback.onClickHdfcPay()}"
+                                            android:orientation="vertical"
+                                            android:visibility="@{paymentMode.enableHdfcPayBtn ? View.VISIBLE : View.GONE}">
+
+
+                                            <ImageView
+                                                android:layout_width="@dimen/thirty_dp"
+                                                android:layout_height="@dimen/thirty_dp"
+                                                android:layout_gravity="center"
+                                                android:contentDescription="@string/app_name"
+                                                android:src="@drawable/ic_card_black"
+                                                android:tint="@color/white" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/three_dp"
+                                                android:fontFamily="@font/roboto_regular"
+                                                android:text="Hdfc Pay"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/text_dimen_13" />
+                                        </LinearLayout>
+
                                         <!--these changes made by Gopal on 09-01-2021-->
                                         <LinearLayout
                                             android:layout_width="wrap_content"
@@ -833,8 +885,8 @@
                                             android:background="@{paymentMode.isSmsPayMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickSmsPAyMode()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{paymentMode.enableSmsPayBtn ? View.VISIBLE : View.GONE}">
-
+                                            android:visibility="gone">
+                                            <!--                                            android:visibility="@{paymentMode.enableSmsPayBtn ? View.VISIBLE : View.GONE}"-->
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
                                                 android:layout_height="@dimen/thirty_dp"
@@ -876,11 +928,11 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="match_parent"
+                                                android:layout_gravity="center"
                                                 android:layout_marginTop="@dimen/three_dp"
                                                 android:fontFamily="@font/roboto_regular"
-                                                android:layout_gravity="center"
-                                                android:text="Vendor Pay"
                                                 android:gravity="center"
+                                                android:text="Vendor Pay"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_15" />
                                         </LinearLayout>
@@ -907,11 +959,11 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="match_parent"
+                                                android:layout_gravity="center"
                                                 android:layout_marginTop="@dimen/three_dp"
                                                 android:fontFamily="@font/roboto_regular"
-                                                android:layout_gravity="center"
-                                                android:text="COD"
                                                 android:gravity="center"
+                                                android:text="COD"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_15" />
                                         </LinearLayout>
@@ -953,7 +1005,11 @@
                                             android:background="@{paymentMode.isWalletMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
                                             android:onClick="@{()-> callback.onClickWalletPayment()}"
                                             android:orientation="vertical"
-                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}">
+                                            android:visibility="@{globalConfiguration.ISHBPStore || isOMSOrder ? View.GONE : View.VISIBLE}">
+
+                                            <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
+
+                                            <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
 
                                             <ImageView
                                                 android:layout_width="@dimen/thirty_dp"
@@ -969,6 +1025,36 @@
                                                 android:layout_marginTop="@dimen/three_dp"
                                                 android:fontFamily="@font/roboto_regular"
                                                 android:text="Wallet"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/text_dimen_13" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/eight_dp"
+                                            android:layout_marginEnd="@dimen/eight_dp"
+                                            android:background="@{paymentMode.isPhonePeQrCodeMode ? @drawable/bg_payment_progress : @drawable/bg_payment_pending}"
+                                            android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
+                                            android:orientation="vertical"
+                                            android:visibility="@{globalConfiguration.ISHBPStore || isOMSOrder ? View.GONE : View.VISIBLE}">
+                                            <!--                                            android:visibility="@{globalConfiguration.ISHBPStore ? View.GONE : View.VISIBLE}"-->
+
+                                            <!--                                            android:visibility="@{paymentMode.enableWalletBtn ? View.VISIBLE : View.GONE}"-->
+                                            <ImageView
+                                                android:layout_width="@dimen/thirty_dp"
+                                                android:layout_height="@dimen/thirty_dp"
+                                                android:layout_gravity="center"
+                                                android:contentDescription="@string/app_name"
+                                                android:src="@drawable/ic_wallet_black"
+                                                android:tint="@color/white" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/three_dp"
+                                                android:fontFamily="@font/roboto_regular"
+                                                android:text="QR Code Scan"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/text_dimen_13" />
                                         </LinearLayout>
@@ -1367,14 +1453,14 @@
                                         android:onClick="@{()-> callback.onSelectPhonePe()}"
                                         android:src="@drawable/ic_phonepe" />
 
-                                    <ImageView
-                                        android:id="@+id/PhonePeQrMode"
-                                        android:layout_width="@dimen/sixty_dp"
-                                        android:layout_height="@dimen/sixty_dp"
-                                        android:layout_centerVertical="true"
-                                        android:contentDescription="@string/app_name"
-                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"
-                                        android:src="@drawable/phonepeqrcodeimage" />
+                                    <!--                                    <ImageView-->
+                                    <!--                                        android:id="@+id/PhonePeQrMode"-->
+                                    <!--                                        android:layout_width="@dimen/sixty_dp"-->
+                                    <!--                                        android:layout_height="@dimen/sixty_dp"-->
+                                    <!--                                        android:layout_centerVertical="true"-->
+                                    <!--                                        android:contentDescription="@string/app_name"-->
+                                    <!--                                        android:onClick="@{()-> callback.onSelectPhonePeQrMode()}"-->
+                                    <!--                                        android:src="@drawable/phonepeqrcodeimage" />-->
 
                                     <ImageView
                                         android:layout_width="@dimen/sixty_dp"
@@ -1503,33 +1589,33 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/thirty_dp"
+                        android:layout_marginLeft="@dimen/twelve_dp"
+                        android:background="@color/apollo_btn_color"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()->callback.circlePlanButtonEvent()}"
-                        android:background="@color/apollo_btn_color"
                         android:text="Circle"
                         android:textAllCaps="false"
                         android:visibility="gone"
-                        android:layout_marginLeft="@dimen/twelve_dp"
 
                         />
 
-                   <!-- <Button
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="@dimen/thirty_dp"
-                        android:contentDescription="@string/app_name"
-                        android:onClick="@{()->callback.eprescriptionListButtonEvent()}"
-                        android:background="@color/apollo_btn_color"
-                        android:text="Eprescription"
-                        android:textAllCaps="false"
-                        android:layout_marginLeft="@dimen/twelve_dp"
-                        />-->
+                    <!-- <Button
+                         android:layout_width="@dimen/one_hundred_dp"
+                         android:layout_height="@dimen/thirty_dp"
+                         android:contentDescription="@string/app_name"
+                         android:onClick="@{()->callback.eprescriptionListButtonEvent()}"
+                         android:background="@color/apollo_btn_color"
+                         android:text="Eprescription"
+                         android:textAllCaps="false"
+                         android:layout_marginLeft="@dimen/twelve_dp"
+                         />-->
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/footer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
+                android:layout_height="@dimen/dimen100dp"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:visibility="@{isPaymentMode || product_count == 0 ? View.GONE : View.VISIBLE}"
@@ -1546,22 +1632,40 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:orientation="horizontal"
-                        android:weightSum="4">
+                        android:orientation="horizontal">
+
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_disc_type(order_info.discType)}"
                             android:textColor="@color/white"
+
                             android:textSize="@dimen/text_dimen_12" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen25dp"
+                            android:fontFamily="@font/price_regular"
+                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_pharma_price(@string/price_format(order_info.PharmaTotalAmount))}"
@@ -1571,6 +1675,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen5dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_FMCG_price(@string/price_format(order_info.FmcgTotalAmount))}"
@@ -1580,33 +1685,28 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_PL_price(@string/price_format(order_info.PlTotalAmount))}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_12" />
+
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/dimen5dp"
+
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/price_regular"
-                            android:text="@{@string/label_RoundedAmt_price(@string/price_format(order_info.RoundedAmount))}"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_12" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/price_regular"
                             android:text="@{@string/label_MRP_Total_price(@string/price_format(order_info.MrpTotalAmount))}"
@@ -1654,6 +1754,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen5dp"
                         android:fontFamily="@font/price_regular"
                         android:text="@{@string/label_savings_price(@string/price_format(order_info.discTotalAmount)) + ` (`+@string/price_format(order_info.OrderSavingsPercentage)+`%)`}"
                         android:textColor="@color/black"

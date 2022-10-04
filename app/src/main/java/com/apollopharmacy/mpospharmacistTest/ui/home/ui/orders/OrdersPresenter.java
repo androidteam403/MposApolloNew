@@ -60,7 +60,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
         orderListReq.setCardNo("");
         orderListReq.setCustomerAccount("");
         orderListReq.setCustomerName("");
-        orderListReq.setFromDate(CommonUtils.getCurrentDate("dd-MMM-yyyy")); // "13-Mar-2020"
+        orderListReq.setFromDate(CommonUtils.getDateSevenDaysEarlier("dd-MMM-yyyy")); // "13-Mar-2020"
         orderListReq.setHomeDelivery(false);
         orderListReq.setIPNumber("");
         orderListReq.setItemID("");

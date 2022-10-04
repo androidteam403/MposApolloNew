@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public  class SalesLineEntity extends BaseObservable implements Serializable {
+public class SalesLineEntity extends BaseObservable implements Serializable {
         @Expose
         @SerializedName("VariantId")
         private String VariantId;
@@ -56,6 +56,19 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
         @Expose
         @SerializedName("SubCategory")
         private String SubCategory;
+        @SerializedName("PriceVariation")
+        @Expose
+        private Boolean priceVariation;
+
+        public Boolean getPriceVariation() {
+                return priceVariation;
+        }
+
+        public void setPriceVariation(Boolean priceVariation) {
+                this.priceVariation = priceVariation;
+        }
+
+        private String PackerStatus;
         @Expose
         @SerializedName("StockQty")
         private double StockQty;
@@ -273,12 +286,37 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
         @SerializedName("Additionaltax")
         private double Additionaltax;
 
+        @SerializedName("QCPass")
+        @Expose
+        private Boolean qCPass;
+        @SerializedName("QCFail")
+        @Expose
+        private Boolean qCFail;
+        @SerializedName("QCStatus")
+        @Expose
+        private Integer qCStatus;
+        @SerializedName("QCDate")
+        @Expose
+        private String qCDate;
+        @SerializedName("QCRemarks")
+        @Expose
+        private String qCRemarks;
+        @SerializedName("AlternetItemID")
+        @Expose
+        private String alternetItemID;
 
 
         @Expose
         @SerializedName("RackId")
         private String RackId;
 
+        public String getPackerStatus() {
+                return PackerStatus;
+        }
+
+        public void setPackerStatus(String packerStatus) {
+                PackerStatus = packerStatus;
+        }
 
         private boolean Resqtyflag;
 
@@ -299,339 +337,399 @@ public  class SalesLineEntity extends BaseObservable implements Serializable {
         }
 
         public double getUnitQty() {
-            return UnitQty;
+                return UnitQty;
         }
 
+        public Boolean getqCPass() {
+                return qCPass;
+        }
+
+        public void setqCPass(Boolean qCPass) {
+                this.qCPass = qCPass;
+        }
+
+        public Boolean getqCFail() {
+                return qCFail;
+        }
+
+        public void setqCFail(Boolean qCFail) {
+                this.qCFail = qCFail;
+        }
+
+        public Integer getqCStatus() {
+                return qCStatus;
+        }
+
+        public void setqCStatus(Integer qCStatus) {
+                this.qCStatus = qCStatus;
+        }
+
+        public String getqCDate() {
+                return qCDate;
+        }
+
+        public void setqCDate(String qCDate) {
+                this.qCDate = qCDate;
+        }
+
+        public String getqCRemarks() {
+                return qCRemarks;
+        }
+
+        public void setqCRemarks(String qCRemarks) {
+                this.qCRemarks = qCRemarks;
+        }
+
+        public String getAlternetItemID() {
+                return alternetItemID;
+        }
+
+        public void setAlternetItemID(String alternetItemID) {
+                this.alternetItemID = alternetItemID;
+        }
+
+        public String getCancelReasonCode() {
+                return CancelReasonCode;
+        }
+
+        public void setCancelReasonCode(String cancelReasonCode) {
+                CancelReasonCode = cancelReasonCode;
+        }
+
+        @Expose
+        @SerializedName("CancelReasonCode")
+        private String CancelReasonCode;
+
         public double getUnitPrice() {
-            return UnitPrice;
+                return UnitPrice;
         }
 
         public String getUnit() {
-            return Unit;
+                return Unit;
         }
 
         public double getTotalTax() {
-            return TotalTax;
+                return TotalTax;
         }
 
         public double getTotalRoundedAmount() {
-            return TotalRoundedAmount;
+                return TotalRoundedAmount;
         }
 
         public double getTotalDiscPct() {
-            return TotalDiscPct;
+                return TotalDiscPct;
         }
 
         public double getTotalDiscAmount() {
-            return TotalDiscAmount;
+                return TotalDiscAmount;
         }
 
         public double getTotal() {
-            return Total;
+                return Total;
         }
 
         public double getTaxAmount() {
-            return TaxAmount;
+                return TaxAmount;
         }
 
         public double getTax() {
-            return Tax;
+                return Tax;
         }
 
         public String getSubstitudeItemId() {
-            return SubstitudeItemId;
+                return SubstitudeItemId;
         }
 
         public String getSubClassification() {
-            return SubClassification;
+                return SubClassification;
         }
 
         public String getSubCategoryCode() {
-            return SubCategoryCode;
+                return SubCategoryCode;
         }
 
         public String getSubCategory() {
-            return SubCategory;
+                return SubCategory;
         }
 
         public double getStockQty() {
-            return StockQty;
+                return StockQty;
         }
 
         public String getScheduleCategoryCode() {
-            return ScheduleCategoryCode;
+                return ScheduleCategoryCode;
         }
 
         public String getScheduleCategory() {
-            return ScheduleCategory;
+                return ScheduleCategory;
         }
 
         public String getSGSTTaxCode() {
-            return SGSTTaxCode;
+                return SGSTTaxCode;
         }
 
         public double getSGSTPerc() {
-            return SGSTPerc;
+                return SGSTPerc;
         }
 
         public double getReturnQty() {
-            return ReturnQty;
+                return ReturnQty;
         }
 
 
 
         public String getRetailSubCategoryRecID() {
-            return RetailSubCategoryRecID;
+                return RetailSubCategoryRecID;
         }
 
         public String getRetailMainCategoryRecID() {
-            return RetailMainCategoryRecID;
+                return RetailMainCategoryRecID;
         }
 
         public String getRetailCategoryRecID() {
-            return RetailCategoryRecID;
+                return RetailCategoryRecID;
         }
 
         public double getRemainingQty() {
-            return RemainingQty;
+                return RemainingQty;
         }
 
         public double getRemainderDays() {
-            return RemainderDays;
+                return RemainderDays;
         }
 
         public double getQty() {
-            return Qty;
+                return Qty;
         }
 
         public String getProductRecID() {
-            return ProductRecID;
+                return ProductRecID;
         }
 
         public double getPrice() {
-            return Price;
+                return Price;
         }
 
         public String getPreviewText() {
-            return PreviewText;
+                return PreviewText;
         }
 
         public double getPeriodicDiscAmount() {
-            return PeriodicDiscAmount;
+                return PeriodicDiscAmount;
         }
 
         public double getOriginalPrice() {
-            return OriginalPrice;
+                return OriginalPrice;
         }
 
         public double getOrderStatus() {
-            return OrderStatus;
+                return OrderStatus;
         }
 
         public double getOmsLineRECID() {
-            return OmsLineRECID;
+                return OmsLineRECID;
         }
 
         public double getOmsLineID() {
-            return OmsLineID;
+                return OmsLineID;
         }
 
         public double getOfferType() {
-            return OfferType;
+                return OfferType;
         }
 
         public double getOfferQty() {
-            return OfferQty;
+                return OfferQty;
         }
 
         public double getOfferDiscountValue() {
-            return OfferDiscountValue;
+                return OfferDiscountValue;
         }
 
         public double getOfferDiscountType() {
-            return OfferDiscountType;
+                return OfferDiscountType;
         }
 
         public double getOfferAmount() {
-            return OfferAmount;
+                return OfferAmount;
         }
 
         public double getNetAmountInclTax() {
-            return NetAmountInclTax;
+                return NetAmountInclTax;
         }
 
         public double getNetAmount() {
-            return NetAmount;
+                return NetAmount;
         }
 
         public String getModifyBatchId() {
-            return ModifyBatchId;
+                return ModifyBatchId;
         }
 
         public boolean getMixMode() {
-            return MixMode;
+                return MixMode;
         }
 
         public String getManufacturerName() {
-            return ManufacturerName;
+                return ManufacturerName;
         }
 
         public String getManufacturerCode() {
-            return ManufacturerCode;
+                return ManufacturerCode;
         }
 
         public double getMRP() {
-            return MRP;
+                return MRP;
         }
 
         public String getMMGroupId() {
-            return MMGroupId;
+                return MMGroupId;
         }
 
         public double getLinedscAmount() {
-            return LinedscAmount;
+                return LinedscAmount;
         }
 
         public int getLineNo() {
-            return LineNo;
+                return LineNo;
         }
 
         public double getLineManualDiscountPercentage() {
-            return LineManualDiscountPercentage;
+                return LineManualDiscountPercentage;
         }
 
         public double getLineManualDiscountAmount() {
-            return LineManualDiscountAmount;
+                return LineManualDiscountAmount;
         }
 
         public double getLineDiscPercentage() {
-            return LineDiscPercentage;
+                return LineDiscPercentage;
         }
 
         public String getItemName() {
-            return ItemName;
+                return ItemName;
         }
 
         public String getItemId() {
-            return ItemId;
+                return ItemId;
         }
 
         public boolean getIsSubsitute() {
-            return IsSubsitute;
+                return IsSubsitute;
         }
 
         public boolean getIsPriceOverride() {
-            return IsPriceOverride;
+                return IsPriceOverride;
         }
 
 
 
         public String getInventBatchId() {
-            return InventBatchId;
+                return InventBatchId;
         }
 
         public boolean getISStockAvailable() {
-            return ISStockAvailable;
+                return ISStockAvailable;
         }
 
         public boolean getISReserved() {
-            return ISReserved;
+                return ISReserved;
         }
 
         public double getISPrescribed() {
-            return ISPrescribed;
+                return ISPrescribed;
         }
 
         public String getIGSTTaxCode() {
-            return IGSTTaxCode;
+                return IGSTTaxCode;
         }
 
         public double getIGSTPerc() {
-            return IGSTPerc;
+                return IGSTPerc;
         }
 
         public String getHsncode_In() {
-            return Hsncode_In;
+                return Hsncode_In;
         }
 
         public String getExpiry() {
-            return Expiry;
+                return Expiry;
         }
 
         public String getDiseaseType() {
-            return DiseaseType;
+                return DiseaseType;
         }
 
         public String getDiscountType() {
-            return DiscountType;
+                return DiscountType;
         }
 
         public double getDiscountStructureType() {
-            return DiscountStructureType;
+                return DiscountStructureType;
         }
 
         public String getDiscOfferId() {
-            return DiscOfferId;
+                return DiscOfferId;
         }
 
         public String getDiscId() {
-            return DiscId;
+                return DiscId;
         }
 
         public double getDiscAmount() {
-            return DiscAmount;
+                return DiscAmount;
         }
 
         public boolean getDPCO() {
-            return DPCO;
+                return DPCO;
         }
 
         public String getComment() {
-            return Comment;
+                return Comment;
         }
 
         public String getCategoryReference() {
-            return CategoryReference;
+                return CategoryReference;
         }
 
         public String getCategoryCode() {
-            return CategoryCode;
+                return CategoryCode;
         }
 
         public String getCategory() {
-            return Category;
+                return Category;
         }
 
         public String getCGSTTaxCode() {
-            return CGSTTaxCode;
+                return CGSTTaxCode;
         }
 
         public double getCGSTPerc() {
-            return CGSTPerc;
+                return CGSTPerc;
         }
 
         public String getCESSTaxCode() {
-            return CESSTaxCode;
+                return CESSTaxCode;
         }
 
         public double getCESSPerc() {
-            return CESSPerc;
+                return CESSPerc;
         }
 
         public double getBaseAmount() {
-            return BaseAmount;
+                return BaseAmount;
         }
 
         public String getBarcode() {
-            return Barcode;
+                return Barcode;
         }
 
         public boolean getApplyDiscount() {
-            return ApplyDiscount;
+                return ApplyDiscount;
         }
 
         public double getAdditionaltax() {
-            return Additionaltax;
+                return Additionaltax;
         }
 
 

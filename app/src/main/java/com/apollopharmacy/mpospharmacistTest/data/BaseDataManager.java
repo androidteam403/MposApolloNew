@@ -13,11 +13,14 @@ import com.apollopharmacy.mpospharmacistTest.data.utils.LoggedInMode;
 import com.apollopharmacy.mpospharmacistTest.di.ApplicationContext;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 
 import java.util.List;
 
@@ -66,6 +69,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public GetGlobalConfingRes getGlobalJson() {
         return mPreferencesHelper.getGlobalJson();
+    }
+
+    @Override
+    public void storeHBPConfiRes(String json) {
+        mPreferencesHelper.storeHBPConfiRes(json);
+    }
+
+    @Override
+    public HBPConfigResponse getHBPConfigRes() {
+        return mPreferencesHelper.getHBPConfigRes();
     }
 
     @Override
@@ -337,5 +350,45 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<List<RackAdapter.RackBoxModel.ProductData>> getfullFillListOfListFiltered() {
         return mPreferencesHelper.getfullFillListOfListFiltered();
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPreferencesHelper.setTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList() {
+        return mPreferencesHelper.getTotalOmsHeaderList();
+    }
+
+    @Override
+    public void setTotalOmsTransactionHeaderObj(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList) {
+        mPreferencesHelper.setTotalOmsTransactionHeaderObj(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
+        return mPreferencesHelper.getTotalOmsHeaderListObj();
+    }
+
+    @Override
+    public void setLabelSize(String labelSize) {
+        mPreferencesHelper.setLabelSize(labelSize);
+    }
+
+    @Override
+    public String getLabelSize() {
+        return mPreferencesHelper.getLabelSize();
+    }
+
+    @Override
+    public void setTenderTypeResultEntity(GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity) {
+        mPreferencesHelper.setTenderTypeResultEntity(getTenderTypeResultEntity);
+    }
+
+    @Override
+    public GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity() {
+        return mPreferencesHelper.getTenderTypeResultEntity();
     }
 }
