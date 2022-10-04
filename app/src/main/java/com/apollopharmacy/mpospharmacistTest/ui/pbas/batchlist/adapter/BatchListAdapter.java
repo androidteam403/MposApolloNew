@@ -83,9 +83,26 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         }
 
-        holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));
+
+//        holder.adapterBatchlistBinding.requiredQuantity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));
+//                batchListMvpView.onClickNotify();
+//            }
+//        });
+        holder.adapterBatchlistBinding.requiredQuantity.setText((""));
+
+        if (batchListModelListl.get(position).getREQQTY()!=0){
+            holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModelListl.get(position).getREQQTY()));
+        }
+
+
+//        holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));
+
 
         holder.adapterBatchlistBinding.batchPickupStatus.setOnClickListener(v -> {
+
             if (holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString() != null && !holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().isEmpty()) {
                 if (holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().length() > 2) {
                     if (holder.adapterBatchlistBinding.requiredQuantity.getText().toString() != null && !holder.adapterBatchlistBinding.requiredQuantity.getText().toString().isEmpty()) {

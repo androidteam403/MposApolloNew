@@ -922,7 +922,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     } else {
                         RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                         boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
-                        boxIdModel.setOrderItemNo("B" + String.valueOf(i));
+                        boxIdModel.setOrderItemNo("B" + String.valueOf(i+1));
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getBoxIdList().add(boxIdModel);
 
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getGetOMSTransactionResponse().getSalesLine().add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
