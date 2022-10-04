@@ -1,11 +1,14 @@
 package com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -26,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentCustMasterBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.addcustomer.model.AddCustomerResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.addcustomer.model.SpinnerPojo;
@@ -625,7 +629,18 @@ public class CustomerMasterFragment extends BaseFragment implements CustomerMast
 
     @Override
     public void doBack() {
-        getActivity().finish();
-        stopLooping = true;
+        Dialog dialog = new Dialog(getContext());//R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialogCancelBinding.title.setText("Alert!");
+        dialogCancelBinding.dialogMessage.setText("Do you want to exit?");
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            getActivity().finish();
+            stopLooping = true;
+        });
+        dialog.show();
     }
 }

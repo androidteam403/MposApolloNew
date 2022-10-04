@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 7
-        versionName '1.6'
+        versionName '2.3'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"http://lms.apollopharmacy.org:51/EPOS/\"")
@@ -148,4 +148,9 @@ dependencies {
     implementation files('libs/libcommon.jar')
     implementation files('libs/BixolonLabelPrinterLibrary.jar')
     implementation project(path:':printflib')
+    implementation 'com.itextpdf:itext-pdfa:5.5.9'
+    implementation 'com.madgag:scpkix-jdk15on:1.47.0.1'
+    implementation 'com.itextpdf:itextpdf:5.0.6'
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
+   implementation 'com.itextpdf:itext7-core:7.1.8'
 }
