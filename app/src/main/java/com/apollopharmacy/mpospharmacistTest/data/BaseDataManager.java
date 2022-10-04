@@ -381,4 +381,14 @@ public class BaseDataManager implements DataManager {
     public String getLabelSize() {
         return mPreferencesHelper.getLabelSize();
     }
+
+    @Override
+    public void setTenderTypeResultEntity(GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity) {
+        mPreferencesHelper.setTenderTypeResultEntity(getTenderTypeResultEntity);
+    }
+
+    @Override
+    public GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity() {
+        return mPreferencesHelper.getTenderTypeResultEntity();
+    }
 }

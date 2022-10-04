@@ -603,5 +603,6 @@
     <string name="label_release_fulfilment_to_start_pickup_process">Release fulfilment to start pickup process</string>
     <string name="label_unhold">UnHold</string>
     <string name="lanel_admin">Admin</string>
+    <string name="label_bill_reprint">Bill Reprint</string>
 
 </resources>

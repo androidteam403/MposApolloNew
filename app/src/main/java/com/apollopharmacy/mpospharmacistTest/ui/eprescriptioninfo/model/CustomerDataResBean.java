@@ -544,6 +544,17 @@ public class CustomerDataResBean implements Serializable {
     @Expose
     @SerializedName("AWBNo")
     private String AWBNo;
+    @Expose
+    @SerializedName("IsMPOSBill")
+    private int IsMPOSBill;
+
+    public int getIsMPOSBill() {
+        return IsMPOSBill;
+    }
+
+    public void setIsMPOSBill(int isMPOSBill) {
+        IsMPOSBill = isMPOSBill;
+    }
 
     @Expose
     @SerializedName("IsPickPackOrder")

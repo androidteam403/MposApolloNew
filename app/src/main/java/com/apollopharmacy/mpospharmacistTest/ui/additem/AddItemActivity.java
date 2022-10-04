@@ -2162,7 +2162,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setOTPTransactionId("");
             wallet.setRequestURL("");
             wallet.setWalletRequestType(2);
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+            //Singletone.getInstance().tenderTypeResultEntity
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : mPresenter.getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(phonepay)) {
                     wallet.setWalletURL(tenderTypeEntity.getTenderURL());
                 }
@@ -2259,7 +2260,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setOTPTransactionId("");
             wallet.setRequestURL("");
             wallet.setWalletRequestType(2);
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : mPresenter.getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(phonepay)) {
                     wallet.setWalletURL(tenderTypeEntity.getTenderURL());
                 }

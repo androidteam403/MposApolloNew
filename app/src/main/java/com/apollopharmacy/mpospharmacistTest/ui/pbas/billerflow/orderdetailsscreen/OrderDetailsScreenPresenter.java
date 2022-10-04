@@ -138,6 +138,7 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
             getMvpView().showLoading();
             customerDataResBean.setTerminal(getDataManager().getTerminalId());
             customerDataResBean.setCreatedonPosTerminal(getDataManager().getTerminalId());
+            customerDataResBean.setIsMPOSBill(1);
             customerDataResBean.setIsPickPackOrder(true);
             String json = new Gson().toJson(customerDataResBean);
             System.out.println("LOAD OMS ORDER  " + json);
