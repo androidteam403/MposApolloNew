@@ -1197,7 +1197,15 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                         pdfTextView.setText(salesLine.getManufacturer()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
                     } else if (j == 7) {
                     } else if (j == 8) {
-                        pdfTextView.setText(salesLine.getBatchNo()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
+                        String batchNo = "";
+                        if (salesLine.getBatchNo().length() > 12) {
+                            batchNo = salesLine.getBatchNo().substring(0, salesLine.getBatchNo().indexOf(11));
+                            batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+                        } else {
+                            batchNo = salesLine.getBatchNo();
+                        }
+                        pdfTextView.setText(batchNo).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
+                        // pdfTextView.setText(salesLine.getBatchNo()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
                     } else if (j == 9) {
                     } else if (j == 10) {
                         if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
@@ -1252,46 +1260,86 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         pdfBody.addView(lineSeparatorView4);
 
         PDFHorizontalView taxbleView = new PDFHorizontalView(getApplicationContext());
-        double taxbleValue = Double.parseDouble(pdfModelResponse.getSalesLine().get(0).getTaxable());
+
+        double taxbleValue = 0.0;
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null
+                    && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty()) {
+                taxbleValue = taxbleValue + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable());
+
+            }
+        }
+
+        LinearLayout.LayoutParams verticalLayoutParam8 = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        verticalLayoutParam8.setMargins(0, 0, 0, 0);
+
+
+//        double taxbleValue = Double.parseDouble(pdfModelResponse.getSalesLine().get(0).getTaxable());
         PDFTextView taxableValue = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("TAXABLE VALUE: " + String.format("%.02f", taxbleValue)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue.setLayout(verticalLayoutParam1);
+        taxableValue.setLayout(verticalLayoutParam8);
         taxableValue.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView.addView(taxableValue);
         PDFTextView taxableValue1 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         double cgstAmount = 0.0;
         for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-            if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                    && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                    && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                    && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null
+                    && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty()
+
                     && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
                     && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
-                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+//                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
 
             }
+
+
+//            if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                    && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                    && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
+//                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+//
+//            }
         }
 
 
         taxableValue1.setText("CGstAMT : " + String.format("%.02f", cgstAmount)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue1.setLayout(verticalLayoutParam1);
+        taxableValue1.setLayout(verticalLayoutParam8);
         taxableValue1.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView.addView(taxableValue1);
         PDFTextView taxableValue2 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
         double sgstAmount = 0.0;
         for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-            if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                    && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                    && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                    && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null
+                    && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty()
                     && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
                     && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
-                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+
+
+//                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
 
             }
+
+//            if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                    && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                    && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
+//                    && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
+//                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+//
+//            }
         }
         taxableValue2.setText("SGstAmt: " + String.format("%.02f", sgstAmount)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue2.setLayout(verticalLayoutParam1);
+        taxableValue2.setLayout(verticalLayoutParam8);
         taxableValue2.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView.addView(taxableValue2);
         pdfBody.addView(taxbleView);
@@ -1302,14 +1350,14 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         double gross = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getTotal());
         PDFTextView taxableValue5 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Gross: " + String.format("%.02f", gross)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue5.setLayout(verticalLayoutParam1);
+        taxableValue5.setLayout(verticalLayoutParam8);
         taxableValue5.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue5);
 
         double discAmt = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getDiscount());
         PDFTextView taxableValue3 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("DisAmt :" + String.format("%.02f", discAmt)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue3.setLayout(verticalLayoutParam1);
+        taxableValue3.setLayout(verticalLayoutParam8);
         taxableValue3.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue3);
 
@@ -1317,14 +1365,14 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         double donation = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
         PDFTextView taxableValue4 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("Donation: " + String.format("%.02f", donation)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue4.setLayout(verticalLayoutParam1);
+        taxableValue4.setLayout(verticalLayoutParam8);
         taxableValue4.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue4);
 
         double netAmout = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal());
         PDFTextView taxableValue6 = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL)
                 .setText("NetAmt: " + String.format("%.02f", netAmout)).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
-        taxableValue6.setLayout(verticalLayoutParam1);
+        taxableValue6.setLayout(verticalLayoutParam8);
         taxableValue6.getView().setGravity(Gravity.CENTER_VERTICAL);
         taxbleView2.addView(taxableValue6);
         pdfBody.addView(taxbleView2);

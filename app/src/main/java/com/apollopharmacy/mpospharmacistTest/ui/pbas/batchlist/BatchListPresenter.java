@@ -32,6 +32,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(itemId.getItemId());
@@ -82,16 +83,17 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
-            inventoryReq.setDataAreaID("ahel");
+            inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
             inventoryReq.setInventBatchID(item.getBatchNo());
             inventoryReq.setItemID(String.valueOf(item.getBatchId()));
             inventoryReq.setRequestStatus(0);
             inventoryReq.setReturnMessage("");
             inventoryReq.setStock(item.getREQQTY());
-            inventoryReq.setStoreID("16001");
-            inventoryReq.setTerminalID("005");
+            inventoryReq.setStoreID(getDataManager().getStoreId());
+            inventoryReq.setTerminalID(getDataManager().getTerminalId());
 
             Call<CheckBatchInventoryRes> call = api.CHECK_BATCH_INVENTORY_RES_CALL(inventoryReq);
             call.enqueue(new Callback<CheckBatchInventoryRes>() {
@@ -148,6 +150,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID(getDataManager().getDataAreaId());

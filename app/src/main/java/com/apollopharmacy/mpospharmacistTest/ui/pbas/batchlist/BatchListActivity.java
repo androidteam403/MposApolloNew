@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -311,7 +312,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
 
 
-            batchListAdapter = new BatchListAdapter(this, this.body, this);
+            batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
@@ -631,6 +632,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        hideKeyboard();
         for (int i = 0; i < body.size(); i++) {
             if (body.get(i).getBatchNo().equals(batchListModel.getBatchNo())) {
                 body.set(i, batchListModel);
