@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -141,6 +142,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessGetJounalOnlineOrderTransactonApi(List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseList) {
         if (getJounalOnlineOrderTransactionsResponseList != null && getJounalOnlineOrderTransactionsResponseList.size() > 0) {
@@ -150,6 +152,12 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //                    i--;
 //                }
 //            }
+            List<GetJounalOnlineOrderTransactionsResponse> listOutput =
+                    getJounalOnlineOrderTransactionsResponseList.stream()
+                            .filter(e -> e.getPickupStatus())
+                            .collect(Collectors.toList());
+            getJounalOnlineOrderTransactionsResponseList = listOutput;
+
             shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
             RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
@@ -236,6 +244,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
                 e1.printStackTrace();
             }
             mPresenter.doDownloadPdf(generatePdfbyFlidResponse.getUrl(), file);
+        } else if (generatePdfbyFlidResponse != null && !generatePdfbyFlidResponse.getStatus()) {
+            Toast.makeText(getContext(), generatePdfbyFlidResponse.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

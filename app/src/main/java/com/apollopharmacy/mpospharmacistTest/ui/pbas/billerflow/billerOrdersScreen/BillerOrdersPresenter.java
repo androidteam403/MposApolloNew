@@ -52,7 +52,7 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS("2");//3
+            reqModel.setIsMPOS("3");//3
             reqModel.setUserName(getDataManager().getUserName());
 
             Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
@@ -188,7 +188,8 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
 
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
-            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";

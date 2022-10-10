@@ -489,6 +489,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         if (getIntent() != null && (CustomerDataResBean) getIntent().getSerializableExtra("customerbean_info") != null) {
             boolean is_omsorder = (boolean) getIntent().getBooleanExtra("is_omsorder", false);
+
+            addItemBinding.setIsOMSOrder(is_omsorder);
+
             boolean isOnline = (boolean) getIntent().getBooleanExtra("is_online", false);
             boolean isCameFromEprescriptionMedicineDetailsActivity = (boolean) getIntent().getBooleanExtra("IS_CAME_FROM_EPRESCRIPTION_MEDICINE_DETAILS_ACTIVITY", false);
             if (isCameFromEprescriptionMedicineDetailsActivity) {
@@ -1003,11 +1006,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         calculatePosTransactionRes.setDoctorName(salesCode);
         calculatePosTransactionRes.setMobileNO(customerEntity.getMobileNo());
         calculatePosTransactionRes.setCustAccount(customerEntity.getCustId());
-        if (isCameFromOrderDetailsScreenActivity) {
-            calculatePosTransactionRes.setIsMPOSBill(2);
-        } else {
-            calculatePosTransactionRes.setIsMPOSBill(1);
-        }
+//        if (isCameFromOrderDetailsScreenActivity) {
+//            calculatePosTransactionRes.setIsMPOSBill(2);
+//        } else {
+        calculatePosTransactionRes.setIsMPOSBill(1);
+//        }
         return calculatePosTransactionRes;
     }
 
@@ -1727,6 +1730,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             orderPriceInfoModel.setPharmaTotalAmount(0);
             orderPriceInfoModel.setFmcgTotalAmount(0);
             orderPriceInfoModel.setPlTotalAmount(0);
+//made changes 07_10_2022 - start
+            double netAmt = 0.0;
+            double mrpTotal = 0.0;
+            double taxAmt = 0.0;
+            double savings = 0.0;
+            double roundedAmt = 0.0;
+//made changes 07_10_2022 - end
             for (int i = 0; i < posTransactionRes.getSalesLine().size(); i++) {
                 if (!posTransactionRes.getSalesLine().get(i).getIsVoid()) {
                     if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("P"))
@@ -1735,9 +1745,31 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         orderPriceInfoModel.setFmcgTotalAmount(orderPriceInfoModel.getFmcgTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
                     else if (posTransactionRes.getSalesLine().get(i).getCategoryCode().equalsIgnoreCase("A"))
                         orderPriceInfoModel.setPlTotalAmount(orderPriceInfoModel.getPlTotalAmount() + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax());
+                    //made changes 07_10_2022 - start
+                    netAmt = netAmt + posTransactionRes.getSalesLine().get(i).getNetAmount();
+                    mrpTotal = mrpTotal + posTransactionRes.getSalesLine().get(i).getNetAmountInclTax();
+                    taxAmt = taxAmt + posTransactionRes.getSalesLine().get(i).getTaxAmount();
+                    savings = savings + posTransactionRes.getSalesLine().get(i).getTotalDiscAmount();
+
+//made changes 07_10_2022 - end
+
                 }
 
             }
+            //made changes 07_10_2022 - start
+            orderPriceInfoModel.setOrderSavingsAmount(savings);
+            orderPriceInfoModel.setMrpTotalAmount(mrpTotal);
+            orderPriceInfoModel.setTaxableTotalAmount(netAmt);
+            orderPriceInfoModel.setOrderTotalAmount(mrpTotal - savings);
+            orderPriceInfoModel.setTaxAmount(taxAmt);
+
+
+
+
+
+//made changes 07_10_2022 - end
+
+
             Singletone.getInstance().itemsArrayList.clear();
             Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
             medicinesDetailAdapter.notifyDataSetChanged();
@@ -2159,7 +2191,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setOTPTransactionId("");
             wallet.setRequestURL("");
             wallet.setWalletRequestType(2);
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+            //Singletone.getInstance().tenderTypeResultEntity
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : mPresenter.getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(phonepay)) {
                     wallet.setWalletURL(tenderTypeEntity.getTenderURL());
                 }
@@ -2256,7 +2289,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setOTPTransactionId("");
             wallet.setRequestURL("");
             wallet.setWalletRequestType(2);
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : mPresenter.getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(phonepay)) {
                     wallet.setWalletURL(tenderTypeEntity.getTenderURL());
                 }
@@ -2737,6 +2770,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public CalculatePosTransactionRes getUnPostedTransactionResponseBody() {
         return unPostedTransactionResponseBody;
+    }
+
+    @Override
+    public Boolean isCameFromOrderDetailsScreenActivity() {
+        return isCameFromOrderDetailsScreenActivity;
     }
 
     private void noStockAlertDialog() {

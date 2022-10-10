@@ -44,7 +44,7 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             GetJounalOnlineOrderTransactionsRequest getJounalOnlineOrderTransactionsRequest = new GetJounalOnlineOrderTransactionsRequest();
             getJounalOnlineOrderTransactionsRequest.setRequestType(0);
             getJounalOnlineOrderTransactionsRequest.setBulkFilterBy(0);
-            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateThreeDaysEarlier("dd-MMM-yyyy"));
+            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateTwoDaysEarlier("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setCustomerAccount(null);
             getJounalOnlineOrderTransactionsRequest.setReceiptId(null);

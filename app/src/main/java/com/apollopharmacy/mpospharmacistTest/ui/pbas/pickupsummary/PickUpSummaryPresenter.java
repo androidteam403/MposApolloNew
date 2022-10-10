@@ -73,7 +73,8 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
             // ApiInterface api = ApiClient.getApiService3();
             String url = "";
-            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSOrderUpdate";
             } else {
                 url = "OMSService.svc/MPOSOrderUpdate";
@@ -158,7 +159,8 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                         order.setOverallOrderStatus("3");
                     }
                     if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3"))
-                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3"))
+                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3")
+                            || requestType == 10)
                         ordersList.add(order);
                 }
             }
@@ -176,7 +178,8 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
-            if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";

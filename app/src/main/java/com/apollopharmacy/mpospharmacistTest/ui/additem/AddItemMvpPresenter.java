@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentVoidReq;
@@ -156,4 +157,6 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     GetGlobalConfingRes getGlobalConfiguration();
 
     void getPostOnlineOrderApiCall(EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, SaveRetailsTransactionRes saveRetailsTransactionRes, CustomerDataResBean customerDataResBean);
+
+    GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity();
 }

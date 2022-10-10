@@ -196,7 +196,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:gravity="end"
                     android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/on_hold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_onhold_enable_btn"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/dimen6dp"
+                        android:paddingTop="@dimen/dimen1dp"
+                        android:paddingEnd="@dimen/dimen6dp"
+                        android:layout_gravity="end"
+                        android:paddingBottom="@dimen/dimen1dp"
+                        android:text="@string/label_on_hold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen10sp" />
 
                     <ImageView
                         android:id="@+id/status_icon"

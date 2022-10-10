@@ -267,7 +267,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         onClickCashPaymentPay();
                                     }
                                 }
-                            }else {
+                            } else {
                                 generateOtp(getMvpView().getCustomerModule().getMobileNo());
 //                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
 //                                if (getMvpView().getCustomerModule().isCardPayment()) {
@@ -1389,7 +1389,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             if (tenderLineEntities.getTenderLine().size() > 0) {
                 tenderLineEntities.getTenderLine().clear();
             }
-            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(getMvpView().getCalculatedPosTransactionRes());
+
+            CalculatePosTransactionRes calculatePosTransactionRes = getMvpView().getCalculatedPosTransactionRes();
+            if (getMvpView().isCameFromOrderDetailsScreenActivity()) {
+                calculatePosTransactionRes.setIsMPOSBill(2);
+            }
+
+            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(calculatePosTransactionRes);//getMvpView().getCalculatedPosTransactionRes()
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
@@ -1425,7 +1431,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(getMvpView().getCalculatedPosTransactionRes());
+
+            CalculatePosTransactionRes calculatePosTransactionRes = getMvpView().getCalculatedPosTransactionRes();
+            if (getMvpView().isCameFromOrderDetailsScreenActivity()) {
+                calculatePosTransactionRes.setIsMPOSBill(2);
+            }
+
+            Call<CalculatePosTransactionRes> call = api.VOID_TRANSACTION(calculatePosTransactionRes);//getMvpView().getCalculatedPosTransactionRes()
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
@@ -1657,8 +1669,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
         String tenderurl = "";
 
-        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity().get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase("Pay through QR Code") || tenderTypeEntity.getTender().equalsIgnoreCase("QR Code")) {
                     walletServiceReq.setWalletType(Integer.parseInt(tenderTypeEntity.getTenderTypeId()));
                     walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
@@ -1699,8 +1711,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletServiceReq.setWalletRefundId("");
         walletServiceReq.setWalletTransactionID("");
 
-        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity().get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase("PhonePe")) {
                     walletServiceReq.setWalletType(4);
                     walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
@@ -1740,8 +1752,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletServiceReq.setWalletRefundId("");
         walletServiceReq.setWalletTransactionID("");
 
-        if (Singletone.getInstance().tenderTypeResultEntity != null) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity() != null) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase("PAYTM")) {
                     walletServiceReq.setWalletType(3);
                     walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
@@ -1783,7 +1795,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         walletServiceReq.setWalletRefundId("");
         walletServiceReq.setWalletTransactionID("");
 
-        for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
             if (tenderTypeEntity.getTender().equalsIgnoreCase("Airtel")) {
                 walletServiceReq.setWalletType(2);
                 walletServiceReq.setWalletURL(tenderTypeEntity.getTenderURL());
@@ -1804,8 +1816,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
     @Override
     public boolean validTenderLimit(double amount, String tenderName) {
-        if (Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType() != null) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity() != null && getDataManager().getTenderTypeResultEntity().get_TenderType() != null) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTender().equalsIgnoreCase(tenderName)) {
                     if (tenderTypeEntity.getTenderLimit() < amount) {
                         getMvpView().partialPaymentDialog("", "Allowed Tender Limit is " + tenderTypeEntity.getTenderLimit() + "!");
@@ -2241,8 +2253,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void showHdfcPaymentDialog() {
         String tenderurl = "";
-        if (Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity().get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 if (tenderTypeEntity.getTenderTypeId().equalsIgnoreCase("34")) {
                     tenderurl = tenderTypeEntity.getTenderURL();
                 }
@@ -2769,8 +2781,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     private TypeEntity typeEntity() {
         TypeEntity typeEntity = new TypeEntity();
 
-        if (Singletone.getInstance().tenderTypeResultEntity != null && Singletone.getInstance().tenderTypeResultEntity.get_TenderType().size() > 0) {
-            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : Singletone.getInstance().tenderTypeResultEntity.get_TenderType()) {
+        if (getDataManager().getTenderTypeResultEntity() != null && getDataManager().getTenderTypeResultEntity().get_TenderType().size() > 0) {
+            for (GetTenderTypeRes._TenderTypeEntity tenderTypeEntity : getDataManager().getTenderTypeResultEntity().get_TenderType()) {
                 //  System.out.println("TenderName-->" + tenderTypeEntity.getTender());
 
                 if (getMvpView().getPaymentMethod().isCashMode()) {
@@ -3274,7 +3286,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             } else if (typeEntity().getTender().equalsIgnoreCase("card")) {
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()) {
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }
@@ -3322,7 +3334,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 wallet.setWalletTransactionID(Constant.getInstance().card_transaction_id);
                 wallet.setWalletOrderID("EZETAP");
-                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()){
+                if (getDataManager().getGlobalJson().isISHBPStore() && !getDataManager().getGlobalJson().isISEzetapActive()) {
                     wallet.setWalletTransactionID("");
                     wallet.setWalletOrderID("");
                 }
@@ -4021,6 +4033,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity() {
+        return getDataManager().getTenderTypeResultEntity();
     }
 
 }

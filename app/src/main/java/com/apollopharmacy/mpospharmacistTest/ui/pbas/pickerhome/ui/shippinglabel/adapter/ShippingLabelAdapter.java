@@ -70,7 +70,7 @@ public class ShippingLabelAdapter extends RecyclerView.Adapter<ShippingLabelAdap
                 } else {
                     filteredGetJounalOnlineOrderTransactionsResponseList.clear();
                     for (GetJounalOnlineOrderTransactionsResponse row : tempGetJounalOnlineOrderTransactionsResponseList) {
-                        if (!filteredGetJounalOnlineOrderTransactionsResponseList.contains(row) && (row.getRefno().contains(charString) || row.getReciptId().contains(charSequence))) {
+                        if (!filteredGetJounalOnlineOrderTransactionsResponseList.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getReciptId().toLowerCase().contains(charString.toLowerCase()))) {
                             filteredGetJounalOnlineOrderTransactionsResponseList.add(row);
                         }
 

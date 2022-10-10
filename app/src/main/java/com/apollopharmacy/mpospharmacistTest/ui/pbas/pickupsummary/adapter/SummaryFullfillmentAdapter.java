@@ -94,6 +94,12 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             not = not + 1;
             pickupProcessMvpView.notAvailable(String.valueOf(not));
         }
+
+        holder.orderBinding.onHold.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.onClickOnHold(omsHeader);
+            }
+        });
     }
 
     private void multipleStatusCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position) {

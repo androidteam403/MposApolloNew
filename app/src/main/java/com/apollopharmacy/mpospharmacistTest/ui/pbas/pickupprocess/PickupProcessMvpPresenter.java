@@ -43,4 +43,6 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void onClickOnHoldAll();
 
+    void unPickUpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest, boolean isLastPos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
+
 }

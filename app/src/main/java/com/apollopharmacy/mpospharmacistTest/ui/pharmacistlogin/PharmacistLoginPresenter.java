@@ -332,7 +332,10 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
-                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+//                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+
+                            getDataManager().setTenderTypeResultEntity(response.body().getGetTenderTypeResult());
+
                             getAllowedPaymentMode();
                         } else {
                             if (response.body() != null) {
