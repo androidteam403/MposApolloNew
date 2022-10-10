@@ -96,8 +96,10 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             if (getDataManager().getStoreId().equalsIgnoreCase("16001")) {
                 url = "http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOSUAT/Apollo/SAVEPDF/GENERATEPDFBYFLID/?FLID=" + flid + "&LABELSIZE=" + paperSize;
             } else {
-                url = "http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flid + "&LABELSIZE=" + paperSize;
+                url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flid + "&LABELSIZE=" + paperSize;
             }
+          //  https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=FL20221001301515372&LABELSIZE=A4
+
 
             Call<GeneratePdfbyFlidResponse> call = apiInterface.generatePdfByFlidApiCall(url);
             call.enqueue(new Callback<GeneratePdfbyFlidResponse>() {
