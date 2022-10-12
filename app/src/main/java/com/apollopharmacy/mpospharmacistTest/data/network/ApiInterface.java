@@ -366,7 +366,6 @@ public interface ApiInterface {
     Call<List<GetOMSTransactionResponse>> getOmsApiCall(@Body GetOmsTransactionRequest omsTransactionRequest);
 
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
-//http://online.apollopharmacy.org:51/EPOS/
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 
     //UAT
@@ -433,4 +432,8 @@ public interface ApiInterface {
 //    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
 /////?FLID=FL20220722101000004&LABELSIZE=4X6
 //    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
+
+
+    @GET("https://jsonblob.com/api/jsonBlob/1028923194995916800")
+    Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
 }

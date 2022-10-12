@@ -105,14 +105,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
 //            }
 //        }
 
-        if (isFirstNavigate && position == 0) {
-            isFirstNavigate = false;
-            holder.adapterBatchlistBinding.phisicalbatchEdit.requestFocus();
-            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-
-
-        }
+//        if (isFirstNavigate && position == 0) {
+//            isFirstNavigate = false;
+//            holder.adapterBatchlistBinding.phisicalbatchEdit.requestFocus();
+//            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//
+//
+//        }
 
 
         if (batchListModel.getREQQTY() != 0) {

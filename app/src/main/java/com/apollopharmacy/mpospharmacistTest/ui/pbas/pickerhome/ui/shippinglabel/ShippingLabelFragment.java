@@ -142,29 +142,38 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessGetJounalOnlineOrderTransactonApi(List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseList) {
         if (getJounalOnlineOrderTransactionsResponseList != null && getJounalOnlineOrderTransactionsResponseList.size() > 0) {
-//            for (int i = 0; i < getJounalOnlineOrderTransactionsResponseList.size(); i++) {
-//                if (getJounalOnlineOrderTransactionsResponseList.get(i).getPickupStatus()) {
-//                    getJounalOnlineOrderTransactionsResponseList.remove(i);
-//                    i--;
-//                }
-//            }
-            List<GetJounalOnlineOrderTransactionsResponse> listOutput =
-                    getJounalOnlineOrderTransactionsResponseList.stream()
-                            .filter(e -> e.getPickupStatus())
-                            .collect(Collectors.toList());
-            getJounalOnlineOrderTransactionsResponseList = listOutput;
+            for (int i = 0; i < getJounalOnlineOrderTransactionsResponseList.size(); i++) {
+                if (getJounalOnlineOrderTransactionsResponseList.get(i).getPickupStatus()) {
+                    getJounalOnlineOrderTransactionsResponseList.remove(i);
+                    i--;
+                }
+                if (i == getJounalOnlineOrderTransactionsResponseList.size()-1){
+                    shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
+                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
+                    shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
+                    shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
+                    noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
+                    shippingLabelBinding.searchText.requestFocus();
+                }
+            }
 
-            shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
-            shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
-            shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
-            noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
-            shippingLabelBinding.searchText.requestFocus();
+//            List<GetJounalOnlineOrderTransactionsResponse> listOutput =
+//                    getJounalOnlineOrderTransactionsResponseList.stream()
+//                            .filter(e -> !e.getPickupStatus())
+//                            .collect(Collectors.toList());
+//            getJounalOnlineOrderTransactionsResponseList = listOutput;
+
+//            shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
+//            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//            shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
+//            shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
+//            shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
+//            noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
+//            shippingLabelBinding.searchText.requestFocus();
 //            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 

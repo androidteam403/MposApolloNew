@@ -1698,6 +1698,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onSuccessCalculatePosTransaction(CalculatePosTransactionRes posTransactionRes) {
+
+
         calculatePosTransactionRes = posTransactionRes;
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
@@ -1763,9 +1765,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             orderPriceInfoModel.setOrderTotalAmount(mrpTotal - savings);
             orderPriceInfoModel.setTaxAmount(taxAmt);
 
-
-
-
+            posTransactionRes.setOrderSavingsAmount(savings);
+            posTransactionRes.setMrpTotalAmount(mrpTotal);
+            posTransactionRes.setTaxableTotalAmount(netAmt);
+            posTransactionRes.setOrderTotalAmount(mrpTotal - savings);
+            posTransactionRes.setTotalTaxAmount(taxAmt);
+            posTransactionRes.setGrossAmount(mrpTotal);
+            posTransactionRes.setTotalMRP(mrpTotal);
+            calculatePosTransactionRes = posTransactionRes;
 
 //made changes 07_10_2022 - end
 

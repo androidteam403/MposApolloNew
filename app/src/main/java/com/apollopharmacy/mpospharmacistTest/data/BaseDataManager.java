@@ -391,4 +391,14 @@ public class BaseDataManager implements DataManager {
     public GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity() {
         return mPreferencesHelper.getTenderTypeResultEntity();
     }
+
+    @Override
+    public void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPreferencesHelper.setGlobalTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
+        return mPreferencesHelper.getGlobalTotalOmsHeaderList();
+    }
 }
