@@ -361,12 +361,16 @@ public interface ApiInterface {
     @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
     Call<RacksDataResponse> doRackApiCall();
 
+
+
     @POST("SalesTransactionService.svc/GetOMSTransaction")
 //http://online.apollopharmacy.org:51/EPOS/
     Call<List<GetOMSTransactionResponse>> getOmsApiCall(@Body GetOmsTransactionRequest omsTransactionRequest);
 
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
 //http://online.apollopharmacy.org:51/EPOS/
+
+
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 
     //UAT
