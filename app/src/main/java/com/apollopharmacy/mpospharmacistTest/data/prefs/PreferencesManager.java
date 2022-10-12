@@ -65,6 +65,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_PAPER_LABEL_SIZE = "PREF_KEY_PAPER_LABEL_SIZE";
     private static final String PREF_KEY_GET_TENDER_TYPE_RESULT_JSON = "PREF_KEY_GET_TENDER_TYPE_RESULT_JSON";
 
+    private static final String PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST = "PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST";
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -435,6 +436,20 @@ public class PreferencesManager implements PreferencesHelper {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_KEY_GET_TENDER_TYPE_RESULT_JSON, "");
         return gson.fromJson(json, GetTenderTypeRes.GetTenderTypeResultEntity.class);
+    }
+
+    @Override
+    public void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPrefs.edit().putString(PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST, new Gson().toJson(totalOmsHeaderList)).apply();
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST, "");
+        Type type = new TypeToken<List<TransactionHeaderResponse.OMSHeader>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 
 }

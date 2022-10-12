@@ -89,6 +89,7 @@
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/pharmacyLogin"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"

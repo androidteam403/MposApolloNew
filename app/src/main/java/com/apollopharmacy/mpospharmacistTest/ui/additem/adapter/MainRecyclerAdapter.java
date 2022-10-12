@@ -57,10 +57,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public void onBindViewHolder(@NotNull final ItemBaseViewHolder holder, int position) {
 
-        System.out.println("batch number-->"+mDatas.get(position).getInventBatchId());
+        System.out.println("batch number-->" + mDatas.get(position).getInventBatchId());
 
         SalesLineEntity item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
+        if (item.getIsVoid()) {
+            holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(false);
+        }
         if (item.getCategoryCode().equalsIgnoreCase("P")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));
         } else if (item.getCategoryCode().equalsIgnoreCase("F")) {
@@ -107,6 +110,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             );
         }
+
         holder.listItemMainBinding.mainContentView.remainingDays.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {

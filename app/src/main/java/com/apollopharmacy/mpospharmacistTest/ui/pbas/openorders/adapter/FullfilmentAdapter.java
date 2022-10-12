@@ -152,7 +152,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 if (mvpView != null)
                     for (int i = 0; i < omsHeaderList.size(); i++) {
                         if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                            mvpView.onFullfillmentItemClick(i, position);
+                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
                             break;
                         }
                     }
@@ -164,7 +164,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
                 for (int i = 0; i < omsHeaderList.size(); i++) {
                     if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                        mvpView.onFullfillmentItemClick(i, position);
+                        mvpView.onFullfillmentItemClick(i, position, omsHeader);
                         break;
                     }
                 }

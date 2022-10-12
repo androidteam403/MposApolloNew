@@ -88,6 +88,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 this.allowMultiBatch = omsVendorWiseConfigration.getAllowMultiBatch();
             }
         }
+        batchlistBinding.searchbybatchId.requestFocus();
 
         if (noBatchDetails) {
         }

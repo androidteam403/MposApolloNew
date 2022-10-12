@@ -144,4 +144,11 @@ public interface PreferencesHelper {
 
     GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity();
 
+
+    //made chaneges on 10_10_2022
+
+    void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
+
+    List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList();
+
 }
