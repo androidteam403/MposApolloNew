@@ -98,6 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/five_dp"
                         android:drawablePadding="@dimen/ten_dp"
+                        android:text="Apollo@123"
                         android:fontFamily="@font/roboto_regular"
                         android:imeOptions="actionDone"
                         android:inputType="text"
