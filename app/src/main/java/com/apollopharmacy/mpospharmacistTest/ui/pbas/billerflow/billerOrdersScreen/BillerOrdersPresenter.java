@@ -221,5 +221,10 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
 }
 

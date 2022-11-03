@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -31,7 +32,11 @@ import android.print.PrintDocumentInfo;
 import android.print.PrintManager;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -45,6 +50,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -92,6 +98,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -988,9 +995,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 for (int j = 0; j < textInTable.length; j++) {
                     PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
                     if (j == 0) {
-                        pdfTextView.getView().setSingleLine(true);
-                        pdfTextView.getView().setMaxLines(1);
-                        pdfTextView.setText(salesLine.getItemName()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
+
+//                        pdfTextView.getView().setSingleLine(true);
+//                        pdfTextView.getView().setMaxLines(1);
+                        String itemName = salesLine.getItemName().replace(" ", "\u00A0");
+                        pdfTextView.setText(itemName).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
                     } else if (j == 1) {
                     } else if (j == 2) {
                         pdfTextView.setText(salesLine.getSch()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
@@ -1263,4 +1272,64 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         fgPaintSel.setPathEffect(new DashPathEffect(new float[]{5, 10}, 0));
         return sd;
     }
+    public void justify(final TextView textView) {
+
+        final AtomicBoolean isJustify = new AtomicBoolean(false);
+
+        final String textString = textView.getText().toString();
+
+        final TextPaint textPaint = textView.getPaint();
+
+        final SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!isJustify.get()) {
+
+                    final int lineCount = textView.getLineCount();
+                    final int textViewWidth = textView.getWidth();
+
+                    for (int i = 0; i < lineCount; i++) {
+
+                        int lineStart = textView.getLayout().getLineStart(i);
+                        int lineEnd = textView.getLayout().getLineEnd(i);
+
+                        String lineString = textString.substring(lineStart, lineEnd);
+
+                        if (i == lineCount - 1) {
+                            builder.append(new SpannableString(lineString));
+                            break;
+                        }
+
+                        String trimSpaceText = lineString.trim();
+                        String removeSpaceText = lineString.replaceAll(" ", "");
+
+                        float removeSpaceWidth = textPaint.measureText(removeSpaceText);
+                        float spaceCount = trimSpaceText.length() - removeSpaceText.length();
+
+                        float eachSpaceWidth = (textViewWidth - removeSpaceWidth) / spaceCount;
+
+                        SpannableString spannableString = new SpannableString(lineString);
+                        for (int j = 0; j < trimSpaceText.length(); j++) {
+                            char c = trimSpaceText.charAt(j);
+                            if (c == ' ') {
+                                Drawable drawable = new ColorDrawable(0x00ffffff);
+                                drawable.setBounds(0, 0, (int) eachSpaceWidth, 0);
+                                ImageSpan span = new ImageSpan(drawable);
+                                spannableString.setSpan(span, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                        }
+
+                        builder.append(spannableString);
+                    }
+
+                    textView.setText(builder);
+                    isJustify.set(true);
+                }
+            }
+        });
+    }
+
 }

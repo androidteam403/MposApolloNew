@@ -114,6 +114,10 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("Biller Orders");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("");
+        activityBillerOrdersBinding.terminalId.setText("Terminal ID : " + mPresenter.getTerminalId());
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.VISIBLE);
+        pulltoRrefresh();
 //                mPresenter.onRackApiCall();
         searchByFulfilmentId();
         mPresenter.fetchFulfilmentOrderList();
@@ -132,6 +136,16 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     }
 
+    private void pulltoRrefresh() {
+//        activityBillerOrdersBinding.fullfilmentRecyclerPullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+////                refreshData(); // your code
+////                pullToRefresh.setRefreshing(false);
+//                mPresenter.fetchFulfilmentOrderList();
+//            }
+//        });
+    }
 
     @Override
     public void onclickScanCode() {
@@ -210,10 +224,12 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         if (count > 0) {
             activityBillerOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
             activityBillerOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
+//            activityBillerOrdersBinding.fullfilmentRecyclerPullToRefresh.setVisibility(View.VISIBLE);
             PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
         } else {
             activityBillerOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
             activityBillerOrdersBinding.fullfilmentRecycler.setVisibility(View.GONE);
+//            activityBillerOrdersBinding.fullfilmentRecyclerPullToRefresh.setVisibility(View.GONE);
             PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
         }
     }
@@ -236,6 +252,9 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
     @Override
     public void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader) {
+//        if (activityBillerOrdersBinding.fullfilmentRecyclerPullToRefresh.isRefreshing()) {
+//            activityBillerOrdersBinding.fullfilmentRecyclerPullToRefresh.setRefreshing(false);
+//        }
         if (omsHeaderList != null) {
             omsHeaderList.clear();
             mPresenter.setTotalOmsHeaderList(omsHeaderList);
@@ -912,5 +931,10 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     @Override
     public void onClickUnHold() {
 
+    }
+
+    @Override
+    public void onClickRefreshPickerPackerBiller() {
+        mPresenter.fetchFulfilmentOrderList();
     }
 }

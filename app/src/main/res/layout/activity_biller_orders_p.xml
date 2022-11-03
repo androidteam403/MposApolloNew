@@ -76,20 +76,35 @@
             <!--                        android:src="@drawable/ic_filter_white" />-->
             <!--                </LinearLayout>-->
             <!--            </RelativeLayout>-->
-
-            <TextView
-                android:id="@+id/selected_fullfillment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:background="#fdb813"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dimen10dp"
-                android:text="Scan items for billing"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen10sp"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="@dimen/dimen25dp"
+                android:background="@color/yellow"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/selected_fullfillment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Scan items for billing"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/terminal_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp"
+                    tools:ignore="RtlSymmetry" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,8 +123,8 @@
                     android:hint="Search by Fulfilment ID, Box ID"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:singleLine="true"
                     android:padding="@dimen/five_dp"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/twelve_sp" />
@@ -173,14 +188,19 @@
 
             </LinearLayout>
 
+<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fullfilment_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="@dimen/five_dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fullfilment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_marginBottom="@dimen/five_dp" />
+<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
             <TextView
                 android:id="@+id/no_order_found_text"

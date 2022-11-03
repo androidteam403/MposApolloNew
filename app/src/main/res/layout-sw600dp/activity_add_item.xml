@@ -1255,6 +1255,55 @@
                                                 android:textSize="@dimen/text_dimen_16" />
                                         </LinearLayout>
 
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginEnd="@dimen/ten_dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentEnd="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginStart="@dimen/five_dp"
+                                                android:background="@drawable/bg_red_btn"
+                                                android:fontFamily="@font/roboto_regular"
+                                                android:onClick="@{()-> callback.onClickOneApolloPayment()}"
+                                                android:paddingStart="@dimen/ten_dp"
+                                                android:paddingTop="@dimen/five_dp"
+                                                android:paddingEnd="@dimen/ten_dp"
+                                                android:paddingBottom="@dimen/five_dp"
+                                                android:text="Try Again"
+                                                android:textColor="@color/white"
+                                                android:visibility="@{paymentMode.isErrorApolloPoints ? View.VISIBLE : View.GONE}" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentEnd="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginStart="@dimen/five_dp"
+                                                android:background="@drawable/bg_apply_btn"
+                                                android:fontFamily="@font/roboto_regular"
+                                                android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
+                                                android:paddingStart="@dimen/ten_dp"
+                                                android:paddingTop="@dimen/five_dp"
+                                                android:paddingEnd="@dimen/ten_dp"
+                                                android:paddingBottom="@dimen/five_dp"
+                                                android:text="Redeem"
+                                                android:textColor="@color/white"
+                                                android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.VISIBLE : View.GONE}" />
+
+                                            <ProgressBar
+                                                android:layout_width="@dimen/fifty_five_dp"
+                                                android:layout_height="@dimen/forty_dp"
+                                                android:layout_alignParentEnd="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginEnd="@dimen/ten_dp"
+                                                android:visibility="@{paymentMode.isLoadApolloPoints ? View.VISIBLE : View.GONE}" />
+                                        </RelativeLayout>
+
                                     </RelativeLayout>
 
                                     <View
@@ -1579,54 +1628,54 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/ten_dp">
+                    <!--                    <RelativeLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_marginEnd="@dimen/ten_dp">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:background="@drawable/bg_red_btn"
-                            android:fontFamily="@font/roboto_regular"
-                            android:onClick="@{()-> callback.onClickOneApolloPayment()}"
-                            android:paddingStart="@dimen/ten_dp"
-                            android:paddingTop="@dimen/five_dp"
-                            android:paddingEnd="@dimen/ten_dp"
-                            android:paddingBottom="@dimen/five_dp"
-                            android:text="Try Again"
-                            android:textColor="@color/white"
-                            android:visibility="@{paymentMode.isErrorApolloPoints ? View.VISIBLE : View.GONE}" />
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_alignParentEnd="true"-->
+                    <!--                            android:layout_centerVertical="true"-->
+                    <!--                            android:layout_marginStart="@dimen/five_dp"-->
+                    <!--                            android:background="@drawable/bg_red_btn"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:onClick="@{()-> callback.onClickOneApolloPayment()}"-->
+                    <!--                            android:paddingStart="@dimen/ten_dp"-->
+                    <!--                            android:paddingTop="@dimen/five_dp"-->
+                    <!--                            android:paddingEnd="@dimen/ten_dp"-->
+                    <!--                            android:paddingBottom="@dimen/five_dp"-->
+                    <!--                            android:text="Try Again"-->
+                    <!--                            android:textColor="@color/white"-->
+                    <!--                            android:visibility="@{paymentMode.isErrorApolloPoints ? View.VISIBLE : View.GONE}" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/five_dp"
-                            android:background="@drawable/bg_apply_btn"
-                            android:fontFamily="@font/roboto_regular"
-                            android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"
-                            android:paddingStart="@dimen/ten_dp"
-                            android:paddingTop="@dimen/five_dp"
-                            android:paddingEnd="@dimen/ten_dp"
-                            android:paddingBottom="@dimen/five_dp"
-                            android:text="Redeem"
-                            android:textColor="@color/white"
-                            android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.VISIBLE : View.GONE}" />
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_alignParentEnd="true"-->
+                    <!--                            android:layout_centerVertical="true"-->
+                    <!--                            android:layout_gravity="center_vertical"-->
+                    <!--                            android:layout_marginStart="@dimen/five_dp"-->
+                    <!--                            android:background="@drawable/bg_apply_btn"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:onClick="@{()-> callback.onClickOneApolloPaymentPay()}"-->
+                    <!--                            android:paddingStart="@dimen/ten_dp"-->
+                    <!--                            android:paddingTop="@dimen/five_dp"-->
+                    <!--                            android:paddingEnd="@dimen/ten_dp"-->
+                    <!--                            android:paddingBottom="@dimen/five_dp"-->
+                    <!--                            android:text="Redeem"-->
+                    <!--                            android:textColor="@color/white"-->
+                    <!--                            android:visibility="@{validatePoints.availablePoints != null &amp;&amp; !paymentMode.isOTPView ? View.VISIBLE : View.GONE}" />-->
 
-                        <ProgressBar
-                            android:layout_width="@dimen/fifty_five_dp"
-                            android:layout_height="@dimen/forty_dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/ten_dp"
-                            android:visibility="@{paymentMode.isLoadApolloPoints ? View.VISIBLE : View.GONE}" />
-                    </RelativeLayout>
+                    <!--                        <ProgressBar-->
+                    <!--                            android:layout_width="@dimen/fifty_five_dp"-->
+                    <!--                            android:layout_height="@dimen/forty_dp"-->
+                    <!--                            android:layout_alignParentEnd="true"-->
+                    <!--                            android:layout_centerVertical="true"-->
+                    <!--                            android:layout_marginEnd="@dimen/ten_dp"-->
+                    <!--                            android:visibility="@{paymentMode.isLoadApolloPoints ? View.VISIBLE : View.GONE}" />-->
+                    <!--                    </RelativeLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -25,6 +25,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -99,6 +100,11 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
         if (OnHoldFragment.isOnHoldFragment) {
             imageView.setVisibility(View.GONE);
             OnHoldFragment.isOnHoldFragment = false;
+        }
+
+        if (OrdersFragment.isOrdersPFragment) {
+            imageView.setVisibility(View.GONE);
+            OrdersFragment.isOrdersPFragment = false;
         }
 
         barcodeScannerView.setTorchListener(this);

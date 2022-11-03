@@ -40,6 +40,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogLabelSizeBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentShippingLabelBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.adapter.ShippingLabelAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GeneratePdfbyFlidResponse;
@@ -54,6 +55,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     private GetJounalOnlineOrderTransactionsResponse getJounalOnlineOrderTransactionsResponse;
     private boolean isScanerBack;
     public static boolean isShippingLabelFragment = false;
+
+    //Pagination
+    public static List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseStatic;
+    private List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseListTotal;
+    private int startIndex = 0;
+    private int endIndex = 100;
+    int lastIndex = 0;
 
     @Nullable
     @Override
@@ -90,6 +99,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         PickerNavigationActivity.mInstance.setTitle("Shipping Label");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
         PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("");
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.GONE);
         mPresenter.getJounalOnlineOrderTransactionApiCall();
         searchByFulfilmentId();
     }
@@ -143,23 +154,76 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     }
 
     @Override
+    public void onClickRefreshPickerPackerBiller() {
+
+    }
+
+    @Override
     public void onSuccessGetJounalOnlineOrderTransactonApi(List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseList) {
         if (getJounalOnlineOrderTransactionsResponseList != null && getJounalOnlineOrderTransactionsResponseList.size() > 0) {
-            for (int i = 0; i < getJounalOnlineOrderTransactionsResponseList.size(); i++) {
-                if (getJounalOnlineOrderTransactionsResponseList.get(i).getPickupStatus()) {
-                    getJounalOnlineOrderTransactionsResponseList.remove(i);
-                    i--;
-                }
-                if (i == getJounalOnlineOrderTransactionsResponseList.size()-1){
-                    shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
-                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
-                    shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
-                    shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
-                    noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
-                    shippingLabelBinding.searchText.requestFocus();
-                }
+
+
+            getJounalOnlineOrderTransactionsResponseListTotal = getJounalOnlineOrderTransactionsResponseList.stream()
+                    .filter(e -> !e.getPickupStatus())
+                    .collect(Collectors.toList());
+            if (getJounalOnlineOrderTransactionsResponseListTotal != null && getJounalOnlineOrderTransactionsResponseListTotal.size() >= 5000) {
+                startIndex = 0;
+                endIndex = 5000;
+            } else {
+                endIndex = getJounalOnlineOrderTransactionsResponseListTotal.size();
             }
+            shippingLabelBinding.setIsNaxtPage(endIndex != getJounalOnlineOrderTransactionsResponseListTotal.size());
+            shippingLabelBinding.setIsPrevtPage(startIndex != 0);
+
+            List<GetJounalOnlineOrderTransactionsResponse> myLastPosts = getJounalOnlineOrderTransactionsResponseListTotal.subList(startIndex, endIndex);
+            onSuccessGetJounalOnlineOrderTransactonApiText(myLastPosts);
+
+
+//            for (int i = 0; i < getJounalOnlineOrderTransactionsResponseList.size(); i++) {
+//                if (getJounalOnlineOrderTransactionsResponseList.get(i).getPickupStatus()) {
+//                    getJounalOnlineOrderTransactionsResponseList.remove(i);
+//                    i--;
+//                }
+//                if (i == getJounalOnlineOrderTransactionsResponseList.size() - 1) {
+//                    shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
+//                    RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//                    shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
+//                    shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
+//                    shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
+//                    noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
+//                    shippingLabelBinding.searchText.requestFocus();
+//                }
+//            }
+
+        } else {
+            noShippinfLabelFound(0);
+        }
+    }
+
+    public void onSuccessGetJounalOnlineOrderTransactonApiText(List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseList) {
+        if (getJounalOnlineOrderTransactionsResponseList != null && getJounalOnlineOrderTransactionsResponseList.size() > 0) {
+//            for (int i = 0; i < getJounalOnlineOrderTransactionsResponseList.size(); i++) {
+//                if (getJounalOnlineOrderTransactionsResponseList.get(i).getPickupStatus()) {
+//                    getJounalOnlineOrderTransactionsResponseList.remove(i);
+//                    i--;
+//                }
+//                if (i == getJounalOnlineOrderTransactionsResponseList.size() - 1) {
+            shippingLabelAdapter = new ShippingLabelAdapter(getContext(), getJounalOnlineOrderTransactionsResponseList, this);
+            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            shippingLabelBinding.shippingListRecycler.setLayoutManager(mLayoutManager1);
+            shippingLabelBinding.shippingListRecycler.setItemAnimator(new DefaultItemAnimator());
+            shippingLabelBinding.shippingListRecycler.setAdapter(shippingLabelAdapter);
+            noShippinfLabelFound(getJounalOnlineOrderTransactionsResponseList.size());
+            if (endIndex % 100 == 0) {
+                PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + (endIndex / 100));
+            } else {
+                PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + ((startIndex / 100) + 1));
+            }
+
+
+            shippingLabelBinding.searchText.requestFocus();
+//                }
+//            }
 
 //            List<GetJounalOnlineOrderTransactionsResponse> listOutput =
 //                    getJounalOnlineOrderTransactionsResponseList.stream()
@@ -210,24 +274,51 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() >= 2) {
-                    shippingLabelBinding.search.setVisibility(View.GONE);
-                    shippingLabelBinding.deleteCancel.setVisibility(View.VISIBLE);
-                    if (shippingLabelAdapter != null) {
-                        shippingLabelAdapter.getFilter().filter(editable);
-                    }
 
-                } else if (shippingLabelBinding.searchText.getText().toString().equals("")) {
-                    if (shippingLabelAdapter != null) {
-                        shippingLabelAdapter.getFilter().filter("");
-                    }
-                    shippingLabelBinding.deleteCancel.setVisibility(View.GONE);
-                    shippingLabelBinding.search.setVisibility(View.VISIBLE);
+                String charString = editable.toString();
+                if (charString.isEmpty()) {
+//                    omsHeaderListTotal = mPresenter.getGlobalTotalOmsHeaderList();
+                    startIndex = 0;
+                    onSuccessGetJounalOnlineOrderTransactonApi(getJounalOnlineOrderTransactionsResponseStatic);
                 } else {
-                    if (shippingLabelAdapter != null) {
-                        shippingLabelAdapter.getFilter().filter("");
+                    List<GetJounalOnlineOrderTransactionsResponse> omsHeaderListTotalFilterTemp = new ArrayList<>();
+                    for (GetJounalOnlineOrderTransactionsResponse row : getJounalOnlineOrderTransactionsResponseStatic) {
+                        if (!omsHeaderListTotalFilterTemp.contains(row) && ((row.getRefno().toLowerCase().contains(charString.toLowerCase())) || (row.getBoxId().toLowerCase().contains(charString.toLowerCase())))) {
+                            omsHeaderListTotalFilterTemp.add(row);
+                        }
+
                     }
+//                    List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotalFilteredTemp = new ArrayList<>();
+//                    omsHeaderListTotal = omsHeaderListTotalFilterTemp;
+                    startIndex = 0;
+                    onSuccessGetJounalOnlineOrderTransactonApi(omsHeaderListTotalFilterTemp);
                 }
+
+
+
+
+
+
+
+
+//                if (editable.length() >= 2) {
+//                    shippingLabelBinding.search.setVisibility(View.GONE);
+//                    shippingLabelBinding.deleteCancel.setVisibility(View.VISIBLE);
+//                    if (shippingLabelAdapter != null) {
+//                        shippingLabelAdapter.getFilter().filter(editable);
+//                    }
+//
+//                } else if (shippingLabelBinding.searchText.getText().toString().equals("")) {
+//                    if (shippingLabelAdapter != null) {
+//                        shippingLabelAdapter.getFilter().filter("");
+//                    }
+//                    shippingLabelBinding.deleteCancel.setVisibility(View.GONE);
+//                    shippingLabelBinding.search.setVisibility(View.VISIBLE);
+//                } else {
+//                    if (shippingLabelAdapter != null) {
+//                        shippingLabelAdapter.getFilter().filter("");
+//                    }
+//                }
             }
         });
     }
@@ -292,6 +383,47 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         shippingLabelBinding.search.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onClickPrevPage() {
+        if (startIndex >= 100) {
+            startIndex = startIndex - 100;
+
+            if (lastIndex != 0) {
+                endIndex = endIndex - lastIndex;
+                lastIndex = 0;
+            } else {
+                endIndex = endIndex - 100;
+            }
+            shippingLabelBinding.setIsNaxtPage(endIndex != getJounalOnlineOrderTransactionsResponseListTotal.size());
+            shippingLabelBinding.setIsPrevtPage(startIndex != 0);
+            List<GetJounalOnlineOrderTransactionsResponse> myLastPosts = getJounalOnlineOrderTransactionsResponseListTotal.subList(startIndex, endIndex);
+
+            onSuccessGetJounalOnlineOrderTransactonApiText(myLastPosts);
+
+        } else {
+            Toast.makeText(getContext(), "No Previous orders", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onClickNextPage() {
+        if (getJounalOnlineOrderTransactionsResponseListTotal.size() - 1 > endIndex) {
+            startIndex = startIndex + 100;
+            if (getJounalOnlineOrderTransactionsResponseListTotal != null && getJounalOnlineOrderTransactionsResponseListTotal.size() >= endIndex + 100) {
+                endIndex = endIndex + 100;
+            } else {
+                lastIndex = getJounalOnlineOrderTransactionsResponseListTotal.size() - endIndex;
+                endIndex = getJounalOnlineOrderTransactionsResponseListTotal.size();
+            }
+            shippingLabelBinding.setIsNaxtPage(endIndex != getJounalOnlineOrderTransactionsResponseListTotal.size());
+            shippingLabelBinding.setIsPrevtPage(startIndex != 0);
+            List<GetJounalOnlineOrderTransactionsResponse> myLastPosts = getJounalOnlineOrderTransactionsResponseListTotal.subList(startIndex, endIndex);
+            onSuccessGetJounalOnlineOrderTransactonApiText(myLastPosts);
+        } else {
+            Toast.makeText(getContext(), "No Next orders", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     PrintDocumentAdapter pda = new PrintDocumentAdapter() {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -348,11 +480,15 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     @Override
     public void noShippinfLabelFound(int count) {
         if (count > 0) {
-            PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
+            PickerNavigationActivity.mInstance.setWelcome("Total " + count + "/" + getJounalOnlineOrderTransactionsResponseStatic.size() + " orders");
+//            PickerNavigationActivity.mInstance.setWelcome("Total " + getJounalOnlineOrderTransactionsResponseListTotal.size() + "/" + getJounalOnlineOrderTransactionsResponseStatic.size() + " orders");
+//            PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
             shippingLabelBinding.noOrderFoundText.setVisibility(View.GONE);
             shippingLabelBinding.shippingListRecycler.setVisibility(View.VISIBLE);
         } else {
-            PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
+            PickerNavigationActivity.mInstance.setWelcome("Total " + count + "/" + getJounalOnlineOrderTransactionsResponseStatic.size() + " orders");
+//            PickerNavigationActivity.mInstance.setWelcome("Total " + getJounalOnlineOrderTransactionsResponseListTotal.size() + "/" + getJounalOnlineOrderTransactionsResponseStatic.size() + " orders");
+//            PickerNavigationActivity.mInstance.setWelcome("Total " + count + " orders");
             shippingLabelBinding.shippingListRecycler.setVisibility(View.GONE);
             shippingLabelBinding.noOrderFoundText.setVisibility(View.VISIBLE);
         }

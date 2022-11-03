@@ -262,7 +262,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     doctorentyty.setDisplayText("");
                     doctorentyty.setCode("0");
                 }
-            }else {
+            } else {
                 doctorentyty.setDisplayText("Apollo");
                 doctorentyty.setCode("0");
             }
@@ -333,7 +333,29 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         if (response != null) {
             customerDataResBean = response;
 //            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-            mPresenter.onLoadOmsOrder(customerDataResBean);
+
+
+            if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() == 1) {
+                if (customerDataResBean.getSalesLine().get(0).getItemId().equals("ESH0002")) {
+                    Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+                    DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+                    dialog.setContentView(dialogCancelBinding.getRoot());
+                    dialogCancelBinding.dialogMessage.setText("The Order contain only E shop shipping charge.");
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    dialogCancelBinding.dialogButtonNO.setVisibility(View.GONE);
+                    dialogCancelBinding.dialogButtonOK.setText("OK");
+                    dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+                    dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+                        dialog.dismiss();
+                    });
+                } else {
+                    mPresenter.onLoadOmsOrder(customerDataResBean);
+                }
+            } else {
+                mPresenter.onLoadOmsOrder(customerDataResBean);
+            }
+
 //            } else {
 //                CheckBatchStockFailure(customerDataResBean);
 //

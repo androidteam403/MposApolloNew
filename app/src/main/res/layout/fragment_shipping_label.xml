@@ -117,6 +117,53 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/continue_unselect_color"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/prev_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:background="@{isPrevtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isPrevtPage ? true : false}"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickPrevPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_9" />
+
+
+            <ImageView
+                android:id="@+id/next_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dimen5dp"
+                android:background="@{isNaxtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isNaxtPage ? true : false}"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickNextPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_9" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <data>
@@ -124,5 +171,13 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter" />
+
+        <variable
+            name="isNaxtPage"
+            type="Boolean" />
+
+        <variable
+            name="isPrevtPage"
+            type="Boolean" />
     </data>
 </layout>

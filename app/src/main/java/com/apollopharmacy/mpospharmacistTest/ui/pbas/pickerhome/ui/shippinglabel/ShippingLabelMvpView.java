@@ -22,4 +22,8 @@ public interface ShippingLabelMvpView extends MvpView {
     void onClickScanCode();
 
     void onClickSearchTextClear();
+
+    void onClickPrevPage();
+
+    void onClickNextPage();
 }

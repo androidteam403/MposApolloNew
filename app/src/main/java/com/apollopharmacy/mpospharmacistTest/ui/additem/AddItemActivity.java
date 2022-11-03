@@ -1759,16 +1759,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
             }
             //made changes 07_10_2022 - start
+            mrpTotal = mrpTotal + posTransactionRes.getDiscAmount();
             orderPriceInfoModel.setOrderSavingsAmount(savings);
             orderPriceInfoModel.setMrpTotalAmount(mrpTotal);
             orderPriceInfoModel.setTaxableTotalAmount(netAmt);
-            orderPriceInfoModel.setOrderTotalAmount(mrpTotal - savings);
+            orderPriceInfoModel.setOrderTotalAmount(mrpTotal - posTransactionRes.getDiscAmount());
             orderPriceInfoModel.setTaxAmount(taxAmt);
 
-            posTransactionRes.setOrderSavingsAmount(savings);
+
+            posTransactionRes.setOrderSavingsAmount(posTransactionRes.getDiscAmount());
             posTransactionRes.setMrpTotalAmount(mrpTotal);
             posTransactionRes.setTaxableTotalAmount(netAmt);
-            posTransactionRes.setOrderTotalAmount(mrpTotal - savings);
+            posTransactionRes.setOrderTotalAmount(mrpTotal - posTransactionRes.getDiscAmount());
             posTransactionRes.setTotalTaxAmount(taxAmt);
             posTransactionRes.setGrossAmount(mrpTotal);
             posTransactionRes.setTotalMRP(mrpTotal);

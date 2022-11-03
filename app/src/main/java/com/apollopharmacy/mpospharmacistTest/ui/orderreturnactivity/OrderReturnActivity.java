@@ -1183,9 +1183,10 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                 for (int j = 0; j < textInTable.length; j++) {
                     PDFTextView pdfTextView = new PDFTextView(getApplicationContext(), PDFTextView.PDF_TEXT_SIZE.SMALL);
                     if (j == 0) {
-                        pdfTextView.getView().setSingleLine(true);
-                        pdfTextView.getView().setMaxLines(1);
-                        pdfTextView.setText(salesLine.getItemName()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
+//                        pdfTextView.getView().setSingleLine(true);
+//                        pdfTextView.getView().setMaxLines(1);
+                        String itemName = salesLine.getItemName().replace(" ", "\u00A0");
+                        pdfTextView.setText(itemName).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));
                     } else if (j == 1) {
                     } else if (j == 2) {
                         pdfTextView.setText(salesLine.getSch()).setTextTypeface(ResourcesCompat.getFont(getContext(), R.font.cambria));

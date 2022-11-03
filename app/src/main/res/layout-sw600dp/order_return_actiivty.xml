@@ -477,7 +477,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:background="@color/cart_price_bg"
-                        android:enabled="false"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickBillReprint()}"

@@ -432,7 +432,8 @@ public interface ApiInterface {
 //    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
 /////?FLID=FL20220722101000004&LABELSIZE=4X6
 //    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
-
+@POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
+Call<List<CalculatePosTransactionRes>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL_CALCULATE_TRANSACTION_RES(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
 
     @GET("https://jsonblob.com/api/jsonBlob/1028923194995916800")
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
