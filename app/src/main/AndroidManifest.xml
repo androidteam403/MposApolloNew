@@ -13,7 +13,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -47,6 +49,7 @@
              </intent-filter>
          </activity>-->
 
+
         <activity
             android:name=".ui.eprescriptioninfo.EPrescriptionInfoInfoActivity"
             android:screenOrientation="portrait"
@@ -62,6 +65,11 @@
 
         <activity
             android:name=".ui.eprescriptionorderlist.EprescriptionOrderListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
@@ -82,6 +90,7 @@
         <activity
             android:name=".ui.pharmacistlogin.PharmacistLoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/pharmacyLogin"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.addcustomer.AddCustomerActivity"
@@ -140,12 +149,30 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
+
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -190,13 +217,14 @@
         <activity
             android:name=".ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"
-            android:screenOrientation="portrait" />
+        <!--        <activity-->
+        <!--            android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"-->
+        <!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".ui.pbas.pickerhome.PickerNavigationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PickerNavigationActivityAppTheme" />
+            android:theme="@style/PickerNavigationActivityAppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity"
             android:screenOrientation="portrait" />
@@ -209,31 +237,25 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.pbas.selectappflow.SelectAppFlowActivity"
-            android:screenOrientation="portrait">
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.pbas.login.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.pbas.openorders.OpenOrdersActivity"
-            android:screenOrientation="portrait" />
+        <!--        <activity-->
+        <!--            android:name=".ui.pbas.openorders.OpenOrdersActivity"-->
+        <!--            android:screenOrientation="portrait"-->
+        <!--            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />`-->
         <activity
             android:name=".ui.pbas.readyforpickup.ReadyForPickUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.pbas.readyforpickup.scanner.ScannerActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"
-            android:screenOrientation="portrait" />
+        <!--        <activity-->
+        <!--            android:name=".ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"-->
+        <!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity"
             android:screenOrientation="portrait" />
@@ -250,6 +272,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.pbas.batchlist.BatchListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+
+        <activity
+            android:name=".ui.pbas.orderreturnbillprint.OrderReturnBillPrintActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+
     </application>
 </manifest>

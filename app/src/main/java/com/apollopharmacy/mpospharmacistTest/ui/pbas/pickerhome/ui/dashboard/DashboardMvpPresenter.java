@@ -16,4 +16,6 @@ public interface DashboardMvpPresenter<V extends DashboardMvpView> extends MvpPr
     void onClickMonthly();
 
     void onClickYearly();
+
+
 }
