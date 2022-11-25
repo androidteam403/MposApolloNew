@@ -6,13 +6,13 @@ import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.pt.MiniLcd;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,16 +26,15 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPharmacistLoginBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogDecideVersionFlowBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -166,8 +165,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void getUserIds(UserModel body) {
-        ArrayAdapter<UserModel._DropdownValueBean> adapter = new ArrayAdapter<UserModel._DropdownValueBean>(this,
-                android.R.layout.simple_spinner_dropdown_item, body.getGetLoginUserResult().get_DropdownValue()) {
+        ArrayAdapter<UserModel._DropdownValueBean> adapter = new ArrayAdapter<UserModel._DropdownValueBean>(this, android.R.layout.simple_spinner_dropdown_item, body.getGetLoginUserResult().get_DropdownValue()) {
 
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
@@ -196,8 +194,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void setCampaignDetails(CampaignDetailsRes campaignDetails) {
-        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<CampaignDetailsRes.CampDetailsEntity>(this,
-                android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails()) {
+        ArrayAdapter<CampaignDetailsRes.CampDetailsEntity> adapter1 = new ArrayAdapter<CampaignDetailsRes.CampDetailsEntity>(this, android.R.layout.simple_spinner_dropdown_item, campaignDetails.getCampDetails()) {
 
             @NotNull
             public View getView(int position, View convertView, @NotNull ViewGroup parent) {
@@ -229,7 +226,64 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 
     @Override
     public void userLoginSuccess() {
-//        if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("1")) {
+        mPresenter.updatePatchApiCAll();
+    }
+
+    @Override
+    public void userLoginFailed(String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String getUserId() {
+        return pharmacistLoginBinding.selectUser.getSelectedItem() != null ? pharmacistLoginBinding.selectUser.getSelectedItem().toString() : null;
+    }
+
+
+    @Override
+    public String getUserPassword() {
+        return Objects.requireNonNull(pharmacistLoginBinding.password.getText()).toString();
+    }
+
+    public void turnOnScreen() {
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    }
+
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+
+    private List<RowsEntity> rowsPosiFlexEntitiesList;
+
+
+    @Override
+    public void onSucessMposPosiflex() {
+        rowsPosiFlexEntitiesList = mPresenter.getPosiflextDataListEntity();
+        boolean isLoop = false;
+        for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
+            if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null || rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                String path = String.valueOf(FileUtil.getMediaFilePath(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
+                File file = new File(path);
+                if (!file.exists()) {
+                    isLoop = true;
+                    mPresenter.onDownloadPosiflexCall(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(), rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
+                    break;
+                }
+            }
+        }
+        if (!isLoop) {
+            displayPicture();
+        }
+    }
+
+    @Override
+    public void onSuccessUpdatePatchApiCAll(UpdatePatchResponse updatePatchResponse) {
+        //        if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("1")) {
 //        startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //        finish();
@@ -259,70 +313,11 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //        decideVersionFlowDialog.show();
     }
 
-    @Override
-    public void userLoginFailed(String errMsg) {
-        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public String getUserId() {
-        return pharmacistLoginBinding.selectUser.getSelectedItem() != null ? pharmacistLoginBinding.selectUser.getSelectedItem().toString() : null;
-    }
-
-
-    @Override
-    public String getUserPassword() {
-        return Objects.requireNonNull(pharmacistLoginBinding.password.getText()).toString();
-    }
-
-    public void turnOnScreen() {
-        final Window win = getWindow();
-        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-    }
-
-
-    @Nullable
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-
-    private List<RowsEntity> rowsPosiFlexEntitiesList;
-
-
-    @Override
-    public void onSucessMposPosiflex() {
-        rowsPosiFlexEntitiesList = mPresenter.getPosiflextDataListEntity();
-        boolean isLoop = false;
-        for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
-            if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
-                    rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
-                String path = String.valueOf(FileUtil.getMediaFilePath(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
-                File file = new File(path);
-                if (!file.exists()) {
-                    isLoop = true;
-                    mPresenter.onDownloadPosiflexCall(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath(),
-                            rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), i);
-                    break;
-                }
-            }
-        }
-        if (!isLoop) {
-            displayPicture();
-        }
-    }
-
     public void handelPosiflextPlayListData() {
         if (rowsPosiFlexEntitiesList != null && rowsPosiFlexEntitiesList.size() > 0) {
             boolean isAllFilesExist = false;
             for (int i = 0; i < rowsPosiFlexEntitiesList.size(); i++) {
-                if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null ||
-                        rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
+                if (rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getPath() != null || rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName() != null) {
                     if (!rowsPosiFlexEntitiesList.get(i).isPosiflex()) {
                         String path = String.valueOf(FileUtil.getMediaFilePath(rowsPosiFlexEntitiesList.get(i).getPlaylist_media().getMedia_library().getFile().get(0).getName(), getContext()));
                         File file = new File(path);

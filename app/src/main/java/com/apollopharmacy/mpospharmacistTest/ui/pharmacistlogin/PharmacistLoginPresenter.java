@@ -1,7 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import com.apollopharmacy.mpospharmacistTest.BuildConfig;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
@@ -22,9 +24,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackin
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
-import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -47,8 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends BasePresenter<V>
-        implements PharmacistLoginMvpPresenter<V> {
+public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends BasePresenter<V> implements PharmacistLoginMvpPresenter<V> {
     @Inject
     public PharmacistLoginPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -255,14 +257,12 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                             getDataManager().storeGlobalJson(json);
                             if (getDataManager().getGlobalJson().isISHBPStore())
                                 getHBPConfigration();
-                            else
-                                getTenderTypeApi();
+                            else getTenderTypeApi();
                         } else {
                             getMvpView().hideLoading();
                             if (response.body() != null)
                                 getMvpView().userLoginFailed(response.body().getReturnMessage());
-                            else
-                                handleApiError(1);
+                            else handleApiError(1);
                         }
                     }
                 }
@@ -302,8 +302,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                             getMvpView().hideLoading();
                             if (response.body() != null)
                                 getMvpView().userLoginFailed(response.body().getReturnMessage());
-                            else
-                                handleApiError(1);
+                            else handleApiError(1);
                         }
                     }
                 }
@@ -610,5 +609,52 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     @Override
     public GetGlobalConfingRes getGlobalConfigurationObj() {
         return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public void updatePatchApiCAll() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+
+            UpdatePatchRequest updatePatchRequest = new UpdatePatchRequest();
+            updatePatchRequest.setRequestStatus(0);
+            updatePatchRequest.setReturnMessage("");
+            updatePatchRequest.setPatchName("Mpos.apk v" + BuildConfig.VERSION_NAME);
+            updatePatchRequest.setStatus(0);
+            updatePatchRequest.setStoreID(getDataManager().getStoreId());
+            updatePatchRequest.setTerminalID(getDataManager().getTerminalId());
+            updatePatchRequest.setDataAreaID(getDataManager().getDataAreaId());
+            updatePatchRequest.setChannel("5637145327");
+
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+
+            Call<UpdatePatchResponse> call = api.UPDATE_PATCH_API_CALL(updatePatchRequest);
+            call.enqueue(new Callback<UpdatePatchResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<UpdatePatchResponse> call, @NotNull Response<UpdatePatchResponse> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            if (response.body().getRequestStatus() == 0) {
+                                getMvpView().onSuccessUpdatePatchApiCAll(response.body());
+                            } else {
+                                Toast.makeText(getMvpView().getContext(), response.body().getReturnMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            getMvpView().onError("Something went wrong");
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<UpdatePatchResponse> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }

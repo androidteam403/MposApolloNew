@@ -17,7 +17,7 @@ public class ApiClient {
      * URLS
      *******/
 
-    private static final String ROOT_URL_2 = "http://lms.apollopharmacy.org:8033/APK/";
+    private static final String ROOT_URL_2 = "https://online.apollopharmacy.org/MAPPS/";//http://lms.apollopharmacy.org:8033/APK/";
 
     private static final String ROOT_URL_3 = "http://online.apollopharmacy.org:51/OMSSERVICE/";
     private static final String ROOT_URL_4 = "http://online.apollopharmacy.org:51/EPOS/";

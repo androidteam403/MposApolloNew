@@ -106,6 +106,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackin
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -429,12 +431,16 @@ public interface ApiInterface {
     @GET
     Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Url String url);
 
-//    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
+    //    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
 /////?FLID=FL20220722101000004&LABELSIZE=4X6
 //    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
-@POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
-Call<List<CalculatePosTransactionRes>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL_CALCULATE_TRANSACTION_RES(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
+    @POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
+    Call<List<CalculatePosTransactionRes>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL_CALCULATE_TRANSACTION_RES(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
 
     @GET("https://jsonblob.com/api/jsonBlob/1028923194995916800")
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
+
+    @POST("SalesTransactionService.svc/UpdatePatch")
+    Call<UpdatePatchResponse> UPDATE_PATCH_API_CALL(@Body UpdatePatchRequest updatePatchRequest);
+
 }

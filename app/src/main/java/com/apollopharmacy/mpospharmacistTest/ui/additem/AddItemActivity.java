@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityAddItemBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogNoStockAvailableBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.ExitInfoDialogBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.adapter.ItemTouchHelperCallback;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.adapter.MainRecyclerAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
@@ -1701,13 +1702,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
 
         calculatePosTransactionRes = posTransactionRes;
-        if (getIntent() != null) {
-            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
-            if (isCameFromOrderDetailsScreenActivity) {
-                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
-                onPayButtonClick();
-            }
-        }
+
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
         orderPriceInfoModel.setOrderSavingsAmount(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
@@ -1806,8 +1801,38 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
         updatePayedAmount(calculatePosTransactionRes);
+
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+                if (getItemsCount() != 0) {
+                    onPayButtonClick();
+                } else {
+//                    Toast.makeText(this, "No item available", Toast.LENGTH_SHORT).show();
+                    showMessagePopup("No item available");
+                }
+            }
+        }
     }
 
+    private void showMessagePopup(String message) {
+        Dialog showMessagePopup = new Dialog(this);
+        ExitInfoDialogBinding exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.exit_info_dialog, null, false);
+        showMessagePopup.setCancelable(false);
+        showMessagePopup.setContentView(exitInfoDialogBinding.getRoot());
+        exitInfoDialogBinding.title.setVisibility(View.GONE);
+        exitInfoDialogBinding.subtitle.setText(message);
+        exitInfoDialogBinding.dialogButtonNO.setVisibility(View.GONE);
+//        exitInfoDialogBinding.sepe
+        exitInfoDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessagePopup.dismiss();
+            }
+        });
+
+    }
 
     @Override
     public void onSuccessOneApolloSendOtp(ValidatePointsResModel.OneApolloProcessResultEntity resultEntity) {
