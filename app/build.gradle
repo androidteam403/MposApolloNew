@@ -27,10 +27,12 @@ android {
         }
     }
 
-    packagingOptions{
-        exclude 'com/itextpdf/io/font/cmap_info.txt'
-        exclude 'com/itextpdf/io/font/cmap/*'
-    }
+//    packagingOptions{
+//        exclude 'com/itextpdf/io/font/cmap_info.txt'
+//        exclude 'com/itextpdf/io/font/cmap/*'
+//    }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -154,7 +156,8 @@ dependencies {
     implementation files('libs/libcommon.jar')
     implementation files('libs/BixolonLabelPrinterLibrary.jar')
     implementation project(path:':printflib')
-    implementation 'com.itextpdf:itext7-core:7.1.8'
+
+//    implementation 'com.itextpdf:itext7-core:7.1.8'
 
     implementation 'com.localebro:okhttpprofiler:1.0.8'
 }
