@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess;
 
+import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -53,8 +55,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
 public class PickUpVerificationActivity extends BaseActivity implements PickUpVerificationMvpView {
 
@@ -484,7 +484,14 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                         reservedSalesLine.setManufacturerCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
                         reservedSalesLine.setManufacturerName(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
                         reservedSalesLine.setMixMode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
-                        reservedSalesLine.setModifyBatchId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getModifyBatchId());
+                        String modifiedBatchId = "";
+//                        for (GetOMSTransactionResponse.PickPackReservation pickPackReservation : omsHeader.getGetOMSTransactionResponse().getPickPackReservation()) {
+//                            if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase(pickPackReservation.getPickupItemId()) && omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getInventBatchId().equalsIgnoreCase(pickPackReservation.getPickupInventBatchId())) {
+//                                modifiedBatchId = pickPackReservation.getPickupPhysicalInventBatchId();
+//                            }
+//                        }
+//                        reservedSalesLine.setModifyBatchId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getModifyBatchId());
+                        reservedSalesLine.setModifyBatchId(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPickupPhysicalInventBatchId());
                         reservedSalesLine.setNetAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmount());
                         reservedSalesLine.setNetAmountInclTax(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getNetAmountInclTax());
                         reservedSalesLine.setOfferAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getOfferAmount());

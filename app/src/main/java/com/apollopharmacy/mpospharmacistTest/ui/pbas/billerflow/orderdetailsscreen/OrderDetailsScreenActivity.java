@@ -538,6 +538,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                                 customerDataResBean.getSalesLine().get(i).setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
                                 customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
                                 customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                customerDataResBean.getSalesLine().get(i).setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
 //                                for (int k = 0; k < customerDataResBean.getPickPackReservation().size(); k++) {
 //                                    if (customerDataResBean.getPickPackReservation().get(k).getPickupItemId().equals(selectedBatchList.get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(k).getPickupInventBatchId().equals(selectedBatchList.get(j).getBatchNo())) {
 //                                        selectedBatchList.get(j).setREQQTY(customerDataResBean.getPickPackReservation().get(k).getPickupQty());
@@ -556,6 +557,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                                 salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
                                 salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
                                 salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                salesLineEntityTemp.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
 //                                for (int k = 0; k < customerDataResBean.getPickPackReservation().size(); k++) {
 //                                    if (customerDataResBean.getPickPackReservation().get(k).getPickupItemId().equals(selectedBatchList.get(j).getItemID()) && customerDataResBean.getPickPackReservation().get(k).getPickupInventBatchId().equals(selectedBatchList.get(j).getBatchNo())) {
 //                                        selectedBatchList.get(j).setREQQTY(customerDataResBean.getPickPackReservation().get(k).getPickupQty());
@@ -655,7 +657,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     reservedSalesLine.setManufacturerCode(customerDataResBean.getSalesLine().get(i).getManufacturerCode());
                     reservedSalesLine.setManufacturerName(customerDataResBean.getSalesLine().get(i).getManufacturerName());
                     reservedSalesLine.setMixMode(customerDataResBean.getSalesLine().get(i).getMixMode());
-                    reservedSalesLine.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+                    reservedSalesLine.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
                     reservedSalesLine.setNetAmount(customerDataResBean.getSalesLine().get(i).getNetAmount());
                     reservedSalesLine.setNetAmountInclTax(customerDataResBean.getSalesLine().get(i).getNetAmountInclTax());
                     reservedSalesLine.setOfferAmount(customerDataResBean.getSalesLine().get(i).getOfferAmount());
@@ -775,6 +777,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                                 customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
                                 customerDataResBean.getSalesLine().get(i).setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
                                 customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                customerDataResBean.getSalesLine().get(i).setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
                             } else {
                                 customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
 //                                customerDataResBean.getSalesLine().add(i + 1, customerDataResBean.getSalesLine().get(i));

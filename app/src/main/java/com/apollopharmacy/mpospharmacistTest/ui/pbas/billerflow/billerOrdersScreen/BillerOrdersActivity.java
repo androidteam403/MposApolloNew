@@ -261,14 +261,16 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
 
         if (omsHeader != null && omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().size() > 0) {
-            for (int i = 0; i < omsHeader.getOMSHeaderArr().size(); i++) {
-                if (omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().get(i).getOrderPickup() && omsHeader.getOMSHeaderArr().get(i).getOrderPacked()) {
-                    omsHeaderList.add(omsHeader.getOMSHeaderArr().get(i));
-                }
-                PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
-
-
-            }
+//            for (int i = 0; i < omsHeader.getOMSHeaderArr().size(); i++) {
+//                if (omsHeader.getOMSHeaderArr() != null && omsHeader.getOMSHeaderArr().get(i).getOrderPickup() && omsHeader.getOMSHeaderArr().get(i).getOrderPacked()) {
+//                    omsHeaderList.add(omsHeader.getOMSHeaderArr().get(i));
+//                }
+//                PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
+//
+//
+//            }
+            omsHeaderList = omsHeader.getOMSHeaderArr();
+            PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
 
             mPresenter.setTotalOmsHeaderList(omsHeaderList);
 //        billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);

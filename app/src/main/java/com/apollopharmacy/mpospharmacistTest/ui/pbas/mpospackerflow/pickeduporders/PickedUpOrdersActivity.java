@@ -300,10 +300,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     public void noOrderFound(int count) {
         List<TransactionHeaderResponse.OMSHeader> omsHeaderListPick = mvpPresenter.getGlobalTotalOmsHeaderList();
         if (omsHeaderListPick != null) {
-            List<TransactionHeaderResponse.OMSHeader> omsHeaderListPicks =
-                    omsHeaderListPick.stream()
-                            .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
-                            .collect(Collectors.toList());
+            List<TransactionHeaderResponse.OMSHeader> omsHeaderListPicks = omsHeaderListPick;
+//                    omsHeaderListPick.stream()
+//                            .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
+//                            .collect(Collectors.toList());
             if (count > 0) {
                 activityPickedUpOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
                 activityPickedUpOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
@@ -758,10 +758,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         }
 
         if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
-            List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotals =
-                    omsHeaderListTotal.stream()
-                            .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
-                            .collect(Collectors.toList());
+            List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotals = omsHeaderListTotal;
+//                    omsHeaderListTotal.stream().filter(e -> e.getOrderPickup() && !e.getOrderPacked()).collect(Collectors.toList());
             omsHeaderListFileredStaticList = omsHeaderListTotals;
             startIndex = 0;
             TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
@@ -1229,9 +1227,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
 
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
-            omsHeaderListTotal = omsHeader.getOMSHeader().stream()
-                    .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
-                    .collect(Collectors.toList());
+            omsHeaderListTotal = omsHeader.getOMSHeader();
+//            omsHeader.getOMSHeader().stream().filter(e -> e.getOrderPickup() && !e.getOrderPacked()).collect(Collectors.toList());
             if (omsHeaderListTotal != null && omsHeaderListTotal.size() >= 5000) {
                 startIndex = 0;
                 endIndex = 5000;
@@ -1355,10 +1352,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 ////                }
 //            }
 
-            omsHeaderList =
-                    omsHeader.getOMSHeader().stream()
-                            .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
-                            .collect(Collectors.toList());
+            omsHeaderList = omsHeader.getOMSHeader();
+//                    omsHeader.getOMSHeader().stream()
+//                            .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
+//                            .collect(Collectors.toList());
 
             mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
             if (omsHeaderList != null && omsHeaderList.size() > 0) {
@@ -1439,10 +1436,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             this.reverificationList.clear();
             this.reverificationListTemp.clear();
 
-            List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu;
-            omsHeaderListlu = omsHeaderListlus.stream()
-                    .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
-                    .collect(Collectors.toList());
+            List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu = omsHeaderListlus;
+//            omsHeaderListlu = omsHeaderListlus.stream()
+//                    .filter(e -> e.getOrderPickup() && !e.getOrderPacked())
+//                    .collect(Collectors.toList());
 
 
             if (omsHeaderListlu != null && omsHeaderListlu.size() > 0) {

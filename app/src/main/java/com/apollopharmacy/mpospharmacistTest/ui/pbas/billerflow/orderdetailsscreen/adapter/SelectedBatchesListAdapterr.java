@@ -41,6 +41,7 @@ public class SelectedBatchesListAdapterr extends RecyclerView.Adapter<SelectedBa
 //        GetBatchInfoRes.BatchListObj batchListObj = selectedBatchList.get(position);
         PickPackReservation pickPackReservation = pickPackReservationList.get(position);
         holder.adapterSelectedBatchesBinding.batchno.setText(pickPackReservation.getPickupInventBatchId());
+        holder.adapterSelectedBatchesBinding.updatedBatchno.setText(pickPackReservation.getPickupPhysicalInventBatchId());
         holder.adapterSelectedBatchesBinding.expDate.setText(pickPackReservation.getExpiry());
         holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(pickPackReservation.getPrice()));
         holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(Math.round(pickPackReservation.getPickupQty())));
