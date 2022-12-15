@@ -88,6 +88,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
         actionbarSetUp();
         searchByFulfilmentId();
         mPresenter.getOMSTransactionHeaderApiCall();
+        mPresenter.sampleApiList();
     }
 
     private void actionbarSetUp() {
@@ -182,44 +183,44 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
 
     @Override
     public void onSuccessGetOMSHeaderTransactionApi(TransactionHeaderResponse omsHeader) {
-        mPresenter.setTotalOmsHeaderList(omsHeader.getOMSHeader());
-//        this.customerTypeFilterList.clear();
-//        this.customerTypeFilterListTemp.clear();
-//        this.orderTypeFilterList.clear();
-//        this.orderTypeFilterListTemp.clear();
-//        this.orderCategoryFilterList.clear();
-//        this.orderCategoryFilterListTemp.clear();
-//        this.paymentTypeFilterList.clear();
-//        this.paymentTypeFilterListTemp.clear();
-//        this.orderSourceFilterList.clear();
-//        this.orderSourceFilterListTemp.clear();
-//        this.stockAvailabilityFilterList.clear();
-//        this.stockAvailabilityFilterListTemp.clear();
-//        this.reverificationList.clear();
-//        this.reverificationListTemp.clear();
-
-        if (omsHeaderList != null && omsHeaderList.size() > 0) {
-            omsHeaderList.clear();
-        }
-
-        if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
-            this.omsHeaderList = omsHeader.getOMSHeader();
-            if (omsHeaderList != null && omsHeaderList.size() > 0) {
-
-                mPresenter.setTotalOmsHeaderList(omsHeaderList);
-
-                onHoldAdapter = new OnHoldAdapter(getContext(), omsHeaderList, this);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                onHoldBinding.onHoldListRecycler.setLayoutManager(mLayoutManager);
-                onHoldBinding.onHoldListRecycler.setAdapter(onHoldAdapter);
-                noOrderFound(omsHeaderList.size());
-                filterOrdersLists();
-            } else {
-                noOrderFound(0);
-            }
-        } else {
-            noOrderFound(0);
-        }
+//        mPresenter.setTotalOmsHeaderList(omsHeader.getOMSHeader());
+////        this.customerTypeFilterList.clear();
+////        this.customerTypeFilterListTemp.clear();
+////        this.orderTypeFilterList.clear();
+////        this.orderTypeFilterListTemp.clear();
+////        this.orderCategoryFilterList.clear();
+////        this.orderCategoryFilterListTemp.clear();
+////        this.paymentTypeFilterList.clear();
+////        this.paymentTypeFilterListTemp.clear();
+////        this.orderSourceFilterList.clear();
+////        this.orderSourceFilterListTemp.clear();
+////        this.stockAvailabilityFilterList.clear();
+////        this.stockAvailabilityFilterListTemp.clear();
+////        this.reverificationList.clear();
+////        this.reverificationListTemp.clear();
+//
+//        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//            omsHeaderList.clear();
+//        }
+//
+//        if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
+//            this.omsHeaderList = omsHeader.getOMSHeader();
+//            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//
+//                mPresenter.setTotalOmsHeaderList(omsHeaderList);
+//
+//                onHoldAdapter = new OnHoldAdapter(getContext(), omsHeaderList, this);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+//                onHoldBinding.onHoldListRecycler.setLayoutManager(mLayoutManager);
+//                onHoldBinding.onHoldListRecycler.setAdapter(onHoldAdapter);
+//                noOrderFound(omsHeaderList.size());
+//                filterOrdersLists();
+//            } else {
+//                noOrderFound(0);
+//            }
+//        } else {
+//            noOrderFound(0);
+//        }
     }
 
     private void filterOrdersLists() {
@@ -436,6 +437,8 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
             Toast.makeText(getContext(), "No Orders are available", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     private void temFiltersHeadersList() {
         //
@@ -897,5 +900,31 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+    @Override
+    public void setStoresList(TransactionHeaderResponse omsHeader) {
+        mPresenter.setTotalOmsHeaderList(omsHeader.getOMSHeader());
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            omsHeaderList.clear();
+        }
+
+        if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
+            this.omsHeaderList = omsHeader.getOMSHeader();
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+
+                mPresenter.setTotalOmsHeaderList(omsHeaderList);
+
+                onHoldAdapter = new OnHoldAdapter(getContext(), omsHeaderList, this);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                onHoldBinding.onHoldListRecycler.setLayoutManager(mLayoutManager);
+                onHoldBinding.onHoldListRecycler.setAdapter(onHoldAdapter);
+                noOrderFound(omsHeaderList.size());
+                filterOrdersLists();
+            } else {
+                noOrderFound(0);
+            }
+        } else {
+            noOrderFound(0);
+        }
     }
 }

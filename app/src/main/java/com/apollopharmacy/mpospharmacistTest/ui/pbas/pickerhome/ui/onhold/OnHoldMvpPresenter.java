@@ -22,4 +22,6 @@ public interface OnHoldMvpPresenter<V extends OnHoldMvpView> extends MvpPresente
     void onClickFilterIcon();
 
     List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList();
+
+    void sampleApiList();
 }

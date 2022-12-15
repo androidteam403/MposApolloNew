@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +58,35 @@ public class OnHoldPresenter<V extends OnHoldMvpView> extends BasePresenter<V>
 
                 @Override
                 public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+
+    @Override
+    public void sampleApiList() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService2();
+            Call<TransactionHeaderResponse> call = api.GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
+            call.enqueue(new Callback<TransactionHeaderResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<TransactionHeaderResponse> call, @NotNull Response<TransactionHeaderResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (getMvpView() != null) {
+                            getMvpView().hideLoading();
+                            getMvpView().setStoresList((TransactionHeaderResponse) response.body().getOMSHeader());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<TransactionHeaderResponse> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }

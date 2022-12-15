@@ -19,4 +19,7 @@ public interface OnHoldMvpView extends MvpView {
     void onSuccessMposPickPackOrderReservationApiCall(MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
     void onClickFilterIcon();
+
+
+    void setStoresList(TransactionHeaderResponse body);
 }
