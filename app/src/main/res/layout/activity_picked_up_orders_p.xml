@@ -82,17 +82,34 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/selected_fullfillment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="@dimen/dimen25dp"
                 android:background="@color/yellow"
-                android:fontFamily="@font/roboto_regular"
-                android:padding="@dimen/two_dp"
-                android:text="Select Fulfilment or ScanCode to verify pickup"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve_sp" />
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/selected_fullfillment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Select Fulfilment or ScanCode to verify pickup"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <TextView
+                    android:id="@+id/terminal_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp"
+                    tools:ignore="RtlSymmetry" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -172,13 +189,19 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fullfilment_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="@dimen/five_dp" />
+<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fullfilment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_marginBottom="@dimen/five_dp" />
+<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
             <TextView
                 android:id="@+id/no_order_found_text"
@@ -226,6 +249,55 @@
             android:textColor="@color/red"
             android:textSize="@dimen/dimen16sp"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:background="@color/continue_unselect_color"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/prev_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:background="@{isPrevtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isPrevtPage ? true : false}"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickPrevPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_9" />
+
+
+            <ImageView
+                android:id="@+id/next_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dimen5dp"
+                android:background="@{isNaxtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isNaxtPage ? true : false}"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickNextPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_9" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <data>
@@ -245,5 +317,13 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersMvpPresenter" />
+
+        <variable
+            name="isNaxtPage"
+            type="Boolean" />
+
+        <variable
+            name="isPrevtPage"
+            type="Boolean" />
     </data>
 </layout>

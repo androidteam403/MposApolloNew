@@ -100,6 +100,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         PickerNavigationActivity.mInstance.setTitle("ADMIN");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.setWelcome("Total 0 orders");
     }
 
@@ -179,6 +180,11 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
             mPresenter.mposPickPackOrderReservationApiCall(omsHeaderList);
             dialog.dismiss();
         });
+    }
+
+    @Override
+    public void onClickRefreshPickerPackerBiller() {
+
     }
 
     @Override

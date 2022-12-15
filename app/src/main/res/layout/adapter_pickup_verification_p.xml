@@ -126,16 +126,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_weight=".25"
+                    android:layout_weight=".2"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Batch No"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/eight_sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_weight=".22"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Updated Batch No"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".25"
+                    android:layout_weight=".2"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="@string/label_exp_date"
@@ -145,7 +154,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".25"
+                    android:layout_weight=".2"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="@string/label_mrp"
@@ -155,7 +164,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".25"
+                    android:layout_weight=".18"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="@string/requied_qty"

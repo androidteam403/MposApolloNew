@@ -228,6 +228,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         getMvpView().onClickNextPage();
 
     }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
 }
 
 

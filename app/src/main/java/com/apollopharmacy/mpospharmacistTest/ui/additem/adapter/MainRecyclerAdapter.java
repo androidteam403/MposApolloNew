@@ -63,6 +63,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         holder.listItemMainBinding.setProduct(item);
         if (item.getIsVoid()) {
             holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(false);
+        }else {
+            holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(true);
         }
         if (item.getCategoryCode().equalsIgnoreCase("P")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));

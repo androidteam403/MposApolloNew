@@ -149,24 +149,35 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         });
         holder.itemView.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-                if (mvpView != null)
-                    for (int i = 0; i < omsHeaderList.size(); i++) {
-                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
-                            break;
+                if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+                    Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (mvpView != null)
+                        for (int i = 0; i < omsHeaderList.size(); i++) {
+                            if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                                mvpView.onFullfillmentItemClick(i, position, omsHeader);
+                                break;
+                            }
                         }
-                    }
+
+                }
             } else {
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
             }
         });
         holder.fullfilmentBinding.selectbutton.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-                for (int i = 0; i < omsHeaderList.size(); i++) {
-                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                        mvpView.onFullfillmentItemClick(i, position, omsHeader);
-                        break;
+                if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+                    Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    for (int i = 0; i < omsHeaderList.size(); i++) {
+                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
+                            break;
+                        }
                     }
+
                 }
             } else {
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();

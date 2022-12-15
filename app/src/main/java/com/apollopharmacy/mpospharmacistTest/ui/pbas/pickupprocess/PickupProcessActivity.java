@@ -675,7 +675,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onFailedBatchInfo(GetBatchInfoRes body) {
-
+        status = "NOT AVAILABLE";
+        hideLoading();
+        selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(status);
+        onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status);
     }
 
     @Override
@@ -922,7 +925,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     } else {
                         RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
                         boxIdModel.setBoxId(selectedOmsHeaderList.get(i).getScannedBarcode());
-                        boxIdModel.setOrderItemNo("B" + String.valueOf(i+1));
+                        boxIdModel.setOrderItemNo("B" + String.valueOf(i + 1));
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getBoxIdList().add(boxIdModel);
 
                         rackWiseSortedDataList.get(rackWiseSortedDataListPos).getGetOMSTransactionResponse().getSalesLine().add(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j));
@@ -1304,7 +1307,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @Override
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType) {
         if (requestType.equalsIgnoreCase("1")) {
-            mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
+
+
+
+
+//            mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
         } else if (requestType.equalsIgnoreCase("2")) {
             mPresenter.mposPickPackOrderReservationApiCalls(1, selectedOmsHeaderList.get(j));
         }

@@ -107,6 +107,7 @@ public class CommonUtils {
 
         return sdf.format(todate1);
     }
+
     public static String getDateTwoDaysEarlier(String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
 
@@ -118,6 +119,7 @@ public class CommonUtils {
 
         return sdf.format(todate1);
     }
+
     public static String getDateSevenDaysEarlier(String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
 
@@ -211,5 +213,21 @@ public class CommonUtils {
             }
         }
         return startEndCatalogDate;
+    }
+
+    public static String getDateyyyymmddFormat(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormatFull = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        try {
+            Date d = dateFormat.parse(date);
+            if (d != null) {
+                return dateFormatFull.format(d);
+            }
+        } catch (Exception e) {
+            //java.text.ParseException: Unparseable date: Geting error
+            System.out.println("Excep" + e);
+        }
+        return null;
     }
 }

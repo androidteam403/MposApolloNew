@@ -39,6 +39,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
@@ -182,4 +183,8 @@ public interface ActivityComponent {
     void inject(ShippingLabelFragment shippingLabelFragment);
 
     void inject(OnHoldFragment onHoldFragment);
+
+    void inject(com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment ordersFragment);
+
+    void inject(OrderReturnBillPrintActivity orderReturnBillPrintActivity);
 }

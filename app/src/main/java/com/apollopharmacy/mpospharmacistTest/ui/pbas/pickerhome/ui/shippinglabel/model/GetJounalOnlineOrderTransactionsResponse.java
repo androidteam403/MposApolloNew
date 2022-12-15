@@ -31,6 +31,11 @@ public class GetJounalOnlineOrderTransactionsResponse {
     @SerializedName("BusinessDate")
     @Expose
     private String businessDate;
+
+    @SerializedName("BoxId")
+    @Expose
+    private String boxId;
+
     @SerializedName("CancelReasonCode")
     @Expose
     private String cancelReasonCode;
@@ -460,6 +465,14 @@ public class GetJounalOnlineOrderTransactionsResponse {
 
     public void setBusinessDate(String businessDate) {
         this.businessDate = businessDate;
+    }
+
+    public String getBoxId() {
+        return boxId;
+    }
+
+    public void setBoxId(String boxId) {
+        this.boxId = boxId;
     }
 
     public String getCancelReasonCode() {

@@ -30,4 +30,10 @@ public interface PickedUpOrdersMvpView extends MvpView {
 
     void onSuccessMposPickPackOrderReservationApiCall(MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 //    void onItemClick(int position, String status, List<RackAdapter.RackBoxModel.ProductData> productDataList, List<RacksDataResponse.FullfillmentDetail> fullFillModel, RacksDataResponse.FullfillmentDetail fillModel);
+
+    void setFiltersHeaderLists(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu);
+
+    void onClickPrevPage();
+
+    void onClickNextPage();
 }

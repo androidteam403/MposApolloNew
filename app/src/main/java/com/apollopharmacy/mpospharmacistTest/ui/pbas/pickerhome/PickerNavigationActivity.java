@@ -81,7 +81,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
         }
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold, R.id.nav_orders)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
 
@@ -121,6 +121,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
             } else if (menuItem.getItemId() == R.id.nav_on_hold) {
                 navController.navigate(R.id.nav_on_hold, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_orders) {
+                navController.navigate(R.id.nav_orders, null, navOptions, null);
             }
             return true;
         });
@@ -165,6 +167,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
         } else if (fragmentName.equals("ADMIN")) {
             navController.navigate(R.id.nav_on_hold, null, navOptions, null);
+        } else if (fragmentName.equals("ORDERS")) {
+            navController.navigate(R.id.nav_orders, null, navOptions, null);
         }
     }
 
@@ -190,6 +194,14 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (pickerNavigationActivityCallback != null) {
                     pickerNavigationActivityCallback.onClickStockAvailable(b);
+                }
+            }
+        });
+        activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pickerNavigationActivityCallback != null) {
+                    pickerNavigationActivityCallback.onClickRefreshPickerPackerBiller();
                 }
             }
         });
@@ -391,6 +403,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onClickRefresh();
 
         void onClickUnHold();
+
+        void onClickRefreshPickerPackerBiller();
     }
 
     @Override

@@ -35,4 +35,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onClickPrevPage();
 
     void onClickNextPage();
+
+    String getTerminalId();
 }

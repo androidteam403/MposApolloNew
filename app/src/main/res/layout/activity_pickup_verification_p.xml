@@ -9,6 +9,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen50dp"
             android:orientation="vertical">
 
 
@@ -449,7 +450,6 @@ Do you want to proceed with Packing?"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
             android:layout_marginEnd="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/five_dp"
             android:orientation="vertical">
@@ -458,6 +458,7 @@ Do you want to proceed with Packing?"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="1">
 
                 <TextView
@@ -488,7 +489,6 @@ Do you want to proceed with Packing?"
                 android:id="@+id/button_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
 

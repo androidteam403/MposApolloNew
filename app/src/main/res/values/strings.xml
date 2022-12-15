@@ -604,5 +604,6 @@
     <string name="label_unhold">UnHold</string>
     <string name="lanel_admin">Admin</string>
     <string name="label_bill_reprint">Bill Reprint</string>
+    <string name="label_order">order</string>
 
 </resources>

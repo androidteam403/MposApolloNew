@@ -4,7 +4,6 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
@@ -61,14 +60,22 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
             reqModel.setStoreID(getDataManager().getStoreId());
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
-            reqModel.setIsMPOS("2");//1
+            reqModel.setIsMPOS("4");//1
             reqModel.setUserName(getDataManager().getUserName());
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+//                        for (int i = 0; i < response.body().getOMSHeader().size(); i++) {
+//                            response.body().getOMSHeader().get(i).setOrderPickup(true);
+//                            response.body().getOMSHeader().get(i).setOrderPacked(false);
+//                        }
+
+                        getMvpView().hideLoading();
+                        getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
+                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader());
+//                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     } else {
                         getMvpView().hideLoading();
                     }
@@ -149,6 +156,31 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
         }
     }
 
+    @Override
+    public void onClickPrevPage() {
+        getMvpView().onClickPrevPage();
+    }
+
+    @Override
+    public void onClickNextPage() {
+        getMvpView().onClickNextPage();
+    }
+
+    @Override
+    public void setGlobalTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        getDataManager().setGlobalTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
+        return getDataManager().getGlobalTotalOmsHeaderList();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 
     @Override
     public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
@@ -185,7 +217,6 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     public void setListOfListFullFillProducts(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullFillProducts) {
         getDataManager().setfullFillListOfListFiltered(listOfListFullFillProducts);
     }
-
 
 
 }

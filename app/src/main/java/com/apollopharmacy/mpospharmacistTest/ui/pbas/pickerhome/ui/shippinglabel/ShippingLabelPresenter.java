@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -71,6 +72,9 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
                 public void onResponse(@NotNull Call<List<GetJounalOnlineOrderTransactionsResponse>> call, @NotNull Response<List<GetJounalOnlineOrderTransactionsResponse>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         getMvpView().hideLoading();
+                        ShippingLabelFragment.getJounalOnlineOrderTransactionsResponseStatic = response.body().stream()
+                                        .filter(e -> !e.getPickupStatus())
+                                        .collect(Collectors.toList());
                         getMvpView().onSuccessGetJounalOnlineOrderTransactonApi(response.body());
                     }
                 }
@@ -170,6 +174,16 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
     @Override
     public void onClickSearchTextClear() {
         getMvpView().onClickSearchTextClear();
+    }
+
+    @Override
+    public void onClickPrevPage() {
+        getMvpView().onClickPrevPage();
+    }
+
+    @Override
+    public void onClickNextPage() {
+        getMvpView().onClickNextPage();
     }
 
     public void createFilePath(ResponseBody body, File destinationFile) {
