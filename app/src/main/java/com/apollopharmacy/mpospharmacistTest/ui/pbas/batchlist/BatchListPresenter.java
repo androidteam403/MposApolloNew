@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             GetBatchInfoReq batchInfoReq = new GetBatchInfoReq();
             batchInfoReq.setArticleCode(itemId.getItemId());
@@ -50,12 +52,11 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         //Dismiss Dialog
                         getMvpView().hideLoading();
-                        if(response.isSuccessful() && response.body().getBatchList().size()==0 && response.body().getBatchList()==null){
+                        if (response.isSuccessful() && response.body().getBatchList().size() == 0 && response.body().getBatchList() == null) {
                             getMvpView().onFailedBatchInfo(response.body());
-                        }
-                        else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0){
+                        } else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0) {
                             getMvpView().onSuccessBatchInfo(response.body().getBatchList());
-                        }else{
+                        } else {
                             getMvpView().onFailedBatchInfo(response.body());
                         }
 
@@ -82,16 +83,17 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
-            inventoryReq.setDataAreaID("ahel");
+            inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
             inventoryReq.setInventBatchID(item.getBatchNo());
             inventoryReq.setItemID(String.valueOf(item.getBatchId()));
             inventoryReq.setRequestStatus(0);
             inventoryReq.setReturnMessage("");
             inventoryReq.setStock(item.getREQQTY());
-            inventoryReq.setStoreID("16001");
-            inventoryReq.setTerminalID("005");
+            inventoryReq.setStoreID(getDataManager().getStoreId());
+            inventoryReq.setTerminalID(getDataManager().getTerminalId());
 
             Call<CheckBatchInventoryRes> call = api.CHECK_BATCH_INVENTORY_RES_CALL(inventoryReq);
             call.enqueue(new Callback<CheckBatchInventoryRes>() {
@@ -148,6 +150,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
+            getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
             inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
@@ -186,5 +189,15 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     @Override
     public void onClickBack() {
         getMvpView().onClickBack();
+    }
+
+    @Override
+    public void onClickNotAvailableBtn() {
+        getMvpView().onClickNotAvailableBtn();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 }

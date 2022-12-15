@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public  class SalesLineEntity extends BaseObservable implements Serializable {
+public class SalesLineEntity extends BaseObservable implements Serializable {
         @Expose
         @SerializedName("VariantId")
         private String VariantId;

@@ -4,15 +4,13 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
@@ -26,12 +24,11 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedicineDetailsMvpView> extends BasePresenter<V>
+public class EPrescriptionMedicineDetailsPresenter<V extends EPrescriptionMedicineDetailsMvpView> extends BasePresenter<V>
         implements EPrescriptionMedicineDetailsMvpPresenter<V> {
 
     @Inject
@@ -40,13 +37,12 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
     }
 
 
-
     @Override
     public void fetchLineTransactionList(String prescriptionNo) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             EPrescriptionMedicineRequest reqModel = new EPrescriptionMedicineRequest();
             reqModel.setPosExpiry(30);
             reqModel.setStoreId("");
@@ -84,16 +80,16 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             //Creating an object of our api interface
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             Call<EPrescriptionSubstituteModelResponse> call = apiInterface.GET_SUBSTITUTE_DETAILS(prescriptionNo);
             call.enqueue(new Callback<EPrescriptionSubstituteModelResponse>() {
                 @Override
                 public void onResponse(Call<EPrescriptionSubstituteModelResponse> call, Response<EPrescriptionSubstituteModelResponse> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getSubstituteList()!=null && !response.body().getRequestStatus().equals(1) && !response.body().getReturnMessage().equals("No Subsitude Available!!")) {
+                        if (response.body() != null && response.body().getSubstituteList() != null && !response.body().getRequestStatus().equals(1) && !response.body().getReturnMessage().equals("No Subsitude Available!!")) {
                             getMvpView().onSuccessSubstituteList(response.body());
-                        }else{
+                        } else {
                             getMvpView().onFailureSubstituteList(response.body());
                         }
                     }
@@ -156,7 +152,7 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
         if (getMvpView().isNetworkConnected()) {
             //getMvpView().showLoading();
 //            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-           ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
@@ -184,23 +180,22 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
     }
 
 
-
     @Override
     public void omscheckbatchstocks(CustomerDataResBean customerDataResBean) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
 //            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-          ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CustomerDataResBean> call = Objects.requireNonNull(api).omscheckbatchstocks(customerDataResBean);
             call.enqueue(new Callback<CustomerDataResBean>() {
                 @Override
                 public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getRequestStatus() == 0) {
-                          getMvpView().CheckBatchStockSuccess(response.body());
+                        if (response.body() != null && response.body().getRequestStatus() == 0 || response.body().getRequestStatus() == 2) {
+                            getMvpView().CheckBatchStockSuccess(response.body());
                         } else {
-                           getMvpView().CheckBatchStockFailure(response.body());
+                            getMvpView().CheckBatchStockFailure(response.body());
                         }
                     }
                 }
@@ -253,6 +248,21 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
         }
     }
 
+    @Override
+    public String getStoreId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String getAreaId() {
+        return getDataManager().getDataAreaId();
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
+    }
+
 //    @Override
 //    public void checkBatchStock(CustomerDataResBean customerDataResBean) {
 //
@@ -288,5 +298,34 @@ public class EPrescriptionMedicineDetailsPresenter  <V extends EPrescriptionMedi
     public String getLoginUserName() {
         return getDataManager().getUserName();
     }
+
+//    @Override
+//    public void getUnpostedTransaction() {
+//        if (getMvpView().isNetworkConnected()) {
+//            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+//            Call<CalculatePosTransactionRes> call = api.GET_UNPOSTED_TRANSACTION(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
+//            call.enqueue(new Callback<CalculatePosTransactionRes>() {
+//                @Override
+//                public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
+//                    if (response.isSuccessful()) {
+//                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+//                            if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0)
+//                                getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
+//                        } else
+//                            getMvpView().hideLoading();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Throwable t) {
+//                    //Dismiss Dialog
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
+//    }
 }
 

@@ -36,9 +36,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsPrese
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogPresenter;
-
-
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoPresenter;
@@ -121,12 +118,21 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersPresen
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessPresenter;
@@ -285,7 +291,7 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails (EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
+    EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails(EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
         return presenter;
     }
 
@@ -524,4 +530,29 @@ public class ActivityModule {
     OrderDetailsScreenMvpPresenter<OrderDetailsScreenMvpView> orderDetailsScreenPresenter(OrderDetailsScreenPresenter<OrderDetailsScreenMvpView> presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    ShippingLabelMvpPresenter<ShippingLabelMvpView> shippingLabelPresenter(ShippingLabelPresenter<ShippingLabelMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OnHoldMvpPresenter<OnHoldMvpView> OnHoldPresenter(OnHoldPresenter<OnHoldMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpPresenter<com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpView> ordersPresenter(com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersPresenter<com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OrderReturnBillPrintMvpPresenter<OrderReturnBillPrintMvpView> orderReturnBillPrintPresenter(OrderReturnBillPrintPresenter<OrderReturnBillPrintMvpView> presenter) {
+        return presenter;
+    }
+
 }

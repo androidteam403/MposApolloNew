@@ -14,6 +14,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.adapter.SelectAppFlowListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.model.SelectAppFlowModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,21 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
+        selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Shipping Label");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);
+
+        selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Admin");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);
+
+        selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Orders");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);
+
 //        selectAppFlowModel = new SelectAppFlowModel();
 //        selectAppFlowModel.setAppFlowName("Sealer");
 //        selectAppFlowModel.setSelected(false);
@@ -97,10 +113,21 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "BILLER"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
-                    case "Sealer":
+                    case "Shipping Label":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "SHIPPING_LABEL"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
                     case "Admin":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "ADMIN"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
+                    case "Orders":
+                        startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "ORDERS"));
+                        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                        break;
+                    case "Sealer":
+                        break;
+
                     default:
                 }
                 break;
@@ -114,6 +141,16 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
             selectAppFlowModelList.get(i).setSelected(i == pos);
         }
         selectAppFlowListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClickLogout() {
+        Intent intent = new Intent(SelectAppFlowActivity.this, PharmacistLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();
     }
 }
 

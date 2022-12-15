@@ -17,7 +17,7 @@ public class ApiClient {
      * URLS
      *******/
 
-    private static final String ROOT_URL_2 = "http://lms.apollopharmacy.org:8033/APK/";
+    private static final String ROOT_URL_2 = "https://online.apollopharmacy.org/MAPPS/";//http://lms.apollopharmacy.org:8033/APK/";
 
     private static final String ROOT_URL_3 = "http://online.apollopharmacy.org:51/OMSSERVICE/";
     private static final String ROOT_URL_4 = "http://online.apollopharmacy.org:51/EPOS/";
@@ -29,7 +29,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstance(String data) throws IllegalArgumentException {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -47,7 +48,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstance2() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -65,7 +67,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstance3() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -82,7 +85,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstance4() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -116,8 +120,6 @@ public class ApiClient {
     }
 
 
-
-
     public static ApiInterface getApiService2() {
         return getRetrofitInstance2().create(ApiInterface.class);
     }
@@ -137,7 +139,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstanceAds() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -161,7 +164,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstanceFeedback() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -184,7 +188,8 @@ public class ApiClient {
     private static Retrofit getRetrofitInstanceOTP(String url) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)
@@ -209,7 +214,8 @@ public class ApiClient {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new OkHttpProfilerInterceptor()); }
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
         OkHttpClient client = builder
                 .connectTimeout(3, TimeUnit.MINUTES)
                 .writeTimeout(3, TimeUnit.MINUTES)

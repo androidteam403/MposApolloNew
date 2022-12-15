@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -74,13 +75,21 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.selectedbatchesRecycler.setVisibility(View.VISIBLE);
         }
         holder.productListBinding.start.setOnClickListener(view -> {
-            if (mvpView != null) {
-                mvpView.onClickRackItemStart(salesLine);
+            if (!salesLine.isOnHold()) {
+                if (mvpView != null) {
+                    mvpView.onClickRackItemStart(salesLine);
+                }
+            } else {
+                Toast.makeText(context, "The product is on hold.", Toast.LENGTH_SHORT).show();
             }
         });
         holder.productListBinding.productStatus.setOnClickListener(view -> {
-            if (mvpView != null) {
-                mvpView.onClickRackItemStart(salesLine);
+            if (!salesLine.isOnHold()) {
+                if (mvpView != null) {
+                    mvpView.onClickRackItemStart(salesLine);
+                }
+            } else {
+                Toast.makeText(context, "The product is on hold.", Toast.LENGTH_SHORT).show();
             }
         });
     }

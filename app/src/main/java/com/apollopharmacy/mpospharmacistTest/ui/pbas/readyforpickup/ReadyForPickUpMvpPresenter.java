@@ -19,5 +19,17 @@ public interface ReadyForPickUpMvpPresenter<V extends ReadyForPickUpMvpView> ext
 
     void onClickScanCode();
 
+    void onClickPrint();
+
     void mposPickPackOrderReservationApiCall(int requestStatus, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
+
+    String userName();
+
+    String storeId();
+
+    String terminalId();
+
+    String eposUrl();
+
+    String dataAreaId();
 }

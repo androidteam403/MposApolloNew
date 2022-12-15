@@ -20,9 +20,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen5dp"
-                android:layout_weight=".25"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{model.batchNo}"
+                android:text="@{model.pickupInventBatchId}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+            <TextView
+                android:id="@+id/updatedBatchno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:layout_weight=".22"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{model.pickupPhysicalInventBatchId}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
@@ -30,10 +40,10 @@
                 android:id="@+id/exp_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:text="@{model.expDate}"
+                android:text="@{model.expiry}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
@@ -41,10 +51,10 @@
                 android:id="@+id/mrp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:text="@{String.valueOf(model.MRP)}"
+                android:text="@{String.valueOf(model.price)}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
@@ -52,10 +62,10 @@
                 android:id="@+id/required_quantity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
+                android:layout_weight=".18"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:text="@{String.valueOf(Math.round(model.REQQTY))}"
+                android:text="@{String.valueOf(Math.round(model.pickupQty))}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
         </LinearLayout>
@@ -66,6 +76,6 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse.PickPackReservation" />
     </data>
 </layout>

@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
@@ -16,6 +17,9 @@ public interface PickUpSummaryMvpView extends MvpView {
     List<List<RackAdapter.RackBoxModel.ProductData>> productList();
 
     String fullCount(String fullCount);
+
+    void onClickPrint();
+
 
     void OmsOrderUpdateSuccess(OMSOrderForwardResponse response);
 
@@ -39,5 +43,5 @@ public interface PickUpSummaryMvpView extends MvpView {
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
-
+    void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
 }

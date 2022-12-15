@@ -48,13 +48,20 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
         OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
         holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
-
+        holder.adapterBillerOrdersScreenBinding.orderSourceHeader.setText(fullfilmentModel.getOrderSource());
+        if (fullfilmentModel.getOverallOrderStatus() != null && fullfilmentModel.getOverallOrderStatus().length() > 2) {
+            String boxId = fullfilmentModel.getOverallOrderStatus().substring(2);
+            holder.adapterBillerOrdersScreenBinding.boxId.setText(boxId);
+//            holder.adapterBillerOrdersScreenBinding.boxId.setText(boxId.substring(boxId.length() - 5));
+        } else {
+            holder.adapterBillerOrdersScreenBinding.boxId.setText("-");
+        }
         if (fullfilmentModel.getOverallOrderStatus().startsWith("1")) {
-            holder.adapterBillerOrdersScreenBinding.status.setText("FULL");
+            holder.adapterBillerOrdersScreenBinding.status.setText("Fully Available");
         } else if (fullfilmentModel.getOverallOrderStatus().startsWith("2")) {
-            holder.adapterBillerOrdersScreenBinding.status.setText("PARTIAL");
+            holder.adapterBillerOrdersScreenBinding.status.setText("Partially Available");
         } else if (fullfilmentModel.getOverallOrderStatus().startsWith("3")) {
-            holder.adapterBillerOrdersScreenBinding.status.setText("NOT AVAILABLE");
+            holder.adapterBillerOrdersScreenBinding.status.setText("Not Available");
         }
         if (fullfilmentModel.getOrderPickup()) {
             holder.adapterBillerOrdersScreenBinding.pickuporderstatus.setText("Completed");
@@ -73,12 +80,12 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
             holder.adapterBillerOrdersScreenBinding.statusText.setVisibility(View.GONE);
             holder.adapterBillerOrdersScreenBinding.statusIcon.setVisibility(View.GONE);
         } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("1")) {
-            holder.adapterBillerOrdersScreenBinding.status.setText("Full");
+            holder.adapterBillerOrdersScreenBinding.status.setText("Fully Available");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setRotation(0);
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Full");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
         } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("2")) {
-            holder.adapterBillerOrdersScreenBinding.status.setText("Partial");
+            holder.adapterBillerOrdersScreenBinding.status.setText("Partially Available");
             holder.adapterBillerOrdersScreenBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.adapterBillerOrdersScreenBinding.statusText.setText("Partial");
         } else if (fullfilmentModel.getOverallOrderStatus().substring(0, 1).equals("3")) {
@@ -89,6 +96,12 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
         holder.itemView.setOnClickListener(view -> {
             if (mvpView != null)
                 mvpView.onRightArrowClickedContinue(fullfilmentModel.getREFNO());
+        });
+
+        holder.adapterBillerOrdersScreenBinding.onHold.setOnClickListener(view -> {
+            if (mvpView != null) {
+                mvpView.onClickUnHold(fullfilmentModel);
+            }
         });
     }
 
@@ -114,7 +127,7 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
                     } else {
                         filteredList.clear();
                         for (OMSTransactionHeaderResModel.OMSHeaderObj row : omsHeaderList) {
-                            if (!filteredList.contains(row) && (row.getREFNO().contains(charString))) {
+                            if (!filteredList.contains(row) && (row.getREFNO().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
                                 filteredList.add(row);
                             }
 

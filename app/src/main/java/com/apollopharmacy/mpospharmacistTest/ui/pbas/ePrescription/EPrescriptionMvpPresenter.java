@@ -1,17 +1,17 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpView;
 
-public interface EPrescriptionMvpPresenter <V extends EPrescriptionMvpView> extends MvpPresenter<V> {
+public interface EPrescriptionMvpPresenter<V extends EPrescriptionMvpView> extends MvpPresenter<V> {
 
-   void fetchFulfilmentOrderList();
+    void fetchFulfilmentOrderList();
 
-   String getLoginUserName();
+    String getLoginUserName();
 
-   String getLoinStoreLocation();
+    String getLoinStoreLocation();
 
-   String getTerminalId();
+    String getTerminalId();
+
+    String getSiteId();
 
 }

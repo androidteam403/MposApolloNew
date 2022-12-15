@@ -33,8 +33,8 @@
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
                         android:contentDescription="@string/app_name"
-                        android:padding="@dimen/dimen3dp"
                         android:onClick="@{()-> callback.onClickBack()}"
+                        android:padding="@dimen/dimen3dp"
                         android:src="@drawable/ic_back_arrow_white" />
 
                     <LinearLayout
@@ -63,6 +63,23 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/take_print"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/rounde_corner_takeprint_bg"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickPrint()}"
+                    android:paddingStart="@dimen/seven_dp"
+                    android:paddingEnd="@dimen/seven_dp"
+                    android:text="take print"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen14sp" />
 
             </RelativeLayout>
 
@@ -180,7 +197,36 @@
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen45dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@drawable/take_print_btn_bg"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickPrint()}"
+                android:padding="@dimen/seven_dp"
+                android:text="Take print"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle" />
+
+
         </LinearLayout>
+
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="@dimen/dimen25dp"-->
+        <!--            android:layout_height="@dimen/dimen25dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginTop="200dp"-->
+        <!--            android:layout_marginStart="@dimen/dimen35dp"-->
+        <!--            android:background="@drawable/take_print_btn_bg"-->
+        <!--            android:contentDescription="@string/app_name"-->
+        <!--            android:src="@drawable/white_printer" />-->
     </RelativeLayout>
 
     <data>

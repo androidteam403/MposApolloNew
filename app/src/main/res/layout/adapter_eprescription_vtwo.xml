@@ -53,22 +53,22 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen2dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_amount"
+                    android:text="@string/label_doctor_names"
                     android:textSize="@dimen/text_dimen_11" />
 
                 <TextView
-                    android:id="@+id/amount"
+                    android:id="@+id/doctorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -91,17 +91,31 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen2dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_doctor_names"
+                    android:text="@string/label_amount"
                     android:textSize="@dimen/text_dimen_11" />
 
                 <TextView
-                    android:id="@+id/doctorName"
+                    android:id="@+id/amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_11" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen2dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/label_patient_name"
+                    android:textSize="@dimen/text_dimen_11" />
+
+                <TextView
+                    android:id="@+id/patientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -131,22 +145,22 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen2dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_patient_name"
+                    android:text="@string/order_source"
                     android:textSize="@dimen/text_dimen_11" />
 
                 <TextView
-                    android:id="@+id/patientName"
+                    android:id="@+id/order_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_11" />
+
             </LinearLayout>
 
             <LinearLayout

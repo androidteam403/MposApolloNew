@@ -35,8 +35,8 @@
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
                         android:contentDescription="@string/app_name"
-                        android:padding="@dimen/dimen3dp"
                         android:onClick="@{()-> callback.onClickBack()}"
+                        android:padding="@dimen/dimen3dp"
                         android:src="@drawable/ic_back_arrow_white" />
 
                     <LinearLayout
@@ -73,6 +73,40 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/on_hold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:background="@drawable/bg_onhold_enable_btn"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickOnHoldAll()}"
+                    android:paddingStart="@dimen/dimen6dp"
+                    android:paddingTop="@dimen/dimen1dp"
+                    android:paddingEnd="@dimen/dimen6dp"
+                    android:paddingBottom="@dimen/dimen1dp"
+                    android:text="@string/label_on_hold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/on_hold"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentEnd="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:background="@drawable/bg_on_hold_btn"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:onClick="@{()-> callback.onClickOnHoldAll()}"-->
+                <!--                    android:padding="@dimen/dimen5dp"-->
+                <!--                    android:text="@string/label_on_hold"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    tools:ignore="RelativeOverlap" />-->
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -106,9 +140,9 @@
                 android:background="@color/yellow"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="@dimen/three_dp"
-                android:visibility="gone"
                 android:textColor="@color/black"
-                android:textSize="@dimen/eleven_sp" />
+                android:textSize="@dimen/eleven_sp"
+                android:visibility="gone" />
 
             <ToggleButton
                 android:id="@+id/rack_order_toggle"

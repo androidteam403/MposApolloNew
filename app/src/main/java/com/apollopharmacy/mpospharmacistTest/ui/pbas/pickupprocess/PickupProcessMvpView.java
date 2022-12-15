@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
@@ -34,6 +35,10 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickNotAvailable();
 
     void onClickSkip();
+
+    void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType);
+
+    void OmsOrderUpdateFailure(OMSOrderForwardResponse response);
 
     void onClickDropDown(Spinner spinner);
 
@@ -86,5 +91,8 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
 
+    void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onClickOnHoldAll();
 
 }

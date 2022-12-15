@@ -73,10 +73,48 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
 
     @Override
     public void fetchFulfilmentOrderList() {
+//        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+//            getMvpView().hideKeyboard();
+//            ApiInterface apiInterface = ApiClient.getApiService2();
+////            TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
+////            reqModel.setTransactionID("");
+////            reqModel.setRefID("");
+////            reqModel.setExpiryDays(90);
+////            reqModel.setStoreID(getDataManager().getStoreId());
+////            reqModel.setTerminalID(getDataManager().getTerminalId());
+////            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+////            reqModel.setIsMPOS("2");
+////            reqModel.setUserName(getDataManager().getUserName());
+//            Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
+//            call.enqueue(new Callback<TransactionHeaderResponse>() {
+//                @Override
+//                public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
+//                    getMvpView().hideLoading();
+//                    if (response.isSuccessful()) {
+//                        getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
+//                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader());
+////                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<TransactionHeaderResponse> call, Throwable t) {
+//                    getMvpView().hideLoading();
+//                    handleApiError(t);
+//                }
+//            });
+//        } else {
+//            getMvpView().onError("Internet Connection Not Available");
+//        }
+
+
+        //Remove
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionHeaderRequest reqModel = new TransactionHeaderRequest();
             reqModel.setTransactionID("");
             reqModel.setRefID("");
@@ -92,8 +130,9 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 public void onResponse(Call<TransactionHeaderResponse> call, Response<TransactionHeaderResponse> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
-                        if (response.body() != null)
-                            getMvpView().onSucessfullFulfilmentIdList(response.body());
+                        getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
+                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader());
+//                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }
                 }
 
@@ -103,6 +142,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     handleApiError(t);
                 }
             });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
         }
     }
 
@@ -117,9 +158,9 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
-            getOmsTransactionRequest.setDataAreaID("ahel");
+            getOmsTransactionRequest.setDataAreaID(getDataManager().getDataAreaId());
             getOmsTransactionRequest.setExpiryDays(90);
             getOmsTransactionRequest.setRefID("");
             getOmsTransactionRequest.setStoreID(getDataManager().getStoreId());
@@ -160,6 +201,37 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public GetGlobalConfingRes getGlobalConfiguration() {
         return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public String getUserId() {
+        return getDataManager().getUserId();
+    }
+
+    @Override
+    public void setGlobalTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        getDataManager().setGlobalTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
+        return getDataManager().getGlobalTotalOmsHeaderList();
+    }
+
+    @Override
+    public void onClickPrevPage() {
+        getMvpView().onClickPrevPage();
+    }
+
+    @Override
+    public void onClickNextPage() {
+        getMvpView().onClickNextPage();
+
+    }
+
+    @Override
+    public String getTerminalId() {
+        return getDataManager().getTerminalId();
     }
 }
 

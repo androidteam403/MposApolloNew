@@ -24,7 +24,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
-import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -67,11 +69,8 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
         activityScannerBinding = DataBindingUtil.setContentView(this, R.layout.activity_scanner);
 
 
-
         getActivityComponent().inject(this);
         mPresenter.onAttach(ScannerActivity.this);
-
-
 
 
         //Initialize barcode scanner view
@@ -80,24 +79,35 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
 //        textView= findViewById(R.id.fullfillmentIdscanner);
 
 //        textView.setText("Scan QR / barCode to tagbox for\nFullfillment ID" + fullfillmentId);
-        if(PickedUpOrdersActivity.isPickedUpOrdersActivity){
+        if (PickedUpOrdersActivity.isPickedUpOrdersActivity) {
             imageView.setVisibility(View.GONE);
-           PickedUpOrdersActivity.isPickedUpOrdersActivity=false;
+            PickedUpOrdersActivity.isPickedUpOrdersActivity = false;
         }
 
         if (OpenOrdersActivity.isopenOrderActivity) {
             imageView.setVisibility(View.GONE);
-            OpenOrdersActivity.isopenOrderActivity=false;
+            OpenOrdersActivity.isopenOrderActivity = false;
         }
 
-        if(BillerOrdersActivity.billerActivityScanner){
+        if (BillerOrdersActivity.billerActivityScanner) {
             imageView.setVisibility(View.GONE);
-            BillerOrdersActivity.billerActivityScanner=false;
+            BillerOrdersActivity.billerActivityScanner = false;
+        }
+        if (ShippingLabelFragment.isShippingLabelFragment) {
+            imageView.setVisibility(View.GONE);
+            ShippingLabelFragment.isShippingLabelFragment = false;
+        }
+        if (OnHoldFragment.isOnHoldFragment) {
+            imageView.setVisibility(View.GONE);
+            OnHoldFragment.isOnHoldFragment = false;
         }
 
+        if (OrdersFragment.isOrdersPFragment) {
+            imageView.setVisibility(View.GONE);
+            OrdersFragment.isOrdersPFragment = false;
+        }
 
         barcodeScannerView.setTorchListener(this);
-
 
 
 //

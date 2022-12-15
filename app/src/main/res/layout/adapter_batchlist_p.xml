@@ -96,6 +96,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="number"
+                android:textColor="@color/black"
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:singleLine="true"

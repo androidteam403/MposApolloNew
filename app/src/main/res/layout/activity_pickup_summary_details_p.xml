@@ -292,7 +292,8 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="Shipping method Type"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/shipping_method_type"
@@ -300,7 +301,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -308,7 +310,8 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="Payment source"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/payment_source"
@@ -316,7 +319,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
 
                                 <TextView
@@ -361,7 +365,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Doctor Name"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/doctor_name"
@@ -369,7 +374,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -388,22 +394,6 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/twelve_sp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/dimen2dp"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="Pincode"
-                                    android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
-
-                                <TextView
-                                    android:id="@+id/pincode"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
 
                             </LinearLayout>
 
@@ -417,7 +407,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Order source"
+                                    android:text="Source Order ID"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -467,7 +457,8 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="Order type"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/order_type"
@@ -475,7 +466,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -484,7 +476,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Vendor ID"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/vendor_id"
@@ -492,14 +485,15 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="OrderBillValue"
+                                    android:text="Order BillValue"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -516,9 +510,27 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/dimen2dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="State Code"
+                                    android:text="Pincode"
                                     android:textColor="@color/text_color_grey"
                                     android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:id="@+id/pincode"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/twelve_sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="State Code"
+                                    android:textColor="@color/text_color_grey"
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/statecode"
@@ -526,7 +538,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/ten_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -535,7 +548,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Address"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/address"
@@ -543,7 +557,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -552,7 +567,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Comments"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/comments"
@@ -561,7 +577,8 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="---"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twelve_sp" />
+                                    android:textSize="@dimen/twelve_sp"
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 

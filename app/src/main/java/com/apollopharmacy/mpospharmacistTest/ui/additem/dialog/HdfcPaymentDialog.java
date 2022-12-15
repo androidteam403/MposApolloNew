@@ -119,16 +119,22 @@ public class HdfcPaymentDialog {
         hdfcpayPaymentBinding.dialogCancelBtn.setOnClickListener(otpListener);
     }
 
+    //dialogPhonepeqrcodePaymentBinding.dialogGenerateQrcodeBtn.setAlpha(0.5f);
     public void setDialogGenerateLinkBtnEnable() {
         hdfcpayPaymentBinding.dialogGenerateBtn.setEnabled(true);
+        hdfcpayPaymentBinding.dialogGenerateBtn.setAlpha(1);
+        hdfcpayPaymentBinding.walletMobileNumber.setEnabled(true);
     }
 
     public void setDialogGenerateLinkBtnDisable() {
         hdfcpayPaymentBinding.dialogGenerateBtn.setEnabled(false);
+        hdfcpayPaymentBinding.dialogGenerateBtn.setAlpha(0.5f);
+        hdfcpayPaymentBinding.walletMobileNumber.setEnabled(false);
     }
 
     public void setWalletAmountEnable() {
         hdfcpayPaymentBinding.walletAmountEdit.setEnabled(true);
+
     }
 
     public void setWalletAmountdisable() {
@@ -137,10 +143,16 @@ public class HdfcPaymentDialog {
 
     public void setDialogCloseEnable() {
         hdfcpayPaymentBinding.dialogCloseBtn.setEnabled(true);
+        hdfcpayPaymentBinding.dialogCloseBtn.setAlpha(1);
     }
 
     public void setDialogClosedisable() {
         hdfcpayPaymentBinding.dialogCloseBtn.setEnabled(false);
+        hdfcpayPaymentBinding.dialogCloseBtn.setAlpha(0.5f);
+    }
+
+    public void setMobileNumberEditEnable(boolean isEnable) {
+        hdfcpayPaymentBinding.walletMobileNumber.setEnabled(isEnable);
     }
 
     public boolean isValidateAmount() {
@@ -155,7 +167,7 @@ public class HdfcPaymentDialog {
             hdfcpayPaymentBinding.walletAmountEdit.setError("Enter Amount");
             return false;
         } else if (Double.parseDouble(hdfcpayPaymentBinding.walletAmountEdit.getText().toString()) > this.paymentMethod.getBalanceAmount()) {
-            Toast.makeText(context, "Amount should not be greater than "+ this.paymentMethod.getBalanceAmount(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Amount should not be greater than " + this.paymentMethod.getBalanceAmount(), Toast.LENGTH_SHORT).show();
 //            hdfcpayPaymentBinding.walletAmountEdit.setError("Amount should not be greater than "+ this.paymentMethod.getBalanceAmount());
             return false;
         }

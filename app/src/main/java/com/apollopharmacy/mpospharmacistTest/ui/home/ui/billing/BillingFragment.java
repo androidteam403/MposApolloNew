@@ -1,12 +1,15 @@
 package com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -30,8 +33,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentBillingBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PharmacyStaffApiRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.CorporateDetailsActivity;
@@ -42,8 +47,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsActiv
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
-import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
@@ -89,17 +94,27 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         fragmentBillingBinding.terminalId.setText(mPresenter.getTerminalId());
         mPresenter.getTransactionID();
         fragmentBillingBinding.setCallbacks(mPresenter);
-        if(mPresenter.getHBPConfing()!= null && mPresenter.getHBPConfing().getUHIDBilling()){
+        if (mPresenter.getGlobalCDonfiguration() != null
+                && mPresenter.getGlobalCDonfiguration().isISHBPStore()
+                && mPresenter.getHBPConfing() != null
+                && mPresenter.getHBPConfing().getUHIDBilling()) {
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.VISIBLE);
-        }else
+        } else
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.GONE);
 
         fragmentBillingBinding.uhidCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     fragmentBillingBinding.customerSearchBox.setVisibility(View.GONE);
-                }else{
+                    fragmentBillingBinding.customerName.setText(null);
+                    fragmentBillingBinding.customerMobile.setText(null);
+                    fragmentBillingBinding.customerName.setEnabled(true);
+                    fragmentBillingBinding.prgTrackingEdit.setEnabled(true);
+                    fragmentBillingBinding.prgTrackingEdit.setText(null);
+                    BillingFragment.this.customerResult = null;
+                    fragmentBillingBinding.setCustomer(customerResult);
+                } else {
                     fragmentBillingBinding.customerSearchBox.setVisibility(View.VISIBLE);
                     fragmentBillingBinding.customerName.setText("");
                     fragmentBillingBinding.customerMobile.setText("");
@@ -107,6 +122,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     fragmentBillingBinding.customerName.setEnabled(true);
                     fragmentBillingBinding.prgTrackingEdit.setEnabled(true);
                     fragmentBillingBinding.gender.setSelection(0);
+                    BillingFragment.this.customerResult = null;
+                    fragmentBillingBinding.setCustomer(customerResult);
                 }
             }
         });
@@ -178,9 +195,9 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
-                    if (editable != null && editable.toString() != null && editable.toString().length()==15) {
+                    if (editable != null && editable.toString() != null && editable.toString().length() == 15) {
                         fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
-                        if(fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                        if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
                             mPresenter.getUHIDDetails(editable.toString());
                         }
                     }
@@ -312,7 +329,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             showMessage("please select Corporate");
             return;
         }
-        if(fragmentBillingBinding.uhidCheckBox != null && fragmentBillingBinding.uhidCheckBox.isChecked() && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())){
+        if (fragmentBillingBinding.uhidCheckBox != null && fragmentBillingBinding.uhidCheckBox.isChecked() && TextUtils.isEmpty(fragmentBillingBinding.prgTrackingEdit.getText().toString())) {
             showMessage("Enter UHID number");
             return;
         }
@@ -321,7 +338,15 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             String[] parts = codeDes.split("-");
             String salesCode = parts[0];
 
-            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode));
+            fragmentBillingBinding.getCustomer().setCardNo(fragmentBillingBinding.prgTrackingEdit.getText().toString().trim());
+
+            boolean isUhidSelected = false;
+            if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                isUhidSelected = true;
+            }
+
+
+            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode, isUhidSelected));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         } else {
             if (fragmentBillingBinding.customerName.getText().toString().isEmpty()) {
@@ -335,7 +360,14 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                 GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                 entity.setCardName(fragmentBillingBinding.customerName.getText().toString());
                 entity.setMobileNo(fragmentBillingBinding.customerMobile.getText().toString());
-                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1));
+
+                boolean isUhidSelected = false;
+                if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                    isUhidSelected = true;
+                }
+
+
+                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1, isUhidSelected));
                 getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         }
@@ -422,7 +454,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     fragmentBillingBinding.tier.setText(customerResult.getTier());
                     fragmentBillingBinding.availablePoints.setText(customerResult.getAvailablePoints());
                     if (customerResult.getCardNo() == null || customerResult.getCardNo().equalsIgnoreCase("")) {
-                        fragmentBillingBinding.prgTrackingEdit.setText("--");
+                        fragmentBillingBinding.prgTrackingEdit.setText("");
                     } else {
                         fragmentBillingBinding.prgTrackingEdit.setText(customerResult.getCardNo());
                     }
@@ -500,15 +532,34 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
     }
 
     @Override
-    public void updateUHIDDetails(Uhid_details uhid_details) {
-        fragmentBillingBinding.customerName.setText(uhid_details.getPatientname());
-        fragmentBillingBinding.customerMobile.setText(uhid_details.getContact());
-        fragmentBillingBinding.customerName.setEnabled(false);
-        fragmentBillingBinding.prgTrackingEdit.setEnabled(false);
-        if(uhid_details.getGender().equalsIgnoreCase("71"))
-            fragmentBillingBinding.gender.setSelection(1);
-        else if(uhid_details.getGender().equalsIgnoreCase("72"))
-            fragmentBillingBinding.gender.setSelection(0);
+    public void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse) {
+        if (getHBPUHIDDetailsResponse != null) {
+            if (getHBPUHIDDetailsResponse.isStatus()) {
+                fragmentBillingBinding.customerName.setText(getHBPUHIDDetailsResponse.getUhid_details().getPatientname());
+                fragmentBillingBinding.customerMobile.setText(getHBPUHIDDetailsResponse.getUhid_details().getContact());
+                fragmentBillingBinding.customerName.setEnabled(false);
+                fragmentBillingBinding.prgTrackingEdit.setEnabled(false);
+                if (getHBPUHIDDetailsResponse.getUhid_details().getGender().equalsIgnoreCase("71"))
+                    fragmentBillingBinding.gender.setSelection(1);
+                else if (getHBPUHIDDetailsResponse.getUhid_details().getGender().equalsIgnoreCase("72"))
+                    fragmentBillingBinding.gender.setSelection(0);
+            } else {
+                ExitInfoDialog dialogView = new ExitInfoDialog(getContext());
+                dialogView.setDialogDismiss();
+                dialogView.setTitle("");
+                dialogView.setPositiveLabel("OK");
+                dialogView.setSubtitle(getHBPUHIDDetailsResponse.getMessage() + "!!");
+                dialogView.setPositiveListener(view -> {
+                    fragmentBillingBinding.customerName.setText(null);
+                    fragmentBillingBinding.customerMobile.setText(null);
+                    fragmentBillingBinding.customerName.setEnabled(true);
+                    fragmentBillingBinding.prgTrackingEdit.setEnabled(true);
+                    fragmentBillingBinding.prgTrackingEdit.setText(null);
+                    dialogView.dismiss();
+                });
+                dialogView.show();
+            }
+        }
     }
 
     private boolean stopLooping;
@@ -646,7 +697,19 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
     @Override
     public void doBack() {
-        getActivity().finish();
-        stopLooping = true;
+//        onBackPressedClick();
+        Dialog dialog = new Dialog(getContext());//R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
+        dialogCancelBinding.title.setText("Alert!");
+        dialogCancelBinding.dialogMessage.setText("Do you want to exit?");
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            getActivity().finish();
+            stopLooping = true;
+        });
+        dialog.show();
     }
 }

@@ -21,6 +21,7 @@ public interface BatchListMvpView extends MvpView {
     void checkBatchInventoryFailed(CheckBatchInventoryRes body);
 
     void onAddItemsClicked();
+    void onClickNotify();
 
     void noOrderFound(int count);
 
@@ -45,4 +46,6 @@ public interface BatchListMvpView extends MvpView {
     void checkBatchInventoryFailed(String message);
 
     void onClickBack();
+
+    void onClickNotAvailableBtn();
 }

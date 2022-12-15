@@ -22,7 +22,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerificationAdapter.ViewHolder> {
     private Context mContext;
@@ -101,31 +100,37 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
             }
         });
 
-        if (selectedBatchList != null && selectedBatchList.size() > 0) {
-            List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
-            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatchList) {
-                if (batchListObj.getItemID().equals(salesLine.getItemId())) {
-                    for (GetOMSTransactionResponse.PickPackReservation pickPackReservation : getOMSTransactionResponse.getPickPackReservation()) {
-                        if (pickPackReservation.getPickupItemId().equals(batchListObj.getItemID())
-                                && pickPackReservation.getPickupInventBatchId().equals(batchListObj.getBatchNo())) {
-                            batchListObj.setREQQTY(pickPackReservation.getPickupQty());
-                            selectedBatchListTemp.add(batchListObj);
-                        }
-                    }
-                }
+//        if (selectedBatchList != null && selectedBatchList.size() > 0) {
+//            List<GetBatchInfoRes.BatchListObj> selectedBatchListTemp = new ArrayList<>();
+//            for (GetBatchInfoRes.BatchListObj batchListObj : selectedBatchList) {
+//                if (batchListObj.getItemID().equals(salesLine.getItemId())) {
+//                    for (GetOMSTransactionResponse.PickPackReservation pickPackReservation : getOMSTransactionResponse.getPickPackReservation()) {
+//                        if (pickPackReservation.getPickupItemId().equals(batchListObj.getItemID())
+//                                && pickPackReservation.getPickupInventBatchId().equals(batchListObj.getBatchNo())) {
+//                            batchListObj.setREQQTY(pickPackReservation.getPickupQty());
+//                            selectedBatchListTemp.add(batchListObj);
+//                        }
+//                    }
+//                }
+//            }
+//            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
+//                    .distinct()
+//                    .collect(Collectors.toList());
+        List<GetOMSTransactionResponse.PickPackReservation> pickPackReservationList = new ArrayList<>();
+        for (GetOMSTransactionResponse.PickPackReservation pickPackReservation : getOMSTransactionResponse.getPickPackReservation()) {
+            if (pickPackReservation.getPickupItemId().equalsIgnoreCase(salesLine.getItemId())) {
+                pickPackReservationList.add(pickPackReservation);
             }
-            List<GetBatchInfoRes.BatchListObj> newList = selectedBatchListTemp.stream()
-                    .distinct()
-                    .collect(Collectors.toList());
-            if (newList != null && newList.size() > 0)
-                holder.adapterPickupVerificationBinding.headings.setVisibility(View.VISIBLE);
-            else
-                holder.adapterPickupVerificationBinding.headings.setVisibility(View.GONE);
-            PackerBatchDetailsAdapter packerBatchDetailsAdapter = new PackerBatchDetailsAdapter(mContext, newList);
-            new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
-            holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-            holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setAdapter(packerBatchDetailsAdapter);
         }
+        if (pickPackReservationList.size() > 0)
+            holder.adapterPickupVerificationBinding.headings.setVisibility(View.VISIBLE);
+        else
+            holder.adapterPickupVerificationBinding.headings.setVisibility(View.GONE);
+        PackerBatchDetailsAdapter packerBatchDetailsAdapter = new PackerBatchDetailsAdapter(mContext, pickPackReservationList);
+        new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
+        holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        holder.adapterPickupVerificationBinding.selectedbatchesRecycler.setAdapter(packerBatchDetailsAdapter);
+
     }
 
     @Override

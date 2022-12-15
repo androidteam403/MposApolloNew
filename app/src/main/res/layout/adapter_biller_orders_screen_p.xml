@@ -143,14 +143,13 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Note: "
+                            android:text="Tagged Box Number : "
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
@@ -159,10 +158,32 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Customer Requested"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen10sp" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Source Order ID : "
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/order_source_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -215,12 +236,29 @@
                                 android:contentDescription="@string/app_name" />
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/on_hold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen5dp"
+                            android:background="@drawable/bg_onhold_enable_btn"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dimen6dp"
+                            android:paddingTop="@dimen/dimen1dp"
+                            android:paddingEnd="@dimen/dimen6dp"
+                            android:paddingBottom="@dimen/dimen1dp"
+                            android:text="@string/label_on_hold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen10sp" />
+
 
                         <ImageView
                             android:id="@+id/right_arrow"
                             android:layout_width="@dimen/dimen30dp"
                             android:layout_height="@dimen/dimen30dp"
                             android:layout_gravity="end"
+                            android:layout_marginTop="@dimen/dimen5dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/right_arrow_black" />
 

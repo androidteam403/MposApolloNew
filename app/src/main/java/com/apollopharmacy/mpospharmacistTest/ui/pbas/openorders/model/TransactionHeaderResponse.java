@@ -104,6 +104,10 @@ public class TransactionHeaderResponse implements Serializable {
         @SerializedName("REFNO")
         @Expose
         private String refno;
+
+        @SerializedName("ReVerification")
+        @Expose
+        private int ReVerification;
         @SerializedName("ReciptId")
         @Expose
         private String reciptId;
@@ -136,10 +140,13 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isTagBox;
         private boolean isSelected;
         private boolean scanView;
+        private boolean isOverAllStatusfromList;
         private String itemStatus = "";
         private String scannedBarcode;
+        private boolean isPickupReserved;
         private boolean isExpanded;
         private GetOMSTransactionResponse getOMSTransactionResponse;
+        private boolean isOnHold = false;
 
         public String getFulfilId() {
             return FulfilId;
@@ -297,6 +304,14 @@ public class TransactionHeaderResponse implements Serializable {
             this.refno = refno;
         }
 
+        public int getReVerification() {
+            return ReVerification;
+        }
+
+        public void setReVerification(int reVerification) {
+            ReVerification = reVerification;
+        }
+
         public String getReciptId() {
             return reciptId;
         }
@@ -377,6 +392,14 @@ public class TransactionHeaderResponse implements Serializable {
             this.getOMSTransactionResponse = getOMSTransactionResponse;
         }
 
+        public boolean isOverAllStatusfromList() {
+            return isOverAllStatusfromList;
+        }
+
+        public void setOverAllStatusfromList(boolean overAllStatusfromList) {
+            isOverAllStatusfromList = overAllStatusfromList;
+        }
+
         public boolean isTagBox() {
             return isTagBox;
         }
@@ -409,12 +432,28 @@ public class TransactionHeaderResponse implements Serializable {
             this.scannedBarcode = scannedBarcode;
         }
 
+        public boolean isPickupReserved() {
+            return isPickupReserved;
+        }
+
+        public void setPickupReserved(boolean pickupReserved) {
+            isPickupReserved = pickupReserved;
+        }
+
         public boolean isExpanded() {
             return isExpanded;
         }
 
         public void setExpanded(boolean expanded) {
             isExpanded = expanded;
+        }
+
+        public boolean isOnHold() {
+            return isOnHold;
+        }
+
+        public void setOnHold(boolean onHold) {
+            isOnHold = onHold;
         }
     }
 }

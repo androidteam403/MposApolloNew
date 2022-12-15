@@ -36,6 +36,7 @@ public interface EPrescriptionMedicineDetailsMvpView extends MvpView {
 
     void onReqQtyUpdate(EPrescriptionMedicineResponse medicineResponse);
 
-
+    //    void onSuccessGetUnPostedPOSTransaction(CalculatePosTransactionRes body);
+    void onReqQtyUpdateWhileEdit(EPrescriptionMedicineResponse medicineResponse);
 }
 

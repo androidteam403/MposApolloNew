@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_regular"
-            app:zxing_framing_rect_height="@dimen/one_hundred_seventy_dp"
+            app:zxing_framing_rect_height="280dp"
             app:zxing_framing_rect_width="@dimen/two_hundred_eighty_dp" />
 
         <!--Full Camera Window with viewfinder-->
@@ -82,7 +82,7 @@
                     android:layout_height="@dimen/one_hundred_dp"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_scanning_image" />
+                    android:src="@drawable/ic_qr_code" />
 
                 <TextView
                     android:id="@+id/fulfilment_id_num"

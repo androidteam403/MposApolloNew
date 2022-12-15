@@ -8,10 +8,11 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataReqBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
@@ -20,6 +21,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPi
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
@@ -136,7 +138,10 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
             getMvpView().showLoading();
             customerDataResBean.setTerminal(getDataManager().getTerminalId());
             customerDataResBean.setCreatedonPosTerminal(getDataManager().getTerminalId());
-
+            customerDataResBean.setIsMPOSBill(1);
+            customerDataResBean.setIsPickPackOrder(true);
+            String json = new Gson().toJson(customerDataResBean);
+            System.out.println("LOAD OMS ORDER  " + json);
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CustomerDataResBean> call = api.LOAD_OMS_ORDER(customerDataResBean);
             call.enqueue(new Callback<CustomerDataResBean>() {
@@ -310,19 +315,19 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
     }
 
     @Override
-    public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader) {
+    public void mposPickPackOrderReservationApiCall(int requestType, CustomerDataResBean omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(requestType);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             if (omsHeader != null) {
                 MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
-                order.setDataAreaID("AHEL");
+                order.setDataAreaID(getDataManager().getDataAreaId());
                 order.setStoreID(getDataManager().getStoreId());
                 order.setTerminalID(getDataManager().getTerminalId());
-                order.setTransactionID(omsHeader.getRefno());
+                order.setTransactionID(omsHeader.getREFNO());
                 ordersList.add(order);
             }
 
@@ -339,8 +344,14 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
@@ -407,11 +418,20 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
             ApiInterface api = ApiClient.getApiService(replace_url);
 
             // ApiInterface api = ApiClient.getApiService3();
-            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest);
+
+            String url = "";
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSOrderUpdate";
+            } else {
+                url = "OMSService.svc/MPOSOrderUpdate";
+            }
+
+            Call<OMSOrderForwardResponse> call = api.UPDATE_OMS_ORDER(omsOrderForwardRequest, url);
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().OmsOrderUpdateSuccess(response.body(), omsOrderForwardRequest.getRequestType());
@@ -430,6 +450,49 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
                 }
             });
         }
+    }
+
+    @Override
+    public void getDoctorsList() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
+            doctorSearchModel.setISAX(false);
+            doctorSearchModel.setDoctorID("0");
+            doctorSearchModel.setDoctorName("");
+            doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
+            doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), doctorSearchModel);
+            call.enqueue(new Callback<DoctorSearchResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        getMvpView().hideKeyboard();
+                        getMvpView().getDoctorSearchList(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void onClickSendtoPacker() {
+        getMvpView().onClickSendtoPacker();
+    }
+
+    @Override
+    public void onClickContinueBill() {
+        getMvpView().onClickContinueBill();
     }
 }
 

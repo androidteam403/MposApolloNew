@@ -5,6 +5,7 @@ import android.content.Context;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipCashbackPlanResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
@@ -242,4 +243,18 @@ public interface AddItemMvpView extends MvpView {
     void showOTPDialog(String otp);
 
     void addCustomerFailed(String errMsg);
+
+    boolean isOnleneOrder();
+
+    void onSuccessGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
+
+    void onFailedGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
+
+    void noStockAvailableClearAll();
+
+    String getOnlineTransactionId();
+
+    CalculatePosTransactionRes getUnPostedTransactionResponseBody();
+
+    Boolean isCameFromOrderDetailsScreenActivity();
 }

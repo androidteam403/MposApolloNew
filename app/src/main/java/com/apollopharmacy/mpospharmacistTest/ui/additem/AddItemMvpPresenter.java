@@ -1,17 +1,22 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentVoidReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresenter<V> {
@@ -150,4 +155,8 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void createNewCustomer();
 
     GetGlobalConfingRes getGlobalConfiguration();
+
+    void getPostOnlineOrderApiCall(EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, SaveRetailsTransactionRes saveRetailsTransactionRes, CustomerDataResBean customerDataResBean);
+
+    GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity();
 }

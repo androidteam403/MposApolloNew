@@ -3,6 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class GetGlobalConfingRes {
 
 
@@ -596,5 +598,177 @@ public class GetGlobalConfingRes {
 
     public String getUHIDHBPURL() {
         return UHIDHBPURL;
+    }
+
+    @SerializedName("_OMSVendorWiseConfigration")
+    @Expose
+    private List<OMSVendorWiseConfigration> oMSVendorWiseConfigration = null;
+
+    public List<OMSVendorWiseConfigration> getOMSVendorWiseConfigration() {
+        return oMSVendorWiseConfigration;
+    }
+
+    public void setOMSVendorWiseConfigration(List<OMSVendorWiseConfigration> oMSVendorWiseConfigration) {
+        this.oMSVendorWiseConfigration = oMSVendorWiseConfigration;
+    }
+
+    //these changes made by naveen
+    public class OMSVendorWiseConfigration {
+
+        @SerializedName("RequestStatus")
+        @Expose
+        private Integer requestStatus;
+        @SerializedName("ReturnMessage")
+        @Expose
+        private String returnMessage;
+        @SerializedName("AllowBulkBilling")
+        @Expose
+        private Boolean allowBulkBilling;
+        @SerializedName("AllowCancellation")
+        @Expose
+        private Boolean allowCancellation;
+        @SerializedName("AllowChangeQTY")
+        @Expose
+        private Boolean allowChangeQTY;
+        @SerializedName("AllowLineCancellation")
+        @Expose
+        private Boolean allowLineCancellation;
+        @SerializedName("AllowMultiBatch")
+        @Expose
+        private Boolean allowMultiBatch;
+        @SerializedName("AllowOMSPriceBilling")
+        @Expose
+        private Boolean allowOMSPriceBilling;
+        @SerializedName("AllowPartialQTY")
+        @Expose
+        private Boolean allowPartialQTY;
+        @SerializedName("AllowProductAdd")
+        @Expose
+        private Boolean allowProductAdd;
+        @SerializedName("AllowSubstitude")
+        @Expose
+        private Boolean allowSubstitude;
+        @SerializedName("AllowVoidProduct")
+        @Expose
+        private Boolean allowVoidProduct;
+        @SerializedName("AllowVoidTender")
+        @Expose
+        private Boolean allowVoidTender;
+        @SerializedName("CorpCode")
+        @Expose
+        private String corpCode;
+
+        public Integer getRequestStatus() {
+            return requestStatus;
+        }
+
+        public void setRequestStatus(Integer requestStatus) {
+            this.requestStatus = requestStatus;
+        }
+
+        public String getReturnMessage() {
+            return returnMessage;
+        }
+
+        public void setReturnMessage(String returnMessage) {
+            this.returnMessage = returnMessage;
+        }
+
+        public Boolean getAllowBulkBilling() {
+            return allowBulkBilling;
+        }
+
+        public void setAllowBulkBilling(Boolean allowBulkBilling) {
+            this.allowBulkBilling = allowBulkBilling;
+        }
+
+        public Boolean getAllowCancellation() {
+            return allowCancellation;
+        }
+
+        public void setAllowCancellation(Boolean allowCancellation) {
+            this.allowCancellation = allowCancellation;
+        }
+
+        public Boolean getAllowChangeQTY() {
+            return allowChangeQTY;
+        }
+
+        public void setAllowChangeQTY(Boolean allowChangeQTY) {
+            this.allowChangeQTY = allowChangeQTY;
+        }
+
+        public Boolean getAllowLineCancellation() {
+            return allowLineCancellation;
+        }
+
+        public void setAllowLineCancellation(Boolean allowLineCancellation) {
+            this.allowLineCancellation = allowLineCancellation;
+        }
+
+        public Boolean getAllowMultiBatch() {
+            return allowMultiBatch;
+        }
+
+        public void setAllowMultiBatch(Boolean allowMultiBatch) {
+            this.allowMultiBatch = allowMultiBatch;
+        }
+
+        public Boolean getAllowOMSPriceBilling() {
+            return allowOMSPriceBilling;
+        }
+
+        public void setAllowOMSPriceBilling(Boolean allowOMSPriceBilling) {
+            this.allowOMSPriceBilling = allowOMSPriceBilling;
+        }
+
+        public Boolean getAllowPartialQTY() {
+            return allowPartialQTY;
+        }
+
+        public void setAllowPartialQTY(Boolean allowPartialQTY) {
+            this.allowPartialQTY = allowPartialQTY;
+        }
+
+        public Boolean getAllowProductAdd() {
+            return allowProductAdd;
+        }
+
+        public void setAllowProductAdd(Boolean allowProductAdd) {
+            this.allowProductAdd = allowProductAdd;
+        }
+
+        public Boolean getAllowSubstitude() {
+            return allowSubstitude;
+        }
+
+        public void setAllowSubstitude(Boolean allowSubstitude) {
+            this.allowSubstitude = allowSubstitude;
+        }
+
+        public Boolean getAllowVoidProduct() {
+            return allowVoidProduct;
+        }
+
+        public void setAllowVoidProduct(Boolean allowVoidProduct) {
+            this.allowVoidProduct = allowVoidProduct;
+        }
+
+        public Boolean getAllowVoidTender() {
+            return allowVoidTender;
+        }
+
+        public void setAllowVoidTender(Boolean allowVoidTender) {
+            this.allowVoidTender = allowVoidTender;
+        }
+
+        public String getCorpCode() {
+            return corpCode;
+        }
+
+        public void setCorpCode(String corpCode) {
+            this.corpCode = corpCode;
+        }
+
     }
 }

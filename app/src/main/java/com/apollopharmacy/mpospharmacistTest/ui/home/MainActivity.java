@@ -217,9 +217,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                     navigateprinterscreen();
                     // navController.navigate(R.id.nav_Invoice, null, navOptions, null);
                     // Constant.getInstance().Orders_type = "Invoice";
-                }
-
-                else if(menuItem.getItemId() == R.id.nav_ePrescription_vOne){
+                } else if (menuItem.getItemId() == R.id.nav_ePrescription_vOne) {
                     navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
                     Constant.getInstance().Orders_type = "E-Prescription";
                 }
@@ -272,11 +270,17 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
                 nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
                 nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+                nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(true);
             } else {
-                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
-                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Packing).setVisible(true);
+//                nav_Menu.findItem(R.id.nav_Invoice).setVisible(true);
+                nav_Menu.findItem(R.id.nav_eprescription).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Picking).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
+                nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
+                nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(false);
             }
         }
     }

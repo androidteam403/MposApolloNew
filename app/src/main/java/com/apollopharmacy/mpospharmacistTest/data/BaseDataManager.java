@@ -371,4 +371,34 @@ public class BaseDataManager implements DataManager {
     public List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj() {
         return mPreferencesHelper.getTotalOmsHeaderListObj();
     }
+
+    @Override
+    public void setLabelSize(String labelSize) {
+        mPreferencesHelper.setLabelSize(labelSize);
+    }
+
+    @Override
+    public String getLabelSize() {
+        return mPreferencesHelper.getLabelSize();
+    }
+
+    @Override
+    public void setTenderTypeResultEntity(GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity) {
+        mPreferencesHelper.setTenderTypeResultEntity(getTenderTypeResultEntity);
+    }
+
+    @Override
+    public GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity() {
+        return mPreferencesHelper.getTenderTypeResultEntity();
+    }
+
+    @Override
+    public void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {
+        mPreferencesHelper.setGlobalTotalOmsTransactionHeader(totalOmsHeaderList);
+    }
+
+    @Override
+    public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
+        return mPreferencesHelper.getGlobalTotalOmsHeaderList();
+    }
 }

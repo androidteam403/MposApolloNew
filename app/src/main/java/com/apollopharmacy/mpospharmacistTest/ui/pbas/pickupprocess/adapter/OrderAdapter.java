@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -74,6 +75,21 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        if (omsHeader.getScannedBarcode() != null) {
+//            if (omsHeader.getScannedBarcode().length() > 5)
+//                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
+//            else
+            holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
+        } else {
+            holder.orderBinding.boxNumber.setText("-");
+        }
+        if (omsHeader.isOnHold()) {
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
+        } else {
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            holder.orderBinding.onHold.setEnabled(true);
+        }
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 //        holder.orderBinding.rightArrow.setOnClickListener(v -> {
 //            if (pickupProcessMvpView != null)
@@ -177,8 +193,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
 
         holder.itemView.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null)
-                pickupProcessMvpView.onClickOrderItem(position, omsHeader);
+            if (omsHeader.isOnHold()) {
+                Toast.makeText(mContext, "The order is on hold", Toast.LENGTH_SHORT).show();
+            } else {
+                if (pickupProcessMvpView != null)
+                    pickupProcessMvpView.onClickOrderItem(position, omsHeader);
+            }
         });
 
         holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
@@ -200,7 +220,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             itemStatusDropdownDialog.show();
         });
 
+        holder.orderBinding.onHold.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.onClickOnHold(omsHeader);
+            }
+        });
     }
+
 
     private void goToNextCheck(int position, List<RackAdapter.RackBoxModel.ProductData> productDataList) {
         if (fullfillmentList.get(position).getExpandStatus() == 0) {

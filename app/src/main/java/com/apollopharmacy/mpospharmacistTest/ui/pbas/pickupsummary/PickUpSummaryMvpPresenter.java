@@ -27,6 +27,8 @@ public interface PickUpSummaryMvpPresenter<V extends PickUpSummaryMvpView> exten
 
     void onClickUpdateOMSOrder_pickingconfirmation();
 
+    void onClickprint();
+
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
 }

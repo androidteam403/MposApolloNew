@@ -62,6 +62,14 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     }
 
     @Override
+    public void onClickPrint() {
+        getMvpView().onClickPrint();
+
+    }
+
+    int i;
+
+    @Override
     public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -70,13 +78,20 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
             List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
             if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                for (i = 0; i < selectedOmsHeaderList.size(); i++) {
+//                    if ((requestType == 1 && !selectedOmsHeaderList.get(i).isPickupReserved()) || requestType == 2) {
                     MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
                     order.setDataAreaID("AHEL");
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
+                    if (requestType == 2) {
+                        order.setRefID("");
+                    } else {
+                        order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    }
                     ordersList.add(order);
+//                    }
                 }
             }
 
@@ -93,15 +108,24 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
 
             }
             ApiInterface api = ApiClient.getApiService(replace_url);
-
-            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(mposPickPackOrderReservationRequest);
+            String url = "";
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+//                            response.body().setReturnMessage("BARCODE , 9781234567897");
+
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+
 
                         } else {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
@@ -117,5 +141,30 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
                 }
             });
         }
+    }
+
+    @Override
+    public String userName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String storeId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String terminalId() {
+        return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public String eposUrl() {
+        return getDataManager().getEposURL();
+    }
+
+    @Override
+    public String dataAreaId() {
+        return getDataManager().getDataAreaId();
     }
 }

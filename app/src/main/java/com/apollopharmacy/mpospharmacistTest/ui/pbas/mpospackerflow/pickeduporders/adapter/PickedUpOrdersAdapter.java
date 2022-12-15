@@ -48,15 +48,30 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
         TransactionHeaderResponse.OMSHeader omsHeader = fullfillmentList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+        holder.orderBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
+        if (omsHeader.getReVerification() == 2) {
+            holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
+        } else {
+            holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
+        }
+        if (omsHeader.getOverallOrderStatus() != null && omsHeader.getOverallOrderStatus().length() > 2) {
+            String boxId = omsHeader.getOverallOrderStatus().substring(2);
+//            if (boxId.length() > 5)
+            holder.orderBinding.boxId.setText(boxId);//boxId.substring(boxId.length() - 5)
+//            else
+//                holder.orderBinding.boxId.setText(boxId.substring(boxId.length()));
+        } else {
+            holder.orderBinding.boxId.setText("-");
+        }
         holder.itemView.setOnClickListener(v -> {
             pickupProcessMvpView.onItmClick(position, omsHeader);
         });
         if (omsHeader.getOverallOrderStatus().startsWith("1")) {
-            holder.orderBinding.orderOverallStatus.setText("FULL");
+            holder.orderBinding.orderOverallStatus.setText("Fully Available");
         } else if (omsHeader.getOverallOrderStatus().startsWith("2")) {
-            holder.orderBinding.orderOverallStatus.setText("PARTIAL");
+            holder.orderBinding.orderOverallStatus.setText("Partially Available");
         } else if (omsHeader.getOverallOrderStatus().startsWith("3")) {
-            holder.orderBinding.orderOverallStatus.setText("NOT AVAILABLE");
+            holder.orderBinding.orderOverallStatus.setText("Not Available");
         }
         if (omsHeader.getStockStatus() != null && omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
@@ -72,7 +87,11 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
             holder.orderBinding.status.setText("Full");
             holder.orderBinding.statusIcon.setVisibility(View.VISIBLE);
         }
-
+        holder.orderBinding.onHold.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.onClickUnHold(omsHeader);
+            }
+        });
     }
 
     @Override
@@ -95,7 +114,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
                 } else {
                     filteredList.clear();
                     for (TransactionHeaderResponse.OMSHeader row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getRefno().contains(charString))) {
+                        if (!filteredList.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
                             filteredList.add(row);
                         }
 

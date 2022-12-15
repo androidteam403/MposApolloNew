@@ -3,11 +3,8 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscr
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
-
-import java.util.List;
 
 public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpView> extends MvpPresenter<V> {
 
@@ -41,7 +38,7 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
 
     void onGenerateBill();
 
-    void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader);
+    void mposPickPackOrderReservationApiCall(int requestType, CustomerDataResBean omsHeader);
 
     void onPrintLabel();
 
@@ -52,5 +49,11 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
     void onClickProceedAction();
 
     void UpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest);
+
+    void onClickSendtoPacker();
+
+    void onClickContinueBill();
+
+    void getDoctorsList();
 
 }

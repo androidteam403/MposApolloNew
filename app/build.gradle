@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 7
-        versionName '1.7'
+        versionName '2.8'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"http://lms.apollopharmacy.org:51/EPOS/\"")
@@ -26,13 +26,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-//    packagingOptions{
-//        exclude 'com/itextpdf/io/font/cmap_info.txt'
-//        exclude 'com/itextpdf/io/font/cmap/*'
-//    }
-
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -65,7 +58,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.itextpdf:itext7-core:7.1.8'
 
 
     // dependency injection
@@ -156,8 +148,12 @@ dependencies {
     implementation files('libs/libcommon.jar')
     implementation files('libs/BixolonLabelPrinterLibrary.jar')
     implementation project(path:':printflib')
-
-//    implementation 'com.itextpdf:itext7-core:7.1.8'
-
+    implementation 'com.itextpdf:itext-pdfa:5.5.9'
+    implementation 'com.madgag:scpkix-jdk15on:1.47.0.1'
+    implementation 'com.itextpdf:itextpdf:5.0.6'
     implementation 'com.localebro:okhttpprofiler:1.0.8'
+   implementation 'com.itextpdf:itext7-core:7.1.8'
+
+  implementation 'me.biubiubiu.justifytext:library:1.1'
+
 }

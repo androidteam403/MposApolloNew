@@ -44,4 +44,6 @@ public interface PickUpVerificationMvpView extends MvpView {
     void onSuccessBatchInfo(GetBatchInfoRes response);
 
     void onFailedBatchInfo(GetBatchInfoRes body);
+
+    void onClickPackerStatusUpdate();
 }

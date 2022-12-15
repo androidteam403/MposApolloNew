@@ -83,12 +83,12 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Customer Type"
+                    android:text="Stock Availabilty"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/customer_type_filter"
+                    android:id="@+id/stock_available_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
@@ -200,25 +200,47 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Stock Availability"
+                    android:text="Customer Type"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/stock_available_filter"
+                    android:id="@+id/customer_type_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/five_dp"
-                    android:layout_marginBottom="@dimen/dimen60dp" />
+                    android:layout_marginEnd="@dimen/five_dp"/>
 
                 <!--                <View-->
                 <!--                    android:layout_width="match_parent"-->
                 <!--                    android:layout_height="@dimen/dimen1dp"-->
                 <!--                    android:layout_marginTop="@dimen/dimen5dp"-->
                 <!--                    android:background="#A9A9A9" />-->
+                <View
+                    android:id="@+id/reverification_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
 
+                <TextView
+                    android:id="@+id/reverification_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Reverification"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reverification_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/dimen60dp" />
             </LinearLayout>
 
         </ScrollView>

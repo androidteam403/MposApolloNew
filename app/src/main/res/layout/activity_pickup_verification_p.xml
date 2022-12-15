@@ -9,6 +9,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen50dp"
             android:orientation="vertical">
 
 
@@ -53,6 +54,28 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/take_print"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rounde_corner_takeprint_bg"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> callback.onClickTakePrint()}"
+                        android:paddingStart="@dimen/seven_dp"
+                        android:paddingEnd="@dimen/seven_dp"
+                        android:text="Print FLID"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -261,7 +284,6 @@ Do you want to proceed with Packing?"
 
                             <TextView
                                 android:id="@+id/status_text"
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
@@ -279,18 +301,6 @@ Do you want to proceed with Packing?"
                                 android:layout_toRightOf="@id/status_text"
                                 android:contentDescription="@string/app_name" />
 
-                            <ImageView
-                                android:id="@+id/partial_status_color"
-                                android:layout_width="@dimen/eighteen_dp"
-                                android:layout_height="@dimen/eighteen_dp"
-                                android:layout_marginEnd="@dimen/eight_dp"
-                                android:layout_toRightOf="@id/status_text"
-                                android:background="@drawable/ic_circular_partial"
-                                android:contentDescription="@string/app_name"
-                                android:padding="@dimen/five_dp"
-                                android:rotation="270"
-                                android:src="@drawable/tick_mark"
-                                android:visibility="gone" />
                         </RelativeLayout>
 
 
@@ -440,7 +450,6 @@ Do you want to proceed with Packing?"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
             android:layout_marginEnd="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/five_dp"
             android:orientation="vertical">
@@ -449,6 +458,7 @@ Do you want to proceed with Packing?"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="1">
 
                 <TextView
@@ -458,7 +468,6 @@ Do you want to proceed with Packing?"
 
 
                 <Button
-                    android:id="@+id/take_print"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dimen45dp"
                     android:layout_marginStart="@dimen/fifteen_dp"
@@ -471,6 +480,7 @@ Do you want to proceed with Packing?"
                     android:text="Take Print"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     tools:ignore="ButtonStyle" />
 
             </LinearLayout>
@@ -479,9 +489,21 @@ Do you want to proceed with Packing?"
                 android:id="@+id/button_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
+
+                <Button
+                    android:id="@+id/packer_status_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/roboto_bold"
+                    android:onClick="@{()-> callback.onClickPackerStatusUpdate()}"
+                    android:text="@string/label_packer_status_update"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_14"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/send_re_ver"
@@ -489,14 +511,15 @@ Do you want to proceed with Packing?"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:background="@drawable/btn_ripple_effect_grey"
+                    android:enabled="false"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
                     android:onClick="@{()->callback.onClickReVerificatio()}"
                     android:padding="@dimen/seven_dp"
-                    android:enabled="false"
                     android:text="Send re verification"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_grey"
+                    android:visibility="gone"
                     tools:ignore="ButtonStyle" />
 
 
@@ -507,14 +530,15 @@ Do you want to proceed with Packing?"
                     android:layout_marginStart="@dimen/fifteen_dp"
                     android:layout_weight=".5"
                     android:background="@drawable/btn_ripple_effect_grey"
+                    android:enabled="false"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:enabled="false"
                     android:onClick="@{()->callback.onClickVerification()}"
                     android:padding="@dimen/seven_dp"
                     android:text="Packing verified"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_grey"
+                    android:visibility="gone"
                     tools:ignore="ButtonStyle" />
 
             </LinearLayout>

@@ -11,16 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPackerBatchDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.List;
 
 public class PackerBatchDetailsAdapter extends RecyclerView.Adapter<PackerBatchDetailsAdapter.ViewHolder> {
     private Context mContext;
-    private List<GetBatchInfoRes.BatchListObj> selectedBatchList;
+    //    private List<GetBatchInfoRes.BatchListObj> selectedBatchList;
+    private List<GetOMSTransactionResponse.PickPackReservation> pickPackReservationList;
 
-    public PackerBatchDetailsAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> selectedBatchList) {
+    public PackerBatchDetailsAdapter(Context mContext,List<GetOMSTransactionResponse.PickPackReservation> pickPackReservationList) {
         this.mContext = mContext;
-        this.selectedBatchList = selectedBatchList;
+        this.pickPackReservationList = pickPackReservationList;
     }
 
     @NonNull
@@ -32,12 +34,12 @@ public class PackerBatchDetailsAdapter extends RecyclerView.Adapter<PackerBatchD
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.packerBatchDetailsBinding.setModel(selectedBatchList.get(position));
+        holder.packerBatchDetailsBinding.setModel(pickPackReservationList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return selectedBatchList.size();
+        return pickPackReservationList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

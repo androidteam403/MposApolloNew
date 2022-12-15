@@ -14,14 +14,27 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/dimen6dp"
-            android:orientation="vertical">
-
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@drawable/bg_cancel_btn"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickNotAvailableBtn()}"
+                android:paddingBottom="@dimen/dimen6dp"
+                android:text="Not Available"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dimen20dp"
                 android:background="@drawable/bg_cancel_btn"
                 android:backgroundTint="@color/colorPrimary"
                 android:fontFamily="@font/roboto_bold"
@@ -30,6 +43,23 @@
                 android:paddingBottom="@dimen/dimen6dp"
                 android:text="@string/label_add_items"
                 android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/rounded_corners_bg"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()-> callback.onClickNotAvailableBtn()}"
+                android:paddingStart="@dimen/seven_dp"
+                android:paddingEnd="@dimen/seven_dp"
+                android:paddingBottom="@dimen/dimen3dp"
+                android:text="Not Available"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
+
 
             <TextView
                 android:id="@+id/select_batches_automatically"
@@ -143,17 +173,19 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/dimen3dp"
                 android:layout_marginEnd="@dimen/five_dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".6"
                     android:orientation="vertical">
 
                     <TextView
@@ -174,7 +206,46 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4">
+
+                    <TextView
+                        android:id="@+id/apollo_mrp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight=".3">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/rounded_corners_bg"-->
+                <!--                        android:backgroundTint="@color/red"-->
+                <!--                        android:fontFamily="@font/roboto_bold"-->
+                <!--                        android:layout_alignParentEnd="true"-->
+                <!--                        android:onClick="@{()-> callback.onClickNotAvailableBtn()}"-->
+                <!--                        android:paddingStart="@dimen/seven_dp"-->
+                <!--                        android:paddingTop="@dimen/dimen3dp"-->
+                <!--                        android:paddingEnd="@dimen/seven_dp"-->
+                <!--                        android:paddingBottom="@dimen/dimen3dp"-->
+                <!--                        android:text="Not Available"-->
+                <!--                        android:textColor="@color/white"-->
+                <!--                        android:textSize="@dimen/dimen14sp" />-->
+                <!--                </RelativeLayout>-->
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -650,6 +721,15 @@
             android:textColor="@color/red"
             android:textSize="@dimen/dimen14sp"
             android:visibility="gone" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/apollo_mrp"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="65dp"-->
+        <!--            android:layout_marginStart="@dimen/dimen220dp"-->
+        <!--            android:fontFamily="@font/roboto_regular"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:textSize="12sp" />-->
     </RelativeLayout>
 
     <data>

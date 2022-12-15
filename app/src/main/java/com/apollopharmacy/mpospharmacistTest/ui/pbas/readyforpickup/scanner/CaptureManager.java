@@ -4,27 +4,35 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.ExitInfoDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -57,7 +65,7 @@ import java.util.Map;
  * - Setting the result and finishing the Activity when a barcode is scanned
  * - Displaying camera errors
  */
-public class CaptureManager {
+public class CaptureManager implements CallbackCaptureManager {
     private static final String TAG = com.journeyapps.barcodescanner.CaptureManager.class.getSimpleName();
 
     private static int cameraPermissionReqCode = 250;
@@ -101,27 +109,32 @@ public class CaptureManager {
                 }
 
                 if (!sameBarcode) {
-                    barcodeList.add(result.toString());
-                    ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());
-                    boolean isAllBarcodeScanned = true;
-                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null) {
-                        for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
-                            if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
-                                isAllBarcodeScanned = false;
-                            }
-                        }
-                    }
-                    if (isAllBarcodeScanned) {
-                        returnResult(result, barcodeList);
-                    } else {
-                        if (!BillerOrdersActivity.isBillerActivity) {
-                            barcodeView.resume();
-                            mCallback.scannedListener(barcodeList);
-                        } else {
-                            returnResult(result, barcodeList);
-                        }
-                        mCallback.dialogShow(orderPos);
-                    }
+
+                    new CaptureManagerController(activity, CaptureManager.this).mposPickPackOrderReservationApiCall(1, ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos), ReadyForPickUpActivity.userName, ReadyForPickUpActivity.storeId, ReadyForPickUpActivity.terminalId, ReadyForPickUpActivity.eposUrl, result.toString(), ReadyForPickUpActivity.dataAreaId);
+
+//                    barcodeList.add(result.toString());
+//                    ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(result.toString());
+//                    boolean isAllBarcodeScanned = true;
+//                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null) {
+//                        for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+//                            if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+//                                isAllBarcodeScanned = false;
+//                            }
+//                        }
+//                    }
+//                    if (isAllBarcodeScanned) {
+//                        returnResult(result, barcodeList);
+//                    } else {
+//                        if (!BillerOrdersActivity.isBillerActivity) {
+//                            barcodeView.resume();
+//                            mCallback.scannedListener(barcodeList);
+//                        } else {
+//                            returnResult(result, barcodeList);
+//                        }
+//                        mCallback.dialogShow(orderPos);
+//                    }
+
+
                 } else {
                     mCallback.onClickScanCode(result.toString(), ReadyForPickUpActivity.selectedOmsHeaderListTest.get(position).getRefno());
                 }
@@ -498,6 +511,57 @@ public class CaptureManager {
 
     public static void setCameraPermissionReqCode(int cameraPermissionReqCode) {
         CaptureManager.cameraPermissionReqCode = cameraPermissionReqCode;
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+            barcodeList.add(finalResult.toString());
+            ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setScannedBarcode(finalResult.toString());
+            ReadyForPickUpActivity.selectedOmsHeaderListTest.get(orderPos).setPickupReserved(true);
+            boolean isAllBarcodeScanned = true;
+            if (ReadyForPickUpActivity.selectedOmsHeaderListTest != null) {
+                for (int i = 0; i < ReadyForPickUpActivity.selectedOmsHeaderListTest.size(); i++) {
+                    if (ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode() == null || ReadyForPickUpActivity.selectedOmsHeaderListTest.get(i).getScannedBarcode().isEmpty()) {
+                        isAllBarcodeScanned = false;
+                    }
+                }
+            }
+            if (isAllBarcodeScanned) {
+                returnResult(finalResult, barcodeList);
+            } else {
+                if (!BillerOrdersActivity.isBillerActivity) {
+                    barcodeView.resume();
+                    mCallback.scannedListener(barcodeList);
+                } else {
+                    returnResult(finalResult, barcodeList);
+                }
+                mCallback.dialogShow(orderPos);
+            }
+        } else if (mposPickPackOrderReservationResponse.getRequestStatus() == 1) {
+
+            Dialog dialog = new Dialog(activity);//R.style.Theme_AppCompat_DayNight_NoActionBar
+            DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), com.apollopharmacy.mpospharmacistTest.R.layout.dialog_cancel, null, false);
+            dialogCancelBinding.dialogMessage.setText(mposPickPackOrderReservationResponse.getReturnMessage() + "\nplease choose another box id's.");
+            dialog.setContentView(dialogCancelBinding.getRoot());
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogCancelBinding.dialogButtonNO.setVisibility(View.GONE);
+            dialogCancelBinding.dialogButtonOK.setText("Ok");
+            dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+                dialog.dismiss();
+                mCallback.isoxIdAlreadyAvailable();
+            });
+            dialog.show();
+        }
+
+
+    }
+
+    @Override
+    public void onFailureMessage(String message) {
+
     }
 }
 

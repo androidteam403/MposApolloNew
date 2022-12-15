@@ -12,13 +12,19 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     void startPickUp();
 
     void onClickScanCode();
+
     void fetchOMSOrderList();
+
     void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
 
     List<RacksDataResponse.FullfillmentDetail> getFullFillmentList();
+
     void onClickFilter();
+
     List<List<RackAdapter.RackBoxModel.ProductData>> getListOfListFullFillmentList();
+
     List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList();
+
     void setFullFillmentDataList(List<RacksDataResponse.FullfillmentDetail> fullFillmentDataList);
 
     void setListOfListFullFillProducts(List<List<RackAdapter.RackBoxModel.ProductData>> listOfListFullFillProducts);
@@ -27,4 +33,15 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     // created by naveen
     void fetchFulfilmentOrderList();
 
+    void mposPickPackOrderReservationApiCall(TransactionHeaderResponse.OMSHeader omsHeaderObj);
+
+    void onClickPrevPage();
+
+    void onClickNextPage();
+
+    void setGlobalTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
+
+    List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList();
+
+    String getTerminalId();
 }

@@ -18,4 +18,8 @@ public interface BillerOrdersMvpPresenter<V extends BillerOrdersMvpView> extends
     void setTotalOmsHeaderList(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList);
 
     void onRackApiCall();
+
+    void mposPickPackOrderReservationApiCall(OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj);
+
+    String getTerminalId();
 }

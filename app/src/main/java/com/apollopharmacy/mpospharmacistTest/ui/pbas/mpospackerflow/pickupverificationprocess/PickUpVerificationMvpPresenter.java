@@ -22,4 +22,6 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
     void onClickTakePrint();
 
     void getBatchDetailsApi(String itemId);
+
+    void onClickPackerStatusUpdate();
 }

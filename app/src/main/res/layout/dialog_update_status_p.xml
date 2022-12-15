@@ -14,16 +14,18 @@
         <RelativeLayout
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dimen5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:text="update status"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/dimen18sp" />
 
             <ImageView
@@ -33,7 +35,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/delete_white_icon" />
+                android:src="@drawable/black_delete_icon" />
         </RelativeLayout>
 
         <RelativeLayout
