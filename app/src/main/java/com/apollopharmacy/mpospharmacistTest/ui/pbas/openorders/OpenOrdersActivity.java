@@ -39,9 +39,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -344,6 +347,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                newOmsHeaderList.remove(omsHeaderList.get(j));
 //            }
 //        }
+
+        Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+            public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date1 = null;
+                Date date2 = null;
+                try {
+                    date1 = dateFormat.parse(o1.getDeliveryDate());
+                    date2 = dateFormat.parse(o2.getDeliveryDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date1.compareTo(date2);
+            }
+        });
+//        Collections.reverse(omsHeaderList);
 
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -1025,6 +1045,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
 
+            Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            });
+//            Collections.reverse(omsHeaderList);
+//
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -1200,6 +1237,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             mPresenter.setTotalOmsHeaderList(omsHeaderList);
             PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
             openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+
+            Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            });
+//            Collections.reverse(omsHeaderList);
 
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -1638,6 +1692,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 omsHeaderListForSelectionList.set(index, omsHeaderList.get(getPos));
                 mPresenter.setGlobalTotalOmsHeaderList(omsHeaderListForSelectionList);
             }
+
+            Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            });
+//            Collections.reverse(omsHeaderList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -1935,7 +2006,22 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 filterList.add(mPresenter.getTotalOmsHeaderList().get(i));
             }
 
+            Collections.sort(filterList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
+                    return date1.compareTo(date2);
+                }
+            });
+//            Collections.reverse(filterList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
@@ -2256,7 +2342,22 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 filterList.add(mPresenter.getTotalOmsHeaderList().get(i));
             }
 
+            Collections.sort(filterList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
+                    return date1.compareTo(date2);
+                }
+            });
+//            Collections.reverse(filterList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
