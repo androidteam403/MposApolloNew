@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/batchno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{model.pickupInventBatchId}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+            <TextView
+                android:id="@+id/updatedBatchno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:layout_weight=".22"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{model.pickupPhysicalInventBatchId}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:id="@+id/exp_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@{model.expiry}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:id="@+id/mrp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@{String.valueOf(model.price)}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:id="@+id/required_quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".18"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@{String.valueOf(Math.round(model.pickupQty))}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/eight_sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse.PickPackReservation" />
+    </data>
+</layout>

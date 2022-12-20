@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
 public interface PharmacistLoginMvpView extends MvpView {
@@ -31,4 +32,5 @@ public interface PharmacistLoginMvpView extends MvpView {
 
     void onSucessMposPosiflex();
 
+    void onSuccessUpdatePatchApiCAll(UpdatePatchResponse updatePatchResponse);
 }

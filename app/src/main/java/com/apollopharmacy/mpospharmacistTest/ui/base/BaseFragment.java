@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.apollopharmacy.mpospharmacistTest.R;
-import com.apollopharmacy.mpospharmacistTest.di.component.ActivityComponent;
-import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.di.component.ActivityComponent;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created on : Jan 19, 2019
