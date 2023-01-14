@@ -27,6 +27,7 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPharmacistLoginBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;

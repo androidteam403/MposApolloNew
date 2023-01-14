@@ -86,6 +86,8 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0)
                                 getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
+                            else
+                                getMvpView().hideLoading();
                         } else
                             getMvpView().hideLoading();
                     }
