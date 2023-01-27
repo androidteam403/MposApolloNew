@@ -148,11 +148,11 @@ dependencies {
     implementation files('libs/libcommon.jar')
     implementation files('libs/BixolonLabelPrinterLibrary.jar')
     implementation project(path:':printflib')
-    implementation 'com.itextpdf:itext-pdfa:5.5.9'
+//    implementation 'com.itextpdf:itext-pdfa:5.5.9'
     implementation 'com.madgag:scpkix-jdk15on:1.47.0.1'
-    implementation 'com.itextpdf:itextpdf:5.0.6'
+//    implementation 'com.itextpdf:itextpdf:5.0.6'
     implementation 'com.localebro:okhttpprofiler:1.0.8'
-   implementation 'com.itextpdf:itext7-core:7.1.8'
+//   implementation 'com.itextpdf:itext7-core:7.1.8'
 
   implementation 'me.biubiubiu.justifytext:library:1.1'
 
