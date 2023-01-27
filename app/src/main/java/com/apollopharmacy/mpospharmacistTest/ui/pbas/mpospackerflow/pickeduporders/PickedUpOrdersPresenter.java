@@ -14,7 +14,12 @@ import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -71,7 +76,23 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
 //                            response.body().getOMSHeader().get(i).setOrderPickup(true);
 //                            response.body().getOMSHeader().get(i).setOrderPacked(false);
 //                        }
+                        if (response.body() != null && response.body().getOMSHeader() != null && response.body().getOMSHeader().size()>1) {
+                            Collections.sort(response.body().getOMSHeader(), new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                                public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date date1 = null;
+                                    Date date2 = null;
+                                    try {
+                                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
 
+                                    return date1.compareTo(date2);
+                                }
+                            });
+                        }
                         getMvpView().hideLoading();
                         getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
                         getMvpView().setFiltersHeaderLists(response.body().getOMSHeader());

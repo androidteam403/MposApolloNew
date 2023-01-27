@@ -89,21 +89,21 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V> i
         }
     }
 
-    @Override
-    public void enableKioskMode() {
-        DevicePolicyManager myDevicePolicyManager = (DevicePolicyManager) getMvpView().getBaseActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName mDPM = new ComponentName(getMvpView().getBaseActivity(), MyAdmin.class);
-        if (myDevicePolicyManager != null) {
-
-            myDevicePolicyManager.removeActiveAdmin(mDPM);
-            if (myDevicePolicyManager.isDeviceOwnerApp(getMvpView().getBaseActivity().getPackageName())) {
-                String[] packages = {getMvpView().getBaseActivity().getPackageName()};
-                myDevicePolicyManager.setLockTaskPackages(mDPM, packages);
-            } else {
-                getDataManager().setKioskMode(true);
-                getMvpView().startAnimation();
-            }
-        }
-
-    }
+//    @Override
+//    public void enableKioskMode() {
+//        DevicePolicyManager myDevicePolicyManager = (DevicePolicyManager) getMvpView().getBaseActivity().getSystemService(Context.DEVICE_POLICY_SERVICE);
+//        ComponentName mDPM = new ComponentName(getMvpView().getBaseActivity(), MyAdmin.class);
+//        if (myDevicePolicyManager != null) {
+//
+//            myDevicePolicyManager.removeActiveAdmin(mDPM);
+//            if (myDevicePolicyManager.isDeviceOwnerApp(getMvpView().getBaseActivity().getPackageName())) {
+//                String[] packages = {getMvpView().getBaseActivity().getPackageName()};
+//                myDevicePolicyManager.setLockTaskPackages(mDPM, packages);
+//            } else {
+//                getDataManager().setKioskMode(true);
+//                getMvpView().startAnimation();
+//            }
+//        }
+//
+//    }
 }

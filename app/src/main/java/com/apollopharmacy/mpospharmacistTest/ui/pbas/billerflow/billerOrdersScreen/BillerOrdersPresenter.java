@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
@@ -15,7 +16,12 @@ import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,8 +66,26 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
                 @Override
                 public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
                     getMvpView().hideLoading();
-                    if (response.isSuccessful())
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getOMSHeaderArr() != null && response.body().getOMSHeaderArr().size()>1) {
+                            Collections.sort(response.body().getOMSHeaderArr(), new Comparator<OMSTransactionHeaderResModel.OMSHeaderObj>() {
+                                public int compare(OMSTransactionHeaderResModel.OMSHeaderObj o1, OMSTransactionHeaderResModel.OMSHeaderObj o2) {
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date date1 = null;
+                                    Date date2 = null;
+                                    try {
+                                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return date1.compareTo(date2);
+                                }
+                            });
+                        }
                         getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    }
                 }
 
                 @Override
