@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -145,16 +145,16 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true">
 
                     <TextView
                         android:id="@+id/on_hold"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/dimen5dp"
                         android:background="@drawable/bg_onhold_enable_btn"
                         android:fontFamily="@font/roboto_bold"
@@ -166,16 +166,45 @@
                         android:text="@string/label_on_hold"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen10sp" />
+                    <LinearLayout
+                        android:id="@+id/delivery_date_layout"
+                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/on_hold"
+                        android:layout_marginTop="@dimen/dimen5dp"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Delivery Date: "
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/nine_sp" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/one_dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/delivery_date_pickpack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/nine_sp" />
+                    </LinearLayout>
 
 
                     <ImageView
-                        android:layout_marginTop="@dimen/dimen5dp"
-                        android:layout_below="@id/on_hold"
                         android:id="@+id/right_arrow"
                         android:layout_width="30dp"
                         android:layout_height="@dimen/dimen30dp"
+                        android:layout_below="@id/delivery_date_layout"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/dimen5dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/right_arrow_black"
                         android:visibility="visible" />

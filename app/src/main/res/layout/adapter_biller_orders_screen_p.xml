@@ -251,6 +251,32 @@
                             android:text="@string/label_on_hold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen10sp" />
+                        <LinearLayout
+                            android:id="@+id/delivery_date_layout"
+                            android:layout_marginEnd="@dimen/dimen5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen5dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Delivery Date: "
+                                android:textColor="#b6b4af"
+                                android:textSize="@dimen/nine_sp" />
+
+                            <TextView
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/delivery_date_pickpack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/nine_sp" />
+                        </LinearLayout>
 
 
                         <ImageView
