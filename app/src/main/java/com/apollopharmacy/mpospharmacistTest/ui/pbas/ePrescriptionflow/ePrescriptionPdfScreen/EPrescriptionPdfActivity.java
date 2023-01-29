@@ -33,7 +33,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class EPrescriptionPdfActivity extends AppCompatActivity  {
+public class EPrescriptionPdfActivity extends AppCompatActivity {
 
 
     List<EPrescriptionModelClassResponse> prescriptionLineList;
@@ -43,7 +43,6 @@ public class EPrescriptionPdfActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_prescription_pdf);
-
 
 
 //        if (getIntent() != null) {
@@ -58,8 +57,8 @@ public class EPrescriptionPdfActivity extends AppCompatActivity  {
 //        }
 
 
-
     }
+}
 
 
 
