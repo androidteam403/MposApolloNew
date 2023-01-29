@@ -22,6 +22,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
@@ -56,6 +58,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
 
+
+
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
         if (messageList.length > 1) {
             omsHeaderList.get(position).setScannedBarcode(messageList[1]);
@@ -66,6 +70,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
         holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
+        holder.fullfilmentBinding.deliveryDatePickpack.setText(omsHeader.getDeliveryDate());
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
         } else {

@@ -213,11 +213,15 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 String charString = editable.toString();
                 if (charString.isEmpty()) {
 //                    omsHeaderListTotal = mPresenter.getGlobalTotalOmsHeaderList();
+                    omsHeaderListFileredStaticList = mvpPresenter.getGlobalTotalOmsHeaderList();
+
                     startIndex = 0;
                     TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
                     omsHeader.setOMSHeader(omsHeaderListFileredStaticList);
                     onSucessfullFulfilmentIdList(omsHeader);
                 } else {
+                    omsHeaderListFileredStaticList = mvpPresenter.getGlobalTotalOmsHeaderList();
+
                     List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotalFilterTemp = new ArrayList<>();
                     for (TransactionHeaderResponse.OMSHeader row : omsHeaderListFileredStaticList) {
                         if (!omsHeaderListTotalFilterTemp.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {

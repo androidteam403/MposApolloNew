@@ -2,11 +2,13 @@ package com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.mode
 
 import androidx.databinding.BaseObservable;
 
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OMSTransactionHeaderResModel {
     @Expose
@@ -17,7 +19,7 @@ public class OMSTransactionHeaderResModel {
     private int RequestStatus;
     @Expose
     @SerializedName("OMSHeader")
-    private ArrayList<OMSHeaderObj> OMSHeaderArr;
+    private List<OMSHeaderObj> OMSHeaderArr;
 
     public String getReturnMessage() {
         return ReturnMessage;
@@ -27,8 +29,12 @@ public class OMSTransactionHeaderResModel {
         return RequestStatus;
     }
 
-    public ArrayList<OMSHeaderObj> getOMSHeaderArr() {
+    public List<OMSHeaderObj> getOMSHeaderArr() {
         return OMSHeaderArr;
+    }
+
+    public void setOMSHeaderArr(List<OMSHeaderObj> oMSHeader) {
+        this.OMSHeaderArr = oMSHeader;
     }
 
     public static class OMSHeaderObj extends BaseObservable implements Serializable {
