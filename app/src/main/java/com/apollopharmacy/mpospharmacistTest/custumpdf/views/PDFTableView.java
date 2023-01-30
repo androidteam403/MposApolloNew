@@ -17,6 +17,10 @@ import com.apollopharmacy.mpospharmacistTest.custumpdf.views.basic.PDFView;
 import java.io.Serializable;
 
 public class PDFTableView extends PDFView implements Serializable {
+
+
+
+
     private static final String TAG = "PDFTableView";
     private final PDFTableRowView headerRow, firstRow;
     private int[] rowWidthPercent = {};
