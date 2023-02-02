@@ -1,7 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import com.apollopharmacy.mpospharmacistTest.BuildConfig;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
@@ -19,11 +21,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
-import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -46,8 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends BasePresenter<V>
-        implements PharmacistLoginMvpPresenter<V> {
+public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends BasePresenter<V> implements PharmacistLoginMvpPresenter<V> {
     @Inject
     public PharmacistLoginPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -235,7 +238,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
             //Creating an object of our api interface
             getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
-            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(),getDataManager().getDataAreaId(), new Object());
+            Call<GetGlobalConfingRes> call = api.GET_GLOBAL_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
             call.enqueue(new Callback<GetGlobalConfingRes>() {
                 @Override
                 public void onResponse(@NotNull Call<GetGlobalConfingRes> call, @NotNull Response<GetGlobalConfingRes> response) {
@@ -243,23 +246,69 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         //Dismiss Dialog
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+//                            response.body().setMPOSVersion("1");
+//                            response.body().getOMSVendorWiseConfigration().get(3).setAllowMultiBatch(false);
+//                            response.body().getOMSVendorWiseConfigration().get(3).setAllowChangeQTY(false);
+//                            response.body().setISHBPStore(true);
+
+                            getDataManager().setDataAreaId(response.body().getDataAreaID());
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
                             getDataManager().storeGlobalJson(json);
-                            getTenderTypeApi();
-
+                            if (getDataManager().getGlobalJson().isISHBPStore())
+                                getHBPConfigration();
+                            else getTenderTypeApi();
                         } else {
                             getMvpView().hideLoading();
                             if (response.body() != null)
                                 getMvpView().userLoginFailed(response.body().getReturnMessage());
-                            else
-                                handleApiError(1);
+                            else handleApiError(1);
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<GetGlobalConfingRes> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getHBPConfigration() {
+        if (getMvpView().isNetworkConnected()) {
+            //Creating an object of our api interface
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<HBPConfigResponse> call = api.GET_HBP_CONFING_RES_CALL(getDataManager().getStoreId(), getDataManager().getTerminalId(), getDataManager().getDataAreaId(), new Object());
+            call.enqueue(new Callback<HBPConfigResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<HBPConfigResponse> call, @NotNull Response<HBPConfigResponse> response) {
+                    if (response.isSuccessful()) {
+                        //Dismiss Dialog
+                        // getMvpView().hideLoading();
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            getDataManager().storeHBPConfiRes(json);
+                            getTenderTypeApi();
+
+                        } else {
+                            getMvpView().hideLoading();
+                            if (response.body() != null)
+                                getMvpView().userLoginFailed(response.body().getReturnMessage());
+                            else handleApiError(1);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<HBPConfigResponse> call, @NotNull Throwable t) {
                     //Dismiss Dialog
                     getMvpView().hideLoading();
                     handleApiError(t);
@@ -282,7 +331,10 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().getGetTenderTypeResult() != null && response.body().getGetTenderTypeResult().getRequestStatus() == 0) {
-                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+//                            Singletone.getInstance().tenderTypeResultEntity = response.body().getGetTenderTypeResult();
+
+                            getDataManager().setTenderTypeResultEntity(response.body().getGetTenderTypeResult());
+
                             getAllowedPaymentMode();
                         } else {
                             if (response.body() != null) {
@@ -318,9 +370,9 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                     if (response.isSuccessful()) {
                         // getMvpView().hideLoading();
                         if (response.body() != null && response.body().get_PaymentMethodList() != null && response.body().getRequestStatus() == 0) {
-                            Gson gson=new Gson();
+                            Gson gson = new Gson();
 
-                            System.out.println("paymentallowed--->"+gson.toJson( response.body()));
+                            System.out.println("paymentallowed--->" + gson.toJson(response.body()));
                             getDataManager().storeAllowedPaymentMethod(response.body());
                             getGetTrackingWiseConfiguration();
                         } else {
@@ -516,26 +568,26 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-               // Log.d(TAG, "File Size=" + fileSize);
+                // Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-              //  Log.d(TAG, destinationFile.getParent());
+                //  Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessMposPosiflex();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-           // Log.d(TAG, "Failed to save the file!");
+            // Log.d(TAG, "Failed to save the file!");
         }
     }
 
@@ -550,8 +602,59 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     }
 
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigurationObj() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public void updatePatchApiCAll() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+
+            UpdatePatchRequest updatePatchRequest = new UpdatePatchRequest();
+            updatePatchRequest.setRequestStatus(0);
+            updatePatchRequest.setReturnMessage("");
+            updatePatchRequest.setPatchName("Mpos.apk v" + BuildConfig.VERSION_NAME);
+            updatePatchRequest.setStatus(0);
+            updatePatchRequest.setStoreID(getDataManager().getStoreId());
+            updatePatchRequest.setTerminalID(getDataManager().getTerminalId());
+            updatePatchRequest.setDataAreaID(getDataManager().getDataAreaId());
+            updatePatchRequest.setChannel("5637145327");
+
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+
+            Call<UpdatePatchResponse> call = api.UPDATE_PATCH_API_CALL(updatePatchRequest);
+            call.enqueue(new Callback<UpdatePatchResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<UpdatePatchResponse> call, @NotNull Response<UpdatePatchResponse> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            if (response.body().getRequestStatus() == 0) {
+                                getMvpView().onSuccessUpdatePatchApiCAll(response.body());
+                            } else {
+                                Toast.makeText(getMvpView().getContext(), response.body().getReturnMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            getMvpView().onError("Something went wrong");
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<UpdatePatchResponse> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }

@@ -21,6 +21,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.FeedBa
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.FeedBackResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesTrackingDataReq;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -200,19 +202,21 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
     //feed back form dialog.....
     public void onFeedbackformCLick(CalculatePosTransactionRes posTransactionRes) {
-       // getMvpView().("Order Return All", "Do you want to Return order?", false, true, getDataManager().getTerminalId());
+        // getMvpView().("Order Return All", "Do you want to Return order?", false, true, getDataManager().getTerminalId());
         getMvpView().Feedbackfromdialog();
 
     }
+
     FeedBackDialog feedbackfromDialog;
-    String rating="5";
-    public void showfeedbackformDialog(String orderid,String mobilenumber,String storeid) {
+    String rating = "5";
+
+    public void showfeedbackformDialog(String orderid, String mobilenumber, String storeid) {
 
         feedbackfromDialog = new FeedBackDialog(getMvpView().getContext());
-       // feedbackfromDialog.
+        // feedbackfromDialog.
         feedbackfromDialog.setorderid(orderid);
         feedbackfromDialog.setmobilenumber(mobilenumber);
-        rating=feedbackfromDialog.getexcelentviewrating();
+        rating = feedbackfromDialog.getexcelentviewrating();
         feedbackfromDialog.setCloseListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,15 +226,15 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         feedbackfromDialog.setexcellentlayoutLostener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating=feedbackfromDialog.getexcelentviewrating();
-               // feedbackfromDialog.dismiss();
+                rating = feedbackfromDialog.getexcelentviewrating();
+                // feedbackfromDialog.dismiss();
 
             }
         });
         feedbackfromDialog.setverygoodlayoutLostener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating=feedbackfromDialog.getverygoodviewrating();
+                rating = feedbackfromDialog.getverygoodviewrating();
                 // feedbackfromDialog.dismiss();
 
             }
@@ -238,7 +242,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         feedbackfromDialog.setgoodlayoutLostener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating=feedbackfromDialog.getgoodviewrating();
+                rating = feedbackfromDialog.getgoodviewrating();
                 // feedbackfromDialog.dismiss();
 
             }
@@ -246,7 +250,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         feedbackfromDialog.setsatisfactionlayoutLostener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating=feedbackfromDialog.getsatisfactionviewrating();
+                rating = feedbackfromDialog.getsatisfactionviewrating();
                 // feedbackfromDialog.dismiss();
 
             }
@@ -254,7 +258,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         feedbackfromDialog.setpoorlayoutLostener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating=feedbackfromDialog.getpoorviewrating();
+                rating = feedbackfromDialog.getpoorviewrating();
                 // feedbackfromDialog.dismiss();
 
             }
@@ -263,8 +267,8 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
         feedbackfromDialog.setSubmitbutton(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                feebackapicall(storeid+feedbackfromDialog.getorderid(),rating,feedbackfromDialog.getcommenttext());
-               // feedbackfromDialog.dismiss();
+                feebackapicall(storeid + feedbackfromDialog.getorderid(), rating, feedbackfromDialog.getcommenttext());
+                // feedbackfromDialog.dismiss();
             }
         });
         feedbackfromDialog.show();
@@ -611,6 +615,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                         }
                     }
                 }
+
                 @Override
                 public void onFailure(@NotNull Call<FeedBackResponse> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
@@ -723,6 +728,52 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     public boolean DigitalReceiptRequired() {
 
         return getDataManager().getGlobalJson().DigitalReceiptRequired();
+    }
+
+    @Override
+    public void onClickBillReprint() {
+        getMvpView().onClickBillReprint();
+    }
+
+    @Override
+    public void downloadPdf(String transactionId) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
+            PdfModelRequest reqModel = new PdfModelRequest();
+            reqModel.setStoreCode(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            reqModel.setRequestStatus(0);
+            reqModel.setReturnMessage("");
+            reqModel.setTransactionId(transactionId);
+            reqModel.setBillingType(5);
+            reqModel.setDigitalReceiptRequired(false);
+            Call<PdfModelResponse> call = apiInterface.DOWNLOAD_PDF(reqModel);
+            call.enqueue(new Callback<PdfModelResponse>() {
+                @Override
+                public void onResponse(Call<PdfModelResponse> call, Response<PdfModelResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            getMvpView().onSuccessBillPrintResponse(response.body());
+                        }
+                    } else {
+                        getMvpView().hideLoading();
+                        getMvpView().onFailureBillPrintResponse(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PdfModelResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+
+
+        }
     }
 
     @Override
