@@ -343,11 +343,11 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             return false;
         }
         boolean isEnabled = bluetoothAdapter.isEnabled();
-        if (enable && !isEnabled) {
-            return bluetoothAdapter.enable();
-        } else if (!enable && isEnabled) {
-            return bluetoothAdapter.disable();
-        }
+//        if (enable && !isEnabled) {
+//            return bluetoothAdapter.enable();
+//        } else if (!enable && isEnabled) {
+//            return bluetoothAdapter.disable();
+//        }
         // No need to change bluetooth state
         return true;
     }

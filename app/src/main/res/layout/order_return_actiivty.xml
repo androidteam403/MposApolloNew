@@ -380,6 +380,31 @@
                 android:visibility="visible">
 
                 <LinearLayout
+                    android:background="@color/light_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                <LinearLayout
+
+                    android:layout_marginStart="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/printDuplicateCheckbox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Print with Duplicate copy"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five_dp"
@@ -396,7 +421,7 @@
                         android:gravity="center"
                         android:onClick="@{()-> callback.onReturnClick(item)}"
                         android:text="@string/label_return"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold" />
 
                     <View
@@ -412,7 +437,7 @@
                         android:gravity="center"
                         android:onClick="@{()-> callback.onReOrderClick(item)}"
                         android:text="@string/label_re_order"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold" />
 
                     <View
@@ -422,13 +447,13 @@
                     <TextView
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight=".2"
+                        android:layout_weight="0.2"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onCancelCLick(item)}"
                         android:text="Cancel All"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold" />
 
                     <View
@@ -445,7 +470,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:text="Generate Sms"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold" />
 
                     <View
@@ -463,7 +488,7 @@
                         android:gravity="center"
                         android:onClick="@{()-> callback.onFeedbackformCLick(item)}"
                         android:text="Feed Back"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold"
                         android:visibility="gone" />
 
@@ -471,20 +496,22 @@
                         android:layout_width="2.5dp"
                         android:layout_height="@dimen/fifty_dp" />
 
+
                     <TextView
                         android:id="@+id/bill_reprint"
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight=".2"
+                        android:layout_weight="0.2"
                         android:background="@color/cart_price_bg"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:onClick="@{()-> callback.onClickBillReprint()}"
                         android:text="@string/label_bill_reprint"
-                        android:textSize="@dimen/text_dimen_14"
+                        android:textSize="@dimen/text_dimen_16"
                         android:textStyle="bold" />
-
                 </LinearLayout>
+                </LinearLayout>
+
             </RelativeLayout>
         </RelativeLayout>
         <LinearLayout

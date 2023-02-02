@@ -48,6 +48,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -95,6 +96,9 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -200,7 +204,16 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         transactionId = transactionRes.getTransactionId();
 
-
+        orderSummaryBinding.printDuplicateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    duplicateCheckboxChecked = true;
+                } else {
+                    duplicateCheckboxChecked = false;
+                }
+            }
+        });
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
         }
@@ -457,15 +470,15 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         this.pdfModelResponse = pdfModelResponse;
 
-        if (pdfModelResponse != null) {
-            try {
-                createPdf();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (orderSummaryBinding.layoutPdfPreview != null) {
-                orderSummaryBinding.layoutPdfPreview.removeAllViews();
-            }
+//        if (pdfModelResponse != null) {
+//            try {
+//                createPdf();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (orderSummaryBinding.layoutPdfPreview != null) {
+//                orderSummaryBinding.layoutPdfPreview.removeAllViews();
+//            }
 
 //        if (pdfModelResponse != null) {
 //            if (orderSummaryBinding.layoutPdfPreview != null) {
@@ -487,88 +500,88 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 //        Toast.makeText(getContext(), "Pdf api is successfull", Toast.LENGTH_SHORT ).show();
 
 //        orderSummaryBinding.postesting.setText(pdfModelResponse.getSalesHeader().get(0).getBranch());
-            orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
-            orderSummaryBinding.addressOne.setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne());
-            orderSummaryBinding.addressTwo.setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo());
-            orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
-            orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
-            orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
-            orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
-
-
-            orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
-            orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
-            orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
-            orderSummaryBinding.trmnlId.setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
-            orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
-            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
-                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
-            } else {
-                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
-            }
-
-            if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
-                orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
-            } else {
-                orderSummaryBinding.cgstin.setText("--");
-            }
-            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo());
-            orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
-
-
-            if (pdfModelResponse != null) {
-                PdfAdapter pdfAdapter = new PdfAdapter(pdfModelResponse, getApplicationContext(), this);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrderSummaryActivity.this);
-                orderSummaryBinding.pdfRecyclerView.setLayoutManager(mLayoutManager);
-                orderSummaryBinding.pdfRecyclerView.setAdapter(pdfAdapter);
-            }
-
-
-            orderSummaryBinding.taxablevaluepdf.setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable());
-//        orderSummaryBinding.cgstamtpdf.setText("CGstAMT:" +pdfModelResponse.getSalesLine().get(0).getCgs);
-//        orderSummaryBinding.sgstamtpdf.setText();
-            orderSummaryBinding.grosspdf.setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal());
-            orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
-            orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
-            orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
-
-            orderSummaryBinding.costinwords.setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only");
-            double cgstAmount = 0.0;
-            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
-                    cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
-
-                }
-            }
-            orderSummaryBinding.cgstamtpdf.setText("CGstAMT : " + String.valueOf(cgstAmount));
-            double sgstAmount = 0.0;
-            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
-                    sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
-
-                }
-            }
-            orderSummaryBinding.sgstamtpdf.setText("SGstAmt: " + String.valueOf(sgstAmount));
-            orderSummaryBinding.cinpdf.setText("CIN : U52500TN2016PLC111328");
-            orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
-            orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
+//            orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
+//            orderSummaryBinding.addressOne.setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne());
+//            orderSummaryBinding.addressTwo.setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo());
+//            orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
+//            orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
+//            orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
+//            orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+//
+//
+//            orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
+//            orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
+//            orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
+//            orderSummaryBinding.trmnlId.setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
+//            orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
+//            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
+//                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
+//            } else {
+//                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
+//            }
+//
+//            if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
+//                orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+//            } else {
+//                orderSummaryBinding.cgstin.setText("--");
+//            }
+//            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo());
+//            orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
+//
+//
+//            if (pdfModelResponse != null) {
+//                PdfAdapter pdfAdapter = new PdfAdapter(pdfModelResponse, getApplicationContext(), this);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrderSummaryActivity.this);
+//                orderSummaryBinding.pdfRecyclerView.setLayoutManager(mLayoutManager);
+//                orderSummaryBinding.pdfRecyclerView.setAdapter(pdfAdapter);
+//            }
+//
+//
+//            orderSummaryBinding.taxablevaluepdf.setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable());
+////        orderSummaryBinding.cgstamtpdf.setText("CGstAMT:" +pdfModelResponse.getSalesLine().get(0).getCgs);
+////        orderSummaryBinding.sgstamtpdf.setText();
+//            orderSummaryBinding.grosspdf.setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal());
+//            orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
+//            orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
+//            orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+//
+//            orderSummaryBinding.costinwords.setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only");
+//            double cgstAmount = 0.0;
+//            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+//                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
+//                    cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+//
+//                }
+//            }
+//            orderSummaryBinding.cgstamtpdf.setText("CGstAMT : " + String.valueOf(cgstAmount));
+//            double sgstAmount = 0.0;
+//            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+//                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
+//                    sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+//
+//                }
+//            }
+//            orderSummaryBinding.sgstamtpdf.setText("SGstAmt: " + String.valueOf(sgstAmount));
+//            orderSummaryBinding.cinpdf.setText("CIN : U52500TN2016PLC111328");
+//            orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
+//            orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
 
 
 //            new Handler().postDelayed(() -> {
 //                if (!isActivityFinished)
 //                    onDownloadPdfButton();
 //            }, 2000);
-        }
+//        }
     }
 
 
@@ -606,23 +619,32 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             openPdf();
         }
     }
-
+    public static final String REGULAR =
+            "res/font/cambria.ttf";
+    public static final String BOLD =
+            "res/font/cambriab.ttf";
     private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
         // declaring variables for loading the fonts from asset
         byte[] fontByte, boldByte;
         AssetManager am;
         am = this.getAssets();
 //the file name should be same as in your assets folder
-        try (InputStream inStream = am.open("font/cambria.ttf")) {
-            fontByte = IOUtils.toByteArray(inStream);
-        }
-
-        try (InputStream inStream = am.open("font/cambriab.ttf")) {
-            boldByte = IOUtils.toByteArray(inStream);
-
-        }
-        PdfFont font = PdfFontFactory.createFont(fontByte, PdfEncodings.WINANSI, true);
-        PdfFont bold = PdfFontFactory.createFont(boldByte, PdfEncodings.WINANSI, true);
+//        try (InputStream inStream = am.open("font/cambria.ttf")) {
+//            fontByte = IOUtils.toByteArray(inStream);
+//        }
+        FontProgram fontProgram =
+                FontProgramFactory.createFont(REGULAR);
+        FontProgram fontProgramBold =
+                FontProgramFactory.createFont(BOLD);
+//        try (InputStream inStream = am.open("font/cambriab.ttf")) {
+//            boldByte = IOUtils.toByteArray(inStream);
+//
+//        }
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        PdfFont font = PdfFontFactory.createFont(fontProgram, PdfEncodings.WINANSI, true);
+        PdfFont bold = PdfFontFactory.createFont(fontProgramBold, PdfEncodings.WINANSI, true);
+//        PdfFont bold = PdfFontFactory.createFont(boldByte, PdfEncodings.WINANSI, true);
 //        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
 //        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 ////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
@@ -704,7 +726,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         for (int i = pageBreakCount; i < pdfModelResponse.getSalesLine().size(); i++) {
             PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
             pageBreakCount++;
-//            table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
             table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
             String itemName = salesLine.getItemName().replace(" ", "\u00A0");
             table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1013,12 +1035,19 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
     @Override
     public void onClickBillPrint() {
-        if (isStoragePermissionGranted()) {
-//            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
-//            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-//            createPdf();
-            openPdf();
+        if (pdfModelResponse != null) {
+            try {
+                createPdf();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+//        if (isStoragePermissionGranted()) {
+////            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+////            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+////            createPdf();
+//            openPdf();
+//        }
     }
 
     public boolean isStoragePermissionGranted() {
@@ -1045,11 +1074,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
             bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-            try {
-                createPdf();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                createPdf();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 //            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
         }

@@ -703,6 +703,26 @@
 
                     </LinearLayout>
 
+
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/printDuplicateCheckbox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:buttonTint="@color/colorPrimary"
+                            android:text="Print with Duplicate copy"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dimen35dp"
@@ -753,42 +773,56 @@
                 android:src="@drawable/order_success_icon"
                 android:visibility="gone" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen45dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/place_new_order_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_five_dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/dimen5dp"
-                    android:layout_weight=".5"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/roboto_bold"
-                    android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
-                    android:text="@string/label_continue"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_14" />
 
-                <Button
-                    android:id="@+id/print_bill"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_five_dp"
-                    android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_weight=".5"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="@font/roboto_bold"
-                    android:onClick="@{()-> callback.onClickBillPrint()}"
-                    android:text="@string/label_print_bill"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_14" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen45dp"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
+
+
+                    <Button
+                        android:id="@+id/place_new_order_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_five_dp"
+                        android:layout_marginTop="@dimen/dimen5dp"
+                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:layout_weight=".5"
+                        android:background="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
+                        android:text="@string/label_continue"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                    <Button
+                        android:id="@+id/print_bill"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_five_dp"
+                        android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_marginTop="@dimen/dimen5dp"
+                        android:layout_weight=".5"
+                        android:background="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{()-> callback.onClickBillPrint()}"
+                        android:text="@string/label_print_bill"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_14" />
+
+                </LinearLayout>
             </LinearLayout>
+
+
+
         </RelativeLayout>
 
         <ScrollView
