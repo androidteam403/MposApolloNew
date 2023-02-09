@@ -120,6 +120,18 @@ public class CommonUtils {
         return sdf.format(todate1);
     }
 
+    public static String getDateFourDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -4);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+
     public static String getDateSevenDaysEarlier(String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
 

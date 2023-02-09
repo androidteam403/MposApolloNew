@@ -303,7 +303,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
         mvpPresenter.getCorporateList();
 
-        bixolonprinterinitilisation();
+       // bixolonprinterinitilisation();
     }
 
     public void bixolonprinterinitilisation() {
