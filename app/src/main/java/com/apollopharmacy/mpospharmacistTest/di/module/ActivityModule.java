@@ -96,6 +96,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescription
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionPdfScreen.PdfMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionPdfScreen.PdfMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionPdfScreen.PdfPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginPresenter;
@@ -291,6 +294,13 @@ public class ActivityModule {
     EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails(EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    PdfMvpPresenter<PdfMvpView> pdfDetails (PdfPresenter<PdfMvpView> presenter) {
+        return presenter;
+    }
+
 
     @Provides
     @PerActivity

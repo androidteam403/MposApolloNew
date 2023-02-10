@@ -114,7 +114,7 @@ public class CommonUtils {
 //        Date date = new Date();
 //        String todate = sdf.format(date);
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -2);
+        cal.add(Calendar.DATE, -10);
         Date todate1 = cal.getTime();
 
         return sdf.format(todate1);
