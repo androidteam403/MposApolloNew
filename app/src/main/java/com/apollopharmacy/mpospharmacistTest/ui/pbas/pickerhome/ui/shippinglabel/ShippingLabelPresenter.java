@@ -213,7 +213,7 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
-                getMvpView().showPdf();
+//                getMvpView().showPdf();
             }
         } catch (IOException e) {
             e.printStackTrace();
