@@ -642,6 +642,19 @@ public class PdfModelResponse implements Serializable {
         @SerializedName("QTY")
         @Expose
         private String qty;
+
+        @SerializedName("RackId")
+        @Expose
+        private String rackId;
+
+        public String getRackId() {
+            return rackId;
+        }
+
+        public void setRackId(String rackId) {
+            this.rackId = rackId;
+        }
+
         @SerializedName("ReceiptId")
         @Expose
         private String receiptId;

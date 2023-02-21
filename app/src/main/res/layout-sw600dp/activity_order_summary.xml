@@ -702,7 +702,22 @@
 
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
 
+                        <CheckBox
+                            android:id="@+id/printDuplicateCheckbox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:buttonTint="@color/colorPrimary"
+                            android:text="Print with Duplicate copy"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dimen35dp"

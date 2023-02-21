@@ -7,18 +7,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
@@ -40,6 +42,7 @@ import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +50,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -89,7 +93,40 @@ import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
+import com.google.android.gms.common.util.IOUtils;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.DashedBorder;
+import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.property.AreaBreakType;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -118,6 +155,14 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
     Bitmap bitmap;
     String transactionId;
     private boolean isActivityFinished;
+    private int pageBreakCount = 0;
+    private boolean duplicateCheckboxChecked = false;
+    public static final String cambria = "src/main/res/font/cambriab.ttf";
+    private final static int ITEXT_FONT_SIZE_EIGHT = 10;
+    private final static int ITEXT_FONT_SIZE_TEN = 12;
+    private final static int ITEXT_FONT_SIZE_SIX = 8;
+
+    private final static int ITEXT_FONT_SIZE_SIX_6 = 6;
 
     public static Intent getStartIntent(Context context, SaveRetailsTransactionRes saveRetailsTransactionRes, CorporateModel.DropdownValueBean corporateEntity, OrderPriceInfoModel orderPriceInfoModel, PaymentMethodModel paymentMethodModel) {
         Intent intent = new Intent(context, OrderSummaryActivity.class);
@@ -165,7 +210,16 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         transactionId = transactionRes.getTransactionId();
 
-
+        orderSummaryBinding.printDuplicateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    duplicateCheckboxChecked = true;
+                } else {
+                    duplicateCheckboxChecked = false;
+                }
+            }
+        });
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
         }
@@ -422,108 +476,118 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         this.pdfModelResponse = pdfModelResponse;
 
-        if (pdfModelResponse != null) {
-            if (orderSummaryBinding.layoutPdfPreview != null) {
-                orderSummaryBinding.layoutPdfPreview.removeAllViews();
-            }
-            createPDF(transactionId, orderSummaryBinding.layoutPdfPreview, pdfModelResponse, new PDFUtil.PDFUtilListener() {
-                @Override
-                public void pdfGenerationSuccess(File savedPDFFile) {
-                    Toast.makeText(OrderSummaryActivity.this, "PDF Created", Toast.LENGTH_SHORT).show();
-                    openPdf();
-                }
+//        if (pdfModelResponse != null) {
+//            try {
+//                createPdf();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (orderSummaryBinding.layoutPdfPreview != null) {
+//                orderSummaryBinding.layoutPdfPreview.removeAllViews();
+//            }
 
-                @Override
-                public void pdfGenerationFailure(Exception exception) {
-                    Toast.makeText(OrderSummaryActivity.this, "PDF NOT Created", Toast.LENGTH_SHORT).show();
-                }
-            });
+//        if (pdfModelResponse != null) {
+//            if (orderSummaryBinding.layoutPdfPreview != null) {
+//                orderSummaryBinding.layoutPdfPreview.removeAllViews();
+//            }
+//            createPDF(transactionId, orderSummaryBinding.layoutPdfPreview, pdfModelResponse, new PDFUtil.PDFUtilListener() {
+//                @Override
+//                public void pdfGenerationSuccess(File savedPDFFile) {
+//                    Toast.makeText(OrderSummaryActivity.this, "PDF Created", Toast.LENGTH_SHORT).show();
+//                    openPdf();
+//                }
+//
+//                @Override
+//                public void pdfGenerationFailure(Exception exception) {
+//                    Toast.makeText(OrderSummaryActivity.this, "PDF NOT Created", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
 //        Toast.makeText(getContext(), "Pdf api is successfull", Toast.LENGTH_SHORT ).show();
 
 //        orderSummaryBinding.postesting.setText(pdfModelResponse.getSalesHeader().get(0).getBranch());
-            orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
-            orderSummaryBinding.addressOne.setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne());
-            orderSummaryBinding.addressTwo.setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo());
-            orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
-            orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
-            orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
-            orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
-
-
-            orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
-            orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
-            orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
-            orderSummaryBinding.trmnlId.setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
-            orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
-            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
-                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
-            } else {
-                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
-            }
-
-            if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
-                orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
-            } else {
-                orderSummaryBinding.cgstin.setText("--");
-            }
-            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo());
-            orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
-
-
-            if (pdfModelResponse != null) {
-                PdfAdapter pdfAdapter = new PdfAdapter(pdfModelResponse, getApplicationContext(), this);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrderSummaryActivity.this);
-                orderSummaryBinding.pdfRecyclerView.setLayoutManager(mLayoutManager);
-                orderSummaryBinding.pdfRecyclerView.setAdapter(pdfAdapter);
-            }
-
-
-            orderSummaryBinding.taxablevaluepdf.setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable());
-//        orderSummaryBinding.cgstamtpdf.setText("CGstAMT:" +pdfModelResponse.getSalesLine().get(0).getCgs);
-//        orderSummaryBinding.sgstamtpdf.setText();
-            orderSummaryBinding.grosspdf.setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal());
-            orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
-            orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
-            orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
-
-            orderSummaryBinding.costinwords.setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only");
-            double cgstAmount = 0.0;
-            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
-                    cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
-
-                }
-            }
-            orderSummaryBinding.cgstamtpdf.setText("CGstAMT : " + String.valueOf(cgstAmount));
-            double sgstAmount = 0.0;
-            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
-                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
-                        && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
-                        && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
-                    sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
-
-                }
-            }
-            orderSummaryBinding.sgstamtpdf.setText("SGstAmt: " + String.valueOf(sgstAmount));
-            orderSummaryBinding.cinpdf.setText("CIN : U52500TN2016PLC111328");
-            orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
-            orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
+//            orderSummaryBinding.fssaino.setText(pdfModelResponse.getSalesHeader().get(0).getFssaino());
+//            orderSummaryBinding.addressOne.setText(pdfModelResponse.getSalesHeader().get(0).getAddressOne());
+//            orderSummaryBinding.addressTwo.setText(pdfModelResponse.getSalesHeader().get(0).getAddressTwo());
+//            orderSummaryBinding.dLno.setText(pdfModelResponse.getSalesHeader().get(0).getDlno());
+//            orderSummaryBinding.gstNo.setText(pdfModelResponse.getSalesHeader().get(0).getGstin());
+//            orderSummaryBinding.phonenumberpdf.setText("PHONE:" + pdfModelResponse.getSalesHeader().get(0).getTelNo());
+//            orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+//
+//
+//            orderSummaryBinding.customerNamePdf.setText("Name: " + pdfModelResponse.getSalesHeader().get(0).getCustName());
+//            orderSummaryBinding.custmobileNumberpdf.setText("Mobile No.:" + pdfModelResponse.getSalesHeader().get(0).getCustMobile());
+//            orderSummaryBinding.billnoReceiptid.setText("Bill No.:" + pdfModelResponse.getSalesHeader().get(0).getReceiptId());
+//            orderSummaryBinding.trmnlId.setText("TID : " + pdfModelResponse.getSalesHeader().get(0).getTerminalId());
+//            orderSummaryBinding.corporate6711.setText(pdfModelResponse.getSalesHeader().get(0).getCorporate());
+//            if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
+//                orderSummaryBinding.doctornamepdf.setText("Doctor :" + "--");
+//            } else {
+//                orderSummaryBinding.doctornamepdf.setText("Doctor :" + pdfModelResponse.getSalesHeader().get(0).getDoctorName());
+//            }
+//
+//            if (pdfModelResponse.getSalesHeader().get(0).getCgstin() != null) {
+//                orderSummaryBinding.cgstin.setText(pdfModelResponse.getSalesHeader().get(0).getCgstin());
+//            } else {
+//                orderSummaryBinding.cgstin.setText("--");
+//            }
+//            orderSummaryBinding.refnoPdf.setText("Ref No: " + pdfModelResponse.getSalesHeader().get(0).getRefNo());
+//            orderSummaryBinding.billdatepdf.setText("Bill Date: " + pdfModelResponse.getSalesHeader().get(0).getTransDate());
+//
+//
+//            if (pdfModelResponse != null) {
+//                PdfAdapter pdfAdapter = new PdfAdapter(pdfModelResponse, getApplicationContext(), this);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrderSummaryActivity.this);
+//                orderSummaryBinding.pdfRecyclerView.setLayoutManager(mLayoutManager);
+//                orderSummaryBinding.pdfRecyclerView.setAdapter(pdfAdapter);
+//            }
+//
+//
+//            orderSummaryBinding.taxablevaluepdf.setText("TAXABLE VALUE: " + pdfModelResponse.getSalesLine().get(0).getTaxable());
+////        orderSummaryBinding.cgstamtpdf.setText("CGstAMT:" +pdfModelResponse.getSalesLine().get(0).getCgs);
+////        orderSummaryBinding.sgstamtpdf.setText();
+//            orderSummaryBinding.grosspdf.setText("Gross: " + pdfModelResponse.getSalesHeader().get(0).getTotal());
+//            orderSummaryBinding.disamtpdf.setText("DisAmt :" + pdfModelResponse.getSalesHeader().get(0).getDiscount());
+//            orderSummaryBinding.dontaionpdf.setText("Donation: " + pdfModelResponse.getSalesHeader().get(0).getDonationAmount());
+//            orderSummaryBinding.netamtpdf.setText("NetAmt: " + pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+//
+//            orderSummaryBinding.costinwords.setText("Rupees " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " Only");
+//            double cgstAmount = 0.0;
+//            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+//                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
+//                    cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+//
+//                }
+//            }
+//            orderSummaryBinding.cgstamtpdf.setText("CGstAMT : " + String.valueOf(cgstAmount));
+//            double sgstAmount = 0.0;
+//            for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+//                if (pdfModelResponse.getSalesLine().get(i).getMrp() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getMrp().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getQty() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getQty().isEmpty()
+//                        && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null
+//                        && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
+//                    sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+//
+//                }
+//            }
+//            orderSummaryBinding.sgstamtpdf.setText("SGstAmt: " + String.valueOf(sgstAmount));
+//            orderSummaryBinding.cinpdf.setText("CIN : U52500TN2016PLC111328");
+//            orderSummaryBinding.registeredoffcaddress.setText("Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028");
+//            orderSummaryBinding.adminoffcpdf.setText("Admin Office : (For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006.");
 
 
 //            new Handler().postDelayed(() -> {
 //                if (!isActivityFinished)
 //                    onDownloadPdfButton();
 //            }, 2000);
-        }
+//        }
     }
 
 
@@ -544,49 +608,358 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         return bitmap;
     }
 
-    private void createPdf() {
+    private void createPdf() throws IOException {
+//        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //  Display display = wm.getDefaultDisplay();
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//        float hight = displaymetrics.heightPixels;
-//        float width = displaymetrics.widthPixels;
-//
-//        int convertHighet = (int) hight, convertWidth = (int) width;
-
-        PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1800, 1080, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-        Canvas canvas = page.getCanvas();
-
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-
-        bitmap = Bitmap.createScaledBitmap(bitmap, 1800, 1080, true);
-
-        paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        document.finishPage(page);
-
-        // write the document content
-        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-        File file = new File(pdfPath, transactionId.concat(".pdf"));
-        try {
-            document.writeTo(new FileOutputStream(file));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
-        }////////////////////
-
-        // close the document
+//        File file = new File(pdfPath, "pdfdoc.pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), transactionId.concat(".pdf"));
+        OutputStream outputStream = new FileOutputStream(file);
+        PdfWriter writer = new PdfWriter(file);
+        com.itextpdf.kernel.pdf.PdfDocument pdfDocument = new PdfDocument(writer);
+        com.itextpdf.layout.Document document = new Document(pdfDocument, PageSize.A4);
+        document.setMargins(15, 15, 15, 15);
+        pageBreakCount = 0;
+        createPdfPageWise(pdfDocument, document, false);
         document.close();
-//        Toast.makeText(this, "successfully pdf created", Toast.LENGTH_SHORT).show();
-        openPdf();
-
+        if (isStoragePermissionGranted()) {
+            openPdf();
+        }
     }
+    public static final String REGULAR =
+            "res/font/gothic_regular.TTF";
+    public static final String BOLD =
+            "res/font/gothic_bold.TTF";
+    private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
+        // declaring variables for loading the fonts from asset
+        byte[] fontByte, boldByte;
+        AssetManager am;
+        am = this.getAssets();
+//the file name should be same as in your assets folder
+//        try (InputStream inStream = am.open("font/cambria.ttf")) {
+//            fontByte = IOUtils.toByteArray(inStream);
+//        }
+        FontProgram fontProgram =
+                FontProgramFactory.createFont(REGULAR);
+        FontProgram fontProgramBold =
+                FontProgramFactory.createFont(BOLD);
+//        try (InputStream inStream = am.open("font/cambriab.ttf")) {
+//            boldByte = IOUtils.toByteArray(inStream);
+//
+//        }
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        PdfFont font = PdfFontFactory.createFont(fontProgram, PdfEncodings.WINANSI, true);
+        PdfFont bold = PdfFontFactory.createFont(fontProgramBold, PdfEncodings.WINANSI, true);
+//        PdfFont bold = PdfFontFactory.createFont(boldByte, PdfEncodings.WINANSI, true);
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
+//      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
+
+        float[] columnWidth1 = {100, 155, 155, 170};//580
+//        float columnWidth1[] = {65, 165, 140, 190};
+        Table table1 = new Table(columnWidth1);
+
+        //table1.....row1.....
+        Drawable apolloLogoDrawable = getDrawable(R.drawable.apollo_1525857827435);
+        Bitmap apolloLogoBitMap = ((BitmapDrawable) apolloLogoDrawable).getBitmap();
+        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+        apolloLogoBitMap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
+        byte[] bitMapData1 = stream1.toByteArray();
+
+        ImageData imageData1 = ImageDataFactory.create(bitMapData1);
+        Image image1 = new Image(imageData1);
+        image1.scaleToFit(65, 65);
+        image1.setHeight(65);
+
+
+        Border border1 = new SolidBorder(new DeviceRgb(199, 199, 199), 1);
+        table1.setBorder(border1);
+        table1.addCell(new Cell(4, 1).add(image1).setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Apollo Pharmacy - ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getBranch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).add(new Paragraph(new Text(pdfModelResponse.getSalesHeader().get(0).getAddressOne()).setFontSize(ITEXT_FONT_SIZE_SIX))).add(new Paragraph(new Text(pdfModelResponse.getSalesHeader().get(0).getAddressTwo()).setFontSize(ITEXT_FONT_SIZE_SIX))).add(new Paragraph(new Text("PHONE: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getTelNo()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("FSSAI NO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getFssaino()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("D.L.NO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getDlno()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("GST NO : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getGstin()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER).add(new Paragraph(new Text("C.GSTIN NO : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getCgstin()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+
+
+        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Registered Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("No.19 Bishop Gerden, Raja Annamalaipuram, Chennai-600028").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("Admin Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("(For all correspondence) All towers, Floor No 55, Greams Road, Chennai-600006").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("CIN : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("U52500TN2016PLC111328").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        String duplicate = isDuplicate ? "Duplicate Copy of Invoice" : "";
+        table1.addCell(new Cell(1, 2).add(new Paragraph(new Text(duplicate).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
+
+        table1.addCell(new Cell(1, 2).add(new Paragraph(new Text("INVOICE").setFontSize(ITEXT_FONT_SIZE_EIGHT).setFont(bold)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
+
+        float[] columnWidth2 = {170, 120, 120, 170};// 580
+//        float columnWidth2[] = {150, 130, 115, 165};
+        Table table2 = new Table(columnWidth2);
+        Border border2 = new SolidBorder(new DeviceRgb(199, 199, 199), 1);
+        table2.setBorder(border2);
+//        table2.setBorder(new SolidBorder(1));
+        table2.addCell(new Cell().add(new Paragraph(new Text("Name : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getCustName()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table2.addCell(new Cell().add(new Paragraph(new Text("Mobile No. : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getCustMobile()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table2.addCell(new Cell().add(new Paragraph(new Text("Bill No. : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getReceiptId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table2.addCell(new Cell().add(new Paragraph(new Text("Corp: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getCorporate()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+
+        float[] columnWidth3 = {190, 133, 102, 155};//580
+//        float columnWidth3[] = {180, 130, 100, 150};
+        Table table3 = new Table(columnWidth3);
+        Border border3 = new SolidBorder(new DeviceRgb(199, 199, 199), 1);
+        table3.setBorder(border3);
+//        table3.setBorder(new SolidBorder(1));
+        if (pdfModelResponse.getSalesHeader().get(0).getDoctorName().equalsIgnoreCase("")) {
+            table3.addCell(new Cell().add(new Paragraph(new Text("Doctor : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        } else {
+            table3.addCell(new Cell().add(new Paragraph(new Text("Doctor : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getDoctorName()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        }
+
+        table3.addCell(new Cell().add(new Paragraph(new Text("Ref. NO : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getRefNo()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table3.addCell(new Cell().add(new Paragraph(new Text("TID : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getTerminalId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table3.addCell(new Cell().add(new Paragraph(new Text("Bill Date : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getTransDate()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+
+        float[] columnWidth4 = {40, 30, 150, 20, 50, 35, 55, 55, 55, 50, 40};//580
+//        float columnWidth4[] = {41, 31, 136, 21, 51, 36, 51, 51, 51, 51, 41};
+        Table table4 = new Table(columnWidth4);
+        Border border4 = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        table4.setBorder(border4);
+        table4.addCell(new Cell().add(new Paragraph(new Text("Rack").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("QTY").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Product Name").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Sch").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("HSN Code").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Mfg").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Batch").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Expiry").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("MRP").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("Amount").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        table4.addCell(new Cell().add(new Paragraph(new Text("GST%").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
+        for (int i = pageBreakCount; i < pdfModelResponse.getSalesLine().size(); i++) {
+            PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
+            pageBreakCount++;
+            table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            String itemName = salesLine.getItemName().replace(" ", "\u00A0");
+            table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getSch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getHSNCode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getManufacturer()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            String batchNo = "";
+            if (salesLine.getBatchNo().length() > 12) {
+                batchNo = salesLine.getBatchNo().substring(0, 11);
+                batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+            } else {
+                batchNo = salesLine.getBatchNo();
+            }
+            table4.addCell(new Cell().add(new Paragraph(new Text(batchNo).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
+                String expDate[] = salesLine.getExpDate().substring(2, 7).split("-");
+                table4.addCell(new Cell().add(new Paragraph(new Text(expDate[1] + "-" + expDate[0]).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            } else {
+                table4.addCell(new Cell().add(new Paragraph(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            }
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getMrp()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
+            table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+            if (pageBreakCount % 9 == 0) {
+                break;
+            }
+
+        }
+
+        float[] columnWidth5 = {144, 170, 122, 144};//580
+//        float columnWidth5[] = {140, 160, 120, 140};
+        Table table5 = new Table(columnWidth5);
+        Border border5 = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        table5.setBorder(border5);
+//        table5.setBorder(new SolidBorder(1));
+        double taxbleValue = 0.0;
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty()) {
+                taxbleValue = taxbleValue + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable());
+
+            }
+        }
+        table5.addCell(new Cell().add(new Paragraph(new Text("Taxable Value : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(String.format("%.02f", taxbleValue)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        double cgstAmount = 0.0;
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty()
+
+                    && pdfModelResponse.getSalesLine().get(i).getCGSTPer() != null && !pdfModelResponse.getSalesLine().get(i).getCGSTPer().isEmpty()) {
+//                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+                cgstAmount = cgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer())) / 100);
+
+            }
+        }
+        table5.addCell(new Cell().add(new Paragraph(new Text("CGST Amount: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(String.format("%.02f", cgstAmount)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        double sgstAmount = 0.0;
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getTaxable() != null && !pdfModelResponse.getSalesLine().get(i).getTaxable().isEmpty() && pdfModelResponse.getSalesLine().get(i).getSGSTPer() != null && !pdfModelResponse.getSalesLine().get(i).getSGSTPer().isEmpty()) {
+                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getTaxable()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+                //                sgstAmount = sgstAmount + ((Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getMrp()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getQty()) * Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer())) / 100);
+
+            }
+        }
+        table5.addCell(new Cell().add(new Paragraph(new Text("SGST Amount : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(String.format("%.02f", sgstAmount)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        double gross = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getTotal());
+        table5.addCell(new Cell().add(new Paragraph(new Text("Gross Amount : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(String.format("%.02f", gross)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+
+        float[] columnWidth6 = {144, 170, 122, 144};//580
+//        float columnWidth6[] = {140, 160, 120, 140};
+        Table table6 = new Table(columnWidth6);
+        Border border6 = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        table6.setBorder(border6);
+//        table6.setBorder(new SolidBorder(1));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs.0.00 & Earned 50.35 HC's").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+
+
+        float[] columnWidth7 = {290, 290};//580
+//        float columnWidth7[] = {280, 280};
+        Table table7 = new Table(columnWidth7);
+        Border border7 = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        table7.setBorder(border7);
+//        table7.setBorder(new SolidBorder(1));
+        double netAmout = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal());
+        String rupeesInput = "\"Rupees\"";
+        String onlyInput = "\"only\"";
+        String rupees = rupeesInput.substring( 0,rupeesInput.length() - 1);
+        String only = onlyInput.substring( 1);
+//        System.out.println("Input: " + input);
+//        System.out.println("Result: " + result);
+        table7.addCell(new Cell().add(new Paragraph(new Text((rupees + " " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " " + only)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER));
+        table7.addCell(new Cell().add(new Paragraph(new Text("Paid Amount : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(String.format("%.02f", netAmout)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setMarginLeft(150)).setBorder(Border.NO_BORDER));
+
+
+        float[] columnWidth8 = {167, 123, 123, 167};//580
+//        float columnWidth8[] = {160, 120, 120, 160};
+        Table table8 = new Table(columnWidth8);
+        Border border8 = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        table8.setBorder(border8);
+//        table8.setBorder(new SolidBorder(1));
+
+        ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+//        try {
+//            encodeAsBitmap(pdfModelResponse).compress(Bitmap.CompressFormat.PNG, 100, stream2);
+            QrCodeGeneration(pdfModelResponse, this).compress(Bitmap.CompressFormat.PNG, 100, stream2);
+//        }
+//        catch (WriterException e) {
+//            e.printStackTrace();
+//        }
+        byte[] bitMapData2 = stream2.toByteArray();
+
+        ImageData imageData2 = ImageDataFactory.create(bitMapData2);
+        Image image2 = new Image(imageData2);
+        image2.scaleToFit(70, 70);
+
+
+        table8.addCell(new Cell().add(new Paragraph(new Text("Wishing You Speedy Recovery").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell(1, 1).add(new Paragraph(new Text("Scan QR Code For\nRefill/Reorder").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell(4, 1).add(image2.setMargins(0,0,0,0).setPadding(0)).setPadding(0).setMargin(0).setBorder(Border.NO_BORDER));
+        table8.addCell(new Cell().add(new Paragraph(new Text("For ").setFontSize(8).setFont(font)).add(new Text("APOLLO PHARMACY\n").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("Registered pharmacist").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+
+        table8.addCell(new Cell().add(new Paragraph(new Text("\"QR Code was digitally displayed for the Customer at the time of the transaction\"").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setFont(font).setFont(font));
+
+
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell(2, 1).add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(8).setFont(font)).add(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+        table8.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setFont(font).setFont(font));
+
+        table8.addCell(new Cell(1, 4).add(new Paragraph(new Text("E & O.E Goods Once Sold Cannot Be Taken Back or Exchanges | INSULINS AND VACCINES WILL NOT BE TAKEN BACK | EMERGENCY CALL:1066 | Tollfree No: 1860-500-0101").setFontSize(ITEXT_FONT_SIZE_SIX_6))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
+
+
+        document.add(table1);
+        document.add(table2);
+        document.add(table3);
+        document.add(table4);
+        document.add(table5);
+        document.add(table6);
+        document.add(table7);
+        document.add(table8);
+        if (pageBreakCount != pdfModelResponse.getSalesLine().size()) {
+            document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+            createPdfPageWise(pdfDocument, document, isDuplicate);
+        } else {
+            if (!isDuplicate && duplicateCheckboxChecked) {
+                document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageBreakCount = 0;
+                createPdfPageWise(pdfDocument, document, true);
+            }
+        }
+    }
+
+    private Bitmap encodeAsBitmap(PdfModelResponse pdfModelResponse) throws WriterException {
+
+        String str = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
+//        for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
+//            str = str + "\nITEMID: " + "- " + "QTY: " + salesLine.getQty();
+//        }
+        str = str + "\nITEMID: " + "- " + "QTY: " + 2;
+        str = str + "\nITEMID: " + "- " + "QTY: " + 3;
+        str = str + "\nITEMID: " + "- " + "QTY: " + 2;
+        str = str + "\nITEMID: " + "- " + "QTY: " + 3;
+
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix bitMatrix = writer.encode(str, BarcodeFormat.QR_CODE, 70, 70);
+
+        int w = bitMatrix.getWidth();
+        int h = bitMatrix.getHeight();
+        int[] pixels = new int[w * h];
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                pixels[y * w + x] = bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
+        return bitmap;
+    }
+//    private void createPdf() {
+//
+//        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+//        //  Display display = wm.getDefaultDisplay();
+//        DisplayMetrics displaymetrics = new DisplayMetrics();
+//        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+////        float hight = displaymetrics.heightPixels;
+////        float width = displaymetrics.widthPixels;
+////
+////        int convertHighet = (int) hight, convertWidth = (int) width;
+//
+//        PdfDocument document = new PdfDocument();
+//        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1800, 1080, 1).create();
+//        PdfDocument.Page page = document.startPage(pageInfo);
+//
+//        Canvas canvas = page.getCanvas();
+//
+//        Paint paint = new Paint();
+//        canvas.drawPaint(paint);
+//
+//        bitmap = Bitmap.createScaledBitmap(bitmap, 1800, 1080, true);
+//
+//        paint.setColor(Color.BLUE);
+//        canvas.drawBitmap(bitmap, 0, 0, null);
+//        document.finishPage(page);
+//
+//        // write the document content
+//        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//        File file = new File(pdfPath, transactionId.concat(".pdf"));
+//        try {
+//            document.writeTo(new FileOutputStream(file));
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+//        }////////////////////
+//
+//        // close the document
+//        document.close();
+////        Toast.makeText(this, "successfully pdf created", Toast.LENGTH_SHORT).show();
+//        openPdf();
+//
+//    }
 
     private void openPdf() {
 
@@ -681,12 +1054,19 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
     @Override
     public void onClickBillPrint() {
-        if (isStoragePermissionGranted()) {
-//            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
-//            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-//            createPdf();
-            openPdf();
+        if (pdfModelResponse != null) {
+            try {
+                createPdf();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+//        if (isStoragePermissionGranted()) {
+////            Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
+////            bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
+////            createPdf();
+//            openPdf();
+//        }
     }
 
     public boolean isStoragePermissionGranted() {
@@ -713,7 +1093,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d("size", "" + orderSummaryBinding.pflayout.getWidth() + " " + orderSummaryBinding.pflayout.getWidth());
             bitmap = LoadBitmap(orderSummaryBinding.pflayout, orderSummaryBinding.pflayout.getWidth(), orderSummaryBinding.pflayout.getHeight());
-            createPdf();
+//            try {
+//                createPdf();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 //            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
         }
@@ -1330,6 +1714,52 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 }
             }
         });
+    }
+    private Bitmap QrCodeGeneration(PdfModelResponse pdfModelResponse, Context context) {
+        String qrCodeData = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
+        for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
+            qrCodeData = qrCodeData + "\nITEMID: " + "- " + "QTY: " + salesLine.getQty();
+        }
+        Bitmap bitmap1 = null;
+// below line is for getting
+        // the windowmanager service.
+        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+
+        // initializing a variable for default display.
+        Display display = manager.getDefaultDisplay();
+
+        // creating a variable for point which
+        // is to be displayed in QR Code.
+        Point point = new Point();
+        display.getSize(point);
+
+        // getting width and
+        // height of a point
+        int width = point.x;
+        int height = point.y;
+
+        // generating dimension from width and height.
+        int dimen = width < height ? width : height;
+        dimen = dimen * 3 / 4;
+
+        // setting this dimensions inside our qr code
+        // encoder to generate our qr code.
+        QRGEncoder qrgEncoder = new QRGEncoder((String) qrCodeData, null, QRGContents.Type.TEXT, dimen);
+        try {
+            // getting our qrcode in the form of bitmap.
+            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
+            // the bitmap is set inside our image
+            // view using .setimagebitmap method.
+            if (qrCodeData != null) {
+//                 bitmapImg.setImageBitmap(bitmap);
+                bitmap1= bitmap;
+            }
+        } catch (com.google.zxing.WriterException e) {
+            // this method is called for
+            // exception handling.
+            Log.e("Tag", e.toString());
+        }
+        return bitmap1;
     }
 
 }
