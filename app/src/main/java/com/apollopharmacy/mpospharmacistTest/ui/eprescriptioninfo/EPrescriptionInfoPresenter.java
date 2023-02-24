@@ -240,8 +240,8 @@ public class EPrescriptionInfoPresenter<V extends EPrescriptionInfoMvpView> exte
             // text.replace("/"","");
             String check_epos = getDataManager().getEposURL();
             String replace_url = getDataManager().getEposURL();
-            if (check_epos.contains("EPOS/")) {
-                replace_url = check_epos.replace("EPOS/", "");
+            if (check_epos.contains("MPOS/")) {
+                replace_url = check_epos.replace("MPOS/", "");
 
             }
             if (check_epos.contains("9880")) {

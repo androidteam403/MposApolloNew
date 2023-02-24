@@ -200,8 +200,8 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             mposPickPackOrderReservationRequest.setOrderList(ordersList);
             String check_epos = getDataManager().getEposURL();
             String replace_url = getDataManager().getEposURL();
-            if (check_epos.contains("EPOS/")) {
-                replace_url = check_epos.replace("EPOS/", "");
+            if (check_epos.contains("MPOS/")) {
+                replace_url = check_epos.replace("MPOS/", "");
 
             }
             if (check_epos.contains("9880")) {
@@ -213,7 +213,7 @@ public class BillerOrdersPresenter<V extends BillerOrdersMvpView> extends BasePr
             ApiInterface api = ApiClient.getApiService(replace_url);
             String url = "";
             //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
-            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/EPOS/")) {
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/MPOS/")) {
                 url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
             } else {
                 url = "OMSService.svc/MPOSPickPackOrderReservation";

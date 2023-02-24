@@ -63,12 +63,15 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
             holder.adapterOrderDetailsScreenBinding.capturesQty.setText(String.valueOf(Math.round(pickedUpQty)));
 
             if (pickedUpQty >= fullfillmentDetail.getQty()) {
+                fullfillmentDetail.setItemStatus(3);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             } else if (pickedUpQty > 0 && pickedUpQty < fullfillmentDetail.getQty()) {
+                fullfillmentDetail.setItemStatus(2);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(90);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             } else {
+                fullfillmentDetail.setItemStatus(1);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setRotation(0);
                 holder.adapterOrderDetailsScreenBinding.pickerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             }
@@ -112,8 +115,7 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         }
         if (pickPackReservationList.size() > 0)
             holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.VISIBLE);
-        else
-            holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
+        else holder.adapterOrderDetailsScreenBinding.headings.setVisibility(View.GONE);
         SelectedBatchesListAdapterr selectedBatchesListAdapterr = new SelectedBatchesListAdapterr(context, pickPackReservationList, products);
         new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
         holder.adapterOrderDetailsScreenBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));

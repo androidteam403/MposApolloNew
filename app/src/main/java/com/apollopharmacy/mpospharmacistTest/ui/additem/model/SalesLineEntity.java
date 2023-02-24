@@ -310,6 +310,8 @@ public class SalesLineEntity extends BaseObservable implements Serializable {
         @SerializedName("RackId")
         private String RackId;
 
+        private int itemStatus;
+
         public String getPackerStatus() {
                 return PackerStatus;
         }
@@ -901,6 +903,14 @@ public class SalesLineEntity extends BaseObservable implements Serializable {
 
         public void setRackId(String rackId) {
                 RackId = rackId;
+        }
+
+        public int getItemStatus() {
+                return itemStatus;
+        }
+
+        public void setItemStatus(int itemStatus) {
+                this.itemStatus = itemStatus;
         }
 
         public void setOriginalPrice(double originalPrice) {

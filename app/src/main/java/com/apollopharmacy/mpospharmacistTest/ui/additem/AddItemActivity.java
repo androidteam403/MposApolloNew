@@ -1662,7 +1662,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onFailedGenerateTenderLine(GenerateTenderLineRes body) {
-        showMessage("Generate TenderLine Failed");
+        if (body != null && body.getValidateOMSOrderResult().getReturnMessage() != null && !body.getValidateOMSOrderResult().getReturnMessage().isEmpty()){
+            showMessage(body.getValidateOMSOrderResult().getReturnMessage());
+        }else{
+            showMessage("Generate TenderLine Failed");
+        }
     }
 
     double paymentDoneAmount = 0.0;

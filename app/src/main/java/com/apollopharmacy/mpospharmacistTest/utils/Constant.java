@@ -47,7 +47,7 @@ public class Constant {
 
     public String card_transaction_id = "0";
     public String PhonepeQrcode_transactionid = "0";
-    public static final String GetOMSTransactionHeader = "http://lms.apollopharmacy.org:51/EPOS/";
+    public static final String GetOMSTransactionHeader = "http://lms.apollopharmacy.org:51/MPOS/";
     // public static final String UPDATEOMSORDER = "http://172.16.2.251:8033/";
 
     public static final String UPDATEOMSORDER = "http://lms.apollopharmacy.org:8033/";

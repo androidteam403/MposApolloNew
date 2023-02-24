@@ -806,42 +806,42 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
     @Override
     public void onClickContinueBill() {
-
-        for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
-            if (customerDataResBean.getSalesLine().get(i).getInventBatchId() == null || customerDataResBean.getSalesLine().get(i).getInventBatchId().isEmpty()) {
-                boolean isItemHaveMoreThanOneBatch = false;
-                for (int j = 0; j < customerDataResBean.getPickPackReservation().size(); j++) {
-                    if (!customerDataResBean.getPickPackReservation().get(j).isPickPackSelected()) {
-                        if (customerDataResBean.getSalesLine().get(i).getItemId().equals(customerDataResBean.getPickPackReservation().get(j).getPickupItemId())) {
-                            customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
-                            if (!isItemHaveMoreThanOneBatch) {
-                                isItemHaveMoreThanOneBatch = true;
-                                customerDataResBean.getSalesLine().get(i).setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
-                                customerDataResBean.getSalesLine().get(i).setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getSalesLine().get(i).getMRP());
-                                } else {
-                                    customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
-
-                                }
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getSalesLine().get(i).getMRP());
-                                } else {
-                                    customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-
-                                }
-//                                customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                customerDataResBean.getSalesLine().get(i).setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getSalesLine().get(i).getMRP());
-                                } else {
-                                    customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-
-                                }
-//                                customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                customerDataResBean.getSalesLine().get(i).setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
-                            } else {
+        if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() > 0) {
+            for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
+                if (customerDataResBean.getSalesLine().get(i).getInventBatchId() == null || customerDataResBean.getSalesLine().get(i).getInventBatchId().isEmpty()) {
+                    boolean isItemHaveMoreThanOneBatch = false;
+                    for (int j = 0; j < customerDataResBean.getPickPackReservation().size(); j++) {
+                        if (!customerDataResBean.getPickPackReservation().get(j).isPickPackSelected()) {
+                            if (customerDataResBean.getSalesLine().get(i).getItemId().equals(customerDataResBean.getPickPackReservation().get(j).getPickupItemId())) {
                                 customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
+                                if (!isItemHaveMoreThanOneBatch) {
+                                    isItemHaveMoreThanOneBatch = true;
+                                    customerDataResBean.getSalesLine().get(i).setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
+                                    customerDataResBean.getSalesLine().get(i).setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+//                                customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    customerDataResBean.getSalesLine().get(i).setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+//                                customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    customerDataResBean.getSalesLine().get(i).setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
+                                } else {
+                                    customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
 //                                customerDataResBean.getSalesLine().add(i + 1, customerDataResBean.getSalesLine().get(i));
 //
 //                                customerDataResBean.getSalesLine().get(i+1).setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
@@ -852,117 +852,117 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //                                customerDataResBean.getSalesLine().get(i+1).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
 
 
-                                SalesLineEntity salesLineEntityTemp = new SalesLineEntity();
-                                salesLineEntityTemp.setAdditionaltax(customerDataResBean.getSalesLine().get(i).getAdditionaltax());
-                                salesLineEntityTemp.setApplyDiscount(customerDataResBean.getSalesLine().get(i).getApplyDiscount());
-                                salesLineEntityTemp.setBarcode(customerDataResBean.getSalesLine().get(i).getBarcode());
-                                salesLineEntityTemp.setBaseAmount(customerDataResBean.getSalesLine().get(i).getBaseAmount());
-                                salesLineEntityTemp.setCESSPerc(customerDataResBean.getSalesLine().get(i).getCESSPerc());
-                                salesLineEntityTemp.setCESSTaxCode(customerDataResBean.getSalesLine().get(i).getCESSTaxCode());
-                                salesLineEntityTemp.setCGSTPerc(customerDataResBean.getSalesLine().get(i).getCGSTPerc());
-                                salesLineEntityTemp.setCGSTTaxCode(customerDataResBean.getSalesLine().get(i).getCGSTTaxCode());
-                                salesLineEntityTemp.setCategory(customerDataResBean.getSalesLine().get(i).getCategory());
-                                salesLineEntityTemp.setCategoryCode(customerDataResBean.getSalesLine().get(i).getCategoryCode());
-                                salesLineEntityTemp.setCategoryReference(customerDataResBean.getSalesLine().get(i).getCategoryReference());
-                                salesLineEntityTemp.setComment(customerDataResBean.getSalesLine().get(i).getComment());
-                                salesLineEntityTemp.setDPCO(customerDataResBean.getSalesLine().get(i).getDPCO());
-                                salesLineEntityTemp.setDiscAmount(customerDataResBean.getSalesLine().get(i).getDiscAmount());
-                                salesLineEntityTemp.setDiscId(customerDataResBean.getSalesLine().get(i).getDiscId());
-                                salesLineEntityTemp.setDiscOfferId(customerDataResBean.getSalesLine().get(i).getDiscOfferId());
-                                salesLineEntityTemp.setDiscountStructureType(customerDataResBean.getSalesLine().get(i).getDiscountStructureType());
-                                salesLineEntityTemp.setDiscountType(customerDataResBean.getSalesLine().get(i).getDiscountType());
-                                salesLineEntityTemp.setDiseaseType(customerDataResBean.getSalesLine().get(i).getDiseaseType());
-                                salesLineEntityTemp.setExpiry(customerDataResBean.getSalesLine().get(i).getExpiry());
-                                salesLineEntityTemp.setHsncode_In(customerDataResBean.getSalesLine().get(i).getHsncode_In());
-                                salesLineEntityTemp.setIGSTPerc(customerDataResBean.getSalesLine().get(i).getIGSTPerc());
-                                salesLineEntityTemp.setIGSTTaxCode(customerDataResBean.getSalesLine().get(i).getIGSTTaxCode());
-                                salesLineEntityTemp.setISPrescribed(customerDataResBean.getSalesLine().get(i).getISPrescribed());
-                                salesLineEntityTemp.setISReserved(customerDataResBean.getSalesLine().get(i).getISReserved());
-                                salesLineEntityTemp.setISStockAvailable(customerDataResBean.getSalesLine().get(i).getISStockAvailable());
-                                salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
-                                salesLineEntityTemp.setChecked(customerDataResBean.getSalesLine().get(i).getIsChecked());
-                                salesLineEntityTemp.setGeneric(customerDataResBean.getSalesLine().get(i).getIsGeneric());
-                                salesLineEntityTemp.setPriceOverride(customerDataResBean.getSalesLine().get(i).getIsPriceOverride());
-                                salesLineEntityTemp.setSubsitute(customerDataResBean.getSalesLine().get(i).getIsSubsitute());
-                                salesLineEntityTemp.setVoid(customerDataResBean.getSalesLine().get(i).getIsVoid());
-                                salesLineEntityTemp.setItemId(customerDataResBean.getSalesLine().get(i).getItemId());
-                                salesLineEntityTemp.setItemName(customerDataResBean.getSalesLine().get(i).getItemName());
-                                salesLineEntityTemp.setLineDiscPercentage(customerDataResBean.getSalesLine().get(i).getLineDiscPercentage());
-                                salesLineEntityTemp.setLineManualDiscountAmount(customerDataResBean.getSalesLine().get(i).getLineManualDiscountAmount());
-                                salesLineEntityTemp.setLineManualDiscountPercentage(customerDataResBean.getSalesLine().get(i).getLineManualDiscountPercentage());
-                                salesLineEntityTemp.setLineNo(customerDataResBean.getSalesLine().get(i).getLineNo());
-                                salesLineEntityTemp.setLinedscAmount(customerDataResBean.getSalesLine().get(i).getLinedscAmount());
-                                salesLineEntityTemp.setMMGroupId(customerDataResBean.getSalesLine().get(i).getMMGroupId());
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    salesLineEntityTemp.setMRP(salesLineEntityTemp.getMRP());
-                                } else {
-                                    salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                }
-                                salesLineEntityTemp.setManufacturerCode(customerDataResBean.getSalesLine().get(i).getManufacturerCode());
-                                salesLineEntityTemp.setManufacturerName(customerDataResBean.getSalesLine().get(i).getManufacturerName());
-                                salesLineEntityTemp.setMixMode(customerDataResBean.getSalesLine().get(i).getMixMode());
-                                salesLineEntityTemp.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
-                                salesLineEntityTemp.setNetAmount(customerDataResBean.getSalesLine().get(i).getNetAmount());
-                                salesLineEntityTemp.setNetAmountInclTax(customerDataResBean.getSalesLine().get(i).getNetAmountInclTax());
-                                salesLineEntityTemp.setOfferAmount(customerDataResBean.getSalesLine().get(i).getOfferAmount());
-                                salesLineEntityTemp.setOfferDiscountType(customerDataResBean.getSalesLine().get(i).getOfferDiscountType());
-                                salesLineEntityTemp.setOfferDiscountValue(customerDataResBean.getSalesLine().get(i).getOfferDiscountValue());
-                                salesLineEntityTemp.setOfferQty(customerDataResBean.getSalesLine().get(i).getOfferQty());
-                                salesLineEntityTemp.setOfferType(customerDataResBean.getSalesLine().get(i).getOfferType());
-                                salesLineEntityTemp.setOmsLineID(customerDataResBean.getSalesLine().get(i).getOmsLineID());
-                                salesLineEntityTemp.setOmsLineRECID(customerDataResBean.getSalesLine().get(i).getOmsLineRECID());
-                                salesLineEntityTemp.setOrderStatus(customerDataResBean.getSalesLine().get(i).getOrderStatus());
-                                salesLineEntityTemp.setOriginalPrice(customerDataResBean.getSalesLine().get(i).getOriginalPrice());
-                                salesLineEntityTemp.setPeriodicDiscAmount(customerDataResBean.getSalesLine().get(i).getPeriodicDiscAmount());
-                                salesLineEntityTemp.setPhysicalMRP(customerDataResBean.getSalesLine().get(i).getPhysicalMRP());
-                                salesLineEntityTemp.setPreviewText(customerDataResBean.getSalesLine().get(i).getPreviewText());
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    salesLineEntityTemp.setPrice(salesLineEntityTemp.getMRP());
-                                } else {
-                                    salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                }
+                                    SalesLineEntity salesLineEntityTemp = new SalesLineEntity();
+                                    salesLineEntityTemp.setAdditionaltax(customerDataResBean.getSalesLine().get(i).getAdditionaltax());
+                                    salesLineEntityTemp.setApplyDiscount(customerDataResBean.getSalesLine().get(i).getApplyDiscount());
+                                    salesLineEntityTemp.setBarcode(customerDataResBean.getSalesLine().get(i).getBarcode());
+                                    salesLineEntityTemp.setBaseAmount(customerDataResBean.getSalesLine().get(i).getBaseAmount());
+                                    salesLineEntityTemp.setCESSPerc(customerDataResBean.getSalesLine().get(i).getCESSPerc());
+                                    salesLineEntityTemp.setCESSTaxCode(customerDataResBean.getSalesLine().get(i).getCESSTaxCode());
+                                    salesLineEntityTemp.setCGSTPerc(customerDataResBean.getSalesLine().get(i).getCGSTPerc());
+                                    salesLineEntityTemp.setCGSTTaxCode(customerDataResBean.getSalesLine().get(i).getCGSTTaxCode());
+                                    salesLineEntityTemp.setCategory(customerDataResBean.getSalesLine().get(i).getCategory());
+                                    salesLineEntityTemp.setCategoryCode(customerDataResBean.getSalesLine().get(i).getCategoryCode());
+                                    salesLineEntityTemp.setCategoryReference(customerDataResBean.getSalesLine().get(i).getCategoryReference());
+                                    salesLineEntityTemp.setComment(customerDataResBean.getSalesLine().get(i).getComment());
+                                    salesLineEntityTemp.setDPCO(customerDataResBean.getSalesLine().get(i).getDPCO());
+                                    salesLineEntityTemp.setDiscAmount(customerDataResBean.getSalesLine().get(i).getDiscAmount());
+                                    salesLineEntityTemp.setDiscId(customerDataResBean.getSalesLine().get(i).getDiscId());
+                                    salesLineEntityTemp.setDiscOfferId(customerDataResBean.getSalesLine().get(i).getDiscOfferId());
+                                    salesLineEntityTemp.setDiscountStructureType(customerDataResBean.getSalesLine().get(i).getDiscountStructureType());
+                                    salesLineEntityTemp.setDiscountType(customerDataResBean.getSalesLine().get(i).getDiscountType());
+                                    salesLineEntityTemp.setDiseaseType(customerDataResBean.getSalesLine().get(i).getDiseaseType());
+                                    salesLineEntityTemp.setExpiry(customerDataResBean.getSalesLine().get(i).getExpiry());
+                                    salesLineEntityTemp.setHsncode_In(customerDataResBean.getSalesLine().get(i).getHsncode_In());
+                                    salesLineEntityTemp.setIGSTPerc(customerDataResBean.getSalesLine().get(i).getIGSTPerc());
+                                    salesLineEntityTemp.setIGSTTaxCode(customerDataResBean.getSalesLine().get(i).getIGSTTaxCode());
+                                    salesLineEntityTemp.setISPrescribed(customerDataResBean.getSalesLine().get(i).getISPrescribed());
+                                    salesLineEntityTemp.setISReserved(customerDataResBean.getSalesLine().get(i).getISReserved());
+                                    salesLineEntityTemp.setISStockAvailable(customerDataResBean.getSalesLine().get(i).getISStockAvailable());
+                                    salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+                                    salesLineEntityTemp.setChecked(customerDataResBean.getSalesLine().get(i).getIsChecked());
+                                    salesLineEntityTemp.setGeneric(customerDataResBean.getSalesLine().get(i).getIsGeneric());
+                                    salesLineEntityTemp.setPriceOverride(customerDataResBean.getSalesLine().get(i).getIsPriceOverride());
+                                    salesLineEntityTemp.setSubsitute(customerDataResBean.getSalesLine().get(i).getIsSubsitute());
+                                    salesLineEntityTemp.setVoid(customerDataResBean.getSalesLine().get(i).getIsVoid());
+                                    salesLineEntityTemp.setItemId(customerDataResBean.getSalesLine().get(i).getItemId());
+                                    salesLineEntityTemp.setItemName(customerDataResBean.getSalesLine().get(i).getItemName());
+                                    salesLineEntityTemp.setLineDiscPercentage(customerDataResBean.getSalesLine().get(i).getLineDiscPercentage());
+                                    salesLineEntityTemp.setLineManualDiscountAmount(customerDataResBean.getSalesLine().get(i).getLineManualDiscountAmount());
+                                    salesLineEntityTemp.setLineManualDiscountPercentage(customerDataResBean.getSalesLine().get(i).getLineManualDiscountPercentage());
+                                    salesLineEntityTemp.setLineNo(customerDataResBean.getSalesLine().get(i).getLineNo());
+                                    salesLineEntityTemp.setLinedscAmount(customerDataResBean.getSalesLine().get(i).getLinedscAmount());
+                                    salesLineEntityTemp.setMMGroupId(customerDataResBean.getSalesLine().get(i).getMMGroupId());
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        salesLineEntityTemp.setMRP(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
+                                    salesLineEntityTemp.setManufacturerCode(customerDataResBean.getSalesLine().get(i).getManufacturerCode());
+                                    salesLineEntityTemp.setManufacturerName(customerDataResBean.getSalesLine().get(i).getManufacturerName());
+                                    salesLineEntityTemp.setMixMode(customerDataResBean.getSalesLine().get(i).getMixMode());
+                                    salesLineEntityTemp.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
+                                    salesLineEntityTemp.setNetAmount(customerDataResBean.getSalesLine().get(i).getNetAmount());
+                                    salesLineEntityTemp.setNetAmountInclTax(customerDataResBean.getSalesLine().get(i).getNetAmountInclTax());
+                                    salesLineEntityTemp.setOfferAmount(customerDataResBean.getSalesLine().get(i).getOfferAmount());
+                                    salesLineEntityTemp.setOfferDiscountType(customerDataResBean.getSalesLine().get(i).getOfferDiscountType());
+                                    salesLineEntityTemp.setOfferDiscountValue(customerDataResBean.getSalesLine().get(i).getOfferDiscountValue());
+                                    salesLineEntityTemp.setOfferQty(customerDataResBean.getSalesLine().get(i).getOfferQty());
+                                    salesLineEntityTemp.setOfferType(customerDataResBean.getSalesLine().get(i).getOfferType());
+                                    salesLineEntityTemp.setOmsLineID(customerDataResBean.getSalesLine().get(i).getOmsLineID());
+                                    salesLineEntityTemp.setOmsLineRECID(customerDataResBean.getSalesLine().get(i).getOmsLineRECID());
+                                    salesLineEntityTemp.setOrderStatus(customerDataResBean.getSalesLine().get(i).getOrderStatus());
+                                    salesLineEntityTemp.setOriginalPrice(customerDataResBean.getSalesLine().get(i).getOriginalPrice());
+                                    salesLineEntityTemp.setPeriodicDiscAmount(customerDataResBean.getSalesLine().get(i).getPeriodicDiscAmount());
+                                    salesLineEntityTemp.setPhysicalMRP(customerDataResBean.getSalesLine().get(i).getPhysicalMRP());
+                                    salesLineEntityTemp.setPreviewText(customerDataResBean.getSalesLine().get(i).getPreviewText());
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        salesLineEntityTemp.setPrice(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
 //                                salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                salesLineEntityTemp.setProductRecID(customerDataResBean.getSalesLine().get(i).getProductRecID());
-                                salesLineEntityTemp.setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
-                                salesLineEntityTemp.setRackId(customerDataResBean.getSalesLine().get(i).getRackId());
-                                salesLineEntityTemp.setRemainderDays(customerDataResBean.getSalesLine().get(i).getRemainderDays());
-                                salesLineEntityTemp.setRemainingQty(customerDataResBean.getSalesLine().get(i).getRemainingQty());
-                                salesLineEntityTemp.setResqty(customerDataResBean.getSalesLine().get(i).getResqtyflag());
-                                salesLineEntityTemp.setRetailCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailCategoryRecID());
-                                salesLineEntityTemp.setRetailMainCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailMainCategoryRecID());
-                                salesLineEntityTemp.setRetailSubCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailSubCategoryRecID());
-                                salesLineEntityTemp.setReturnQty(customerDataResBean.getSalesLine().get(i).getReturnQty());
-                                salesLineEntityTemp.setSGSTPerc(customerDataResBean.getSalesLine().get(i).getSGSTPerc());
-                                salesLineEntityTemp.setSGSTTaxCode(customerDataResBean.getSalesLine().get(i).getSGSTTaxCode());
-                                salesLineEntityTemp.setScheduleCategory(customerDataResBean.getSalesLine().get(i).getScheduleCategory());
-                                salesLineEntityTemp.setScheduleCategoryCode(customerDataResBean.getSalesLine().get(i).getScheduleCategoryCode());
-                                salesLineEntityTemp.setStockQty(customerDataResBean.getSalesLine().get(i).getStockQty());
-                                salesLineEntityTemp.setSubCategory(customerDataResBean.getSalesLine().get(i).getSubCategory());
-                                salesLineEntityTemp.setSubCategoryCode(customerDataResBean.getSalesLine().get(i).getSubCategoryCode());
-                                salesLineEntityTemp.setSubClassification(customerDataResBean.getSalesLine().get(i).getSubClassification());
-                                salesLineEntityTemp.setSubstitudeItemId(customerDataResBean.getSalesLine().get(i).getSubstitudeItemId());
-                                salesLineEntityTemp.setTax(customerDataResBean.getSalesLine().get(i).getTax());
-                                salesLineEntityTemp.setTaxAmount(customerDataResBean.getSalesLine().get(i).getTaxAmount());
-                                salesLineEntityTemp.setTotal(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalDiscAmount());
-                                salesLineEntityTemp.setTotalDiscPct(customerDataResBean.getSalesLine().get(i).getTotalDiscPct());
-                                salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalRoundedAmount());
-                                salesLineEntityTemp.setTotalTax(customerDataResBean.getSalesLine().get(i).getTotalTax());
-                                salesLineEntityTemp.setUnit(customerDataResBean.getSalesLine().get(i).getUnit());
-                                if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
-                                    salesLineEntityTemp.setUnitPrice(salesLineEntityTemp.getMRP());
-                                } else {
-                                    salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                }
+                                    salesLineEntityTemp.setProductRecID(customerDataResBean.getSalesLine().get(i).getProductRecID());
+                                    salesLineEntityTemp.setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+                                    salesLineEntityTemp.setRackId(customerDataResBean.getSalesLine().get(i).getRackId());
+                                    salesLineEntityTemp.setRemainderDays(customerDataResBean.getSalesLine().get(i).getRemainderDays());
+                                    salesLineEntityTemp.setRemainingQty(customerDataResBean.getSalesLine().get(i).getRemainingQty());
+                                    salesLineEntityTemp.setResqty(customerDataResBean.getSalesLine().get(i).getResqtyflag());
+                                    salesLineEntityTemp.setRetailCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailCategoryRecID());
+                                    salesLineEntityTemp.setRetailMainCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailMainCategoryRecID());
+                                    salesLineEntityTemp.setRetailSubCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailSubCategoryRecID());
+                                    salesLineEntityTemp.setReturnQty(customerDataResBean.getSalesLine().get(i).getReturnQty());
+                                    salesLineEntityTemp.setSGSTPerc(customerDataResBean.getSalesLine().get(i).getSGSTPerc());
+                                    salesLineEntityTemp.setSGSTTaxCode(customerDataResBean.getSalesLine().get(i).getSGSTTaxCode());
+                                    salesLineEntityTemp.setScheduleCategory(customerDataResBean.getSalesLine().get(i).getScheduleCategory());
+                                    salesLineEntityTemp.setScheduleCategoryCode(customerDataResBean.getSalesLine().get(i).getScheduleCategoryCode());
+                                    salesLineEntityTemp.setStockQty(customerDataResBean.getSalesLine().get(i).getStockQty());
+                                    salesLineEntityTemp.setSubCategory(customerDataResBean.getSalesLine().get(i).getSubCategory());
+                                    salesLineEntityTemp.setSubCategoryCode(customerDataResBean.getSalesLine().get(i).getSubCategoryCode());
+                                    salesLineEntityTemp.setSubClassification(customerDataResBean.getSalesLine().get(i).getSubClassification());
+                                    salesLineEntityTemp.setSubstitudeItemId(customerDataResBean.getSalesLine().get(i).getSubstitudeItemId());
+                                    salesLineEntityTemp.setTax(customerDataResBean.getSalesLine().get(i).getTax());
+                                    salesLineEntityTemp.setTaxAmount(customerDataResBean.getSalesLine().get(i).getTaxAmount());
+                                    salesLineEntityTemp.setTotal(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalDiscAmount());
+                                    salesLineEntityTemp.setTotalDiscPct(customerDataResBean.getSalesLine().get(i).getTotalDiscPct());
+                                    salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalRoundedAmount());
+                                    salesLineEntityTemp.setTotalTax(customerDataResBean.getSalesLine().get(i).getTotalTax());
+                                    salesLineEntityTemp.setUnit(customerDataResBean.getSalesLine().get(i).getUnit());
+                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
+                                        salesLineEntityTemp.setUnitPrice(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
 //                                salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                salesLineEntityTemp.setUnitQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
-                                salesLineEntityTemp.setVariantId(customerDataResBean.getSalesLine().get(i).getVariantId());
-                                salesLineEntityTemp.setReturnClick(false);
-                                salesLineEntityTemp.setSelectedReturnItem(false);
-                                salesLineEntityTemp.setPriceVariation(customerDataResBean.getSalesLine().get(i).getPriceVariation());
-                                salesLineEntityTemp.setqCDate(customerDataResBean.getSalesLine().get(i).getqCDate());
-                                salesLineEntityTemp.setqCRemarks(customerDataResBean.getSalesLine().get(i).getqCRemarks());
-                                salesLineEntityTemp.setqCStatus(customerDataResBean.getSalesLine().get(i).getqCStatus());
+                                    salesLineEntityTemp.setUnitQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+                                    salesLineEntityTemp.setVariantId(customerDataResBean.getSalesLine().get(i).getVariantId());
+                                    salesLineEntityTemp.setReturnClick(false);
+                                    salesLineEntityTemp.setSelectedReturnItem(false);
+                                    salesLineEntityTemp.setPriceVariation(customerDataResBean.getSalesLine().get(i).getPriceVariation());
+                                    salesLineEntityTemp.setqCDate(customerDataResBean.getSalesLine().get(i).getqCDate());
+                                    salesLineEntityTemp.setqCRemarks(customerDataResBean.getSalesLine().get(i).getqCRemarks());
+                                    salesLineEntityTemp.setqCStatus(customerDataResBean.getSalesLine().get(i).getqCStatus());
 
 //                                salesLineEntityTemp.setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
 //                                salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
@@ -970,14 +970,22 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //                                salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
 //                                salesLineEntityTemp.setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
 //                                salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
-                                customerDataResBean.getSalesLine().add(salesLineEntityTemp);
+                                    customerDataResBean.getSalesLine().add(salesLineEntityTemp);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        mPresenter.onCheckBatchStock(customerDataResBean);
+            if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() > 0) {
+                for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
+                    if (customerDataResBean.getSalesLine().get(i).getItemStatus() == 1) {
+                        customerDataResBean.getSalesLine().remove(i);
+                        i--;
+                    }
+                }
+            }
+            mPresenter.onCheckBatchStock(customerDataResBean);
 
 //        for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
 //            if (customerDataResBean.getSalesLine().get(i).getInventBatchId() == null || customerDataResBean.getSalesLine().get(i).getInventBatchId().isEmpty()) {
@@ -1027,6 +1035,9 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 //            }
 //        }
 //        mPresenter.onCheckBatchStock(customerDataResBean);
+        } else {
+            Toast.makeText(this, "No item available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

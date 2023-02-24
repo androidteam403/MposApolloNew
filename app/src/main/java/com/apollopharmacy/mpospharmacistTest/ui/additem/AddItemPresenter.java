@@ -1357,8 +1357,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
                         if (response.isSuccessful()) {
                             getMvpView().hideLoading();
-                            // if (response.body() != null && response.body().getValidateOMSOrderResult().getRequestStatus() == 0) {
-                            if (response.body() != null) {
+                             if (response.body() != null && response.body().getValidateOMSOrderResult().getRequestStatus() == 0) {
+//                            if (response.body() != null) {
 
                                 tenderLineEntities = response.body().getValidateOMSOrderResult();
                                 if (tenderLineEntities.getTenderLine().size() > 0) {
