@@ -565,6 +565,7 @@
                             android:textSize="@dimen/text_dimen_14" />
 
                         <TextView
+                            android:id="@+id/add_new_customer_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"

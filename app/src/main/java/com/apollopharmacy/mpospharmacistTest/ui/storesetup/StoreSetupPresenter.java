@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.ConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.DeviceSetupReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.DeviceSetupResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresenter<V>
-        implements StoreSetupMvpPresenter<V> {
+public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresenter<V> implements StoreSetupMvpPresenter<V> {
 
     @Inject
     public StoreSetupPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
@@ -51,7 +51,10 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
             storeSetupReqModel.setTERMINALID(getMvpView().getTerminalId());
             storeSetupReqModel.setUSERID(getDataManager().getAdminLoginId());
             storeSetupReqModel.setDEVICETYPE(getMvpView().getDeviceType());
-            storeSetupReqModel.setDEVICEDATE(getMvpView().getRegisteredDate());
+
+            storeSetupReqModel.setDEVICEDATE(CommonUtils.getDateyyyymmddFormat(getMvpView().getRegisteredDate()));
+
+//            storeSetupReqModel.setDEVICEDATE(getMvpView().getRegisteredDate());
             storeSetupReqModel.setLATITUDE(getMvpView().getLatitude());
             storeSetupReqModel.setLOGITUDE(getMvpView().getLongitude());
             Call<DeviceSetupResModel> call = api.STORE_SETUP_CALL(storeSetupReqModel);
@@ -62,6 +65,7 @@ public class StoreSetupPresenter<V extends StoreSetupMvpView> extends BasePresen
                         getMvpView().hideLoading();
                         if (response.body().isStatus()) {
                             if (getMvpView().getStoreContactNum() != null) {
+
                                 getDataManager().setBranchPhoneNumber(getMvpView().getStoreContactNum());
                             }
                             getDataManager().setStoreId(getMvpView().getStoreId());

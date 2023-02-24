@@ -44,8 +44,6 @@ public class RacksDataResponse implements Serializable {
         private String status;
         @SerializedName("BoxId")
         @Expose
-
-
         private String boxId;
         @SerializedName("Products")
         @Expose

@@ -19,4 +19,10 @@ public class SelectAppFlowPresenter<V extends SelectAppFlowMvpView> extends Base
     public void onClickContinue() {
         getMvpView().onClickContinue();
     }
+
+    @Override
+    public void onClickLogout() {
+        getDataManager().logoutUser();
+        getMvpView().onClickLogout();
+    }
 }

@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -32,6 +33,9 @@ import java.util.regex.Pattern;
  */
 public class CommonUtils {
     public static final String DATE_FORMAT_DD_MMM_YYYY = "dd-MMM-YYYY";
+    public static final String SELECTED_ORDERS_LIST = "SELECTED_ORDERS_LIST";
+    public static final String SELECTED_ORDER = "SELECTED_ORDER";
+
     private CommonUtils() {
         // This utility class is not publicly instantiable
     }
@@ -87,13 +91,61 @@ public class CommonUtils {
     }
 
 
-    public static String getCurrentDate(String pattern){
+    public static String getCurrentDate(String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
         return sdf.format(new Date());
     }
 
+    public static String getDateThreeDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
 
-    public static String convertDecimalFormat(double value){
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -3);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+
+    public static String getDateTwoDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -2);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+
+    public static String getDateFourDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -4);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+
+    public static String getDateSevenDaysEarlier(String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        Date todate1 = cal.getTime();
+
+        return sdf.format(todate1);
+    }
+//DateTime lastWeek = new DateTime().minusDays(7);
+
+    public static String convertDecimalFormat(double value) {
         return new DecimalFormat("##.##").format(value);
     }
 
@@ -110,38 +162,35 @@ public class CommonUtils {
         }
     }
 
-    public static char[] generatorOTP(int length)
-    {
+    public static char[] generatorOTP(int length) {
         System.out.print("Your OTP is : ");
         //Creating object of Random class
         Random obj = new Random();
         char[] otp = new char[length];
-        for (int i=0; i<length; i++)
-        {
-            otp[i]= (char)(obj.nextInt(10)+48);
+        for (int i = 0; i < length; i++) {
+            otp[i] = (char) (obj.nextInt(10) + 48);
         }
         return otp;
     }
 
-    public static String convertDateFormat(String date){
-        SimpleDateFormat dateFormat= new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
-        SimpleDateFormat dateFormatFull = new SimpleDateFormat("dd-MMM-yyyy",Locale.getDefault());
+    public static String convertDateFormat(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormatFull = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
         try {
             Date d = dateFormat.parse(date);
             if (d != null) {
                 return dateFormatFull.format(d);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             //java.text.ParseException: Unparseable date: Geting error
-            System.out.println("Excep"+e);
+            System.out.println("Excep" + e);
         }
         return null;
     }
 
-    public static String convertTimeFormat(String time){
-        if(!TextUtils.isEmpty(time)) {
+    public static String convertTimeFormat(String time) {
+        if (!TextUtils.isEmpty(time)) {
             DateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             Date date = null;
             try {
@@ -176,5 +225,21 @@ public class CommonUtils {
             }
         }
         return startEndCatalogDate;
+    }
+
+    public static String getDateyyyymmddFormat(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormatFull = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        try {
+            Date d = dateFormat.parse(date);
+            if (d != null) {
+                return dateFormatFull.format(d);
+            }
+        } catch (Exception e) {
+            //java.text.ParseException: Unparseable date: Geting error
+            System.out.println("Excep" + e);
+        }
+        return null;
     }
 }
