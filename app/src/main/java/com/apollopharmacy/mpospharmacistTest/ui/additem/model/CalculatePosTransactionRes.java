@@ -170,6 +170,11 @@ public class CalculatePosTransactionRes implements Serializable {
     @Expose
     @SerializedName("IsRepeatBill")
     private boolean IsRepeatBill;
+
+    @Expose
+    @SerializedName("IsMPOSBill")
+    private int IsMPOSBill;
+
     @Expose
     @SerializedName("IsManualBill")
     private boolean IsManualBill;
@@ -973,6 +978,14 @@ public class CalculatePosTransactionRes implements Serializable {
 
     public void setManualBill(boolean manualBill) {
         IsManualBill = manualBill;
+    }
+
+    public int getIsMPOSBill() {
+        return IsMPOSBill;
+    }
+
+    public void setIsMPOSBill(int isMPOSBill) {
+        IsMPOSBill = isMPOSBill;
     }
 
     public void setISReturnAllowed(boolean ISReturnAllowed) {

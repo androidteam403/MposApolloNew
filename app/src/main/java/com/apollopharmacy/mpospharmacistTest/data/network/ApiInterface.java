@@ -11,9 +11,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipC
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CouponDiscount;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OTPRes;
@@ -27,6 +31,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PharmacyStaffApiRe
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PhonepeGenerateQrCodeRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PhonepeGenerateQrCodeResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SendGlobalMessageRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SendGlobalMessageResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ValidatePointsReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ValidatePointsResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceReq;
@@ -53,6 +59,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.Medicine
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
@@ -67,13 +75,40 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesT
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.CheckBatchModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionMedicineResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.model.EPrescriptionSubstituteModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.PDFShippingLabelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GeneratePdfbyFlidResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.LoginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -86,6 +121,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.DeviceSetupResM
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.model.StoreListResponseModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -155,6 +191,9 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetGlobalConfigration/{storeId}/{treminalId}/{DataAreaId}")
     Call<GetGlobalConfingRes> GET_GLOBAL_CONFING_RES_CALL(@Path("storeId") String storeId, @Path("treminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
+
+    @POST("SalesTransactionService.svc/GetHBPConfigration/{storeId}/{treminalId}/{DataAreaId}")
+    Call<HBPConfigResponse> GET_HBP_CONFING_RES_CALL(@Path("storeId") String storeId, @Path("treminalId") String terminalId, @Path("DataAreaId") String dataAreaId, @Body Object o);
 
     @POST("SalesTransactionService.svc/GetTrackingWiseConfigration/{storeId}/{DataAreaId}")
     Call<GetTrackingWiseConfing> GET_TRACKING_WISE_CONFING_CALL(@Path("storeId") String storeId, @Path("DataAreaId") String dataAreaId, @Body Object o);
@@ -281,6 +320,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<OMSTransactionHeaderResModel> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionHeaderReqModel omsTransactionHeaderReqModel);
 
+    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
+    Call<OMSTransactionResponse> GET_OMS_TRANSACTION_HEADER(@Body OMSTransactionRequest omsTransactionHeaderReq);
+
     @POST("SalesTransactionService.svc/GetOMSTransaction")
     Call<ArrayList<CustomerDataResBean>> GET_OMS_TRANSACTION(@Body CustomerDataReqBean customerDataReqBean);
 
@@ -297,9 +339,10 @@ public interface ApiInterface {
     Call<GenerateTenderLineRes> VALIDATE_OMS_ORDER(@Body GenerateTenderLineReq tenderLineReq);
 
     @POST("OMSSERVICE/OMSService.svc/MPOSOrderUpdate")
+// UAT
     Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
-//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    @POST("OMSService.svc/MPOSOrderUpdate")// Production
 //    Call<OMSOrderUpdateResponse> UPDATE_OMS_ORDER(@Body OMSOrderUpdateRequest request);
 
     /*@POST("SalesTransactionService.svc/GetOMSSubstitute")
@@ -314,7 +357,97 @@ public interface ApiInterface {
     @POST("AddNewLinePOS")
     Call<OmsAddNewItemResponse> GET_OMS_ADD_New_item(@Body OmsAddNewItemRequest request);
 
+    //These Changes made by Naveen on 09-01-2021
+    @POST("WalletService.svc/HDFCTransactionProcess")
+    Call<HdfcLinkGenerateResponse> HDFC_LINK_GENERATE_RESPONSE_API_CALL(@Body HdfcLinkGenerateRequest hdfcLinkGenerateRequest);
 
-    @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")//907253572044079104
+    @GET("https://jsonblob.com/api/jsonBlob/907667560661794816")
     Call<RacksDataResponse> doRackApiCall();
+
+    @POST("SalesTransactionService.svc/GetOMSTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<List<GetOMSTransactionResponse>> getOmsApiCall(@Body GetOmsTransactionRequest omsTransactionRequest);
+
+    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
+    Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
+
+    //UAT
+    @POST
+    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request, @Url String url);//OMSSERVICE/OMSService.svc/MPOSOrderUpdate
+
+    //Production
+//    @POST("OMSService.svc/MPOSOrderUpdate")
+//    Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request);
+
+    //created by naveen
+    @POST
+//("OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation")
+    Call<MPOSPickPackOrderReservationResponse> OMS_PICKER_PACKER_ORDER_RESERVATION(@Url String url, @Body MPOSPickPackOrderReservationRequest request);
+
+    @POST("SalesTransactionService.svc/CalculatePosTransaction")
+    Call<CalculatePosTransactionResponse> CALCULATE_POS_TRANSACTION_RES(@Body PostTransactionEntityReq posTransactionReq);
+
+    @POST("WalletService.svc/GetHBPUHIDDetails")
+    Call<GetHBPUHIDDetailsResponse> HBPUHID_DETAILS_RESPONSE_CALL(@Body GetHBPUHIDDetailsRequest getHBPUHIDDetailsRequest);
+
+    @POST("WalletService.svc/SendGlobalMessageAPI")
+    Call<SendGlobalMessageResponse> SEND_GLOBAL_MESSAGE_RESPONSE_CALL(@Body SendGlobalMessageRequest sendGlobalMessageRequest);
+
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+    Call<GetOMSTransactionResponse> omscheckstock(@Body GetOMSTransactionResponse request);
+
+    @POST("SalesTransactionService.svc/GetOnlineOrderTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<List<EPrescriptionModelClassResponse>> GET_ONLINE_ORDER_TRANSACTION(@Body EPrescriptionModelClassRequest ePrescriptionModelClassRequest);
+
+    @POST("SalesTransactionService.svc/GetOnlineOrderLineTransaction")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<List<EPrescriptionMedicineResponse>> GET_ONLINEORDER_LINE_TRANSACTION(@Body EPrescriptionMedicineRequest ePrescriptionMedicineRequest);
+
+    @POST("SalesTransactionService.svc/GetOnlineOrderSubstituteDetails/{prescriptionNo}")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<EPrescriptionSubstituteModelResponse> GET_SUBSTITUTE_DETAILS(@Path("prescriptionNo") String prescriptionNo);
+
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<CheckBatchModelResponse> CHECK_BATCH_STOCK(@Body CustomerDataResBean customerDataResBean);
+
+    @POST("SalesTransactionService.svc/CheckBatchStock/0")
+    Call<CustomerDataResBean> omscheckbatchstocks(@Body CustomerDataResBean customerDataResBean);
+
+    @POST("SalesTransactionService.svc/OnlineBill")
+    Call<CustomerDataResBean> ONLINE_BILL_APICALL(@Body CustomerDataResBean request);
+
+    @POST("SalesTransactionService.svc/PrintReceipt")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<PdfModelResponse> DOWNLOAD_PDF(@Body PdfModelRequest response);
+
+    @POST("WalletService.svc/GetPostOnlineOrderAPI")
+    Call<GetPostOnlineOrderApiResponse> GET_POST_ONLINE_ORDER_API_CALL(@Body GetPostOnlineOrderApiRequest getPostOnlineOrderApiRequest);
+
+    @POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
+//http://online.apollopharmacy.org:51/EPOS/
+    Call<List<GetJounalOnlineOrderTransactionsResponse>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
+
+    @GET
+    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Url String url);
+
+    //    @GET("http://lms.apollopharmacy.org:8033/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID")
+/////?FLID=FL20220722101000004&LABELSIZE=4X6
+//    Call<GeneratePdfbyFlidResponse> generatePdfByFlidApiCall(@Query("FLID") String flid, @Query("LABELSIZE") String labelSize);
+    @POST("SalesTransactionService.svc/GetJounalOnlineOrderTransactions")
+    Call<List<CalculatePosTransactionRes>> GET_JOUNAL_ONLINE_ORDER_TRANSACTIONS_API_CALL_CALCULATE_TRANSACTION_RES(@Body GetJounalOnlineOrderTransactionsRequest getPostOnlineOrderApiRequest);
+
+    @GET("https://jsonblob.com/api/jsonBlob/1028923194995916800")
+    Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER_JSON_BLOB();
+
+    @POST("SalesTransactionService.svc/UpdatePatch")
+    Call<UpdatePatchResponse> UPDATE_PATCH_API_CALL(@Body UpdatePatchRequest updatePatchRequest);
+
+//    @GET("http://jsonblob.com/api/jsonBlob/1078242515253215232")
+//    Call<PDFShippingLabelResponse> PDF_API_CALL();
+
+    @GET
+    Call<PDFShippingLabelResponse> PDF_API_CALL_(@Header("token") String token, @Url String url);
+
 }

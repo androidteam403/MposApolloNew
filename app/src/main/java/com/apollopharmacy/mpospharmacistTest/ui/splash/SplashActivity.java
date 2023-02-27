@@ -156,7 +156,8 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mPresenter.enableKioskMode();
+//                mPresenter.enableKioskMode();
+                mPresenter.decideNextActivity();
             }
 
             @Override
