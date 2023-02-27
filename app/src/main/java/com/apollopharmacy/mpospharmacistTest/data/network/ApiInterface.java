@@ -444,8 +444,8 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/UpdatePatch")
     Call<UpdatePatchResponse> UPDATE_PATCH_API_CALL(@Body UpdatePatchRequest updatePatchRequest);
 
-//    @GET("http://jsonblob.com/api/jsonBlob/1078242515253215232")
-//    Call<PDFShippingLabelResponse> PDF_API_CALL();
+    @GET("http://jsonblob.com/api/jsonBlob/1078242515253215232")
+    Call<PDFShippingLabelResponse> PDF_API_CALL();
 
     @GET
     Call<PDFShippingLabelResponse> PDF_API_CALL_(@Header("token") String token, @Url String url);

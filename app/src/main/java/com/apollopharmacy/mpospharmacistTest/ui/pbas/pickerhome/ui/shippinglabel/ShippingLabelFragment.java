@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
@@ -47,7 +48,6 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogLabelSizeBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentShippingLabelBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
-import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.adapter.ShippingLabelAdapter;
@@ -372,8 +372,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     public void onClickPrintLabel(GetJounalOnlineOrderTransactionsResponse getJounalOnlineOrderTransactionsResponse) {
         this.getJounalOnlineOrderTransactionsResponse = getJounalOnlineOrderTransactionsResponse;
 
-       mPresenter.pdfApiCall_(getJounalOnlineOrderTransactionsResponse.getRefno());
-//        mPresenter.pdfApiCall();
+//       mPresenter.pdfApiCall_(getJounalOnlineOrderTransactionsResponse.getRefno());
+        mPresenter.pdfApiCall();
 //        if (isStoragePermissionGranted()) {
 //            mPresenter.generatePdfbyFlidApiCall(getJounalOnlineOrderTransactionsResponse.getRefno(), mPresenter.getPaperLabelSize());
 //        }
@@ -499,6 +499,9 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     }
 
     private void createPdfA5() throws IOException {
+        if (isStoragePermissionGranted()) {
+
+
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 
 //        File file = new File(pdfPath, "pdfdoc.pdf");
@@ -507,13 +510,46 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //
 //        File file = new File(pdfPath, getJounalOnlineOrderTransactionsResponse.getRefno()+".pdf");
         String extStorageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+        File f = new File(extStorageDirectory);
         File folder = new File(extStorageDirectory, "shipping");
-        folder.mkdir();
-//        if(folder.exists()){
-//            folder.delete();
-//        }
-        File file = new File(folder, this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+//        folder.mkdir();
 
+        File file = new File(folder, this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+//        if(file.exists()){
+//            file.delete();
+//        }
+        File dir = new File(Environment.getExternalStorageDirectory()+ "/shipping/");
+            File fileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/");
+        if (f.isDirectory())
+        {
+            String extStorageDirectorys = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+            File fi = new File(extStorageDirectorys);
+            if (f.isDirectory()) {
+                for(File sub : f.listFiles()){
+                    if (sub.toString().contains("shipping")) {
+                       if(sub.isDirectory()){
+                           for(File subs : sub.listFiles()){
+                               if (subs.toString().contains(getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf")){
+                                   Toast.makeText(getActivity(), "File found", Toast.LENGTH_SHORT).show();
+                               }
+                           }
+                       }
+                    }
+                }
+            }
+
+//            File folder2 = new File(extStorageDirectory, "shipping");
+//            boolean isDeleted = new File(f, String.valueOf(folder2)).delete();
+//            Toast.makeText(getActivity(), ""+isDeleted, Toast.LENGTH_SHORT).show();
+//            boolean children = folder2.delete();
+//            for (int i = 0; i < children.length; i++)
+//            {
+//                if(children.toString().contains(getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf")){
+//                    Toast.makeText(getActivity(), "File found", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+        }
         try {
             file.createNewFile();
         } catch (IOException e1) {
@@ -526,9 +562,11 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         document.setMargins(15, 15, 15, 15);
         createPdfPageWiseA5(pdfDocument, document, false);
         document.close();
-        if (isStoragePermissionGranted()) {
             openPdf();
         }
+
+
+
     }
 
     private void openPdf() {

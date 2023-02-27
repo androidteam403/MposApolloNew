@@ -126,32 +126,32 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
         }
     }
 
-//    public void pdfApiCall() {
-//        if (getMvpView().isNetworkConnected()) {
-//            getMvpView().showLoading();
-//            ApiInterface api = ApiClient.getApiService2();
-//            Call<PDFShippingLabelResponse> call = api.PDF_API_CALL();
-//            call.enqueue(new Callback<PDFShippingLabelResponse>() {
-//                @Override
-//                public void onResponse(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Response<PDFShippingLabelResponse> response) {
-//                    if (response.isSuccessful()) {
-//                        if (getMvpView() != null) {
-//                            getMvpView().hideLoading();
-//                            getMvpView().onSuccessPdfApiCall(response.body());
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Throwable t) {
-//                    getMvpView().hideLoading();
-//                    handleApiError(t);
-//                }
-//            });
-//        } else {
-//            getMvpView().onError("Internet Connection Not Available");
-//        }
-//    }
+    public void pdfApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService2();
+            Call<PDFShippingLabelResponse> call = api.PDF_API_CALL();
+            call.enqueue(new Callback<PDFShippingLabelResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Response<PDFShippingLabelResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (getMvpView() != null) {
+                            getMvpView().hideLoading();
+                            getMvpView().onSuccessPdfApiCall(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
 public void pdfApiCall_(String flID) {
     if (getMvpView().isNetworkConnected()) {
         getMvpView().showLoading();
