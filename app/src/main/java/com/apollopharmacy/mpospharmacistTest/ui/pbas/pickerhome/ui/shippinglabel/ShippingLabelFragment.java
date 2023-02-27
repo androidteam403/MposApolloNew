@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
@@ -54,6 +53,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GeneratePdfbyFlidResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
 import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
 import com.google.zxing.BarcodeFormat;
@@ -340,12 +340,6 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
                 }
 
 
-
-
-
-
-
-
 //                if (editable.length() >= 2) {
 //                    shippingLabelBinding.search.setVisibility(View.GONE);
 //                    shippingLabelBinding.deleteCancel.setVisibility(View.VISIBLE);
@@ -372,8 +366,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     public void onClickPrintLabel(GetJounalOnlineOrderTransactionsResponse getJounalOnlineOrderTransactionsResponse) {
         this.getJounalOnlineOrderTransactionsResponse = getJounalOnlineOrderTransactionsResponse;
 
-//       mPresenter.pdfApiCall_(getJounalOnlineOrderTransactionsResponse.getRefno());
-        mPresenter.pdfApiCall();
+        mPresenter.pdfApiCall_(getJounalOnlineOrderTransactionsResponse.getRefno());
+//        mPresenter.pdfApiCall();
 //        if (isStoragePermissionGranted()) {
 //            mPresenter.generatePdfbyFlidApiCall(getJounalOnlineOrderTransactionsResponse.getRefno(), mPresenter.getPaperLabelSize());
 //        }
@@ -475,9 +469,10 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     }
 
     PDFShippingLabelResponse pdfShippingLabelResponse;
+
     @Override
     public void onSuccessPdfApiCall(PDFShippingLabelResponse pdfShippingLabelResponse) {
-        if(pdfShippingLabelResponse!=null && pdfShippingLabelResponse.getData()!=null){
+        if (pdfShippingLabelResponse != null && pdfShippingLabelResponse.getData() != null) {
             this.pdfShippingLabelResponse = pdfShippingLabelResponse;
             try {
                 createPdfA5();
@@ -491,7 +486,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //                    createPdf();
 //                }
 
-        }else{
+        } else {
             Toast.makeText(getActivity(), "" + pdfShippingLabelResponse.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -501,7 +496,6 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
     private void createPdfA5() throws IOException {
         if (isStoragePermissionGranted()) {
 
-
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 
 //        File file = new File(pdfPath, "pdfdoc.pdf");
@@ -509,64 +503,39 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 //
 //        File file = new File(pdfPath, getJounalOnlineOrderTransactionsResponse.getRefno()+".pdf");
-        String extStorageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-        File f = new File(extStorageDirectory);
-        File folder = new File(extStorageDirectory, "shipping");
-//        folder.mkdir();
 
-        File file = new File(folder, this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
-//        if(file.exists()){
-//            file.delete();
-//        }
-        File dir = new File(Environment.getExternalStorageDirectory()+ "/shipping/");
-            File fileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/");
-        if (f.isDirectory())
-        {
-            String extStorageDirectorys = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-            File fi = new File(extStorageDirectorys);
-            if (f.isDirectory()) {
-                for(File sub : f.listFiles()){
-                    if (sub.toString().contains("shipping")) {
-                       if(sub.isDirectory()){
-                           for(File subs : sub.listFiles()){
-                               if (subs.toString().contains(getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf")){
-                                   Toast.makeText(getActivity(), "File found", Toast.LENGTH_SHORT).show();
-                               }
-                           }
-                       }
-                    }
-                }
-            }
-
-//            File folder2 = new File(extStorageDirectory, "shipping");
-//            boolean isDeleted = new File(f, String.valueOf(folder2)).delete();
-//            Toast.makeText(getActivity(), ""+isDeleted, Toast.LENGTH_SHORT).show();
-//            boolean children = folder2.delete();
-//            for (int i = 0; i < children.length; i++)
-//            {
-//                if(children.toString().contains(getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf")){
-//                    Toast.makeText(getActivity(), "File found", Toast.LENGTH_SHORT).show();
-//                }
+            //from
+//            String extStorageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//            File folder = new File(extStorageDirectory, "shipping");
+//            folder.mkdir();
+////        if(folder.exists()){
+////            folder.delete();
+////        }
+//            File file = new File(folder, this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
 //
+//            try {
+//                file.createNewFile();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
 //            }
-        }
-        try {
-            file.createNewFile();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+            //to
+            String fileName = this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf";
+            FileUtil.createFilePath(fileName, getContext(), "shipping");
+            PdfWriter writer = new PdfWriter(FileUtil.getFilePath(fileName, getContext(), "shipping"));
+
 //        OutputStream outputStream = new FileOutputStream(file);
-        PdfWriter writer = new PdfWriter(file);
-       PdfDocument pdfDocument = new PdfDocument(writer);
-      Document document = new Document(pdfDocument, PageSize.A5);
-        document.setMargins(15, 15, 15, 15);
-        createPdfPageWiseA5(pdfDocument, document, false);
-        document.close();
-            openPdf();
+
+
+//            PdfWriter writer = new PdfWriter(file);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument, PageSize.A5);
+            document.setMargins(15, 15, 15, 15);
+            createPdfPageWiseA5(pdfDocument, document, false);
+            document.close();
+            if (isStoragePermissionGranted()) {
+                openPdf();
+            }
         }
-
-
-
     }
 
     private void openPdf() {
@@ -575,8 +544,9 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 //
 //        File file = new File(pdfPath, getJounalOnlineOrderTransactionsResponse.getRefno()+".pdf");
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/" + this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
-
+//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/" + this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+        String fileName = getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf";
+        File file = FileUtil.getFilePath(fileName, getContext(), "shipping");
         if (file.exists()) {
             //Button To start print
 
@@ -619,10 +589,12 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
         }
     }
+
     public static final String REGULAR =
             "res/font/roboto_regular.ttf";
     public static final String BOLD =
             "res/font/roboto_bold.ttf";
+
     private void createPdfPageWiseA5(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
         // declaring variables for loading the fonts from asset
         byte[] fontByte, boldByte;
@@ -650,7 +622,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 ////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
 //      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
 
-        float[] columnWidth1 = {60, 5, 275,5, 235};//580
+        float[] columnWidth1 = {60, 5, 275, 5, 235};//580
         Table table1 = new Table(columnWidth1);
 
         //table1.....row1.....
@@ -751,55 +723,55 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
         table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("Shipping Address: ").setFontSize(11).setFont(bold)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": "+  " ").setFontSize(10).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(11).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(10).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(11).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
         Table tableAddress;
 //        pdfShippingLabelResponse.getData().setQrcode("12345678920");
-         if(pdfShippingLabelResponse.getData().getQrcode()!=null && !pdfShippingLabelResponse.getData().getQrcode().equals("")){
-             float[] columnWidthAddress = {460, 120};//580
-             tableAddress = new Table(columnWidthAddress);
-             Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
+        if (pdfShippingLabelResponse.getData().getQrcode() != null && !pdfShippingLabelResponse.getData().getQrcode().equals("")) {
+            float[] columnWidthAddress = {460, 120};//580
+            tableAddress = new Table(columnWidthAddress);
+            Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
 //        Border border2Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
-             tableAddress.setBorderLeft(border2Address);
-             tableAddress.setBorderRight(border2Address);
+            tableAddress.setBorderLeft(border2Address);
+            tableAddress.setBorderRight(border2Address);
 //        table2.setBorderBottom(border2);
 //        tableNew.setMarginLeft(100);
 //        tableNew.setMarginRight(100);
-             ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+            ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
 //        try {
 //            encodeAsBitmap(pdfModelResponse).compress(Bitmap.CompressFormat.PNG, 100, stream2);
-             QrCodeGeneration(pdfShippingLabelResponse.getData().getQrcode(), getActivity()).compress(Bitmap.CompressFormat.PNG, 100, stream2);
+            QrCodeGeneration(pdfShippingLabelResponse.getData().getQrcode(), getActivity()).compress(Bitmap.CompressFormat.PNG, 100, stream2);
 //        }
 //        catch (WriterException e) {
 //            e.printStackTrace();
 //        }
-             byte[] bitMapData2 = stream2.toByteArray();
+            byte[] bitMapData2 = stream2.toByteArray();
 
-             ImageData imageData2 = ImageDataFactory.create(bitMapData2);
-             Image image2 = new Image(imageData2);
-             image2.scaleToFit(80, 80);
+            ImageData imageData2 = ImageDataFactory.create(bitMapData2);
+            Image image2 = new Image(imageData2);
+            image2.scaleToFit(80, 80);
 
 
-             tableAddress.setBorder(Border.NO_BORDER);
-             tableAddress.setMarginRight(15);
-             tableAddress.setMarginLeft(15);
-             tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()+"\n"+pdfShippingLabelResponse.getData().getShippingaddress()+ "" + pdfShippingLabelResponse.getData().getShippingcity()+ ""+ pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(11)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-             tableAddress.addCell(new Cell(4, 1).add(image2).add(new Paragraph(new Text("Scan to pay via UPI").setFontSize(9.5f).setFont(font))).setBorder(Border.NO_BORDER));
-         }else{
-             float[] columnWidthAddress = {580};//580
-              tableAddress = new Table(columnWidthAddress);
-             Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
+            tableAddress.setBorder(Border.NO_BORDER);
+            tableAddress.setMarginRight(15);
+            tableAddress.setMarginLeft(15);
+            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(11)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+            tableAddress.addCell(new Cell(4, 1).add(image2).add(new Paragraph(new Text("Scan to pay via UPI").setFontSize(9.5f).setFont(font))).setBorder(Border.NO_BORDER));
+        } else {
+            float[] columnWidthAddress = {580};//580
+            tableAddress = new Table(columnWidthAddress);
+            Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
 //        Border border2Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
-             tableAddress.setBorderLeft(border2Address);
-             tableAddress.setBorderRight(border2Address);
+            tableAddress.setBorderLeft(border2Address);
+            tableAddress.setBorderRight(border2Address);
 //        table2.setBorderBottom(border2);
 //        tableNew.setMarginLeft(100);
 //        tableNew.setMarginRight(100);
-             tableAddress.setBorder(Border.NO_BORDER);
-             tableAddress.setMarginRight(15);
-             tableAddress.setMarginLeft(15);
-             tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(11)).setMarginLeft(5)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress()+ "" + pdfShippingLabelResponse.getData().getShippingcity()+ ""+ pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+            tableAddress.setBorder(Border.NO_BORDER);
+            tableAddress.setMarginRight(15);
+            tableAddress.setMarginLeft(15);
+            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(11)).setMarginLeft(5)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
 
-         }
+        }
 
         float[] columnWidthContactNo = {350, 230};//580
         Table tableContactNo = new Table(columnWidthContactNo);
@@ -811,7 +783,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         tableContactNo.setMarginRight(15);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
-        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text("Contact No: "+ pdfShippingLabelResponse.getData().getPrimarycontactno()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
+        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text("Contact No: " + pdfShippingLabelResponse.getData().getPrimarycontactno()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
         tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getFullfillmentorderid()).setFont(font).setFontSize(11)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
 
         float[] columnWidth4 = {580};//580
@@ -822,7 +794,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         table4.setMarginRight(15);
         table4.setMarginTop(0);
         table4.setMarginBottom(0);
-        table4.addCell(new Cell(2, 1).add(new Paragraph(new Text("Seller Address: "+"\n").setFontSize(11).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1()+pdfShippingLabelResponse.getData().getStoreaddress2()+pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(10))).setPadding(0f).setMargin(0f));
+        table4.addCell(new Cell(2, 1).add(new Paragraph(new Text("Seller Address: " + "\n").setFontSize(11).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1() + pdfShippingLabelResponse.getData().getStoreaddress2() + pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(10))).setPadding(0f).setMargin(0f));
         table4.setPadding(0f);
 
         //        table4.addCell(new Cell().add(new Paragraph(new Text("ORDER ID").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
@@ -932,10 +904,11 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        document.add(new Paragraph(""));
         document.add(table8);
     }
+
     private Bitmap QrCodeGeneration(String qrCode, Context context) {
 //        String qrCodeData = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
 //        for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
-            String  qrCodeData = qrCode;
+        String qrCodeData = qrCode;
 //        }
         Bitmap bitmap1 = null;
 // below line is for getting
@@ -969,7 +942,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             // view using .setimagebitmap method.
             if (qrCodeData != null) {
 //                 bitmapImg.setImageBitmap(bitmap);
-                bitmap1= bitmap;
+                bitmap1 = bitmap;
             }
         } catch (com.google.zxing.WriterException e) {
             // this method is called for
@@ -987,7 +960,9 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             InputStream input = null;
             OutputStream output = null;
             try {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/" + ShippingLabelFragment.this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+//                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/" + ShippingLabelFragment.this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+                String fileName = getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf";
+                File file = FileUtil.getFilePath(fileName, getContext(), "shipping");
 
                 input = new FileInputStream(file);//"/storage/emulated/0/Documents/my-document-1656940186153.pdf"
                 output = new FileOutputStream(destination.getFileDescriptor());
@@ -1026,7 +1001,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
                 return;
             }
             //int pages = computePageCount(newAttributes);
-            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder("file_name.pdf").setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
+            String fileName = getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf";
+            PrintDocumentInfo pdi = new PrintDocumentInfo.Builder(fileName).setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).build();
             callback.onLayoutFinished(pdi, true);
         }
 
@@ -1101,7 +1077,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //            str = str + "\nITEMID: " + "- " + "QTY: " + salesLine.getQty();
 //        }
         CodaBarWriter codaBarWriter = new CodaBarWriter();
-     QRCodeWriter writer = new QRCodeWriter();
+        QRCodeWriter writer = new QRCodeWriter();
         BitMatrix bitMatrix = null;
         try {
             bitMatrix = codaBarWriter.encode(str, BarcodeFormat.CODABAR, 150, 40);
@@ -1122,14 +1098,15 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
         return bitmap;
     }
-    private Bitmap generateBarcode(String productId){
+
+    private Bitmap generateBarcode(String productId) {
         try {
 
             Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             Writer codeWriter;
             codeWriter = new Code128Writer();
-            BitMatrix byteMatrix = codeWriter.encode(productId, BarcodeFormat.CODE_128,400, 200, hintMap);
+            BitMatrix byteMatrix = codeWriter.encode(productId, BarcodeFormat.CODE_128, 400, 200, hintMap);
             int width = byteMatrix.getWidth();
             int height = byteMatrix.getHeight();
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
