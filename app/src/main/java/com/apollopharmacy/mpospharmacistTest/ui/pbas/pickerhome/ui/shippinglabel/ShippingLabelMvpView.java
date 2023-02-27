@@ -26,4 +26,6 @@ public interface ShippingLabelMvpView extends MvpView {
     void onClickPrevPage();
 
     void onClickNextPage();
+
+    void onSuccessPdfApiCall(PDFShippingLabelResponse pdfShippingLabelResponse);
 }

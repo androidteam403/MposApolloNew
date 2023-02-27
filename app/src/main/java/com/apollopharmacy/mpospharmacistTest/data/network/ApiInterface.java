@@ -91,6 +91,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.PDFShippingLabelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GeneratePdfbyFlidResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsResponse;
@@ -442,5 +443,11 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/UpdatePatch")
     Call<UpdatePatchResponse> UPDATE_PATCH_API_CALL(@Body UpdatePatchRequest updatePatchRequest);
+
+//    @GET("http://jsonblob.com/api/jsonBlob/1078242515253215232")
+//    Call<PDFShippingLabelResponse> PDF_API_CALL();
+
+    @GET
+    Call<PDFShippingLabelResponse> PDF_API_CALL_(@Header("token") String token, @Url String url);
 
 }

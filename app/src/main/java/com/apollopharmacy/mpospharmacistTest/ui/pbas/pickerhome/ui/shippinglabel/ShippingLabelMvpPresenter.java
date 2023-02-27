@@ -23,4 +23,8 @@ public interface ShippingLabelMvpPresenter<V extends ShippingLabelMvpView> exten
     void onClickPrevPage();
 
     void onClickNextPage();
+
+//    void pdfApiCall();
+
+    void pdfApiCall_(String refno);
 }

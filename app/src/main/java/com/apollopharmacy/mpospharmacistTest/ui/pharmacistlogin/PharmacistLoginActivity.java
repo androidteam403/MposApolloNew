@@ -13,6 +13,7 @@ import android.pt.MiniLcd;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,6 +27,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPharmacistLoginBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogDecideVersionFlowBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
@@ -36,6 +38,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatc
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -289,9 +292,9 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //        finish();
 //        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
-        startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+//        startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//        finish();
 //        } else {
 //            Toast.makeText(this, "MPOS version other than verion 1 & 2", Toast.LENGTH_SHORT).show();
 //        }
@@ -306,10 +309,10 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
 //            finish();
 //        });
 //        dialogDecideVersionFlowBinding.mposMultipleUserFlow.setOnClickListener(v -> {
-//            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            decideVersionFlowDialog.dismiss();
-//            finish();
+            finish();
 //        });
 //        decideVersionFlowDialog.show();
     }
