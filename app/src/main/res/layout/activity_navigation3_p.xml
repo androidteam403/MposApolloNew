@@ -54,7 +54,7 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="13sp"/>
+                    android:textSize="@dimen/dimen15sp"/>
                 <TextView
                     android:layout_below="@id/version"
                     android:id="@+id/logout_btn"

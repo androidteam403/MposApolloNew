@@ -85,7 +85,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold, R.id.nav_orders)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
-        activityNavigation3Binding.version.setText(BuildConfig.VERSION_NAME);
+        activityNavigation3Binding.version.setText("Version " +""+ BuildConfig.VERSION_NAME);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);

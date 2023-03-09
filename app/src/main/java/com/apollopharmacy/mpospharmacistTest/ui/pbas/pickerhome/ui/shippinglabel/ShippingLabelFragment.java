@@ -137,7 +137,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         shippingLabelBinding.setCallback(mPresenter);
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
-        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
@@ -176,12 +176,19 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         } else if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A4")) {
             dialogLabelSizeBinding.aFourRadio.setChecked(true);
         }
+        else if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")) {
+            dialogLabelSizeBinding.aFiveRadio.setChecked(true);
+        }
         dialogLabelSizeBinding.labelSizeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.four_six_radio) {
                 mPresenter.setPaperLabelSize("4X6");
                 paperLabelSizeDialog.dismiss();
             } else if (checkedId == R.id.a_four_radio) {
                 mPresenter.setPaperLabelSize("A4");
+                paperLabelSizeDialog.dismiss();
+            }
+            else if (checkedId == R.id.a_five_radio) {
+                mPresenter.setPaperLabelSize("A5");
                 paperLabelSizeDialog.dismiss();
             }
         });
@@ -367,7 +374,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         this.getJounalOnlineOrderTransactionsResponse = getJounalOnlineOrderTransactionsResponse;
 
         mPresenter.pdfApiCall_(getJounalOnlineOrderTransactionsResponse.getRefno());
-//        mPresenter.pdfApiCall();
+//       mPresenter.pdfApiCall();
 //        if (isStoragePermissionGranted()) {
 //            mPresenter.generatePdfbyFlidApiCall(getJounalOnlineOrderTransactionsResponse.getRefno(), mPresenter.getPaperLabelSize());
 //        }
@@ -396,13 +403,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/shipping/" + this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
         if (file.exists()) {
             PrintAttributes.Builder builder = new PrintAttributes.Builder();
-            builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
+//            builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
             builder.setMinMargins(PrintAttributes.Margins.NO_MARGINS);
-//            if (mPresenter.getPaperLabelSize().equalsIgnoreCase("4X6")) {
-//                builder.setMediaSize(PrintAttributes.MediaSize.NA_INDEX_4X6);
-//            } else if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A4")) {
-//                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
-//            }
+            if (mPresenter.getPaperLabelSize().equalsIgnoreCase("4X6")) {
+                builder.setMediaSize(PrintAttributes.MediaSize.NA_INDEX_4X6);
+            } else  {
+                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
+            }
             builder.setColorMode(PrintAttributes.COLOR_MODE_MONOCHROME);
             PrintManager printManager = (PrintManager) getActivity().getSystemService(Context.PRINT_SERVICE);
             String jobName = this.getString(R.string.app_name) + " Document";
@@ -472,13 +479,23 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
     @Override
     public void onSuccessPdfApiCall(PDFShippingLabelResponse pdfShippingLabelResponse) {
+//        pdfShippingLabelResponse.getData().setDspname("A247-LHUB-LHUB");
         if (pdfShippingLabelResponse != null && pdfShippingLabelResponse.getData() != null) {
             this.pdfShippingLabelResponse = pdfShippingLabelResponse;
-            try {
-                createPdfA5();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (pdfShippingLabelResponse.getData().getDspname().equalsIgnoreCase("A247-LHUB-LHUB")) {
+                Toast.makeText(getActivity(), "DSP name is LHUB-LHUB and has not yet been changed; Kindly try again later", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")) {
+                        createPdfA5();
+                    } else {
+                        createPdf();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+
 //            try {
 //                if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")) {
 //                    createPdfA5();
@@ -491,6 +508,51 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         }
 
 
+    }
+
+    private void createPdf() throws IOException {
+        if (isStoragePermissionGranted()) {
+
+//        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+
+//        File file = new File(pdfPath, "pdfdoc.pdf");
+////        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "12345".concat(".pdf"));
+//        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//
+//        File file = new File(pdfPath, getJounalOnlineOrderTransactionsResponse.getRefno()+".pdf");
+
+            //from
+//            String extStorageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//            File folder = new File(extStorageDirectory, "shipping");
+//            folder.mkdir();
+////        if(folder.exists()){
+////            folder.delete();
+////        }
+//            File file = new File(folder, this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf");
+//
+//            try {
+//                file.createNewFile();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+            //to
+            String fileName = this.getJounalOnlineOrderTransactionsResponse.getRefno() + ".pdf";
+            FileUtil.createFilePath(fileName, getContext(), "shipping");
+            PdfWriter writer = new PdfWriter(FileUtil.getFilePath(fileName, getContext(), "shipping"));
+
+//        OutputStream outputStream = new FileOutputStream(file);
+
+
+//            PdfWriter writer = new PdfWriter(file);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument, PageSize.A4);
+            document.setMargins(15, 15, 15, 15);
+            createPdfPageWise(pdfDocument, document, false);
+            document.close();
+            if (isStoragePermissionGranted()) {
+                openPdf();
+            }
+        }
     }
 
     private void createPdfA5() throws IOException {
@@ -551,12 +613,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             //Button To start print
 
             PrintAttributes.Builder builder = new PrintAttributes.Builder();
-            builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
-//            if(mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")){
-//                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
-//            }else if(mPresenter.getPaperLabelSize().equalsIgnoreCase("A4")){
-//                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
-//            }else{
+//            builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
+            if(mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")){
+                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
+            }else {
+                builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
+            }
+//            else{
 //                builder.setMediaSize(PrintAttributes.MediaSize.NA_INDEX_4X6);
 //            }
             builder.setColorMode(PrintAttributes.COLOR_MODE_MONOCHROME);
@@ -588,6 +651,218 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             }
 //            Toast.makeText(this, "File not exist", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
+        // declaring variables for loading the fonts from asset
+        byte[] fontByte, boldByte;
+        AssetManager am;
+        am = this.getActivity().getAssets();
+//the file name should be same as in your assets folder
+//        try (InputStream inStream = am.open("font/cambria.ttf")) {
+//            fontByte = IOUtils.toByteArray(inStream);
+//        }
+        FontProgram fontProgram =
+                FontProgramFactory.createFont(REGULAR);
+        FontProgram fontProgramBold =
+                FontProgramFactory.createFont(BOLD);
+//        try (InputStream inStream = am.open("font/cambriab.ttf")) {
+//            boldByte = IOUtils.toByteArray(inStream);
+//
+//        }
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        PdfFont font = PdfFontFactory.createFont(fontProgram, PdfEncodings.WINANSI, true);
+        PdfFont bold = PdfFontFactory.createFont(fontProgramBold, PdfEncodings.WINANSI, true);
+//        PdfFont bold = PdfFontFactory.createFont(boldByte, PdfEncodings.WINANSI, true);
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
+//      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
+
+        float[] columnWidth1 = {100, 10, 200, 10, 260};//580
+        Table table1 = new Table(columnWidth1);
+
+        //table1.....row1.....
+        Drawable apolloLogoDrawable = getActivity().getDrawable(R.drawable.apollo_1525857827435);
+        Bitmap apolloLogoBitMap = ((BitmapDrawable) apolloLogoDrawable).getBitmap();
+        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+        apolloLogoBitMap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
+        byte[] bitMapData1 = stream1.toByteArray();
+
+        ImageData imageData1 = ImageDataFactory.create(bitMapData1);
+        Image image1 = new Image(imageData1);
+        image1.scaleToFit(80, 80);
+        image1.setHeight(80);
+
+
+        Border border1 = new SolidBorder(new DeviceRgb(199, 199, 199), 1);
+//        table1.setBorder(border1);
+        table1.addCell(new Cell(4, 1).add(image1).setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell().setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("APOLLO PHARMACY").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getStoreaddress1()+pdfShippingLabelResponse.getData().getStoreaddress2()+pdfShippingLabelResponse.getData().getStoreaddress3()).setFontSize(ITEXT_FONT_SIZE_SIX))).setPadding(10).setBorder(new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F)));
+        table1.addCell(new Cell().setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("INVOICE NUMBER: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).add(new Text(pdfShippingLabelResponse.getData().getInvoiceno()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("INVOICE DATE: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).add(new Text(pdfShippingLabelResponse.getData().getInvoicedate()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("GST NUMBER: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).add(new Text(pdfShippingLabelResponse.getData().getGstin()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))).setPadding(10));
+        table1.setMarginBottom(10);
+
+//        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Registered Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("No.19 Bishop Gerden, Raja Annamalaipuram, Chennai-600028").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("Admin Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("(For all correspondence) All towers, Floor No 55, Greams Road, Chennai-600006").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("CIN : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("U52500TN2016PLC111328").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+//        String duplicate = isDuplicate ? "Duplicate Copy of Invoice" : "";
+//        table1.addCell(new Cell(1, 2).add(new Paragraph(new Text(duplicate).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
+//
+//        table1.addCell(new Cell(1, 2).add(new Paragraph(new Text("INVOICE").setFontSize(ITEXT_FONT_SIZE_EIGHT).setFont(bold)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
+
+        float[] columnWidth2 = {430, 150};// 580
+//        float columnWidth2[] = {150, 130, 115, 165};
+        Table table2 = new Table(columnWidth2);
+//        Border border2 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
+//        table2.setBorder(border2);
+        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text("DELIVER TO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress()+ ""+ pdfShippingLabelResponse.getData().getShippingcity()+ ""+ pdfShippingLabelResponse.getData().getShippingstateid()+ "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text("CONTACT NO:"+ pdfShippingLabelResponse.getData().getPrimarycontactno()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)));
+        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text(""))).setBorder(Border.NO_BORDER));
+
+        //        table2.setWidth(510);
+        float[] columnWidth3 = {183, 15, 183, 15, 184};//580
+        Table table3 = new Table(columnWidth3);
+//        Drawable apolloLogoDrawableQr = getActivity().getDrawable(R.drawable.qr_code_shipping);
+//
+//
+//        Bitmap apolloLogoBitMapQr = null;
+//        try {
+//            apolloLogoBitMapQr = encodeAsBitmapBarcode("1234567890");
+//        } catch (com.itextpdf.barcodes.qrcode.WriterException e) {
+//            e.printStackTrace();
+//        }
+//
+//        //((BitmapDrawable) apolloLogoDrawableQr).getBitmap();
+//        ByteArrayOutputStream stream1Qr = new ByteArrayOutputStream();
+//        apolloLogoBitMapQr.compress(Bitmap.CompressFormat.PNG, 100, stream1Qr);
+//        byte[] bitMapData1Qr = stream1Qr.toByteArray();
+//
+//        ImageData imageData1Qr = ImageDataFactory.create(bitMapData1Qr);
+//        Image image1Qr = new Image(imageData1Qr);
+//        image1Qr.setWidth(130);
+//        image1Qr.setHeight(300);
+//        image1Qr.scaleToFit(130, 30);
+//        image1Qr.setHeight(30);
+
+        Bitmap apolloLogoBitMapQrA4 = null;
+//        try {
+//            apolloLogoBitMapQr = encodeAsBitmapBarcode("1234567890");
+//        } catch (com.itextpdf.barcodes.qrcode.WriterException e) {
+//            e.printStackTrace();
+//        }
+        apolloLogoBitMapQrA4 = generateBarcode(pdfShippingLabelResponse.getData().getAwbno());
+        //((BitmapDrawable) apolloLogoDrawableQr).getBitmap();
+        ByteArrayOutputStream stream1QrA4 = new ByteArrayOutputStream();
+        apolloLogoBitMapQrA4.compress(Bitmap.CompressFormat.PNG, 100, stream1QrA4);
+        byte[] bitMapData1QrA42 = stream1QrA4.toByteArray();
+
+        ImageData imageData1QrA4 = ImageDataFactory.create(bitMapData1QrA42);
+        Image image1QrA42  = new Image(imageData1QrA4);
+        image1QrA42.setWidth(130);
+        image1QrA42.setHeight(300);
+        image1QrA42.scaleToFit(130, 30);
+        image1QrA42.setHeight(30);
+
+        table3.addCell(new Cell().add(image1QrA42).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getAwbno()).setFontSize(10).setFont(font)).setMarginLeft(10)).setPaddingBottom(0f));
+
+
+//        table3.addCell(new Cell().add(image1Qr).setBorder(Border.NO_BORDER));
+        table3.addCell(new Cell().setBorder(Border.NO_BORDER));
+
+        table3.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
+        table3.addCell(new Cell().setBorder(Border.NO_BORDER));
+        Bitmap apolloLogoBitMapQrA4S = null;
+//        try {
+//            apolloLogoBitMapQr = encodeAsBitmapBarcode("1234567890");
+//        } catch (com.itextpdf.barcodes.qrcode.WriterException e) {
+//            e.printStackTrace();
+//        }
+        apolloLogoBitMapQrA4S = generateBarcode(pdfShippingLabelResponse.getData().getAwbno());
+        //((BitmapDrawable) apolloLogoDrawableQr).getBitmap();
+        ByteArrayOutputStream stream1QrA4S = new ByteArrayOutputStream();
+        apolloLogoBitMapQrA4S.compress(Bitmap.CompressFormat.PNG, 100, stream1QrA4S);
+        byte[] bitMapData1QrA42S = stream1QrA4S.toByteArray();
+
+        ImageData imageData1QrA4S = ImageDataFactory.create(bitMapData1QrA42S);
+        Image image1QrA42S  = new Image(imageData1QrA4S);
+        image1QrA42S.setWidth(130);
+        image1QrA42S.setHeight(300);
+        image1QrA42S.scaleToFit(130, 30);
+        image1QrA42S.setHeight(30);
+
+        table3.addCell(new Cell().add(image1QrA42S).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getOrderid()).setFontSize(10).setFont(font)).setMarginLeft(20)).setPaddingBottom(0f));
+
+//        table3.addCell(new Cell().add(image1Qr).setBorder(Border.NO_BORDER));
+        table3.setMarginBottom(5);
+
+        float[] columnWidth4 = {183, 15, 183, 15, 183};//580
+        Table table4 = new Table(columnWidth4);
+
+        table4.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getOrderid()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
+
+        table4.addCell(new Cell().setBorder(Border.NO_BORDER));
+
+        table4.addCell(new Cell().add(new Paragraph(new Text("WEIGHT (in GMS):- "+ pdfShippingLabelResponse.getData().getTotalweight() +"appr.").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
+        table4.addCell(new Cell().setBorder(Border.NO_BORDER));
+
+        table4.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getDspname()+"\n"+"Routing code :"+ pdfShippingLabelResponse.getData().getRoutingcode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
+        table4.setMarginBottom(5);
+
+        float[] columnWidth5 = {580};// 580
+        Table table5 = new Table(columnWidth5);
+        Border border5 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
+        table5.setBorder(border5);
+        table5.addCell(new Cell(1, 1).add(new Paragraph(new Text("AMOUNT TO BE COLLECTED - Rs ."+pdfShippingLabelResponse.getData().getAmounttobecollect()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER));
+        table5.setMarginBottom(10);
+        table5.setMarginRight(50);
+        table5.setMarginLeft(50);
+
+        float[] columnWidth6 = {290, 290};//580
+        Table table6 = new Table(columnWidth6);
+        Border border6 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
+        table6.setBorder(border6);
+        table6.addCell(new Cell().add(new Paragraph(new Text("Description").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("TOTAL").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+
+        table6.addCell(new Cell().add(new Paragraph(new Text("Medicine/Wellness/Hygiene").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getHealthWellness()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Discount").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getDiscount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Shipping Charges").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingcharges()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Total (Inclusive of all taxes)").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.setMarginBottom(40);
+        table6.setMarginRight(30);
+        table6.setMarginLeft(30);
+
+        float[] columnWidth7 = {290, 290};//580
+        Table table7 = new Table(columnWidth7);
+        table7.addCell(new Cell().add(new Paragraph(new Text("if undelivered,please return it to Apollo Pharmacy,").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+        table7.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getStoreaddress1()+pdfShippingLabelResponse.getData().getStoreaddress2()+pdfShippingLabelResponse.getData().getStoreaddress3()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
+
+
+        float[] columnWidth8 = {580};//580
+        Table table8 = new Table(columnWidth8);
+        table8.addCell(new Cell().add(new Paragraph(new Text("Notice - Please do not accept this packet if it is tampered or damaged").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+
+
+        document.add(table1);
+        document.add(table2);
+        document.add(new Paragraph(""));
+        document.add(table3);
+        document.add(table4);
+        document.add(table5);
+        document.add(table6);
+        document.add(table7);
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(table8);
     }
 
     public static final String REGULAR =
@@ -648,7 +923,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
         table1.addCell(new Cell(1, 1).add(image1).setBorder(Border.NO_BORDER).setMarginLeft(10));
         table1.addCell(new Cell().setBorder(Border.NO_BORDER));
-        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text("A247|LHUB-SFX Express").setFontSize(11).setFont(bold).setBorder(Border.NO_BORDER)).setBorder(Border.NO_BORDER).setPadding(0)).add(new Paragraph(new Text("Routing code  : ").setFontSize(11).setFont(bold)).add(new Text(pdfShippingLabelResponse.getData().getRoutingcode()).setFontSize(11).setFont(font))).setBorder(Border.NO_BORDER).setPadding(0));
+        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getDspname()).setFontSize(11).setFont(bold).setBorder(Border.NO_BORDER)).setBorder(Border.NO_BORDER).setPadding(0)).add(new Paragraph(new Text("Routing code  : ").setFontSize(11).setFont(bold)).add(new Text(pdfShippingLabelResponse.getData().getRoutingcode()).setFontSize(11).setFont(font))).setBorder(Border.NO_BORDER).setPadding(0));
         table1.addCell(new Cell().setBorder(Border.NO_BORDER));
         table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoicedate()).setFontSize(11).setFont(font))).setBorder(Border.NO_BORDER));
 //        table1.setMarginBottom(10);
