@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Order Data : "
+                            android:text="Order Date : "
                             android:textColor="#b6b4af"
                             android:textSize="@dimen/dimen10sp" />
 

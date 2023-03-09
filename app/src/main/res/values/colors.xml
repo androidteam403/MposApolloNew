@@ -122,5 +122,6 @@
     <color name="orange">#f7941d</color>
     <color name="color_takeprint">#00adef</color>
     <color name="sea_blue">#49c3f3</color>
+    <color name="orders_bill_reprint_button_color">#67cfd6</color>
 
 </resources>

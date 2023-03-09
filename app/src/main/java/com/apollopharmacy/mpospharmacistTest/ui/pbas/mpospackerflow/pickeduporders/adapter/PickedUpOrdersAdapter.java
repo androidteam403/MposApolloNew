@@ -48,7 +48,7 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
         TransactionHeaderResponse.OMSHeader omsHeader = fullfillmentList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-        holder.orderBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
+        holder.orderBinding.orderSourceHeader.setText(omsHeader.getVendorId());
         holder.orderBinding.deliveryDatePickpack.setText(omsHeader.getDeliveryDate());
         if (omsHeader.getReVerification() == 2) {
             holder.orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));

@@ -164,11 +164,11 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     activityOrderDetailsScreenBinding.fullfilmentIdnumber.setText(customerDataResBean.getREFNO());
                     activityOrderDetailsScreenBinding.totalItems.setText(String.valueOf(customerDataResBean.getSalesLine().size()));
                     activityOrderDetailsScreenBinding.customerType.setText(customerDataResBean.getCustomerType());
-                    activityOrderDetailsScreenBinding.orderSource.setText(customerDataResBean.getOrderSource());
+                    activityOrderDetailsScreenBinding.orderSourceId.setText(customerDataResBean.getVendorId());
                     activityOrderDetailsScreenBinding.orderDate.setText(customerDataResBean.getCreatedDateTime());
                     activityOrderDetailsScreenBinding.deliveryDate.setText(customerDataResBean.getDeliveryDate());
                     activityOrderDetailsScreenBinding.shippingMethodType.setText(customerDataResBean.getShippingMethod());
-                    activityOrderDetailsScreenBinding.stockStatus.setText(customerDataResBean.getStockStatus());
+                    activityOrderDetailsScreenBinding.sourceOrderName.setText(customerDataResBean.getOrderSource());
                     activityOrderDetailsScreenBinding.paymentSource.setText(customerDataResBean.getPaymentSource());
                     activityOrderDetailsScreenBinding.orderType.setText(customerDataResBean.getOrderType());
                     activityOrderDetailsScreenBinding.customerName.setText(customerDataResBean.getCustomerName());

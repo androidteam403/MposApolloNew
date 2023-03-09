@@ -492,13 +492,13 @@
                         android:layout_width="@dimen/zero_dp"
                         android:layout_height="@dimen/fifty_dp"
                         android:layout_weight="1"
-                        android:background="@color/cart_price_bg"
-                        android:fontFamily="@font/roboto_regular"
+                        android:background="@color/orders_bill_reprint_button_color"
+                        android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
+                        android:textColor="@color/black"
                         android:onClick="@{()-> callback.onClickBillReprint()}"
                         android:text="@string/label_bill_reprint"
-                        android:textSize="@dimen/text_dimen_14"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_dimen_14" />
 
                 </LinearLayout>
             </RelativeLayout>

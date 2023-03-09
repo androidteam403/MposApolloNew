@@ -69,7 +69,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
-        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
+        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getVendorId());
         holder.fullfilmentBinding.deliveryDatePickpack.setText(omsHeader.getDeliveryDate());
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
@@ -108,11 +108,11 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 if (omsHeader.getGetOMSTransactionResponse() != null) {
                     holder.fullfilmentBinding.rightArrow.setRotation(90);
                     holder.fullfilmentBinding.customerType.setText(omsHeader.getGetOMSTransactionResponse().getCustomerType());
-                    holder.fullfilmentBinding.ordersource.setText(omsHeader.getGetOMSTransactionResponse().getOrderSource());
+                    holder.fullfilmentBinding.ordersource.setText(omsHeader.getGetOMSTransactionResponse().getVendorId());
                     holder.fullfilmentBinding.orderDate.setText(omsHeader.getGetOMSTransactionResponse().getCreatedDateTime());
                     holder.fullfilmentBinding.deliveryDate.setText(omsHeader.getGetOMSTransactionResponse().getDeliveryDate());
                     holder.fullfilmentBinding.shippingMethodType.setText(omsHeader.getGetOMSTransactionResponse().getShippingMethod());
-                    holder.fullfilmentBinding.stockStatus.setText(omsHeader.getGetOMSTransactionResponse().getStockStatus());
+                    holder.fullfilmentBinding.sourceOrderName.setText(omsHeader.getGetOMSTransactionResponse().getOrderSource());
                     holder.fullfilmentBinding.paymentSource.setText(omsHeader.getGetOMSTransactionResponse().getPaymentSource());
                     holder.fullfilmentBinding.orderType.setText(omsHeader.getGetOMSTransactionResponse().getOrderType());
                     holder.fullfilmentBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());

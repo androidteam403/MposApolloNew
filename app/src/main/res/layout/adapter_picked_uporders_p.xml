@@ -166,14 +166,15 @@
                         android:text="@string/label_on_hold"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen10sp" />
+
                     <LinearLayout
                         android:id="@+id/delivery_date_layout"
-                        android:layout_marginEnd="@dimen/dimen5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/on_hold"
-                        android:layout_marginTop="@dimen/dimen5dp"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/dimen5dp"
+                        android:layout_marginEnd="@dimen/dimen5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -185,13 +186,13 @@
                             android:textSize="@dimen/nine_sp" />
 
                         <TextView
-                            android:gravity="center"
-                            android:layout_marginStart="@dimen/one_dp"
-                            android:layout_gravity="center"
                             android:id="@+id/delivery_date_pickpack"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/one_dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/nine_sp" />
                     </LinearLayout>

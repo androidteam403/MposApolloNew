@@ -102,11 +102,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
 
         holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
-        holder.orderBinding.orderSource.setText(omsHeader.getOrderSource());
+        holder.orderBinding.orderSource.setText(omsHeader.getVendorId());
         holder.orderBinding.orderDate.setText(omsHeader.getCreatedDateTime());
         holder.orderBinding.deliveryDate.setText(omsHeader.getDeliveryDate());
         holder.orderBinding.shippingMethodType.setText(omsHeader.getShippingMethod());
-        holder.orderBinding.stockStatus.setText(omsHeader.getStockStatus());
+        holder.orderBinding.sourceOrderName.setText(omsHeader.getOrderSource());
         holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
         holder.orderBinding.orderType.setText(omsHeader.getOrderType());
         holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());

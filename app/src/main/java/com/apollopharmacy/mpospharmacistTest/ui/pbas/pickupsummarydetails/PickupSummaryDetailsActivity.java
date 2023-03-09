@@ -63,7 +63,7 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
 //                if (boxId.length() > 5)
 //                    pickupSummaryDetailsBinding.boxId.setText(boxId.substring(boxId.length() - 5));
 //                else
-                    pickupSummaryDetailsBinding.boxId.setText(boxId);
+                pickupSummaryDetailsBinding.boxId.setText(boxId);
             } else {
                 pickupSummaryDetailsBinding.boxId.setText("-");
             }
@@ -98,11 +98,11 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
 
 
         pickupSummaryDetailsBinding.customerType.setText(selectedOmsHeader.getCustomerType());
-        pickupSummaryDetailsBinding.orderSource.setText(selectedOmsHeader.getOrderSource());
+        pickupSummaryDetailsBinding.orderSourceId.setText(selectedOmsHeader.getVendorId());
         pickupSummaryDetailsBinding.orderDate.setText(selectedOmsHeader.getCreatedDateTime());
         pickupSummaryDetailsBinding.deliveryDate.setText(selectedOmsHeader.getDeliveryDate());
         pickupSummaryDetailsBinding.shippingMethodType.setText(selectedOmsHeader.getShippingMethod());
-        pickupSummaryDetailsBinding.stockStatus.setText(selectedOmsHeader.getStockStatus());
+        pickupSummaryDetailsBinding.sourceOrderName.setText(selectedOmsHeader.getOrderSource());
         pickupSummaryDetailsBinding.paymentSource.setText(selectedOmsHeader.getPaymentSource());
         pickupSummaryDetailsBinding.orderType.setText(selectedOmsHeader.getOrderType());
         pickupSummaryDetailsBinding.customerName.setText(selectedOmsHeader.getGetOMSTransactionResponse().getCustomerName());

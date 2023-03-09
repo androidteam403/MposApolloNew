@@ -409,12 +409,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Stock status"
+                            android:text="Source Order Name"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
                         <TextView
-                            android:id="@+id/stock_status"
+                            android:id="@+id/source_order_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/price_bold"
