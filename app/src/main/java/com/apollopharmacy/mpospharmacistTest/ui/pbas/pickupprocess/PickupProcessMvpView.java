@@ -89,7 +89,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onFailedBatchInfo(GetBatchInfoRes body);
 
-    void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList);
+    void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList, boolean isRackAdapterClick);
 
     void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
 

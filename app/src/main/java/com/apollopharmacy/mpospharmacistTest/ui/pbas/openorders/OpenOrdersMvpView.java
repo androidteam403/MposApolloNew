@@ -38,7 +38,7 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void noOrderFound(int count);
 
-    void setFiltersHeaderLists(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu);
+    void setFiltersHeaderLists(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu, boolean isRefresh);
 
     void onClickPrevPage();
 

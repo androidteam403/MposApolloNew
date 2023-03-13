@@ -200,7 +200,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
 
-    public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId) {
+    public void getBatchDetailsApi(GetOMSTransactionResponse.SalesLine itemId, boolean isRackAdapterClick) {
         if (getMvpView().isNetworkConnected()) {
 //         getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
@@ -225,7 +225,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                         if (response.isSuccessful() && response.body().getBatchList().size() == 0 || response.body().getBatchList() == null) {
                             getMvpView().onFailedBatchInfo(response.body());
                         } else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0) {
-                            getMvpView().onSuccessBatchInfo(response.body().getBatchList());
+                            getMvpView().onSuccessBatchInfo(response.body().getBatchList(), isRackAdapterClick);
                         } else {
                             getMvpView().onFailedBatchInfo(response.body());
                         }

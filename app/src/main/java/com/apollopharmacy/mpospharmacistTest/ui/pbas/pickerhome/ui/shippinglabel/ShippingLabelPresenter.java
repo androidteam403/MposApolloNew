@@ -73,8 +73,8 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
                     if (response.isSuccessful() && response.body() != null) {
                         getMvpView().hideLoading();
                         ShippingLabelFragment.getJounalOnlineOrderTransactionsResponseStatic = response.body().stream()
-                                        .filter(e -> !e.getPickupStatus())
-                                        .collect(Collectors.toList());
+                                .filter(e -> !e.getPickupStatus())
+                                .collect(Collectors.toList());
                         getMvpView().onSuccessGetJounalOnlineOrderTransactonApi(response.body());
                     }
                 }
@@ -152,36 +152,38 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             getMvpView().onError("Internet Connection Not Available");
         }
     }
-public void pdfApiCall_(String flID) {
-    if (getMvpView().isNetworkConnected()) {
-        getMvpView().showLoading();
-        ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
-        String url = "";
-        url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID="+flID;
+
+    public void pdfApiCall_(String flID) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
+            String url = "";
+            url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flID;
 //        Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL();
 
-        Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
-        call.enqueue(new Callback<PDFShippingLabelResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Response<PDFShippingLabelResponse> response) {
-                if (response.isSuccessful()) {
-                    if (getMvpView() != null) {
-                        getMvpView().hideLoading();
-                        getMvpView().onSuccessPdfApiCall(response.body());
+            Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
+            call.enqueue(new Callback<PDFShippingLabelResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Response<PDFShippingLabelResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (getMvpView() != null) {
+                            getMvpView().hideLoading();
+                            getMvpView().onSuccessPdfApiCall(response.body());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Throwable t) {
-                getMvpView().hideLoading();
-                handleApiError(t);
-            }
-        });
-    } else {
-        getMvpView().onError("Internet Connection Not Available");
+                @Override
+                public void onFailure(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
-}
+
     @Override
     public void doDownloadPdf(String pdfUrl, File file) {
         if (getMvpView().isNetworkConnected()) {

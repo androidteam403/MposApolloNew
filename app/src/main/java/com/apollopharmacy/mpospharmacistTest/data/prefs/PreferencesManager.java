@@ -421,7 +421,7 @@ public class PreferencesManager implements PreferencesHelper {
 
     @Override
     public String getLabelSize() {
-        return mPrefs.getString(PREF_KEY_PAPER_LABEL_SIZE, "4X6");
+        return mPrefs.getString(PREF_KEY_PAPER_LABEL_SIZE, "A4");
     }
 
     @Override

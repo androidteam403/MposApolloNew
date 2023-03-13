@@ -148,7 +148,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         openOrdersBinding.terminalId.setText("Terminal ID : " + mPresenter.getTerminalId());
-        mPresenter.fetchFulfilmentOrderList();
+        mPresenter.fetchFulfilmentOrderList(false);
         searchByFulfilmentId();
 
         openOrdersBinding.deleteCancel.setOnClickListener(new View.OnClickListener() {
@@ -715,10 +715,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
 
         if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
-            List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotals =
-                    omsHeaderListTotal.stream()
-                            .filter(e -> !e.getOrderPickup())
-                            .collect(Collectors.toList());
+            List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotals = omsHeaderListTotal.stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             omsHeaderListFileredStaticList = omsHeaderListTotals;
             startIndex = 0;
             TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
@@ -1089,8 +1086,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
             for (FilterModel filterModel : orderTypeFilterList) {
                 if (filterModel.isSelected() && filterModel.getName().equalsIgnoreCase(omsHeader.getOrderType())) {
-                    if (!omsHeaderList.contains(omsHeader))
-                        omsHeaderList.add(omsHeader);
+                    if (!omsHeaderList.contains(omsHeader)) omsHeaderList.add(omsHeader);
                 }
             }
         }
@@ -1171,9 +1167,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
-            omsHeaderListTotal = omsHeader.getOMSHeader().stream()
-                    .filter(e -> !e.getOrderPickup())
-                    .collect(Collectors.toList());
+            omsHeaderListTotal = omsHeader.getOMSHeader().stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             if (omsHeaderListTotal != null && omsHeaderListTotal.size() >= 5000) {
                 startIndex = 0;
                 endIndex = 5000;
@@ -1223,10 +1217,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                }
 //            }
 
-            omsHeaderList =
-                    omsHeader.getOMSHeader().stream()
-                            .filter(e -> !e.getOrderPickup())
-                            .collect(Collectors.toList());
+            omsHeaderList = omsHeader.getOMSHeader().stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
                 @Override
                 public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
@@ -1271,6 +1262,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            filterOrdersListsComment();
         } else {
             noOrderFound(0);
+        }
+
+        if (isRefreshScreen) {
+            isRefreshScreen = false;
+            applyOrderFilters();
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.isChecked());
+
         }
     }
 
@@ -1675,10 +1673,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         List<TransactionHeaderResponse.OMSHeader> omsHeaderListForSelectionList = mPresenter.getGlobalTotalOmsHeaderList();
         if (body != null && body.size() > 0) {
 
-            int index = IntStream.range(0, omsHeaderListForSelectionList.size())
-                    .filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno()))
-                    .findFirst()
-                    .orElse(-1);
+            int index = IntStream.range(0, omsHeaderListForSelectionList.size()).filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())).findFirst().orElse(-1);
 
 
             if (omsHeaderList.get(getPos).getExpandStatus() == 0) {
@@ -1724,10 +1719,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
             omsHeaderList.get(getPos).setSelected(!omsHeaderList.get(getPos).isSelected());
 
-            int index = IntStream.range(0, omsHeaderListForSelectionList.size())
-                    .filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno()))
-                    .findFirst()
-                    .orElse(-1);
+            int index = IntStream.range(0, omsHeaderListForSelectionList.size()).filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(getPos).getRefno())).findFirst().orElse(-1);
             if (index != -1) {
                 omsHeaderListForSelectionList.get(index).setSelected(omsHeaderList.get(getPos).isSelected());
                 mPresenter.setGlobalTotalOmsHeaderList(omsHeaderListForSelectionList);
@@ -1758,10 +1750,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void noOrderFound(int count) {
         List<TransactionHeaderResponse.OMSHeader> omsHeaderListPick = mPresenter.getGlobalTotalOmsHeaderList();
-        List<TransactionHeaderResponse.OMSHeader> omsHeaderListPicks =
-                omsHeaderListPick.stream()
-                        .filter(e -> !e.getOrderPickup())
-                        .collect(Collectors.toList());
+        List<TransactionHeaderResponse.OMSHeader> omsHeaderListPicks = omsHeaderListPick.stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
         if (count > 0) {
             openOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
             openOrdersBinding.fullfilmentRecycler.setVisibility(View.VISIBLE);
@@ -1784,32 +1773,36 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    private boolean isRefreshScreen = false;
+
     @Override
-    public void setFiltersHeaderLists(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlus) {
+    public void setFiltersHeaderLists(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlus, boolean isRefresh) {
 //        if (openOrdersBinding.fullfilmentRecyclerPullToRefresh.isRefreshing()) {
 //            openOrdersBinding.fullfilmentRecyclerPullToRefresh.setRefreshing(false);
 //        }
+        isRefreshScreen = isRefresh;
         if (omsHeaderListlus != null && omsHeaderListlus.size() > 0) {
             startIndex = 0;
-            this.customerTypeFilterList.clear();
-            this.customerTypeFilterListTemp.clear();
-            this.orderTypeFilterList.clear();
-            this.orderTypeFilterListTemp.clear();
-            this.orderCategoryFilterList.clear();
-            this.orderCategoryFilterListTemp.clear();
-            this.paymentTypeFilterList.clear();
-            this.paymentTypeFilterListTemp.clear();
-            this.orderSourceFilterList.clear();
-            this.orderSourceFilterListTemp.clear();
-            this.stockAvailabilityFilterList.clear();
-            this.stockAvailabilityFilterListTemp.clear();
-            this.reverificationList.clear();
-            this.reverificationListTemp.clear();
-            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+            if (!isRefresh) {
+                this.customerTypeFilterList.clear();
+                this.customerTypeFilterListTemp.clear();
+                this.orderTypeFilterList.clear();
+                this.orderTypeFilterListTemp.clear();
+                this.orderCategoryFilterList.clear();
+                this.orderCategoryFilterListTemp.clear();
+                this.paymentTypeFilterList.clear();
+                this.paymentTypeFilterListTemp.clear();
+                this.orderSourceFilterList.clear();
+                this.orderSourceFilterListTemp.clear();
+                this.stockAvailabilityFilterList.clear();
+                this.stockAvailabilityFilterListTemp.clear();
+                this.reverificationList.clear();
+                this.reverificationListTemp.clear();
+                PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+            }
+
             List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu;
-            omsHeaderListlu = omsHeaderListlus.stream()
-                    .filter(e -> !e.getOrderPickup())
-                    .collect(Collectors.toList());
+            omsHeaderListlu = omsHeaderListlus.stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             if (omsHeaderListlu != null && omsHeaderListlu.size() > 0) {
                 for (int i = 0; i < omsHeaderListlu.size(); i++) {
 
@@ -2064,10 +2057,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         this.itemPos = itemPos;
         if (omsHeaderList.get(pos).isSelected()) {
             omsHeaderList.get(pos).setSelected(false);
-            int index = IntStream.range(0, omsHeaderListForSelectionList.size())
-                    .filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(pos).getRefno()))
-                    .findFirst()
-                    .orElse(-1);
+            int index = IntStream.range(0, omsHeaderListForSelectionList.size()).filter(i -> omsHeaderListForSelectionList.get(i).getRefno().equals(omsHeaderList.get(pos).getRefno())).findFirst().orElse(-1);
             if (index != -1) {
                 omsHeaderListForSelectionList.get(index).setSelected(false);
                 mPresenter.setGlobalTotalOmsHeaderList(omsHeaderListForSelectionList);
@@ -2165,7 +2155,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 fullfilmentAdapter.notifyDataSetChanged();
             }
             onContinueBtnEnable();
-            mPresenter.fetchFulfilmentOrderList();
+            mPresenter.fetchFulfilmentOrderList(false);
 
         } else {
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -2190,6 +2180,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        omsHeaderList = mPresenter.getTotalOmsHeaderList();
         this.isStockAvailableChecked = isStockAvailableChecked;
         if (isStockAvailableChecked) {
+//            if (stockAvailabilityFilterList != null && stockAvailabilityFilterList.size()>0){
+//                for (int i = 0; i< stockAvailabilityFilterList.size(); i++){
+//                    if (stockAvailabilityFilterList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")){
+//                        stockAvailabilityFilterList.get(i).set
+//                    }
+//                }
+//            }
             for (int i = 0; i < totalGlobalList.size(); i++) {
                 if (!totalGlobalList.get(i).getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
                     totalGlobalList.remove(i);
@@ -2302,14 +2299,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     }
 
+    private boolean isRefresh = false;
+
     @Override
     public void onClickRefreshPickerPackerBiller() {
         selectedOmsHeaderList.clear();
         omsHeaderList.clear();
         onContinueBtnEnable();
-        mPresenter.fetchFulfilmentOrderList();
-
-        mPresenter.fetchFulfilmentOrderList();
+        mPresenter.fetchFulfilmentOrderList(true);
     }
 
 

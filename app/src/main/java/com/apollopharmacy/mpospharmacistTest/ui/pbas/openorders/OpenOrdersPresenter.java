@@ -72,7 +72,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
-    public void fetchFulfilmentOrderList() {
+    public void fetchFulfilmentOrderList(boolean isRefresh) {
 //        if (getMvpView().isNetworkConnected()) {
 //            getMvpView().showLoading();
 //            getMvpView().hideKeyboard();
@@ -131,7 +131,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
-                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader());
+                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader(), isRefresh);
 //                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }
                 }

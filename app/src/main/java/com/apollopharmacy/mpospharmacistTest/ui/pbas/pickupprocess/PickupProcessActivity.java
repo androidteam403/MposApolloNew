@@ -125,7 +125,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         eShopCharge = true;
                         this.salesLinessEshopCharge = salesLine;
                         this.newwAdapterposition = selectedOmsHeaderList.get(pos).getGetOMSTransactionResponse().getSalesLine().indexOf(salesLine);
-                        mPresenter.getBatchDetailsApi(salesLine);
+                        mPresenter.getBatchDetailsApi(salesLine, false);
                         break;
                     }
                 }
@@ -574,8 +574,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         }
     }
 
+    private int eShippingChargeItemCount = 0;
+    private int rackAdapterItemPos = 0;
+
     @Override
     public void onClickRackAdapter(int pos) {
+        this.rackAdapterItemPos = pos;
         for (int i = 0; i < rackWiseSortedDataList.size(); i++) {
             if (i == pos) {
                 if (rackWiseSortedDataList.get(i).isExpanded()) {
@@ -605,7 +609,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                             }
                         }
                     }
-                    mPresenter.getBatchDetailsApi(salesLine);
+                    mPresenter.getBatchDetailsApi(salesLine, true);
                     break;
                 }
             }
@@ -655,7 +659,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         for (int i = 0; i < selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
             if (selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002")) {
                 newwAdapterposition = i;
-                mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition));
+                mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition), false);
 //                selectedOmsHeaderList.get(position).setExpandStatus(1);
 
             } else {
@@ -682,7 +686,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     @Override
-    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body) {
+    public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> body, boolean isRackAdapterClick) {
         if (body != null && body.size() > 0) {
             double totalBatchDetailsQuantity = 0.0;
             for (int i = 0; i < body.size(); i++) {
@@ -748,6 +752,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //            });
 
 
+        }
+        if (isRackAdapterClick) {
+            onClickRackAdapter(rackAdapterItemPos);
         }
     }
 
@@ -1161,9 +1168,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                             reservedSalesLine.setLinedscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
                             reservedSalesLine.setMMGroupId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
 
-                            if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")){
+                            if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")) {
                                 reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
-                            }else {
+                            } else {
                                 reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getMRP());
                             }
                             reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
@@ -1312,8 +1319,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @Override
     public void OmsOrderUpdateSuccess(OMSOrderForwardResponse response, String requestType) {
         if (requestType.equalsIgnoreCase("1")) {
-
-
 
 
 //            mPresenter.mposPickPackOrderReservationApiCalls(5, selectedOmsHeaderList.get(j));
@@ -1480,9 +1485,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                             count++;
                             reservedSalesLine.setLinedscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
                             reservedSalesLine.setMMGroupId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
-                            if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")){
+                            if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")) {
                                 reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
-                            }else {
+                            } else {
                                 reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getMRP());
                             }
                             reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());

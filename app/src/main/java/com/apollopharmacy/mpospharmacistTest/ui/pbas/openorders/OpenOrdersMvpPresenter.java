@@ -13,7 +13,7 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
 
     void onClickFilterIcon();
 
-    void fetchFulfilmentOrderList();
+    void fetchFulfilmentOrderList(boolean isRefresh);
 
     void onClickScanCode();
 
