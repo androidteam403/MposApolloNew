@@ -387,7 +387,18 @@
                 android:layout_alignParentBottom="true"
                 android:visibility="visible">
 
+
+                <CheckBox
+                    android:id="@+id/printDuplicateCheckbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="Print with Duplicate copy"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
                 <LinearLayout
+                    android:layout_below="@id/printDuplicateCheckbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five_dp"

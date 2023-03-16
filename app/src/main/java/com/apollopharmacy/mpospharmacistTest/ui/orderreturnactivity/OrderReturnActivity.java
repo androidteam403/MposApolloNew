@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -28,12 +30,15 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -75,6 +80,8 @@ import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.ViewAnimationUtils;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -216,6 +223,16 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             } else {
                 orderReturnActiivtyBinding.smsSent.setEnabled(false);
             }
+            orderReturnActiivtyBinding.printDuplicateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        duplicateCheckboxChecked = true;
+                    } else {
+                        duplicateCheckboxChecked = false;
+                    }
+                }
+            });
 
           /*  orderReturnActiivtyBinding.feedBack.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1533,6 +1550,12 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     protected PDFFooterView getFooterView(int forPage, PdfModelResponse pdfModelResponse) {
         return null;
     }
+    private Bitmap LoadBitmap(View v, int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
+    }
 
     private void createPdf() throws IOException {
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
@@ -1559,6 +1582,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             "res/font/gothic_regular.TTF";
     public static final String BOLD =
             "res/font/gothic_bold.TTF";
+
     private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
         // declaring variables for loading the fonts from asset
         byte[] fontByte, boldByte;
@@ -1591,7 +1615,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         Table table1 = new Table(columnWidth1);
 
         //table1.....row1.....
-        Drawable apolloLogoDrawable = getDrawable(R.drawable.apollo_1525857827435);
+        Drawable apolloLogoDrawable = getDrawable(R.drawable.new_apollo_21);
         Bitmap apolloLogoBitMap = ((BitmapDrawable) apolloLogoDrawable).getBitmap();
         ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
         apolloLogoBitMap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
@@ -1687,7 +1711,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
             Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
             table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            if (pageBreakCount % 9 == 0) {
+            if (pageBreakCount % 5 == 0) {
                 break;
             }
 
@@ -1766,11 +1790,13 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 //        table8.setBorder(new SolidBorder(1));
 
         ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-        try {
-            encodeAsBitmap(pdfModelResponse).compress(Bitmap.CompressFormat.PNG, 100, stream2);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            encodeAsBitmap(pdfModelResponse).compress(Bitmap.CompressFormat.PNG, 100, stream2);
+        QrCodeGeneration(pdfModelResponse, this).compress(Bitmap.CompressFormat.PNG, 100, stream2);
+//        }
+//        catch (WriterException e) {
+//            e.printStackTrace();
+//        }
         byte[] bitMapData2 = stream2.toByteArray();
 
         ImageData imageData2 = ImageDataFactory.create(bitMapData2);
@@ -1802,10 +1828,14 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         document.add(table2);
         document.add(table3);
         document.add(table4);
-        document.add(table5);
-        document.add(table6);
-        document.add(table7);
-        document.add(table8);
+        if (pageBreakCount == pdfModelResponse.getSalesLine().size()){
+            document.add(table5);
+            document.add(table6);
+            document.add(table7);
+            document.add(table8);
+        }
+
+
         if (pageBreakCount != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
             createPdfPageWise(pdfDocument, document, isDuplicate);
@@ -1818,31 +1848,50 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         }
     }
 
-    private Bitmap encodeAsBitmap(PdfModelResponse pdfModelResponse) throws WriterException {
-
-        String str = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
-//        for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
-//            str = str + "\nITEMID: " + "- " + "QTY: " + salesLine.getQty();
-//        }
-        str = str + "\nITEMID: " + "- " + "QTY: " + 2;
-        str = str + "\nITEMID: " + "- " + "QTY: " + 3;
-        str = str + "\nITEMID: " + "- " + "QTY: " + 2;
-        str = str + "\nITEMID: " + "- " + "QTY: " + 3;
-
-        QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix bitMatrix = writer.encode(str, BarcodeFormat.QR_CODE, 70, 70);
-
-        int w = bitMatrix.getWidth();
-        int h = bitMatrix.getHeight();
-        int[] pixels = new int[w * h];
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                pixels[y * w + x] = bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE;
-            }
+    private Bitmap QrCodeGeneration(PdfModelResponse pdfModelResponse, Context context) {
+        String qrCodeData = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
+        for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
+            qrCodeData = qrCodeData + "\nITEMID: " + "- " + "QTY: " + salesLine.getQty();
         }
+        Bitmap bitmap1 = null;
+// below line is for getting
+        // the windowmanager service.
+        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
 
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
-        return bitmap;
+        // initializing a variable for default display.
+        Display display = manager.getDefaultDisplay();
+
+        // creating a variable for point which
+        // is to be displayed in QR Code.
+        Point point = new Point();
+        display.getSize(point);
+
+        // getting width and
+        // height of a point
+        int width = point.x;
+        int height = point.y;
+
+        // generating dimension from width and height.
+        int dimen = width < height ? width : height;
+        dimen = dimen * 3 / 4;
+
+        // setting this dimensions inside our qr code
+        // encoder to generate our qr code.
+        QRGEncoder qrgEncoder = new QRGEncoder((String) qrCodeData, null, QRGContents.Type.TEXT, dimen);
+        try {
+            // getting our qrcode in the form of bitmap.
+            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
+            // the bitmap is set inside our image
+            // view using .setimagebitmap method.
+            if (qrCodeData != null) {
+//                 bitmapImg.setImageBitmap(bitmap);
+                bitmap1= bitmap;
+            }
+        } catch (com.google.zxing.WriterException e) {
+            // this method is called for
+            // exception handling.
+            Log.e("Tag", e.toString());
+        }
+        return bitmap1;
     }
 }
