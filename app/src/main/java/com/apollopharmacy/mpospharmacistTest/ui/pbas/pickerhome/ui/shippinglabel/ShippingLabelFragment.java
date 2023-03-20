@@ -483,7 +483,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             } else {
                 try {
                     if (mPresenter.getPaperLabelSize().equalsIgnoreCase("A5")) {
-                        createPdfA5();
+//                        createPdfA5();
                     } else if (mPresenter.getPaperLabelSize().equalsIgnoreCase("4X6")) {
                         createPdfA5();
                     } else {
@@ -588,7 +588,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
 //            PdfWriter writer = new PdfWriter(file);
             PdfDocument pdfDocument = new PdfDocument(writer);
-            Document document = new Document(pdfDocument, PageSize.A5);
+            PageSize fourBySix = new PageSize( 288, 432);
+            Document document = new Document(pdfDocument, fourBySix);
             document.setMargins(15, 15, 15, 15);
             createPdfPageWiseA5(pdfDocument, document, false);
             document.close();
@@ -891,7 +892,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 ////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
 //      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
 
-        float[] columnWidth1 = {60, 5, 275, 5, 235};//580
+        float[] columnWidth1 = {40, 5, 110, 5, 128};//288
         Table table1 = new Table(columnWidth1);
 
         //table1.....row1.....
@@ -903,7 +904,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
         ImageData imageData1 = ImageDataFactory.create(bitMapData1);
         Image image1 = new Image(imageData1);
-        image1.scaleToFit(50, 50);
+        image1.scaleToFit(40, 40);
         image1.setHeight(40);
 
 
@@ -911,15 +912,15 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         table1.setBorderLeft(border1);
         table1.setBorderRight(border1);
         table1.setBorderTop(border1);
-        table1.setMarginLeft(15);
-        table1.setMarginRight(15);
+//        table1.setMarginLeft(5);
+//        table1.setMarginRight(5);
         table1.setPadding(0f);
 
         table1.addCell(new Cell(1, 1).add(image1).setBorder(Border.NO_BORDER).setMarginLeft(10));
         table1.addCell(new Cell().setBorder(Border.NO_BORDER));
-        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getDspname()).setFontSize(11).setFont(bold).setBorder(Border.NO_BORDER)).setBorder(Border.NO_BORDER).setPadding(0)).add(new Paragraph(new Text("Routing code  : ").setFontSize(11).setFont(bold)).add(new Text(pdfShippingLabelResponse.getData().getRoutingcode()).setFontSize(11).setFont(font))).setBorder(Border.NO_BORDER).setPadding(0));
+        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getDspname()).setFontSize(8).setFont(bold).setBorder(Border.NO_BORDER)).setBorder(Border.NO_BORDER).setPadding(0)).add(new Paragraph(new Text("Routing code  : ").setFontSize(7).setFont(bold)).add(new Text(pdfShippingLabelResponse.getData().getRoutingcode()).setFontSize(7).setFont(font))).setBorder(Border.NO_BORDER).setPadding(0));
         table1.addCell(new Cell().setBorder(Border.NO_BORDER));
-        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoicedate()).setFontSize(11).setFont(font))).setBorder(Border.NO_BORDER));
+        table1.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoicedate()).setFontSize(8).setFont(font))).setBorder(Border.NO_BORDER));
 //        table1.setMarginBottom(10);
 
 //        table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Registered Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("No.19 Bishop Gerden, Raja Annamalaipuram, Chennai-600028").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("Admin Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("(For all correspondence) All towers, Floor No 55, Greams Road, Chennai-600006").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("CIN : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("U52500TN2016PLC111328").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
@@ -941,7 +942,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        tableNew.setMarginLeft(15);
 //        tableNew.addCell(new Cell(1, 1).add(new Paragraph(new Text("Routing code  : ").setFontSize(12).setFont(bold)).add(new Text("ROMS18874").setFontSize(12).setFont(font)).setMarginRight(50).setMarginLeft(50)).setBorder(Border.NO_BORDER));
 
-        float[] columnWidth2 = {400, 180};// 580
+        float[] columnWidth2 = {250, 38};//288
 //        float columnWidth2[] = {150, 130, 115, 165};
         Table table2 = new Table(columnWidth2);
         Border border2 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
@@ -949,8 +950,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         table2.setBorderLeft(border2);
         table2.setBorderRight(border2);
         table2.setBorderBottom(border2);
-        table2.setMarginLeft(15);
-        table2.setMarginRight(15);
+//        table2.setMarginLeft(5);
+//        table2.setMarginRight(5);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
 
@@ -968,35 +969,35 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
         ImageData imageData1Qr = ImageDataFactory.create(bitMapData1Qr);
         Image image1Qr = new Image(imageData1Qr);
-        image1Qr.setWidth(350);
-        image1Qr.setHeight(300);
-        image1Qr.scaleToFit(100, 30);
-        image1Qr.setHeight(30);
-        table2.setHeight(60);
+        image1Qr.setWidth(230);
+        image1Qr.setHeight(200);
+        image1Qr.scaleToFit(100, 20);
+        image1Qr.setHeight(20);
+//        table2.setHeight(60);
 
-        table2.addCell(new Cell().add(image1Qr).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getAwbno()).setFontSize(10).setFont(font)).setMarginLeft(120)).setPaddingBottom(0f));
+        table2.addCell(new Cell().add(image1Qr).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getAwbno()).setFontSize(7).setFont(font)).setMarginLeft(80)).setPaddingBottom(0f));
 
 //
 //        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text("DELIVER TO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).add(new Paragraph(new Text("Santosh kumar").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text("NEAR AQUA WATER PLANT ADARSH NAGAR, NIRMAL, TS,504106").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text("CONTACT NO: 9550080255").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)));
 //        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text(""))).setBorder(Border.NO_BORDER));
 
         //        table2.setWidth(510);
-        float[] columnWidth3 = {270, 310};//580
+        float[] columnWidth3 = {160, 128};//288
         Table table3 = new Table(columnWidth3);
         Border border3Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table3.setBorderLeft(border3Black);
         table3.setBorderRight(border3Black);
         table3.setBorderTop(border3Black);
-        table3.setMarginLeft(15);
-        table3.setMarginRight(15);
+//        table3.setMarginLeft(5);
+//        table3.setMarginRight(5);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
-        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("Shipping Address: ").setFontSize(11).setFont(bold)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(10).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(11).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("Shipping Address: ").setFontSize(8).setFont(bold)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
         Table tableAddress;
-//        pdfShippingLabelResponse.getData().setQrcode("12345678920");
+//      pdfShippingLabelResponse.getData().setQrcode("12345678920");
         if (pdfShippingLabelResponse.getData().getQrcode() != null && !pdfShippingLabelResponse.getData().getQrcode().equals("")) {
-            float[] columnWidthAddress = {460, 120};//580
+            float[] columnWidthAddress = {180, 108};//288
             tableAddress = new Table(columnWidthAddress);
             Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
 //        Border border2Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
@@ -1017,16 +1018,16 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
             ImageData imageData2 = ImageDataFactory.create(bitMapData2);
             Image image2 = new Image(imageData2);
-            image2.scaleToFit(80, 80);
+            image2.scaleToFit(40, 40);
 
 
             tableAddress.setBorder(Border.NO_BORDER);
-            tableAddress.setMarginRight(15);
-            tableAddress.setMarginLeft(15);
-            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(11)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-            tableAddress.addCell(new Cell(4, 1).add(image2).add(new Paragraph(new Text("Scan to pay via UPI").setFontSize(9.5f).setFont(font))).setBorder(Border.NO_BORDER));
+//            tableAddress.setMarginRight(5);
+//            tableAddress.setMarginLeft(5);
+            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + " " + pdfShippingLabelResponse.getData().getShippingcity() + " " + pdfShippingLabelResponse.getData().getShippingstateid() + " " + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(7)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+            tableAddress.addCell(new Cell(4, 1).add(image2).setMarginLeft(15).add(new Paragraph(new Text("Scan to pay via UPI").setFontSize(7).setFont(font))).setBorder(Border.NO_BORDER));
         } else {
-            float[] columnWidthAddress = {580};//580
+            float[] columnWidthAddress = {288};//288
             tableAddress = new Table(columnWidthAddress);
             Border border2Address = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
 //        Border border2Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
@@ -1036,34 +1037,34 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        tableNew.setMarginLeft(100);
 //        tableNew.setMarginRight(100);
             tableAddress.setBorder(Border.NO_BORDER);
-            tableAddress.setMarginRight(15);
-            tableAddress.setMarginLeft(15);
-            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(11)).setMarginLeft(5)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+//            tableAddress.setMarginRight(5);
+//            tableAddress.setMarginLeft(5);
+            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(8)).setMarginLeft(5)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(7.5f).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
 
         }
 
-        float[] columnWidthContactNo = {350, 230};//580
+        float[] columnWidthContactNo = {160, 128};//288
         Table tableContactNo = new Table(columnWidthContactNo);
         Border border3BlackContact = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         tableContactNo.setBorderLeft(border3BlackContact);
         tableContactNo.setBorderRight(border3BlackContact);
         tableContactNo.setBorderBottom(border3BlackContact);
-        tableContactNo.setMarginLeft(15);
-        tableContactNo.setMarginRight(15);
+//        tableContactNo.setMarginLeft(5);
+//        tableContactNo.setMarginRight(5);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
-        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text("Contact No: " + pdfShippingLabelResponse.getData().getPrimarycontactno()).setFontSize(11).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
-        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getFullfillmentorderid()).setFont(font).setFontSize(11)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
+        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text("Contact No: " + pdfShippingLabelResponse.getData().getPrimarycontactno()).setFontSize(7.5f).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
+        tableContactNo.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getFullfillmentorderid()).setFont(font).setFontSize(7.5f)).setMarginLeft(5)).setBorder(Border.NO_BORDER));
 
-        float[] columnWidth4 = {580};//580
+        float[] columnWidth4 = {288};//288
         Table table4 = new Table(columnWidth4);
         Border border4Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table4.setBorder(border4Black);
-        table4.setMarginLeft(15);
-        table4.setMarginRight(15);
+//        table4.setMarginLeft(5);
+//        table4.setMarginRight(5);
         table4.setMarginTop(0);
         table4.setMarginBottom(0);
-        table4.addCell(new Cell(2, 1).add(new Paragraph(new Text("Seller Address: " + "\n").setFontSize(11).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1() + pdfShippingLabelResponse.getData().getStoreaddress2() + pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(10))).setPadding(0f).setMargin(0f));
+        table4.addCell(new Cell(2, 1).add(new Paragraph(new Text("Seller Address: " + "\n").setFontSize(8).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1() + pdfShippingLabelResponse.getData().getStoreaddress2() + pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(7.5f))).setPadding(0f).setMargin(0f));
         table4.setPadding(0f);
 
         //        table4.addCell(new Cell().add(new Paragraph(new Text("ORDER ID").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
@@ -1085,19 +1086,19 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table5.setMarginRight(50);
 //        table5.setMarginLeft(50);
 
-        float[] columnWidth6 = {290, 290};//580
+        float[] columnWidth6 = {144, 144};//580
         Table table6 = new Table(columnWidth6);
         Border border6 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table6.setBorder(border6);
-        table6.setMarginLeft(15);
-        table6.setMarginRight(15);
-        table6.addCell(new Cell().add(new Paragraph(new Text("Product").setFontSize(11).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
-        table6.addCell(new Cell().add(new Paragraph(new Text("Price").setFontSize(11).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+//        table6.setMarginLeft(5);
+//        table6.setMarginRight(5);
+        table6.addCell(new Cell().add(new Paragraph(new Text("Product").setFontSize(7).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Price").setFontSize(7).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
 
-        table6.addCell(new Cell().add(new Paragraph(new Text("Medicine/Wellness/Hygiene").setFontSize(11).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
-        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getHealthWellness()).setFontSize(11).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
-        table6.addCell(new Cell().add(new Paragraph(new Text("Total (Inclusive all taxes)").setFontSize(11).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
-        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(11).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Medicine/Wellness/Hygiene").setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getHealthWellness()).setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text("Total (Inclusive all taxes)").setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
+        table6.addCell(new Cell().add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
 //        table6.addCell(new Cell().add(new Paragraph(new Text("Shipping Charges").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
 //        table6.addCell(new Cell().add(new Paragraph(new Text("40.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
 //        table6.addCell(new Cell().add(new Paragraph(new Text("Total (Inclusive of all taxes)").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder(border6));
@@ -1106,7 +1107,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table6.setMarginRight(30);
 //        table6.setMarginLeft(30);
 
-        float[] columnWidth7 = {400, 180};// 580
+        float[] columnWidth7 = {250, 38};// 288
 //        float columnWidth2[] = {150, 130, 115, 165};
         Table table7 = new Table(columnWidth7);
         Border border7 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
@@ -1124,18 +1125,18 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
         ImageData imageData1Qr2 = ImageDataFactory.create(bitMapData1Qr2);
         Image image1Qr2 = new Image(imageData1Qr2);
-        image1Qr2.setWidth(350);
-        image1Qr2.setHeight(300);
-        image1Qr2.scaleToFit(100, 30);
-        image1Qr2.setHeight(30);
+        image1Qr2.setWidth(230);
+        image1Qr2.setHeight(200);
+        image1Qr2.scaleToFit(100, 20);
+        image1Qr2.setHeight(20);
 //        Border border2Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table7.setBorder(border7);
-        table7.setMarginLeft(15);
-        table7.setMarginRight(15);
-        table7.setHeight(60);
+//        table7.setMarginLeft(5);
+//        table7.setMarginRight(5);
+//        table7.setHeight(60);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
-        table7.addCell(new Cell().add(image1Qr2).setMarginLeft(10).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getOrderid()).setFontSize(10).setFont(font)).setMarginLeft(120)).setPaddingBottom(0f));
+        table7.addCell(new Cell().add(image1Qr2).setMarginLeft(10).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getOrderid()).setFontSize(7).setFont(font)).setMarginLeft(80)).setPaddingBottom(0f));
 
 
 //        float[] columnWidth7 = {290, 290};//580
@@ -1144,13 +1145,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table7.addCell(new Cell().add(new Paragraph(new Text("7-2-1740 ,KSSP WAREHOUSE COMPLEX, SANATH NAGAR ,OPP:FIRE STATION, HYDERABAD,500018").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER));
 
 
-        float[] columnWidth8 = {580};//580
+        float[] columnWidth8 = {288};//288
         Table table8 = new Table(columnWidth8);
         Border border8 = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table8.setBorder(border8);
-        table8.setMarginLeft(15);
-        table8.setMarginRight(15);
-        table8.addCell(new Cell().add(new Paragraph(new Text("If Undelivered, please return it to the above seller address\n(APOLLO PHARMACY)").setFontSize(11).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+//        table8.setMarginLeft(5);
+//        table8.setMarginRight(5);
+        table8.addCell(new Cell().add(new Paragraph(new Text("If Undelivered, please return it to the above seller address\n(APOLLO PHARMACY)").setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
 
 
         document.add(table1);

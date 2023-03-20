@@ -337,7 +337,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
 
             if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() == 1) {
                 if (customerDataResBean.getSalesLine().get(0).getItemId().equals("ESH0002")) {
-                    Dialog dialog = new Dialog(getContext());// R.style.Theme_AppCompat_DayNight_NoActionBar
+                    Dialog dialog = new Dialog(OrderDetailsScreenActivity.this);// R.style.Theme_AppCompat_DayNight_NoActionBar
                     DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_cancel, null, false);
                     dialog.setContentView(dialogCancelBinding.getRoot());
                     dialogCancelBinding.dialogMessage.setText("The Order contain only E shop shipping charge.");
