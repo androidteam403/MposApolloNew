@@ -83,6 +83,52 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="Dispatch Cutoff Time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dispatch_cuttoff_time_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen3dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen18sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Bill Date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bill_date_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen3dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen18sp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Stock Availabilty"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
@@ -209,7 +255,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/five_dp"/>
+                    android:layout_marginEnd="@dimen/five_dp" />
 
                 <!--                <View-->
                 <!--                    android:layout_width="match_parent"-->

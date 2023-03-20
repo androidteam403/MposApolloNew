@@ -115,6 +115,9 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
         pickupSummaryDetailsBinding.address.setText(selectedOmsHeader.getGetOMSTransactionResponse().getCustAddress());
         pickupSummaryDetailsBinding.pincode.setText(selectedOmsHeader.getGetOMSTransactionResponse().getPincode());
 
+        pickupSummaryDetailsBinding.shipmentTat.setText(selectedOmsHeader.getShipmentTat());
+        pickupSummaryDetailsBinding.billdateTat.setText(selectedOmsHeader.getBillingTat());
+
         pickupSummaryDetailsBinding.fullfilmentIdnumber.setText(selectedOmsHeader.getRefno());
         pickupSummaryDetailsBinding.totalItems.setText(String.valueOf(selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 

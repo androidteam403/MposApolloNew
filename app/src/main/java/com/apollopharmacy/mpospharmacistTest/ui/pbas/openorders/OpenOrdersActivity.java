@@ -46,6 +46,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -83,6 +84,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
     private List<FilterModel> reverificationList = new ArrayList<>();
+    private List<FilterModel> shippmentTatFilterList = new ArrayList<>();// new
+    private List<FilterModel> billDateTatFilterList = new ArrayList<>();// new
+
 
     // Temp filters headers list
     private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
@@ -92,13 +96,19 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
     private List<FilterModel> reverificationListTemp = new ArrayList<>();
+    private List<FilterModel> shippmentTatFilterListTemp = new ArrayList<>();// new
+    private List<FilterModel> billDateTatFilterListTemp = new ArrayList<>();// new
+
+
     private boolean isStockAvailableChecked = false;
     private int startIndex = 0;
     private int endIndex = 100;
 
     private boolean isStockAvailable = false;
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter, shippingTatFilterAdapter, billDateTatFilterAdapter;
 
+    private boolean isShiipimentDateFiltered = false;
+    private boolean isBillDateFiltered = false;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -233,7 +243,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             reverificationModel.setName(filterModel.getName());
             reverificationListTemp.add(reverificationModel);
         }
+        //
+        shippmentTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : shippmentTatFilterList) {
+            FilterModel shippingTatModel = new FilterModel();
+            shippingTatModel.setSelected(filterModel.isSelected());
+            shippingTatModel.setName(filterModel.getName());
+            shippmentTatFilterListTemp.add(shippingTatModel);
+        }
 
+        //
+        billDateTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : billDateTatFilterList) {
+            FilterModel billDateTatModel = new FilterModel();
+            billDateTatModel.setSelected(filterModel.isSelected());
+            billDateTatModel.setName(filterModel.getName());
+            billDateTatFilterListTemp.add(billDateTatModel);
+        }
     }
 
     private void searchByFulfilmentId() {
@@ -308,6 +334,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 if (omsHeaderList.get(i).getExpandStatus() == 1) {
                     omsHeaderList.get(i).setExpandStatus(0);
                     if (fullfilmentAdapter != null) {
+                        fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
                         fullfilmentAdapter.notifyDataSetChanged();
                     }
                 } else {
@@ -366,6 +393,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        Collections.reverse(omsHeaderList);
 
         fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
+        fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
         openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -391,6 +419,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 this.orderSourceFilterList = orderSourceFilterListTemp;
                 this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
                 this.reverificationList = reverificationListTemp;
+                this.shippmentTatFilterList = shippmentTatFilterListTemp;
+                this.billDateTatFilterList = billDateTatFilterListTemp;
 
                 filterDialog.dismiss();
                 hideLoading();
@@ -625,6 +655,65 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
         }
 
+        //Shippment tat filter list
+        boolean isShippingTatFilter = false;
+        for (FilterModel orderTypeFilter : shippmentTatFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isShippingTatFilter = true;
+            }
+        }
+        if (isShippingTatFilter) {
+            List<TransactionHeaderResponse.OMSHeader> shippingTatOMSHeaderFilter = null;
+            if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
+                shippingTatOMSHeaderFilter = omsHeaderListTotal;
+            } else {
+                shippingTatOMSHeaderFilter = mPresenter.getGlobalTotalOmsHeaderList();
+            }
+            for (FilterModel shippingFilter : shippmentTatFilterList) {
+                for (int i = 0; i < shippingTatOMSHeaderFilter.size(); i++) {
+                    if (!shippingFilter.isSelected() && (shippingFilter.getName().equals(shippingTatOMSHeaderFilter.get(i).getShipmentTat()))) {
+                        shippingTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderListTotal = shippingTatOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
+        }
+
+
+        boolean isBillDateTatFilter = false;
+        for (FilterModel billDateTatFilter : billDateTatFilterList) {
+            if (billDateTatFilter.isSelected()) {
+                isBillDateTatFilter = true;
+            }
+        }
+        if (isBillDateTatFilter) {
+            List<TransactionHeaderResponse.OMSHeader> billDateTatOMSHeaderFilter = null;
+            if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
+                billDateTatOMSHeaderFilter = omsHeaderListTotal;
+            } else {
+                billDateTatOMSHeaderFilter = mPresenter.getGlobalTotalOmsHeaderList();
+            }
+            for (FilterModel billDateTatFilter : billDateTatFilterList) {
+                for (int i = 0; i < billDateTatOMSHeaderFilter.size(); i++) {
+                    if (!billDateTatFilter.isSelected() && (billDateTatFilter.getName().equals(billDateTatOMSHeaderFilter.get(i).getBillingTat()))) {
+                        billDateTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderListTotal = billDateTatOMSHeaderFilter;
+        }
+
 
         // Reverification filter list.
 
@@ -670,7 +759,19 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        if (omsHeaderList != null && omsHeaderList.size() == 0) {
 //            omsHeaderList = mPresenter.getTotalOmsHeaderList();
 //        }
-        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
+
+
+        if (isShippingTatFilter) {
+            isShiipimentDateFiltered = true;
+        } else {
+            isShiipimentDateFiltered = false;
+        }
+        if (isBillDateTatFilter) {
+            isBillDateFiltered = true;
+        } else {
+            isBillDateFiltered = false;
+        }
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter && !isShippingTatFilter && !isBillDateTatFilter) {
             omsHeaderListTotal = mPresenter.getGlobalTotalOmsHeaderList();
 
         }
@@ -1060,6 +1161,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            Collections.reverse(omsHeaderList);
 //
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
+            fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1124,6 +1226,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
         reverificationAdapter.notifyDataSetChanged();
 
+        for (int i = 0; i < shippmentTatFilterList.size(); i++) {
+            shippmentTatFilterList.get(i).setSelected(false);
+        }
+        shippingTatFilterAdapter.notifyDataSetChanged();
+        isShiipimentDateFiltered = true;
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
@@ -1161,6 +1268,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         dialogFilterBinding.reverificationRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.reverificationRecycler.setAdapter(reverificationAdapter);
 
+        shippingTatFilterAdapter = new FilterItemAdapter(getContext(), shippmentTatFilterList);
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setAdapter(shippingTatFilterAdapter);
+
+        billDateTatFilterAdapter = new FilterItemAdapter(getContext(), billDateTatFilterList);
+        dialogFilterBinding.billDateFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.billDateFilter.setAdapter(billDateTatFilterAdapter);
     }
 
 
@@ -1246,7 +1360,40 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
 //            Collections.reverse(omsHeaderList);
 
+            if (isShiipimentDateFiltered) {
+
+                Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                    public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date1 = null;
+                        Date date2 = null;
+                        try {
+                            date1 = dateFormat.parse(o1.getBillingTat());
+                            date2 = dateFormat.parse(o2.getBillingTat());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        return date1.compareTo(date2);
+                    }
+                });
+
+
+                Map<String, List<TransactionHeaderResponse.OMSHeader>> studlistGrouped = omsHeaderList.stream().collect(Collectors.groupingBy(w -> w.getShipmentTat()));
+                omsHeaderList.clear();
+                for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : studlistGrouped.entrySet()) {
+                    omsHeaderList.addAll(studlistGrouped.get(entry.getKey()));
+                    System.out.println(entry.getKey());
+                }
+            }
+
+
+//            for (int i = 0; i <= studlistGrouped.size(); i++){
+//                omsHeaderList.addAll(studlistGrouped.get(i))
+//            }
+
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
+            fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1705,6 +1852,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
 //            Collections.reverse(omsHeaderList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, body, mPresenter.getUserId());
+            fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -1798,6 +1946,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 this.stockAvailabilityFilterListTemp.clear();
                 this.reverificationList.clear();
                 this.reverificationListTemp.clear();
+                this.shippmentTatFilterList.clear();
+                this.shippmentTatFilterListTemp.clear();
+                this.billDateTatFilterList.clear();
+                this.billDateTatFilterListTemp.clear();
                 PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
             }
 
@@ -1814,6 +1966,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     boolean isStockAvailabilityContain = false;
                     boolean isPickUpStatusContain = false;
                     boolean isReverification = false;
+                    boolean isShippmentTatContain = false;
+                    boolean isBillDateTatContain = false;
 
 
                     // customer type filter list.
@@ -1896,6 +2050,34 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     }
                     if (!isStockAvailabilityContain) {
                         stockAvailabilityFilterList.add(filterModel);
+                    }
+
+                    // shipping tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getShipmentTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < shippmentTatFilterList.size(); j++) {
+                        if (shippmentTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isShippmentTatContain = true;
+                        }
+                    }
+                    if (!isShippmentTatContain) {
+                        shippmentTatFilterList.add(filterModel);
+                    }
+
+                    // Bill Date tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getBillingTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < billDateTatFilterList.size(); j++) {
+                        if (billDateTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isBillDateTatContain = true;
+                        }
+                    }
+                    if (!isBillDateTatContain) {
+                        billDateTatFilterList.add(filterModel);
                     }
                 }
                 boolean isReverificationContain = false;
@@ -2016,6 +2198,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
 //            Collections.reverse(filterList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
+            fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
@@ -2126,6 +2309,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 for (int i = 0; i < omsHeaderList.size(); i++) {
                     if (fullfillmentIdNew.getFullfillmentId().equals(omsHeaderList.get(i).getVendorId())) {
                         omsHeaderList.get(i).setSelected(isSelect);
+                        fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
                         fullfilmentAdapter.notifyDataSetChanged();
                         break;
                     }
@@ -2152,6 +2336,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             selectedOmsHeaderList.clear();
             omsHeaderList.clear();
             if (fullfilmentAdapter != null) {
+                fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
                 fullfilmentAdapter.notifyDataSetChanged();
             }
             onContinueBtnEnable();
@@ -2356,6 +2541,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
 //            Collections.reverse(filterList);
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), filterList, this, null, mPresenter.getUserId());
+            fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);

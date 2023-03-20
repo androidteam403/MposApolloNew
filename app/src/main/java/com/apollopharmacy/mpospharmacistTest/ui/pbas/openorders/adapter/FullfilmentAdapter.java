@@ -22,8 +22,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
@@ -34,6 +32,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     private final OpenOrdersMvpView mvpView;
     private String userId;
 //    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
+
+    private boolean isDispatchCutoffTime = false;
 
     public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList, String userId) {
         this.context = context;
@@ -52,14 +52,35 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         return new ViewHolder(fullfilmentBinding);
     }
 
+    public void setDispatchCutoffTime(boolean isDispatchCutoffTime) {
+        this.isDispatchCutoffTime = isDispatchCutoffTime;
+    }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (position == 0) {
+//            return 0;
+//        } else if (!filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
+//            return 0;
+//        } else {
+//            return 1;
+//        }
+//    }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
-
-
-
+        if (isDispatchCutoffTime) {
+            if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
+                holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
+                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping Date : " + omsHeader.getShipmentTat());
+            } else {
+                holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+            }
+        } else {
+            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+        }
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
         if (messageList.length > 1) {
             omsHeaderList.get(position).setScannedBarcode(messageList[1]);
@@ -129,7 +150,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 //                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
 //                        holder.fullfilmentBinding.notifytoadmin.setVisibility(View.VISIBLE);
 //                    }
-
+                    holder.fullfilmentBinding.shipmentTat.setText(omsHeader.getShipmentTat());
+                    holder.fullfilmentBinding.billdateTat.setText(omsHeader.getBillingTat());
                 }
 
 

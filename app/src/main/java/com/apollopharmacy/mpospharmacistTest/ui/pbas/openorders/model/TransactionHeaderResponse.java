@@ -131,12 +131,16 @@ public class TransactionHeaderResponse implements Serializable {
         private Object transactionId;
         @SerializedName("VendorCode")
         @Expose
-
-
         private Object vendorCode;
         @SerializedName("VendorId")
         @Expose
         private String vendorId;
+        @SerializedName("ShippingTAT")
+        @Expose
+        private String shipmentTat;
+        @SerializedName("BillingTAT")
+        @Expose
+        private String billingTat;
         private boolean isTagBox;
         private boolean isSelected;
         private boolean scanView;
@@ -366,6 +370,22 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setTransactionId(Object transactionId) {
             this.transactionId = transactionId;
+        }
+
+        public String getShipmentTat() {
+            return shipmentTat;
+        }
+
+        public void setShipmentTat(String shipmentTat) {
+            this.shipmentTat = shipmentTat;
+        }
+
+        public String getBillingTat() {
+            return billingTat;
+        }
+
+        public void setBillingTat(String billingTat) {
+            this.billingTat = billingTat;
         }
 
         public Object getVendorCode() {

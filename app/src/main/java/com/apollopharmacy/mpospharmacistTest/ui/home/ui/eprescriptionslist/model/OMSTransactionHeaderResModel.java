@@ -111,6 +111,13 @@ public class OMSTransactionHeaderResModel {
         @Expose
         @SerializedName("VendorId")
         private String VendorId;
+
+        @SerializedName("ShippingTAT")
+        @Expose
+        private String shipmentTat;
+        @SerializedName("BillingTAT")
+        @Expose
+        private String billingTat;
         @Expose
         @SerializedName("OrderPacked")
         private boolean OrderPacked;
@@ -133,6 +140,21 @@ public class OMSTransactionHeaderResModel {
             this.CategoryType = CategoryType;
         }
 
+        public String getShipmentTat() {
+            return shipmentTat;
+        }
+
+        public void setShipmentTat(String shipmentTat) {
+            this.shipmentTat = shipmentTat;
+        }
+
+        public String getBillingTat() {
+            return billingTat;
+        }
+
+        public void setBillingTat(String billingTat) {
+            this.billingTat = billingTat;
+        }
 
         public boolean getOrderPacked() {
             return OrderPacked;
