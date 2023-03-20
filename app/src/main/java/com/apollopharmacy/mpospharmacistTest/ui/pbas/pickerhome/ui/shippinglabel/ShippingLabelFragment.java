@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -208,6 +209,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onSuccessGetJounalOnlineOrderTransactonApi(List<GetJounalOnlineOrderTransactionsResponse> getJounalOnlineOrderTransactionsResponseList) {
         if (getJounalOnlineOrderTransactionsResponseList != null && getJounalOnlineOrderTransactionsResponseList.size() > 0) {
@@ -478,6 +480,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        pdfShippingLabelResponse.getData().setDspname("A247-LHUB-LHUB");
         if (pdfShippingLabelResponse != null && pdfShippingLabelResponse.getData() != null) {
             this.pdfShippingLabelResponse = pdfShippingLabelResponse;
+
+//            pdfShippingLabelResponse.getData().setPaymentmode("CASHONDELIVERY");
             if (pdfShippingLabelResponse.getData().getDspname().equalsIgnoreCase("A247-LHUB-LHUB")) {
                 Toast.makeText(getActivity(), "DSP name is LHUB-LHUB and has not yet been changed; Kindly try again later", Toast.LENGTH_SHORT).show();
             } else {
@@ -993,7 +997,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
         table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("Shipping Address: ").setFontSize(8).setFont(bold)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+        if (pdfShippingLabelResponse.getData().getPaymentmode().equalsIgnoreCase("cashondelivery")){
+            table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("COD" + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+
+        }else {
+            table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+
+        }
         Table tableAddress;
 //      pdfShippingLabelResponse.getData().setQrcode("12345678920");
         if (pdfShippingLabelResponse.getData().getQrcode() != null && !pdfShippingLabelResponse.getData().getQrcode().equals("")) {
