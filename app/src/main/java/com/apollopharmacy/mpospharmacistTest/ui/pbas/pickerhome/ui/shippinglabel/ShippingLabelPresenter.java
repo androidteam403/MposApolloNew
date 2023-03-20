@@ -158,10 +158,11 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             getMvpView().showLoading();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             String url = "";
-            url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flID;
+           url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flID;
 //        Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL();
 
-            Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
+           Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
+
             call.enqueue(new Callback<PDFShippingLabelResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<PDFShippingLabelResponse> call, @NotNull Response<PDFShippingLabelResponse> response) {

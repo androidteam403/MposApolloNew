@@ -1,7 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
-import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
-
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -517,12 +515,28 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 if (Singletone.getInstance().itemsArrayList.get(0).getItemId().equals("ESH0002")) {
                     showMessagePopup("The Order contain only E shop shipping charge.");
                 } else {
+                    if (!Singletone.getInstance().itemsArrayList.get(0).getIsVoid()) {
+                        getMvpView().getCustomerModule().setCardPayment(false);
+                        doPayment(7);
+                    } else {
+                        showMessagePopup("No Items available");
+                    }
+                }
+            } else {
+                boolean isAllVoid = true;
+                for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
+                    if (!Singletone.getInstance().itemsArrayList.get(i).getItemId().equals("ESH0002")) {
+                        if (!Singletone.getInstance().itemsArrayList.get(i).getIsVoid()) {
+                            isAllVoid = false;
+                        }
+                    }
+                }
+                if (isAllVoid){
+                    showMessagePopup("No Items available");
+                }else{
                     getMvpView().getCustomerModule().setCardPayment(false);
                     doPayment(7);
                 }
-            } else {
-                getMvpView().getCustomerModule().setCardPayment(false);
-                doPayment(7);
             }
         } else {
             showMessagePopup("No Items available");
@@ -1357,7 +1371,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                     public void onResponse(@NotNull Call<GenerateTenderLineRes> call, @NotNull Response<GenerateTenderLineRes> response) {
                         if (response.isSuccessful()) {
                             getMvpView().hideLoading();
-                             if (response.body() != null && response.body().getValidateOMSOrderResult().getRequestStatus() == 0) {
+                            if (response.body() != null && response.body().getValidateOMSOrderResult().getRequestStatus() == 0) {
 //                            if (response.body() != null) {
 
                                 tenderLineEntities = response.body().getValidateOMSOrderResult();

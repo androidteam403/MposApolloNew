@@ -39,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/label_4x6"
-                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen15sp" />
 
@@ -61,6 +60,7 @@
                 android:layout_marginStart="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="A5"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen15sp" />
 
