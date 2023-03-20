@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/parentlayout"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+
+        android:id="@+id/print"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:gravity="center">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:id="@+id/postesting"
+                            android:padding="4dp"
+                            android:textColor="@color/black"
+                            android:text="POS TESTING"
+                            />
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.14"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="FSSAI NO: "
+                                android:layout_marginLeft="4dp" />
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.36"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text=""
+                                android:id="@+id/fssaino"
+                                android:layout_marginLeft="4dp" />
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:gravity="center">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:textSize="10dp"
+                            android:padding="4dp"
+
+                            android:textColor="@color/black"
+                            android:text="SHOP NO 1 and 2, SHUKAN HUB"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="D.L.NO:"
+                                android:layout_marginLeft="4dp" />
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:textSize="8dp"
+                                android:textColor="@color/black"
+                                android:text="GJ-139904-909(20B,20C,20D,21,21B)"
+                                android:layout_marginLeft="4dp" />
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:gravity="center">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:textSize="10dp"
+                            android:padding="4dp"
+                            android:textColor="@color/black"
+                            android:text="NR. CANAL, SAMA SAVLI ROAD BARODA- 390002"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_weight="0.5">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.11"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="GST NO:"
+                                android:layout_marginLeft="4dp" />
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.39"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="36AAACA5443N3ZH"
+                                android:layout_marginLeft="4dp" />
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:gravity="center">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:textSize="10dp"
+                            android:padding="4dp"
+                            android:textColor="@color/black"
+                            android:text="PHONE: 9012952000"
+                            />
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_weight="0.5">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.12"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="C.GSTIN:"
+                                android:layout_marginLeft="4dp" />
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.35"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="4dp" />
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:src="@drawable/dottedlines"
+                        android:layerType="software"
+                        android:layout_marginLeft="5dp" />
+
+
+                    <LinearLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:layout_marginLeft="4dp">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:textSize="8dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.28"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text="Name: Pharmacy PC:500092" />
+
+
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.28"
+                            android:textSize="8dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text="Mobile No.:2349661401" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.26"
+                            android:textSize="8dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text="Bill No.:16001DS002953" />
+
+
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.19"
+                            android:textSize="8dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text="6711-APOLLO247" />
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginLeft="4dp"
+                        android:weightSum="1">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.26"
+                            android:textColor="@color/black"
+                            android:textSize="8dp"
+                            android:layout_marginLeft="4dp"
+                            android:text="Doctor:"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.53"
+                            android:text="Ref. NO : FL20220610101000013 -10009416 TID : 003"
+                            android:textSize="8dp"
+                            android:textColor="@color/black"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.24"
+                            android:textColor="@color/black"
+                            android:textSize="8dp"
+                            android:gravity="center"
+                            android:text="Bill Date : 2022-Jun-14 10:19:00 AM"/>
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:src="@drawable/dottedlines"
+                        android:layerType="software"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.24"
+                            android:text="Product"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.05"
+                            android:text="SCH"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.14"
+                            android:text="HSNCODE"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.07"
+                            android:text="Mfg"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.15"
+                            android:text="BATCH"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.09"
+                            android:text="EXPIRY"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.08"
+                            android:text="Qty"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text="RATE"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+                        <!--                   <TextView-->
+                        <!--                       android:layout_width="0dp"-->
+                        <!--                       android:layout_height="wrap_content"-->
+                        <!--                       android:layout_weight="0.08"-->
+                        <!--                       android:text="AMOUNT"-->
+                        <!--                       android:textAlignment="center"-->
+                        <!--                       android:textColor="@color/black"-->
+                        <!--                       android:textSize="9dp"-->
+                        <!--                       android:gravity="center_horizontal" />-->
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.08"
+                            android:text="GST%"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"
+                            android:gravity="center_horizontal" />
+
+
+
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:src="@drawable/dottedlines"
+                        android:layerType="software"
+                        android:layout_marginLeft="5dp" />
+
+
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/pdfRecyclerView"
+                     android:layout_marginTop="4dp"
+                     android:layout_marginBottom="4dp"/>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shipping Charge: 40.00,"
+                            android:textSize="9dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="SAC:300,"
+                            android:textSize="9dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=",GST: 12.00%"
+                            android:textSize="9dp"
+                            android:gravity="center"
+                            android:textColor="@color/black"/>
+
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:src="@drawable/dottedlines"
+                        android:layerType="software"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginLeft="4dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:text="TAXABLE VALUE: 330.50"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:text="CGstAMT:39.66"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:text="SGstAmt: 118.98"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginLeft="4dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:text="Gross: 430.00"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:text="DisAmt : 0.00"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:text="Donation: 0"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:text="NetAmt : 430.00"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:src="@drawable/dottedlines"
+                        android:layerType="software"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginLeft="4dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:text="CIN : U52500TN2016PLC111328"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:text="Registered Office:No.19 Bishop Garden, Raja Annamalaipuram,Chennai-600028"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Admin Office :(For all correspondence) Ali Towers,IIIrd Floor,No 55,Greams Road, Chennai-600006"
+                        android:textSize="9dp"
+                        android:layout_marginTop="6dp"
+                        android:textColor="@color/black"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:layout_marginStart="4dp"
+                        tools:ignore="RtlCompat">
+
+
+                        <TextView
+                            android:layout_weight="0.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rupees Four Hundreds Thirty Only"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"/>
+
+                        <LinearLayout
+                            android:layout_weight="0.5"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="0.05"
+                                android:layout_height="wrap_content"
+                                android:text="for"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:textSize="10dp"/>
+
+                            <TextView
+                                android:layout_weight="0.45"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="APOLLO PHARMACY"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="10dp"/>
+
+
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_weight="0.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Wishes You Speedy Recovery"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"/>
+
+
+                        <TextView
+                            android:layout_weight="0.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Registered pharmacist"
+                            android:textColor="@color/black"
+                            android:textSize="9dp"/>
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>
+</layout>

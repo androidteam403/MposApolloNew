@@ -27,12 +27,14 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
 
     @Override
     public String getLoginUserName() {
-        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
+        return getDataManager().getUserName();
+//        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
     }
 
     @Override
     public String getLoinStoreLocation() {
-        return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
+
+       return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
     }
 
     @Override
@@ -84,6 +86,8 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0)
                                 getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
+                            else
+                                getMvpView().hideLoading();
                         } else
                             getMvpView().hideLoading();
                     }
@@ -112,17 +116,20 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
     }
 
     @Override
-    public  void enableopenscreens()
-    {
+    public void enableopenscreens() {
         getDataManager().setOpenScreens(true);
 
     }
 
     @Override
-    public  void disablescreens()
-    {
+    public void disablescreens() {
         getDataManager().setOpenScreens(false);
 
+    }
+
+    @Override
+    public void getGlobalConfig() {
+        getMvpView().getGlobalConfig(getDataManager().getGlobalJson());
     }
 
 
