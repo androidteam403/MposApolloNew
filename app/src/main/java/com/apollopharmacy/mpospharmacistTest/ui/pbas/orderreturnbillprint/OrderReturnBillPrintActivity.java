@@ -1377,7 +1377,9 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
 //        table6.setBorder(new SolidBorder(1));
         table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
         table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs.0.00 & Earned 50.35 HC's").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. "+ pdfModelResponse.getSalesHeader().get(0).getDiscount()+"& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+
 
 
         float[] columnWidth7 = {290, 290};//580
