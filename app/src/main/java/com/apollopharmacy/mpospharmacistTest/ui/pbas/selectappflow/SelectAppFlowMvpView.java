@@ -6,4 +6,6 @@ public interface SelectAppFlowMvpView extends MvpView {
     void onClickContinue();
 
     void onClickSelectAppFlowItem(int pos);
+
+    void onClickLogout();
 }

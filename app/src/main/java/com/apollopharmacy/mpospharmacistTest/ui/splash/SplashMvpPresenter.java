@@ -10,5 +10,5 @@ public interface SplashMvpPresenter<V extends SplashMvpView> extends MvpPresente
 
     void getGlobalConfigration();
 
-    void enableKioskMode();
+//    void enableKioskMode();
 }
