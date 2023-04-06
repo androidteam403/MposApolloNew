@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -45,4 +46,5 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     void unPickUpdateOmsOrder(OMSOrderForwardRequest omsOrderForwardRequest, boolean isLastPos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
+    GetGlobalConfingRes getGlobalConfigRes();
 }

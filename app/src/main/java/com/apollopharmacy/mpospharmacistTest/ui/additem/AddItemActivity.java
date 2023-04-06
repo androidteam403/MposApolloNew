@@ -844,8 +844,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         System.out.println("customer name-->" + customerEntity.getMobileNo());
         // if ((customerEntity.getMobileNo() != null && customerEntity.getCardName() != null) && (!customerEntity.getMobileNo().equalsIgnoreCase("") && !customerEntity.getCardName().equalsIgnoreCase(""))) {
         for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
-            if (Singletone.getInstance().itemsArrayList.get(i).getDiseaseType().equalsIgnoreCase("Chronic") ||
-                    Singletone.getInstance().itemsArrayList.get(i).getSubCategory().equalsIgnoreCase("BABY CARE")) {
+            if (Singletone.getInstance().itemsArrayList.get(i).getDiseaseType().equalsIgnoreCase("Chronic") || Singletone.getInstance().itemsArrayList.get(i).getSubCategory().equalsIgnoreCase("BABY CARE")) {
                 flagBabyCare++;
                 if (Singletone.getInstance().itemsArrayList.get(i).getRemainderDays() > 0.1) {
                     flagChronic++;
@@ -1047,8 +1046,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1096,8 +1094,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1152,8 +1149,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1225,8 +1221,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1330,8 +1325,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1417,11 +1411,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessSmsPayValidateTransaction(GetSMSPayAPIResponse res) {
         //  smspaylinkresponse=res;
         if (res.getStatus() == true) {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1435,11 +1427,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public void onSuccessPhonepeGenerateQrCode(PhonepeGenerateQrCodeResponse res) {
         if (res.getStatus() == true) {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1447,11 +1437,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessSmsPayCancelTransaction(GetSMSPayAPIResponse res) {
 
         if (res.getStatus() == true) {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, res.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, res.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1489,8 +1477,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(true);
@@ -1551,8 +1538,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1613,8 +1599,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             flag++;
         }
         if (!corporateEntity.getDescription().equalsIgnoreCase("0-NS NORMAL SALES")) {
-            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() ||
-                    addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
+            if (addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().isEmpty() || addItemBinding.detailsLayout.prgTrackingEdit.getText().toString().equalsIgnoreCase("--")) {
                 partialPaymentDialog("", "Kindly select Partner Prg Tracking !");
             } else {
                 paymentMethodModel.setCashMode(false);
@@ -1662,9 +1647,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onFailedGenerateTenderLine(GenerateTenderLineRes body) {
-        if (body != null && body.getValidateOMSOrderResult().getReturnMessage() != null && !body.getValidateOMSOrderResult().getReturnMessage().isEmpty()){
+        if (body != null && body.getValidateOMSOrderResult().getReturnMessage() != null && !body.getValidateOMSOrderResult().getReturnMessage().isEmpty()) {
             showMessage(body.getValidateOMSOrderResult().getReturnMessage());
-        }else{
+        } else {
             showMessage("Generate TenderLine Failed");
         }
     }
@@ -1857,12 +1842,48 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public void onItemDeleted(int lineNumber) {
-        if (paymentDoneAmount == 0.0) {
-            mPresenter.voidProduct(lineNumber);
-        } else {
-            partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+    public void onItemDeleted(int lineNumber, SalesLineEntity item) {
+        GetGlobalConfingRes getGlobalConfingRes = mPresenter.getGlobalConfiguration();
+        boolean isoMSOrderDeliveryItem = false;
+        for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+            if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(item.getItemId())) {
+                isoMSOrderDeliveryItem = true;
+                break;
+            }
         }
+        if (isoMSOrderDeliveryItem) {
+            showMessagePopup1("Cant void " + item.getItemName());
+        } else {
+            if (paymentDoneAmount == 0.0) {
+                mPresenter.voidProduct(lineNumber);
+            } else {
+                partialPaymentDialog("Alert!", "Partial Payment done,Kindly void payment lines");
+            }
+        }
+    }
+    private void showMessagePopup1(String message) {
+        Dialog showMessagePopup = new Dialog(this);
+        ExitInfoDialogBinding exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.exit_info_dialog, null, false);
+        showMessagePopup.setCancelable(false);
+        showMessagePopup.setContentView(exitInfoDialogBinding.getRoot());
+        if (showMessagePopup.getWindow() != null)
+            showMessagePopup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        exitInfoDialogBinding.title.setVisibility(View.VISIBLE);
+        exitInfoDialogBinding.title.setText(message);
+
+        exitInfoDialogBinding.subtitle.setVisibility(View.GONE);
+        exitInfoDialogBinding.subtitle.setText(message);
+        exitInfoDialogBinding.dialogButtonNO.setVisibility(View.GONE);
+//        exitInfoDialogBinding.sepe
+        exitInfoDialogBinding.dialogButtonOK.setText("OK");
+        exitInfoDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessagePopup.dismiss();
+            }
+        });
+        showMessagePopup.show();
+
     }
 
     @Override
@@ -1935,8 +1956,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         OrderPriceInfoModel priceInfoModel = addItemBinding.getOrderInfo();
         if (priceInfoModel != null)
             return Double.parseDouble(String.format("%.2f", priceInfoModel.getOrderTotalAmount()));
-        else
-            return 0;
+        else return 0;
     }
 
     @Override
@@ -2157,11 +2177,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             } else if (!paymentVoidRes.getTenderLine().get(amountPosition).isVoid) {
                 arrPayAdapterModel.get(amountPosition).setStrikeThroughText(0);
             }
-            if (calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PhonePe") ||
-                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PAYTM") ||
-                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Airtel") ||
-                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
-                    calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("QR Code")) {
+            if (calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PhonePe") || calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("PAYTM") || calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Airtel") || calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("Pay through QR Code") || calculatePosTransactionRes.getTenderLine().get(amountPosition).getTenderName().equalsIgnoreCase("QR Code")) {
                 arrPayAdapterModel.get(amountPosition).setCrossDis(1);
             }
             List<TenderLineEntity> tenderLineEntities = new ArrayList<>();
@@ -2198,11 +2214,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void toAddPayedAmount(PayAdapterModel item, int pos) {
         String phonepay = "";
         cardmode = true;
-        if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PhonePe") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PAYTM") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Airtel") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("QR Code")) {
+        if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PhonePe") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("PAYTM") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Airtel") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Pay through QR Code") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("QR Code")) {
             methodCalling = true;
             amounttoAdd = false;
             amountPosition = pos;
@@ -2248,13 +2260,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setRequestStatus(0);
             wallet.setReturnMessage("");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(pos).getLineNo());
-        } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") ||
-                calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
+        } else if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
             methodCalling = true;
             amounttoAdd = false;
             amountPosition = pos;
-            if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") ||
-                    calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
+            if (calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Cash") || calculatePosTransactionRes.getTenderLine().get(pos).getTenderName().equalsIgnoreCase("Credit")) {
                 wallet.setWalletType(0);
             }
             wallet.setMobileNo("");
@@ -2297,11 +2307,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void toRemovePayedAmount(int position, PayActivityAdapter.ViewHolder holder) {
         String phonepay = "";
         cardmode = true;
-        if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")) {
+        if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PhonePe") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("PAYTM") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Airtel") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Pay through QR Code") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("QR Code")) {
             methodCalling = true;
             amounttoAdd = true;
             amountPosition = position;
@@ -2345,13 +2351,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             wallet.setRequestStatus(0);
             wallet.setReturnMessage("");
             mPresenter.getPaymentVoidApiCall(calculatePosTransactionRes, wallet, (int) calculatePosTransactionRes.getTenderLine().get(position).getLineNo());
-        } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") ||
-                calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
+        } else if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
             methodCalling = true;
             amounttoAdd = true;
             amountPosition = position;
-            if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") ||
-                    calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
+            if (calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Cash") || calculatePosTransactionRes.getTenderLine().get(position).getTenderName().equalsIgnoreCase("Credit")) {
                 wallet.setWalletType(0);
             }
             wallet.setMobileNo("");
@@ -2500,8 +2504,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         System.out.println("getempbilling value-->" + entity.getISEMPBilling());
         if (getCalculatedPosTransactionRes().getTenderLine().size() == 0)
             dialogView.setPositiveLabel("Ok");
-        else
-            dialogView.hidePositiveBtn();
+        else dialogView.hidePositiveBtn();
 
         dialogView.setSubtitle("Total amount : " + orderTotalAmount());
         dialogView.setBalanceAmount("Balance Amount : " + Double.parseDouble(String.format("%.2f", (orderRemainingAmount() - amount))));
@@ -2635,8 +2638,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         Singletone.getInstance().itemsArrayList.clear();
         Singletone.getInstance().itemsArrayList.addAll(posTransactionRes.getSalesLine());
         medicinesDetailAdapter.notifyDataSetChanged();
-        if (!isOnleneOrder())
-            mPresenter.calculatePosTransaction();
+        if (!isOnleneOrder()) mPresenter.calculatePosTransaction();
     }
 
     private String strTxnId = null, emiID = null;
@@ -2824,10 +2826,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogNoStockAvailableBinding.dialogButtonOK.setOnClickListener(v -> {
             dialog.dismiss();
-            if (calculatePosTransactionRes != null)
-                mPresenter.closeOrderVoidTransaction();
-            else
-                closeOrderSuccess();
+            if (calculatePosTransactionRes != null) mPresenter.closeOrderVoidTransaction();
+            else closeOrderSuccess();
         });
         dialog.show();
     }
@@ -3164,10 +3164,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                if (calculatePosTransactionRes != null)
-                    mPresenter.closeOrderVoidTransaction();
-                else
-                    closeOrderSuccess();
+                if (calculatePosTransactionRes != null) mPresenter.closeOrderVoidTransaction();
+                else closeOrderSuccess();
             }
         });
         dialogView.setNegativeLabel("No");
@@ -3225,8 +3223,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
                     }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
-                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 && String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.cardPaymentAmountEditText.setText(text.substring(0, text.length() - 1));
                         addItemBinding.cardPaymentAmountEditText.setSelection(addItemBinding.cardPaymentAmountEditText.getText().length());
                         if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCardMode()) {
@@ -3281,8 +3278,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
                     }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
-                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 && String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.cashPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         addItemBinding.cashPaymentAmountEdit.setSelection(addItemBinding.cashPaymentAmountEdit.getText().length());
                         if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCashMode()) {
@@ -3339,8 +3335,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         addItemBinding.creditPaymentAmountEdit.setText(addItemBinding.creditPaymentAmountEdit.getText().toString().replace("0", ""));
                     }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
-                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 && String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.creditPaymentAmountEdit.setText(text.substring(0, text.length() - 1));
                         addItemBinding.creditPaymentAmountEdit.setSelection(addItemBinding.creditPaymentAmountEdit.getText().length());
                         if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isCreditMode()) {
@@ -3397,8 +3392,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         addItemBinding.oneApolloAmountEditText.setText(addItemBinding.oneApolloAmountEditText.getText().toString().replace("0", ""));
                     }
                 } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 &&
-                            String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
+                    if (text.contains(".") && text.indexOf(".") != text.length() - 1 && String.valueOf(text.charAt(text.length() - 1)).equals(".")) {
                         addItemBinding.oneApolloAmountEditText.setText(text.substring(0, text.length() - 1));
                         addItemBinding.oneApolloAmountEditText.setSelection(addItemBinding.oneApolloAmountEditText.getText().length());
                         if (!TextUtils.isEmpty(text) && addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode() && paymentMethodModel.isOneApolloMode()) {

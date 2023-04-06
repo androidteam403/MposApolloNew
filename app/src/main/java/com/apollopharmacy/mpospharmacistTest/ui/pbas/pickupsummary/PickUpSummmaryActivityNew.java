@@ -1,6 +1,8 @@
 
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary;
 
+import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +45,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -55,8 +58,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
 public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSummaryMvpView {
     @Inject
@@ -456,12 +457,26 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                                 count++;
                                 reservedSalesLine.setLinedscAmount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
                                 reservedSalesLine.setMMGroupId(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
-                               if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")
-                               || selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("PAC0237")){
-                                   reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
-                               }else {
-                                   reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getMRP());
-                               }
+
+                                GetGlobalConfingRes getGlobalConfingRes = mPresenter.getGlobalConfigRes();
+                                boolean isoMSOrderDeliveryItem = false;
+                                for (int m = 0; m < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); m++) {
+                                    if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(m).equalsIgnoreCase(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId())) {
+                                        isoMSOrderDeliveryItem = true;
+                                        break;
+                                    }
+                                }
+                                if (isoMSOrderDeliveryItem) {
+                                    reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
+                                } else {
+                                    reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getMRP());
+                                }
+//                               if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002")
+//                               || selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("PAC0237")){
+//                                   reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
+//                               }else {
+//                                   reservedSalesLine.setMrp(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().get(l).getMRP());
+//                               }
                                 reservedSalesLine.setManufacturerCode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
                                 reservedSalesLine.setManufacturerName(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
                                 reservedSalesLine.setMixMode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());

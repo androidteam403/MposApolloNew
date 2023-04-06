@@ -507,6 +507,15 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
+        dialogFilterBinding.dispatchCuttoffText.setVisibility(View.GONE);
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setVisibility(View.GONE);
+        dialogFilterBinding.dispatchCuttoffView.setVisibility(View.GONE);
+
+        dialogFilterBinding.billdateTatText.setVisibility(View.GONE);
+        dialogFilterBinding.billDateFilter.setVisibility(View.GONE);
+
+
+
         stockAvailabilityFilterAdapter = new FilterItemAdapter(getContext(), stockAvailabilityFilterList);
         dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);

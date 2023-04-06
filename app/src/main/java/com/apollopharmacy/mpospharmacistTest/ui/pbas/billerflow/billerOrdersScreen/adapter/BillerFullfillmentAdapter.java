@@ -29,11 +29,17 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> filteredList = new ArrayList<>();
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
 
+    private boolean isDispatchCutoffTime = false;
+
     public BillerFullfillmentAdapter(Context context, List<OMSTransactionHeaderResModel.OMSHeaderObj> fullfillmentList, BillerOrdersMvpView mvpView) {
         this.context = context;
         this.omsHeaderList = fullfillmentList;
         this.fullfillmentList = fullfillmentList;
         this.mvpView = mvpView;
+    }
+
+    public void setDispatchCutoffTime(boolean isDispatchCutoffTime) {
+        this.isDispatchCutoffTime = isDispatchCutoffTime;
     }
 
     @NonNull
@@ -46,6 +52,18 @@ public class BillerFullfillmentAdapter extends RecyclerView.Adapter<BillerFullfi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OMSTransactionHeaderResModel.OMSHeaderObj fullfilmentModel = fullfillmentList.get(position);
+        if (isDispatchCutoffTime) {
+            if (position == 0 || !fullfillmentList.get(position).getShipmentTat().equalsIgnoreCase(fullfillmentList.get(position - 1).getShipmentTat())) {
+                holder.adapterBillerOrdersScreenBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
+                holder.adapterBillerOrdersScreenBinding.shipmentDateHeader.setText("Shipping  TAT : " + fullfilmentModel.getShipmentTat());
+            } else {
+                holder.adapterBillerOrdersScreenBinding.shipmentDateHeader.setVisibility(View.GONE);
+            }
+        } else {
+            holder.adapterBillerOrdersScreenBinding.shipmentDateHeader.setVisibility(View.GONE);
+        }
+
+
         holder.adapterBillerOrdersScreenBinding.fullfillmentID.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getREFNO());
         holder.adapterBillerOrdersScreenBinding.totalItems.setText(context.getResources().getString(R.string.label_space) + fullfilmentModel.getNumberofItemLines());
         holder.adapterBillerOrdersScreenBinding.orderSourceHeader.setText(fullfilmentModel.getVendorId());

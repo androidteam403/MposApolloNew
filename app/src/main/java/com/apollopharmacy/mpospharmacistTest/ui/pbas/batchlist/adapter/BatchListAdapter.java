@@ -320,6 +320,10 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
             holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
         }
+
+        if (salesLine.getPreferredBatch().equalsIgnoreCase(batchListModel.getBatchNo())){
+            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.pay_btn_color);
+        }
     }
 
 

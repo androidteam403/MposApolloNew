@@ -135,6 +135,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
     private PdfModelResponse pdfModelResponse;
     private String pdfTransactionId;
     private int pageBreakCount = 0;
+    private int shippingChargePackingCount = 0;
     private boolean duplicateCheckboxChecked = false;
     public static final String cambria = "src/main/res/font/cambriab.ttf";
     private final static int ITEXT_FONT_SIZE_EIGHT = 10;
@@ -1187,6 +1188,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         com.itextpdf.layout.Document document = new Document(pdfDocument, PageSize.A4);
         document.setMargins(15, 15, 15, 15);
         pageBreakCount = 0;
+        shippingChargePackingCount = 0;
         createPdfPageWise(pdfDocument, document, false);
         document.close();
         if (isStoragePermissionGranted()) {
@@ -1299,38 +1301,66 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         table4.addCell(new Cell().add(new Paragraph(new Text("Amount").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
         table4.addCell(new Cell().add(new Paragraph(new Text("GST%").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
         for (int i = pageBreakCount; i < pdfModelResponse.getSalesLine().size(); i++) {
-            PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
-            pageBreakCount++;
-            table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            String itemName = salesLine.getItemName().replace(" ", "\u00A0");
-            table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getSch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getHSNCode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getManufacturer()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            String batchNo = "";
-            if (salesLine.getBatchNo().length() > 12) {
-                batchNo = salesLine.getBatchNo().substring(0, 11);
-                batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+            if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 1 || pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 2) {
+                shippingChargePackingCount++;
             } else {
-                batchNo = salesLine.getBatchNo();
+                PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
+                pageBreakCount++;
+                table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                String itemName = salesLine.getItemName().replace(" ", "\u00A0");
+                table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getSch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getHSNCode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getManufacturer()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                String batchNo = "";
+                if (salesLine.getBatchNo().length() > 12) {
+                    batchNo = salesLine.getBatchNo().substring(0, 11);
+                    batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+                } else {
+                    batchNo = salesLine.getBatchNo();
+                }
+                table4.addCell(new Cell().add(new Paragraph(new Text(batchNo).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
+                    String expDate[] = salesLine.getExpDate().substring(2, 7).split("-");
+                    table4.addCell(new Cell().add(new Paragraph(new Text(expDate[1] + "-" + expDate[0]).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                } else {
+                    table4.addCell(new Cell().add(new Paragraph(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getMrp()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
+                table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (pageBreakCount % 5 == 0) {
+                    break;
+                }
             }
-            table4.addCell(new Cell().add(new Paragraph(new Text(batchNo).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
-                String expDate[] = salesLine.getExpDate().substring(2, 7).split("-");
-                table4.addCell(new Cell().add(new Paragraph(new Text(expDate[1] + "-" + expDate[0]).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            } else {
-                table4.addCell(new Cell().add(new Paragraph(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            }
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getMrp()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
-            table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            if (pageBreakCount % 5 == 0) {
-                break;
-            }
-
         }
+        float[] columnWidthEShippingPacking = {580};//580
+        Table tableEShippingPacking = new Table(columnWidthEShippingPacking);
+        Border borderEShippingPacking = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        tableEShippingPacking.setBorder(borderEShippingPacking);
+        String eShippingPacking = "";
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 1) {
+                if (eShippingPacking.isEmpty()) {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                } else {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = eShippingPacking + " | " + pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                }
+            } else if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 2) {
+                if (eShippingPacking.isEmpty()) {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                } else {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = eShippingPacking + " | " + pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                }
+            }
+        }
+        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
 
         float[] columnWidth5 = {144, 170, 122, 144};//580
 //        float columnWidth5[] = {140, 160, 120, 140};
@@ -1445,7 +1475,10 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         document.add(table2);
         document.add(table3);
         document.add(table4);
-        if (pageBreakCount == pdfModelResponse.getSalesLine().size()){
+        if (!eShippingPacking.isEmpty()) {
+            document.add(tableEShippingPacking);
+        }
+        if ((pageBreakCount + shippingChargePackingCount) == pdfModelResponse.getSalesLine().size()) {
             document.add(table5);
             document.add(table6);
             document.add(table7);
@@ -1453,13 +1486,14 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         }
 
 
-        if (pageBreakCount != pdfModelResponse.getSalesLine().size()) {
+        if ((pageBreakCount + shippingChargePackingCount) != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
             createPdfPageWise(pdfDocument, document, isDuplicate);
         } else {
             if (!isDuplicate && duplicateCheckboxChecked) {
                 document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 pageBreakCount = 0;
+                shippingChargePackingCount = 0;
                 createPdfPageWise(pdfDocument, document, true);
             }
         }

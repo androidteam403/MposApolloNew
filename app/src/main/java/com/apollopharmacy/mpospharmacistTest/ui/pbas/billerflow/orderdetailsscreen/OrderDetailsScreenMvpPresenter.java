@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpView> extends MvpPresenter<V> {
 
@@ -56,4 +57,5 @@ public interface OrderDetailsScreenMvpPresenter<V extends OrderDetailsScreenMvpV
 
     void getDoctorsList();
 
+    GetGlobalConfingRes getGlobalConfigRes();
 }

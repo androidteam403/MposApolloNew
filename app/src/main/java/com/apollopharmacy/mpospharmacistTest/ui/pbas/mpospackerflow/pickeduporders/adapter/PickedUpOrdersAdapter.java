@@ -27,12 +27,17 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
     private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
 
+    private boolean isDispatchCutoffTime = false;
 
     public PickedUpOrdersAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> fullfillmentList, PickedUpOrdersMvpView pickupProcessMvpView) {
         this.context = context;
         this.fullfillmentList = fullfillmentList;
         this.omsHeaderList = fullfillmentList;
         this.pickupProcessMvpView = pickupProcessMvpView;
+    }
+
+    public void setDispatchCutoffTime(boolean isDispatchCutoffTime) {
+        this.isDispatchCutoffTime = isDispatchCutoffTime;
     }
 
     @NonNull
@@ -46,6 +51,18 @@ public class PickedUpOrdersAdapter extends RecyclerView.Adapter<PickedUpOrdersAd
     @Override
     public void onBindViewHolder(@NonNull PickedUpOrdersAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = fullfillmentList.get(position);
+
+        if (isDispatchCutoffTime) {
+            if (position == 0 || !fullfillmentList.get(position).getShipmentTat().equalsIgnoreCase(fullfillmentList.get(position - 1).getShipmentTat())) {
+                holder.orderBinding.shipmentTat.setVisibility(View.VISIBLE);
+                holder.orderBinding.shipmentTat.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
+            } else {
+                holder.orderBinding.shipmentTat.setVisibility(View.GONE);
+            }
+        } else {
+            holder.orderBinding.shipmentTat.setVisibility(View.GONE);
+        }
+
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
         holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.orderBinding.orderSourceHeader.setText(omsHeader.getVendorId());

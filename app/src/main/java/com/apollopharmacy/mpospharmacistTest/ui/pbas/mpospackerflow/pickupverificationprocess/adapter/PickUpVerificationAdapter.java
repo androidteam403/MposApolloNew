@@ -56,7 +56,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
         holder.adapterPickupVerificationBinding.productName.setText(salesLine.getItemName() != null && !salesLine.getItemName().isEmpty() ? salesLine.getItemName() : "-");
         holder.adapterPickupVerificationBinding.capturesQty.setText(salesLine.getPickedQty() != null && !salesLine.getPickedQty().isEmpty() ? salesLine.getPickedQty() : "0");
         holder.adapterPickupVerificationBinding.availableQty.setText("/" + String.valueOf(salesLine.getQty()));
-
+        holder.adapterPickupVerificationBinding.prefferedBatchNo.setText(salesLine.getPreferredBatch());
         if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("FULL")) {
             holder.adapterPickupVerificationBinding.pickerStatusIcon.setRotation(0);
             holder.adapterPickupVerificationBinding.pickerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));

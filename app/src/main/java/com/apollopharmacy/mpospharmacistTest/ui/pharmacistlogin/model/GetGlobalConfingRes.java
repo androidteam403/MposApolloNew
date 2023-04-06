@@ -6,7 +6,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GetGlobalConfingRes {
+    //
+    @Expose
+    @SerializedName("OMSOrderDeliveryItemId")
+    private List<String> oMSOrderDeliveryItemId;
 
+    public List<String> getoMSOrderDeliveryItemId() {
+        return oMSOrderDeliveryItemId;
+    }
+
+    public void setoMSOrderDeliveryItemId(List<String> oMSOrderDeliveryItemId) {
+        this.oMSOrderDeliveryItemId = oMSOrderDeliveryItemId;
+    }
 
     @Expose
     @SerializedName("SuspendDeleteDays")

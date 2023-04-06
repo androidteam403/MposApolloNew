@@ -53,6 +53,7 @@ public class OrderDetailsScreenAdapter extends RecyclerView.Adapter<OrderDetails
         holder.adapterOrderDetailsScreenBinding.productName.setText(fullfillmentDetail.getItemName());
         holder.adapterOrderDetailsScreenBinding.rackId.setText(fullfillmentDetail.getRackId());
         holder.adapterOrderDetailsScreenBinding.availableQty.setText("/" + Math.round(fullfillmentDetail.getQty()));
+        holder.adapterOrderDetailsScreenBinding.prefferedBatchNo.setText(fullfillmentDetail.getPreferredBatch());
         if (responseList != null) {
             double pickedUpQty = 0.0;
             for (PickPackReservation pickPackReservation : responseList) {

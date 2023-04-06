@@ -48,13 +48,11 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
         holder.fulfilmentDetailsBinding.productName.setText(salesLine.getItemName());
-        holder.fulfilmentDetailsBinding.batchNo.setText("-");
-        holder.fulfilmentDetailsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
+        holder.fulfilmentDetailsBinding.prefferedBatchNo.setText(salesLine.getPreferredBatch());
+        holder.fulfilmentDetailsBinding.apolloMrp.setText(String.valueOf(salesLine.getPrice()));
         holder.fulfilmentDetailsBinding.rackId.setText(salesLine.getRackId());
         holder.fulfilmentDetailsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
-        holder.fulfilmentDetailsBinding.apolloMrp.setText("-");
-
-
+        holder.fulfilmentDetailsBinding.stripMrp.setText("-");
 
 
     }

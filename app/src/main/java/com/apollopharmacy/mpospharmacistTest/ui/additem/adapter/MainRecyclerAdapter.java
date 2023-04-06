@@ -1,6 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.ExitInfoDialogBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.ListItemMainBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
@@ -63,7 +67,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         holder.listItemMainBinding.setProduct(item);
         if (item.getIsVoid()) {
             holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(false);
-        }else {
+        } else {
             holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(true);
         }
         if (item.getCategoryCode().equalsIgnoreCase("P")) {
@@ -103,7 +107,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                 }
                             } else {
                                 if (addItemMvpView != null) {
-                                    addItemMvpView.onItemDeleted(item.getLineNo());
+//                                    if (item.getItemId().equalsIgnoreCase("ESH0002") || item.getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        showMessagePopup("Cant void " + item.getItemName());
+//                                    } else {
+                                        addItemMvpView.onItemDeleted(item.getLineNo(), item);
+//                                    }
+
                                 }
                             }
                             mItemTouchHelperExtension.closeOpened();
@@ -153,6 +162,31 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             }
 
         });
+    }
+
+    private void showMessagePopup(String message) {
+        Dialog showMessagePopup = new Dialog(mContext);
+        ExitInfoDialogBinding exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.exit_info_dialog, null, false);
+        showMessagePopup.setCancelable(false);
+        showMessagePopup.setContentView(exitInfoDialogBinding.getRoot());
+        if (showMessagePopup.getWindow() != null)
+            showMessagePopup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        exitInfoDialogBinding.title.setVisibility(View.VISIBLE);
+        exitInfoDialogBinding.title.setText(message);
+
+        exitInfoDialogBinding.subtitle.setVisibility(View.GONE);
+        exitInfoDialogBinding.subtitle.setText(message);
+        exitInfoDialogBinding.dialogButtonNO.setVisibility(View.GONE);
+//        exitInfoDialogBinding.sepe
+        exitInfoDialogBinding.dialogButtonOK.setText("OK");
+        exitInfoDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessagePopup.dismiss();
+            }
+        });
+        showMessagePopup.show();
+
     }
 
     private void doDelete(int adapterPosition) {

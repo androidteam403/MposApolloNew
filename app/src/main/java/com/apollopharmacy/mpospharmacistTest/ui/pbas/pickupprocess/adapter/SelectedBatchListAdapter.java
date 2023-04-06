@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSelectedBatchesBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
 import java.util.List;
 
@@ -19,11 +20,12 @@ public class SelectedBatchListAdapter extends RecyclerView.Adapter<SelectedBatch
 
     Context context;
     List<GetBatchInfoRes.BatchListObj> batchList;
+    GetOMSTransactionResponse.SalesLine salesLine;
 
-    public SelectedBatchListAdapter(Context context, List<GetBatchInfoRes.BatchListObj> batchList) {
+    public SelectedBatchListAdapter(Context context, List<GetBatchInfoRes.BatchListObj> batchList, GetOMSTransactionResponse.SalesLine salesLine) {
         this.context = context;
         this.batchList = batchList;
-
+        this.salesLine = salesLine;
     }
 
     @NonNull
@@ -39,8 +41,9 @@ public class SelectedBatchListAdapter extends RecyclerView.Adapter<SelectedBatch
         holder.adapterSelectedBatchesBinding.batchno.setText(batchListObj.getBatchNo());
         holder.adapterSelectedBatchesBinding.expDate.setText(batchListObj.getExpDate());
         holder.adapterSelectedBatchesBinding.mrp.setText(String.valueOf(batchListObj.getMRP()));
-        int qty= (int) batchListObj.getREQQTY();
+        int qty = (int) batchListObj.getREQQTY();
         holder.adapterSelectedBatchesBinding.requiredQuantity.setText(String.valueOf(qty));
+        holder.adapterSelectedBatchesBinding.prefferedBatchno.setText(salesLine.getPreferredBatch());
     }
 
     @Override

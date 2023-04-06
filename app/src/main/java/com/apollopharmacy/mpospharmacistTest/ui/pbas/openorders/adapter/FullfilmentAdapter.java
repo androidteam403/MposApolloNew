@@ -74,7 +74,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         if (isDispatchCutoffTime) {
             if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping Date : " + omsHeader.getShipmentTat());
+                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
             } else {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
             }
@@ -90,7 +90,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
         holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
-        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getVendorId());
+        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getReciptId());
         holder.fullfilmentBinding.deliveryDatePickpack.setText(omsHeader.getDeliveryDate());
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));

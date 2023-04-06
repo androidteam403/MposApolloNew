@@ -61,11 +61,11 @@
                 android:id="@+id/quantity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_dimen_15"
                 android:layout_weight=".15"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1/1"
                 android:textAlignment="center"
-                android:layout_marginRight="@dimen/text_dimen_15"
                 android:textColor="@color/black"
                 android:textSize="13dp" />
 
@@ -201,20 +201,31 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
-android:paddingStart="@dimen/dimen5dp"
-                android:text="@string/batch_no"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
+                android:paddingStart="@dimen/dimen5dp"
+                android:text="@string/batch_no"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/eight_sp" />
+
+            <TextView
+                android:id="@+id/preffered_batchno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="@dimen/dimen5dp"
+                android:text="Preferred Batch"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
+                android:layout_weight=".2"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:text="@string/label_exp_date"
-                android:fontFamily="@font/roboto_regular"
 
                 android:textColor="@color/grey"
                 android:textSize="@dimen/eight_sp" />
@@ -222,9 +233,9 @@ android:paddingStart="@dimen/dimen5dp"
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
-                android:gravity="center"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
 
                 android:text="@string/label_mrp"
                 android:textColor="@color/grey"
@@ -233,7 +244,7 @@ android:paddingStart="@dimen/dimen5dp"
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".25"
+                android:layout_weight=".2"
                 android:fontFamily="@font/roboto_regular"
 
                 android:gravity="center"

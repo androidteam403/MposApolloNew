@@ -389,7 +389,17 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 onClickCashPaymentPay();
                             }
                         } else {
-                            getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            if (response.body().getReturnMessage().contains("THE RECORD ALREADY EXISTS")) {
+                                getMvpView().getCustomerModule().setExistingCustomerOrNot(true);
+                                if (getMvpView().getCustomerModule().isCardPayment()) {
+                                    onClickCardPayment();
+                                } else {
+                                    onClickCashPaymentPay();
+                                }
+                            } else {
+                                getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            }
+
                         }
                     }
                 }
@@ -511,33 +521,56 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void onClickVendorPayMode() {
         if (Singletone.getInstance().itemsArrayList != null && Singletone.getInstance().itemsArrayList.size() > 0) {
-            if (Singletone.getInstance().itemsArrayList.size() == 1) {
-                if (Singletone.getInstance().itemsArrayList.get(0).getItemId().equals("ESH0002")) {
-                    showMessagePopup("The Order contain only E shop shipping charge.");
-                } else {
-                    if (!Singletone.getInstance().itemsArrayList.get(0).getIsVoid()) {
-                        getMvpView().getCustomerModule().setCardPayment(false);
-                        doPayment(7);
-                    } else {
-                        showMessagePopup("No Items available");
-                    }
-                }
-            } else {
-                boolean isAllVoid = true;
-                for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
-                    if (!Singletone.getInstance().itemsArrayList.get(i).getItemId().equals("ESH0002")) {
-                        if (!Singletone.getInstance().itemsArrayList.get(i).getIsVoid()) {
-                            isAllVoid = false;
+
+            GetGlobalConfingRes getGlobalConfingRes = getGlobalConfiguration();
+            boolean isAlloMSOrderDeliveryItem = false;
+            for (int o = 0; o < Singletone.getInstance().itemsArrayList.size(); o++) {
+                boolean isAlloMSOrderDeliveryItemOne = false;
+                if (!Singletone.getInstance().itemsArrayList.get(o).getIsVoid()) {
+                    for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                        if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(Singletone.getInstance().itemsArrayList.get(o).getItemId())) {
+                            isAlloMSOrderDeliveryItemOne = true;
                         }
                     }
-                }
-                if (isAllVoid){
-                    showMessagePopup("No Items available");
-                }else{
-                    getMvpView().getCustomerModule().setCardPayment(false);
-                    doPayment(7);
+                    if (!isAlloMSOrderDeliveryItemOne) {
+                        isAlloMSOrderDeliveryItem = true;
+                    }
                 }
             }
+            if (isAlloMSOrderDeliveryItem) {
+                getMvpView().getCustomerModule().setCardPayment(false);
+                doPayment(7);
+            } else {
+                showMessagePopup("No Items available");
+            }
+
+//            if (Singletone.getInstance().itemsArrayList.size() == 1) {
+//                if (Singletone.getInstance().itemsArrayList.get(0).getItemId().equals("ESH0002")) {
+//                    showMessagePopup("The Order contain only E shop shipping charge.");
+//                } else {
+//                    if (!Singletone.getInstance().itemsArrayList.get(0).getIsVoid()) {
+//                        getMvpView().getCustomerModule().setCardPayment(false);
+//                        doPayment(7);
+//                    } else {
+//                        showMessagePopup("No Items available");
+//                    }
+//                }
+//            } else {
+//                boolean isAllVoid = true;
+//                for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
+//                    if (!Singletone.getInstance().itemsArrayList.get(i).getItemId().equals("ESH0002")) {
+//                        if (!Singletone.getInstance().itemsArrayList.get(i).getIsVoid()) {
+//                            isAllVoid = false;
+//                        }
+//                    }
+//                }
+//                if (isAllVoid){
+//                    showMessagePopup("No Items available");
+//                }else{
+//                    getMvpView().getCustomerModule().setCardPayment(false);
+//                    doPayment(7);
+//                }
+//            }
         } else {
             showMessagePopup("No Items available");
         }

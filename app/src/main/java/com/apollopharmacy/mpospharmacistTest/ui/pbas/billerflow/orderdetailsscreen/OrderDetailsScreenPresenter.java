@@ -18,6 +18,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
@@ -483,6 +484,11 @@ public class OrderDetailsScreenPresenter<V extends OrderDetailsScreenMvpView> ex
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 
     @Override

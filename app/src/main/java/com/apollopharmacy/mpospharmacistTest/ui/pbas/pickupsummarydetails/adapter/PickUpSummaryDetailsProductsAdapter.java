@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterPickupSummaryDetailsProductsPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.SelectedBatchListAdapter;
 
 import java.util.List;
 
 public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<PickUpSummaryDetailsProductsAdapter.ViewHolder> {
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     public Context context;
-   private String itemStatus;
+    private String itemStatus;
 
     public PickUpSummaryDetailsProductsAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList) {
         this.context = context;
@@ -46,17 +45,19 @@ public class PickUpSummaryDetailsProductsAdapter extends RecyclerView.Adapter<Pi
 //
 
 
-        if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")){
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
-        }if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("FULL")){
+        }
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
-        }  if(salesLine.getStatus()!=null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
+        }
+        if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
         }
-        if(salesLine.getGetBatchInfoRes()!=null){
+        if (salesLine.getGetBatchInfoRes() != null) {
             holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
-            PickUpSummaryBatchesAdapter pickUpSummaryBatchesAdapter = new PickUpSummaryBatchesAdapter( context, salesLine.getGetBatchInfoRes().getBatchList());
+            PickUpSummaryBatchesAdapter pickUpSummaryBatchesAdapter = new PickUpSummaryBatchesAdapter(context, salesLine.getGetBatchInfoRes().getBatchList(), salesLine);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(pickUpSummaryBatchesAdapter);

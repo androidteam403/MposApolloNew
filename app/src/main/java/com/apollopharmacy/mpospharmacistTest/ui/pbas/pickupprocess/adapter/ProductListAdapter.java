@@ -67,7 +67,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
         if (salesLine.getGetBatchInfoRes() != null) {
-            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList());
+            SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList(), salesLine);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.productListBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.productListBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);

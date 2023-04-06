@@ -5,18 +5,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dimen4dp"
-        android:background="@drawable/square_stroke_bg">
+        android:layout_marginBottom="@dimen/dimen4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/shipment_date_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dimen5dp"
+                android:text="Something"
+                android:textColor="@color/black"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:id="@+id/order_child_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/square_stroke_bg"
                 android:padding="@dimen/dimen5dp">
 
 
@@ -251,12 +261,13 @@
                             android:text="@string/label_on_hold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen10sp" />
+
                         <LinearLayout
                             android:id="@+id/delivery_date_layout"
-                            android:layout_marginEnd="@dimen/dimen5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen5dp"
+                            android:layout_marginEnd="@dimen/dimen5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -268,12 +279,12 @@
                                 android:textSize="@dimen/nine_sp" />
 
                             <TextView
-                                android:gravity="center"
-                                android:layout_gravity="center"
                                 android:id="@+id/delivery_date_pickpack"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:fontFamily="@font/roboto_regular"
+                                android:gravity="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/nine_sp" />
                         </LinearLayout>

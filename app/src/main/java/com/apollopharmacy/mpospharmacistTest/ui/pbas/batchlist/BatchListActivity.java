@@ -110,7 +110,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
         batchlistBinding.apolloMrp.setText("Apollo 24/7 Mrp : " + (salesLine.getMrp()));
-
+        batchlistBinding.preferredBatch.setText(salesLine.getPreferredBatch());
         searchByFulfilmentId();
 
     }
@@ -311,8 +311,26 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     }
                 }
             }
-
-
+            if (!salesLine.getPreferredBatch().isEmpty()) {
+                boolean isPrefferdBatchAvailable = false;
+                for (int i = 0; i < body.size(); i++) {
+                    if (salesLine.getPreferredBatch().equalsIgnoreCase(body.get(i).getBatchNo())) {
+                        isPrefferdBatchAvailable = true;
+                        if (Double.valueOf(body.get(i).getQ_O_H()) >= salesLine.getQty()) {
+                            batchlistBinding.prefferedBatchStatus.setText("Preferred batch Fully available");
+                            break;
+                        } else {
+                            batchlistBinding.prefferedBatchStatus.setText("Preferred batch Partially available");
+                            break;
+                        }
+                    }
+                }
+                if (!isPrefferdBatchAvailable) {
+                    batchlistBinding.prefferedBatchStatus.setText("Preferred batch not available in this store");
+                }
+            } else {
+                batchlistBinding.prefferedBatchStatus.setText("Preferred batch is empty.");
+            }
             batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);

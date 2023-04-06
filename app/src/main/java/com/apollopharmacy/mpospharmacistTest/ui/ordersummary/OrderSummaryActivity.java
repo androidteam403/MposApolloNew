@@ -24,7 +24,6 @@ import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
@@ -40,7 +39,6 @@ import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -62,26 +60,9 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
-import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.PDFCreatorActivity;
-import com.apollopharmacy.mpospharmacistTest.custumpdf.utils.PDFUtil;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFBody;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFFooterView;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFHeaderView;
@@ -100,18 +81,24 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PaymentMethodModel
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.adapter.PdfAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
+import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
@@ -157,6 +144,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
     String transactionId;
     private boolean isActivityFinished;
     private int pageBreakCount = 0;
+    private int shippingChargePackingCount = 0;
     private boolean duplicateCheckboxChecked = false;
     public static final String cambria = "src/main/res/font/cambriab.ttf";
     private final static int ITEXT_FONT_SIZE_EIGHT = 10;
@@ -1339,6 +1327,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         fgPaintSel.setPathEffect(new DashPathEffect(new float[]{5, 10}, 0));
         return sd;
     }
+
     public void justify(final TextView textView) {
 
         final AtomicBoolean isJustify = new AtomicBoolean(false);
@@ -1421,12 +1410,14 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         com.itextpdf.layout.Document document = new Document(pdfDocument, PageSize.A4);
         document.setMargins(15, 15, 15, 15);
         pageBreakCount = 0;
+        shippingChargePackingCount = 0;
         createPdfPageWise(pdfDocument, document, false);
         document.close();
         if (isStoragePermissionGranted()) {
             openPdf();
         }
     }
+
     public static final String REGULAR =
             "res/font/gothic_regular.TTF";
     public static final String BOLD =
@@ -1533,38 +1524,67 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         table4.addCell(new Cell().add(new Paragraph(new Text("Amount").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
         table4.addCell(new Cell().add(new Paragraph(new Text("GST%").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(border4));
         for (int i = pageBreakCount; i < pdfModelResponse.getSalesLine().size(); i++) {
-            PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
-            pageBreakCount++;
-            table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            String itemName = salesLine.getItemName().replace(" ", "\u00A0");
-            table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getSch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getHSNCode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getManufacturer()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            String batchNo = "";
-            if (salesLine.getBatchNo().length() > 12) {
-                batchNo = salesLine.getBatchNo().substring(0, 11);
-                batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+            if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 1 || pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 2) {
+                shippingChargePackingCount++;
             } else {
-                batchNo = salesLine.getBatchNo();
+                PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
+                pageBreakCount++;
+                table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                String itemName = salesLine.getItemName().replace(" ", "\u00A0");
+                table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getSch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getHSNCode()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getManufacturer()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                String batchNo = "";
+                if (salesLine.getBatchNo().length() > 12) {
+                    batchNo = salesLine.getBatchNo().substring(0, 11);
+                    batchNo = batchNo + "\n" + salesLine.getBatchNo().substring(12);
+                } else {
+                    batchNo = salesLine.getBatchNo();
+                }
+                table4.addCell(new Cell().add(new Paragraph(new Text(batchNo).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
+                    String expDate[] = salesLine.getExpDate().substring(2, 7).split("-");
+                    table4.addCell(new Cell().add(new Paragraph(new Text(expDate[1] + "-" + expDate[0]).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                } else {
+                    table4.addCell(new Cell().add(new Paragraph(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getMrp()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
+                table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (pageBreakCount % 5 == 0) {
+                    break;
+                }
             }
-            table4.addCell(new Cell().add(new Paragraph(new Text(batchNo).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            if (salesLine.getExpDate() != null && salesLine.getExpDate().length() > 5) {
-                String expDate[] = salesLine.getExpDate().substring(2, 7).split("-");
-                table4.addCell(new Cell().add(new Paragraph(new Text(expDate[1] + "-" + expDate[0]).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            } else {
-                table4.addCell(new Cell().add(new Paragraph(new Text("--").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            }
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getMrp()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getLineTotAmount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            Double gst = Double.parseDouble(salesLine.getSGSTPer()) + Double.parseDouble(salesLine.getCGSTPer());
-            table4.addCell(new Cell().add(new Paragraph(new Text(String.format("%.02f", gst)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-            if (pageBreakCount % 5 == 0) {
-                break;
-            }
-
         }
+        float[] columnWidthEShippingPacking = {580};//580
+        Table tableEShippingPacking = new Table(columnWidthEShippingPacking);
+        Border borderEShippingPacking = new SolidBorder(new DeviceRgb(192, 192, 192), 1);
+        tableEShippingPacking.setBorder(borderEShippingPacking);
+        String eShippingPacking = "";
+        for (int i = 0; i < pdfModelResponse.getSalesLine().size(); i++) {
+            if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 1) {
+                if (eShippingPacking.isEmpty()) {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                } else {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = eShippingPacking + " | " + pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                }
+            } else if (pdfModelResponse.getSalesLine().get(i).getIsShippingCharge() == 2) {
+                if (eShippingPacking.isEmpty()) {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                } else {
+                    Double gst = Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getSGSTPer()) + Double.parseDouble(pdfModelResponse.getSalesLine().get(i).getCGSTPer());
+                    eShippingPacking = eShippingPacking + " | " + pdfModelResponse.getSalesLine().get(i).getItemName() + ":" + pdfModelResponse.getSalesLine().get(i).getMrp() + ", SAC:-" + ", GST:" + String.format("%.02f", gst) + "%";
+                }
+            }
+        }
+        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
+
 
         float[] columnWidth5 = {144, 170, 122, 144};//580
 //        float columnWidth5[] = {140, 160, 120, 140};
@@ -1611,7 +1631,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 //        table6.setBorder(new SolidBorder(1));
         table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
         table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. "+ pdfModelResponse.getSalesHeader().get(0).getDiscount()+"& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
 
 
         float[] columnWidth7 = {290, 290};//580
@@ -1623,8 +1643,8 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         double netAmout = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal());
         String rupeesInput = "\"Rupees\"";
         String onlyInput = "\"only\"";
-        String rupees = rupeesInput.substring( 0,rupeesInput.length() - 1);
-        String only = onlyInput.substring( 1);
+        String rupees = rupeesInput.substring(0, rupeesInput.length() - 1);
+        String only = onlyInput.substring(1);
 //        System.out.println("Input: " + input);
 //        System.out.println("Result: " + result);
         table7.addCell(new Cell().add(new Paragraph(new Text((rupees + " " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " " + only)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER));
@@ -1655,7 +1675,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 
         table8.addCell(new Cell().add(new Paragraph(new Text("Wishing You Speedy Recovery").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
         table8.addCell(new Cell(1, 1).add(new Paragraph(new Text("Scan QR Code For\nRefill/Reorder").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
-        table8.addCell(new Cell(4, 1).add(image2.setMargins(0,0,0,0).setPadding(0)).setPadding(0).setMargin(0).setBorder(Border.NO_BORDER));
+        table8.addCell(new Cell(4, 1).add(image2.setMargins(0, 0, 0, 0).setPadding(0)).setPadding(0).setMargin(0).setBorder(Border.NO_BORDER));
         table8.addCell(new Cell().add(new Paragraph(new Text("For ").setFontSize(8).setFont(font)).add(new Text("APOLLO PHARMACY\n").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("Registered pharmacist").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
 
         table8.addCell(new Cell().add(new Paragraph(new Text("\"QR Code was digitally displayed for the Customer at the time of the transaction\"").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
@@ -1677,7 +1697,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         document.add(table2);
         document.add(table3);
         document.add(table4);
-        if (pageBreakCount == pdfModelResponse.getSalesLine().size()){
+        if (!eShippingPacking.isEmpty()) {
+            document.add(tableEShippingPacking);
+        }
+        if ((pageBreakCount + shippingChargePackingCount) == pdfModelResponse.getSalesLine().size()) {
             document.add(table5);
             document.add(table6);
             document.add(table7);
@@ -1685,13 +1708,14 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         }
 
 
-        if (pageBreakCount != pdfModelResponse.getSalesLine().size()) {
+        if ((pageBreakCount + shippingChargePackingCount) != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
             createPdfPageWise(pdfDocument, document, isDuplicate);
         } else {
             if (!isDuplicate && duplicateCheckboxChecked) {
                 document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 pageBreakCount = 0;
+                shippingChargePackingCount = 0;
                 createPdfPageWise(pdfDocument, document, true);
             }
         }
@@ -1734,7 +1758,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             // view using .setimagebitmap method.
             if (qrCodeData != null) {
 //                 bitmapImg.setImageBitmap(bitmap);
-                bitmap1= bitmap;
+                bitmap1 = bitmap;
             }
         } catch (com.google.zxing.WriterException e) {
             // this method is called for

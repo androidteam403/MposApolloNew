@@ -46,6 +46,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.printf.manager.BluetoothManager;
 import com.printf.manager.PrintfTSPLManager;
@@ -480,11 +481,26 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                         reservedSalesLine.setLineNo(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLineNo());
                         reservedSalesLine.setLinedscAmount(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getLinedscAmount());
                         reservedSalesLine.setMMGroupId(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMMGroupId());
-                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("PAC0237")) {
+
+                        GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
+                        boolean isoMSOrderDeliveryItem = false;
+                        for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                            if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId())) {
+                                isoMSOrderDeliveryItem = true;
+                                break;
+                            }
+                        }
+                        if (isoMSOrderDeliveryItem) {
                             reservedSalesLine.setMrp(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
                         } else {
                             reservedSalesLine.setMrp(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPrice());
                         }
+
+//                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getItemId().equalsIgnoreCase("PAC0237")) {
+//                            reservedSalesLine.setMrp(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMrp());
+//                        } else {
+//                            reservedSalesLine.setMrp(omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(m).getPrice());
+//                        }
                         reservedSalesLine.setManufacturerCode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerCode());
                         reservedSalesLine.setManufacturerName(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getManufacturerName());
                         reservedSalesLine.setMixMode(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(k).getMixMode());
@@ -598,24 +614,51 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                 activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
                 if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
                     for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
-                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("PAC0237")) {
-                            String itemId = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId();
-                            int qty = 0;
-                            for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
+                        GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
+                        for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                            if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId())) {
+//                                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("PAC0237")) {
+                                    String itemId = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId();
+                                    int qty = 0;
+                                    for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
 
-                                if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals(itemId)) {
-                                    qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
-                                }
-                            }
-                            if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
-                            } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
-                            } else if (qty <= 0) {
-                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
-                            }
+                                        if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals(itemId)) {
+                                            qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
+                                        }
+                                    }
+                                    if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
+                                    } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
+                                    } else if (qty <= 0) {
+                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
+                                    }
 
+//                                }
+                            }
                         }
+
+
+
+
+//                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("PAC0237")) {
+//                            String itemId = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId();
+//                            int qty = 0;
+//                            for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
+//
+//                                if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals(itemId)) {
+//                                    qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
+//                                }
+//                            }
+//                            if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+//                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
+//                            } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+//                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
+//                            } else if (qty <= 0) {
+//                                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
+//                            }
+//
+//                        }
                     }
                 }
                 reSendVerPickVernEableChecked();

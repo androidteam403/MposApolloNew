@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -223,11 +224,11 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                         //Dismiss Dialog
 
                         if (response.isSuccessful() && response.body().getBatchList().size() == 0 || response.body().getBatchList() == null) {
-                            getMvpView().onFailedBatchInfo(response.body());
+                            getMvpView().onFailedBatchInfo(response.body(), isRackAdapterClick);
                         } else if (response.isSuccessful() && response.body().getBatchList() != null && response.body().getBatchList().size() > 0) {
                             getMvpView().onSuccessBatchInfo(response.body().getBatchList(), isRackAdapterClick);
                         } else {
-                            getMvpView().onFailedBatchInfo(response.body());
+                            getMvpView().onFailedBatchInfo(response.body(), isRackAdapterClick);
                         }
 
                     }
@@ -487,6 +488,11 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
             });
         }
 
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 
     @Override

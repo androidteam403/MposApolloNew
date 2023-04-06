@@ -90,12 +90,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Batch No"
+                        android:text="Preferred Batch"
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/eight_sp" />
 
                     <TextView
-                        android:id="@+id/batch_no"
+                        android:id="@+id/preffered_batch_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"

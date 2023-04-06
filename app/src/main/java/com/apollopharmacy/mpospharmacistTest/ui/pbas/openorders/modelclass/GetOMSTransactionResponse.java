@@ -438,6 +438,10 @@ public class GetOMSTransactionResponse implements Serializable {
 
         private String status;
 
+        @SerializedName("PreferredBatch")
+        @Expose
+        private String PreferredBatch;
+
         public String getPackerStatus() {
             return packerStatus;
         }
@@ -452,6 +456,14 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getPreferredBatch() {
+            return PreferredBatch;
+        }
+
+        public void setPreferredBatch(String preferredBatch) {
+            PreferredBatch = preferredBatch;
         }
 
         private boolean Resqtyflag;

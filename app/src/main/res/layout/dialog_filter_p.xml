@@ -78,12 +78,13 @@
                     android:background="#A9A9A9" />
 
                 <TextView
+                    android:id="@+id/dispatch_cuttoff_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Dispatch Cutoff Time"
+                    android:text="Shipping  TAT"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 
@@ -96,17 +97,19 @@
                     android:layout_marginEnd="@dimen/five_dp" />
 
                 <View
+                    android:id="@+id/dispatch_cuttoff_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen3dp"
                     android:background="#A9A9A9" />
 
                 <TextView
+                    android:id="@+id/billdate_tat_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:layout_marginTop="@dimen/dimen18sp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Bill Date"
+                    android:text="Billing TAT"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen14sp" />
 

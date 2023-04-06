@@ -147,7 +147,7 @@ public interface AddItemMvpView extends MvpView {
 
     void isManualDisc(boolean isManualDisc);
 
-    void onItemDeleted(int lineNumber);
+    void onItemDeleted(int lineNumber, SalesLineEntity item);
 
     void onItemAdded(int lineNumber);
 

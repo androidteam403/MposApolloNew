@@ -6,6 +6,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.ForwardToPickerRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -31,4 +32,5 @@ public interface PickUpSummaryMvpPresenter<V extends PickUpSummaryMvpView> exten
 
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
+    GetGlobalConfingRes getGlobalConfigRes();
 }

@@ -30,16 +30,22 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -59,8 +65,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     private static final int ORDERDETAILS_SCREEN_ACTIVITY = 108;
     public static boolean billerActivityScanner = false;
 
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter;
-
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, shippingTatFilterAdapter, billDateTatFilterAdapter;
+    private boolean isShiipimentDateFiltered = false;
     // Main filters headers
     private List<FilterModel> customerTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderTypeFilterList = new ArrayList<>();
@@ -68,6 +74,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     private List<FilterModel> paymentTypeFilterList = new ArrayList<>();
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
+    private List<FilterModel> shippmentTatFilterList = new ArrayList<>();// new
+    private List<FilterModel> billDateTatFilterList = new ArrayList<>();// new
 
     // Temp filters headers list
     private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
@@ -76,6 +84,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     private List<FilterModel> paymentTypeFilterListTemp = new ArrayList<>();
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
+    private List<FilterModel> billDateTatFilterListTemp = new ArrayList<>();// new
+    private List<FilterModel> shippmentTatFilterListTemp = new ArrayList<>();// new
 
     public static Intent getStartIntent(Context mContext) {
         Intent i = new Intent(mContext, BillerOrdersActivity.class);
@@ -334,7 +344,22 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             stockAvailabilityModel.setName(filterModel.getName());
             stockAvailabilityFilterListTemp.add(stockAvailabilityModel);
         }
+        shippmentTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : shippmentTatFilterList) {
+            FilterModel shippingTatModel = new FilterModel();
+            shippingTatModel.setSelected(filterModel.isSelected());
+            shippingTatModel.setName(filterModel.getName());
+            shippmentTatFilterListTemp.add(shippingTatModel);
+        }
 
+        //
+        billDateTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : billDateTatFilterList) {
+            FilterModel billDateTatModel = new FilterModel();
+            billDateTatModel.setSelected(filterModel.isSelected());
+            billDateTatModel.setName(filterModel.getName());
+            billDateTatFilterListTemp.add(billDateTatModel);
+        }
     }
 
     @Override
@@ -358,6 +383,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 this.paymentTypeFilterList = paymentTypeFilterListTemp;
                 this.orderSourceFilterList = orderSourceFilterListTemp;
                 this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
+                this.shippmentTatFilterList = shippmentTatFilterListTemp;
+                this.billDateTatFilterList = billDateTatFilterListTemp;
 
                 filterDialog.dismiss();
                 hideLoading();
@@ -415,6 +442,8 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 boolean isOrderSourceContain = false;
                 boolean isStockAvailabilityContain = false;
                 boolean isPickUpStatusContain = false;
+                boolean isShippmentTatContain = false;
+                boolean isBillDateTatContain = false;
 
 
                 // customer type filter list.
@@ -510,6 +539,36 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
                 if (!isStockAvailabilityContain) {
                     stockAvailabilityFilterList.add(filterModel);
                 }
+
+                // shipping tat filter list.
+                filterModel = new FilterModel();
+                filterModel.setName(omsHeaderList.get(i).getShipmentTat());
+
+                filterModel.setSelected(false);
+                for (int j = 0; j < shippmentTatFilterList.size(); j++) {
+                    if (shippmentTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                        isShippmentTatContain = true;
+                    }
+                }
+                if (!isShippmentTatContain) {
+                    shippmentTatFilterList.add(filterModel);
+                }
+
+                // Bill Date tat filter list.
+                filterModel = new FilterModel();
+                filterModel.setName(omsHeaderList.get(i).getBillingTat());
+
+                filterModel.setSelected(false);
+                for (int j = 0; j < billDateTatFilterList.size(); j++) {
+                    if (billDateTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                        isBillDateTatContain = true;
+                    }
+                }
+                if (!isBillDateTatContain) {
+                    billDateTatFilterList.add(filterModel);
+                }
+
+
             }
             applyOrderFilters();
         } else {
@@ -669,7 +728,72 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
             }
             omsHeaderList = stockAvailabilityOMSHeaderFilter;
         }
-        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter) {
+
+        //Shippment tat filter list
+        boolean isShippingTatFilter = false;
+        for (FilterModel orderTypeFilter : shippmentTatFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isShippingTatFilter = true;
+            }
+        }
+        if (isShippingTatFilter) {
+            List<OMSTransactionHeaderResModel.OMSHeaderObj> shippingTatOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                shippingTatOMSHeaderFilter = omsHeaderList;
+            } else {
+                shippingTatOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel shippingFilter : shippmentTatFilterList) {
+                for (int i = 0; i < shippingTatOMSHeaderFilter.size(); i++) {
+                    if (!shippingFilter.isSelected() && (shippingFilter.getName().equals(shippingTatOMSHeaderFilter.get(i).getShipmentTat()))) {
+                        shippingTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = shippingTatOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
+        }
+
+        if (isShippingTatFilter) {
+            isShiipimentDateFiltered = true;
+        } else {
+            isShiipimentDateFiltered = false;
+        }
+        boolean isBillDateTatFilter = false;
+        for (FilterModel billDateTatFilter : billDateTatFilterList) {
+            if (billDateTatFilter.isSelected()) {
+                isBillDateTatFilter = true;
+            }
+        }
+        if (isBillDateTatFilter) {
+            List<OMSTransactionHeaderResModel.OMSHeaderObj> billDateTatOMSHeaderFilter = null;
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                billDateTatOMSHeaderFilter = omsHeaderList;
+            } else {
+                billDateTatOMSHeaderFilter = mPresenter.getTotalOmsHeaderList();
+            }
+            for (FilterModel billDateTatFilter : billDateTatFilterList) {
+                for (int i = 0; i < billDateTatOMSHeaderFilter.size(); i++) {
+                    if (!billDateTatFilter.isSelected() && (billDateTatFilter.getName().equals(billDateTatOMSHeaderFilter.get(i).getBillingTat()))) {
+                        billDateTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderList = billDateTatOMSHeaderFilter;
+        }
+
+
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isShippingTatFilter && !isBillDateTatFilter) {
             omsHeaderList = mPresenter.getTotalOmsHeaderList();
         }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -683,9 +807,40 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
+
+
+            if (isShiipimentDateFiltered) {
+
+                Collections.sort(omsHeaderList, new Comparator<OMSTransactionHeaderResModel.OMSHeaderObj>() {
+                    public int compare(OMSTransactionHeaderResModel.OMSHeaderObj o1, OMSTransactionHeaderResModel.OMSHeaderObj o2) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date1 = null;
+                        Date date2 = null;
+                        try {
+                            date1 = dateFormat.parse(o1.getBillingTat());
+                            date2 = dateFormat.parse(o2.getBillingTat());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        return date1.compareTo(date2);
+                    }
+                });
+
+
+                Map<String, List<OMSTransactionHeaderResModel.OMSHeaderObj>> studlistGrouped = omsHeaderList.stream().collect(Collectors.groupingBy(w -> w.getShipmentTat()));
+                omsHeaderList.clear();
+                for (Map.Entry<String, List<OMSTransactionHeaderResModel.OMSHeaderObj>> entry : studlistGrouped.entrySet()) {
+                    omsHeaderList.addAll(studlistGrouped.get(entry.getKey()));
+                    System.out.println(entry.getKey());
+                }
+            }
+
+
             billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             activityBillerOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+            billerFullfillmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             activityBillerOrdersBinding.fullfilmentRecycler.setAdapter(billerFullfillmentAdapter);
             noOrderFound(omsHeaderList.size());
         } else {
@@ -828,6 +983,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         billerFullfillmentAdapter = new BillerFullfillmentAdapter(getContext(), omsHeaderList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         activityBillerOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
+        billerFullfillmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
         activityBillerOrdersBinding.fullfilmentRecycler.setAdapter(billerFullfillmentAdapter);
     }
 
@@ -858,9 +1014,28 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         }
         stockAvailabilityFilterAdapter.notifyDataSetChanged();
 
+        for (int i = 0; i < shippmentTatFilterList.size(); i++) {
+            shippmentTatFilterList.get(i).setSelected(false);
+        }
+        shippingTatFilterAdapter.notifyDataSetChanged();
+        isShiipimentDateFiltered = true;
+
+
+        for (int i = 0; i < billDateTatFilterList.size(); i++) {
+            billDateTatFilterList.get(i).setSelected(false);
+        }
+        billDateTatFilterAdapter.notifyDataSetChanged();
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
+//        dialogFilterBinding.dispatchCuttoffText.setVisibility(View.GONE);
+//        dialogFilterBinding.dispatchCuttoffTimeFilter.setVisibility(View.GONE);
+//        dialogFilterBinding.dispatchCuttoffView.setVisibility(View.GONE);
+//
+//        dialogFilterBinding.billdateTatText.setVisibility(View.GONE);
+//        dialogFilterBinding.billDateFilter.setVisibility(View.GONE);
+
+
         customerTypeFilterAdapter = new FilterItemAdapter(getContext(), customerTypeFilterList);
         dialogFilterBinding.customerTypeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.customerTypeFilter.setAdapter(customerTypeFilterAdapter);
@@ -885,6 +1060,13 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
         dialogFilterBinding.stockAvailableFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.stockAvailableFilter.setAdapter(stockAvailabilityFilterAdapter);
 
+        shippingTatFilterAdapter = new FilterItemAdapter(getContext(), shippmentTatFilterList);
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setAdapter(shippingTatFilterAdapter);
+
+        billDateTatFilterAdapter = new FilterItemAdapter(getContext(), billDateTatFilterList);
+        dialogFilterBinding.billDateFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.billDateFilter.setAdapter(billDateTatFilterAdapter);
 
     }
 

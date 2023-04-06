@@ -62,6 +62,8 @@ public interface PickupProcessMvpView extends MvpView {
     //new Callbacks
     void onClickOrderItem(int pos, TransactionHeaderResponse.OMSHeader omsHeader);
 
+    void onClickOrderItemOne(int pos, TransactionHeaderResponse.OMSHeader omsHeader);
+
     void onClickSalesLine(int position, String status);
 
     void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
@@ -81,13 +83,15 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickRackAdapter(int pos);
 
+    void onClickRackAdapterOne(int pos);
+
     void onClickRackItemStart(GetOMSTransactionResponse.SalesLine salesLine);
 
     void onClickForwardToPacker();
 
     void onExpansionEshopCharge(TransactionHeaderResponse.OMSHeader omsHeader, int position, int newAdapterposition, GetOMSTransactionResponse.SalesLine salesLine);
 
-    void onFailedBatchInfo(GetBatchInfoRes body);
+    void onFailedBatchInfo(GetBatchInfoRes body, boolean isRackAdapterClick);
 
     void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> batchList, boolean isRackAdapterClick);
 

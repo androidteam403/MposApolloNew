@@ -43,8 +43,14 @@ import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -77,6 +83,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> orderSourceFilterList = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterList = new ArrayList<>();
     private List<FilterModel> reverificationList = new ArrayList<>();
+    private List<FilterModel> shippmentTatFilterList = new ArrayList<>();// new
+    private List<FilterModel> billDateTatFilterList = new ArrayList<>();// new
 
     // Temp filters headers list
     private List<FilterModel> customerTypeFilterListTemp = new ArrayList<>();
@@ -86,6 +94,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
     private List<FilterModel> reverificationListTemp = new ArrayList<>();
+    private List<FilterModel> billDateTatFilterListTemp = new ArrayList<>();// new
+    private List<FilterModel> shippmentTatFilterListTemp = new ArrayList<>();// new
 
     //
     private int startIndex = 0;
@@ -94,7 +104,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     private static List<TransactionHeaderResponse.OMSHeader> omsHeaderListFileredStaticList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotal = new ArrayList<>();
     //
-    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter;
+    FilterItemAdapter customerTypeFilterAdapter, orderTypeFilterAdapter, orderCategoryFilterAdapter, paymentTypeFilterAdapter, orderSourceFilterAdapter, stockAvailabilityFilterAdapter, reverificationAdapter, shippingTatFilterAdapter, billDateTatFilterAdapter;
+    private boolean isShiipimentDateFiltered = false;
 
     public static Intent getStartActivity(Context mContext) {
         Intent intent = new Intent(mContext, PickedUpOrdersActivity.class);
@@ -385,7 +396,22 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             stockAvailabilityModel.setName(filterModel.getName());
             reverificationListTemp.add(stockAvailabilityModel);
         }
+        shippmentTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : shippmentTatFilterList) {
+            FilterModel shippingTatModel = new FilterModel();
+            shippingTatModel.setSelected(filterModel.isSelected());
+            shippingTatModel.setName(filterModel.getName());
+            shippmentTatFilterListTemp.add(shippingTatModel);
+        }
 
+        //
+        billDateTatFilterListTemp = new ArrayList<>();
+        for (FilterModel filterModel : billDateTatFilterList) {
+            FilterModel billDateTatModel = new FilterModel();
+            billDateTatModel.setSelected(filterModel.isSelected());
+            billDateTatModel.setName(filterModel.getName());
+            billDateTatFilterListTemp.add(billDateTatModel);
+        }
     }
 
 
@@ -409,6 +435,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 this.orderSourceFilterList = orderSourceFilterListTemp;
                 this.stockAvailabilityFilterList = stockAvailabilityFilterListTemp;
                 this.reverificationList = reverificationListTemp;
+                this.shippmentTatFilterList = shippmentTatFilterListTemp;
+                this.billDateTatFilterList = billDateTatFilterListTemp;
 
                 filterDialog.dismiss();
                 hideLoading();
@@ -747,8 +775,69 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //            }
 //            omsHeaderList.addAll(orderTypeOMSHeaderFilter);
         }
+        //Shippment tat filter list
+        boolean isShippingTatFilter = false;
+        for (FilterModel orderTypeFilter : shippmentTatFilterList) {
+            if (orderTypeFilter.isSelected()) {
+                isShippingTatFilter = true;
+            }
+        }
+        if (isShippingTatFilter) {
+            List<TransactionHeaderResponse.OMSHeader> shippingTatOMSHeaderFilter = null;
+            if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
+                shippingTatOMSHeaderFilter = omsHeaderListTotal;
+            } else {
+                shippingTatOMSHeaderFilter = mvpPresenter.getGlobalTotalOmsHeaderList();
+            }
+            for (FilterModel shippingFilter : shippmentTatFilterList) {
+                for (int i = 0; i < shippingTatOMSHeaderFilter.size(); i++) {
+                    if (!shippingFilter.isSelected() && (shippingFilter.getName().equals(shippingTatOMSHeaderFilter.get(i).getShipmentTat()))) {
+                        shippingTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderListTotal = shippingTatOMSHeaderFilter;
+//            for (TransactionHeaderResponse.OMSHeader omsHeader : stockAvailabilityOMSHeaderFilter) {
+//                for (int i = 0; i < omsHeaderList.size(); i++) {
+//                    if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+//                        omsHeaderList.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            omsHeaderList.addAll(stockAvailabilityOMSHeaderFilter);
+        }
 
-        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter) {
+        if (isShippingTatFilter) {
+            isShiipimentDateFiltered = true;
+        } else {
+            isShiipimentDateFiltered = false;
+        }
+        boolean isBillDateTatFilter = false;
+        for (FilterModel billDateTatFilter : billDateTatFilterList) {
+            if (billDateTatFilter.isSelected()) {
+                isBillDateTatFilter = true;
+            }
+        }
+        if (isBillDateTatFilter) {
+            List<TransactionHeaderResponse.OMSHeader> billDateTatOMSHeaderFilter = null;
+            if (omsHeaderListTotal != null && omsHeaderListTotal.size() > 0) {
+                billDateTatOMSHeaderFilter = omsHeaderListTotal;
+            } else {
+                billDateTatOMSHeaderFilter = mvpPresenter.getGlobalTotalOmsHeaderList();
+            }
+            for (FilterModel billDateTatFilter : billDateTatFilterList) {
+                for (int i = 0; i < billDateTatOMSHeaderFilter.size(); i++) {
+                    if (!billDateTatFilter.isSelected() && (billDateTatFilter.getName().equals(billDateTatOMSHeaderFilter.get(i).getBillingTat()))) {
+                        billDateTatOMSHeaderFilter.remove(i);
+                        i--;
+                    }
+                }
+            }
+            omsHeaderListTotal = billDateTatOMSHeaderFilter;
+        }
+        if (!isStockAvailabilityFilter && !isorderTypeFilter && !isOrderCategoryFilter && !isPaymentTypeFilter && !isOrderSourceFilter && !isCustomerTypeFilter && !isReverificationFilter && !isShippingTatFilter && !isBillDateTatFilter) {
             omsHeaderListTotal = mvpPresenter.getGlobalTotalOmsHeaderList();
         }
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -992,6 +1081,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
             pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+            pickedUpOrdersAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
             activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -1139,7 +1229,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
         activityPickedUpOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
         pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
-
+        pickedUpOrdersAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
         activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -1176,6 +1266,18 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             reverificationList.get(i).setSelected(false);
         }
         reverificationAdapter.notifyDataSetChanged();
+
+        for (int i = 0; i < shippmentTatFilterList.size(); i++) {
+            shippmentTatFilterList.get(i).setSelected(false);
+        }
+        shippingTatFilterAdapter.notifyDataSetChanged();
+        isShiipimentDateFiltered = true;
+
+
+        for (int i = 0; i < billDateTatFilterList.size(); i++) {
+            billDateTatFilterList.get(i).setSelected(false);
+        }
+        billDateTatFilterAdapter.notifyDataSetChanged();
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
@@ -1207,7 +1309,13 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         dialogFilterBinding.reverificationRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
         dialogFilterBinding.reverificationRecycler.setAdapter(reverificationAdapter);
 
+        shippingTatFilterAdapter = new FilterItemAdapter(getContext(), shippmentTatFilterList);
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.dispatchCuttoffTimeFilter.setAdapter(shippingTatFilterAdapter);
 
+        billDateTatFilterAdapter = new FilterItemAdapter(getContext(), billDateTatFilterList);
+        dialogFilterBinding.billDateFilter.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        dialogFilterBinding.billDateFilter.setAdapter(billDateTatFilterAdapter);
     }
 
     @Override
@@ -1324,10 +1432,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        this.reverificationList.clear();
 //        this.reverificationListTemp.clear();
 
-        if (omsHeaderList != null && omsHeaderList.size() > 0) {
-            omsHeaderList.clear();
-        }
-
+//        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+//            omsHeaderList.clear();
+//        }
+        omsHeaderList = new ArrayList<>();
 
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
 //            for (int i = 0; i < omsHeader.getOMSHeader().size(); i++) {
@@ -1363,7 +1471,40 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
             mvpPresenter.setTotalOmsHeaderList(omsHeaderList);
             if (omsHeaderList != null && omsHeaderList.size() > 0) {
+
+                if (isShiipimentDateFiltered) {
+
+                    Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
+                        public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            Date date2 = null;
+                            try {
+                                date1 = dateFormat.parse(o1.getBillingTat());
+                                date2 = dateFormat.parse(o2.getBillingTat());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            return date1.compareTo(date2);
+                        }
+                    });
+
+
+                    Map<String, List<TransactionHeaderResponse.OMSHeader>> studlistGrouped = omsHeaderList.stream().collect(Collectors.groupingBy(w -> w.getShipmentTat()));
+                    omsHeaderList.clear();
+                    for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : studlistGrouped.entrySet()) {
+                        omsHeaderList.addAll(studlistGrouped.get(entry.getKey()));
+                        System.out.println(entry.getKey());
+                    }
+                }
+
+
+                if (activityPickedUpOrdersBinding.fullfilmentRecycler != null) {
+                    activityPickedUpOrdersBinding.fullfilmentRecycler.removeAllViews();
+                }
                 pickedUpOrdersAdapter = new PickedUpOrdersAdapter(getContext(), omsHeaderList, this);
+                pickedUpOrdersAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
                 RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 activityPickedUpOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager1);
                 activityPickedUpOrdersBinding.fullfilmentRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -1439,6 +1580,10 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             this.stockAvailabilityFilterListTemp.clear();
             this.reverificationList.clear();
             this.reverificationListTemp.clear();
+            this.shippmentTatFilterList.clear();
+            this.shippmentTatFilterListTemp.clear();
+            this.billDateTatFilterList.clear();
+            this.billDateTatFilterListTemp.clear();
 
             List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu = omsHeaderListlus;
 //            omsHeaderListlu = omsHeaderListlus.stream()
@@ -1456,6 +1601,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                     boolean isOrderSourceContain = false;
                     boolean isStockAvailabilityContain = false;
                     boolean isPickUpStatusContain = false;
+                    boolean isShippmentTatContain = false;
+                    boolean isBillDateTatContain = false;
 
 
                     // customer type filter list.
@@ -1550,6 +1697,34 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                     }
                     if (!isStockAvailabilityContain) {
                         stockAvailabilityFilterList.add(filterModel);
+                    }
+
+                    // shipping tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getShipmentTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < shippmentTatFilterList.size(); j++) {
+                        if (shippmentTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isShippmentTatContain = true;
+                        }
+                    }
+                    if (!isShippmentTatContain) {
+                        shippmentTatFilterList.add(filterModel);
+                    }
+
+                    // Bill Date tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getBillingTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < billDateTatFilterList.size(); j++) {
+                        if (billDateTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isBillDateTatContain = true;
+                        }
+                    }
+                    if (!isBillDateTatContain) {
+                        billDateTatFilterList.add(filterModel);
                     }
                 }
                 // reverification filter list.
@@ -1739,6 +1914,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onClickRefreshPickerPackerBiller() {
+        isShiipimentDateFiltered = false;
         mvpPresenter.fetchFulfilmentOrderList();
     }
 

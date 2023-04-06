@@ -14,6 +14,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> extends BasePresenter<V>
-        implements PickUpVerificationMvpPresenter<V> {
+public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> extends BasePresenter<V> implements PickUpVerificationMvpPresenter<V> {
 
     @Inject
     public PickUpVerificationPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
@@ -264,5 +264,10 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void onClickPackerStatusUpdate() {
         getMvpView().onClickPackerStatusUpdate();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 }

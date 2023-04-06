@@ -96,8 +96,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private List<FilterModel> orderSourceFilterListTemp = new ArrayList<>();
     private List<FilterModel> stockAvailabilityFilterListTemp = new ArrayList<>();
     private List<FilterModel> reverificationListTemp = new ArrayList<>();
-    private List<FilterModel> shippmentTatFilterListTemp = new ArrayList<>();// new
     private List<FilterModel> billDateTatFilterListTemp = new ArrayList<>();// new
+    private List<FilterModel> shippmentTatFilterListTemp = new ArrayList<>();// new
 
 
     private boolean isStockAvailableChecked = false;
@@ -1231,6 +1231,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
         shippingTatFilterAdapter.notifyDataSetChanged();
         isShiipimentDateFiltered = true;
+
+
+        for (int i = 0; i < billDateTatFilterList.size(); i++) {
+            billDateTatFilterList.get(i).setSelected(false);
+        }
+        billDateTatFilterAdapter.notifyDataSetChanged();
     }
 
     private void filtersList(DialogFilterPBinding dialogFilterBinding) {
@@ -2333,6 +2339,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == READYFORPICKUP) {
+            openOrdersBinding.searchByfulfimentid.setText("");
             selectedOmsHeaderList.clear();
             omsHeaderList.clear();
             if (fullfilmentAdapter != null) {
@@ -2489,6 +2496,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onClickRefreshPickerPackerBiller() {
         selectedOmsHeaderList.clear();
+        isShiipimentDateFiltered = false;
+        openOrdersBinding.searchByfulfimentid.setText("");
         omsHeaderList.clear();
         onContinueBtnEnable();
         mPresenter.fetchFulfilmentOrderList(true);

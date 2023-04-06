@@ -81,7 +81,8 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
 
         holder.itemView.setOnClickListener(view -> {
             if (mvpView != null) {
-                mvpView.onClickRackAdapter(position);
+                mvpView.onClickRackAdapterOne(position);
+               // mvpView.onClickRackAdapter(position);
             }
         });
     }

@@ -12,6 +12,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends BasePresenter<V>
-        implements PickUpSummaryMvpPresenter<V> {
+public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends BasePresenter<V> implements PickUpSummaryMvpPresenter<V> {
 
     @Inject
     public PickUpSummaryPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
@@ -158,9 +158,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                     } else if (selectedOmsHeaderList.get(i).getItemStatus().equals("NOT AVAILABLE")) {
                         order.setOverallOrderStatus("3");
                     }
-                    if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3"))
-                            || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3")
-                            || requestType == 10)
+                    if ((requestType == 2 && order.getOverallOrderStatus().equalsIgnoreCase("3")) || requestType == 5 && !order.getOverallOrderStatus().equalsIgnoreCase("3") || requestType == 10)
                         ordersList.add(order);
                 }
             }
@@ -206,5 +204,10 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
                 }
             });
         }
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return getDataManager().getGlobalJson();
     }
 }

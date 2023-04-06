@@ -199,8 +199,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             if (omsHeader.isOnHold()) {
                 Toast.makeText(mContext, "The order is on hold", Toast.LENGTH_SHORT).show();
             } else {
-                if (pickupProcessMvpView != null)
-                    pickupProcessMvpView.onClickOrderItem(position, omsHeader);
+                if (pickupProcessMvpView != null) {
+                    pickupProcessMvpView.onClickOrderItemOne(position, omsHeader);
+//                    pickupProcessMvpView.onClickOrderItem(position, omsHeader);
+                }
             }
         });
 

@@ -592,7 +592,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
 //            PdfWriter writer = new PdfWriter(file);
             PdfDocument pdfDocument = new PdfDocument(writer);
-            PageSize fourBySix = new PageSize( 288, 432);
+            PageSize fourBySix = new PageSize(288, 432);
             Document document = new Document(pdfDocument, fourBySix);
             document.setMargins(15, 15, 15, 15);
             createPdfPageWiseA5(pdfDocument, document, false);
@@ -986,7 +986,9 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text(""))).setBorder(Border.NO_BORDER));
 
         //        table2.setWidth(510);
-        float[] columnWidth3 = {160, 128};//288
+//        float[] columnWidth3 = {160, 128};//288
+        float[] columnWidth3 = {100, 188};//288
+
         Table table3 = new Table(columnWidth3);
         Border border3Black = new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F);
         table3.setBorderLeft(border3Black);
@@ -996,14 +998,17 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table3.setMarginRight(5);
 //        table2.setMarginRight(35);
 //        table2.setMarginLeft(35);
-        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("Shipping Address: ").setFontSize(8).setFont(bold)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-        if (pdfShippingLabelResponse.getData().getPaymentmode().equalsIgnoreCase("cashondelivery")){
-            table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("COD" + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+        table3.addCell(new Cell(1, 1)
+                .add(new Paragraph(new Text("Shipping Address: ")
+                        .setFontSize(8).setFont(bold))
+                        .setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+//        if (pdfShippingLabelResponse.getData().getPaymentmode().equalsIgnoreCase("cashondelivery")){
+//            table3.addCell(new Cell(1, 1).add(new Paragraph(new Text("COD" + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
+//
+//        }else {
+        table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
 
-        }else {
-            table3.addCell(new Cell(1, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getPaymentmode() + ": " + " ").setFontSize(8).setFont(bold)).add(new Text("" + pdfShippingLabelResponse.getData().getInvoiceamt()).setFontSize(7).setFont(font)).setMarginLeft(2)).setBorder(border3Black));
-
-        }
+//        }
         Table tableAddress;
 //      pdfShippingLabelResponse.getData().setQrcode("12345678920");
         if (pdfShippingLabelResponse.getData().getQrcode() != null && !pdfShippingLabelResponse.getData().getQrcode().equals("")) {
@@ -1028,13 +1033,14 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
             ImageData imageData2 = ImageDataFactory.create(bitMapData2);
             Image image2 = new Image(imageData2);
-            image2.scaleToFit(40, 40);
+            image2.scaleToFit(50, 50);
 
-
+//.add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(7)).setMarginLeft(5))
             tableAddress.setBorder(Border.NO_BORDER);
 //            tableAddress.setMarginRight(5);
 //            tableAddress.setMarginLeft(5);
-            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + " " + pdfShippingLabelResponse.getData().getShippingcity() + " " + pdfShippingLabelResponse.getData().getShippingstateid() + " " + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(7)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+            tableAddress.addCell(new Cell(3, 1)
+                    .add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + ", " + pdfShippingLabelResponse.getData().getShippingcity() + ", " + pdfShippingLabelResponse.getData().getShippingstateid() + ", " + pdfShippingLabelResponse.getData().getShippingpincode()).setFont(font).setFontSize(8)).setMarginLeft(5).setFixedLeading(10)).setBorder(Border.NO_BORDER).setMarginLeft(5));
             tableAddress.addCell(new Cell(4, 1).add(image2).setMarginLeft(15).add(new Paragraph(new Text("Scan to pay via UPI").setFontSize(7).setFont(font))).setBorder(Border.NO_BORDER));
         } else {
             float[] columnWidthAddress = {288};//288
@@ -1049,8 +1055,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             tableAddress.setBorder(Border.NO_BORDER);
 //            tableAddress.setMarginRight(5);
 //            tableAddress.setMarginLeft(5);
-            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(8)).setMarginLeft(5)).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getShippingaddress() + "" + pdfShippingLabelResponse.getData().getShippingcity() + "" + pdfShippingLabelResponse.getData().getShippingstateid() + "" + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(7.5f).setFont(font)).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
-
+            tableAddress.addCell(new Cell(3, 1).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername() + "\n" + pdfShippingLabelResponse.getData().getShippingaddress() + ", " + pdfShippingLabelResponse.getData().getShippingcity() + ", " + pdfShippingLabelResponse.getData().getShippingstateid() + ", " + pdfShippingLabelResponse.getData().getShippingpincode()).setFontSize(7.5f).setFont(font)).setFixedLeading(10).setMarginLeft(5)).setBorder(Border.NO_BORDER).setMarginLeft(5));
+//.add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getCustomername()).setFont(font).setFontSize(8)).setMarginLeft(5))
         }
 
         float[] columnWidthContactNo = {160, 128};//288
@@ -1074,7 +1080,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        table4.setMarginRight(5);
         table4.setMarginTop(0);
         table4.setMarginBottom(0);
-        table4.addCell(new Cell(2, 1).add(new Paragraph(new Text("Seller Address: " + "\n").setFontSize(8).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1() + pdfShippingLabelResponse.getData().getStoreaddress2() + pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(7.5f))).setPadding(0f).setMargin(0f));
+        table4.addCell(new Cell(2, 1).setMaxHeight(70).add(new Paragraph(new Text("\nSeller Address: " + "\n").setFontSize(8).setFont(bold)).setMarginLeft(5).add(new Text(pdfShippingLabelResponse.getData().getStoreaddress1() + pdfShippingLabelResponse.getData().getStoreaddress2() + pdfShippingLabelResponse.getData().getStoreaddress3()).setFont(font).setFontSize(7.5f)).setFixedLeading(10)).setPadding(0f).setMargin(0f));
         table4.setPadding(0f);
 
         //        table4.addCell(new Cell().add(new Paragraph(new Text("ORDER ID").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setTextAlignment(TextAlignment.CENTER).setBorder((new SolidBorder(new DeviceRgb(0, 0, 0), 0.7F))));
@@ -1402,6 +1408,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         }
 
     }
+
     private void createPdffoursix() throws IOException {
         if (isStoragePermissionGranted()) {
 
@@ -1446,6 +1453,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
             }
         }
     }
+
     private void createPdfPageWiseFourSix(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
         // declaring variables for loading the fonts from asset
         byte[] fontByte, boldByte;

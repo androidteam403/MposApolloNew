@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverif
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpView> extends MvpPresenter<V> {
     void onPartialWarningYesClick();
@@ -24,4 +25,6 @@ public interface PickUpVerificationMvpPresenter<V extends PickUpVerificationMvpV
     void getBatchDetailsApi(String itemId);
 
     void onClickPackerStatusUpdate();
+
+    GetGlobalConfingRes getGlobalConfigRes();
 }
