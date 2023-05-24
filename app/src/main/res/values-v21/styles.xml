@@ -121,4 +121,63 @@
         <item name="android:windowEnterAnimation">@anim/anim_frag_fade_in_p</item>
         <item name="android:windowExitAnimation">@anim/anim_frag_fade_out_p</item>
     </style>
+
+    <declare-styleable name="ZoomageView">
+        <attr name="zoomage_zoomable" format="boolean" />
+        <attr name="zoomage_translatable" format="boolean" />
+        <attr name="zoomage_restrictBounds" format="boolean" />
+        <attr name="zoomage_animateOnReset" format="boolean" />
+        <attr name="zoomage_doubleTapToZoom" format="boolean" />
+        <attr name="zoomage_doubleTapToZoomScaleFactor" format="float" />
+        <attr name="zoomage_autoCenter" format="boolean" />
+        <attr name="zoomage_minScale" format="float" />
+        <attr name="zoomage_maxScale" format="float" />
+        <attr name="zoomage_autoResetMode" format="enum">
+            <enum name="UNDER" value="0" />
+            <enum name="OVER" value="1" />
+            <enum name="ALWAYS" value="2" />
+            <enum name="NEVER" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <!--    <style name="EditTextInputLayoutStylePickerPacker" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+    <!--        <item name="boxStrokeColor">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="boxStrokeWidth">0.2dp</item>-->
+    <!--        <item name="boxBackgroundColor">@android:color/transparent</item>-->
+    <!--        <item name="errorTextAppearance">@style/ErrorText</item>-->
+    <!--        <item name="colorAccent">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="colorControlNormal">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="colorControlActivated">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="android:textColor">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="android:textColorHint">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="android:colorControlHighlight">@color/picker_packer_action_bar_color</item>-->
+    <!--        <item name="android:fontFamily">@font/roboto_regular</item>-->
+    <!--    </style>-->
+    <style name="EditTextInputLayoutStylePickerPacker" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/picker_packer_action_bar_color</item>
+        <item name="colorPrimary">@color/picker_packer_action_bar_color</item>
+        <item name="strokeColor">@color/text_input_box_stroke</item>
+        <item name="colorPrimaryDark">@color/picker_packer_action_bar_color</item>
+        <item name="colorAccent">@color/picker_packer_action_bar_color</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="boxStrokeWidth">0.15dp</item>
+        <item name="colorControlNormal">@color/picker_packer_action_bar_color</item>
+        <item name="colorControlActivated">@color/picker_packer_action_bar_color</item>
+        <item name="android:textColorPrimary">@color/picker_packer_action_bar_color</item>
+        <item name="android:textColorSecondary">@color/picker_packer_action_bar_color</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="android:height">40dp</item>
+    </style>
+
+    <style name="StockInwardProcessDetailsActivity" parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/picker_packer_action_bar_color</item>
+        <item name="colorPrimaryDark">@color/picker_packer_action_bar_color</item>
+        <item name="colorPrimary">@color/picker_packer_action_bar_color</item>
+        <item name="colorAccent">@color/picker_packer_action_bar_color</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

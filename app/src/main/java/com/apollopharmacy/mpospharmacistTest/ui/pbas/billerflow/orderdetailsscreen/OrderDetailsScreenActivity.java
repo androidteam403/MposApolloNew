@@ -182,6 +182,10 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     activityOrderDetailsScreenBinding.address.setText(customerDataResBean.getCustAddress());
                     activityOrderDetailsScreenBinding.pincode.setText(customerDataResBean.getPincode());
 
+                    if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() > 0) {
+                        activityOrderDetailsScreenBinding.fulfillmentType.setText(customerDataResBean.getSalesLine().get(0).getFullfillmentType());
+                    }
+
                     activityOrderDetailsScreenBinding.shipmentTat.setText(orderInfoItem.getShipmentTat());
                     activityOrderDetailsScreenBinding.billdateTat.setText(orderInfoItem.getBillingTat());
 
@@ -353,7 +357,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
             }
             if (isAlloMSOrderDeliveryItem) {
                 mPresenter.onLoadOmsOrder(customerDataResBean);
-            }else{
+            } else {
                 Dialog dialog = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
                 DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
                 dialog.setContentView(dialogCancelBinding.getRoot());

@@ -113,6 +113,7 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.AreaBreakType;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1449,10 +1450,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
 //        PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 ////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
 //      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
-
-        float[] columnWidth1 = {100, 155, 155, 170};//580
+        float[] columnWidth1 = {98, 150, 150, 167};//580 - 30
 //        float columnWidth1[] = {65, 165, 140, 190};
         Table table1 = new Table(columnWidth1);
+        table1.setWidth(UnitValue.createPercentValue(100));
+        table1.setFixedLayout();
 
         //table1.....row1.....
         Drawable apolloLogoDrawable = getDrawable(R.drawable.new_apollo_21);
@@ -1529,7 +1531,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             } else {
                 PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
                 pageBreakCount++;
-                table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length()>7){
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0,5)+"..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }else{
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }
                 table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
                 String itemName = salesLine.getItemName().replace(" ", "\u00A0");
                 table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1583,7 +1589,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
                 }
             }
         }
-        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
+        tableEShippingPacking.addCell(new Cell(1, 1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
 
 
         float[] columnWidth5 = {144, 170, 122, 144};//580

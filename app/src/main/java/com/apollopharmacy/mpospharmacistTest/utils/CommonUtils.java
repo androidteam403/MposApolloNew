@@ -242,4 +242,38 @@ public class CommonUtils {
         }
         return null;
     }
+
+    public static String getBeforeSevenDaysDate() {
+        return new SimpleDateFormat("yyyy-MM-dd",
+                Locale.getDefault()).format(new Date().getTime() - 518400000L); //604800000L
+    }
+
+    public static String getDateFormatForStockInwardProcessFromTo(Long c) {
+        Calendar neededTime = Calendar.getInstance();
+        neededTime.setTimeInMillis(c);
+        return new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(neededTime.getTime());
+    }
+
+    public static String getSqlDateFormat(Calendar c) {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.getTime());
+    }
+
+    public static boolean isFromDateBeforeToDate(String fromDate, String toDate) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateFrom = formatter.parse(fromDate);
+            Date dateTo = formatter.parse(toDate);
+            if (dateFrom.compareTo(dateTo) < 0 || dateFrom == dateTo) {
+//                println("date2 is Greater than my date1")
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+            return false;
+        }
+
+
+    }
 }

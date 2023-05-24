@@ -605,5 +605,33 @@
     <string name="lanel_admin">Admin</string>
     <string name="label_bill_reprint">Bill Reprint</string>
     <string name="label_order">order</string>
+    <string name="label_prescriptions">Prescriptions</string>
+    <string name="label_stock_inward_process">Stock inward process</string>
+    <string name="label_reference_id">Reference ID :</string>
+    <string name="label__site_id">Site ID :</string>
+    <string name="label_from_site_id">From site ID :</string>
+    <string name="label__date">Date :</string>
+    <string name="label_vend_group">Vend group :</string>
+    <string name="label_ticket_id">Ticket ID :</string>
+    <string name="label_from_date">From Date :</string>
+    <string name="label_show">Show</string>
+    <string name="label_to_date">To Date</string>
+    <string name="label_stock_inward_process_details">stock inward process details</string>
+    <string name="label_reason">Reason</string>
+    <string name="label_vendor_ref_no">Vendor ref No.</string>
+    <string name="label_supplier_name">Supplier name</string>
+    <string name="label_delivery_date">Delivery date</string>
+    <string name="label_vendor_group">Vendor group</string>
+    <string name="label_challan_date">Challan date</string>
+    <string name="label_sup_inv_no">Sup inv No.</string>
+    <string name="label_po_number">PO number</string>
+    <string name="label__save">Save</string>
+    <string name="label__clear_all">Clear All</string>
+    <string name="label_post_prs">post prs</string>
+    <string name="label_physical_mrp">Physical MRP</string>
+    <string name="label_transfer_qty">Transfer Qty</string>
+    <string name="label_physical_batch">Physical batch</string>
+    <string name="label_physica_exp">Physica exp.</string>
+    <string name="label_remarks">Remarks</string>
 
 </resources>

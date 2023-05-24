@@ -146,6 +146,9 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                     holder.fullfilmentBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
                     holder.fullfilmentBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
                     holder.fullfilmentBinding.comments.setText(omsHeader.getGetOMSTransactionResponse().getComment());
+                    if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+                        holder.fullfilmentBinding.fulfillmentType.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(0).getFullfillmentType());
+                    }
 //                    if(getOMSTransactionResponseList.get(position).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")){
 //                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
 //                        holder.fullfilmentBinding.notifytoadmin.setVisibility(View.VISIBLE);
@@ -211,6 +214,17 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             }
         });
 
+        if (omsHeader.getGetOMSTransactionResponse() != null
+                && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL() != null
+                && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL().size() > 0) {
+            holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.VISIBLE);
+            PrescriptionsAdapter prescriptionsAdapter = new PrescriptionsAdapter(context, mvpView, omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.fullfilmentBinding.prescriptionsRecycler.setLayoutManager(mLayoutManager);
+            holder.fullfilmentBinding.prescriptionsRecycler.setAdapter(prescriptionsAdapter);
+        } else {
+            holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override

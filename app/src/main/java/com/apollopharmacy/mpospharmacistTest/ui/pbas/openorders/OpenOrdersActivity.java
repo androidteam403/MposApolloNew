@@ -34,6 +34,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -2158,6 +2159,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         } else {
             Toast.makeText(getContext(), "No Next orders", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onClickPrescriptionPreview(GetOMSTransactionResponse.OrderPrescriptionURL orderPrescriptionURL, List<GetOMSTransactionResponse.OrderPrescriptionURL> prescriptionsList, int position) {
+        startActivity(PrescriptionSliderActivity.getStartActivity(getContext(), prescriptionsList, position));
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+//        Dialog prescriptionPreviewDialog = new Dialog(getContext(), R.style.fadeinandoutcustomDialog);
+//        DialogPrescriptionPreviewBinding dialogPrescriptionPreviewBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_prescription_preview, null, false);
+//        prescriptionPreviewDialog.setContentView(dialogPrescriptionPreviewBinding.getRoot());
+//        Glide.with(getContext()).load(orderPrescriptionURL.getPerscriptionurl()).into(dialogPrescriptionPreviewBinding.prescriptionPreview);
+//        dialogPrescriptionPreviewBinding.setOrderPrescriptionURL(orderPrescriptionURL);
+//        dialogPrescriptionPreviewBinding.backArrow.setOnClickListener(v -> prescriptionPreviewDialog.dismiss());
+//        prescriptionPreviewDialog.show();
     }
 
     boolean isScanerBack;

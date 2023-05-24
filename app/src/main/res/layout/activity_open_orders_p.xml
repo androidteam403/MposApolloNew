@@ -229,20 +229,20 @@
                     android:text="@string/label_next" />
             </RelativeLayout>
 
-<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+            <!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fullfilment_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:layout_marginEnd="@dimen/dimen10dp"
-                    android:layout_marginBottom="@dimen/five_dp" />
-<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fullfilment_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/five_dp" />
+            <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
             <TextView
                 android:id="@+id/no_order_found_text"
@@ -448,10 +448,10 @@
                 android:onClick="@{()-> callback.onClickPrevPage()}"
                 android:padding="@dimen/dimen10dp"
                 android:rotation="180"
-                android:visibility="gone"
                 android:src="@drawable/ic_arrow__next_page"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_9" />
+                android:textSize="@dimen/text_dimen_9"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -511,12 +511,13 @@
                 android:gravity="center"
                 android:onClick="@{()-> callback.onClickNextPage()}"
                 android:padding="@dimen/dimen10dp"
-                android:visibility="gone"
                 android:src="@drawable/ic_arrow__next_page"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_9" />
+                android:textSize="@dimen/text_dimen_9"
+                android:visibility="gone" />
 
         </RelativeLayout>
+
     </RelativeLayout>
 
     <data>

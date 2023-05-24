@@ -87,6 +87,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 
 import java.io.ByteArrayOutputStream;
@@ -965,7 +966,8 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 //        } catch (com.itextpdf.barcodes.qrcode.WriterException e) {
 //            e.printStackTrace();
 //        }
-        apolloLogoBitMapQr = generateBarcode(pdfShippingLabelResponse.getData().getAwbno());
+
+        apolloLogoBitMapQr = generateBarcodeWidthIncreased(pdfShippingLabelResponse.getData().getAwbno());
         //((BitmapDrawable) apolloLogoDrawableQr).getBitmap();
         ByteArrayOutputStream stream1Qr = new ByteArrayOutputStream();
         apolloLogoBitMapQr.compress(Bitmap.CompressFormat.PNG, 100, stream1Qr);
@@ -973,13 +975,13 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
         ImageData imageData1Qr = ImageDataFactory.create(bitMapData1Qr);
         Image image1Qr = new Image(imageData1Qr);
-        image1Qr.setWidth(230);
-        image1Qr.setHeight(200);
-        image1Qr.scaleToFit(100, 20);
-        image1Qr.setHeight(20);
+        image1Qr.setWidth(250);
+        image1Qr.setHeight(25);
+        image1Qr.scaleToFit(250, 30);
+        image1Qr.setHeight(25);
 //        table2.setHeight(60);
 
-        table2.addCell(new Cell().add(image1Qr).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getAwbno()).setFontSize(7).setFont(font)).setMarginLeft(80)).setPaddingBottom(0f));
+        table2.addCell(new Cell().add(image1Qr).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(pdfShippingLabelResponse.getData().getAwbno()).setHorizontalAlignment(HorizontalAlignment.CENTER.CENTER).setTextAlignment(TextAlignment.CENTER).setFontSize(7).setFont(font))).setHorizontalAlignment(HorizontalAlignment.CENTER.CENTER).setTextAlignment(TextAlignment.CENTER).setPaddingBottom(0f));
 
 //
 //        table2.addCell(new Cell(8, 1).add(new Paragraph(new Text("DELIVER TO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).add(new Paragraph(new Text("Santosh kumar").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text("NEAR AQUA WATER PLANT ADARSH NAGAR, NIRMAL, TS,504106").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)).add(new Paragraph(new Text("CONTACT NO: 9550080255").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).setMarginLeft(30)));
@@ -1167,7 +1169,7 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         table8.setBorder(border8);
 //        table8.setMarginLeft(5);
 //        table8.setMarginRight(5);
-        table8.addCell(new Cell().add(new Paragraph(new Text("If Undelivered, please return it to the above seller address\n(APOLLO PHARMACY)").setFontSize(7).setFont(font))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        table8.addCell(new Cell().add(new Paragraph(new Text("If Undelivered, please return it to the above seller address\n(APOLLO PHARMACY)").setFontSize(7).setFont(font)).setFixedLeading(10)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
 
 
         document.add(table1);
@@ -1408,7 +1410,30 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         }
 
     }
+    private Bitmap generateBarcodeWidthIncreased(String productId) {
+        try {
 
+            Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            Writer codeWriter;
+            codeWriter = new Code128Writer();
+            BitMatrix byteMatrix = codeWriter.encode(productId, BarcodeFormat.CODE_128, 450, 250, hintMap);
+            int width = byteMatrix.getWidth();
+            int height = byteMatrix.getHeight();
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    bitmap.setPixel(i, j, byteMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
+                }
+            }
+//            bitmapImg.setImageBitmap(bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+    }
     private void createPdffoursix() throws IOException {
         if (isStoragePermissionGranted()) {
 

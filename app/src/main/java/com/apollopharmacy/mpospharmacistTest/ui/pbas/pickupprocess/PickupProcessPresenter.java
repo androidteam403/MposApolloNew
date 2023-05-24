@@ -252,7 +252,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
 //    }
 
     @Override
-    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus) {
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj items, int qty, String finalStatus, boolean isRackAdapterClick) {
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
@@ -274,7 +274,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     if (response.isSuccessful()) {
 
                         if (response.isSuccessful() && response.body() != null)
-                            getMvpView().checkBatchInventorySuccess(finalStatus, response.body());
+                            getMvpView().checkBatchInventorySuccess(finalStatus, response.body(), isRackAdapterClick);
                         else
                             getMvpView().checkBatchInventoryFailed(response.body() != null ? response.body().getReturnMessage() : "Stock not Available!");
                     }

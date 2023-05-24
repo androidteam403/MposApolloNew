@@ -1,6 +1,5 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
@@ -89,11 +87,15 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         } else {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(true);
+            if (batchListModelListl.size() == 1) {
+                holder.adapterBatchlistBinding.requiredQuantity.requestFocus();
+            }
         }
 
         if (!allowChangeQty) {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
         }
+
 //        else {
 //            if (isFirstNavigate && position == 0) {
 //                isFirstNavigate = false;
@@ -321,7 +323,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
         }
 
-        if (salesLine.getPreferredBatch().equalsIgnoreCase(batchListModel.getBatchNo())){
+        if (salesLine.getPreferredBatch().equalsIgnoreCase(batchListModel.getBatchNo())) {
             holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.pay_btn_color);
         }
     }

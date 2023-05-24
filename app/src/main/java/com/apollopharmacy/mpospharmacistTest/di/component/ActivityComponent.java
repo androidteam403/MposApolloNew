@@ -30,6 +30,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLogin
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
@@ -44,12 +45,15 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummmaryActivityNew;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.SearchCustomerDoctorDetailsActivity;
@@ -187,4 +191,12 @@ public interface ActivityComponent {
     void inject(com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment ordersFragment);
 
     void inject(OrderReturnBillPrintActivity orderReturnBillPrintActivity);
+
+    void inject(PrescriptionSliderActivity prescriptionSliderActivity);
+
+    void inject(BatchlistScannerActivity batchlistScannerActivity);
+
+    void inject(StockInwardProcessFragment stockInwardProcessFragment);
+
+    void inject(StockInwardProcessDetailsActivity stockInwardProcessDetailsActivity);
 }

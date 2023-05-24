@@ -547,22 +547,38 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/ten_sp" />
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-<!--                            android:fontFamily="@font/roboto_medium"-->
-<!--                            android:text="Billdate Tat"-->
-<!--                            android:textColor="@color/text_color_grey"-->
-<!--                            android:textSize="@dimen/dimen10sp" />-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Fulfillment type"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/billdate_tat"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:fontFamily="@font/price_bold"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/ten_sp" />-->
+                        <TextView
+                            android:id="@+id/fulfillment_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/price_bold"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/ten_sp" />
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                        <!--                            android:fontFamily="@font/roboto_medium"-->
+                        <!--                            android:text="Billdate Tat"-->
+                        <!--                            android:textColor="@color/text_color_grey"-->
+                        <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/billdate_tat"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/price_bold"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            android:textSize="@dimen/ten_sp" />-->
                         <!--                        <TextView-->
                         <!--                            android:layout_width="wrap_content"-->
                         <!--                            android:layout_height="wrap_content"-->
@@ -710,6 +726,7 @@
                             android:fontFamily="@font/price_bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/ten_sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -726,39 +743,39 @@
                             android:fontFamily="@font/price_bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/ten_sp" />
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-<!--                            android:fontFamily="@font/roboto_medium"-->
-<!--                            android:text="Fulfillment type"-->
-<!--                            android:textColor="@color/text_color_grey"-->
-<!--                            android:textSize="@dimen/dimen10sp" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                        <!--                            android:fontFamily="@font/roboto_medium"-->
+                        <!--                            android:text="Fulfillment type"-->
+                        <!--                            android:textColor="@color/text_color_grey"-->
+                        <!--                            android:textSize="@dimen/dimen10sp" />-->
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/fulfillment_type"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:fontFamily="@font/price_bold"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/ten_sp" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/fulfillment_type"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/price_bold"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            android:textSize="@dimen/ten_sp" />-->
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-<!--                            android:fontFamily="@font/roboto_medium"-->
-<!--                            android:text="Fulfillment Site"-->
-<!--                            android:textColor="@color/text_color_grey"-->
-<!--                            android:textSize="@dimen/dimen10sp" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                        <!--                            android:fontFamily="@font/roboto_medium"-->
+                        <!--                            android:text="Fulfillment Site"-->
+                        <!--                            android:textColor="@color/text_color_grey"-->
+                        <!--                            android:textSize="@dimen/dimen10sp" />-->
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/fulfillment_site"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:fontFamily="@font/price_bold"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/ten_sp" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/fulfillment_site"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/price_bold"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            android:textSize="@dimen/ten_sp" />-->
 
                         <TextView
                             android:layout_width="wrap_content"

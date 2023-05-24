@@ -200,4 +200,9 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public GetGlobalConfingRes getGlobalConfigRes() {
         return getDataManager().getGlobalJson();
     }
+
+    @Override
+    public void onClickScanBatchId() {
+        getMvpView().onClickScanBatchId();
+    }
 }

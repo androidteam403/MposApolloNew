@@ -45,7 +45,7 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             GetJounalOnlineOrderTransactionsRequest getJounalOnlineOrderTransactionsRequest = new GetJounalOnlineOrderTransactionsRequest();
             getJounalOnlineOrderTransactionsRequest.setRequestType(0);
             getJounalOnlineOrderTransactionsRequest.setBulkFilterBy(0);
-            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateTwoDaysEarlier("dd-MMM-yyyy"));
+            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateThreeDaysEarlier("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setCustomerAccount(null);
             getJounalOnlineOrderTransactionsRequest.setReceiptId(null);
@@ -158,9 +158,9 @@ public class ShippingLabelPresenter<V extends ShippingLabelMvpView> extends Base
             getMvpView().showLoading();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             String url = "";
-           url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flID;
+            url = "https://online.apollopharmacy.org/GENERATEPDFFORMPOS/Apollo/SAVEPDF/GENERATEPDFBYFLID?FLID=" + flID;
 //            Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL();
-           Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
+            Call<PDFShippingLabelResponse> call = apiInterface.PDF_API_CALL_("h72genrSSNFivOi/cfiX3A==", url);
 
             call.enqueue(new Callback<PDFShippingLabelResponse>() {
                 @Override

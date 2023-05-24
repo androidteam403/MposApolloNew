@@ -120,7 +120,9 @@ public class PickupSummaryDetailsActivity extends BaseActivity implements PickUp
 
         pickupSummaryDetailsBinding.fullfilmentIdnumber.setText(selectedOmsHeader.getRefno());
         pickupSummaryDetailsBinding.totalItems.setText(String.valueOf(selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
-
+        if (selectedOmsHeader.getGetOMSTransactionResponse() != null && selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine() != null && selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+            pickupSummaryDetailsBinding.fulfillmentType.setText(selectedOmsHeader.getGetOMSTransactionResponse().getSalesLine().get(0).getFullfillmentType());
+        }
         if (selectedOmsHeader.getItemStatus() != null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             pickupSummaryDetailsBinding.statusUpdateIcon.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_not_available));
         } else if (selectedOmsHeader.getItemStatus() != null && selectedOmsHeader.getItemStatus().equalsIgnoreCase("FULL")) {

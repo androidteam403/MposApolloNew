@@ -37,6 +37,10 @@
             android:id="@+id/nav_orders"
             android:icon="@drawable/ic_menu_billing"
             android:title="@string/label_orders" />
+        <item
+            android:id="@+id/nav_stock_inward_process"
+            android:icon="@drawable/ic_menu_billing"
+            android:title="@string/label_stock_inward_process" />
 
 
         <!--        <item-->

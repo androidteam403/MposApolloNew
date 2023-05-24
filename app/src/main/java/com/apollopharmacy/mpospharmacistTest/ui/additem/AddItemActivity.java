@@ -439,8 +439,28 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 }
             }
         });
+
+        boolean isAddAllowed = true;
+        boolean isDeleteAllowed = true;
+        boolean isEditAllowed = true;
+//
+//        if (getCalculatedPosTransactionRes() != null && getCalculatedPosTransactionRes().getCorpCode() != null) {
+//            String corpCode = getCalculatedPosTransactionRes().getCorpCode();
+//            GetGlobalConfingRes globalConfingRes = mPresenter.getGlobalConfiguration();
+//            GetGlobalConfingRes.OMSVendorWiseConfigration omsVendorWiseConfigration;
+//            for (GetGlobalConfingRes.OMSVendorWiseConfigration o : globalConfingRes.getOMSVendorWiseConfigration()) {
+//                if (o.getCorpCode().equalsIgnoreCase(corpCode)) {
+//                    isAddAllowed = o.getAllowProductAdd();
+//                    isDeleteAllowed = o.getAllowVoidProduct();
+//                    isEditAllowed = o.getAllowChangeQTY();
+//                    break;
+//                }
+//            }
+//        }
+
+
         addItemBinding.medicineRecycle.setLayoutManager(new LinearLayoutManager(this));
-        medicinesDetailAdapter = new MainRecyclerAdapter(this, Singletone.getInstance().itemsArrayList);
+        medicinesDetailAdapter = new MainRecyclerAdapter(this, Singletone.getInstance().itemsArrayList, isDeleteAllowed, isAddAllowed, isEditAllowed);
 
         addItemBinding.medicineRecycle.setAdapter(medicinesDetailAdapter);
         ItemTouchHelperExtension.Callback mCallback = new ItemTouchHelperCallback();
@@ -1692,6 +1712,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         calculatePosTransactionRes = posTransactionRes;
 
+        boolean isAddAllowed = false;
+        boolean isDeleteAllowed = false;
+        boolean isEditAllowed = false;
+
+        if (getCalculatedPosTransactionRes() != null && getCalculatedPosTransactionRes().getCorpCode() != null) {
+            String corpCode = getCalculatedPosTransactionRes().getCorpCode();
+            GetGlobalConfingRes globalConfingRes = mPresenter.getGlobalConfiguration();
+            for (GetGlobalConfingRes.OMSVendorWiseConfigration o : globalConfingRes.getOMSVendorWiseConfigration()) {
+                if (o.getCorpCode().equalsIgnoreCase(corpCode)) {
+                    isAddAllowed = o.getAllowProductAdd();
+                    isDeleteAllowed = o.getAllowVoidProduct();
+                    isEditAllowed = o.getAllowChangeQTY();
+                    break;
+                }
+            }
+        }
+
+        medicinesDetailAdapter.setCrudConfiguration(isDeleteAllowed, isAddAllowed, isEditAllowed);
+
         calculatePosTransactionRes.setRemainingamount(paymentMethodModel.getBalanceAmount());
         orderPriceInfoModel.setOrderSavingsAmount(posTransactionRes.getDiscAmount() / posTransactionRes.getTotalMRP() * 100);
         orderPriceInfoModel.setMrpTotalAmount(posTransactionRes.getTotalMRP());
@@ -1861,6 +1900,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
         }
     }
+
     private void showMessagePopup1(String message) {
         Dialog showMessagePopup = new Dialog(this);
         ExitInfoDialogBinding exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.exit_info_dialog, null, false);

@@ -82,10 +82,10 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             fragmentName = (String) getIntent().getSerializableExtra("FRAGMENT_NAME");
         }
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold, R.id.nav_orders)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_picker_vtwo, R.id.nav_packer_vtwo, R.id.nav_biller_vtwo, R.id.nav_shipping_label, R.id.nav_on_hold, R.id.nav_orders, R.id.nav_stock_inward_process)
                 .setDrawerLayout(activityNavigation3Binding.drawerLayout)
                 .build();
-        activityNavigation3Binding.version.setText("Version " +""+ BuildConfig.VERSION_NAME);
+        activityNavigation3Binding.version.setText("Version " + "" + BuildConfig.VERSION_NAME);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -124,6 +124,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
                 navController.navigate(R.id.nav_on_hold, null, navOptions, null);
             } else if (menuItem.getItemId() == R.id.nav_orders) {
                 navController.navigate(R.id.nav_orders, null, navOptions, null);
+            } else if (menuItem.getItemId() == R.id.nav_stock_inward_process) {
+                navController.navigate(R.id.nav_stock_inward_process, null, navOptions, null);
             }
             return true;
         });
@@ -170,6 +172,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
             navController.navigate(R.id.nav_on_hold, null, navOptions, null);
         } else if (fragmentName.equals("ORDERS")) {
             navController.navigate(R.id.nav_orders, null, navOptions, null);
+        } else if (fragmentName.equals("STOCK_INWARD_PROCESS")) {
+            navController.navigate(R.id.nav_stock_inward_process, null, navOptions, null);
         }
     }
 

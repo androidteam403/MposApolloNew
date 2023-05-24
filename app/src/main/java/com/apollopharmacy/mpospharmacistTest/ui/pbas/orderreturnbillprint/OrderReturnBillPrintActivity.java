@@ -13,11 +13,9 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.text.LineBreaker;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
@@ -50,7 +48,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.PDFCreatorActivity;
-import com.apollopharmacy.mpospharmacistTest.custumpdf.utils.PDFUtil;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFBody;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFFooterView;
 import com.apollopharmacy.mpospharmacistTest.custumpdf.views.PDFHeaderView;
@@ -66,17 +63,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.OrderReturnAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.PaidListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.OrderReturnModel;
-import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.ViewAnimationUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGContents;
 import com.apollopharmacy.mpospharmacistTest.utils.qrcode.QRGEncoder;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.io.font.FontProgram;
 import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.PdfEncodings;
@@ -101,6 +93,7 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.AreaBreakType;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -143,6 +136,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
     private final static int ITEXT_FONT_SIZE_SIX = 8;
 
     private final static int ITEXT_FONT_SIZE_SIX_6 = 6;
+
     public static Intent getStartIntent(Context context, CalculatePosTransactionRes model) {
         Intent intent = new Intent(context, OrderReturnBillPrintActivity.class);
         intent.putExtra("order_history_info", model);
@@ -333,7 +327,6 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
                 }
             }
         });
-
 
 
         if (orderHistoryItem.getSalesLine().size() > 0) {
@@ -1195,6 +1188,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
             openPdf();
         }
     }
+
     public static final String REGULAR =
             "res/font/gothic_regular.TTF";
     public static final String BOLD =
@@ -1227,9 +1221,11 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
 ////        PdfFont cam = PdfFontFactory.createFont(font_end, true);
 //      PdfFont cam = PdfFontFactory.createFont("src\\main\\res\\font\\cambriab.ttf", true);
 
-        float[] columnWidth1 = {100, 155, 155, 170};//580
+        float[] columnWidth1 = {98, 150, 150, 167};//580
 //        float columnWidth1[] = {65, 165, 140, 190};
         Table table1 = new Table(columnWidth1);
+        table1.setWidth(UnitValue.createPercentValue(100));
+        table1.setFixedLayout();
 
         //table1.....row1.....
         Drawable apolloLogoDrawable = getDrawable(R.drawable.new_apollo_21);
@@ -1248,6 +1244,9 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         table1.setBorder(border1);
         table1.addCell(new Cell(4, 1).add(image1).setBorder(Border.NO_BORDER));
         table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Apollo Pharmacy - ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getBranch()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).add(new Paragraph(new Text(pdfModelResponse.getSalesHeader().get(0).getAddressOne()).setFontSize(ITEXT_FONT_SIZE_SIX))).add(new Paragraph(new Text(pdfModelResponse.getSalesHeader().get(0).getAddressTwo()).setFontSize(ITEXT_FONT_SIZE_SIX))).add(new Paragraph(new Text("PHONE: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getTelNo()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
+        String dlNo = "bhfibivueriiguerhgjernjifvbfivjibvibviuhdhihivnihbvuiidbuihijdbvyvidhiuhduuidhbvjdbvhdbvdbvhdvdvhdbvshvsdhvbdvdsvbbvds";
+
+//                String dlNo = pdfModelResponse.getSalesHeader().get(0).getDlno();
         table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("FSSAI NO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getFssaino()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("D.L.NO: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getDlno()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("GST NO : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getGstin()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER).add(new Paragraph(new Text("C.GSTIN NO : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text(pdfModelResponse.getSalesHeader().get(0).getCgstin()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
 
 
@@ -1306,7 +1305,11 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
             } else {
                 PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
                 pageBreakCount++;
-                table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length()>7){
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0,5)+"..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }else{
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                }
                 table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
                 String itemName = salesLine.getItemName().replace(" ", "\u00A0");
                 table4.addCell(new Cell().add(new Paragraph(new Text(itemName).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1360,7 +1363,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
                 }
             }
         }
-        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
+        tableEShippingPacking.addCell(new Cell(1, 1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
 
         float[] columnWidth5 = {144, 170, 122, 144};//580
 //        float columnWidth5[] = {140, 160, 120, 140};
@@ -1408,8 +1411,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
         table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
 
-        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. "+ pdfModelResponse.getSalesHeader().get(0).getDiscount()+"& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
-
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
 
 
         float[] columnWidth7 = {290, 290};//580
@@ -1421,8 +1423,8 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
         double netAmout = Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal());
         String rupeesInput = "\"Rupees\"";
         String onlyInput = "\"only\"";
-        String rupees = rupeesInput.substring( 0,rupeesInput.length() - 1);
-        String only = onlyInput.substring( 1);
+        String rupees = rupeesInput.substring(0, rupeesInput.length() - 1);
+        String only = onlyInput.substring(1);
 //        System.out.println("Input: " + input);
 //        System.out.println("Result: " + result);
         table7.addCell(new Cell().add(new Paragraph(new Text((rupees + " " + EnglishNumberToWords.convert(Math.round(Double.parseDouble(pdfModelResponse.getSalesHeader().get(0).getNetTotal()))) + " " + only)).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER));
@@ -1453,7 +1455,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
 
         table8.addCell(new Cell().add(new Paragraph(new Text("Wishing You Speedy Recovery").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
         table8.addCell(new Cell(1, 1).add(new Paragraph(new Text("Scan QR Code For\nRefill/Reorder").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
-        table8.addCell(new Cell(4, 1).add(image2.setMargins(0,0,0,0).setPadding(0)).setPadding(0).setMargin(0).setBorder(Border.NO_BORDER));
+        table8.addCell(new Cell(4, 1).add(image2.setMargins(0, 0, 0, 0).setPadding(0)).setPadding(0).setMargin(0).setBorder(Border.NO_BORDER));
         table8.addCell(new Cell().add(new Paragraph(new Text("For ").setFontSize(8).setFont(font)).add(new Text("APOLLO PHARMACY\n").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("Registered pharmacist").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
 
         table8.addCell(new Cell().add(new Paragraph(new Text("\"QR Code was digitally displayed for the Customer at the time of the transaction\"").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.CENTER).setTextAlignment(TextAlignment.CENTER).setFont(font));
@@ -1536,7 +1538,7 @@ public class OrderReturnBillPrintActivity extends PDFCreatorActivity implements 
             // view using .setimagebitmap method.
             if (qrCodeData != null) {
 //                 bitmapImg.setImageBitmap(bitmap);
-                bitmap1= bitmap;
+                bitmap1 = bitmap;
             }
         } catch (com.google.zxing.WriterException e) {
             // this method is called for

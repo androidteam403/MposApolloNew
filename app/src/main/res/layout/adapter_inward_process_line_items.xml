@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:elevation="@dimen/dimen5dp"
+            app:cardCornerRadius="@dimen/dimen5dp"
+            app:cardElevation="@dimen/dimen5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inward_details_adapter_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen5dp">
+
+                <LinearLayout
+                    android:id="@+id/top_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".2"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Line ID"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen10sp"
+                            android:visibility="gone" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Item ID"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Item name"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Batch ID"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Reference ID"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen10sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".2"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp"
+                            android:visibility="gone" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="GLZ0006"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="GLZ XR TAB 15S"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="2208001320"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="PO-E000018221"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum=".7">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Batch ID"
+                                    android:textColor="@color/grey"
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".3"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Qty"
+                                    android:textColor="@color/grey"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".4"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="MRP"
+                                    android:textColor="@color/grey"
+                                    android:textSize="@dimen/dimen10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum=".7">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".3"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="2208001320"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".3"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="90"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".4"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="14.93"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="end">
+
+                            <ImageView
+                                android:id="@+id/drop_down_icon"
+                                android:layout_width="@dimen/dimen30dp"
+                                android:layout_height="@dimen/dimen30dp"
+                                android:layout_marginEnd="@dimen/dimen10dp"
+                                android:contentDescription="@string/app_name"
+                                android:padding="@dimen/dimen5dp"
+                                android:rotation="90"
+                                android:src="@drawable/right_arrow_black" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/extra_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:layout_weight=".5"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColorHint="@color/grey"
+                            android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/transfer_qty"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_transfer_qty"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen10sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:layout_weight=".5"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColorHint="@color/grey"
+                            android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/physical_mrp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_physical_mrp"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen10sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:layout_weight=".5"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColorHint="@color/grey"
+                            android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/physical_batch"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_physical_batch"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen10sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:layout_weight=".5"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColorHint="@color/grey"
+                            android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/physical_exp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_physica_exp"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen10sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textColorHint="@color/grey"
+                            android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/remarks"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/label_remarks"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:padding="@dimen/ten_dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen10sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</layout>

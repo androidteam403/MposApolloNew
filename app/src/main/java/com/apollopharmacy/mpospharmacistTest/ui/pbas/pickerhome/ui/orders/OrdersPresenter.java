@@ -38,7 +38,7 @@ public class OrdersPresenter<V extends OrdersMvpView> extends BasePresenter<V>
             GetJounalOnlineOrderTransactionsRequest getJounalOnlineOrderTransactionsRequest = new GetJounalOnlineOrderTransactionsRequest();
             getJounalOnlineOrderTransactionsRequest.setRequestType(0);
             getJounalOnlineOrderTransactionsRequest.setBulkFilterBy(0);
-            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateTwoDaysEarlier("dd-MMM-yyyy"));
+            getJounalOnlineOrderTransactionsRequest.setFromDate(CommonUtils.getDateThreeDaysEarlier("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setToDate(CommonUtils.getCurrentDate("dd-MMM-yyyy"));
             getJounalOnlineOrderTransactionsRequest.setCustomerAccount(null);
             getJounalOnlineOrderTransactionsRequest.setReceiptId(null);

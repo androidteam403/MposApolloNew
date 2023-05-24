@@ -66,14 +66,14 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSalesLine(int position, String status);
 
-    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status);
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick);
 
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onSuccessGetBatchDetails(GetBatchInfoRes getBatchDetailsResponse, GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);
 
-    void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body);
+    void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body, boolean isRackAdapterClick);
 
     void checkBatchInventoryFailed(String message);
 

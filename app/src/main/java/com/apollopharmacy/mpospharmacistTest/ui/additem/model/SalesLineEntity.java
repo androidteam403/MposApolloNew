@@ -203,6 +203,9 @@ public class SalesLineEntity extends BaseObservable implements Serializable {
     @Expose
     @SerializedName("InventBatchId")
     private String InventBatchId;
+    @SerializedName("FullfillmentType")
+    @Expose
+    private String fullfillmentType;
 
 
     @Expose
@@ -1035,6 +1038,14 @@ public class SalesLineEntity extends BaseObservable implements Serializable {
 
     public void setInventBatchId(String inventBatchId) {
         InventBatchId = inventBatchId;
+    }
+
+    public String getFullfillmentType() {
+        return fullfillmentType;
+    }
+
+    public void setFullfillmentType(String fullfillmentType) {
+        this.fullfillmentType = fullfillmentType;
     }
 
     public void setISStockAvailable(boolean ISStockAvailable) {

@@ -35,117 +35,126 @@
                     android:background="@drawable/square_stroke_bg"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dimen2dp">
-
-                    <ImageView
-                        android:id="@+id/fullfillment_select_icon"
-                        android:layout_width="@dimen/dimen20dp"
-                        android:layout_height="@dimen/dimen20dp"
-                        android:layout_marginStart="@dimen/dimen2dp"
-                        android:clickable="false"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_circle_stroke" />
+                    android:padding="@dimen/dimen2dp"
+                    android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen10dp"
-                        android:orientation="vertical">
+                        android:layout_weight=".7"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/fullfillment_select_icon"
+                            android:layout_width="@dimen/dimen20dp"
+                            android:layout_height="@dimen/dimen20dp"
+                            android:layout_marginStart="@dimen/dimen2dp"
+                            android:clickable="false"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_circle_stroke" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginStart="@dimen/dimen10dp"
+                            android:orientation="vertical">
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/label_sfulfilment_id"
-                                android:textColor="#b6b4af"
-                                android:textSize="@dimen/dimen10sp" />
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/fullfilment_id"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="@string/label_sfulfilment_id"
+                                    android:textColor="#b6b4af"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:id="@+id/fullfilment_id"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/dimen10sp" />
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Total Items : "
+                                    android:textColor="#b6b4af"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:id="@+id/items"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Stock Status : "
+                                    android:textColor="#b6b4af"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:id="@+id/pickup_status"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Source Order ID : "
+                                    android:textColor="#b6b4af"
+                                    android:textSize="@dimen/dimen10sp" />
+
+                                <TextView
+                                    android:id="@+id/order_source_header"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen10sp" />
+                            </LinearLayout>
+
+                            <!--            android:onClick="@{()-> callback.onRightArrowClickedContinue()}"-->
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Total Items : "
-                                android:textColor="#b6b4af"
-                                android:textSize="@dimen/dimen10sp" />
-
-                            <TextView
-                                android:id="@+id/items"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/dimen10sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Stock Status : "
-                                android:textColor="#b6b4af"
-                                android:textSize="@dimen/dimen10sp" />
-
-                            <TextView
-                                android:id="@+id/pickup_status"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/dimen10sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Source Order ID : "
-                                android:textColor="#b6b4af"
-                                android:textSize="@dimen/dimen10sp" />
-
-                            <TextView
-                                android:id="@+id/order_source_header"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/dimen10sp" />
-                        </LinearLayout>
-
-                        <!--            android:onClick="@{()-> callback.onRightArrowClickedContinue()}"-->
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight=".3"
                         android:gravity="end"
                         android:orientation="vertical">
 
@@ -211,440 +220,487 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/square_stroke_yellow_bg"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/ten_dp"
-                    android:weightSum="1">
+                    android:orientation="vertical"
+                    android:padding="@dimen/ten_dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".5"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Customer type"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/customer_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Order date"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/order_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Shipping method Type"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/shipping_method_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Payment source"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/payment_source"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Name"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/customer_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Mobile Number"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/mobile_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Doctor Name"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/doctor_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="City"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Shipping TAT"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/shipment_tat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Fulfillment type"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/fulfillment_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+
+                            <!--                        <TextView-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                            <!--                            android:fontFamily="@font/roboto_medium"-->
+                            <!--                            android:text="Billdate Tat"-->
+                            <!--                            android:textColor="@color/text_color_grey"-->
+                            <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:id="@+id/billdate_tat"-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:fontFamily="@font/price_bold"-->
+                            <!--                            android:textColor="@color/black"-->
+                            <!--                            android:textSize="@dimen/ten_sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                            <!--                            android:fontFamily="@font/roboto_medium"-->
+                            <!--                            android:text="Pincode"-->
+                            <!--                            android:textColor="@color/text_color_grey"-->
+                            <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:id="@+id/pincode"-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:fontFamily="@font/price_bold"-->
+                            <!--                            android:textColor="@color/black"-->
+                            <!--                            android:textSize="@dimen/ten_sp" />-->
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Vendor Id"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/ordersource"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Delivery date"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:id="@+id/delivery_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Source Order Name"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/source_order_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Order type"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/order_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen_9_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Vendor ID"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/vendor_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Order BillValue"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/orderbillvalue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Pincode"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/pincode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Billing TAT"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp" />
+
+                            <TextView
+                                android:id="@+id/billdate_tat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp" />
+                            <!--                        <TextView-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                            <!--                            android:fontFamily="@font/roboto_medium"-->
+                            <!--                            android:text="Fulfillment type"-->
+                            <!--                            android:textColor="@color/text_color_grey"-->
+                            <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:id="@+id/fulfillment_type"-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:fontFamily="@font/price_bold"-->
+                            <!--                            android:textColor="@color/black"-->
+                            <!--                            android:textSize="@dimen/ten_sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
+                            <!--                            android:fontFamily="@font/roboto_medium"-->
+                            <!--                            android:text="Fulfillment Site"-->
+                            <!--                            android:textColor="@color/text_color_grey"-->
+                            <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:id="@+id/fulfillment_site"-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:fontFamily="@font/price_bold"-->
+                            <!--                            android:textColor="@color/black"-->
+                            <!--                            android:textSize="@dimen/ten_sp" />-->
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="State Code"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/statecode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Address"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/address"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Comments"
+                                android:textColor="@color/text_color_grey"
+                                android:textSize="@dimen/dimen10sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/comments"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/price_bold"
+                                android:text="---"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/ten_sp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/prescriptions_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Customer type"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/customer_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Order date"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/order_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Shipping method Type"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/shipping_method_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Payment source"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/payment_source"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen2dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Name"
+                            android:text="@string/label_prescriptions"
                             android:textColor="@color/text_color_grey"
                             android:textSize="@dimen/dimen10sp" />
 
-                        <TextView
-                            android:id="@+id/customer_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/prescriptions_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Mobile Number"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/mobile_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Doctor Name"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/doctor_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="City"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Shipping TAT"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/shipment_tat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-                        <!--                            android:fontFamily="@font/roboto_medium"-->
-                        <!--                            android:text="Billdate Tat"-->
-                        <!--                            android:textColor="@color/text_color_grey"-->
-                        <!--                            android:textSize="@dimen/dimen10sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/billdate_tat"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="@font/price_bold"-->
-                        <!--                            android:textColor="@color/black"-->
-                        <!--                            android:textSize="@dimen/ten_sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-                        <!--                            android:fontFamily="@font/roboto_medium"-->
-                        <!--                            android:text="Pincode"-->
-                        <!--                            android:textColor="@color/text_color_grey"-->
-                        <!--                            android:textSize="@dimen/dimen10sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/pincode"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="@font/price_bold"-->
-                        <!--                            android:textColor="@color/black"-->
-                        <!--                            android:textSize="@dimen/ten_sp" />-->
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Vendor Id"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/ordersource"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Delivery date"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:id="@+id/delivery_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Source Order Name"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/source_order_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Order type"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/order_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen_9_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Vendor ID"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/vendor_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Order BillValue"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/orderbillvalue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Pincode"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/pincode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Billing TAT"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp" />
-
-                        <TextView
-                            android:id="@+id/billdate_tat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp" />
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-                        <!--                            android:fontFamily="@font/roboto_medium"-->
-                        <!--                            android:text="Fulfillment type"-->
-                        <!--                            android:textColor="@color/text_color_grey"-->
-                        <!--                            android:textSize="@dimen/dimen10sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/fulfillment_type"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="@font/price_bold"-->
-                        <!--                            android:textColor="@color/black"-->
-                        <!--                            android:textSize="@dimen/ten_sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/dimen2dp"-->
-                        <!--                            android:fontFamily="@font/roboto_medium"-->
-                        <!--                            android:text="Fulfillment Site"-->
-                        <!--                            android:textColor="@color/text_color_grey"-->
-                        <!--                            android:textSize="@dimen/dimen10sp" />-->
-
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/fulfillment_site"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="@font/price_bold"-->
-                        <!--                            android:textColor="@color/black"-->
-                        <!--                            android:textSize="@dimen/ten_sp" />-->
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="State Code"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/statecode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Address"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen2dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Comments"
-                            android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/dimen10sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/comments"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/price_bold"
-                            android:text="---"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/ten_sp"
-                            android:visibility="gone" />
-                    </LinearLayout>
                 </LinearLayout>
 
                 <!--                <LinearLayout-->

@@ -118,6 +118,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
         holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
         holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
+        if (omsHeader.getGetOMSTransactionResponse() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+            holder.orderBinding.fulfillmentType.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(0).getFullfillmentType());
+        }
 
         holder.orderBinding.shipmentTat.setText(omsHeader.getShipmentTat());
         holder.orderBinding.billdateTat.setText(omsHeader.getBillingTat());
@@ -548,7 +551,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId) {
         if (pickupProcessMvpView != null) {
-            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status);
+            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status, false, false);
 
         }
     }

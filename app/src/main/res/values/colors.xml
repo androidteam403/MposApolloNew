@@ -123,5 +123,11 @@
     <color name="color_takeprint">#00adef</color>
     <color name="sea_blue">#49c3f3</color>
     <color name="orders_bill_reprint_button_color">#67cfd6</color>
+    <color name="picker_packer_action_bar_color">#01bfbf</color>
+
+
+    <color name="test" tools:override="true">@color/picker_packer_action_bar_color</color>
+
+
 
 </resources>

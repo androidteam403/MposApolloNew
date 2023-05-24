@@ -38,6 +38,11 @@
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment"
         tools:layout="@layout/fragment_orders" />
 
+    <fragment
+        android:id="@+id/nav_stock_inward_process"
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessFragment"
+        tools:layout="@layout/fragment_stock_inward_process" />
+
 
     <!--   <fragment-->
     <!--         android:id="@+id/nav_ePrescription_vtwo"-->

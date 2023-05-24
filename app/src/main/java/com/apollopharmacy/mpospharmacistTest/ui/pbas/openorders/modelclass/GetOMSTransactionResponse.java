@@ -226,7 +226,7 @@ public class GetOMSTransactionResponse implements Serializable {
     private Integer oMSCreditAmount;
     @SerializedName("OrderPrescriptionURL")
     @Expose
-    private List<Object> orderPrescriptionURL = null;
+    private List<OrderPrescriptionURL> orderPrescriptionURL;
     @SerializedName("fulid")
     @Expose
     private String fulid = null;
@@ -706,6 +706,9 @@ public class GetOMSTransactionResponse implements Serializable {
         @SerializedName("VariantId")
         @Expose
         private String variantId;
+        @SerializedName("FullfillmentType")
+        @Expose
+        private String fullfillmentType;
 
         private GetBatchInfoRes getBatchInfoRes;
         private String fullfillmentId;
@@ -1493,6 +1496,14 @@ public class GetOMSTransactionResponse implements Serializable {
             this.variantId = variantId;
         }
 
+        public String getFullfillmentType() {
+            return fullfillmentType;
+        }
+
+        public void setFullfillmentType(String fullfillmentType) {
+            this.fullfillmentType = fullfillmentType;
+        }
+
         public String getFullfillmentId() {
             return fullfillmentId;
         }
@@ -2177,11 +2188,11 @@ public class GetOMSTransactionResponse implements Serializable {
     }
 
 
-    public List<Object> getOrderPrescriptionURL() {
+    public List<OrderPrescriptionURL> getOrderPrescriptionURL() {
         return orderPrescriptionURL;
     }
 
-    public void setOrderPrescriptionURL(List<Object> orderPrescriptionURL) {
+    public void setOrderPrescriptionURL(List<OrderPrescriptionURL> orderPrescriptionURL) {
         this.orderPrescriptionURL = orderPrescriptionURL;
     }
 
@@ -2708,6 +2719,53 @@ public class GetOMSTransactionResponse implements Serializable {
             this.taxCode = taxCode;
         }
 
+    }
+
+    public class OrderPrescriptionURL implements Serializable {
+        @SerializedName("CATEGORYCODE")
+        @Expose
+        private String categorycode;
+        @SerializedName("PERSCRIPTIONURL")
+        @Expose
+        private String perscriptionurl;
+        @SerializedName("PRESCRIPTIONNO")
+        @Expose
+        private String prescriptionno;
+        @SerializedName("Type")
+        @Expose
+        private String type;
+
+        public String getCategorycode() {
+            return categorycode;
+        }
+
+        public void setCategorycode(String categorycode) {
+            this.categorycode = categorycode;
+        }
+
+        public String getPerscriptionurl() {
+            return perscriptionurl;
+        }
+
+        public void setPerscriptionurl(String perscriptionurl) {
+            this.perscriptionurl = perscriptionurl;
+        }
+
+        public String getPrescriptionno() {
+            return prescriptionno;
+        }
+
+        public void setPrescriptionno(String prescriptionno) {
+            this.prescriptionno = prescriptionno;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
     }
 }
 
