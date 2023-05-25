@@ -36,8 +36,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
+import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -186,15 +186,34 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             customerDetailsBinding.setCustomer(customerEntity);
             customerDetailsBinding.setNoUser(false);
         } else {
-            customerDetailsBinding.setCustomer(null);
-            customerDetailsBinding.setNoUser(true);
+            if (mPresenter.getGlobalConfigResponse().isISHBPStore()) {
+                GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+                customerEntity.setSearchId(getCustomerNumber());
+                customerEntity.setMobileNo(getCustomerNumber());
+                customerDetailsBinding.setCustomer(customerEntity);
+                customerDetailsBinding.setNoUser(true);
+                customerDetailsBinding.addNewCustomerBtn.setVisibility(View.GONE);
+
+            } else {
+                customerDetailsBinding.setCustomer(null);
+                customerDetailsBinding.setNoUser(true);
+            }
         }
     }
 
     @Override
     public void onFailedCustomerSearch() {
-        customerDetailsBinding.setCustomer(null);
-        customerDetailsBinding.setNoUser(true);
+        if (mPresenter.getGlobalConfigResponse().isISHBPStore()) {
+            GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+            customerEntity.setSearchId(getCustomerNumber());
+            customerEntity.setMobileNo(getCustomerNumber());
+            customerDetailsBinding.setCustomer(customerEntity);
+            customerDetailsBinding.setNoUser(true);
+            customerDetailsBinding.addNewCustomerBtn.setVisibility(View.GONE);
+        } else {
+            customerDetailsBinding.setCustomer(null);
+            customerDetailsBinding.setNoUser(true);
+        }
     }
 
     @Override
@@ -209,8 +228,10 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
         } else {
             if (TextUtils.isEmpty(customerDetailsBinding.customerName.getText().toString())) {
                 customerDetailsBinding.customerName.setError("Enter Name");
+                customerDetailsBinding.customerName.requestFocus();
             } else if (customerDetailsBinding.customerMobile.getText().toString().length() < 10) {
                 customerDetailsBinding.customerMobile.setError("Enter valid mobile number");
+                customerDetailsBinding.customerMobile.requestFocus();
             } else {
                 GetCustomerResponse.CustomerEntity entity = new GetCustomerResponse.CustomerEntity();
                 entity.setCardName(customerDetailsBinding.customerName.getText().toString());
@@ -359,8 +380,8 @@ public class CustomerDetailsActivity extends BaseActivity implements CustomerDet
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         customerDetailsBinding.imageView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
         new Handler().postDelayed(new Runnable() {
             @Override

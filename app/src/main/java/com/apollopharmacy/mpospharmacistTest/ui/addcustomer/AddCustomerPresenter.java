@@ -119,7 +119,12 @@ public class AddCustomerPresenter<V extends AddCustomerMvpView> extends BasePres
                         if (response.body().getRequestStatus() == 0) {
                             getMvpView().addCustomerSuccess(response.body());
                         } else {
-                            getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            if (response.body().getReturnMessage().contains("THE RECORD ALREADY EXISTS")){
+                                getMvpView().addCustomerSuccess(response.body());
+                            }else {
+                                getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            }
+
                         }
                     }
                 }

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen40dp"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:id="@+id/action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen60dp"
+                android:background="@color/picker_packer_action_bar_color"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/menu_icon"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:padding="@dimen/dimen3dp"
+                    android:src="@drawable/ic_back_arrow_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_stock_inward_process_details"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_clear_all" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen5dp"
+                android:background="@drawable/square_stroke_yellow_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="1.5">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".6"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_vendor_ref_no"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/vendor_ref_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="RPR-E000006953"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_delivery_date"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/delivery_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="2023-01-02"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_po_number"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/po_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="PO-E000018221"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_challan_date"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/challan_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="2023-01-02"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_sup_inv_no"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/sup_inv_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="HYD-22-587959"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_supplier_name"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/supplier_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="1032"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_vendor_group"
+                            android:textColor="@color/text_color_grey"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/vendor_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="AHL_PHARMA"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp" />
+                    </LinearLayout>
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight=".5"-->
+                    <!--                        android:orientation="vertical">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_vendor_ref_no"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/vendor_ref_no"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="RPR-E000006953"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_supplier_name"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/supplier_name"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="1032"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_delivery_date"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/delivery_date"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="2023-01-02"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_vendor_group"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/vendor_group"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="AHL_PHARMA"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+                    <!--                    </LinearLayout>-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight=".5"-->
+                    <!--                        android:orientation="vertical">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_challan_date"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/challan_date"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="2023-01-02"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_sup_inv_no"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/sup_inv_no"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="HYD-22-587959"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="@string/label_po_number"-->
+                    <!--                            android:textColor="@color/text_color_grey"-->
+                    <!--                            android:textSize="@dimen/dimen10sp" />-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/po_number"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/roboto_regular"-->
+                    <!--                            android:text="PO-E000018221"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/twelve_sp" />-->
+                    <!--                    </LinearLayout>-->
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen40dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColorHint="@color/grey"
+                    android:theme="@style/EditTextInputLayoutStylePickerPacker">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/label_reason"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:padding="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/inward_process_lisne_items_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen40dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".4975"
+                android:background="@color/green"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/label__save"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".005"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".4975"
+                android:background="@color/cpb_yellow"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/label_post_prs"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsMvpPresenter" />
+    </data>
+</layout>

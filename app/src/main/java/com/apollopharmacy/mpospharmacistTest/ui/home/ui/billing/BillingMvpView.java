@@ -8,6 +8,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.Corporate
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 public interface BillingMvpView extends MvpView {
@@ -49,5 +51,7 @@ public interface BillingMvpView extends MvpView {
     void onSucessPlayList();
 
     Context getContext();
+
+    void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse);
 
 }

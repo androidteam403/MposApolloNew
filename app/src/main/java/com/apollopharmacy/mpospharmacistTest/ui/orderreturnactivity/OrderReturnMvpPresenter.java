@@ -39,9 +39,9 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
 
     void onMposTabApiCall();
 
-    void feebackapicall(String OrderId,String Rating,String Comment);
+    void feebackapicall(String OrderId, String Rating, String Comment);
 
-    void showfeedbackformDialog(String orderid,String mobilenumber,String storeid);
+    void showfeedbackformDialog(String orderid, String mobilenumber, String storeid);
 
     List<RowsEntity> getDataListEntity();
 
@@ -53,5 +53,7 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
 
     boolean DigitalReceiptRequired();
 
+    void onClickBillReprint();
 
+    void downloadPdf(String transactionId);
 }

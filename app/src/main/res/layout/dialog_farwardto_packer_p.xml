@@ -17,6 +17,7 @@
             android:paddingBottom="@dimen/dimen30dp">
 
             <ImageView
+                android:id="@+id/status_image"
                 android:layout_width="@dimen/sixty_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:background="@drawable/ic_circular_shape"
@@ -25,13 +26,14 @@
                 android:src="@drawable/tick_mark" />
 
             <TextView
+                android:id="@+id/message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:text="Forward to Packer"
+                android:text="Forwarded to Packer"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp" />
 
