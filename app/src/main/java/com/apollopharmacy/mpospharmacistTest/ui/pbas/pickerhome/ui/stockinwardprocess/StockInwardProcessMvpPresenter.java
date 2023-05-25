@@ -7,4 +7,8 @@ public interface StockInwardProcessMvpPresenter<V extends StockInwardProcessMvpV
     void onClickFromDate();
 
     void onClickToDate();
+
+    void onClickShow();
+
+    void getInventoryTransactionDetails(String fromDate, String toDate);
 }

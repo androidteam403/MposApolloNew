@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -12,6 +13,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityStockInwardProcessDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.adapter.InwardProcessLineItemsAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsResponse;
 
 import javax.inject.Inject;
 
@@ -38,7 +40,9 @@ public class StockInwardProcessDetailsActivity extends BaseActivity implements S
 
     @Override
     protected void setUp() {
+
         stockInwardProcessDetailsBinding.setCallback(mPresenter);
+
         setAdapter();
     }
 
@@ -59,4 +63,5 @@ public class StockInwardProcessDetailsActivity extends BaseActivity implements S
     public void onClickBack() {
         onBackPressed();
     }
+
 }
