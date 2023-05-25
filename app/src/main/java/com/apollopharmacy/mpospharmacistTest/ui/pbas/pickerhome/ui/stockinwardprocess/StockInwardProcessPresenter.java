@@ -8,8 +8,7 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class StockInwardProcessPresenter<V extends StockInwardProcessMvpView> extends BasePresenter<V>
-        implements StockInwardProcessMvpPresenter<V> {
+public class StockInwardProcessPresenter<V extends StockInwardProcessMvpView> extends BasePresenter<V> implements StockInwardProcessMvpPresenter<V> {
 
     @Inject
     public StockInwardProcessPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
