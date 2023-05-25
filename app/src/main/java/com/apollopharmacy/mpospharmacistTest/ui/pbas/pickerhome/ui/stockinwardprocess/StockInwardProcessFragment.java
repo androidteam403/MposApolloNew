@@ -18,8 +18,11 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.adapter.StockInwardProcessAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,6 +51,36 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     @Override
     protected void setUp(View view) {
         stockInwardProcessBinding.setCallback(mPresenter);
+        String strDate = fromDate;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy").format(date);
+
+        String strDate2 = toDate;
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date2 = null;
+        try {
+            date2 = dateFormat2.parse(strDate2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy").format(date2);
+//        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        DateFormat outputFormat = new SimpleDateFormat("dd-MMMM-yyyy");
+//        String inputDateStr=fromDate;
+//        Date date = null;
+//        try {
+//            date = inputFormat.parse(inputDateStr);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        String fromDateStr = outputFormat.format(date);
+        mPresenter.getInventoryTransactionDetails(dateNewFormat, dateNewFormatToDate);
         fromToDateConfig();
         actionbarConfiguration();
         setAdapter();
@@ -71,10 +104,10 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     }
 
     private void setAdapter() {
-        StockInwardProcessAdapter stockInwardProcessAdapter = new StockInwardProcessAdapter(getContext(), this);
-        LinearLayoutManager mLinearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        stockInwardProcessBinding.stockInwardProcessRecycler.setLayoutManager(mLinearManager);
-        stockInwardProcessBinding.stockInwardProcessRecycler.setAdapter(stockInwardProcessAdapter);
+//        StockInwardProcessAdapter stockInwardProcessAdapter = new StockInwardProcessAdapter(getContext(), this, getInventoryTransactionDetailsResponse.getInventoryData());
+//        LinearLayoutManager mLinearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//        stockInwardProcessBinding.stockInwardProcessRecycler.setLayoutManager(mLinearManager);
+//        stockInwardProcessBinding.stockInwardProcessRecycler.setAdapter(stockInwardProcessAdapter);
     }
 
     private void actionbarConfiguration() {
@@ -179,5 +212,55 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     public void onClickItem() {
         startActivity(StockInwardProcessDetailsActivity.getStartIntent(getContext()));
         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+
+    @Override
+    public void onSuccessgetInventoryTransactionDetails(GetInventoryTransactionDetailsResponse getInventoryTransactionDetailsResponse) {
+        if(getInventoryTransactionDetailsResponse!=null && getInventoryTransactionDetailsResponse.getInventoryData()!=null && getInventoryTransactionDetailsResponse.getInventoryData().size()>0){
+            stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.VISIBLE);
+            stockInwardProcessBinding.noRecordFound.setVisibility(View.GONE);
+            StockInwardProcessAdapter stockInwardProcessAdapter = new StockInwardProcessAdapter(getContext(), this, getInventoryTransactionDetailsResponse.getInventoryData());
+            LinearLayoutManager mLinearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            stockInwardProcessBinding.stockInwardProcessRecycler.setLayoutManager(mLinearManager);
+            stockInwardProcessBinding.stockInwardProcessRecycler.setAdapter(stockInwardProcessAdapter);
+        }else{
+            stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.GONE);
+            stockInwardProcessBinding.noRecordFound.setVisibility(View.VISIBLE);
+        }
+         }
+
+    @Override
+    public void onClickShow() {
+        String strDate = stockInwardProcessBinding.fromDate.getText().toString();
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        Date date = null;
+        try {
+            date = dateFormat.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy").format(date);
+
+        String strDate2 = stockInwardProcessBinding.toDate.getText().toString();
+        DateFormat dateFormat2 = new SimpleDateFormat("MMMM dd, yyyy");
+        Date date2 = null;
+        try {
+            date2 = dateFormat2.parse(strDate2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy").format(date2);
+//        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        DateFormat outputFormat = new SimpleDateFormat("dd-MMMM-yyyy");
+//        String inputDateStr=fromDate;
+//        Date date = null;
+//        try {
+//            date = inputFormat.parse(inputDateStr);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        String fromDateStr = outputFormat.format(date);
+        mPresenter.getInventoryTransactionDetails(dateNewFormat, dateNewFormatToDate);
     }
 }

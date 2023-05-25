@@ -100,6 +100,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -449,5 +451,9 @@ public interface ApiInterface {
 
     @GET
     Call<PDFShippingLabelResponse> PDF_API_CALL_(@Header("token") String token, @Url String url);
+
+    @POST("SalesTransactionService.svc/GetInventoryTransactionDetails")
+    Call<GetInventoryTransactionDetailsResponse> GET_INVENTORY_TRANSACTION_DETAILS_RESPONSE_CALL(@Body GetInventoryTransactionDetailsRequest getInventoryTransactionDetailsRequest);
+
 
 }
