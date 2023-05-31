@@ -36,9 +36,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsPrese
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.dialog.AllDoctorsDialogPresenter;
-
-
-import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoInfoActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoPresenter;
@@ -87,12 +84,21 @@ import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryPresent
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.login.LoginPresenter;
@@ -112,12 +118,24 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersPresen
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessPresenter;
@@ -127,6 +145,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummary
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickUpSummaryDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickUpSummaryDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickUpSummaryDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpPresenter;
@@ -136,6 +157,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlow
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectedorderpickupprocess.SelectedOrderPickupProcessPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginPresenter;
@@ -252,6 +276,12 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
+    EPrescriptionMvpPresenter<EPrescriptionMvpView> ePrescriptionMvpViewEPrescriptionMvpPresenter(EPrescriptionPresenter<EPrescriptionMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
     CustomerDoctorInfoMvpPresenter<CustomerDoctorInfoMvpView> provideCustomerDocDetailsActivity(CustomerDoctorInfoPresenter<CustomerDoctorInfoMvpView> presenter) {
         return presenter;
     }
@@ -265,6 +295,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     CustomerDetailsMvpPresenter<CustomerDetailsMvpView> provideCustomerDetailsActivity(CustomerDetailsPresenter<CustomerDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    EPrescriptionMedicineDetailsMvpPresenter<EPrescriptionMedicineDetailsMvpView> ePrescriptionMedicineDetails(EPrescriptionMedicineDetailsPresenter<EPrescriptionMedicineDetailsMvpView> presenter) {
         return presenter;
     }
 
@@ -496,4 +532,53 @@ public class ActivityModule {
     OrderDetailsScreenMvpPresenter<OrderDetailsScreenMvpView> orderDetailsScreenPresenter(OrderDetailsScreenPresenter<OrderDetailsScreenMvpView> presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    ShippingLabelMvpPresenter<ShippingLabelMvpView> shippingLabelPresenter(ShippingLabelPresenter<ShippingLabelMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OnHoldMvpPresenter<OnHoldMvpView> OnHoldPresenter(OnHoldPresenter<OnHoldMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpPresenter<com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpView> ordersPresenter(com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersPresenter<com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OrderReturnBillPrintMvpPresenter<OrderReturnBillPrintMvpView> orderReturnBillPrintPresenter(OrderReturnBillPrintPresenter<OrderReturnBillPrintMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PrescriptionSliderMvpPresenter<PrescriptionSliderMvpView> prescriptionSliderPresenter(PrescriptionSliderPresenter<PrescriptionSliderMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    BatchlistScannerMvpPresenter<BatchlistScannerMvpView> BatchlistScannerPresenter(BatchlistScannerPresenter<BatchlistScannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    StockInwardProcessMvpPresenter<StockInwardProcessMvpView> stockInwardProcessPresenter(StockInwardProcessPresenter<StockInwardProcessMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    StockInwardProcessDetailsMvpPresenter<StockInwardProcessDetailsMvpView> stockInwardProcessDetailsPresenter(StockInwardProcessDetailsPresenter<StockInwardProcessDetailsMvpView> presenter) {
+        return presenter;
+    }
+
 }

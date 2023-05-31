@@ -1,6 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.ExitInfoDialogBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.ListItemMainBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
@@ -33,9 +37,22 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private ItemTouchHelperExtension mItemTouchHelperExtension;
     private AddItemMvpView addItemMvpView;
 
-    public MainRecyclerAdapter(Context context, ArrayList<SalesLineEntity> medicineDetailsModelArrayList) {
+    private boolean isDeleteAllowed;
+    private boolean isAddAllowed;
+    private boolean isEditAllowed;
+
+    public MainRecyclerAdapter(Context context, ArrayList<SalesLineEntity> medicineDetailsModelArrayList, boolean isDeleteAllowed, boolean isAddAllowed, boolean isEditAllowed) {
         mDatas = medicineDetailsModelArrayList;
         mContext = context;
+        this.isDeleteAllowed = isDeleteAllowed;
+        this.isAddAllowed = isAddAllowed;
+        this.isEditAllowed = isEditAllowed;
+    }
+
+    public void setCrudConfiguration(boolean isDeleteAllowed, boolean isAddAllowed, boolean isEditAllowed) {
+        this.isDeleteAllowed = isDeleteAllowed;
+        this.isAddAllowed = isAddAllowed;
+        this.isEditAllowed = isEditAllowed;
     }
 
     public void setAddItemMvpView(AddItemMvpView addItemMvpView) {
@@ -57,10 +74,18 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public void onBindViewHolder(@NotNull final ItemBaseViewHolder holder, int position) {
 
-        System.out.println("batch number-->"+mDatas.get(position).getInventBatchId());
+        System.out.println("batch number-->" + mDatas.get(position).getInventBatchId());
 
         SalesLineEntity item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
+        if (item.getIsVoid()) {
+            holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(false);
+        } else {
+            holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(true);
+        }
+        if (!isEditAllowed) {
+            holder.listItemMainBinding.mainContentView.remainingDays.setEnabled(false);
+        }
         if (item.getCategoryCode().equalsIgnoreCase("P")) {
             holder.listItemMainBinding.mainContentView.itemIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_pharma));
         } else if (item.getCategoryCode().equalsIgnoreCase("F")) {
@@ -80,10 +105,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (addItemMvpView != null) {
-                                addItemMvpView.onItemEdit(item);
+                            if (isEditAllowed) {
+                                if (addItemMvpView != null) {
+                                    addItemMvpView.onItemEdit(item);
+                                }
+                                mItemTouchHelperExtension.closeOpened();
+                            } else {
+                                showMessagePopup("Can't edit the quantity.");
                             }
-                            mItemTouchHelperExtension.closeOpened();
                         }
                     }
 
@@ -93,12 +122,24 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                         @Override
                         public void onClick(View view) {
                             if (item.getIsVoid()) {
-                                if (addItemMvpView != null) {
-                                    addItemMvpView.onItemAdded(item.getLineNo());
+                                if (isAddAllowed) {
+                                    if (addItemMvpView != null) {
+                                        addItemMvpView.onItemAdded(item.getLineNo());
+                                    }
+                                } else {
+                                    showMessagePopup("Can't add the product.");
                                 }
                             } else {
-                                if (addItemMvpView != null) {
-                                    addItemMvpView.onItemDeleted(item.getLineNo());
+                                if (isDeleteAllowed) {
+                                    if (addItemMvpView != null) {
+//                                    if (item.getItemId().equalsIgnoreCase("ESH0002") || item.getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        showMessagePopup("Cant void " + item.getItemName());
+//                                    } else {
+                                        addItemMvpView.onItemDeleted(item.getLineNo(), item);
+//                                    }
+                                    }
+                                } else {
+                                    showMessagePopup("Can't delete the product.");
                                 }
                             }
                             mItemTouchHelperExtension.closeOpened();
@@ -107,6 +148,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             );
         }
+
         holder.listItemMainBinding.mainContentView.remainingDays.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -147,6 +189,31 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             }
 
         });
+    }
+
+    private void showMessagePopup(String message) {
+        Dialog showMessagePopup = new Dialog(mContext);
+        ExitInfoDialogBinding exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.exit_info_dialog, null, false);
+        showMessagePopup.setCancelable(false);
+        showMessagePopup.setContentView(exitInfoDialogBinding.getRoot());
+        if (showMessagePopup.getWindow() != null)
+            showMessagePopup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        exitInfoDialogBinding.title.setVisibility(View.VISIBLE);
+        exitInfoDialogBinding.title.setText(message);
+
+        exitInfoDialogBinding.subtitle.setVisibility(View.GONE);
+        exitInfoDialogBinding.subtitle.setText(message);
+        exitInfoDialogBinding.dialogButtonNO.setVisibility(View.GONE);
+//        exitInfoDialogBinding.sepe
+        exitInfoDialogBinding.dialogButtonOK.setText("OK");
+        exitInfoDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessagePopup.dismiss();
+            }
+        });
+        showMessagePopup.show();
+
     }
 
     private void doDelete(int adapterPosition) {

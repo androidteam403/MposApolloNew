@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -78,7 +79,9 @@
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/fifteen_dp"
                 android:layout_marginEnd="@dimen/five_dp"
-                android:fontFamily="@font/roboto_regular">
+                android:fontFamily="@font/roboto_regular"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"

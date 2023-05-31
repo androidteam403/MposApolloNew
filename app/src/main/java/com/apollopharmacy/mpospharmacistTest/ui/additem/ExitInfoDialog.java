@@ -53,6 +53,15 @@ public class ExitInfoDialog {
         dialog.show();
     }
 
+    public void hideContinueButton() {
+        exitInfoDialogBinding.line.setVisibility(View.GONE);
+        exitInfoDialogBinding.positiveNegetiveLayout.setVisibility(View.GONE);
+    }
+
+    public boolean isShowing() {
+        return dialog.isShowing();
+    }
+
     public void dismiss() {
         dialog.dismiss();
     }
