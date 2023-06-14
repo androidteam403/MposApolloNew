@@ -156,6 +156,15 @@ import java.util.List;
                     this.referenceId = referenceId;
                 }
 
+                public GetUniversalDropDownBindResponse.DropDownLine dropDownLineList;
+
+                public GetUniversalDropDownBindResponse.DropDownLine getDropDownLineList() {
+                    return dropDownLineList;
+                }
+
+                public void setDropDownLineList(GetUniversalDropDownBindResponse.DropDownLine dropDownLineList) {
+                    this.dropDownLineList = dropDownLineList;
+                }
             }
 
             public String getReferenceId() {
@@ -181,6 +190,9 @@ import java.util.List;
             public void setVendGroup(String vendGroup) {
                 this.vendGroup = vendGroup;
             }
+
+
+
 
         }
 

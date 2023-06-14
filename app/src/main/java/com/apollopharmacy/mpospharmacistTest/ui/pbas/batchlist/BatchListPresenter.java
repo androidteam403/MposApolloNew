@@ -121,6 +121,49 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     }
 
     @Override
+    public void getBatchDetailsByBarCode(String barcode) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            GetBatchDetailsByBarcodeRequest getBatchDetailsByBarcodeRequest = new GetBatchDetailsByBarcodeRequest();
+            getBatchDetailsByBarcodeRequest.setArticleCode("DOV0231");
+            getBatchDetailsByBarcodeRequest.setStoreId(getDataManager().getStoreId());
+            getBatchDetailsByBarcodeRequest.setDataAreaId(getDataManager().getDataAreaId());
+            getBatchDetailsByBarcodeRequest.setTerminalId(getDataManager().getTerminalId());
+            getBatchDetailsByBarcodeRequest.setStoreState("DL");
+            getBatchDetailsByBarcodeRequest.setCustomerState("DL");
+            getBatchDetailsByBarcodeRequest.setSez(0);
+            getBatchDetailsByBarcodeRequest.setSearchType(1);
+            getBatchDetailsByBarcodeRequest.setExpiryDays(30);
+            getBatchDetailsByBarcodeRequest.setBarcode(barcode);
+
+            Call<GetBatchInfoRes> call = api.GET_BATCH_DETAILS_BY_BAR_CODE(getBatchDetailsByBarcodeRequest);
+            call.enqueue(new Callback<GetBatchInfoRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null)
+//                            if (isLastPos)
+                            getMvpView().onSuccessGetBatchDetailsBarcode(response.body());
+//                            else
+//                                getMvpView().checkBatchInventoryFailed(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("InternetConnection Not Available");
+        }
+    }
+
+    @Override
     public void onClickFullPicked() {
         getMvpView().onClickFullPicked();
     }

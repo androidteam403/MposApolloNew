@@ -53,6 +53,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private boolean allowChangeQty;
     private boolean allowMultiBatch;
 
+    private boolean scanSearch=false;
+    List<GetBatchInfoRes.BatchListObj> dataRestore;
+
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
 
@@ -178,6 +181,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     String status;
     List<GetBatchInfoRes.BatchListObj> body;
 
+
+
     @Override
     public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> bodys) {
         for (int i = 0; i < bodys.size(); i++) {
@@ -188,6 +193,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         this.body = bodys;
+        dataRestore=bodys;
         if (body != null && body.size() > 0) {
             double totalBatchDetailsQuantity = 0.0;
             for (int i = 0; i < body.size(); i++) {
@@ -611,6 +617,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void noOrderFound(int count) {
         if (count > 0) {
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+            batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine);
+            batchListAdapter.setAllowChangeQty(allowChangeQty);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
+            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
             batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
         } else {
             batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
@@ -732,6 +744,49 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
+//    GetBatchDetailsByBarcodeResponse getBatchDetailsByBarcodeResponse;
+    @Override
+    public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchInfoRes) {
+//        this.getBatchDetailsByBarcodeResponse=getBatchDetailsByBarcodeResponse;
+        if(getBatchInfoRes!=null && getBatchInfoRes.getBatchList()!=null && getBatchInfoRes.getBatchList().size()>0){
+            scanSearch=true;
+            this.body=getBatchInfoRes.getBatchList();
+            batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+            batchListAdapter.notifyDataSetChanged();
+//        Toast.makeText(getApplicationContext(), ""+getBatchDetailsByBarcodeResponse.getBatchList().size(), Toast.LENGTH_SHORT).show();
+//            batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine, getBatchDetailsByBarcodeResponse.getBatchList(), scanSearch);
+//            batchListAdapter.setAllowChangeQty(allowChangeQty);
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
+//            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+        }else{
+            Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
+            DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
+            dialog.setContentView(dialogBatchAlertBinding.getRoot());
+            dialogBatchAlertBinding.dialogMessage.setText("No batch list with this barcode");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+            dialogBatchAlertBinding.dialogButtonOK.setText("OK");
+            dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+
+                dialog.dismiss();
+
+            });
+            batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+            batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine);
+            batchListAdapter.setAllowChangeQty(allowChangeQty);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
+            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+            batchListAdapter.notifyDataSetChanged();
+
+        }
+
+    }
 
     @Override
     public void checkBatchInventorySuccess(CheckBatchInventoryRes body) {
@@ -774,6 +829,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 batchlistBinding.searchbybatchId.setText(Result.getContents());
+                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString());
 //                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
             }

@@ -27,6 +27,8 @@ public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPr
 
     void onClickBack();
 
+    void getBatchDetailsByBarCode(String s);
+
     void onClickNotAvailableBtn();
 
     GetGlobalConfingRes getGlobalConfigRes();
