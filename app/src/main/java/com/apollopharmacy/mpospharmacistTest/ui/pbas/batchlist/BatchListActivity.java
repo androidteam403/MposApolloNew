@@ -829,7 +829,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 batchlistBinding.searchbybatchId.setText(Result.getContents());
-                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString());
+                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
 //                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
             }

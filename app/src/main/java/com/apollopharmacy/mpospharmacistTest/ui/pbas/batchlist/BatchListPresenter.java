@@ -121,18 +121,18 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     }
 
     @Override
-    public void getBatchDetailsByBarCode(String barcode) {
+    public void getBatchDetailsByBarCode(String barcode, String itemId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             GetBatchDetailsByBarcodeRequest getBatchDetailsByBarcodeRequest = new GetBatchDetailsByBarcodeRequest();
-            getBatchDetailsByBarcodeRequest.setArticleCode("DOV0231");
+            getBatchDetailsByBarcodeRequest.setArticleCode(itemId);
             getBatchDetailsByBarcodeRequest.setStoreId(getDataManager().getStoreId());
             getBatchDetailsByBarcodeRequest.setDataAreaId(getDataManager().getDataAreaId());
             getBatchDetailsByBarcodeRequest.setTerminalId(getDataManager().getTerminalId());
-            getBatchDetailsByBarcodeRequest.setStoreState("DL");
-            getBatchDetailsByBarcodeRequest.setCustomerState("DL");
+            getBatchDetailsByBarcodeRequest.setStoreState("TN");
+            getBatchDetailsByBarcodeRequest.setCustomerState("TN");
             getBatchDetailsByBarcodeRequest.setSez(0);
             getBatchDetailsByBarcodeRequest.setSearchType(1);
             getBatchDetailsByBarcodeRequest.setExpiryDays(30);
