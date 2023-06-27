@@ -217,18 +217,18 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
 
     @Override
     public void onSuccessgetInventoryTransactionDetails(GetInventoryTransactionDetailsResponse getInventoryTransactionDetailsResponse) {
-        if(getInventoryTransactionDetailsResponse!=null && getInventoryTransactionDetailsResponse.getInventoryData()!=null && getInventoryTransactionDetailsResponse.getInventoryData().size()>0){
+        if (getInventoryTransactionDetailsResponse != null && getInventoryTransactionDetailsResponse.getInventoryData() != null && getInventoryTransactionDetailsResponse.getInventoryData().size() > 0) {
             stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.VISIBLE);
             stockInwardProcessBinding.noRecordFound.setVisibility(View.GONE);
             StockInwardProcessAdapter stockInwardProcessAdapter = new StockInwardProcessAdapter(getContext(), this, getInventoryTransactionDetailsResponse.getInventoryData());
             LinearLayoutManager mLinearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             stockInwardProcessBinding.stockInwardProcessRecycler.setLayoutManager(mLinearManager);
             stockInwardProcessBinding.stockInwardProcessRecycler.setAdapter(stockInwardProcessAdapter);
-        }else{
+        } else {
             stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.GONE);
             stockInwardProcessBinding.noRecordFound.setVisibility(View.VISIBLE);
         }
-         }
+    }
 
     @Override
     public void onClickShow() {
