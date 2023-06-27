@@ -6,5 +6,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 public interface StockInwardProcessDetailsMvpPresenter<V extends StockInwardProcessDetailsMvpView> extends MvpPresenter<V> {
     void onClickBack();
 
+    void getUniversalDropDown();
+
+    void getPrDetailsApi(String referenceId);
+
 
 }

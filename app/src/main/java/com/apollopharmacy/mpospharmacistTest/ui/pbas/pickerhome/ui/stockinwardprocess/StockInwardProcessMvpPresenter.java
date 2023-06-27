@@ -11,4 +11,8 @@ public interface StockInwardProcessMvpPresenter<V extends StockInwardProcessMvpV
     void onClickShow();
 
     void getInventoryTransactionDetails(String fromDate, String toDate);
+
+    void getPrsInvntTransaction(String select, String ticketId, String referenceId);
+
+    void onClickShowPrStatus();
 }

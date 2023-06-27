@@ -92,7 +92,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="RPR-E000006953"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
 
@@ -110,7 +109,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="2023-01-02"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
 
@@ -127,7 +125,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="PO-E000018221"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
 
@@ -152,7 +149,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="2023-01-02"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
 
@@ -169,7 +165,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="HYD-22-587959"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
                     </LinearLayout>
@@ -194,7 +189,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="1032"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
 
@@ -211,7 +205,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="AHL_PHARMA"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp" />
                     </LinearLayout>
@@ -380,6 +373,17 @@
                 android:id="@+id/inward_process_lisne_items_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/no_list_found"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No List found"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center"/>
 
         </LinearLayout>
 

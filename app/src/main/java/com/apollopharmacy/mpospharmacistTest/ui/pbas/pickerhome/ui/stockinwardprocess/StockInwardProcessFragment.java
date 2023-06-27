@@ -19,6 +19,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.adapter.StockInwardProcessAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.PrsInventTransactionDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 
 import java.text.DateFormat;
@@ -38,6 +39,7 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     private String fromDate = CommonUtils.getBeforeSevenDaysDate();
     private String toDate = CommonUtils.getCurrentDate("yyyy-MM-dd");
     private FragmentStockInwardProcessBinding stockInwardProcessBinding;
+
 
     @Nullable
     @Override
@@ -207,28 +209,31 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
         dialog.getDatePicker().setMaxDate((long) (System.currentTimeMillis()));// - (1000 * 60 * 60 * 24 * 365.25 * 18)
         dialog.show();
     }
-
+    int position;
     @Override
-    public void onClickItem() {
-        startActivity(StockInwardProcessDetailsActivity.getStartIntent(getContext()));
-        Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-    }
+    public void onClickItem(int position, String ticketId, String referenceId) {
+        this.position=position;
+        showLoading();
+        mPresenter.getPrsInvntTransaction("SELECT", ticketId, referenceId);
+         }
 
-
+    GetInventoryTransactionDetailsResponse getInventoryTransactionDetailsResponses;
     @Override
     public void onSuccessgetInventoryTransactionDetails(GetInventoryTransactionDetailsResponse getInventoryTransactionDetailsResponse) {
-        if (getInventoryTransactionDetailsResponse != null && getInventoryTransactionDetailsResponse.getInventoryData() != null && getInventoryTransactionDetailsResponse.getInventoryData().size() > 0) {
+        if(getInventoryTransactionDetailsResponse!=null &&getInventoryTransactionDetailsResponse.getInventoryData().size()>0 ){
+            PickerNavigationActivity.mInstance.setWelcome("Total "+ String.valueOf(getInventoryTransactionDetailsResponse.getInventoryData().size() +" orders"));
+            getInventoryTransactionDetailsResponses=getInventoryTransactionDetailsResponse;
             stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.VISIBLE);
             stockInwardProcessBinding.noRecordFound.setVisibility(View.GONE);
             StockInwardProcessAdapter stockInwardProcessAdapter = new StockInwardProcessAdapter(getContext(), this, getInventoryTransactionDetailsResponse.getInventoryData());
             LinearLayoutManager mLinearManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             stockInwardProcessBinding.stockInwardProcessRecycler.setLayoutManager(mLinearManager);
             stockInwardProcessBinding.stockInwardProcessRecycler.setAdapter(stockInwardProcessAdapter);
-        } else {
+        }else{
             stockInwardProcessBinding.stockInwardProcessRecycler.setVisibility(View.GONE);
             stockInwardProcessBinding.noRecordFound.setVisibility(View.VISIBLE);
         }
-    }
+         }
 
     @Override
     public void onClickShow() {
@@ -262,5 +267,31 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
 //        }
 //        String fromDateStr = outputFormat.format(date);
         mPresenter.getInventoryTransactionDetails(dateNewFormat, dateNewFormatToDate);
+    }
+
+    @Override
+    public void onSuccessPrsInventoryDetails(PrsInventTransactionDetailsResponse prsInventTransactionDetailsResponse, String type) {
+        if(prsInventTransactionDetailsResponse.getReturnMessage()!=null && prsInventTransactionDetailsResponse.getReturnMessage().equals("Success!")){
+            hideLoading();
+            if(getInventoryTransactionDetailsResponses!=null){
+                if(type.equals("SELECT")){
+                    startActivity(StockInwardProcessDetailsActivity.getStartIntent(getContext(),getInventoryTransactionDetailsResponses,position));
+                    Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+                }else{
+                    Toast.makeText(getContext(), ""+prsInventTransactionDetailsResponse.getReturnMessage(), Toast.LENGTH_SHORT).show();
+                }
+               }
+
+        }else{
+            hideLoading();
+            Toast.makeText(getActivity(), ""+prsInventTransactionDetailsResponse.getReturnMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onClickShowPrStatus(String ticketId, String referenceId) {
+        showLoading();
+        mPresenter.getPrsInvntTransaction("PRSSTATUS", ticketId, referenceId);
     }
 }

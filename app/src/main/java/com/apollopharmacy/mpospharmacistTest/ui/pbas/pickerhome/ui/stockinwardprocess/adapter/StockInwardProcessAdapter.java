@@ -1,7 +1,9 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -34,7 +36,7 @@ public class StockInwardProcessAdapter extends RecyclerView.Adapter<StockInwardP
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StockInwardProcessAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StockInwardProcessAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         GetInventoryTransactionDetailsResponse.InventoryDatum getInventory = inventoryData.get(position);
         holder.adapterStockInwardProcessBinding.referenceId.setText(getInventory.getReferenceId());
         if (!getInventory.getFromInventSiteId().isEmpty()) {
@@ -67,8 +69,19 @@ public class StockInwardProcessAdapter extends RecyclerView.Adapter<StockInwardP
             holder.adapterStockInwardProcessBinding.date.setText("-");
         }
 
-        holder.adapterStockInwardProcessBinding.setCallback(mvpView);
-
+//        holder.adapterStockInwardProcessBinding.setCallback(mvpView);
+        holder.adapterStockInwardProcessBinding.orderChildLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mvpView.onClickItem(position, getInventory.getTicketId(),getInventory.getReferenceId());
+            }
+        });
+        holder.adapterStockInwardProcessBinding.showPrsStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mvpView.onClickShowPrStatus(getInventory.getTicketId(),getInventory.getReferenceId());
+            }
+        });
     }
 
     @Override

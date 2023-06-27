@@ -101,6 +101,7 @@
 
 
                         <TextView
+                            android:id="@+id/item_id"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
@@ -110,6 +111,7 @@
                             android:textSize="@dimen/dimen10sp" />
 
                         <TextView
+                            android:id="@+id/item_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -119,6 +121,7 @@
                             android:textSize="@dimen/dimen10sp" />
 
                         <TextView
+                            android:id="@+id/batch_id"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
@@ -203,6 +206,7 @@
                                     android:visibility="gone" />
 
                                 <TextView
+                                    android:id="@+id/qty"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight=".3"
@@ -212,6 +216,7 @@
                                     android:textSize="@dimen/dimen10sp" />
 
                                 <TextView
+                                    android:id="@+id/mrp"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight=".4"
@@ -359,10 +364,10 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        >
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -386,7 +391,29 @@
                                 android:textSize="@dimen/dimen10sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
+                       <LinearLayout
+                           android:layout_alignParentEnd="true"
+                           android:layout_centerInParent="true"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:gravity="end"
+                           android:orientation="horizontal">
+                           <ImageView
+                               android:layout_gravity="center"
+                               android:id="@+id/drop_down_icon_remarks"
+                               android:layout_width="@dimen/dimen30dp"
+                               android:layout_height="@dimen/dimen30dp"
+                               android:layout_marginEnd="@dimen/dimen10dp"
+                               android:contentDescription="@string/app_name"
+                               android:padding="@dimen/dimen5dp"
+                               android:rotation="90"
+                               android:src="@drawable/right_arrow_black" />
+                       </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

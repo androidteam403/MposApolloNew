@@ -11,6 +11,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +101,7 @@
                 android:layout_marginTop="@dimen/dimen5dp" />
 
             <TextView
-                android:layout_marginTop="@dimen/dimen150dp"
+                android:layout_marginTop="@dimen/two_hundred_thirty"
                 android:id="@+id/noRecordFound"
                 android:visibility="gone"
                 android:layout_width="wrap_content"

@@ -2,217 +2,237 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
+        android:background="@drawable/square_stroke_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/five_dp">
 
         <LinearLayout
-            android:id="@+id/order_child_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:background="@drawable/square_stroke_bg"
-            android:onClick="@{()-> callback.onClickItem()}"
-            android:orientation="vertical"
-            android:padding="@dimen/dimen5dp"
             android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/order_child_layout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_margin="1dp"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen5dp"
+                android:layout_weight="0.8">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_reference_id"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/reference_id"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="2612T6RT47878884"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_reference_id"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/reference_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="2612T6RT47878884"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label__site_id"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/site_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="16001"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".4"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label__site_id"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/site_id"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="16001"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_from_site_id"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/from_site_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="19877"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label__date"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="23/09/2022"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".6"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_vend_group"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/vend_group"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="AHL_FMCG"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_ticket_id"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen10sp" />
+
+                        <TextView
+                            android:id="@+id/ticket_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="8457846"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
+            <RelativeLayout
+                android:id="@+id/show_prs_status"
+                android:layout_marginEnd="@dimen/dimen2dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_from_site_id"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/from_site_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="19877"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label__date"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="23/09/2022"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".6"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_vend_group"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/vend_group"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="AHL_FMCG"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".4"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/label_ticket_id"
-                        android:textColor="#b6b4af"
-                        android:textSize="@dimen/dimen10sp" />
-
-                    <TextView
-                        android:id="@+id/ticket_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".6"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="8457846"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
+                    android:background="@color/green"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:text="PRS Status"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen12sp" />
+            </RelativeLayout>
         </LinearLayout>
+
+
     </RelativeLayout>
 
-    <data>
-
-        <variable
-            name="callback"
-            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.stockinwardprocess.StockInwardProcessMvpView" />
-    </data>
 </layout>

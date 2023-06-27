@@ -77,6 +77,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadReques
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.GetBatchDetailsByBarcodeRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
@@ -102,6 +103,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPi
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetInventoryTransactionDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetPrDetailsApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetPrDetailsApiResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetUniversalDropDownBindRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetUniversalDropDownBindResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.PrsInventTransactionDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.PrsInvntTransactionDetailsRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
@@ -175,6 +182,9 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetBatchDetails")
     Call<GetBatchInfoRes> GET_BATCH_INFO_RES_CALL(@Body GetBatchInfoReq getBatchInfoReq);
+
+    @POST("SalesTransactionService.svc/GetBatchDetailsByBarCode")
+    Call<GetBatchInfoRes> GET_BATCH_DETAILS_BY_BAR_CODE(@Body GetBatchDetailsByBarcodeRequest getBatchDetailsByBarcodeRequest);
 
     @POST("SalesTransactionService.svc/CheckBatchInventory")
     Call<CheckBatchInventoryRes> CHECK_BATCH_INVENTORY_RES_CALL(@Body CheckBatchInventoryReq batchInventoryReq);
@@ -454,6 +464,15 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetInventoryTransactionDetails")
     Call<GetInventoryTransactionDetailsResponse> GET_INVENTORY_TRANSACTION_DETAILS_RESPONSE_CALL(@Body GetInventoryTransactionDetailsRequest getInventoryTransactionDetailsRequest);
+
+    @POST("SalesTransactionService.svc/PRSInventTransaction")
+    Call<PrsInventTransactionDetailsResponse> PRS_INVENT_TRANSACTION(@Body PrsInvntTransactionDetailsRequest prsInvntTransactionDetailsRequest);
+
+    @POST("SalesTransactionService.svc/GetUniversalDropDownBind")
+    Call<GetUniversalDropDownBindResponse> GET_UNIVERSAL_DROP_DOWN_BIND_API_CALL(@Body GetUniversalDropDownBindRequest getUniversalDropDownBindRequest);
+
+    @POST("SalesTransactionService.svc/GetPRSDetailsAPI")
+    Call<GetPrDetailsApiResponse> GetPRSDetailsAPI(@Body GetPrDetailsApiRequest getPrDetailsApiRequest);
 
 
 }
