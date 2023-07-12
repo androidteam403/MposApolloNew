@@ -35,6 +35,8 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     private List<GetBatchInfoRes.BatchListObj> batchListModelListl = new ArrayList<>();
     private List<GetBatchInfoRes.BatchListObj> omsHeaderList = new ArrayList<>();
     private List<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
+
+    ArrayList<GetBatchInfoRes.BatchListObj> selectedBatchListObjsList;
     private BatchListMvpView batchListMvpView;
     boolean batchSelected = false;
     double reqqty;
@@ -46,13 +48,19 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     private GetOMSTransactionResponse.SalesLine salesLine;
     Dialog dia;
 
-    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView, GetOMSTransactionResponse.SalesLine salesLine) {
+    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView, GetOMSTransactionResponse.SalesLine salesLine, ArrayList<GetBatchInfoRes.BatchListObj> selectedBatchListObjsList) {
         this.mContext = mContext;
         this.batchListModelListl = batchListModelList1;
         this.omsHeaderList = batchListModelList1;
         this.batchListMvpView = mvpView;
         this.reqqty = reqqty;
         this.salesLine = salesLine;
+        this.selectedBatchListObjsList = selectedBatchListObjsList;
+    }
+
+    public void setBarcodeBatchList(List<GetBatchInfoRes.BatchListObj> batchListModelList1) {
+        this.batchListModelListl = batchListModelList1;
+        this.omsHeaderList = batchListModelList1;
     }
 
     public void setGetGlobalConfingRes(GetGlobalConfingRes getGlobalConfingRes) {
@@ -82,6 +90,21 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         holder.adapterBatchlistBinding.phisicalbatchEdit.setText(batchListModel.getPhysicalBatchID() != null && !batchListModel.getPhysicalBatchID().isEmpty() ? batchListModel.getPhysicalBatchID() : batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
 
+        if (batchListModel.getREQQTY() != 0) {
+            holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));
+        } else {
+            holder.adapterBatchlistBinding.requiredQuantity.setText((""));
+        }
+
+        if (batchListModel.isBarcodeScannedBatch()) {
+            if (batchListModel.getREQQTY() != 0) {
+                batchListModel.setSelected(true);
+                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
+                batchListMvpView.onClickSelectedBatch(batchListModel, true);
+            }
+        }
 
         if (batchListModel.isSelected()) {
             holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
@@ -91,11 +114,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 holder.adapterBatchlistBinding.requiredQuantity.requestFocus();
             }
         }
-
-        if (!allowChangeQty) {
-            holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
+        if (!batchListModel.isBarcodeScannedBatch()) {
+            if (!allowChangeQty) {
+                holder.adapterBatchlistBinding.requiredQuantity.setEnabled(false);
+            }
         }
-
 //        else {
 //            if (isFirstNavigate && position == 0) {
 //                isFirstNavigate = false;
@@ -117,11 +140,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
 //        }
 
 
-        if (batchListModel.getREQQTY() != 0) {
-            holder.adapterBatchlistBinding.requiredQuantity.setText(String.valueOf(batchListModel.getREQQTY()).substring(0, String.valueOf(batchListModel.getREQQTY()).indexOf(".")));
-        } else {
-            holder.adapterBatchlistBinding.requiredQuantity.setText((""));
-        }
 //        holder.adapterBatchlistBinding.requiredQuantity.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -130,6 +148,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
 //                return false;
 //            }
 //        });
+
 
         holder.adapterBatchlistBinding.requiredQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -172,11 +191,19 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                     if (dia == null || !dia.isShowing()) {
 
                         double selectedBatchesQty = 0.0;
+                        for (int i = 0; i < selectedBatchListObjsList.size(); i++) {
+                            if (!selectedBatchListObjsList.get(i).getBatchNo().equalsIgnoreCase(batchListModelListl.get(position).getBatchNo())) {
+                                selectedBatchesQty = selectedBatchesQty + selectedBatchListObjsList.get(i).getREQQTY();
+                            }
+                        }
+
+/*
                         for (int i = 0; i < batchListModelListl.size(); i++) {
                             if (!batchListModelListl.get(i).getBatchNo().equalsIgnoreCase(batchListModelListl.get(position).getBatchNo())) {
                                 selectedBatchesQty = selectedBatchesQty + batchListModelListl.get(i).getREQQTY();
                             }
                         }
+*/
                         selectedBatchesQty = selectedBatchesQty + Integer.parseInt(editable.toString());
 
                         if (Integer.parseInt(editable.toString()) > Double.parseDouble(batchListModelListl.get(position).getQ_O_H())) {
@@ -208,6 +235,8 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                 holder.adapterBatchlistBinding.requiredQuantity.setText("");
                                 dia.dismiss();
                             });
+                        } else {
+
                         }
                     }
                 } else {
@@ -234,37 +263,50 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                             dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
 //                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) <= Double.parseDouble(batchListModel.getQ_O_H())) {
-                            batchListModel.setSelected(true);
-                            batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
-                            batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
-                            Dialog physicalBatchIdDialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
-                            DialogPhysicalBatchIdBinding dialogPhysicalBatchIdBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_physical_batch_id, null, false);
-                            physicalBatchIdDialog.setContentView(dialogPhysicalBatchIdBinding.getRoot());
-                            physicalBatchIdDialog.setCancelable(false);
-                            physicalBatchIdDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                            dialogPhysicalBatchIdBinding.dialogButtonNO.setOnClickListener(view -> physicalBatchIdDialog.dismiss());
-                            dialogPhysicalBatchIdBinding.dialogButtonOK.setOnClickListener(v3 -> {
-                                if (dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString() != null && !dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().isEmpty() && dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().length() > 2) {
-                                    if (dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().substring(dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().length() - 3).equalsIgnoreCase(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().substring(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().length() - 3))) {
-                                        if (batchListMvpView != null) {
-                                            physicalBatchIdDialog.dismiss();
-                                            batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
-                                            batchListMvpView.onClickSelectedBatch(batchListModel);
+                            if (batchListModel.isBarcodeScannedBatch()) {
+                                if (batchListMvpView != null) {
+                                    batchListModel.setSelected(true);
+                                    batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                                    batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                                    batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
+                                    batchListMvpView.onClickSelectedBatch(batchListModel, true);
+                                } else {
+                                    Toast.makeText(mContext, "Batch list mvp view is null", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Dialog physicalBatchIdDialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
+                                DialogPhysicalBatchIdBinding dialogPhysicalBatchIdBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_physical_batch_id, null, false);
+                                physicalBatchIdDialog.setContentView(dialogPhysicalBatchIdBinding.getRoot());
+                                physicalBatchIdDialog.setCancelable(false);
+                                physicalBatchIdDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                                dialogPhysicalBatchIdBinding.dialogButtonNO.setOnClickListener(view -> physicalBatchIdDialog.dismiss());
+                                dialogPhysicalBatchIdBinding.dialogButtonOK.setOnClickListener(v3 -> {
+                                    if (dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString() != null && !dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().isEmpty() && dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().length() > 2) {
+                                        if (dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().substring(dialogPhysicalBatchIdBinding.physicalBatchCompareText.getText().toString().length() - 3).equalsIgnoreCase(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().substring(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().length() - 3))) {
+                                            if (batchListMvpView != null) {
+                                                batchListModel.setSelected(true);
+                                                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                                                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                                                physicalBatchIdDialog.dismiss();
+                                                batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
+                                                batchListMvpView.onClickSelectedBatch(batchListModel, false);
+                                            } else {
+                                                Toast.makeText(mContext, "Batch list mvp view is null", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
-                                            Toast.makeText(mContext, "Batch list mvp view is null", Toast.LENGTH_SHORT).show();
+                                            dialogPhysicalBatchIdBinding.physicalBatchCompareText.setError("Enter valid last 3 digits of Physical Batch");
+                                            dialogPhysicalBatchIdBinding.physicalBatchCompareText.requestFocus();
                                         }
                                     } else {
-                                        dialogPhysicalBatchIdBinding.physicalBatchCompareText.setError("Enter valid last 3 digits of Physical Batch");
+                                        dialogPhysicalBatchIdBinding.physicalBatchCompareText.setError("Enter last 3 digits of Physical Batch");
                                         dialogPhysicalBatchIdBinding.physicalBatchCompareText.requestFocus();
                                     }
-                                } else {
-                                    dialogPhysicalBatchIdBinding.physicalBatchCompareText.setError("Enter last 3 digits of Physical Batch");
-                                    dialogPhysicalBatchIdBinding.physicalBatchCompareText.requestFocus();
-                                }
-                            });
+                                });
 //                            dialogPhysicalBatchIdBinding.dialogButtonNot.setOnClickListener(v3 -> physicalBatchIdDialog.dismiss());
-                            physicalBatchIdDialog.show();
+                                physicalBatchIdDialog.show();
+                            }
 
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) > Double.parseDouble(batchListModel.getQ_O_H())) {
                             Dialog dialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
@@ -308,7 +350,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                 batchListModel.setSelected(false);
                 batchListModel.setREQQTY(0);
                 if (batchListMvpView != null) {
-                    batchListMvpView.onClickSelectedBatch(batchListModel);
+                    batchListMvpView.onClickSelectedBatch(batchListModel, false);
                 }
             }
         });
@@ -326,6 +368,10 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         if (salesLine.getPreferredBatch().equalsIgnoreCase(batchListModel.getBatchNo())) {
             holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.pay_btn_color);
         }
+
+      /*  if (batchListModel.isBarcodeScannedBatch() && ((batchListModelListl.size() - 1) == position)) {
+            batchListMvpView.onAddItemsClicked(true);
+        }*/
     }
 
 

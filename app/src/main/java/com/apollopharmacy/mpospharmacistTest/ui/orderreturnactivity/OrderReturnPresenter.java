@@ -159,6 +159,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
             posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
             posTransactionRes.setState(getGlobalConfing().getStateCode());
+            posTransactionRes.setIsMPOSBill(1);
             Call<CalculatePosTransactionRes> call = api.CANCEL_POS_TRANSACTION_RES_CALL(posTransactionRes);
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override
@@ -293,6 +294,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
             posTransactionRes.setReturnStore(getDataManager().getGlobalJson().getStoreID());
             posTransactionRes.setReturnTerminal(getDataManager().getTerminalId());
             posTransactionRes.setState(getGlobalConfing().getStateCode());
+            posTransactionRes.setIsMPOSBill(1);
             Call<CalculatePosTransactionRes> call = api.RETURN_POS_TRANSACTION_RES_CALL(posTransactionRes);
             call.enqueue(new Callback<CalculatePosTransactionRes>() {
                 @Override

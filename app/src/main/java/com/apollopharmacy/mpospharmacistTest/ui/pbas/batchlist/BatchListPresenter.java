@@ -21,8 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BatchListPresenter<V extends BatchListMvpView> extends BasePresenter<V>
-        implements BatchListMvpPresenter<V> {
+public class BatchListPresenter<V extends BatchListMvpView> extends BasePresenter<V> implements BatchListMvpPresenter<V> {
     @Inject
     public BatchListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -42,7 +41,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             batchInfoReq.setSEZ(0);
             batchInfoReq.setSearchType(1);
             batchInfoReq.setStoreId(getDataManager().getStoreId());
-            batchInfoReq.setStoreState("AP");
+            batchInfoReq.setStoreState(getDataManager().getGlobalJson().getStateCode());
             batchInfoReq.setTerminalId(getDataManager().getTerminalId());
 
             Call<GetBatchInfoRes> call = api.GET_BATCH_INFO_RES_CALL(batchInfoReq);
@@ -76,7 +75,7 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
 
     @Override
     public void onAddItemsClicked() {
-        getMvpView().onAddItemsClicked();
+        getMvpView().onAddItemsClicked(false);
     }
 
     @Override
@@ -131,8 +130,8 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
             getBatchDetailsByBarcodeRequest.setStoreId(getDataManager().getStoreId());
             getBatchDetailsByBarcodeRequest.setDataAreaId(getDataManager().getDataAreaId());
             getBatchDetailsByBarcodeRequest.setTerminalId(getDataManager().getTerminalId());
-            getBatchDetailsByBarcodeRequest.setStoreState("TN");
-            getBatchDetailsByBarcodeRequest.setCustomerState("TN");
+            getBatchDetailsByBarcodeRequest.setStoreState(getDataManager().getGlobalJson().getStateCode());
+            getBatchDetailsByBarcodeRequest.setCustomerState(getDataManager().getGlobalJson().getStateCode());
             getBatchDetailsByBarcodeRequest.setSez(0);
             getBatchDetailsByBarcodeRequest.setSearchType(1);
             getBatchDetailsByBarcodeRequest.setExpiryDays(30);
@@ -144,9 +143,13 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                 public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
-                        if (response.isSuccessful() && response.body() != null)
+                        if (response.isSuccessful() && response.body() != null) {
 //                            if (isLastPos)
+                            for (GetBatchInfoRes.BatchListObj item : response.body().getBatchList()) {
+                                item.setBarcodeScannedBatch(true);
+                            }
                             getMvpView().onSuccessGetBatchDetailsBarcode(response.body());
+                        }
 //                            else
 //                                getMvpView().checkBatchInventoryFailed(response.body());
                     }

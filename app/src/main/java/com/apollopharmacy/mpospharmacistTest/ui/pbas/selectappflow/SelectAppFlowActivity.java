@@ -85,20 +85,20 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
+       /* selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Stock inward process");
         selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+        selectAppFlowModelList.add(selectAppFlowModel);*/
 
-//        selectAppFlowModel = new SelectAppFlowModel();
-//        selectAppFlowModel.setAppFlowName("Sealer");
-//        selectAppFlowModel.setSelected(false);
-//        selectAppFlowModelList.add(selectAppFlowModel);
-//
-//        selectAppFlowModel = new SelectAppFlowModel();
-//        selectAppFlowModel.setAppFlowName("Admin");
-//        selectAppFlowModel.setSelected(false);
-//        selectAppFlowModelList.add(selectAppFlowModel);
+        /*selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Sealer");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);*/
+
+        /*selectAppFlowModel = new SelectAppFlowModel();
+        selectAppFlowModel.setAppFlowName("Admin");
+        selectAppFlowModel.setSelected(false);
+        selectAppFlowModelList.add(selectAppFlowModel);*/
     }
 
     @Override

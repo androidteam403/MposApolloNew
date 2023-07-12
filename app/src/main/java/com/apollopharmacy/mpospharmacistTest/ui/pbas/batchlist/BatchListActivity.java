@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private boolean allowChangeQty;
     private boolean allowMultiBatch;
 
-    private boolean scanSearch=false;
+    private boolean scanSearch = false;
     List<GetBatchInfoRes.BatchListObj> dataRestore;
 
     //    private List<BatchListModel> batchListModelList;
@@ -182,9 +183,14 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     List<GetBatchInfoRes.BatchListObj> body;
 
 
-
     @Override
     public void onSuccessBatchInfo(List<GetBatchInfoRes.BatchListObj> bodys) {
+        dataRestore = bodys;
+        setBatchDetails(bodys, false);
+    }
+
+
+    public void setBatchDetails(List<GetBatchInfoRes.BatchListObj> bodys, boolean isBarcodeScan) {
         for (int i = 0; i < bodys.size(); i++) {
             if (bodys.get(i).isNearByExpiry()) {
                 bodys.remove(i);
@@ -193,7 +199,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         this.body = bodys;
-        dataRestore=bodys;
         if (body != null && body.size() > 0) {
             double totalBatchDetailsQuantity = 0.0;
             for (int i = 0; i < body.size(); i++) {
@@ -282,13 +287,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             });
         }
 
-        if (selectedOmsHeaderList != null
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse() != null
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine() != null
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size() > 0
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes() != null
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList() != null
-                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size() > 0) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse() != null && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine() != null && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size() > 0 && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes() != null && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList() != null && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size() > 0) {
             for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size(); i++) {
                 for (int j = 0; j < body.size(); j++) {
                     if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).getBatchNo().equals(body.get(j).getBatchNo())) {
@@ -296,16 +295,41 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                         body.get(j).setREQQTY(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).getREQQTY());
                         body.get(j).setSelected(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).isSelected());
                         body.get(j).setPhysicalBatchID(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).getPhysicalBatchID());
-                        batchListObjsList.add(body.get(j));
+                        if (!isBarcodeScan) {
+                            batchListObjsList.add(body.get(j));
+                        }
+                    }
+                }
+            }
+
+            if (!isBarcodeScan) {
+                for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size(); i++) {
+                    boolean isBatchAvailable = false;
+                    for (int j = 0; j < body.size(); j++) {
+                        if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).getBatchNo().equals(body.get(j).getBatchNo())
+                                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i).getItemID().equals(body.get(j).getItemID())) {
+                            isBatchAvailable = true;
+                        }
+                    }
+                    if (!isBatchAvailable) {
+                        body.add(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().get(i));
                     }
                 }
             }
         }
 
         if (body.size() > 0) {
-
-            if (!allowChangeQty) {
+            if (!allowChangeQty || isBarcodeScan) {
                 int qty = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getQty();
+                double selectedQty = 0.0;
+                if (batchListObjsList != null && batchListObjsList.size() > 0) {
+                    for (GetBatchInfoRes.BatchListObj batch : batchListObjsList) {
+                        selectedQty = selectedQty + batch.getREQQTY();
+                    }
+                }
+                String selectedQtyinText = String.valueOf(selectedQty).substring(0, String.valueOf(selectedQty).indexOf("."));
+
+                qty = qty - Integer.parseInt(selectedQtyinText);
                 for (int i = 0; i < this.body.size(); i++) {
                     if (qty <= Double.parseDouble(this.body.get(i).getQ_O_H())) {
                         this.body.get(i).setREQQTY((double) qty);
@@ -340,14 +364,24 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             } else {
                 batchlistBinding.prefferedBatchStatus.setText("Preferred batch is empty.");
             }
-            batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine);
+            batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine, batchListObjsList);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+            if (body.get(0).isBarcodeScannedBatch()) {
+                batchlistBinding.batchListRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        // At this point the layout is complete and the
+                        // dimensions of recyclerView and any child views
+                        // are known.
+                        batchlistBinding.batchListRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        onAddItemsClicked(true);
+                    }
+                });
+            }
         }
-
-
     }
 
     private void checkAllFalse() {
@@ -409,7 +443,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     int k;
 
     @Override
-    public void onAddItemsClicked() {
+    public void onAddItemsClicked(boolean isBarcodeScannerItem) {
         double selectedBatchesQty = 0.0;
         if (!allowMultiBatch && batchListObjsList != null && batchListObjsList.size() > 1) {
             Toast.makeText(this, "Select only one batch..!", Toast.LENGTH_SHORT).show();
@@ -419,31 +453,32 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
 
             if (selectedBatchesQty < salesLine.getQty()) {
-                statusBatchlist = "PARTIAL";
-                Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
-                DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
-                dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                dialogBatchAlertBinding.printImg.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
-                dialogBatchAlertBinding.printImg.setVisibility(View.VISIBLE);
-                dialogBatchAlertBinding.dialogMessage.setText("You have entered less than Request quantity\nDo you still want to continue?");
-                dialog.setCancelable(false);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-                dialogBatchAlertBinding.dialogButtonNO.setText("Cancel");
-                dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
-                dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                    GetBatchInfoRes o = new GetBatchInfoRes();
-                    if (batchListObjsList != null && batchListObjsList.size() > 0)
-                        o.setBatchList(batchListObjsList);
-                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                    Intent i = new Intent();
-                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                    i.putExtra("finalStatus", (String) statusBatchlist);
-                    setResult(RESULT_OK, i);
-                    finish();
-                    dialog.dismiss();
-                });
-                dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(v1 -> dialog.dismiss());
+                if (!isBarcodeScannerItem) {
+                    statusBatchlist = "PARTIAL";
+                    Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
+                    DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
+                    dialog.setContentView(dialogBatchAlertBinding.getRoot());
+                    dialogBatchAlertBinding.printImg.setImageDrawable(getResources().getDrawable(R.drawable.warning_icon));
+                    dialogBatchAlertBinding.printImg.setVisibility(View.VISIBLE);
+                    dialogBatchAlertBinding.dialogMessage.setText("You have entered less than Request quantity\nDo you still want to continue?");
+                    dialog.setCancelable(false);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    dialogBatchAlertBinding.dialogButtonNO.setText("Cancel");
+                    dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
+                    dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                        GetBatchInfoRes o = new GetBatchInfoRes();
+                        if (batchListObjsList != null && batchListObjsList.size() > 0)
+                            o.setBatchList(batchListObjsList);
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                        i.putExtra("finalStatus", (String) statusBatchlist);
+                        setResult(RESULT_OK, i);
+                        finish();
+                        dialog.dismiss();
+                    });
+                    dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(v1 -> dialog.dismiss());
 //                dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
 
 
@@ -473,6 +508,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //                dialogView.setNegativeLabel("Cancel");
 //                dialogView.setNegativeListener(v -> dialogView.dismiss());
 //                dialogView.show();
+                }
             } else if (selectedBatchesQty == salesLine.getQty()) {
                 statusBatchlist = "FULL";
                 try {
@@ -618,7 +654,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     public void noOrderFound(int count) {
         if (count > 0) {
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
-            batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine);
+            batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine, batchListObjsList);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
@@ -665,13 +701,21 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     }
 
     @Override
-    public void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel) {
+    public void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel, boolean isBarcodeScannedItem) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         hideKeyboard();
         for (int i = 0; i < body.size(); i++) {
             if (body.get(i).getBatchNo().equals(batchListModel.getBatchNo())) {
                 body.set(i, batchListModel);
                 if (body.get(i).isSelected()) {
+                    for (int n = 0; n < batchListObjsList.size(); n++) {
+                        if (body.get(i).getBatchNo().equals(batchListObjsList.get(n).getBatchNo())
+                                && body.get(i).getItemID().equals(batchListObjsList.get(n).getItemID())) {
+                            batchListObjsList.remove(n);
+                            n--;
+                        }
+                    }
+
                     batchListObjsList.add(body.get(i));
                     mPresenter.checkBatchInventory(body.get(i), true);
                 } else {
@@ -680,8 +724,10 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 break;
             }
         }
-        if (batchListAdapter != null) {
-            batchListAdapter.notifyDataSetChanged();
+        if (!isBarcodeScannedItem) {
+            if (batchListAdapter != null) {
+                batchListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -712,8 +758,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body) {
-        if (body != null && !status.isEmpty())
-            onAddItemsClicked();
+        if (body != null && !status.isEmpty()) onAddItemsClicked(false);
     }
 
     @Override
@@ -741,26 +786,88 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onClickScanBatchId() {
-        new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        double selectedQty = 0.0;
+        double requiredQty = 0.0;
+        if (batchListObjsList != null && batchListObjsList.size() > 0 && selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (GetBatchInfoRes.BatchListObj batch : batchListObjsList) {
+                selectedQty = selectedQty + batch.getREQQTY();
+            }
+        }
+        if (selectedOmsHeaderList != null
+                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse() != null
+                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine() != null
+                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+            requiredQty = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getQty();
+
+        }
+
+        boolean isFull = false;
+        if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos) != null
+                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getStatus() != null
+                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getStatus().equals("FULL")) {
+            isFull = true;
+        }
+
+        if (selectedQty < requiredQty && !isFull) {
+            new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        } else {
+            Toast.makeText(this, "Required Qty selected already.", Toast.LENGTH_SHORT).show();
+        }
     }
-//    GetBatchDetailsByBarcodeResponse getBatchDetailsByBarcodeResponse;
+
+    //    GetBatchDetailsByBarcodeResponse getBatchDetailsByBarcodeResponse;
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchInfoRes) {
 //        this.getBatchDetailsByBarcodeResponse=getBatchDetailsByBarcodeResponse;
-        if(getBatchInfoRes!=null && getBatchInfoRes.getBatchList()!=null && getBatchInfoRes.getBatchList().size()>0){
-            scanSearch=true;
-            this.body=getBatchInfoRes.getBatchList();
+        if (getBatchInfoRes != null && getBatchInfoRes.getBatchList() != null && getBatchInfoRes.getBatchList().size() > 0) {
+           /* scanSearch = true;
+            this.body = getBatchInfoRes.getBatchList();
             batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
-            batchListAdapter.notifyDataSetChanged();
+            batchListAdapter.setBarcodeBatchList(this.body);
+            batchListAdapter.notifyDataSetChanged();*/
+
+            batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+
+
+            for (int i = 0; i < batchListObjsList.size(); i++) {
+                for (int j = 0; j < getBatchInfoRes.getBatchList().size(); j++) {
+                    if (batchListObjsList.get(i).getBatchNo().equals(getBatchInfoRes.getBatchList().get(j).getBatchNo())
+                            && batchListObjsList.get(i).getItemID().equals(getBatchInfoRes.getBatchList().get(j).getItemID())) {
+                        getBatchInfoRes.getBatchList().remove(j);
+                        j--;
+                    }
+                }
+            }
+
+
+/*
+            for (int i = 0; i < getBatchInfoRes.getBatchList().size(); i++) {
+                boolean isBatchAvailable = false;
+                for (int j = 0; j < batchListObjsList.size(); j++) {
+                    if (getBatchInfoRes.getBatchList().get(i).getBatchId().equals(batchListObjsList.get(j).getBatchId())
+                            && getBatchInfoRes.getBatchList().get(i).getItemID().equals(batchListObjsList.get(j).getItemID())) {
+                        isBatchAvailable = true;
+                    }
+                }
+                if (isBatchAvailable) {
+                    getBatchInfoRes.getBatchList().remove(i);
+                    i--;
+                }
+            }
+*/
+            getBatchInfoRes.getBatchList().addAll(batchListObjsList);
+
+            setBatchDetails(getBatchInfoRes.getBatchList(), true);
 //        Toast.makeText(getApplicationContext(), ""+getBatchDetailsByBarcodeResponse.getBatchList().size(), Toast.LENGTH_SHORT).show();
 //            batchListAdapter = new BatchListAdapter(this, this.body, this, salesLine, getBatchDetailsByBarcodeResponse.getBatchList(), scanSearch);
 //            batchListAdapter.setAllowChangeQty(allowChangeQty);
 //            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
 //            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
 //            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
-        }else{
+        } else {
             Dialog dialog = new Dialog(this);//, R.style.Theme_AppCompat_DayNight_NoActionBar
             DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
             dialog.setContentView(dialogBatchAlertBinding.getRoot());
@@ -775,14 +882,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 dialog.dismiss();
 
             });
-            batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+            setBatchDetails(dataRestore, false);
+           /* batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
             batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
-            batchListAdapter.notifyDataSetChanged();
+            batchListAdapter.notifyDataSetChanged();*/
 
         }
 

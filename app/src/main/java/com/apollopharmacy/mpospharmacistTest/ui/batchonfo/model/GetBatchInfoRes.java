@@ -1,14 +1,14 @@
 package com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
-
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
 public class GetBatchInfoRes implements Serializable {
 
@@ -39,7 +39,7 @@ public class GetBatchInfoRes implements Serializable {
         return BatchList;
     }
 
-    public static class BatchListObj extends BaseObservable implements Serializable  {
+    public static class BatchListObj extends BaseObservable implements Serializable {
 
 
         @Expose
@@ -100,23 +100,22 @@ public class GetBatchInfoRes implements Serializable {
         @SerializedName("BatchNo")
         private String BatchNo;
 
+        private boolean isBarcodeScannedBatch;
 
-        private  double Vendormrp;
+        private double Vendormrp;
 
-        public  double getVendormrp()
-        {
+        public double getVendormrp() {
             return Vendormrp;
         }
 
-        public  void setVendormrp(double vendormrp)
-        {
-            this.Vendormrp=vendormrp;
+        public void setVendormrp(double vendormrp) {
+            this.Vendormrp = vendormrp;
         }
 
 
         private boolean physicalbatchstatus;
 
-        private  boolean updatezeroqtystatus;
+        private boolean updatezeroqtystatus;
         private String batchId;
         private boolean isBatchidSelect;
 
@@ -136,40 +135,35 @@ public class GetBatchInfoRes implements Serializable {
             isBatchidSelect = batchidSelect;
         }
 
-        private  String PhysicalBatchID;
+        private String PhysicalBatchID;
 
-        public  String getPhysicalBatchID()
-        {
+        public String getPhysicalBatchID() {
             return PhysicalBatchID;
         }
 
-        public  void setPhysicalBatchID(String PhysicalBatchID1)
-        {
-            this.PhysicalBatchID=PhysicalBatchID1;
+        public void setPhysicalBatchID(String PhysicalBatchID1) {
+            this.PhysicalBatchID = PhysicalBatchID1;
         }
 
-        public  boolean getUpdatezeroqtystatus()
-        {
+        public boolean getUpdatezeroqtystatus() {
             return updatezeroqtystatus;
         }
-        public  void setUpdatezeroqtystatus(boolean updatezeroqtystatus1)
-        {
-            updatezeroqtystatus=updatezeroqtystatus1;
+
+        public void setUpdatezeroqtystatus(boolean updatezeroqtystatus1) {
+            updatezeroqtystatus = updatezeroqtystatus1;
         }
 
         public boolean isNearByExpiry() {
             return NearByExpiry;
         }
 
-        public  boolean getPhysicalbatchstatus()
-      {
-          return physicalbatchstatus;
-      }
+        public boolean getPhysicalbatchstatus() {
+            return physicalbatchstatus;
+        }
 
-      public  void setPhysicalbatchstatus(boolean physicalbatchstatus1)
-      {
-          physicalbatchstatus=physicalbatchstatus1;
-      }
+        public void setPhysicalbatchstatus(boolean physicalbatchstatus1) {
+            physicalbatchstatus = physicalbatchstatus1;
+        }
 
         public double getTotalTax() {
             return TotalTax;
@@ -333,6 +327,14 @@ public class GetBatchInfoRes implements Serializable {
             BatchNo = batchNo;
         }
 
+        public boolean isBarcodeScannedBatch() {
+            return isBarcodeScannedBatch;
+        }
+
+        public void setBarcodeScannedBatch(boolean barcodeScannedBatch) {
+            isBarcodeScannedBatch = barcodeScannedBatch;
+        }
+
         private int enterReqQuantity;
 
         public int getEnterReqQuantity() {
@@ -348,7 +350,7 @@ public class GetBatchInfoRes implements Serializable {
 
         @Bindable
         public double getCalculatedTotalPrice() {
-            return  calculatedTotalPrice ;
+            return calculatedTotalPrice;
         }
 
         public void setCalculatedTotalPrice(double calculatedTotalPrice) {

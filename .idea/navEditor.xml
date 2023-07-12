@@ -159,18 +159,6 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="nav">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="nav_biller_vtwo">
                     <value>
                       <LayoutPositions>
@@ -238,6 +226,18 @@
                           <Point>
                             <option name="x" value="270" />
                             <option name="y" value="366" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="nav_stock_inward_process">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

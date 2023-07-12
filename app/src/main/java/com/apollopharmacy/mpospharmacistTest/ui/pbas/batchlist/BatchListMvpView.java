@@ -20,7 +20,7 @@ public interface BatchListMvpView extends MvpView {
 
     void checkBatchInventoryFailed(CheckBatchInventoryRes body);
 
-    void onAddItemsClicked();
+    void onAddItemsClicked(boolean isBarcodeScannerItem);
 
     void onClickNotify();
 
@@ -30,7 +30,7 @@ public interface BatchListMvpView extends MvpView {
 
     void onItemClick(int position, int quantity, GetBatchInfoRes.BatchListObj batchListObj);
 
-    void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel);
+    void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel, boolean isBarcodeScannedItem);
 
     void onClickFullPicked();
 

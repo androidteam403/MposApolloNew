@@ -1712,9 +1712,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
         calculatePosTransactionRes = posTransactionRes;
 
-        boolean isAddAllowed = false;
-        boolean isDeleteAllowed = false;
-        boolean isEditAllowed = false;
+        boolean isAddAllowed = true;
+        boolean isDeleteAllowed = true;
+        boolean isEditAllowed = true;
 
         if (getCalculatedPosTransactionRes() != null && getCalculatedPosTransactionRes().getCorpCode() != null) {
             String corpCode = getCalculatedPosTransactionRes().getCorpCode();
