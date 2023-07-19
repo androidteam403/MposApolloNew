@@ -135,6 +135,11 @@ public class GetGlobalConfingRes {
     @SerializedName("ISHBPStore")
     private boolean ISHBPStore;
     @Expose
+    @SerializedName("ISOneApolloCardCreationAllowed")
+    private boolean ISOneApolloCardCreationAllowed;
+
+
+    @Expose
     @SerializedName("ISCardBilling")
     private boolean ISCardBilling;
     @Expose
@@ -460,6 +465,14 @@ public class GetGlobalConfingRes {
 
     public boolean isISHBPStore() {
         return ISHBPStore;
+    }
+
+    public boolean isISOneApolloCardCreationAllowed() {
+        return ISOneApolloCardCreationAllowed;
+    }
+
+    public void setISOneApolloCardCreationAllowed(boolean ISOneApolloCardCreationAllowed) {
+        this.ISOneApolloCardCreationAllowed = ISOneApolloCardCreationAllowed;
     }
 
     public boolean isISCardBilling() {

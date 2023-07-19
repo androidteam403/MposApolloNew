@@ -426,7 +426,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         getMvpView().getCustomerModule().setCardPayment(true);
         if (!getMvpView().getCustomerModule().isExistingCustomerOrNot()) {
             if (!getMvpView().isOnleneOrder() && getDataManager().getGlobalJson().isISHBPStore()) {
-                checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                if (getDataManager().getGlobalJson().isISOneApolloCardCreationAllowed()) {
+                    checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                } else {
+                    doPayment(2);
+                }
             } else {
                 doPayment(2);
             }
@@ -651,7 +655,11 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                 if (!getMvpView().getCustomerModule().isExistingCustomerOrNot()) {
                     if (!getMvpView().isOnleneOrder() && getGlobalConfiguration().isISHBPStore()) {
-                        checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                        if (getGlobalConfiguration().isISOneApolloCardCreationAllowed()) {
+                            checkCustomerExistOrNot(getMvpView().getCustomerModule());
+                        } else {
+                            generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
+                        }
                     } else {
                         generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
                     }
@@ -3607,36 +3615,42 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         getMvpView().hideKeyboard();
         if (!showErrorPharmaDocutor()) {
             if (checkTrackingWiseConfing(paymentType)) {
-                //   System.out.println("payment type--->" + paymentType);
-                switch (paymentType) {
-                    case 1:
-                        getMvpView().onClickCashPaymentBtn();
-                        break;
-                    case 2:
-                        getMvpView().onClickCardPaymentBtn();
-                        break;
-                    case 3:
-                        getMvpView().onClickOneApolloBtn();
-                        break;
-                    case 4:
-                        getMvpView().onClickWalletPaymentBtn();
-                        break;
-                    case 5:
-                        getPharmacyStaffApiDetails("", "ENQUIRY", getMvpView().orderRemainingAmount());
-                        break;
-                    case 6:
-                        getMvpView().onClickSmsPayBtn();
-                        break;
-                    case 7:
-                        getMvpView().onClickVendorPayBtn();
-                        break;
-                    case 8:
-                        getMvpView().onClickCodPayBtn();
-                        break;
-                    case 9:
-                        getMvpView().onClickHdfcPayBtn();
-                        break;
+                String corpCode = getMvpView().getCalculatedPosTransactionRes().getCorpCode();
+                if (corpCode != null && !corpCode.isEmpty()) {
+                    //   System.out.println("payment type--->" + paymentType);
+                    switch (paymentType) {
+                        case 1:
+                            getMvpView().onClickCashPaymentBtn();
+                            break;
+                        case 2:
+                            getMvpView().onClickCardPaymentBtn();
+                            break;
+                        case 3:
+                            getMvpView().onClickOneApolloBtn();
+                            break;
+                        case 4:
+                            getMvpView().onClickWalletPaymentBtn();
+                            break;
+                        case 5:
+                            getPharmacyStaffApiDetails("", "ENQUIRY", getMvpView().orderRemainingAmount());
+                            break;
+                        case 6:
+                            getMvpView().onClickSmsPayBtn();
+                            break;
+                        case 7:
+                            getMvpView().onClickVendorPayBtn();
+                            break;
+                        case 8:
+                            getMvpView().onClickCodPayBtn();
+                            break;
+                        case 9:
+                            getMvpView().onClickHdfcPayBtn();
+                            break;
+                    }
+                } else {
+                    showMessagePopup("Please select the corporate");
                 }
+
             }
         } else {
             getMvpView().showDoctorSelectError();

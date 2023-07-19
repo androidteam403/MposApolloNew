@@ -857,48 +857,53 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onPayButtonClick() {
-        int flagChronic = 0;
-        int flagBabyCare = 0;
-        int pos = -1;
-        System.out.println("customer name-->" + customerEntity.getCardName());
-        System.out.println("customer name-->" + customerEntity.getMobileNo());
-        // if ((customerEntity.getMobileNo() != null && customerEntity.getCardName() != null) && (!customerEntity.getMobileNo().equalsIgnoreCase("") && !customerEntity.getCardName().equalsIgnoreCase(""))) {
-        for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
-            if (Singletone.getInstance().itemsArrayList.get(i).getDiseaseType().equalsIgnoreCase("Chronic") || Singletone.getInstance().itemsArrayList.get(i).getSubCategory().equalsIgnoreCase("BABY CARE")) {
-                flagBabyCare++;
-                if (Singletone.getInstance().itemsArrayList.get(i).getRemainderDays() > 0.1) {
-                    flagChronic++;
-                    pos = i;
-                    break;
-                }
-            } else {
-                if (Singletone.getInstance().itemsArrayList.get(i).getRemainderDays() > 0.1) {
-                    flagChronic++;
-                    pos = i;
-                    break;
+        String corpCode = calculatePosTransactionRes.getCorpCode();
+        if (corpCode != null && !corpCode.isEmpty()) {
+            int flagChronic = 0;
+            int flagBabyCare = 0;
+            int pos = -1;
+            System.out.println("customer name-->" + customerEntity.getCardName());
+            System.out.println("customer name-->" + customerEntity.getMobileNo());
+            // if ((customerEntity.getMobileNo() != null && customerEntity.getCardName() != null) && (!customerEntity.getMobileNo().equalsIgnoreCase("") && !customerEntity.getCardName().equalsIgnoreCase(""))) {
+            for (int i = 0; i < Singletone.getInstance().itemsArrayList.size(); i++) {
+                if (Singletone.getInstance().itemsArrayList.get(i).getDiseaseType().equalsIgnoreCase("Chronic") || Singletone.getInstance().itemsArrayList.get(i).getSubCategory().equalsIgnoreCase("BABY CARE")) {
+                    flagBabyCare++;
+                    if (Singletone.getInstance().itemsArrayList.get(i).getRemainderDays() > 0.1) {
+                        flagChronic++;
+                        pos = i;
+                        break;
+                    }
+                } else {
+                    if (Singletone.getInstance().itemsArrayList.get(i).getRemainderDays() > 0.1) {
+                        flagChronic++;
+                        pos = i;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (flagChronic == 1 || flagBabyCare == 0) {
-            if (pos != -1) {
-                remaindValue = Singletone.getInstance().itemsArrayList.get(pos).getRemainderDays();
+            if (flagChronic == 1 || flagBabyCare == 0) {
+                if (pos != -1) {
+                    remaindValue = Singletone.getInstance().itemsArrayList.get(pos).getRemainderDays();
+                }
+                if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
+                    paymentMethodModel.setGenerateBill(true);
+                }
+                updatePayedAmount(calculatePosTransactionRes);
+                addItemBinding.setIsPaymentMode(true);
+                setEnableEditTextChange();
+            } else {
+                alertQuantityError("Please Enter Remainder Days!!");
             }
-            if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
-                paymentMethodModel.setGenerateBill(true);
-            }
-            updatePayedAmount(calculatePosTransactionRes);
-            addItemBinding.setIsPaymentMode(true);
-            setEnableEditTextChange();
-        } else {
-            alertQuantityError("Please Enter Remainder Days!!");
-        }
       /* }
         else
         {
             Toast.makeText(this,"Please Enter Customer Details",
                     Toast.LENGTH_LONG).show();
         }*/
+        } else {
+            alertQuantityError("Please select the corporate");
+        }
     }
 
     @Override
