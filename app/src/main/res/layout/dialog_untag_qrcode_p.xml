@@ -6,118 +6,218 @@
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/dialog_background"
+        android:stateListAnimator="@null">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingLeft="12dp"
+            android:paddingTop="16dp"
+            android:paddingRight="12dp"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/warning_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/twenty_dp"
-            android:background="@color/white">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/warning_icon" />
 
-            <ImageView
-                android:id="@+id/dialogButtonNot"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/margin_10dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/black_delete_icon" />
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/warning_img"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:paddingTop="4dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="16dp"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="15sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/dialog_message"
+            android:background="#cdced2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialogButtonNO"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:stateListAnimator="@null"
+                android:text="@string/label_cancel"
+                android:textAlignment="center"
+                android:textColor="#007aff"
+                android:textSize="19sp" />
 
+            <View
+                android:id="@+id/separator"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#cdced2" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/warning_icon" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Un-tag the fullfillment id: "
-                        android:textAlignment="center"
-                        android:textColor="@color/red" />
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="121323"
-                        android:textAlignment="center"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="with the current QR code"
-                    android:textAlignment="center"
-                    android:textColor="@color/red" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/twenty_dp"
-                    android:layout_marginBottom="@dimen/twenty_dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/dialogButtonNO"
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/okay_btn_bg"
-                        android:backgroundTint="@color/red"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="center"
-                        android:padding="@dimen/five_dp"
-                        android:text="No"
-                        android:textColor="@color/white" />
-
-                    <TextView
-
-                        android:id="@+id/dialogButtonOK"
-                        android:layout_width="@dimen/one_hundred_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/twenty_dp"
-                        android:background="@drawable/okay_btn_bg"
-                        android:backgroundTint="@color/green"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="center"
-                        android:padding="@dimen/five_dp"
-                        android:text="Yes"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/dialogButtonOK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:stateListAnimator="@null"
+                android:text="@string/label_yes"
+                android:textAlignment="center"
+                android:textColor="#007aff"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </RelativeLayout>
+
+    <!--    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/transperent_black_color">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:layout_margin="@dimen/twenty_dp"-->
+    <!--            android:background="@color/white">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/dialogButtonNot"-->
+    <!--                android:layout_width="25dp"-->
+    <!--                android:layout_height="25dp"-->
+    <!--                android:layout_alignParentEnd="true"-->
+    <!--                android:layout_marginTop="@dimen/five_dp"-->
+    <!--                android:layout_marginEnd="@dimen/margin_10dp"-->
+    <!--                android:contentDescription="@string/app_name"-->
+    <!--                android:src="@drawable/black_delete_icon" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_centerInParent="true"-->
+    <!--                android:layout_marginTop="@dimen/twenty_dp"-->
+    <!--                android:orientation="vertical">-->
+
+
+    <!--                <ImageView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:layout_marginTop="@dimen/ten_dp"-->
+    <!--                    android:contentDescription="@string/app_name"-->
+    <!--                    android:src="@drawable/warning_icon" />-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:layout_marginTop="@dimen/five_dp"-->
+    <!--                    android:orientation="horizontal">-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:fontFamily="@font/roboto_medium"-->
+    <!--                        android:text="Un-tag the fullfillment id: "-->
+    <!--                        android:textAlignment="center"-->
+    <!--                        android:textColor="@color/red"-->
+    <!--                        android:textSize="@dimen/dimen12sp" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/title"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:fontFamily="@font/roboto_medium"-->
+    <!--                        android:text="121323"-->
+    <!--                        android:textAlignment="center"-->
+    <!--                        android:textColor="@color/black"-->
+    <!--                        android:textSize="@dimen/text_dimen_12" />-->
+
+    <!--                </LinearLayout>-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="with the current QR code"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="@color/red"-->
+    <!--                    android:textSize="@dimen/text_dimen_12" />-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center_horizontal"-->
+    <!--                    android:layout_marginTop="@dimen/twenty_dp"-->
+    <!--                    android:layout_marginBottom="@dimen/twenty_dp"-->
+    <!--                    android:orientation="horizontal">-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/dialogButtonNO"-->
+    <!--                        android:layout_width="@dimen/one_hundred_dp"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:background="@drawable/okay_btn_bg"-->
+    <!--                        android:backgroundTint="@color/red"-->
+    <!--                        android:fontFamily="@font/roboto_bold"-->
+    <!--                        android:gravity="center"-->
+    <!--                        android:padding="@dimen/five_dp"-->
+    <!--                        android:text="No"-->
+    <!--                        android:textColor="@color/white" />-->
+
+    <!--                    <TextView-->
+
+    <!--                        android:id="@+id/dialogButtonOK"-->
+    <!--                        android:layout_width="@dimen/one_hundred_dp"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginStart="@dimen/twenty_dp"-->
+    <!--                        android:background="@drawable/okay_btn_bg"-->
+    <!--                        android:backgroundTint="@color/green"-->
+    <!--                        android:fontFamily="@font/roboto_bold"-->
+    <!--                        android:gravity="center"-->
+    <!--                        android:padding="@dimen/five_dp"-->
+    <!--                        android:text="Yes"-->
+    <!--                        android:textColor="@color/white" />-->
+    <!--                </LinearLayout>-->
+
+    <!--            </LinearLayout>-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--    </RelativeLayout>-->
 </layout>
