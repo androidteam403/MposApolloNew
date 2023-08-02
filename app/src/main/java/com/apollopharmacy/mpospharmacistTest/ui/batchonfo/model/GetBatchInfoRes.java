@@ -102,6 +102,8 @@ public class GetBatchInfoRes implements Serializable {
 
         private boolean isBarcodeScannedBatch;
 
+        private boolean isBarcodeScannedMultipleBatch;
+
         private double Vendormrp;
 
         public double getVendormrp() {
@@ -333,6 +335,14 @@ public class GetBatchInfoRes implements Serializable {
 
         public void setBarcodeScannedBatch(boolean barcodeScannedBatch) {
             isBarcodeScannedBatch = barcodeScannedBatch;
+        }
+
+        public boolean isBarcodeScannedMultipleBatch() {
+            return isBarcodeScannedMultipleBatch;
+        }
+
+        public void setBarcodeScannedMultipleBatch(boolean barcodeScannedMultipleBatch) {
+            isBarcodeScannedMultipleBatch = barcodeScannedMultipleBatch;
         }
 
         private int enterReqQuantity;

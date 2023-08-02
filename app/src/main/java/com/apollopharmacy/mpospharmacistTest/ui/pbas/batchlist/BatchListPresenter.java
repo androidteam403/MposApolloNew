@@ -144,9 +144,14 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body() != null) {
+                           /* response.body().getBatchList().add(response.body().getBatchList().get(0));
+                            response.body().getBatchList().add(response.body().getBatchList().get(0));*/
 //                            if (isLastPos)
                             for (GetBatchInfoRes.BatchListObj item : response.body().getBatchList()) {
                                 item.setBarcodeScannedBatch(true);
+                                if (response.body().getBatchList().size() > 1) {
+                                    item.setBarcodeScannedMultipleBatch(true);
+                                }
                             }
                             getMvpView().onSuccessGetBatchDetailsBarcode(response.body());
                         }

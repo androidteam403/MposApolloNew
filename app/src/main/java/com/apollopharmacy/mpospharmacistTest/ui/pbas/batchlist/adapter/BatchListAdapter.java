@@ -48,7 +48,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
     private GetOMSTransactionResponse.SalesLine salesLine;
     Dialog dia;
 
-    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView, GetOMSTransactionResponse.SalesLine salesLine, ArrayList<GetBatchInfoRes.BatchListObj> selectedBatchListObjsList) {
+    private boolean isBarcodeMultipleBatch;
+
+    public BatchListAdapter(Context mContext, List<GetBatchInfoRes.BatchListObj> batchListModelList1, BatchListMvpView mvpView, GetOMSTransactionResponse.SalesLine salesLine, ArrayList<GetBatchInfoRes.BatchListObj> selectedBatchListObjsList, boolean isBarcodeMultipleBatch) {
         this.mContext = mContext;
         this.batchListModelListl = batchListModelList1;
         this.omsHeaderList = batchListModelList1;
@@ -56,6 +58,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         this.reqqty = reqqty;
         this.salesLine = salesLine;
         this.selectedBatchListObjsList = selectedBatchListObjsList;
+        this.isBarcodeMultipleBatch = isBarcodeMultipleBatch;
     }
 
     public void setBarcodeBatchList(List<GetBatchInfoRes.BatchListObj> batchListModelList1) {
@@ -96,7 +99,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             holder.adapterBatchlistBinding.requiredQuantity.setText((""));
         }
 
-        if (batchListModel.isBarcodeScannedBatch()) {
+        if (batchListModel.isBarcodeScannedBatch() && !batchListModel.isBarcodeScannedMultipleBatch()) {
             if (batchListModel.getREQQTY() != 0) {
                 batchListModel.setSelected(true);
                 batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
@@ -264,7 +267,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
 //                            dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) <= Double.parseDouble(batchListModel.getQ_O_H())) {
 
-                            if (batchListModel.isBarcodeScannedBatch()) {
+                            if (batchListModel.isBarcodeScannedBatch() && !isBarcodeMultipleBatch) {
                                 if (batchListMvpView != null) {
                                     batchListModel.setSelected(true);
                                     batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
