@@ -13,7 +13,7 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
 
     void onClickFilterIcon();
 
-    void fetchFulfilmentOrderList(boolean isRefresh);
+    void fetchFulfilmentOrderList(boolean isRefresh, String fulfilmentType);
 
     void onClickScanCode();
 
@@ -37,4 +37,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onClickNextPage();
 
     String getTerminalId();
+
+    void getUniversalDropdownBindApiCall();
 }

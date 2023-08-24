@@ -4,6 +4,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetUniversalDropDownBindResponse;
 
 import java.util.List;
 
@@ -46,4 +47,5 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onClickPrescriptionPreview(GetOMSTransactionResponse.OrderPrescriptionURL orderPrescriptionURL, List<GetOMSTransactionResponse.OrderPrescriptionURL> prescriptionsList, int position);
 
+    void onSuccessGetUniversalDropdownBindApiCall(GetUniversalDropDownBindResponse getUniversalDropDownBindResponse);
 }

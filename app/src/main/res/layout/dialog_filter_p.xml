@@ -288,6 +288,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/five_dp" />
+
+                <View
+                    android:id="@+id/fulfilment_type_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen1dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:id="@+id/fulfilment_type_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Fulfilment type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fulfilment_type_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginEnd="@dimen/five_dp"
                     android:layout_marginBottom="@dimen/dimen60dp" />
             </LinearLayout>

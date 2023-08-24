@@ -40,32 +40,24 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
         else
             holder.filterItemBinding.parent.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
         holder.itemView.setOnClickListener(view -> {
-            if (filterModelList.get(position).isSelected())
-                filterModelList.get(position).setSelected(false);
-            else
-                filterModelList.get(position).setSelected(true);
-            notifyItemChanged(position);
-//            if (filterModelList.get(position).isSelected()) {
-//                filterModelList.get(position).setSelected(false);
-//            } else {
-//                if (filterModelList.get(position).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
-//                    for (int i = 0; i < filterModelList.size(); i++) {
-//                        if (!filterModelList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
-//                            filterModelList.get(i).setSelected(false);
-//                        }
-//                    }
-//                } else {
-//                    for (int i = 0; i < filterModelList.size(); i++) {
-//                        if (filterModelList.get(i).getName().equalsIgnoreCase("STOCK AVAILABLE")) {
-//                            filterModelList.get(i).setSelected(false);
-//                        }
-//                    }
-//                }
-//                filterModelList.get(position).setSelected(true);
-//            }
-//            notifyDataSetChanged();
-        });
+            if (filterModel.isFullfillmentTypeFilter()) {
+                for (FilterModel filterModel1 : filterModelList) {
+                    if (filterModel.getName().equals(filterModel1.getName())) {
+                        filterModel1.setSelected(!filterModel1.isSelected());
+                    } else {
+                        filterModel1.setSelected(false);
+                    }
+                }
+                notifyDataSetChanged();
+            } else {
+                if (filterModelList.get(position).isSelected())
+                    filterModelList.get(position).setSelected(false);
+                else
+                    filterModelList.get(position).setSelected(true);
+                notifyItemChanged(position);
+            }
 
+        });
     }
 
 

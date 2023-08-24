@@ -53,6 +53,7 @@ public class FulfilmentDetailsAdapter extends RecyclerView.Adapter<FulfilmentDet
         holder.fulfilmentDetailsBinding.rackId.setText(salesLine.getRackId());
         holder.fulfilmentDetailsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.fulfilmentDetailsBinding.stripMrp.setText("-");
+        holder.fulfilmentDetailsBinding.fulfilmentType.setText(salesLine.getFullfillmentType());
 
 
     }

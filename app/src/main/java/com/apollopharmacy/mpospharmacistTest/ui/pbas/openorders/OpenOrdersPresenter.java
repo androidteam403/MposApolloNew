@@ -11,6 +11,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetUniversalDropDownBindRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.model.GetUniversalDropDownBindResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -72,7 +74,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
-    public void fetchFulfilmentOrderList(boolean isRefresh) {
+    public void fetchFulfilmentOrderList(boolean isRefresh, String fulfilmentTypeSelectedFiler) {
 //        if (getMvpView().isNetworkConnected()) {
 //            getMvpView().showLoading();
 //            getMvpView().hideKeyboard();
@@ -123,7 +125,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
             reqModel.setIsMPOS("2");
-            reqModel.setUserName(getDataManager().getUserName());
+            reqModel.setUserName(fulfilmentTypeSelectedFiler);//getDataManager().getUserName()
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
@@ -232,6 +234,41 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public String getTerminalId() {
         return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public void getUniversalDropdownBindApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
+            GetUniversalDropDownBindRequest reqModel = new GetUniversalDropDownBindRequest();
+            reqModel.setStoreId(getDataManager().getStoreId());
+            reqModel.setType("GETUNIVERSALDATA");
+            reqModel.setValue("FULLFILMENTTYPE");
+
+
+            Call<GetUniversalDropDownBindResponse> call = apiInterface.GET_UNIVERSAL_DROP_DOWN_BIND_API_CALL(reqModel);
+            call.enqueue(new Callback<GetUniversalDropDownBindResponse>() {
+                @Override
+                public void onResponse(Call<GetUniversalDropDownBindResponse> call, Response<GetUniversalDropDownBindResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessGetUniversalDropdownBindApiCall(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetUniversalDropDownBindResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }
 

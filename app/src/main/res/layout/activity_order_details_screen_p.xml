@@ -480,7 +480,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Fulfillment type"
                                     android:textColor="@color/text_color_grey"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/fulfillment_type"
@@ -488,7 +489,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/price_bold"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/ten_sp" />
+                                    android:textSize="@dimen/ten_sp"
+                                    android:visibility="gone" />
 
                                 <!--                                <TextView-->
                                 <!--                                    android:layout_width="wrap_content"-->

@@ -88,7 +88,7 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
         actionbarSetUp();
         searchByFulfilmentId();
         mPresenter.getOMSTransactionHeaderApiCall();
-        mPresenter.sampleApiList();
+//        mPresenter.sampleApiList();
     }
 
     private void actionbarSetUp() {

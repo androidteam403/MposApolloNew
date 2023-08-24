@@ -4,6 +4,8 @@ public class FilterModel {
     private String name;
     private boolean isSelected;
 
+    private boolean isFullfillmentTypeFilter;
+
     public FilterModel() {
 
     }
@@ -23,6 +25,14 @@ public class FilterModel {
 
     public boolean isSelected() {
         return isSelected;
+    }
+
+    public boolean isFullfillmentTypeFilter() {
+        return isFullfillmentTypeFilter;
+    }
+
+    public void setFullfillmentTypeFilter(boolean fullfillmentTypeFilter) {
+        isFullfillmentTypeFilter = fullfillmentTypeFilter;
     }
 
     public void setSelected(boolean selected) {
