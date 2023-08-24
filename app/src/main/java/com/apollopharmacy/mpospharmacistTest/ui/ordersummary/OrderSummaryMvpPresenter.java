@@ -13,6 +13,8 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
 
     void onNewPlaceOrderClicked();
 
+    void onDownloadPdfButton();
+
     String getStoreName();
 
     String getStoreId();
@@ -28,4 +30,8 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
     void onDownloadApiCall(String filePath, String fileName, int pos);
 
     boolean enablescreens();
+
+    void downloadPdf(String transactionId);
+
+    void onClickBillPrint();
 }

@@ -15,6 +15,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.FileEntity;
@@ -22,6 +24,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListData
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Media_libraryEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist_mediaEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
@@ -396,10 +400,60 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             return null;
         }
     }
+
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
+    }
+
+    @Override
+    public void getUHIDDetails(String uhId) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            //Creating an object of our api interface
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            GetHBPUHIDDetailsRequest staffAPIReq = new GetHBPUHIDDetailsRequest();
+            staffAPIReq.setClusterCode(getDataManager().getGlobalJson().getClusterCode());
+            staffAPIReq.setSiteId(getDataManager().getGlobalJson().getStoreID());
+            staffAPIReq.setUHID(uhId);
+            staffAPIReq.setURL(getDataManager().getGlobalJson().getUHIDHBPURL());
+
+
+            Call<GetHBPUHIDDetailsResponse> call = api.HBPUHID_DETAILS_RESPONSE_CALL(staffAPIReq);
+            call.enqueue(new Callback<GetHBPUHIDDetailsResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<GetHBPUHIDDetailsResponse> call, @NotNull Response<GetHBPUHIDDetailsResponse> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().updateUHIDDetails(response.body());
+                        } else {
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetHBPUHIDDetailsResponse> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public HBPConfigResponse getHBPConfing() {
+        return getDataManager().getHBPConfigRes();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalCDonfiguration() {
+        return getDataManager().getGlobalJson();
     }
 
     @Override
@@ -446,26 +500,26 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-             //   Log.d(TAG, "File Size=" + fileSize);
+                //   Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-               // Log.d(TAG, destinationFile.getParent());
+                // Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessPlayList();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-           // Log.d(TAG, "Failed to save the file!");
+            // Log.d(TAG, "Failed to save the file!");
         }
     }
 
