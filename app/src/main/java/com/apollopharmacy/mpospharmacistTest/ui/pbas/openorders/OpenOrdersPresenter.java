@@ -16,6 +16,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.stockinwardprocessdetails.m
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -133,7 +137,38 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
-                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader(), isRefresh);
+
+                        List<TransactionHeaderResponse.OMSHeader> omsHeaderList = getDataManager().getGlobalTotalOmsHeaderList();
+                        Date currentDate = new Date();
+
+                        Collections.sort(omsHeaderList, ((o1, o2) -> {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            long diff1 = 0;
+                            long diff2 = 0;
+
+                            try {
+                                diff1 = Math.abs(dateFormat.parse(o1.getShipmentTat()).getTime() - currentDate.getTime());
+                                diff2 = Math.abs(dateFormat.parse(o2.getShipmentTat()).getTime() - currentDate.getTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return Long.compare(diff1, diff2);
+                        }));
+
+                        Collections.sort(omsHeaderList, ((o1, o2) -> {
+                            String pickPackUser1 = o1.getPickPackUser();
+                            String pickPackUser2 = o2.getPickPackUser();
+                            if (pickPackUser1.equalsIgnoreCase(getUserId()) && !pickPackUser2.equalsIgnoreCase(getUserId())) {
+                                return -1;
+                            } else if (!pickPackUser1.equalsIgnoreCase(getUserId()) && pickPackUser2.equalsIgnoreCase(getUserId())) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }));
+
+                        getMvpView().setFiltersHeaderLists(omsHeaderList, isRefresh);
+//                        getMvpView().setFiltersHeaderLists(response.body().getOMSHeader(), isRefresh);
 //                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }
                 }
