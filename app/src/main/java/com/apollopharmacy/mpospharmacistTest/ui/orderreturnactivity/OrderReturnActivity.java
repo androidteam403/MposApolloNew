@@ -150,6 +150,8 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 
     private final static int ITEXT_FONT_SIZE_SIX_6 = 6;
 
+//    private boolean isCancelOrReturn = false;
+
 
     public static Intent getStartIntent(Context context, CalculatePosTransactionRes model) {
         Intent intent = new Intent(context, OrderReturnActivity.class);
@@ -175,6 +177,13 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     protected void setUp() {
         orderReturnActiivtyBinding.setCallback(mvpPresenter);
         orderReturnActiivtyBinding.setIsReturn(false);
+        boolean isHbpStore = mvpPresenter.getGlobalConfing().isISHBPStore();
+        if (isHbpStore) {
+            orderReturnActiivtyBinding.dupicateCheckBoxLayout.setVisibility(View.GONE);
+        } else {
+            orderReturnActiivtyBinding.dupicateCheckBoxLayout.setVisibility(View.VISIBLE);
+        }
+        orderReturnActiivtyBinding.setIsMPOSReturnAllowed(mvpPresenter.getGlobalConfing().isMPOSReturnAllowed());
         orderReturnModelList = new ArrayList<>();
         if (getIntent() != null) {
             orderHistoryItem = (CalculatePosTransactionRes) getIntent().getSerializableExtra("order_history_info");
@@ -438,7 +447,13 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
         } else {
             if (mvpPresenter.getGlobalConfing().isISHBPStore()) {
-                orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
+                if (orderHistoryItem.getTransType() == 1 || orderHistoryItem.getTransType() == 2) {
+//                    isCancelOrReturn = true;
+                    orderReturnActiivtyBinding.dupicateCheckBoxLayout.setVisibility(View.GONE);
+                    orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
+                } else {
+                    orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.VISIBLE);
+                }
             } else {
                 orderReturnActiivtyBinding.corpReturnOptionsLayout.setVisibility(View.GONE);
             }
@@ -623,7 +638,10 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 
     @Override
     public void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll, String terminalId) {
-        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId)) {
+        boolean isAllTerminalReturn = mvpPresenter.getGlobalConfing().isISAllTerminalReturn();
+        boolean isHbpStore = mvpPresenter.getGlobalConfing().isISHBPStore();
+
+        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId) || (isHbpStore && isAllTerminalReturn)) {
             ExitInfoDialog dialogView = new ExitInfoDialog(this);
             dialogView.setTitle(title);
             dialogView.setPositiveLabel("OK");
@@ -730,7 +748,9 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 
     @Override
     public void partialReturnOrder(String terminalId) {
-        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId)) {
+        boolean isAllTerminalReturn = mvpPresenter.getGlobalConfing().isISAllTerminalReturn();
+        boolean isHbpStore = mvpPresenter.getGlobalConfing().isISHBPStore();
+        if (orderHistoryItem.getTerminal().equalsIgnoreCase(terminalId) || (isHbpStore && isAllTerminalReturn)) {
             if (!orderReturnActiivtyBinding.getIsReturn()) {
                 for (int i = 0; i < orderHistoryItem.getSalesLine().size(); i++) {
                     orderHistoryItem.getSalesLine().get(i).setReturnClick(true);
@@ -1510,7 +1530,12 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         document.setMargins(15, 15, 15, 15);
         pageBreakCount = 0;
         shippingChargePackingCount = 0;
-        createPdfPageWise(pdfDocument, document, false);
+//        if (isCancelOrReturn) {
+//            createPdfPageWise(pdfDocument, document, true);
+//        } else {
+        createPdfPageWise(pdfDocument, document, mvpPresenter.getGlobalConfing().isISHBPStore());
+//        }
+
         document.close();
         if (isStoragePermissionGranted()) {
             openPdf();
@@ -1626,9 +1651,9 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             } else {
                 PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
                 pageBreakCount++;
-                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length()>7){
-                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0,5)+"..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-                }else{
+                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length() > 7) {
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0, 5) + "..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                } else {
                     table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
                 }
                 table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1684,7 +1709,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                 }
             }
         }
-        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
+        tableEShippingPacking.addCell(new Cell(1, 1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
 
         float[] columnWidth5 = {144, 170, 122, 144};//580
 //        float columnWidth5[] = {140, 160, 120, 140};

@@ -133,6 +133,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         getDataManager().setGlobalTotalOmsTransactionHeader(response.body().getOMSHeader());
+
                         getMvpView().setFiltersHeaderLists(response.body().getOMSHeader(), isRefresh);
 //                        getMvpView().onSucessfullFulfilmentIdList(response.body());
                     }

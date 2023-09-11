@@ -89,6 +89,12 @@ public class GetGlobalConfingRes {
     @SerializedName("ManualBillingAllowHours")
     private int ManualBillingAllowHours;
     @Expose
+    @SerializedName("IsMPOSReturnAllowed")
+    private boolean IsMPOSReturnAllowed;
+    @Expose
+    @SerializedName("ISAllTerminalReturn")
+    private boolean ISAllTerminalReturn;
+    @Expose
     @SerializedName("LooseDamagSite")
     private String LooseDamagSite;
     @Expose
@@ -393,6 +399,22 @@ public class GetGlobalConfingRes {
 
     public int getManualBillingAllowHours() {
         return ManualBillingAllowHours;
+    }
+
+    public boolean isMPOSReturnAllowed() {
+        return IsMPOSReturnAllowed;
+    }
+
+    public void setMPOSReturnAllowed(boolean MPOSReturnAllowed) {
+        IsMPOSReturnAllowed = MPOSReturnAllowed;
+    }
+
+    public boolean isISAllTerminalReturn() {
+        return ISAllTerminalReturn;
+    }
+
+    public void setISAllTerminalReturn(boolean ISAllTerminalReturn) {
+        this.ISAllTerminalReturn = ISAllTerminalReturn;
     }
 
     public String getLooseDamagSite() {

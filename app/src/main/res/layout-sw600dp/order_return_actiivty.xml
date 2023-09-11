@@ -22,6 +22,10 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnMvpPresenter" />
+
+        <variable
+            name="IsMPOSReturnAllowed"
+            type="Boolean" />
     </data>
 
     <LinearLayout
@@ -388,12 +392,14 @@
                     android:weightSum="1">
 
                     <LinearLayout
-                        android:background="@color/light_grey"
-                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:id="@+id/dupicate_check_box_layout"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:background="@color/light_grey"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <CheckBox
                             android:id="@+id/printDuplicateCheckbox"
@@ -418,6 +424,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:background="@color/cart_price_bg"
+                            android:enabled="@{item.TransType == 1 || item.TransType == 2 ? false : IsMPOSReturnAllowed ? true : false}"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
                             android:onClick="@{()-> callback.onReturnClick(item)}"
@@ -434,6 +441,7 @@
                             android:layout_height="@dimen/fifty_dp"
                             android:layout_weight="0.2"
                             android:background="@color/cart_price_bg"
+                            android:enabled="@{item.TransType == 1 || item.TransType == 2 ? false : IsMPOSReturnAllowed ? true : false}"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
                             android:onClick="@{()-> callback.onReOrderClick(item)}"
@@ -450,6 +458,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:background="@color/cart_price_bg"
+                            android:enabled="@{item.TransType == 1 || item.TransType == 2 ? false : IsMPOSReturnAllowed ? true : false}"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
                             android:onClick="@{()-> callback.onCancelCLick(item)}"
@@ -467,7 +476,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:background="@color/cart_price_bg"
-                            android:enabled="false"
+                            android:enabled="@{item.TransType == 1 || item.TransType == 2 ? false : true}"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
                             android:text="Generate Sms"
@@ -516,6 +525,7 @@
 
             </RelativeLayout>
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/layoutPdfPreview"
             android:layout_width="@dimen/pdf_width"
@@ -527,7 +537,7 @@
             android:paddingTop="@dimen/pdf_margin_vertical"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/pdf_margin_vertical"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </LinearLayout>
 </layout>
