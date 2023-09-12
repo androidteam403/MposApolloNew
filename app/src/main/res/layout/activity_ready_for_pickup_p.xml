@@ -10,12 +10,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="90dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen60dp"
-                android:background="@color/actionbar_color"
+                android:background="@color/black"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/dimen10dp"
@@ -83,7 +84,179 @@
 
             </RelativeLayout>
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_marginTop="@dimen/dimen2dp"
+                android:layout_marginBottom="@dimen/dimen2dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#3fa9f5"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="@dimen/dimen22dp"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_25"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Baskets"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/baskets"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#8cc63f"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="@dimen/dimen22dp"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_28"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tagged"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/tagged"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#f7931e"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="@dimen/dimen22dp"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_29"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/pending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fdf690"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen7dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="@dimen/dimen7dp"
+                        android:src="@drawable/warning"
+                        android:tint="#ed1c24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tag or Untag QR code / Barcode"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8dp"
+                        android:text="Collect the &quot;A24|7 Packets / Boxes&quot; which have QR code printed on\nit and proceed further for tagging the FLIDs."
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -92,12 +265,14 @@
                 android:padding="@dimen/five_dp"
                 android:text="Tag or Untag QR code / Barcode"
                 android:textColor="@color/black"
-                android:textSize="@dimen/thirteen_sp" />
+                android:textSize="@dimen/thirteen_sp" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ready_for_pickup_recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:listitem="@layout/adapter_ready_for_pickup_p"
+                tools:itemCount="3"
                 android:layout_marginTop="@dimen/ten_dp" />
 
             <!--            <LinearLayout-->
@@ -136,7 +311,7 @@
             <!--                    tools:ignore="ButtonStyle" />-->
             <!--            </LinearLayout>-->
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -178,9 +353,9 @@
                     android:textColor="@color/text_color_grey"
                     tools:ignore="ButtonStyle" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <Button
+            <!--<Button
                 android:id="@+id/start_Picking_without_qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen45dp"
@@ -195,7 +370,7 @@
                 android:text="Start picking without qr code"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
+                tools:ignore="ButtonStyle" />-->
 
             <Button
                 android:layout_width="match_parent"
@@ -215,6 +390,78 @@
                 tools:ignore="ButtonStyle" />
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen40dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight=".5"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:text="Cancel"
+                    android:onClick="@{()-> callback.cancel()}"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/white"
+                    android:background="@color/red"/>
+
+                <LinearLayout
+                    android:id="@+id/start_Picking"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()-> callback.onClickStartPickup()}"
+                    android:background="@color/light_gray"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_weight=".5">
+
+                    <TextView
+                        android:id="@+id/start_picking_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start Picking"
+                        android:textColor="#999999"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tag all orders to start picking"
+                        android:textSize="@dimen/dimen10sp"
+                        android:textColor="@color/red"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/start_Picking_without_qr_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{()-> callback.onClickStartPickingWithoutQrCode()}"
+                android:layout_marginTop="@dimen/dimen5dp"
+                android:gravity="center"
+                android:background="#00a651">
+
+                <TextView
+                    android:id="@+id/start_Picking_without_qr_code_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Picking Without QR Code"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/roboto_bold"/>
+            </LinearLayout>
         </LinearLayout>
 
 

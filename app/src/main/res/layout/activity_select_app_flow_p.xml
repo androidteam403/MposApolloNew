@@ -66,8 +66,8 @@
                 android:paddingEnd="@dimen/ten_dp"
                 android:paddingBottom="@dimen/three_dp"
                 android:text="@string/label_continue"
-                android:textSize="@dimen/dimen18sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen18sp" />
 
             <TextView
                 android:id="@+id/logout_btn"

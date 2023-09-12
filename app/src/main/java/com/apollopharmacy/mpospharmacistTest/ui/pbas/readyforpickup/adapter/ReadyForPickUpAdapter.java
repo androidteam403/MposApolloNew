@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpMvpView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAdapter.ViewHolder> {
@@ -56,17 +60,39 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
 
 //  holder.adapterReadyForPickupBinding.filmentIdNum.setText(lastFourDigits(String.valueOf(omsHeader.getFulfilId())));
 
+        if (omsHeader.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            holder.adapterReadyForPickupBinding.pickupStatus.setText("NO");
+            holder.adapterReadyForPickupBinding.pickupStatus.setTextColor(Color.parseColor("#ff0202"));
+        } else {
+            holder.adapterReadyForPickupBinding.pickupStatus.setText("YES");
+            holder.adapterReadyForPickupBinding.pickupStatus.setTextColor(Color.parseColor("#009245"));
+        }
+        holder.adapterReadyForPickupBinding.sourceId.setText(omsHeader.getOrderSource());
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
+        Date inputDate = null;
+        try {
+            inputDate = inputFormat.parse(omsHeader.getDeliveryDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String outputDate = outputFormat.format(inputDate);
+        holder.adapterReadyForPickupBinding.deliveryDatePickpack.setText(outputDate);
 
         holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 
 
         if (omsHeader.isTagBox()) {
-            holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
-            holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.VISIBLE);
+            holder.adapterReadyForPickupBinding.tagBox.setVisibility(View.GONE);
+            holder.adapterReadyForPickupBinding.scanDeleteLayout.setVisibility(View.VISIBLE);
+            /*holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.VISIBLE);
+            holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.VISIBLE);*/
 //            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.VISIBLE);
         } else {
-            holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.GONE);
-            holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.GONE);
+            holder.adapterReadyForPickupBinding.tagBox.setVisibility(View.VISIBLE);
+            holder.adapterReadyForPickupBinding.scanDeleteLayout.setVisibility(View.GONE);
+            /*holder.adapterReadyForPickupBinding.tickMark.setVisibility(View.GONE);
+            holder.adapterReadyForPickupBinding.scanDelete.setVisibility(View.GONE);*/
 //            holder.adapterReadyForPickupBinding.takePrint1.setVisibility(View.GONE);
         }
 

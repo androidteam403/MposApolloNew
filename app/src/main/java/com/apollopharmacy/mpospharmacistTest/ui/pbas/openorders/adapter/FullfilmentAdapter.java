@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpVie
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
@@ -89,17 +93,35 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 
         holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
         holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
-        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getReciptId());
-        holder.fullfilmentBinding.deliveryDatePickpack.setText(omsHeader.getDeliveryDate());
+//        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+        if (omsHeader.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+            holder.fullfilmentBinding.pickupStatus.setText("NO");
+            holder.fullfilmentBinding.pickupStatus.setTextColor(Color.parseColor("#ff0202"));
+        } else  {
+            holder.fullfilmentBinding.pickupStatus.setText("YES");
+            holder.fullfilmentBinding.pickupStatus.setTextColor(Color.parseColor("#009245"));
+        }
+//        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getReciptId());
+        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
+        Date inputDate = null;
+        try {
+            inputDate = inputFormat.parse(omsHeader.getDeliveryDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String outputDate = outputFormat.format(inputDate);
+
+        holder.fullfilmentBinding.deliveryDatePickpack.setText(outputDate);
         if (omsHeader.getReVerification() == 1) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_reverification_bg));
         } else {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
         holder.fullfilmentBinding.fullfilmentId.setText(" " + omsHeader.getRefno());
-        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
-        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
+//        holder.fullfilmentBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
+//        holder.fullfilmentBinding.pickupStatus.setText(String.valueOf(omsHeader.getStockStatus()));
         if (omsHeader.getPickPackStatus().equalsIgnoreCase("1") && userId.equalsIgnoreCase(omsHeader.getPickPackUser())) {
             holder.fullfilmentBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.middle_drop_orders_bg));
         }
@@ -166,10 +188,10 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         }
 
         if (filteredOmsHeaderList.get(position).isSelected()) {
-            holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_artboard_40));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_yellow_bg));
         } else {
-            holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_stroke));
+            holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_artboard_39));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
         holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {

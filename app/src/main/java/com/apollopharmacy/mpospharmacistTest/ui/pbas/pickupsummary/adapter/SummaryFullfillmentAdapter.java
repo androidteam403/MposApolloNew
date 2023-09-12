@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,13 +49,13 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
     public void onBindViewHolder(@NonNull SummaryFullfillmentAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
-        holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
-        holder.orderBinding.boxId.setText("-");
+//        holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
+//        holder.orderBinding.boxId.setText("-");
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()) {
-            holder.orderBinding.taggedboxnumber.setText(selectedOmsHeaderList.get(position).getScannedBarcode());
+//            holder.orderBinding.taggedboxnumber.setText(selectedOmsHeaderList.get(position).getScannedBarcode());
 //            holder.orderBinding.taggedboxnumber.setText(lastFiveDigits(String.valueOf(selectedOmsHeaderList.get(position).getScannedBarcode())));
         } else {
-            holder.orderBinding.taggedboxnumber.setText("-");
+//            holder.orderBinding.taggedboxnumber.setText("-");
         }
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
@@ -65,41 +66,47 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
 //            holder.orderBinding.statusText.setText("NOT AVAILABLE");
-            holder.orderBinding.statuss.setText("Not Available");
+//            holder.orderBinding.statuss.setText("Not Available");
+            holder.orderBinding.greenTick.setVisibility(View.GONE);
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.red));
             omsHeader.setOverallOrderStatus("3");
 
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
 //            holder.orderBinding.statusText.setText("FULL");
             holder.orderBinding.statusIcon.setRotation(0);
-            holder.orderBinding.statuss.setText("Full");
+//            holder.orderBinding.statuss.setText("Full");
+            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
             omsHeader.setOverallOrderStatus("1");
 
         }
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
             holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
 //            holder.orderBinding.statusText.setText("PARTIAL");
-            holder.orderBinding.statuss.setText("Partial");
+//            holder.orderBinding.statuss.setText("Partial");
+            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
             omsHeader.setOverallOrderStatus("2");
 
         }
 
-        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
-            full = full + 1;
-            pickupProcessMvpView.fullCount(String.valueOf(full));
-        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
-            par = par + 1;
-            pickupProcessMvpView.partialCount(String.valueOf(par));
-        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
-            not = not + 1;
-            pickupProcessMvpView.notAvailable(String.valueOf(not));
-        }
+//        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {
+//            full = full + 1;
+//            pickupProcessMvpView.fullCount(String.valueOf(full));
+//        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("PARTIAL")) {
+//            par = par + 1;
+//            pickupProcessMvpView.partialCount(String.valueOf(par));
+//        } else if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("NOT AVAILABLE")) {
+//            not = not + 1;
+//            pickupProcessMvpView.notAvailable(String.valueOf(not));
+//        }
 
-        holder.orderBinding.onHold.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.onClickOnHold(omsHeader);
-            }
-        });
+//        holder.orderBinding.onHold.setOnClickListener(view -> {
+//            if (pickupProcessMvpView != null) {
+//                pickupProcessMvpView.onClickOnHold(omsHeader);
+//            }
+//        });
     }
 
     private void multipleStatusCheck(List<RackAdapter.RackBoxModel.ProductData> productDataList, int position) {
@@ -256,10 +263,10 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
                 if (fullfillmentList.get(position).getExpandStatus() != 5 && fullfillmentList.get(position).getExpandStatus() != 6 && fullfillmentList.get(position).getExpandStatus() != 7) {
                     fullfillmentList.get(position).setExpandStatus(5);
                     orderBinding.orderChildLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_green));
-                    orderBinding.start.setVisibility(View.GONE);
-                    orderBinding.status.setText("Completed");
-                    orderBinding.statusIcon.setVisibility(View.VISIBLE);
-                    orderBinding.statusLayout.setVisibility(View.VISIBLE);
+//                    orderBinding.start.setVisibility(View.GONE);
+//                    orderBinding.status.setText("Completed");
+//                    orderBinding.statusIcon.setVisibility(View.VISIBLE);
+//                    orderBinding.statusLayout.setVisibility(View.VISIBLE);
                     orderBinding.rackChild2Layout.setVisibility(View.GONE);
                     orderBinding.rackChild2Layout.setBackground(null);
                 }

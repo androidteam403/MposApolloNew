@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,7 +157,14 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             time = (String) getIntent().getStringExtra("time");
             stopWatch = (String) getIntent().getStringExtra("stopWatch");
 
-
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+                long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+                activityPickUpSummaryBinding.products.setText(String.valueOf(selectedOmsHeaderList.size()));
+                activityPickUpSummaryBinding.notAvailable.setText(String.valueOf(notAvailableCount));
+                activityPickUpSummaryBinding.completed.setText(String.valueOf(fullCount + partialCount));
+            }
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
             stopWatchs = (Chronometer) findViewById(R.id.chrono);
@@ -638,18 +646,38 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         dialog.setContentView(updateStatusBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
-            mPresenter.setFullfillmentData(racksDataResponse);
-            mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
-            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("FRAGMENT_NAME", "PICKER");
-            intent.putExtra("EXIT", true);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-            dialog.dismiss();
-        });
+//        updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
+//            mPresenter.setFullfillmentData(racksDataResponse);
+//            mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
+//            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.putExtra("FRAGMENT_NAME", "PICKER");
+//            intent.putExtra("EXIT", true);
+//            startActivity(intent);
+//            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+//            dialog.dismiss();
+//        });
         dialog.show();
+        new CountDownTimer(5000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mPresenter.setFullfillmentData(racksDataResponse);
+                mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
+                Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("FRAGMENT_NAME", "PICKER");
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+                dialog.dismiss();
+            }
+        }.start();
     }
 
 

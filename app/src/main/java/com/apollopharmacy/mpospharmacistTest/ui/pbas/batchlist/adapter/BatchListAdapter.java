@@ -358,11 +358,13 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         if (batchListModelListl.get(position).isSelected()) {
             holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.GONE);
             holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.VISIBLE);
-            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
+            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_greenn);
+//            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.Light_green);
         } else {
             holder.adapterBatchlistBinding.iconPointsAllow.setVisibility(View.GONE);
             holder.adapterBatchlistBinding.batchPickupStatus.setVisibility(View.VISIBLE);
-            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
+            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.very_light_gray);
+//            holder.adapterBatchlistBinding.batchidbackground.setBackgroundResource(R.color.white);
         }
 
         if (salesLine.getPreferredBatch().equalsIgnoreCase(batchListModel.getBatchNo())) {

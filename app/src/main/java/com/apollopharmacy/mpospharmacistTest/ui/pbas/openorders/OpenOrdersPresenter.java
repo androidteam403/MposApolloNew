@@ -123,7 +123,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             reqModel.setTerminalID(getDataManager().getTerminalId());
             reqModel.setDataAreaID(getDataManager().getDataAreaId());
             reqModel.setIsMPOS("2");
-            reqModel.setUserName(getDataManager().getUserName());
+            reqModel.setUserName(""); // getDataManager().getUserName()
             Call<TransactionHeaderResponse> call = apiInterface.GET_OMS_TRANSACTION_HEADER_PICKER(reqModel);
             call.enqueue(new Callback<TransactionHeaderResponse>() {
                 @Override
