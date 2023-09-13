@@ -31,7 +31,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 import static com.apollopharmacy.mpospharmacistTest.root.ApolloMposApp.getContext;
 
-public class PhonepeQrPaymentDialog  extends BaseActivity {
+public class PhonepeQrPaymentDialog extends BaseActivity {
 
 
     private Dialog dialog;
@@ -39,7 +39,7 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
     private DialogPhonepeqrcodePaymentBinding dialogPhonepeqrcodePaymentBinding;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
-    String providerReferenceId=null;
+    String providerReferenceId = null;
 
     public PhonepeQrPaymentDialog(Context context) {
         this.context = context;
@@ -90,6 +90,46 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
         });
     }
 
+    public void setGenerateQrCodeDisable() {
+        dialogPhonepeqrcodePaymentBinding.dialogGenerateQrcodeBtn.setEnabled(false);
+        dialogPhonepeqrcodePaymentBinding.dialogGenerateQrcodeBtn.setAlpha(0.5f);
+
+    }
+
+    public void setGenerateQrCodeEnable() {
+        dialogPhonepeqrcodePaymentBinding.dialogGenerateQrcodeBtn.setEnabled(true);
+        dialogPhonepeqrcodePaymentBinding.dialogGenerateQrcodeBtn.setAlpha(1);
+    }
+
+    public void setValidatePaymentDisable() {
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(false);
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setAlpha(0.5f);
+    }
+
+    public void setValidatePaymentEnable() {
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(true);
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setAlpha(1);
+    }
+
+    public void setCancelPaymentDisable() {
+        dialogPhonepeqrcodePaymentBinding.dialogCancelQrcodeBtn.setEnabled(false);
+        dialogPhonepeqrcodePaymentBinding.dialogCancelQrcodeBtn.setAlpha(0.5f);
+    }
+
+    public void setCancelPaymentEnable() {
+        dialogPhonepeqrcodePaymentBinding.dialogCancelQrcodeBtn.setEnabled(true);
+        dialogPhonepeqrcodePaymentBinding.dialogCancelQrcodeBtn.setAlpha(1);
+    }
+
+    public void setCloseBtnDisable() {
+        dialogPhonepeqrcodePaymentBinding.dialogCloseBtn.setEnabled(false);
+        dialogPhonepeqrcodePaymentBinding.dialogCloseBtn.setAlpha(0.5f);
+    }
+
+    public void setCloseBtnEnable() {
+        dialogPhonepeqrcodePaymentBinding.dialogCloseBtn.setEnabled(true);
+        dialogPhonepeqrcodePaymentBinding.dialogCloseBtn.setAlpha(1);
+    }
 
     public boolean isValidateAmount(WalletServiceReq walletServiceReq) {
         if (TextUtils.isEmpty(dialogPhonepeqrcodePaymentBinding.walletMobileNumber.getText().toString())) {
@@ -108,7 +148,6 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
     }
 
 
-
     public String getWalletMobileNumber() {
         return dialogPhonepeqrcodePaymentBinding.walletMobileNumber.getText().toString();
     }
@@ -117,28 +156,28 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
         return Double.parseDouble(dialogPhonepeqrcodePaymentBinding.walletAmountEdit.getText().toString());
     }
 
-   public void ValidatePaymentStatussetenabled()
-   {
-         dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(true);
-   }
+    public void ValidatePaymentStatussetenabled() {
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(true);
+    }
 
-   public  void ValidatePaymentStatussetdisabled()
-   {
-       dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(false);
-   }
+    public void ValidatePaymentStatussetdisabled() {
+        dialogPhonepeqrcodePaymentBinding.dialogButtonValidatePaymentstatus.setEnabled(false);
+    }
 
-   public void setproviderReferenceId(String providerReferenceId1)
-   {
-       providerReferenceId=providerReferenceId1;
-   }
+    public void setproviderReferenceId(String providerReferenceId1) {
+        providerReferenceId = providerReferenceId1;
+    }
 
-   public  String getProviderReferenceId()
-   {
-       return providerReferenceId;
-   }
+    public String getProviderReferenceId() {
+        return providerReferenceId;
+    }
 
     public void setCloseListener(View.OnClickListener okListener) {
         dialogPhonepeqrcodePaymentBinding.dialogCloseBtn.setOnClickListener(okListener);
+    }
+
+    public void setCancelListener(View.OnClickListener okListener) {
+        dialogPhonepeqrcodePaymentBinding.dialogCancelQrcodeBtn.setOnClickListener(okListener);
     }
 
     public void setGenerateQrcodeListner(View.OnClickListener otpListener) {
@@ -159,36 +198,39 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
         dialogPhonepeqrcodePaymentBinding.setPayment(paymentMethod);
     }
 
-    public  void setQrcodeimage(String Qrcodestring)
-    {
-        Log.d("phonepe dialog-->",Qrcodestring);
-        // below line is for getting
-        DisplayMetrics metrics = new DisplayMetrics();
-        ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getMetrics(metrics);
-        float widthDpi = metrics.xdpi;
-        float heightDpi = metrics.ydpi;
+    public void setQrcodeimage(String Qrcodestring) {
+        if (Qrcodestring.equalsIgnoreCase("REMOVE_QR_CODE")) {
+            dialogPhonepeqrcodePaymentBinding.QrcodeID.setImageDrawable(context.getResources().getDrawable(R.drawable.bg_white));
+        } else {
+            Log.d("phonepe dialog-->", Qrcodestring);
+            // below line is for getting
+            DisplayMetrics metrics = new DisplayMetrics();
+            ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE))
+                    .getDefaultDisplay().getMetrics(metrics);
+            float widthDpi = metrics.xdpi;
+            float heightDpi = metrics.ydpi;
 
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
+            int widthPixels = metrics.widthPixels;
+            int heightPixels = metrics.heightPixels;
 
-        // generating dimension from width and height.
-        int dimen = widthPixels < heightPixels ? widthPixels : heightPixels;
-        dimen = dimen * 3 / 4;
+            // generating dimension from width and height.
+            int dimen = widthPixels < heightPixels ? widthPixels : heightPixels;
+            dimen = dimen * 3 / 4;
 
-        // setting this dimensions inside our qr code
-        // encoder to generate our qr code.
-        qrgEncoder = new QRGEncoder(Qrcodestring, null, QRGContents.Type.TEXT, dimen);
-        try {
-            // getting our qrcode in the form of bitmap.
-            bitmap = qrgEncoder.encodeAsBitmap();
-            // the bitmap is set inside our image
-            // view using .setimagebitmap method.
-            dialogPhonepeqrcodePaymentBinding.QrcodeID.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            // this method is called for
-            // exception handling.
-            Log.e("Tag", e.toString());
+            // setting this dimensions inside our qr code
+            // encoder to generate our qr code.
+            qrgEncoder = new QRGEncoder(Qrcodestring, null, QRGContents.Type.TEXT, dimen);
+            try {
+                // getting our qrcode in the form of bitmap.
+                bitmap = qrgEncoder.encodeAsBitmap();
+                // the bitmap is set inside our image
+                // view using .setimagebitmap method.
+                dialogPhonepeqrcodePaymentBinding.QrcodeID.setImageBitmap(bitmap);
+            } catch (WriterException e) {
+                // this method is called for
+                // exception handling.
+                Log.e("Tag", e.toString());
+            }
         }
     }
 
@@ -199,8 +241,6 @@ public class PhonepeQrPaymentDialog  extends BaseActivity {
     public void dismiss() {
         dialog.dismiss();
     }
-
-
 
 
     public void setDialogDismiss() {
