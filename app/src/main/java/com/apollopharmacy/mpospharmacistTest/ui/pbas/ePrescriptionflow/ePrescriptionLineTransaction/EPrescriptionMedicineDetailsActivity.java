@@ -117,7 +117,7 @@ public class EPrescriptionMedicineDetailsActivity extends BaseActivity implement
         detailsBinding.terminalId.setText(terminalId);
 
 
-        String todaysDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String todaysDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(new Date());
         detailsBinding.prescriptionNo.setText("#" + prescriptionLineList.get(position).getPrescriptionNo());
 
 

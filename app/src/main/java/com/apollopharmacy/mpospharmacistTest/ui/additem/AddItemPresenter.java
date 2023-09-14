@@ -82,6 +82,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -363,7 +364,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             // addCustomerReqModel.setDependentsNo(getMvpView().getNumberOfDependants());
             addCustomerReqModel.setDependentsNo(0);
             addCustomerReqModel.setCardNumber(getMvpView().getCustomerModule().getCardNo());
-            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime());
+            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
             addCustomerReqModel.setRegistrationDate(timeStamp);
             addCustomerReqModel.setCorpId("");
             addCustomerReqModel.setCustId("");
@@ -2510,7 +2511,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 request.setReqType("GENERATEQRCODE");
                 request.setUrl(tenderurl);
                 request.setStoreId(getDataManager().getGlobalJson().getStoreID());
-                SimpleDateFormat timeStampFormat = new SimpleDateFormat("mmss");
+                SimpleDateFormat timeStampFormat = new SimpleDateFormat("mmss", Locale.ENGLISH);
                 Date myDate = new Date();
                 String date = timeStampFormat.format(myDate);
                 String transactionid = null;

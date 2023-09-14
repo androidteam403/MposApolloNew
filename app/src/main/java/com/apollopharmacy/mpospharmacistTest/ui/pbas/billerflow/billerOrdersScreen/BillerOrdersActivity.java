@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -813,7 +814,7 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
 
                 Collections.sort(omsHeaderList, new Comparator<OMSTransactionHeaderResModel.OMSHeaderObj>() {
                     public int compare(OMSTransactionHeaderResModel.OMSHeaderObj o1, OMSTransactionHeaderResModel.OMSHeaderObj o2) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                         Date date1 = null;
                         Date date2 = null;
                         try {

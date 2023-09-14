@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAdapter.ViewHolder> {
 
@@ -68,8 +69,8 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
             holder.adapterReadyForPickupBinding.pickupStatus.setTextColor(Color.parseColor("#009245"));
         }
         holder.adapterReadyForPickupBinding.sourceId.setText(omsHeader.getOrderSource());
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss", Locale.ENGLISH);
         Date inputDate = null;
         try {
             inputDate = inputFormat.parse(omsHeader.getDeliveryDate());

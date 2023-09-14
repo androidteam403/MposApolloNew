@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -79,7 +80,7 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
                         if (response.body() != null && response.body().getOMSHeader() != null && response.body().getOMSHeader().size()>1) {
                             Collections.sort(response.body().getOMSHeader(), new Comparator<TransactionHeaderResponse.OMSHeader>() {
                                 public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                                     Date date1 = null;
                                     Date date2 = null;
                                     try {

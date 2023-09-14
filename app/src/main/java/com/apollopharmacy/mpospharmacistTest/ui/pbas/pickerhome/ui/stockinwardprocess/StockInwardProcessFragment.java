@@ -54,24 +54,24 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     protected void setUp(View view) {
         stockInwardProcessBinding.setCallback(mPresenter);
         String strDate = fromDate;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = null;
         try {
             date = dateFormat.parse(strDate);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy").format(date);
+        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy", Locale.ENGLISH).format(date);
 
         String strDate2 = toDate;
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date2 = null;
         try {
             date2 = dateFormat2.parse(strDate2);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy").format(date2);
+        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy", Locale.ENGLISH).format(date2);
 //        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        DateFormat outputFormat = new SimpleDateFormat("dd-MMMM-yyyy");
 //        String inputDateStr=fromDate;
@@ -90,7 +90,7 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
 
     private void fromToDateConfig() {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
             Date fromDates = formatter.parse(fromDate);
             long fromDateMills = fromDates.getTime();
@@ -238,24 +238,24 @@ public class StockInwardProcessFragment extends BaseFragment implements StockInw
     @Override
     public void onClickShow() {
         String strDate = stockInwardProcessBinding.fromDate.getText().toString();
-        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
         Date date = null;
         try {
             date = dateFormat.parse(strDate);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy").format(date);
+        String dateNewFormat = new SimpleDateFormat("dd-MMMM-yyyy", Locale.ENGLISH).format(date);
 
         String strDate2 = stockInwardProcessBinding.toDate.getText().toString();
-        DateFormat dateFormat2 = new SimpleDateFormat("MMMM dd, yyyy");
+        DateFormat dateFormat2 = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
         Date date2 = null;
         try {
             date2 = dateFormat2.parse(strDate2);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy").format(date2);
+        String dateNewFormatToDate = new SimpleDateFormat("dd-MMMM-yyyy", Locale.ENGLISH).format(date2);
 //        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        DateFormat outputFormat = new SimpleDateFormat("dd-MMMM-yyyy");
 //        String inputDateStr=fromDate;

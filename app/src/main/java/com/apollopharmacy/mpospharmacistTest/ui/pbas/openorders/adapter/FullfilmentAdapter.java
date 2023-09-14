@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
     private final Context context;
@@ -103,8 +104,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         }
 //        holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getReciptId());
         holder.fullfilmentBinding.orderSourceHeader.setText(omsHeader.getOrderSource());
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss", Locale.ENGLISH);
         Date inputDate = null;
         try {
             inputDate = inputFormat.parse(omsHeader.getDeliveryDate());

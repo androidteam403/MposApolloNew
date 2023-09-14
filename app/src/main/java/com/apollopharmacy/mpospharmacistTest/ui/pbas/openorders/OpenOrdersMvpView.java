@@ -46,4 +46,5 @@ public interface OpenOrdersMvpView extends MvpView {
 
     void onClickPrescriptionPreview(GetOMSTransactionResponse.OrderPrescriptionURL orderPrescriptionURL, List<GetOMSTransactionResponse.OrderPrescriptionURL> prescriptionsList, int position);
 
+    void onSuccessGetOmsTransactionAutoAssign(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
 }

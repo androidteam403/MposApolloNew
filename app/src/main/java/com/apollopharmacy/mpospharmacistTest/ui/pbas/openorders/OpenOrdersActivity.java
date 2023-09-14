@@ -5,13 +5,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOpenOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
@@ -37,8 +33,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.Fullfilm
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderspicking.StartPickingActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -53,6 +49,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -118,6 +115,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private boolean isBillDateFiltered = false;
 
     private ArrayList<String> filterTypeList = new ArrayList<>();
+    private boolean isBackFromReadyforPickupScreen = false;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -352,7 +350,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                         fullfilmentAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false);
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false, false);
                 }
                 break;
             }
@@ -391,7 +389,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
         Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
             public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 Date date1 = null;
                 Date date2 = null;
                 try {
@@ -1178,7 +1176,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
             Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
                 public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     Date date1 = null;
                     Date date2 = null;
                     try {
@@ -1384,7 +1382,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
             Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
                 public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     Date date1 = null;
                     Date date2 = null;
                     try {
@@ -1422,7 +1420,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }));
             Collections.sort(omsHeaderList, (o1, o2) -> {
                 Date currentDate = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
                 long diff1 = 0;
                 long diff2 = 0;
                 try {
@@ -1438,7 +1436,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
                 Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
                     public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                         Date date1 = null;
                         Date date2 = null;
                         try {
@@ -1466,6 +1464,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                omsHeaderList.addAll(studlistGrouped.get(i))
 //            }
 
+
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -1481,6 +1480,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             noOrderFound(omsHeaderList.size());
 //            filterOrdersLists();
 //            filterOrdersListsComment();
+
+
         } else {
             noOrderFound(0);
         }
@@ -1489,8 +1490,61 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             isRefreshScreen = false;
             applyOrderFilters();
             PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.isChecked());
-
+        } else {
+            if (!isBackFromReadyforPickupScreen) {
+                showLoading();
+                autoAssign();
+            }
         }
+    }
+
+    private int autoAssignPos = 0;
+
+    private void autoAssign() {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() < mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() && omsHeaderList.size() > autoAssignPos) {
+            if (!omsHeaderList.get(autoAssignPos).getStockStatus().equals("NOT AVAILABLE")) {
+                if ((omsHeaderList.get(autoAssignPos).getPickPackStatus().equalsIgnoreCase("1") && !mPresenter.getUserId().equalsIgnoreCase(omsHeaderList.get(autoAssignPos).getPickPackUser()))) {
+
+                } else {
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(autoAssignPos).getRefno(), true, true);
+                }
+            }
+        } else {
+            hideLoading();
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                if (fullfilmentAdapter != null) {
+                    fullfilmentAdapter.notifyDataSetChanged();
+                }
+                onContinueBtnEnable();
+                onClickContinue();
+            }
+        }
+        /*for (TransactionHeaderResponse.OMSHeader omsHeader1 : omsHeaderList) {
+            if (!omsHeader1.getStockStatus().equals("NOT AVAILABLE")) {
+                if ((omsHeader1.getPickPackStatus().equalsIgnoreCase("1") && !mPresenter.getUserId().equalsIgnoreCase(omsHeader1.getPickPackUser()))) {
+
+                }else {
+
+                }
+            }
+        }*/
+
+        /*if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
+            if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+                Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
+            } else {
+                if (mvpView != null)
+                    for (int i = 0; i < omsHeaderList.size(); i++) {
+                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
+                            break;
+                        }
+                    }
+
+            }
+        } else {
+            Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
+        }*/
     }
 
     private void filterOrdersListsComment() {
@@ -2242,6 +2296,17 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        prescriptionPreviewDialog.show();
     }
 
+    @Override
+    public void onSuccessGetOmsTransactionAutoAssign(List<GetOMSTransactionResponse> getOMSTransactionResponseList) {
+        omsHeaderList.get(autoAssignPos).setSelected(true);
+        if (omsHeaderList.get(autoAssignPos).isSelected()) {
+            omsHeaderList.get(autoAssignPos).setGetOMSTransactionResponse(getOMSTransactionResponseList.get(0));
+            selectedOmsHeaderList.add(omsHeaderList.get(autoAssignPos));
+            autoAssignPos++;
+            autoAssign();
+        }
+    }
+
     boolean isScanerBack;
 
     @Override
@@ -2346,7 +2411,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             onContinueBtnEnable();
         } else {
             if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > selectedOmsHeaderList.size()) {
-                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true);
+                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
             } else {
                 Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
             }
@@ -2421,6 +2486,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == READYFORPICKUP) {
+            isBackFromReadyforPickupScreen = true;
             openOrdersBinding.searchByfulfimentid.setText("");
             selectedOmsHeaderList.clear();
             omsHeaderList.clear();

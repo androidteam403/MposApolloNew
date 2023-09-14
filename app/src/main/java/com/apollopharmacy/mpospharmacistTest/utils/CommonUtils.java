@@ -92,12 +92,12 @@ public class CommonUtils {
 
 
     public static String getCurrentDate(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
         return sdf.format(new Date());
     }
 
     public static String getDateThreeDaysEarlier(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -109,7 +109,7 @@ public class CommonUtils {
     }
 
     public static String getDateTwoDaysEarlier(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -121,7 +121,7 @@ public class CommonUtils {
     }
 
     public static String getDateFourDaysEarlier(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -133,7 +133,7 @@ public class CommonUtils {
     }
 
     public static String getDateSevenDaysEarlier(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -174,8 +174,8 @@ public class CommonUtils {
     }
 
     public static String convertDateFormat(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        SimpleDateFormat dateFormatFull = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormatFull = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
         try {
             Date d = dateFormat.parse(date);

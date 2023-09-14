@@ -154,9 +154,10 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
-    public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick) {
+    public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if (!isAutoAssign)
+                getMvpView().showLoading();
             getMvpView().hideKeyboard();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
@@ -171,12 +172,16 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 @Override
                 public void onResponse(Call<List<GetOMSTransactionResponse>> call, Response<List<GetOMSTransactionResponse>> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
-                        if (isItemClick)
-                            getMvpView().onSuccessGetOmsTransactionItemClick(response.body());
-                        else
-                            getMvpView().onSucessGetOmsTransaction(response.body());
-
+                        if (!isAutoAssign)
+                            getMvpView().hideLoading();
+                        if (isAutoAssign) {
+                            getMvpView().onSuccessGetOmsTransactionAutoAssign(response.body());
+                        } else {
+                            if (isItemClick)
+                                getMvpView().onSuccessGetOmsTransactionItemClick(response.body());
+                            else
+                                getMvpView().onSucessGetOmsTransaction(response.body());
+                        }
                     }
                 }
 
