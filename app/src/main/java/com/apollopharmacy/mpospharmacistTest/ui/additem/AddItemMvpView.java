@@ -5,7 +5,9 @@ import android.content.Context;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CircleMemebershipCashbackPlanResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GenerateTenderLineRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetPostOnlineOrderApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetSMSPayAPIResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.HdfcLinkGenerateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.ManualDiscCheckRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OmsAddNewItemResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.OrderPriceInfoModel;
@@ -26,7 +28,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
 import java.util.ArrayList;
@@ -95,6 +99,8 @@ public interface AddItemMvpView extends MvpView {
 
     void onClickCardPaymentBtn();
 
+    void onClickHdfcPayBtn();
+
     void onClickSmsPayBtn();
 
     void onClickVendorPayBtn();
@@ -114,10 +120,15 @@ public interface AddItemMvpView extends MvpView {
     void onSuccessSaveRetailTransaction(SaveRetailsTransactionRes body);
 
     void onSuccessSmsPayTransaction(GetSMSPayAPIResponse body);
+
     void onFailedSmsPayTransaction(GetSMSPayAPIResponse body);
+
     void onSuccessSmsPayCancelTransaction(GetSMSPayAPIResponse res);
+
     void onSuccessPhonepeGenerateQrCode(PhonepeGenerateQrCodeResponse res);
+
     void onSuccessSmsPayValidateTransaction(GetSMSPayAPIResponse body);
+
     void onFailedSmsPayValidateTransaction(GetSMSPayAPIResponse body);
 
     void onFailedSaveRetailsTransaction(SaveRetailsTransactionRes body);
@@ -136,7 +147,7 @@ public interface AddItemMvpView extends MvpView {
 
     void isManualDisc(boolean isManualDisc);
 
-    void onItemDeleted(int lineNumber);
+    void onItemDeleted(int lineNumber, SalesLineEntity item);
 
     void onItemAdded(int lineNumber);
 
@@ -201,6 +212,7 @@ public interface AddItemMvpView extends MvpView {
     void CirclecashbackplanFailure(CircleMemebershipCashbackPlanResponse response);
 
     ArrayList<CircleMemebershipCashbackPlanResponse.Category> getCirclecashbackplan();
+
     void Posttratransactionrequest(POSTransactionEntity entity);
 
     void onSucessOMSOrderValidate(CalculatePosTransactionRes calculatePosTransactionRes);
@@ -212,13 +224,37 @@ public interface AddItemMvpView extends MvpView {
     void showOTPPopUpForOMSOrder(String otp);
 
 
-
     void onSuccessGetUnPostedPOSTransaction(CalculatePosTransactionRes body);
 
-    void onSuccessOmsAddNewItem(OmsAddNewItemResponse body,ArrayList<SalesLineEntity> itemsArrayList);
+    void onSuccessOmsAddNewItem(OmsAddNewItemResponse body, ArrayList<SalesLineEntity> itemsArrayList);
 
     void onFailedOmsAddNewItem(OmsAddNewItemResponse body);
 
+    void onSuccessHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse);// changes made by naveen
 
+    void onFailureHdfcPaymentListGenerateApi(HdfcLinkGenerateResponse hdfcLinkGenerateResponse);// changes made by naveen
 
+    String getHdfcTransactionId();// changes made by naveen
+
+    void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes);
+
+    void getHBPConfig(HBPConfigResponse hbpConfigResponse);
+
+    void showOTPDialog(String otp);
+
+    void addCustomerFailed(String errMsg);
+
+    boolean isOnleneOrder();
+
+    void onSuccessGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
+
+    void onFailedGetPostOnlineOrderApi(GetPostOnlineOrderApiResponse getPostOnlineOrderApiResponse);
+
+    void noStockAvailableClearAll();
+
+    String getOnlineTransactionId();
+
+    CalculatePosTransactionRes getUnPostedTransactionResponseBody();
+
+    Boolean isCameFromOrderDetailsScreenActivity();
 }

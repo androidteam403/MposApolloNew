@@ -46,10 +46,16 @@ public class EditQuantityDialog {
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() > 1 && editable.toString().startsWith("0")) {
                     editable.delete(0, 1);
+                    editQuantityDialogBinding.editQuantityEditText.setSelection(editable.length());
                 } else if (editable.toString().startsWith("0")) {
                     editable.append("1");
+                    editQuantityDialogBinding.editQuantityEditText.setSelection(editable.length());
+                } else if (editable.toString() != null && !editable.toString().isEmpty() && Double.parseDouble(editable.toString()) == 0) {
+                    editQuantityDialogBinding.editQuantityEditText.setText("1");
+                } else {
+                    editQuantityDialogBinding.editQuantityEditText.setSelection(editable.length());
                 }
-                editQuantityDialogBinding.editQuantityEditText.setSelection(editable.length());
+
             }
         });
     }
@@ -67,7 +73,7 @@ public class EditQuantityDialog {
 
 
     public double getEnteredQuantity() {
-      //  return Integer.parseInt(editQuantityDialogBinding.editQuantityEditText.getText().toString());
+        //  return Integer.parseInt(editQuantityDialogBinding.editQuantityEditText.getText().toString());
         return Double.parseDouble(editQuantityDialogBinding.editQuantityEditText.getText().toString());
 
     }

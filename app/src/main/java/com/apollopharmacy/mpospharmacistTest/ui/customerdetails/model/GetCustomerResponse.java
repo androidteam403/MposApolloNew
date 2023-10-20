@@ -9,7 +9,6 @@ import java.util.List;
 public class GetCustomerResponse {
 
 
-
     @Expose
     @SerializedName("_Customer")
     private List<CustomerEntity> _Customer;
@@ -73,6 +72,12 @@ public class GetCustomerResponse {
         @Expose
         @SerializedName("CardName")
         private String CardName;
+
+        @Expose
+        @SerializedName("CustomerName")
+        private String CustomerName;
+
+
         @Expose
         @SerializedName("AvailablePoints")
         private String AvailablePoints;
@@ -81,11 +86,9 @@ public class GetCustomerResponse {
         @SerializedName("CPEnquiry")
         private boolean CPEnquiry;
 
-        public  boolean getCPEnquiry()
-        {
-            return  CPEnquiry;
+        public boolean getCPEnquiry() {
+            return CPEnquiry;
         }
-
 
 
         public String getTier() {
@@ -178,27 +181,34 @@ public class GetCustomerResponse {
             AvailablePoints = availablePoints;
         }
 
-        public void  setCPEnquiry(boolean CPEnquiry)
-        {
-            this.CPEnquiry=CPEnquiry;
+        public String getCustomerName() {
+            return CustomerName;
         }
 
-        private String middleName ="";
-        private String lastName="";
-        private String age="";
-        private String gender="";
-        private String dob="";
-        private String postalAddress="";
-        private String city="";
-        private String state="";
-        private String district="";
-        private String zipCode="";
-        private String email="";
-        private String anniversary="";
-        private String maritalStatus="";
-        private String numberOfDependents="";
-        private String dateOfRegistration="";
-        private String corporate_id="";
+        public void setCustomerName(String customerName) {
+            CustomerName = customerName;
+        }
+
+        public void setCPEnquiry(boolean CPEnquiry) {
+            this.CPEnquiry = CPEnquiry;
+        }
+
+        private String middleName = "";
+        private String lastName = "";
+        private String age = "";
+        private String gender = "";
+        private String dob = "";
+        private String postalAddress = "";
+        private String city = "";
+        private String state = "";
+        private String district = "";
+        private String zipCode = "";
+        private String email = "";
+        private String anniversary = "";
+        private String maritalStatus = "";
+        private String numberOfDependents = "";
+        private String dateOfRegistration = "";
+        private String corporate_id = "";
 
         public String getMiddleName() {
             return middleName;
@@ -328,6 +338,26 @@ public class GetCustomerResponse {
 
         public void setRegisteredCustomer(boolean registeredCustomer) {
             this.registeredCustomer = registeredCustomer;
+        }
+
+        private boolean isExistingCustomerOrNot;
+
+        public boolean isExistingCustomerOrNot() {
+            return isExistingCustomerOrNot;
+        }
+
+        public void setExistingCustomerOrNot(boolean reqValidateOTP) {
+            isExistingCustomerOrNot = reqValidateOTP;
+        }
+
+        private boolean isCardPayment;
+
+        public boolean isCardPayment() {
+            return isCardPayment;
+        }
+
+        public void setCardPayment(boolean cardPayment) {
+            isCardPayment = cardPayment;
         }
     }
 }

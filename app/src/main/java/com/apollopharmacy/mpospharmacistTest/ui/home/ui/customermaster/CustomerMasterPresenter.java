@@ -171,7 +171,12 @@ public class CustomerMasterPresenter<V extends CustomerMasterMvpView> extends Ba
                         if (response.body().getRequestStatus() == 0) {
                             getMvpView().addCustomerSuccess(response.body());
                         } else {
-                            getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            if (response.body().getReturnMessage().contains("THE RECORD ALREADY EXISTS")){
+                                getMvpView().addCustomerSuccess(response.body());
+                            }else {
+                                getMvpView().addCustomerFailed(response.body().getReturnMessage());
+                            }
+
                         }
                     }
                 }

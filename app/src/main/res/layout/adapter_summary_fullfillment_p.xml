@@ -6,10 +6,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/four_dp"
-        android:background="@drawable/square_stroke_bg"
         android:padding="@dimen/dimen5dp">
+<!--        android:background="@drawable/square_stroke_bg"-->
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -31,7 +31,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Fullfillment ID : "
+                        android:text="Fulfilment ID : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
 
@@ -77,15 +77,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Status: "
+                        android:text="Status : "
                         android:textColor="@color/text_color_grey"
                         android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/statuss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partially Picked"
+                        android:text="Tagged box number : "
+                        android:textColor="@color/text_color_grey"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/taggedboxnumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
                 </LinearLayout>
@@ -116,24 +140,24 @@
 
 
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:orientation="horizontal">
 
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/status"-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:fontFamily="@font/roboto_bold"-->
-            <!--                        android:text=""-->
-            <!--                        android:textAllCaps="true"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/dimen10sp" />-->
+            &lt;!&ndash;                    <TextView&ndash;&gt;
+            &lt;!&ndash;                        android:id="@+id/status"&ndash;&gt;
+            &lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;
+            &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;
+            &lt;!&ndash;                        android:fontFamily="@font/roboto_bold"&ndash;&gt;
+            &lt;!&ndash;                        android:text=""&ndash;&gt;
+            &lt;!&ndash;                        android:textAllCaps="true"&ndash;&gt;
+            &lt;!&ndash;                        android:textColor="@color/black"&ndash;&gt;
+            &lt;!&ndash;                        android:textSize="@dimen/dimen10sp" />&ndash;&gt;
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -145,40 +169,178 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
 
                     <TextView
+                        android:id="@+id/status_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Partial"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 
                     <ImageView
-                        android:id="@+id/status_icon"
-                        android:layout_width="@dimen/fifteen_dp"
+                        android:id="@+id/status_ico"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/fifteen_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginStart="@dimen/dimen2dp"
                         android:contentDescription="@string/app_name"
-                        android:rotation="270"
-                        android:src="@drawable/partialcirculargreeenorange" />
+                        android:rotation="270" />
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/right_arrow"
-                    android:layout_width="@dimen/dimen30dp"
-                    android:layout_height="@dimen/dimen30dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:contentDescription="@string/app_name"
-                    android:padding="@dimen/five_dp"
-                    android:src="@drawable/right_arrow_black" />
+                    android:gravity="end"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/on_hold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_onhold_enable_btn"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/dimen6dp"
+                        android:paddingTop="@dimen/dimen1dp"
+                        android:paddingEnd="@dimen/dimen6dp"
+                        android:layout_gravity="end"
+                        android:paddingBottom="@dimen/dimen1dp"
+                        android:text="@string/label_on_hold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/app_name"
+                        android:rotation="270" />
+
+                    <ImageView
+                        android:id="@+id/right_arrow"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/right_arrow_black" />
+
+                </LinearLayout>
             </LinearLayout>
 
 
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen2dp"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen22dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/greenTick"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:padding="@dimen/dimen2dp"
+                            android:background="@drawable/rounded_background"
+                            android:backgroundTint="#78cb3d"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/tick_mark"
+                            android:tint="@color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/dimen8dp"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/cart" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="001"
+                            android:textSize="8sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/fullfillmentID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="FL20230117301108524"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical|end">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen7dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="1/2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <ImageView
+                        android:id="@+id/statusIcon"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/rounded_background" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen1dp"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:background="#cacaca"/>
+
         </LinearLayout>
+
     </RelativeLayout>
 </layout>
