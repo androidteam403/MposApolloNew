@@ -1508,6 +1508,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 } else {
                     mPresenter.onGetOmsTransaction(omsHeaderList.get(autoAssignPos).getRefno(), true, true);
                 }
+            } else {
+                autoAssignPos++;
+                autoAssign();
             }
         } else {
             hideLoading();
