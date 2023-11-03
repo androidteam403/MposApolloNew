@@ -21,7 +21,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -400,5 +402,15 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList() {
         return mPreferencesHelper.getGlobalTotalOmsHeaderList();
+    }
+
+    @Override
+    public void setMaxMinOrders(ArrayList<UserModel._DropdownValueBean> dropdownValue) {
+        mPreferencesHelper.setMaxMinOrders(dropdownValue);
+    }
+
+    @Override
+    public List<UserModel._DropdownValueBean> getMaxMinOrders() {
+        return mPreferencesHelper.getMaxMinOrders();
     }
 }

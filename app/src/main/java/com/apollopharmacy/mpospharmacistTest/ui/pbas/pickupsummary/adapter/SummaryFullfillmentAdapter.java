@@ -1,11 +1,14 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +21,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummaryMvpView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFullfillmentAdapter.ViewHolder> {
     private Context context;
@@ -45,10 +53,35 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SummaryFullfillmentAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        if (position == 0 || !selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(selectedOmsHeaderList.get(position - 1).getItemStatus())) {
+            holder.orderBinding.statusHeader.setVisibility(View.VISIBLE);
+            Map<String, Long> groupByItemStatus = selectedOmsHeaderList.stream().collect(
+                    Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getItemStatus, Collectors.counting())
+            );
+            groupByItemStatus.forEach((k, v) -> {
+                if (omsHeader.getItemStatus().equalsIgnoreCase(k)) {
+                    holder.orderBinding.itemCount.setText("(" + v + ")");
+                }
+            });
+            if (omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
+                holder.orderBinding.status.setText("Fully Available");
+                holder.orderBinding.headerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.rounded_background_green));
+            } else if (omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
+                holder.orderBinding.status.setText("Partially Available");
+                holder.orderBinding.headerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
+            } else {
+                holder.orderBinding.status.setText("Not Available");
+                holder.orderBinding.headerStatusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.rounded_background_red));
+            }
+        } else {
+            holder.orderBinding.statusHeader.setVisibility(View.GONE);
+        }
 //        holder.orderBinding.totalItems.setText(String.valueOf(selectedOmsHeaderList.get(position).getGetOMSTransactionResponse().getSalesLine().size()));
 //        holder.orderBinding.boxId.setText("-");
         if (omsHeader.getScannedBarcode() != null && !omsHeader.getScannedBarcode().isEmpty()) {

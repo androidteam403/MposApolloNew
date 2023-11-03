@@ -17,10 +17,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,6 +68,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_GET_TENDER_TYPE_RESULT_JSON = "PREF_KEY_GET_TENDER_TYPE_RESULT_JSON";
 
     private static final String PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST = "PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST";
+    private static final String PREF_KEY_MAX_MIN_ORDERS = "PREF_KEY_MAX_MIN_ORDERS";
 
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
@@ -448,6 +451,20 @@ public class PreferencesManager implements PreferencesHelper {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST, "");
         Type type = new TypeToken<List<TransactionHeaderResponse.OMSHeader>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void setMaxMinOrders(ArrayList<UserModel._DropdownValueBean> dropdownValue) {
+        mPrefs.edit().putString(PREF_KEY_MAX_MIN_ORDERS, new Gson().toJson(dropdownValue)).apply();
+    }
+
+    @Override
+    public List<UserModel._DropdownValueBean> getMaxMinOrders() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_MAX_MIN_ORDERS, "");
+        Type type = new TypeToken<List<UserModel._DropdownValueBean>>() {
         }.getType();
         return gson.fromJson(json, type);
     }

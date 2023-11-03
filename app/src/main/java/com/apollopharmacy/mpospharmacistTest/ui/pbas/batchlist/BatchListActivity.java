@@ -818,7 +818,10 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         if (selectedQty < requiredQty && !isFull) {
-            new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
+//            new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
+            Intent intent = new Intent(BatchListActivity.this, BatchlistScannerActivity.class);
+            intent.putExtra("ITEM_ID", salesLine.getItemId());
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         } else {
             Toast.makeText(this, "Required Qty selected already.", Toast.LENGTH_SHORT).show();
@@ -946,7 +949,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 batchlistBinding.searchbybatchId.setText(Result.getContents());
-                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
+//                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
 //                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
             }

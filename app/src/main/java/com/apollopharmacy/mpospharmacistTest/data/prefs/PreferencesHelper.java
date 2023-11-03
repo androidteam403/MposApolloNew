@@ -11,7 +11,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPay
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PreferencesHelper {
@@ -150,5 +152,9 @@ public interface PreferencesHelper {
     void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
 
     List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList();
+
+    void setMaxMinOrders(ArrayList<UserModel._DropdownValueBean> dropdownValue);
+
+    List<UserModel._DropdownValueBean> getMaxMinOrders();
 
 }

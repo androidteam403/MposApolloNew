@@ -38,6 +38,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -54,6 +55,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -117,6 +119,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private ArrayList<String> filterTypeList = new ArrayList<>();
     private boolean isBackFromReadyforPickupScreen = false;
 
+    int maxOrdersAllowed = 0;
+    int minOrdersAllowed = 0;
+
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
     }
@@ -144,6 +149,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //
 //    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void setUp(View view) {
         hideKeyboard();
@@ -184,6 +190,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             Intent intent = new Intent(getContext(), StartPickingActivity.class);
             startActivity(intent);
         });
+
+        List<UserModel._DropdownValueBean> maxMinOrdersList = mPresenter.getMaxMinOrdersList();
+        for (int i = 0; i < maxMinOrdersList.size(); i++) {
+            if (mPresenter.getUserId().equalsIgnoreCase(maxMinOrdersList.get(i).getCode())) {
+                maxOrdersAllowed = Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
+                minOrdersAllowed = Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
+            }
+        }
 
     }
 
@@ -1501,10 +1515,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private int autoAssignPos = 0;
 
     private void autoAssign() {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() < mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() && omsHeaderList.size() > autoAssignPos) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() < minOrdersAllowed && omsHeaderList.size() > autoAssignPos) {
             if (!omsHeaderList.get(autoAssignPos).getStockStatus().equals("NOT AVAILABLE")) {
                 if ((omsHeaderList.get(autoAssignPos).getPickPackStatus().equalsIgnoreCase("1") && !mPresenter.getUserId().equalsIgnoreCase(omsHeaderList.get(autoAssignPos).getPickPackUser()))) {
-
+                    hideLoading();
+                    onContinueBtnEnable();
                 } else {
                     mPresenter.onGetOmsTransaction(omsHeaderList.get(autoAssignPos).getRefno(), true, true);
                 }
@@ -1519,7 +1534,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     fullfilmentAdapter.notifyDataSetChanged();
                 }
                 onContinueBtnEnable();
-                onClickContinue();
+//                onClickContinue();
             }
         }
         /*for (TransactionHeaderResponse.OMSHeader omsHeader1 : omsHeaderList) {
@@ -2413,7 +2428,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
             onContinueBtnEnable();
         } else {
-            if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > selectedOmsHeaderList.size()) {
+            if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
                 mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
             } else {
                 Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();

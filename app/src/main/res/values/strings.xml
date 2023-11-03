@@ -332,7 +332,7 @@
     <string name="message">Place a barcode inside the viewfinder rectangle to scan it.</string>
     <string name="turn_off_flashlight">FlashLight On</string>
     <string name="turn_on_flashlight">FlashLight Off</string>
-    <string name="label_scan_barcode">Fetch the Product information by using barcode, scan in the below box</string>
+    <string name="label_scan_barcode">Fetch the Product information by using barcode scan in the below box</string>
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="label_one_apollo_points">One Apollo Points Redumption</string>
