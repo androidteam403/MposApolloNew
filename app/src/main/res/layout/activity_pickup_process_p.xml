@@ -161,16 +161,16 @@
                 android:layout_height="@dimen/dimen50dp"
                 android:layout_marginTop="@dimen/dimen2dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight=".8"
                     android:layout_marginEnd="@dimen/dimen2dp"
-                    android:layout_weight="1"
                     android:background="#3fa9f5"
                     android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen15dp">
+                    android:paddingStart="@dimen/dimen5dp">
 
                     <ImageView
                         android:layout_width="@dimen/dimen25dp"
@@ -183,6 +183,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_4dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -191,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:text="Orders"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
                             android:id="@+id/orders"
@@ -207,11 +208,11 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight=".9"
                     android:layout_marginEnd="@dimen/dimen2dp"
-                    android:layout_weight="1"
                     android:background="#999999"
                     android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen15dp">
+                    android:paddingStart="@dimen/dimen7dp">
 
                     <ImageView
                         android:layout_width="@dimen/dimen25dp"
@@ -224,6 +225,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_4dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -232,7 +234,7 @@
                             android:layout_height="wrap_content"
                             android:text="Pending"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -247,10 +249,11 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
+                    android:layout_marginEnd="@dimen/dimen2dp"
                     android:background="#009245"
                     android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen15dp">
+                    android:paddingStart="@dimen/dimen7dp">
 
                     <ImageView
                         android:layout_width="@dimen/dimen25dp"
@@ -271,7 +274,46 @@
                             android:layout_height="wrap_content"
                             android:text="Completed"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen12sp" />
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:background="@color/red"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen7dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_block_24"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Not Available"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"

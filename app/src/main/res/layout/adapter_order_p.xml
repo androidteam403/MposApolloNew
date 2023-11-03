@@ -1051,8 +1051,8 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen5dp"
                     android:contentDescription="@string/app_name"
@@ -1062,7 +1062,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen7dp"
+                    android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen5dp"
                     android:layout_marginBottom="@dimen/dimen5dp"
                     android:orientation="vertical">
@@ -1240,6 +1240,39 @@
                     android:layout_marginBottom="@dimen/dimen5dp"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:id="@+id/not_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen25dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4dp"
+                            android:layout_marginEnd="@dimen/dimen7dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Status"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen_9_sp" />
+
+                        <TextView
+                            android:id="@+id/start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_rectangle_bg"
+                            android:backgroundTint="@color/red"
+                            android:paddingStart="@dimen/dimen7dp"
+                            android:paddingTop="@dimen/dimen2dp"
+                            android:paddingEnd="@dimen/dimen7dp"
+                            android:paddingBottom="@dimen/dimen2dp"
+                            android:text="Not Available"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_9_sp" />
+                    </LinearLayout>
 
                     <!--<LinearLayout
                         android:id="@+id/statusandicon"
@@ -1282,11 +1315,11 @@
                             android:layout_height="wrap_content"
                             android:text="01:30"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen12sp"
+                            android:textSize="@dimen/dimen_11sp"
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="16dp"
+                            android:layout_width="14dp"
                             android:layout_height="16dp"
                             android:src="@drawable/ic_artboard_35"
                             android:layout_marginStart="@dimen/dimen2dp"
