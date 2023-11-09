@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_regular"
-            app:zxing_framing_rect_height="280dp"
-            app:zxing_framing_rect_width="@dimen/dimen150dp" />
+            app:zxing_framing_rect_height="@dimen/dimen100dp"
+            app:zxing_framing_rect_width="120dp" />
 
         <!--Full Camera Window with viewfinder-->
         <com.journeyapps.barcodescanner.ViewfinderView
@@ -43,6 +43,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen45dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -52,14 +53,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/twenty_dp"
-                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/twenty_dp"
-                android:layout_marginBottom="@dimen/twenty_five_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:text="@string/label_scan_barcode"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_17" />
+                android:textSize="@dimen/dimen14sp" />
 
             <ImageView
                 android:id="@+id/squarebox"

@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
 import java.util.List;
 
@@ -37,4 +38,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onClickNextPage();
 
     String getTerminalId();
+
+    List<UserModel._DropdownValueBean> getMaxMinOrdersList();
 }

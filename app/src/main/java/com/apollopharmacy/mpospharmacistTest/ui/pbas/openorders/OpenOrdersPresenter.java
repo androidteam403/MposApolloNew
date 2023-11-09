@@ -12,6 +12,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -237,6 +238,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public String getTerminalId() {
         return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public List<UserModel._DropdownValueBean> getMaxMinOrdersList() {
+        return getDataManager().getMaxMinOrders();
     }
 }
 

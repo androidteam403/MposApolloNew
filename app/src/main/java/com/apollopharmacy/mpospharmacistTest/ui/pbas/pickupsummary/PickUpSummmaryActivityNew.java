@@ -56,6 +56,7 @@ import com.printf.manager.PrintfTSPLManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -161,9 +162,9 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
                 long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
                 long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
-                activityPickUpSummaryBinding.products.setText(String.valueOf(selectedOmsHeaderList.size()));
+                activityPickUpSummaryBinding.full.setText(String.valueOf(fullCount));
                 activityPickUpSummaryBinding.notAvailable.setText(String.valueOf(notAvailableCount));
-                activityPickUpSummaryBinding.completed.setText(String.valueOf(fullCount + partialCount));
+                activityPickUpSummaryBinding.partially.setText(String.valueOf(partialCount));
             }
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
@@ -192,6 +193,12 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
 //        if (rackListOfListFiltered != null)
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            Collections.sort(selectedOmsHeaderList, (o1, o2) -> {
+                String[] status = {"FULL", "PARTIAL", "NOT AVAILABLE"};
+                int index1 = getIndex(status, o1.getItemStatus());
+                int index2 = getIndex(status, o2.getItemStatus());
+                return Integer.compare(index1, index2);
+            });
             summaryFullfillmentAdapter = new SummaryFullfillmentAdapter(PickUpSummmaryActivityNew.this, selectedOmsHeaderList, PickUpSummmaryActivityNew.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickUpSummmaryActivityNew.this);
             activityPickUpSummaryBinding.rackRecycler.setLayoutManager(mLayoutManager);
@@ -204,6 +211,15 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 onBackPressed();
             }
         });
+    }
+
+    private int getIndex(String[] status, String itemStatus) {
+        for (int i = 0; i < status.length; i++) {
+            if (status[i].equals(itemStatus)) {
+                return i;
+            }
+        }
+        return status.length;
     }
 
     private void takePrintEnableHandled(boolean isTakePrintEnable) {

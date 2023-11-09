@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +26,14 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
     private final Context context;
@@ -72,14 +78,29 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 //        }
 //    }
 
-    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
         if (isDispatchCutoffTime) {
             if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
-                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
+//                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
+                Map<String, Long> groupByShipmentTat = filteredOmsHeaderList.stream()
+                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
+                groupByShipmentTat.forEach((k, v) -> {
+                    if (omsHeader.getShipmentTat().equalsIgnoreCase(k)) {
+                        holder.fullfilmentBinding.shipmentCount.setText("(" + v + ")");
+                    }
+                });
+                try {
+                    Date date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(omsHeader.getShipmentTat());
+                    String shipmentDate = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss").format(date);
+                    holder.fullfilmentBinding.shipmentDate.setText(shipmentDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
             }
@@ -98,7 +119,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         if (omsHeader.getStockStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.fullfilmentBinding.pickupStatus.setText("NO");
             holder.fullfilmentBinding.pickupStatus.setTextColor(Color.parseColor("#ff0202"));
-        } else  {
+        } else {
             holder.fullfilmentBinding.pickupStatus.setText("YES");
             holder.fullfilmentBinding.pickupStatus.setTextColor(Color.parseColor("#009245"));
         }

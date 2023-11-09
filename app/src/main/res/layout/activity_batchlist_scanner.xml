@@ -9,33 +9,419 @@
             name="viewModel"
             type="com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerPresenter" />
 
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpPresenter" />
+
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activity.ScannerActivity"
-        tools:showIn="@layout/activity_scanner">
+        android:orientation="vertical">
 
-        <!--  set custom layout for scanner-->
-        <com.journeyapps.barcodescanner.DecoratedBarcodeView
-            android:id="@+id/zxing_barcode_scanners"
+        <RelativeLayout
+            android:id="@+id/scanner_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
-            app:zxing_scanner_layout="@layout/custom_batchlist_scanner" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".activity.ScannerActivity"
+            tools:showIn="@layout/activity_scanner">
 
-        <!--  FlashLight Button-->
-        <Button
-            android:id="@+id/switch_flashlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Keep the barcode in middle of Torch box"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <!--  set custom layout for scanner-->
+            <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                android:id="@+id/zxing_barcode_scanners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                app:zxing_scanner_layout="@layout/custom_batchlist_scanner" />
+
+            <!--  FlashLight Button-->
+            <!--<Button
+                android:id="@+id/switch_flashlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Keep the barcode in middle of Torch box"
+                android:visibility="visible" />-->
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/dimen25dp"
+                android:layout_height="@dimen/dimen25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dimen15dp"
+                android:layout_marginEnd="@dimen/dimen15dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()-> callback.onClickClose()}"
+                android:src="@drawable/icon_close" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/dimen50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dimen20dp"
+                    android:text="Keep barcode in middle"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/btn_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen7dp"
+                        android:layout_weight=".4"
+                        android:background="@color/red"
+                        android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{() -> callback.onClickSkip()}"
+                        android:padding="@dimen/dimen10dp"
+                        android:text="Skip"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".6"
+                        android:background="@color/yellow"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/dimen10dp"
+                        android:text="Barcode Problem?"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen40dp"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:background="@drawable/rectangular_shape"
+                android:gravity="center_vertical"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Enter Batch No"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/dimen7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+
+                <ImageView
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/cross_black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/batch_details_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/batch_list"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dimen5dp"
+                android:paddingTop="@dimen/dimen10dp"
+                android:paddingBottom="@dimen/dimen10dp"
+                android:visibility="visible"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1">
+
+                    <ImageView
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/twelve_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_39" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.4"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="#868686"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:text="@string/label_exp_date"
+                        android:textColor="#868686"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen10dp"
+                        android:layout_height="@dimen/dimen10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/arrow_down" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.5"
+                    android:gravity="start">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:text="MRP"
+                        android:textColor="#868686"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen10dp"
+                        android:layout_height="@dimen/dimen10dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/arrow_down" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.3"
+                    android:gravity="start">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:text="QOH"
+                        android:textColor="#868686"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen10dp"
+                        android:layout_height="@dimen/dimen10dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/arrow_down" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="#868686"
+                    android:textSize="@dimen/dimen10sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/batch_list_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen60dp"
+                    android:fadeScrollbars="false"
+                    android:focusableInTouchMode="true"
+                    android:scrollbars="vertical"
+                    android:scrollingCache="true"
+                    android:smoothScrollbar="true"
+                    android:visibility="visible"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/adapter_batchlist" />
+
+                <LinearLayout
+                    android:id="@+id/no_list_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginBottom="@dimen/dimen10dp"
+                        android:src="@drawable/notallocated"
+                        android:tint="@color/red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Scanned Barcode Details are not\nAvailable"
+                        android:textAlignment="center"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/dimen12sp" />
+
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:background="#00adef"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="@dimen/dimen4dp"
+                        android:text="Refer to Admin"
+                        android:onClick="@{() -> callback.onClickReferToAdmin()}"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:background="#feb812"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="@dimen/dimen4dp"
+                        android:text="Product Info"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:background="#8dc73f"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="@dimen/dimen4dp"
+                        android:text="On Hold"
+                        android:onClick="@{() -> callback.onClickOnHold()}"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen60dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical|end">
+
+                    <LinearLayout
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/left_rounded_bg"
+                        android:backgroundTint="@color/yellow"
+                        android:visibility="gone"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/dimen10dp"
+                        android:paddingTop="@dimen/dimen5dp"
+                        android:paddingBottom="@dimen/dimen5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="save"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen10dp"
+                            android:gravity="end|center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/dimen4dp"
+                                android:background="@drawable/rectangle_rounded_corners_green"
+                                android:backgroundTint="#077f7d"
+                                android:paddingStart="@dimen/dimen20dp"
+                                android:paddingTop="@dimen/dimen4dp"
+                                android:paddingEnd="@dimen/dimen20dp"
+                                android:paddingBottom="@dimen/dimen4dp"
+                                android:text="1"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dimen16sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_baseline_delete_outline_24"
+                                android:tint="@color/red" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 
 </layout>

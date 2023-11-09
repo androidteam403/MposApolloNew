@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="batchInfo"
+            type="com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes.BatchListObj" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/batchidbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#f2f2f2"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen5dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp">
+
+            <LinearLayout
+                android:id="@+id/batch_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/batch_list"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:id="@+id/un_checked"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/twelve_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_39" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/checked"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/twelve_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_40" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/batch_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.4"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="2"
+                    android:text="BM3479"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <TextView
+                    android:id="@+id/expiry_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.6"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="31 Jan,2024"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <TextView
+                    android:id="@+id/mrp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text="349.00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <TextView
+                    android:id="@+id/qoh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.3"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text="59"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/subtract"
+                            android:layout_width="@dimen/dimen15dp"
+                            android:layout_height="@dimen/dimen15dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_minus" />
+
+
+                        <EditText
+                            android:id="@+id/approve_qty_text"
+                            android:layout_width="@dimen/dimen35dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="@dimen/dimen3dp"
+                            android:layout_marginEnd="@dimen/dimen3dp"
+                            android:background="@drawable/batch_list_edittext_bg"
+                            android:digits="0123456789"
+                            android:gravity="center"
+                            android:imeOptions="flagNoExtractUi"
+                            android:importantForAutofill="no"
+                            android:inputType="phone"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen12sp" />
+
+                        <ImageView
+                            android:id="@+id/add"
+                            android:layout_width="@dimen/dimen15dp"
+                            android:layout_height="@dimen/dimen15dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_plus" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <!--<TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.4"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="#868686"
+                    android:textSize="@dimen/dimen10sp" />-->
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</layout>
