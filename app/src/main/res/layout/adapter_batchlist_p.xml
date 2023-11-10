@@ -20,18 +20,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="#f2f2f2"
             android:orientation="horizontal"
             android:paddingTop="@dimen/five_dp"
             android:paddingBottom="@dimen/five_dp">
+
+            <!--<Button
+                android:id="@+id/batch_pickup_status"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.1"
+                android:background="@drawable/ic_artboard_39"
+                android:gravity="center" />-->
+
+            <ImageView
+                android:id="@+id/batch_pickup_status"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/dimen4dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.09"
+                android:gravity="center"
+                android:src="@drawable/ic_artboard_39" />
+
+            <ImageView
+                android:id="@+id/iconPointsAllow"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/dimen4dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.09"
+                android:gravity="center"
+                android:src="@drawable/ic_artboard_40"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/batchno"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
+
                 android:layout_weight="0.3"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
+                android:text="BMS725"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ten_dp" />
 
@@ -39,9 +78,10 @@
                 android:id="@+id/expiry_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.3"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
+                android:text="31-jan-2023"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ten_dp" />
 
@@ -52,6 +92,7 @@
                 android:layout_weight="0.2"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
+                android:text="349.00"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ten_dp" />
@@ -86,6 +127,7 @@
                 android:layout_weight="0.2"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingBottom="@dimen/five_dp"
+                android:text="59"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ten_dp" />
@@ -114,7 +156,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_weight="0.40"
+                android:layout_marginEnd="@dimen/dimen4dp"
+                android:layout_weight="0.25"
                 android:background="@drawable/rounded_corners_white"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center_horizontal"
@@ -128,30 +171,6 @@
                 tools:ignore="LabelFor" />
 
 
-            <Button
-                android:id="@+id/batch_pickup_status"
-                android:layout_width="0dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.1"
-                android:background="@drawable/icon_unchecked_checkbox"
-                android:gravity="center" />
-
-            <ImageView
-                android:id="@+id/iconPointsAllow"
-                android:layout_width="0dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.1"
-                android:gravity="center"
-                android:src="@drawable/icon_points_allow"
-                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

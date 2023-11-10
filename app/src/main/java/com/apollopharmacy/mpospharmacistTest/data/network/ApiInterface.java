@@ -78,6 +78,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.GetBatchDetailsByBarcodeRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.CalculatePosTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.model.PostTransactionEntityReq;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.model.EPrescriptionModelClassRequest;
@@ -473,6 +475,9 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetPRSDetailsAPI")
     Call<GetPrDetailsApiResponse> GetPRSDetailsAPI(@Body GetPrDetailsApiRequest getPrDetailsApiRequest);
+
+    @POST("SalesTransactionService.svc/GetRemarkMaster")
+    Call<ReasonListResponse> GET_REASON_LIST_API_CALL(@Body ReasonListRequest reasonListRequest);
 
 
 }

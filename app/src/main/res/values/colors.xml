@@ -53,7 +53,7 @@
     <color name="no_customer_found">#fe0000</color>
     <color name="add_item_header">#4d4d4d</color>
     <color name="batch_info_header">#0d5667</color>
-    <color name="req_qty_bg">#f2f2f2</color>
+    <color name="req_qty_bg">#ffffff</color>
     <color name="req_qty_border">#b3b3b3</color>
     <color name="batch_header_bg">#999999</color>
     <color name="pay_btn_color">#fcb815</color>
@@ -131,6 +131,7 @@
 
 
     <color name="test" tools:override="true">@color/picker_packer_action_bar_color</color>
+    <color name="dark_grey">#747474</color>
 
 
 

@@ -634,5 +634,7 @@
     <string name="label_physical_batch">Physical batch</string>
     <string name="label_physica_exp">Physica exp.</string>
     <string name="label_remarks">Remarks</string>
+    <string name="label_skip_order">Skip Order</string>
+    <string name="label_i_confirm_and_submit">I confirm and submit</string>
 
 </resources>

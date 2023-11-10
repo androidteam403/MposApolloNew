@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListRequest;
 
 public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView> extends MvpPresenter<V> {
     void onClickClose();
@@ -12,4 +13,6 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
     void onClickReferToAdmin();
 
     void onClickOnHold();
+
+    void getReasonList();
 }

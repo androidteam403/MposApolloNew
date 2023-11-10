@@ -9,10 +9,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,13 +21,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +39,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogReferToAdminBindi
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.google.zxing.ResultPoint;
@@ -49,6 +50,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -59,6 +61,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     private ActivityBatchlistScannerBinding activityBatchlistScannerBinding;
     private ScannedBatchListAdapter scannedBatchListAdapter;
     private List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
+    DialogSkipOrderBinding dialogSkipOrderBinding;
 
 
     @Inject
@@ -117,13 +120,13 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 //        capture.initializeFromIntent(getIntent(), savedInstanceState);
 //        capture.decode();
 
+        ArrayList<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
         activityBatchlistScannerBinding.search.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         activityBatchlistScannerBinding.search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String searchedText = textView.getText().toString().trim();
-                    ArrayList<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
                     if (searchedText.isEmpty()) {
                         filteredList.clear();
                         filteredList.addAll(batchList);
@@ -134,6 +137,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                         CommonUtils.hideKeyboard(BatchlistScannerActivity.this);
                         return true;
                     } else {
+                        filteredList.clear();
                         for (int i = 0; i < batchList.size(); i++) {
                             if (batchList.get(i).getBatchNo().contains(searchedText)) {
                                 filteredList.add(batchList.get(i));
@@ -157,9 +161,6 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                 }
                 return false;
             }
-        });
-        activityBatchlistScannerBinding.clear.setOnClickListener(view -> {
-            activityBatchlistScannerBinding.search.getText().clear();
         });
     }
 
@@ -249,13 +250,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
     @Override
     public void onClickSkip() {
-        Dialog dialog = new Dialog(this);
-        DialogSkipOrderBinding dialogSkipOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_skip_order, null, false);
-        dialog.setContentView(dialogSkipOrderBinding.getRoot());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialogSkipOrderBinding.close.setOnClickListener(v1 -> dialog.dismiss());
-        dialog.setCancelable(false);
-        dialog.show();
+        mPresenter.getReasonList();
     }
 
     @Override
@@ -264,13 +259,12 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         int pixels = (int) (320 * scale + 0.5f);
         activityBatchlistScannerBinding.scannerLayout.getLayoutParams().height = pixels;
         activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
-
         if (getBatchDetailsByBarcodeResponse != null && getBatchDetailsByBarcodeResponse.getBatchList() != null && getBatchDetailsByBarcodeResponse.getBatchList().size() > 0) {
             this.batchList = getBatchDetailsByBarcodeResponse.getBatchList();
             activityBatchlistScannerBinding.noListFound.setVisibility(View.GONE);
             activityBatchlistScannerBinding.batchListRcv.setVisibility(View.VISIBLE);
             activityBatchlistScannerBinding.batchDetailsHeader.setVisibility(View.VISIBLE);
-            scannedBatchListAdapter = new ScannedBatchListAdapter(this, getBatchDetailsByBarcodeResponse.getBatchList());
+            scannedBatchListAdapter = new ScannedBatchListAdapter(this, getBatchDetailsByBarcodeResponse.getBatchList(), this);
             activityBatchlistScannerBinding.batchListRcv.setAdapter(scannedBatchListAdapter);
             activityBatchlistScannerBinding.batchListRcv.setLayoutManager(new LinearLayoutManager(this));
         } else {
@@ -302,5 +296,35 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         dialogOnHoldBinding.saveButton.setOnClickListener(v -> dialog.dismiss());
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse) {
+        List<String> reasons = reasonListResponse.getData().stream()
+                .map(ReasonListResponse.Datum::getReasonDesc).collect(Collectors.toList());
+        if (reasonListResponse != null && reasonListResponse.getData().size() > 0) {
+            Dialog dialog = new Dialog(this);
+            dialogSkipOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_skip_order, null, false);
+            dialog.setContentView(dialogSkipOrderBinding.getRoot());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogSkipOrderBinding.close.setOnClickListener(v1 -> dialog.dismiss());
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasons);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            dialogSkipOrderBinding.selectReaon.setAdapter(arrayAdapter);
+            dialogSkipOrderBinding.selectReaon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    ((TextView) parent.getChildAt(0)).setTextSize(12);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            dialog.setCancelable(false);
+            dialog.show();
+        }
     }
 }
