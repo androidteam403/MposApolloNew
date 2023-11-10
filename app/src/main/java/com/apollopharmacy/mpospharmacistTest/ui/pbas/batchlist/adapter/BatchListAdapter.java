@@ -27,7 +27,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.ViewHolder> implements Filterable {
@@ -86,7 +89,16 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
         GetBatchInfoRes.BatchListObj batchListModel = batchListModelListl.get(position);
         holder.adapterBatchlistBinding.batchno.setText(batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.qohCoount.setText(batchListModel.getQ_O_H());
-        holder.adapterBatchlistBinding.expiryDate.setText(batchListModel.getExpDate());
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        Date inputDate = null;
+        try {
+            inputDate = inputFormat.parse(batchListModel.getExpDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM, yyyy");
+        String outputDate = outputFormat.format(inputDate);
+        holder.adapterBatchlistBinding.expiryDate.setText(outputDate);
         holder.adapterBatchlistBinding.phisicalbatchEdit.setText(batchListModel.getPhysicalBatchID() != null && !batchListModel.getPhysicalBatchID().isEmpty() ? batchListModel.getPhysicalBatchID() : batchListModel.getBatchNo());
         holder.adapterBatchlistBinding.mrp.setText(String.valueOf(batchListModel.getMRP()));
 

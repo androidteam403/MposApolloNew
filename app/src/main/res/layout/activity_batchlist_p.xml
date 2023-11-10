@@ -637,14 +637,16 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/label_select_batch_manually"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen14sp" />
+                    android:textSize="@dimen/dimen14sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight=".5"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -769,8 +771,8 @@
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
                         android:layout_centerVertical="true"
-                        android:tint="@color/white"
-                        android:src="@drawable/ic_artboard_36" />
+                        android:src="@drawable/ic_artboard_36"
+                        android:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -790,7 +792,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen3dp"
                 android:layout_marginTop="@dimen/five_dp"
-                android:background="#A9A9A9" />
+                android:background="#A9A9A9"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -801,7 +804,8 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="Select from batch list"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp" />
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/preffered_batch_status"
@@ -833,11 +837,23 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.8"
+                        android:layout_weight="0.2"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="start"
                         android:maxLines="2"
-                        android:text="@string/label_batch_no"
+                        android:text=""
+                        android:textColor="#868686"
+                        android:textSize="@dimen/ten_dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:layout_marginStart="@dimen/five_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start"
+                        android:maxLines="2"
+                        android:text=""
                         android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
@@ -845,7 +861,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/five_dp"
-                        android:layout_weight="0.8"
+                        android:layout_weight="0.9"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:maxLines="2"
@@ -894,7 +910,7 @@
                         android:layout_marginStart="@dimen/ten_dp"
                         android:layout_weight="0.6"
                         android:fontFamily="@font/roboto_regular"
-                        android:gravity="start"
+                        android:gravity="center"
                         android:maxLines="2"
                         android:text="@string/label_q_o_h"
                         android:textColor="#868686"
@@ -906,7 +922,7 @@
                         android:layout_marginStart="@dimen/five_dp"
                         android:layout_weight="0.8"
                         android:fontFamily="@font/roboto_regular"
-                        android:gravity="start"
+                        android:gravity="center"
                         android:maxLines="2"
                         android:text="@string/label_req"
                         android:textColor="#868686"
@@ -925,7 +941,7 @@
                         android:textSize="@dimen/ten_dp" />
 
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/five_dp"
@@ -935,7 +951,7 @@
                         android:maxLines="2"
                         android:text="@string/batch_pickup_check"
                         android:textColor="#868686"
-                        android:textSize="@dimen/ten_dp" />
+                        android:textSize="@dimen/ten_dp" />-->
                 </LinearLayout>
 
             </RelativeLayout>
@@ -954,7 +970,8 @@
             android:scrollbars="vertical"
             android:scrollingCache="true"
             android:smoothScrollbar="true"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:listitem="@layout/adapter_batchlist_p" />
 
         <TextView
             android:id="@+id/no_order_found_text"
