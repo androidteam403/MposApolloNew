@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Skip Order"
+                    android:text="@string/label_skip_order"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -41,40 +41,43 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen20dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="@dimen/dimen30dp"
                 android:layout_marginBottom="@dimen/dimen3dp"
                 android:text="Select Reason"
-                android:textSize="@dimen/dimen10sp" />
+                android:textSize="@dimen/dimen_11sp" />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/reasonLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
                 android:layout_marginEnd="@dimen/dimen10dp"
                 android:background="@drawable/search_bg"
                 android:gravity="center_vertical"
                 android:weightSum="1">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen5dp"
-                    android:text="I didn't find the product in the shelf"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dimen_11sp" />
+                <Spinner
+                    android:id="@+id/selectReaon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen30dp"
+                    android:background="@android:color/transparent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/roboto_regular" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/sixteen_dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/dimen15dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/downarrow"
-                    android:tint="#767676" />
-            </LinearLayout>
+                    android:tint="@color/dark_grey" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,14 +87,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/checkBox"
                     android:layout_width="@dimen/dimen25dp"
                     android:layout_height="@dimen/sixteen_dp"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_artboard_40" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I confirm and submit"
+                    android:text="@string/label_i_confirm_and_submit"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen12sp" />
             </LinearLayout>
@@ -103,8 +108,9 @@
                 android:background="@drawable/bottom_rounded_btn_bg"
                 android:fontFamily="@font/roboto_bold"
                 android:padding="@dimen/dimen5dp"
-                android:text="Not Available"
+                android:text="@string/label_not_available"
                 android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen16sp" />
         </LinearLayout>

@@ -6,6 +6,8 @@ import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.GetBatchDetailsByBarcodeRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -89,5 +91,40 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     @Override
     public void onClickOnHold() {
         getMvpView().onClickOnHold();
+    }
+
+    @Override
+    public void getReasonList() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            ReasonListRequest request = new ReasonListRequest();
+            request.setVendorId("6711");
+            request.setStoreID(getDataManager().getStoreId());
+            request.setDataAreaID("AHEL");
+            request.setRequestType("1");
+            request.setData(null);
+            Call<ReasonListResponse> call = api.GET_REASON_LIST_API_CALL(request);
+            call.enqueue(new Callback<ReasonListResponse>() {
+                @Override
+                public void onResponse(Call<ReasonListResponse> call, Response<ReasonListResponse> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body().getData() != null && response.body().getData().size() > 0) {
+                            getMvpView().onSuccessGetResonListApiCall(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ReasonListResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 }
