@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -20,7 +21,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/dimen10dp"
-                android:paddingEnd="@dimen/dimen10dp">
+                android:paddingEnd="@dimen/dimen10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -58,7 +60,27 @@
                             android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/stock"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/roboto_bold"-->
+                        <!--                            android:textColor="@color/white"-->
+                        <!--                            android:text="Stock Available"-->
+                        <!--                            android:textSize="13sp" />-->
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/stock_avail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_dimen_25"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="stock available"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -69,37 +91,389 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="16dp"
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginEnd="@dimen/five_dp"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickFilterIcon()}"
                         android:src="@drawable/ic_filter_white" />
                 </LinearLayout>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/selected_fullfillment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:background="#fdb813"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dimen10dp"
-                android:text="@string/label_select_fullfilment_to_start_pickup_process"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen10sp"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
 
+                <LinearLayout
+                    android:id="@+id/totalLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="0.9"
+                    android:background="#3fa9f5"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen4dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_34"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="100"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/assignedLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#8cc63f"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen4dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_31"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Assigned"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/assigned"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="24"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#f7931e"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen4dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_33"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/pending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="50"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.1"
+                    android:background="#009245"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginStart="@dimen/dimen7dp"
+                        android:layout_marginEnd="@dimen/dimen4dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_32"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Completed"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/completed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="26"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/seven_dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/dimen8dp"
+                    android:src="@drawable/search_icon" />
+
+                <EditText
+                    android:id="@+id/search_byfulfimentid"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Search for Fulfillment ID/Box ID"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:padding="@dimen/five_dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+
+                <!--<ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/search_icon" />-->
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:backgroundTint="#333333"
+                    android:onClick="@{()->callback.onClickScanCode()}"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen30dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/ic_artboard_36"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_rectangular_shape"
+                        android:backgroundTint="#333333"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Scan\n QR Code"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/ten_sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen25dp"
+                android:layout_marginStart="@dimen/dimen7dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:background="#fff1d0"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/selected_fullfillment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:text="Select fulfilment to start pickup process."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/terminal_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen10sp"
+                    tools:ignore="RtlSymmetry" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen7dp"
+                android:layout_marginTop="@dimen/dimen7dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginBottom="@dimen/dimen5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!--<CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#b3b3b3" />-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/filterTypeRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/adapter_filter_type"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="prev" />
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/label_next" />
+            </RelativeLayout>
+
+            <!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+            <!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fullfilment_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginEnd="@dimen/dimen10dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="@dimen/five_dp" />
+            <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
+            <TextView
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="No Order Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layout_fulfilment"
@@ -271,51 +645,98 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen50dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="@color/continue_unselect_color"
-            android:gravity="center"
-            android:onClick="@{()-> callback.onClickContinue()}"
-            android:orientation="horizontal">
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/selected_item_count"
-                android:layout_width="@dimen/dimen35dp"
-                android:layout_height="@dimen/dimen35dp"
-                android:layout_marginEnd="@dimen/dimen5dp"
-                android:background="@drawable/ic_circle_lite_yellow_bg"
+            <ImageView
+                android:id="@+id/prev_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:background="@{isPrevtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isPrevtPage ? true : false}"
+                android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:padding="@dimen/dimen5dp"
+                android:onClick="@{()-> callback.onClickPrevPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow__next_page"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen12sp"
-                android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
+                android:textSize="@dimen/text_dimen_9"
+                android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center_vertical"
-                android:text="@string/label_continue"
-                android:textAllCaps="true"
-                android:textColor="@color/text_color_grey"
-                android:textSize="@dimen/dimen14sp"
-                android:visibility="@{isContinueSelect ? view.GONE : view.VISIBLE}" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickContinue()}"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center_vertical"
-                android:text="@string/label_continue"
-                android:textAllCaps="true"
+                <TextView
+                    android:id="@+id/selected_item_count"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:background="@drawable/ic_circle_lite_yellow_bg"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_9"
+                    android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/label_continue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_grey"
+                    android:textSize="@dimen/dimen14sp"
+                    android:visibility="@{isContinueSelect ? view.GONE : view.VISIBLE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/label_continue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen14sp"
+                    android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/next_page"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dimen5dp"
+                android:background="@{isNaxtPage ?  @drawable/next_page_enable_bg : @drawable/next_page_disable_bg}"
+                android:clickable="@{isNaxtPage ? true : false}"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:onClick="@{()-> callback.onClickNextPage()}"
+                android:padding="@dimen/dimen10dp"
+                android:src="@drawable/ic_arrow__next_page"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen14sp"
-                android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
-        </LinearLayout>
+                android:textSize="@dimen/text_dimen_9"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <data>
@@ -331,5 +752,13 @@
         <variable
             name="callback"
             type="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersMvpPresenter" />
+
+        <variable
+            name="isNaxtPage"
+            type="Boolean" />
+
+        <variable
+            name="isPrevtPage"
+            type="Boolean" />
     </data>
 </layout>

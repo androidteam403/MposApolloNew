@@ -29,9 +29,15 @@
             type="com.apollopharmacy.mpospharmacistTest.ui.additem.model.SaveRetailsTransactionRes" />
     </data>
 
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/white">-->
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
@@ -652,6 +658,7 @@
                                 android:textSize="@dimen/text_dimen_13" />
                         </LinearLayout>
 
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -693,8 +700,64 @@
                             android:layout_marginBottom="@dimen/ten_dp"
                             android:orientation="vertical" />
 
+
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/printDuplicateCheckbox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:buttonTint="@color/colorPrimary"
+                            android:text="Print with Duplicate copy"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen35dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/text_dimen_12"
+                        android:layout_marginBottom="@dimen/dimen6dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_dimen_20"
+                            android:layout_height="@dimen/text_dimen_20"
+                            android:layout_gravity="center"
+
+                            android:layout_marginStart="@dimen/dimen3dp"
+                            android:src="@drawable/white_printer" />
+
+
+                        <TextView
+                            android:id="@+id/downloadpdf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:onClick="@{()-> callback.onDownloadPdfButton()}"
+                            android:padding="@dimen/dimen3dp"
+                            android:text="PRINT BILL"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12" />
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
+
             </androidx.core.widget.NestedScrollView>
 
             <ImageView
@@ -707,17 +770,1247 @@
                 android:src="@drawable/order_success_icon"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/place_new_order_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_five_dp"
+                android:layout_height="@dimen/dimen45dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/roboto_bold"
-                android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
-                android:text="@string/label_place_to_billing"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_14" />
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/place_new_order_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:layout_weight=".5"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/roboto_bold"
+                    android:onClick="@{()-> callback.onNewPlaceOrderClicked()}"
+                    android:text="@string/label_continue"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_14" />
+
+                <Button
+                    android:id="@+id/print_bill"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_weight=".5"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/roboto_bold"
+                    android:onClick="@{()-> callback.onClickBillPrint()}"
+                    android:text="@string/label_print_bill"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_14" />
+
+            </LinearLayout>
         </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/pflayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/ten_dp"
+                android:visibility="invisible">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen3dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.39"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="Apollo Pharmacy - "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:id="@+id/postesting"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/cambriab"
+                                        android:text="POS TESTING"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/address_one"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="SHOP NO 1 and 2, SHUKAN HUB"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/address_two"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="87365645"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/phonenumberpdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="PHONE: 9012952000"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.18"
+                                android:gravity="end|center_vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimen30dp"
+                                    android:layout_height="@dimen/dimen30dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/twenty_dp"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/apollo_logo_twohundred" />
+
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.43"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.19"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="FSSAI NO"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.02"
+                                        android:fontFamily="@font/cambria"
+                                        android:text=":"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+
+                                    <TextView
+                                        android:id="@+id/fssaino"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.79"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="FSSAI12345678"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.19"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="D.L.NO:"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.02"
+                                        android:fontFamily="@font/cambria"
+                                        android:text=":"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+
+                                    <TextView
+                                        android:id="@+id/d.lno"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.79"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="GJ-139904-909(20,20B,20C,20D,21,21B)"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.19"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="GST NO"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.02"
+                                        android:fontFamily="@font/cambria"
+                                        android:text=":"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+
+                                    <TextView
+                                        android:id="@+id/gstNo"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.79"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="36AAACA5443N3Z"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen1dp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.19"
+                                        android:fontFamily="@font/cambria"
+                                        android:text="C.GSTIN"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.02"
+                                        android:fontFamily="@font/cambria"
+                                        android:text=":"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                    <TextView
+                                        android:id="@+id/cgstin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.79"
+                                        android:fontFamily="@font/cambria"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen5sp" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="4dp"-->
+                        <!--                                android:layout_marginTop="3dp"-->
+                        <!--                                android:gravity="center"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="1">-->
+
+
+                        <!--                                <TextView-->
+                        <!--                                    android:id="@+id/postesting"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:text="POS TESTING"-->
+                        <!--                                    android:textColor="@color/black"-->
+                        <!--                                    android:textSize="6sp"-->
+                        <!--                                    android:textStyle="bold" />-->
+
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:orientation="horizontal"-->
+                        <!--                                    android:weightSum="1">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.19"-->
+                        <!--                                        android:text="FSSAI NO"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.02"-->
+                        <!--                                        android:text=":"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:id="@+id/fssaino"-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.79"-->
+                        <!--                                        android:text="FSSAI12345678"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            </LinearLayout>-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="4dp"-->
+                        <!--                                android:layout_marginTop="3dp"-->
+                        <!--                                android:gravity="center"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="1">-->
+
+
+                        <!--                                <TextView-->
+                        <!--                                    android:id="@+id/address"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:text="SHOP NO 1 and 2, SHUKAN HUB"-->
+                        <!--                                    android:textColor="@color/black"-->
+                        <!--                                    android:textSize="6sp" />-->
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:orientation="horizontal"-->
+                        <!--                                    android:weightSum="1">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.19"-->
+                        <!--                                        android:text="D.L.NO:"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.02"-->
+                        <!--                                        android:text=":"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:id="@+id/d.lno"-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.79"-->
+                        <!--                                        android:text="GJ-139904-909(20,20B,20C,20D,21,21B)"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            </LinearLayout>-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="4dp"-->
+                        <!--                                android:layout_marginTop="3dp"-->
+                        <!--                                android:gravity="center"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="1">-->
+
+
+                        <!--                                <TextView-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:text=" &#45;&#45; "-->
+                        <!--                                    android:textColor="@color/black"-->
+                        <!--                                    android:textSize="6sp" />-->
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:orientation="horizontal"-->
+                        <!--                                    android:weightSum="1">-->
+
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.19"-->
+                        <!--                                        android:text="GST NO"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.02"-->
+                        <!--                                        android:text=":"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:id="@+id/gstNo"-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.79"-->
+                        <!--                                        android:text="36AAACA5443N3Z"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            </LinearLayout>-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="4dp"-->
+                        <!--                                android:layout_marginTop="3dp"-->
+                        <!--                                android:gravity="center"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="1">-->
+
+
+                        <!--                                <TextView-->
+                        <!--                                    android:id="@+id/phonenumberpdf"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:text="PHONE: 9012952000"-->
+                        <!--                                    android:textColor="@color/black"-->
+                        <!--                                    android:textSize="6sp" />-->
+
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="0.5"-->
+                        <!--                                    android:orientation="horizontal"-->
+                        <!--                                    android:weightSum="1">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.19"-->
+                        <!--                                        android:text="C.GSTIN"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.02"-->
+                        <!--                                        android:text=":"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:id="@+id/cgstin"-->
+                        <!--                                        android:layout_width="0dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_weight="0.79"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="6sp" />-->
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            </LinearLayout>-->
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@string/app_name"
+                            android:layerType="software"
+                            android:src="@drawable/dottedline_mobile" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".25"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/customer_name_pdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="Name: Pharmacy PC:500092"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/doctornamepdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="Doctor: -"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".25"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/custmobileNumberpdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="Mobile No.:2349661401"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/refno.pdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="Ref. NO : FL20220610101000013"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".25"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/billno.receiptid"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/cambria"
+                                    android:gravity="center"
+                                    android:text="Bill No.:16001DS002953"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/trmnl_id"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:gravity="center"
+                                    android:text="TID : 003"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".25"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/corporate6711"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/cambria"
+                                    android:gravity="center"
+                                    android:text="6711-APOLLO247"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:id="@+id/billdatepdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dimen2dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:gravity="center"
+                                    android:text="Bill Date : 2022-Jun-14 10:19:00 AM"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/customer_name_pdf"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_marginStart="4dp"-->
+                            <!--                                    android:layout_weight="0.28"-->
+                            <!--                                    android:text="Name: Pharmacy PC:500092"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/custmobileNumberpdf"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="0.22"-->
+                            <!--                                    android:gravity="center"-->
+                            <!--                                    android:text="Mobile No.:2349661401"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/billno.receiptid"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="0.22"-->
+                            <!--                                    android:gravity="center"-->
+                            <!--                                    android:text="Bill No.:16001DS002953"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/corporate6711"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="0.28"-->
+                            <!--                                    android:gravity="center"-->
+                            <!--                                    android:text="6711-APOLLO247"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4sp"
+                            android:layout_marginTop="2dp"
+                            android:weightSum="1">
+
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/doctornamepdf"-->
+                            <!--                                    android:layout_width="0sp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_marginLeft="4sp"-->
+                            <!--                                    android:layout_weight="0.26"-->
+                            <!--                                    android:text="Doctor: -"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+
+                            <!--                                                                <TextView-->
+                            <!--                                                                    android:id="@+id/refno.pdf"-->
+                            <!--                                                                    android:layout_width="0sp"-->
+                            <!--                                                                    android:layout_height="wrap_content"-->
+                            <!--                                                                    android:layout_weight="0.43"-->
+                            <!--                                                                    android:text="Ref. NO : FL20220610101000013 -10009416 TID : 003"-->
+                            <!--                                                                    android:textAlignment="center"-->
+                            <!--                                                                    android:textColor="@color/black"-->
+                            <!--                                                                    android:textSize="6sp" />-->
+
+
+                            <!--                                <TextView-->
+                            <!--                                    android:id="@+id/billdatepdf"-->
+                            <!--                                    android:layout_width="0sp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="0.31"-->
+                            <!--                                    android:gravity="center"-->
+                            <!--                                    android:text="Bill Date : 2022-Jun-14 10:19:00 AM"-->
+                            <!--                                    android:textColor="@color/black"-->
+                            <!--                                    android:textSize="6sp" />-->
+
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@string/app_name"
+                            android:layerType="software"
+                            android:src="@drawable/dottedline_mobile" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.24"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="Product Name"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.05"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="SCH"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.10"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="HSNCODE"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.05"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="Mfg"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.10"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="BATCH"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.09"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="EXPIRY"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.08"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="Qty"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="RATE"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="AMOUNT"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <!--                   <TextView-->
+                            <!--                       android:layout_width="0dp"-->
+                            <!--                       android:layout_height="wrap_content"-->
+                            <!--                       android:layout_weight="0.08"-->
+                            <!--                       android:text="AMOUNT"-->
+                            <!--                       android:textAlignment="center"-->
+                            <!--                       android:textColor="@color/black"-->
+                            <!--                       android:textSize="9dp"-->
+                            <!--                       android:gravity="center_horizontal" />-->
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.08"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center_horizontal"
+                                android:text="GST%"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@string/app_name"
+                            android:layerType="software"
+                            android:src="@drawable/dottedline_mobile" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/pdfRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="25dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+
+                            <TextView
+                                android:id="@+id/ShippingChargepdf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center"
+                                android:text="Shipping Charge: -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:id="@+id/sacpdf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center"
+                                android:text="SAC: -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:id="@+id/gstpdf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cambria"
+                                android:gravity="center"
+                                android:text="GST: -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@string/app_name"
+                            android:layerType="software"
+                            android:src="@drawable/dottedline_mobile" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <TextView
+                                android:id="@+id/taxablevaluepdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.33"
+                                android:fontFamily="@font/cambria"
+                                android:text="TAXABLE VALUE: 330.50"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:id="@+id/cgstamtpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.33"
+                                android:fontFamily="@font/cambria"
+                                android:text="CGstAMT: --"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:id="@+id/sgstamtpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.33"
+                                android:fontFamily="@font/cambria"
+                                android:text="SGstAmt: --"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <TextView
+                                android:id="@+id/grosspdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/cambria"
+                                android:text="Gross: 430.00"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:id="@+id/disamtpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/cambria"
+                                android:text="DisAmt : 0.00"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <TextView
+                                android:id="@+id/dontaionpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/cambria"
+                                android:text="Donation: 0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:id="@+id/netamtpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/cambria"
+                                android:text="NetAmt : 430.00"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@string/app_name"
+                            android:layerType="software"
+                            android:src="@drawable/dottedline_mobile" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <TextView
+                                android:id="@+id/cinpdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:fontFamily="@font/cambria"
+                                android:text="CIN: -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                            <TextView
+                                android:id="@+id/registeredoffcaddress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.6"
+                                android:fontFamily="@font/cambria"
+                                android:text="Registered Office: -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/adminoffcpdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:fontFamily="@font/cambria"
+                            android:text="Admin Office : -- "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen5sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            tools:ignore="RtlCompat">
+
+
+                            <TextView
+                                android:id="@+id/costinwords"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.75"
+                                android:fontFamily="@font/cambria"
+                                android:text=" -- "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="for"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/two_dp"
+                                    android:fontFamily="@font/cambria"
+                                    android:text="@string/label_apollo_pharmacy"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen5sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.35"
+                                android:fontFamily="@font/cambria"
+                                android:text="Wishes You Speedy Recovery"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:fontFamily="@font/cambria"
+                                android:text="Next Purchased Use Coupon =[1203232]"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp"
+                                android:visibility="invisible" />
+
+
+                            <TextView
+                                android:id="@+id/regisretedpharmcy"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/cambria"
+                                android:text="Registered pharmacist"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen5sp" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <!--        <ImageView-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="match_parent"-->
+                <!--            android:layout_centerInParent="true"-->
+                <!--            android:id="@+id/imageviewforpdf"/>-->
+
+
+            </RelativeLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/layoutPdfPreview"
+            android:layout_width="@dimen/pdf_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/pdf_margin_vertical"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/pdf_margin_vertical"
+            android:visibility="invisible"/>
     </LinearLayout>
+
+    <!--    </ScrollView>-->
 </layout>

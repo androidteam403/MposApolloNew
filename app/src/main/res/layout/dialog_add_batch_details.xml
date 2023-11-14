@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen5dp"
+                android:paddingTop="@dimen/dimen7dp"
+                android:paddingEnd="@dimen/dimen7dp"
+                android:paddingBottom="@dimen/dimen7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="@dimen/dimen10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/dimen12sp"
+                    android:text="Enter the Batch Details Manually"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="@dimen/dimen25dp"
+                    android:layout_height="@dimen/dimen25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/icon_close"
+                    android:tint="@color/black" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen3dp"
+                android:background="#d8d8d8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Product Info"
+                android:textColor="#858585"
+                android:textSize="@dimen/dimen_11sp" />
+
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Dettol Antiseptic Liquid 125ML"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen20dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Batch ID"
+                android:textColor="#858585"
+                android:textSize="@dimen/dimen_11sp" />
+
+            <EditText
+                android:id="@+id/batch_id"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen30dp"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:layout_marginEnd="@dimen/dimen20dp"
+                android:background="@drawable/search_bg"
+                android:hint="BM3479"
+                android:inputType="text"
+                android:paddingStart="@dimen/dimen10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen20dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Exp. Date"
+                android:textColor="#858585"
+                android:textSize="@dimen/dimen_11sp" />
+
+            <EditText
+                android:id="@+id/expiry_date"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen30dp"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:layout_marginEnd="@dimen/dimen20dp"
+                android:background="@drawable/search_bg"
+                android:hint="31 Jan, 2024"
+                android:inputType="text"
+                android:paddingStart="@dimen/dimen10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen20dp"
+                        android:layout_marginTop="@dimen/dimen20dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="MRP"
+                        android:textColor="#858585"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <EditText
+                        android:id="@+id/mrp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginStart="@dimen/dimen15dp"
+                        android:layout_marginEnd="@dimen/dimen20dp"
+                        android:background="@drawable/search_bg"
+                        android:hint="349.00"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/dimen10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen20dp"
+                        android:layout_marginTop="@dimen/dimen20dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Qty."
+                        android:textColor="#858585"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <EditText
+                        android:id="@+id/quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginStart="@dimen/dimen15dp"
+                        android:layout_marginEnd="@dimen/dimen20dp"
+                        android:background="@drawable/search_bg"
+                        android:hint="3"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/dimen10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/add_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:background="@drawable/bottom_rounded_btn_bg"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dimen5dp"
+                android:text="add"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -123,7 +123,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="@{String.valueOf(product.qty)}"
+                            android:text="@{String.valueOf(Math.round(product.qty))}"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 

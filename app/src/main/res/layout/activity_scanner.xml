@@ -10,6 +10,7 @@
             type="com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerPresenter" />
 
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,10 +20,10 @@
 
         <!--  set custom layout for scanner-->
         <com.journeyapps.barcodescanner.DecoratedBarcodeView
-            android:id="@+id/zxing_barcode_scanner"
+            android:id="@+id/zxing_barcode_scanners"
             android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
             android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
             app:zxing_scanner_layout="@layout/custom_scanner" />
 
         <!--  FlashLight Button-->
@@ -33,8 +34,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/roboto_regular"
-            android:text="Keep the barcode in middle of Torch box"
-            />
+            android:text="Keep the barcode in middle of Torch box" />
     </RelativeLayout>
 
 </layout>

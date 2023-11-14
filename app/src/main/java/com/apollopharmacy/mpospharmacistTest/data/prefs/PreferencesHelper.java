@@ -1,13 +1,19 @@
 package com.apollopharmacy.mpospharmacistTest.data.prefs;
 
 import com.apollopharmacy.mpospharmacistTest.data.network.pojo.VendorCheckRes;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.model.GetTenderTypeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListDataEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.AllowedPaymentModeRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetTrackingWiseConfing;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.HBPConfigResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PreferencesHelper {
@@ -86,10 +92,13 @@ public interface PreferencesHelper {
 
     String getUserId();
 
-
     void storeGlobalJson(String json);
 
     GetGlobalConfingRes getGlobalJson();
+
+    void storeHBPConfiRes(String json);
+
+    HBPConfigResponse getHBPConfigRes();
 
     void storeTrackingWiseConfiguration(GetTrackingWiseConfing trackingWiseConfing);
 
@@ -120,5 +129,32 @@ public interface PreferencesHelper {
     void setfullFillListOfListFiltered(List<List<RackAdapter.RackBoxModel.ProductData>> fullFillListOfListFiltered);
 
     List<List<RackAdapter.RackBoxModel.ProductData>> getfullFillListOfListFiltered();
+
+    void setTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
+
+    List<TransactionHeaderResponse.OMSHeader> getTotalOmsHeaderList();
+
+    void setTotalOmsTransactionHeaderObj(List<OMSTransactionHeaderResModel.OMSHeaderObj> totalOmsHeaderList);
+
+    List<OMSTransactionHeaderResModel.OMSHeaderObj> getTotalOmsHeaderListObj();
+
+    void setLabelSize(String labelSize);
+
+    String getLabelSize();
+
+    void setTenderTypeResultEntity(GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity);
+
+    GetTenderTypeRes.GetTenderTypeResultEntity getTenderTypeResultEntity();
+
+
+    //made chaneges on 10_10_2022
+
+    void setGlobalTotalOmsTransactionHeader(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
+
+    List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList();
+
+    void setMaxMinOrders(ArrayList<UserModel._DropdownValueBean> dropdownValue);
+
+    List<UserModel._DropdownValueBean> getMaxMinOrders();
 
 }

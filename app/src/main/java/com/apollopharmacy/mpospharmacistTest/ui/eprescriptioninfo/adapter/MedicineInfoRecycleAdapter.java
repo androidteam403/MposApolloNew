@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,8 +18,6 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ViewEprescMedicineItemBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.EPrescriptionInfoMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.ProductListMvpView;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +40,7 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
     public MedicineInfoRecycleAdapter(Context context, ArrayList<MedicineInfoEntity> medicineInforArrList) {
         mDatas = medicineInforArrList;
         mContext = context;
-        tempmDatas =new ArrayList<>();
+        tempmDatas = new ArrayList<>();
     }
 
     @NotNull
@@ -56,27 +55,23 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
         MedicineInfoEntity item = mDatas.get(position);
         holder.listItemMainBinding.setProduct(item);
         //tempmDatas.add(item);
-        System.out.println("check item quantity-->"+item.getReqQty());
-        Constant.getInstance().requestqty=item.getQty();
+        System.out.println("check item quantity-->" + item.getReqQty());
+        Constant.getInstance().requestqty = item.getQty();
 
-        holder.listItemMainBinding.requestqtyText.setText(String.valueOf(item.getReqQty())) ;
+        holder.listItemMainBinding.requestqtyText.setText(String.valueOf(item.getReqQty()));
 
-        if(Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) > 0)
-        {
+        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) > 0) {
             holder.listItemMainBinding.itemViewLiner.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#CCFF99")));
-        }
-        else
-        {
+        } else {
             holder.listItemMainBinding.itemViewLiner.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         }
 
         //below steps for Check Boxes....
         if (Constant.getInstance().arrBatchList.size() > 0) {
-            double QOH_Qty=0;
+            double QOH_Qty = 0;
             for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
-                if(Double.parseDouble(Constant.getInstance().arrBatchList.get(i).getQ_O_H()) > 0 && Constant.getInstance().arrBatchList != null )
-                {
-                    QOH_Qty=QOH_Qty+Double.parseDouble(Constant.getInstance().arrBatchList.get(i).getQ_O_H());
+                if (Double.parseDouble(Constant.getInstance().arrBatchList.get(i).getQ_O_H()) > 0 && Constant.getInstance().arrBatchList != null) {
+                    QOH_Qty = QOH_Qty + Double.parseDouble(Constant.getInstance().arrBatchList.get(i).getQ_O_H());
                 }
 
 
@@ -87,7 +82,25 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
 
 
         holder.batchinfolist.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+
+//        ArrayList<GetBatchInfoRes.BatchListObj> arrBatchList = new ArrayList<>();
+//        if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+//            for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+//                arrBatchList.add(Constant.getInstance().arrBatchList.get(i));
+//                if (i > 4) {
+//                    break;
+//                }
+//            }
+//        }
+//        if (Double.parseDouble(holder.listItemMainBinding.requestqtyText.getText().toString()) <= 0) {
+//            if (Constant.getInstance().arrBatchList != null && Constant.getInstance().arrBatchList.size() > 0) {
+//                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+//                    Constant.getInstance().arrBatchList.get(i).setPhysicalbatchstatus(false);
+//                }
+//            }
+//        }
         batchInfoRecycleAdapter = new BatchInfoRecycleAdapter(Constant.getInstance().arrBatchList, mContext);
+        batchInfoRecycleAdapter.setMedicineItemQty(item.getQty());
         holder.batchinfolist.setAdapter(batchInfoRecycleAdapter);
         batchInfoRecycleAdapter.setClickListiner(ePrescriptionInfoMvpView);
 
@@ -100,14 +113,10 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
                             Constant.getInstance().arrBatchList.get(i).setSelected(false);
                             holder.batchinfolist.getAdapter().notifyItemChanged(i);
 
-                        }
-                        else if(Constant.getInstance().arrBatchList.get(i).getREQQTY() > 0)
-                        {
+                        } else if (Constant.getInstance().arrBatchList.get(i).getREQQTY() > 0) {
                             Constant.getInstance().arrBatchList.get(i).setSelected(true);
                             holder.batchinfolist.getAdapter().notifyItemChanged(i);
-                        }
-                        else
-                        {
+                        } else {
 
                         }
                     }
@@ -127,28 +136,43 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
         }
 
         holder.addItemText.setOnClickListener(new View.OnClickListener() {
-                                                  @Override
-                                                  public void onClick(View v) {
-                                                      Constant.getInstance().pickupstatus=false;
-                                                      Constant.getInstance().requestqty=item.getQty();
-                                                      ePrescriptionInfoMvpView.onNavigateNextActivity();
-                                                      //ePrescriptionInfoMvpView.onClickProductItem(position);
-                                                  }
-                                              }
-
-        );
-
+            @Override
+            public void onClick(View view) {
+                Constant.getInstance().pickupstatus = false;
+                Constant.getInstance().requestqty = item.getQty();
+                ePrescriptionInfoMvpView.onNavigateNextActivity();
+                //ePrescriptionInfoMvpView.onClickProductItem(position);
+            }
+        });
+        holder.listItemMainBinding.addItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double totalBatchSelectedQty = 0.0;
+                for (int i = 0; i < Constant.getInstance().arrBatchList.size(); i++) {
+                    totalBatchSelectedQty = totalBatchSelectedQty + Constant.getInstance().arrBatchList.get(i).getREQQTY();
+                }
+                if (totalBatchSelectedQty > item.getQty()) {
+//                    Toast.makeText(mContext, "You have enter more than request Qty", Toast.LENGTH_SHORT).show();
+                    ePrescriptionInfoMvpView.showtoastmessage("You have enter more than request Qty");
+                } else {
+                    Constant.getInstance().pickupstatus = false;
+                    Constant.getInstance().requestqty = item.getQty();
+                    ePrescriptionInfoMvpView.onNavigateNextActivity();
+                }
+            }
+        });
         holder.listItemMainBinding.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ePrescriptionInfoMvpView != null) {
-                 //   holder.listItemMainBinding.itemView.removeAllViews();
-                    ePrescriptionInfoMvpView.onClickProductItem(position);
+                    //   holder.listItemMainBinding.itemView.removeAllViews();
+//                    ePrescriptionInfoMvpView.onClickProductItem(position);
                     if (isItemselected == false && previous_selectedposition != position) {
                         isItemselected = true;
                         selected_position = position;
                         ePrescriptionInfoMvpView.onClickProductItem(position);
                     } else if (previous_selectedposition == position && isItemselected == true) {
+                        ePrescriptionInfoMvpView.onClickProductItem(position);
                         isItemselected = false;
                         selected_position = position;
                         notifyDataSetChanged();
@@ -207,7 +231,7 @@ public class MedicineInfoRecycleAdapter extends RecyclerView.Adapter<MedicineInf
             this.listItemMainBinding = item;
             batchinfo_layout = item.batchInfoLayout;
             addItemText = item.addItems;
-            Qohtextview= item.Qohcounttext;
+            Qohtextview = item.Qohcounttext;
         }
     }
 }

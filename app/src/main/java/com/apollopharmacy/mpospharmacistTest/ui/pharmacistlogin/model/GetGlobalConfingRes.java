@@ -3,8 +3,21 @@ package com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GetGlobalConfingRes {
+import java.util.List;
 
+public class GetGlobalConfingRes {
+    //
+    @Expose
+    @SerializedName("OMSOrderDeliveryItemId")
+    private List<String> oMSOrderDeliveryItemId;
+
+    public List<String> getoMSOrderDeliveryItemId() {
+        return oMSOrderDeliveryItemId;
+    }
+
+    public void setoMSOrderDeliveryItemId(List<String> oMSOrderDeliveryItemId) {
+        this.oMSOrderDeliveryItemId = oMSOrderDeliveryItemId;
+    }
 
     @Expose
     @SerializedName("SuspendDeleteDays")
@@ -79,6 +92,12 @@ public class GetGlobalConfingRes {
     @SerializedName("LooseDamagSite")
     private String LooseDamagSite;
     @Expose
+    @SerializedName("MPOSMaxOrderAllowed")
+    private int MPOSMaxOrderAllowed;
+    @Expose
+    @SerializedName("MPOSVersion")
+    private String MPOSVersion;
+    @Expose
     @SerializedName("LooseDamagAmount")
     private int LooseDamagAmount;
     @Expose
@@ -115,6 +134,11 @@ public class GetGlobalConfingRes {
     @Expose
     @SerializedName("ISHBPStore")
     private boolean ISHBPStore;
+    @Expose
+    @SerializedName("ISOneApolloCardCreationAllowed")
+    private boolean ISOneApolloCardCreationAllowed;
+
+
     @Expose
     @SerializedName("ISCardBilling")
     private boolean ISCardBilling;
@@ -237,27 +261,36 @@ public class GetGlobalConfingRes {
     @SerializedName("CircleplanCorpCode")
     private String CircleplanCorpCode;
 
-    public  String getCircleplanCorpCode()
-    {
+    @Expose
+    @SerializedName("UHIDHBPURL")
+    private String UHIDHBPURL;
+
+    @Expose
+    @SerializedName("SendGlobalMessageURL")
+    private String SendGlobalMessageURL;
+
+    public String getSendGlobalMessageURL() {
+        return SendGlobalMessageURL;
+    }
+
+    public String getCircleplanCorpCode() {
         return CircleplanCorpCode;
 
     }
 
     @Expose
     @SerializedName("POSExpiryDays")
-    private  double POSExpiryDays;
+    private double POSExpiryDays;
 
-    public  double getPOSExpiryDays()
-    {
+    public double getPOSExpiryDays() {
         return POSExpiryDays;
     }
 
     @Expose
     @SerializedName("OMSExpiryDays")
-    private  double OMSExpiryDays;
+    private double OMSExpiryDays;
 
-    public  double getOMSExpiryDays()
-    {
+    public double getOMSExpiryDays() {
         return OMSExpiryDays;
     }
 
@@ -269,6 +302,7 @@ public class GetGlobalConfingRes {
     public boolean DigitalReceiptRequired() {
         return DigitalReceiptRequired;
     }
+
     public int getSuspendDeleteDays() {
         return SuspendDeleteDays;
     }
@@ -365,6 +399,22 @@ public class GetGlobalConfingRes {
         return LooseDamagSite;
     }
 
+    public int getMPOSMaxOrderAllowed() {
+        return MPOSMaxOrderAllowed;
+    }
+
+    public void setMPOSMaxOrderAllowed(int MPOSMaxOrderAllowed) {
+        this.MPOSMaxOrderAllowed = MPOSMaxOrderAllowed;
+    }
+
+    public String getMPOSVersion() {
+        return MPOSVersion;
+    }
+
+    public void setMPOSVersion(String MPOSVersion) {
+        this.MPOSVersion = MPOSVersion;
+    }
+
     public int getLooseDamagAmount() {
         return LooseDamagAmount;
     }
@@ -409,8 +459,20 @@ public class GetGlobalConfingRes {
         return ISEzetapActive;
     }
 
+    public void setISHBPStore(boolean ISHBPStore) {
+        this.ISHBPStore = ISHBPStore;
+    }
+
     public boolean isISHBPStore() {
         return ISHBPStore;
+    }
+
+    public boolean isISOneApolloCardCreationAllowed() {
+        return ISOneApolloCardCreationAllowed;
+    }
+
+    public void setISOneApolloCardCreationAllowed(boolean ISOneApolloCardCreationAllowed) {
+        this.ISOneApolloCardCreationAllowed = ISOneApolloCardCreationAllowed;
     }
 
     public boolean isISCardBilling() {
@@ -558,4 +620,179 @@ public class GetGlobalConfingRes {
         return SMSPayURL;
     }
 
+    public String getUHIDHBPURL() {
+        return UHIDHBPURL;
+    }
+
+    @SerializedName("_OMSVendorWiseConfigration")
+    @Expose
+    private List<OMSVendorWiseConfigration> oMSVendorWiseConfigration = null;
+
+    public List<OMSVendorWiseConfigration> getOMSVendorWiseConfigration() {
+        return oMSVendorWiseConfigration;
+    }
+
+    public void setOMSVendorWiseConfigration(List<OMSVendorWiseConfigration> oMSVendorWiseConfigration) {
+        this.oMSVendorWiseConfigration = oMSVendorWiseConfigration;
+    }
+
+    //these changes made by naveen
+    public class OMSVendorWiseConfigration {
+
+        @SerializedName("RequestStatus")
+        @Expose
+        private Integer requestStatus;
+        @SerializedName("ReturnMessage")
+        @Expose
+        private String returnMessage;
+        @SerializedName("AllowBulkBilling")
+        @Expose
+        private Boolean allowBulkBilling;
+        @SerializedName("AllowCancellation")
+        @Expose
+        private Boolean allowCancellation;
+        @SerializedName("AllowChangeQTY")
+        @Expose
+        private Boolean allowChangeQTY;
+        @SerializedName("AllowLineCancellation")
+        @Expose
+        private Boolean allowLineCancellation;
+        @SerializedName("AllowMultiBatch")
+        @Expose
+        private Boolean allowMultiBatch;
+        @SerializedName("AllowOMSPriceBilling")
+        @Expose
+        private Boolean allowOMSPriceBilling;
+        @SerializedName("AllowPartialQTY")
+        @Expose
+        private Boolean allowPartialQTY;
+        @SerializedName("AllowProductAdd")
+        @Expose
+        private Boolean allowProductAdd;
+        @SerializedName("AllowSubstitude")
+        @Expose
+        private Boolean allowSubstitude;
+        @SerializedName("AllowVoidProduct")
+        @Expose
+        private Boolean allowVoidProduct;
+        @SerializedName("AllowVoidTender")
+        @Expose
+        private Boolean allowVoidTender;
+        @SerializedName("CorpCode")
+        @Expose
+        private String corpCode;
+
+        public Integer getRequestStatus() {
+            return requestStatus;
+        }
+
+        public void setRequestStatus(Integer requestStatus) {
+            this.requestStatus = requestStatus;
+        }
+
+        public String getReturnMessage() {
+            return returnMessage;
+        }
+
+        public void setReturnMessage(String returnMessage) {
+            this.returnMessage = returnMessage;
+        }
+
+        public Boolean getAllowBulkBilling() {
+            return allowBulkBilling;
+        }
+
+        public void setAllowBulkBilling(Boolean allowBulkBilling) {
+            this.allowBulkBilling = allowBulkBilling;
+        }
+
+        public Boolean getAllowCancellation() {
+            return allowCancellation;
+        }
+
+        public void setAllowCancellation(Boolean allowCancellation) {
+            this.allowCancellation = allowCancellation;
+        }
+
+        public Boolean getAllowChangeQTY() {
+            return allowChangeQTY;
+        }
+
+        public void setAllowChangeQTY(Boolean allowChangeQTY) {
+            this.allowChangeQTY = allowChangeQTY;
+        }
+
+        public Boolean getAllowLineCancellation() {
+            return allowLineCancellation;
+        }
+
+        public void setAllowLineCancellation(Boolean allowLineCancellation) {
+            this.allowLineCancellation = allowLineCancellation;
+        }
+
+        public Boolean getAllowMultiBatch() {
+            return allowMultiBatch;
+        }
+
+        public void setAllowMultiBatch(Boolean allowMultiBatch) {
+            this.allowMultiBatch = allowMultiBatch;
+        }
+
+        public Boolean getAllowOMSPriceBilling() {
+            return allowOMSPriceBilling;
+        }
+
+        public void setAllowOMSPriceBilling(Boolean allowOMSPriceBilling) {
+            this.allowOMSPriceBilling = allowOMSPriceBilling;
+        }
+
+        public Boolean getAllowPartialQTY() {
+            return allowPartialQTY;
+        }
+
+        public void setAllowPartialQTY(Boolean allowPartialQTY) {
+            this.allowPartialQTY = allowPartialQTY;
+        }
+
+        public Boolean getAllowProductAdd() {
+            return allowProductAdd;
+        }
+
+        public void setAllowProductAdd(Boolean allowProductAdd) {
+            this.allowProductAdd = allowProductAdd;
+        }
+
+        public Boolean getAllowSubstitude() {
+            return allowSubstitude;
+        }
+
+        public void setAllowSubstitude(Boolean allowSubstitude) {
+            this.allowSubstitude = allowSubstitude;
+        }
+
+        public Boolean getAllowVoidProduct() {
+            return allowVoidProduct;
+        }
+
+        public void setAllowVoidProduct(Boolean allowVoidProduct) {
+            this.allowVoidProduct = allowVoidProduct;
+        }
+
+        public Boolean getAllowVoidTender() {
+            return allowVoidTender;
+        }
+
+        public void setAllowVoidTender(Boolean allowVoidTender) {
+            this.allowVoidTender = allowVoidTender;
+        }
+
+        public String getCorpCode() {
+            return corpCode;
+        }
+
+        public void setCorpCode(String corpCode) {
+            this.corpCode = corpCode;
+        }
+
+    }
 }

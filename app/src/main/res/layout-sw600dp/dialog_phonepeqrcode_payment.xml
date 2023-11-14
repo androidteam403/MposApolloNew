@@ -270,6 +270,25 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="#cdced2" />
+                <TextView
+                    android:id="@+id/dialogCancelQrcodeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:stateListAnimator="@null"
+                    android:text="Cancel Payment"
+                    android:textAlignment="center"
+                    android:textColor="#007aff"
+                    android:textSize="19sp"
+                    android:visibility="visible" />
+                <View
+                    android:id="@+id/separator3"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#cdced2" />
 
                 <TextView
                     android:id="@+id/dialogCloseBtn"
