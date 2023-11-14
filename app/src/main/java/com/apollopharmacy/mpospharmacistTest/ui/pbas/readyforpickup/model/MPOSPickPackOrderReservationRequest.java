@@ -60,6 +60,9 @@ public class MPOSPickPackOrderReservationRequest {
         @Expose
         private String RefID;
 
+        @SerializedName("ReasonCode")
+        private String reasonCode;
+
 
         @SerializedName("OverallOrderStatus")
         @Expose
@@ -103,6 +106,14 @@ public class MPOSPickPackOrderReservationRequest {
 
         public void setRefID(String refID) {
             RefID = refID;
+        }
+
+        public String getReasonCode() {
+            return reasonCode;
+        }
+
+        public void setReasonCode(String reasonCode) {
+            this.reasonCode = reasonCode;
         }
 
         public String getOverallOrderStatus() {

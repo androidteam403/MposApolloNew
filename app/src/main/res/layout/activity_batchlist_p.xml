@@ -853,7 +853,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="start"
                         android:maxLines="2"
-                        android:text=""
+                        android:text="@string/batch_no"
                         android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 

@@ -223,9 +223,9 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         });
         holder.itemView.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-                if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+                /*if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
                     if (mvpView != null)
                         for (int i = 0; i < omsHeaderList.size(); i++) {
                             if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
@@ -234,17 +234,17 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                             }
                         }
 
-                }
+                /*}*/
             } else {
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
             }
         });
         holder.fullfilmentBinding.selectbutton.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-                if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+               /* if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
 
-                } else {
+                } else {*/
                     for (int i = 0; i < omsHeaderList.size(); i++) {
                         if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
                             mvpView.onFullfillmentItemClick(i, position, omsHeader);
@@ -252,7 +252,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                         }
                     }
 
-                }
+                /*}*/
             } else {
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
             }

@@ -176,6 +176,66 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 //            });
 //            statusUpdateDialog.show();
         });
+        holder.pickupSummaryDetailsProductsBinding.done.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                Dialog dialog = new Dialog(context);
+                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
+                dialog.setContentView(dialogUpdateBinding.getRoot());
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                });
+                dialogUpdateBinding.postButton.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+                });
+                dialog.setCancelable(false);
+                dialog.show();
+//                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+            }
+//            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
+//            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
+//            dialogUpdateStatusBinding.setCallback(NewSelectedOrderAdapter.this);
+//            statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
+//            statusUpdateDialog.setCancelable(false);
+//            dialogUpdateStatusBinding.fullfillmentId.setText(refNo);
+//            dialogUpdateStatusBinding.boxId.setText(salesLine.getRackId());
+//            dialogUpdateStatusBinding.productName.setText(salesLine.getItemName());
+//            pickupProcessMvpView.onClickStart(position);
+//            dialogUpdateStatusBinding.dismissDialog.setOnClickListener(vie -> statusUpdateDialog.dismiss());
+//            dialogUpdateStatusBinding.update.setOnClickListener(view1 -> {
+//
+//                if (dialogUpdateStatusBinding.fullPickedRadio.isChecked()) {
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos,position,"FULL");
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.partiallyPickedRadio.isChecked()) {
+//
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos,position, salesLine.getItemId());
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.notAvailableRadio.isChecked()) {
+//                    holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
+//                    if (mCallback != null)
+//                        mCallback.onClickUpdate(orderAdapterPos,position, salesLine.getItemId());
+//                    holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+//                    statusUpdateDialog.dismiss();
+//                } else if (dialogUpdateStatusBinding.skipRadioBtn.isChecked()) {
+//                    statusUpdateDialog.dismiss();
+//                }
+//            });
+//            statusUpdateDialog.show();
+        });
+
+
 
 
         /*if (salesLine.getGetBatchInfoRes() != null) {

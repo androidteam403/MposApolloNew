@@ -1,8 +1,10 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
 
@@ -18,4 +20,15 @@ public interface BatchlistScannerMvpView extends MvpView {
     void onClickOnHold();
 
     void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse);
+
+    void noOrderFound(int count);
+
+    void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel, boolean isBarcodeScannedItem);
+    void checkBatchInventorySuccess(CheckBatchInventoryRes body);
+
+    void onClickSearchTextClear();
+
+    void onClickProductInfo();
+
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 }

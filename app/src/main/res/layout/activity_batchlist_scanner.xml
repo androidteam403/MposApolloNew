@@ -135,7 +135,7 @@
                     android:src="@drawable/search" />
 
                 <EditText
-                    android:id="@+id/search"
+                    android:id="@+id/searchbybatchId"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -156,10 +156,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen5dp"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickSearchTextClear()}"
                     android:src="@drawable/cross_black" />
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/batch_details_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:text=""
+                    android:text="@string/batch_no"
                     android:textColor="#868686"
                     android:textSize="@dimen/dimen10sp" />
 
@@ -281,6 +282,135 @@
                     android:text=""
                     android:textColor="#868686"
                     android:textSize="@dimen/dimen10sp" />
+            </LinearLayout>-->
+            <LinearLayout
+                android:id="@+id/batch_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/ten_dp"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.9"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text="@string/batch_no"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.9"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/label_exp_date"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/label_mrp"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <!-- <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="@dimen/five_dp"
+                     android:layout_weight="0.8"
+                     android:fontFamily="@font/roboto_regular"
+                     android:gravity="center"
+                     android:text="V.Mrp"
+                     android:textColor="@color/white"
+                     android:maxLines="2"
+                     android:textSize="@dimen/ten_dp" />-->
+
+                <!-- <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="@dimen/five_dp"
+                     android:layout_weight="0.8"
+                     android:fontFamily="@font/roboto_regular"
+                     android:gravity="center"
+                     android:text="@string/label_tax"
+                     android:textColor="@color/white"
+                     android:textSize="@dimen/text_dimen_12" />-->
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_weight="0.6"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/label_q_o_h"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.8"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/label_req"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.8"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:text="@string/label_phy_batch"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />
+
+
+                <!--<TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.6"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:text="@string/batch_pickup_check"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/ten_dp" />-->
             </LinearLayout>
 
             <RelativeLayout
@@ -332,19 +462,21 @@
                         android:layout_marginTop="@dimen/dimen10dp"
                         android:background="#00adef"
                         android:fontFamily="@font/roboto_medium"
+                        android:onClick="@{() -> callback.onClickReferToAdmin()}"
                         android:padding="@dimen/dimen4dp"
                         android:text="Refer to Admin"
-                        android:onClick="@{() -> callback.onClickReferToAdmin()}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen10sp" />
 
                     <TextView
+                        android:id="@+id/product_info"
                         android:layout_width="95dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen10dp"
                         android:background="#feb812"
                         android:fontFamily="@font/roboto_medium"
+                        android:onClick="@{()-> callback.onClickProductInfo()}"
                         android:padding="@dimen/dimen4dp"
                         android:text="Product Info"
                         android:textAlignment="center"
@@ -357,9 +489,9 @@
                         android:layout_marginTop="@dimen/dimen10dp"
                         android:background="#8dc73f"
                         android:fontFamily="@font/roboto_medium"
+                        android:onClick="@{() -> callback.onClickOnHold()}"
                         android:padding="@dimen/dimen4dp"
                         android:text="On Hold"
-                        android:onClick="@{() -> callback.onClickOnHold()}"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
@@ -376,19 +508,19 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/left_rounded_bg"
                         android:backgroundTint="@color/yellow"
-                        android:visibility="gone"
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/dimen10dp"
                         android:paddingTop="@dimen/dimen5dp"
-                        android:paddingBottom="@dimen/dimen5dp">
+                        android:paddingBottom="@dimen/dimen5dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
                             android:text="save"
                             android:textAllCaps="true"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -422,6 +554,4 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
-
 </layout>

@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_regular"
-            app:zxing_framing_rect_height="@dimen/dimen100dp"
-            app:zxing_framing_rect_width="120dp" />
+            app:zxing_framing_rect_height="@dimen/dimen200dp"
+            app:zxing_framing_rect_width="@dimen/dimen200dp" />
 
         <!--Full Camera Window with viewfinder-->
         <com.journeyapps.barcodescanner.ViewfinderView

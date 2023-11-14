@@ -310,7 +310,7 @@
         <activity
             android:name=".ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.pbas.stockinwardprocessdetails.StockInwardProcessDetailsActivity"
             android:screenOrientation="portrait"

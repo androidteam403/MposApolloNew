@@ -2428,6 +2428,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
             onContinueBtnEnable();
         } else {
+            maxOrdersAllowed = 5;
             if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
                 mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
             } else {

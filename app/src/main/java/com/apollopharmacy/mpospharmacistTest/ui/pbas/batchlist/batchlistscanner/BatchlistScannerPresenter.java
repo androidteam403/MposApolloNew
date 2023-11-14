@@ -4,13 +4,21 @@ import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryReq;
+import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.GetBatchDetailsByBarcodeRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -125,6 +133,121 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
             });
         } else {
             getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void checkBatchInventory(GetBatchInfoRes.BatchListObj item, boolean isLastPos) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            CheckBatchInventoryReq inventoryReq = new CheckBatchInventoryReq();
+            inventoryReq.setDataAreaID(getDataManager().getDataAreaId());
+            inventoryReq.setInventBatchID(item.getBatchNo());
+            inventoryReq.setItemID(String.valueOf(item.getBatchId()));
+            inventoryReq.setRequestStatus(0);
+            inventoryReq.setReturnMessage("");
+            inventoryReq.setStock(item.getREQQTY());
+            inventoryReq.setStoreID(getDataManager().getStoreId());
+            inventoryReq.setTerminalID(getDataManager().getTerminalId());
+
+            Call<CheckBatchInventoryRes> call = api.CHECK_BATCH_INVENTORY_RES_CALL(inventoryReq);
+            call.enqueue(new Callback<CheckBatchInventoryRes>() {
+                @Override
+                public void onResponse(@NotNull Call<CheckBatchInventoryRes> call, @NotNull Response<CheckBatchInventoryRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null)
+//                            if (isLastPos)
+                            getMvpView().checkBatchInventorySuccess(response.body());
+//                            else
+//                                getMvpView().checkBatchInventoryFailed(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CheckBatchInventoryRes> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("InternetConnection Not Available");
+        }
+    }
+
+    @Override
+    public void onClickSearchTextClear() {
+        getMvpView().onClickSearchTextClear();
+    }
+
+    @Override
+    public void onClickProductInfo() {
+        getMvpView().onClickProductInfo();
+    }
+
+    @Override
+    public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
+            mposPickPackOrderReservationRequest.setRequestType(requestType);
+            mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
+            List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                    MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
+                    order.setDataAreaID(getDataManager().getDataAreaId());
+                    order.setStoreID(getDataManager().getStoreId());
+                    order.setTerminalID(getDataManager().getTerminalId());
+                    order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
+                    order.setReasonCode(reasonCode);
+                    ordersList.add(order);
+                }
+            }
+
+            mposPickPackOrderReservationRequest.setOrderList(ordersList);
+            String check_epos = getDataManager().getEposURL();
+            String replace_url = getDataManager().getEposURL();
+            if (check_epos.contains("MPOS/")) {
+                replace_url = check_epos.replace("MPOS/", "");
+
+            }
+            if (check_epos.contains("9880")) {
+                replace_url = check_epos.replace("9880", "9887");
+
+            }
+            ApiInterface api = ApiClient.getApiService(replace_url);
+            String url = "";
+            //getDataManager().getStoreId().equalsIgnoreCase("16001") &&
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/MPOS/")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
+            call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+
+                        }
+//                        else {
+//                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+//                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MPOSPickPackOrderReservationResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
         }
     }
 }

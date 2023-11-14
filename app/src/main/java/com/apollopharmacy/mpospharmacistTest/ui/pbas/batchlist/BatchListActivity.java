@@ -57,6 +57,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     private boolean scanSearch = false;
     List<GetBatchInfoRes.BatchListObj> dataRestore;
 
+    public static final int BATCHLIST_SCANNER_ACTIVITY = 1008;
+
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
 
@@ -821,7 +823,17 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //            new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
             Intent intent = new Intent(BatchListActivity.this, BatchlistScannerActivity.class);
             intent.putExtra("ITEM_ID", salesLine.getItemId());
-            startActivity(intent);
+            intent.putExtra("SALESLINE", salesLine);
+            intent.putExtra("BATCH_LIST", (Serializable) body);
+            intent.putExtra("SELECTED_OMS_HEADER_LIST", (Serializable) selectedOmsHeaderList);
+            intent.putExtra("ORDER_ADAPTER_POS", orderAdapterPos);
+            intent.putExtra("NEW_SELECTED_ORDER_ADAPTER_POS", newSelectedOrderAdapterPos);
+            intent.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
+            intent.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
+            //allowChangeQty, allowMultiBatch
+            //orderAdapterPos, newSelectedOrderAdapterPos
+
+            startActivityForResult(intent, BATCHLIST_SCANNER_ACTIVITY);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         } else {
             Toast.makeText(this, "Required Qty selected already.", Toast.LENGTH_SHORT).show();
@@ -954,7 +966,31 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == BATCHLIST_SCANNER_ACTIVITY) {
+                boolean isBatchHold = (boolean) data.getBooleanExtra("IS_BATCH_HOLD", false);
+                if (isBatchHold) {
+                    selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+                    Intent i = new Intent();
+                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+//                    i.putExtra("finalStatus", (String) statusBatchlist);
+                    i.putExtra("IS_BATCH_HOLD", true);
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
+                boolean isBatchSelectedThroughBarcode = (boolean) data.getBooleanExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", false);
+                if (isBatchSelectedThroughBarcode) {
+                    selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+                    statusBatchlist = (String) data.getSerializableExtra("finalStatus");
+                    Intent i = new Intent();
+                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                    i.putExtra("finalStatus", (String) statusBatchlist);
+                    i.putExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", true);
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
