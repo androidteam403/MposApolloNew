@@ -83,7 +83,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
-        if (isDispatchCutoffTime) {
+//        if (isDispatchCutoffTime) {
             if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
 //                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
@@ -104,9 +104,20 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             } else {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
             }
-        } else {
-            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+//        } else {
+//            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+//        }
+
+        if (!omsHeader.getPickPackUser().isEmpty() && !omsHeader.getPickPackUser().equalsIgnoreCase(userId)) {
+            holder.fullfilmentBinding.rightArrow.setColorFilter(Color.parseColor("#3eadfe"));
         }
+        if (omsHeader.getPickPackUser().isEmpty() || omsHeader.getPickPackUser() == null) {
+            holder.fullfilmentBinding.rightArrow.setColorFilter(Color.parseColor("#039347"));
+        }
+        if (!omsHeader.getPickPackUser().isEmpty() && omsHeader.getPickPackUser().equalsIgnoreCase(userId)) {
+            holder.fullfilmentBinding.rightArrow.setColorFilter(Color.parseColor("#f29227"));
+        }
+
         String[] messageList = omsHeaderList.get(position).getOverallOrderStatus().split(",");
         if (messageList.length > 1) {
             omsHeaderList.get(position).setScannedBarcode(messageList[1]);

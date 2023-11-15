@@ -86,7 +86,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="Shipping  TAT"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen14sp" />
+                    android:textSize="@dimen/dimen14sp"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dispatch_cuttoff_time_filter"
@@ -94,13 +95,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/five_dp" />
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:visibility="gone" />
 
                 <View
                     android:id="@+id/dispatch_cuttoff_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen3dp"
-                    android:background="#A9A9A9" />
+                    android:background="#A9A9A9"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/billdate_tat_text"
