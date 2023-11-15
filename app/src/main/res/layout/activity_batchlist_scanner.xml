@@ -464,6 +464,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:onClick="@{() -> callback.onClickReferToAdmin()}"
                         android:padding="@dimen/dimen4dp"
+                        android:visibility="gone"
                         android:text="Refer to Admin"
                         android:textAlignment="center"
                         android:textColor="@color/white"

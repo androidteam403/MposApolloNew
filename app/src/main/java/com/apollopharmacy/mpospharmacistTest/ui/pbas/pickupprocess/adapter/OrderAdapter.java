@@ -557,7 +557,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onClickUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String itemId) {
         if (pickupProcessMvpView != null) {
-            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status, false, false);
+            pickupProcessMvpView.onClickItemStatusUpdate(orderAdapterPos, newSelectedOrderAdapterPos, status, false, false, false);
 
         }
     }

@@ -240,8 +240,8 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             }
         });
         holder.fullfilmentBinding.selectbutton.setOnClickListener(v -> {
-            if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
-               /* if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
+           /* if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
+               if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
 
                 } else {*/
@@ -252,10 +252,10 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                         }
                     }
 
-                /*}*/
+               /* }
             } else {
                 Toast.makeText(context, omsHeader.getStockStatus(), Toast.LENGTH_SHORT).show();
-            }
+            }*/
         });
 
         if (omsHeader.getGetOMSTransactionResponse() != null

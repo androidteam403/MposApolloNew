@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner;
 
+import android.app.Dialog;
+
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
@@ -188,7 +190,7 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     }
 
     @Override
-    public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode) {
+    public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode, Dialog dialog) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
@@ -233,7 +235,7 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
-                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body(), dialog);
 
                         }
 //                        else {

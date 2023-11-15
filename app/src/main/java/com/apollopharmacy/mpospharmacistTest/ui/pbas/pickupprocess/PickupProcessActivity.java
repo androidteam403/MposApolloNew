@@ -178,7 +178,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 
     @Override
-    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick) {
+    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick, boolean isBatchOnHold) {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
             boolean isNotAvailable = true;
@@ -326,10 +326,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 onClickOrderItem(getOrderPos, null);
             }
         }
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos && !selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE") && !selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-            mposOrderUpdate(orderAdapterPos, "1");
-        } else if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos && selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-            mposOrderUpdate(orderAdapterPos, "2");
+        if (!isBatchOnHold) {
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos && !selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE") && !selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+                mposOrderUpdate(orderAdapterPos, "1");
+            } else if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > orderAdapterPos && selectedOmsHeaderList.get(orderAdapterPos).getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
+                mposOrderUpdate(orderAdapterPos, "2");
+            }
         }
     }
 
@@ -361,7 +363,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (getBatchDetailsResponse != null && getBatchDetailsResponse.getBatchList() != null && getBatchDetailsResponse.getBatchList().size() > 0) {
             onClickBatchDetails(orderAdapterPos, salesLine, position);
         } else {
-            onClickItemStatusUpdate(orderAdapterPos, position, "NOT AVAILABLE", false, false);
+            onClickItemStatusUpdate(orderAdapterPos, position, "NOT AVAILABLE", false, false, false);
         }
 //            statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
 //            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
@@ -740,7 +742,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     public void checkBatchInventorySuccess(String status, CheckBatchInventoryRes body, boolean isRackAdapterClick) {
         if (body != null && !status.isEmpty()) {
             hideLoading();
-            onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status, true, isRackAdapterClick);
+            onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status, true, isRackAdapterClick, false);
 //            if (isRackAdapterClick) {
 //                onClickRackAdapter(rackAdapterItemPos);
 //            } else {
@@ -754,7 +756,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         status = "NOT AVAILABLE";
         hideLoading();
         selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setStatus(status);
-        onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status, true, isRackAdapterClick);
+        onClickItemStatusUpdate(getOrderPos, newwAdapterposition, status, true, isRackAdapterClick, false);
 //        if (isRackAdapterClick) {
 //            onClickRackAdapter(rackAdapterItemPos);
 //        } else {
@@ -1183,7 +1185,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             if (data != null) {
                 selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
                 statusBatchlist = (String) data.getStringExtra("finalStatus");
-                onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist, false, false);
+                boolean isBatchHold = (boolean) data.getBooleanExtra("IS_BATCH_HOLD", false);
+                if (isBatchHold) {
+                    onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist, false, false, true);
+                } else {
+                    onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist, false, false, false);
+                }
             }
         }
 

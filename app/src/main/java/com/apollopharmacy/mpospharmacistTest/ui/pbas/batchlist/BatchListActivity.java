@@ -967,26 +967,28 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
         } else {
             if (requestCode == BATCHLIST_SCANNER_ACTIVITY) {
-                boolean isBatchHold = (boolean) data.getBooleanExtra("IS_BATCH_HOLD", false);
-                if (isBatchHold) {
-                    selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
-                    Intent i = new Intent();
-                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                if (data != null) {
+                    boolean isBatchHold = (boolean) data.getBooleanExtra("IS_BATCH_HOLD", false);
+                    if (isBatchHold) {
+                        selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
 //                    i.putExtra("finalStatus", (String) statusBatchlist);
-                    i.putExtra("IS_BATCH_HOLD", true);
-                    setResult(RESULT_OK, i);
-                    finish();
-                }
-                boolean isBatchSelectedThroughBarcode = (boolean) data.getBooleanExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", false);
-                if (isBatchSelectedThroughBarcode) {
-                    selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
-                    statusBatchlist = (String) data.getSerializableExtra("finalStatus");
-                    Intent i = new Intent();
-                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                    i.putExtra("finalStatus", (String) statusBatchlist);
-                    i.putExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", true);
-                    setResult(RESULT_OK, i);
-                    finish();
+                        i.putExtra("IS_BATCH_HOLD", true);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }
+                    boolean isBatchSelectedThroughBarcode = (boolean) data.getBooleanExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", false);
+                    if (isBatchSelectedThroughBarcode) {
+                        selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+                        statusBatchlist = (String) data.getSerializableExtra("finalStatus");
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                        i.putExtra("finalStatus", (String) statusBatchlist);
+                        i.putExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", true);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data);

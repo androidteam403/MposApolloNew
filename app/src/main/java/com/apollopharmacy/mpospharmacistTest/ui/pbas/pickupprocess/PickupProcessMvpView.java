@@ -66,7 +66,7 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickSalesLine(int position, String status);
 
-    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick);
+    void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick, boolean isBatchOnHold);
 
 
     void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader);

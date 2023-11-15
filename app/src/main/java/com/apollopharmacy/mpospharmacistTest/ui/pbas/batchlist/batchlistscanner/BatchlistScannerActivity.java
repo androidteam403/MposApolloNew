@@ -762,14 +762,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
     @Override
     public void onClickOnHold() {
-        Dialog dialog = new Dialog(this);
-        DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
-        dialog.setContentView(dialogOnHoldBinding.getRoot());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
-        dialogOnHoldBinding.saveButton.setOnClickListener(v -> dialog.dismiss());
-        dialog.setCancelable(false);
-        dialog.show();
+        onClickSkip();
     }
 
     int selectedReasonPos = 0;
@@ -788,18 +781,22 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             dialogSkipOrderBinding.notAvailable.setOnClickListener(v -> {
                 List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
                 omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
-                mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode());
+                mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
             });
             selectedReasonPos = 0;
-            ArrayAdapter<ReasonListResponse.Datum> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasonListResponse.getData());
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasons);//reasonListResponse.getData()
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             dialogSkipOrderBinding.selectReaon.setAdapter(arrayAdapter);
 
             dialogSkipOrderBinding.selectReaon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    ((TextView) parent.getChildAt(0)).setTextSize(12);
                     selectedReasonPos = position;
+//                    ((TextView) parent.getChildAt(0)).setTextSize(12);
+                    TextView textView = (TextView) view;
+                    textView.setText(reasonListResponse.getData().get(selectedReasonPos).getReasonDesc());
+                    textView.setTextSize(12);
+
                 }
 
                 @Override
@@ -878,12 +875,25 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     }
 
     @Override
-    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
+        if (dialog1 != null && dialog1.isShowing()) {
+            dialog1.dismiss();
+        }
         selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setOnHold(true);
-        Intent i = new Intent();
-        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-        i.putExtra("IS_BATCH_HOLD", true);
-        setResult(RESULT_OK, i);
-        finish();
+        Dialog dialog = new Dialog(this);
+        DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
+        dialog.setContentView(dialogOnHoldBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
+        dialogOnHoldBinding.saveButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent i = new Intent();
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("IS_BATCH_HOLD", true);
+            setResult(RESULT_OK, i);
+            finish();
+        });
+        dialog.setCancelable(false);
+        dialog.show();
     }
 }

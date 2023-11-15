@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner;
 
+import android.app.Dialog;
+
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -25,5 +27,5 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
 
     void onClickProductInfo();
 
-    void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode);
+    void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode, Dialog dialog);
 }
