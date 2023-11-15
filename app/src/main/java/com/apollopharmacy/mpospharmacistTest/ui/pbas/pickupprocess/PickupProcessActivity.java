@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -178,7 +180,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 
     @Override
-    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick, boolean isBatchOnHold) {
+    public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick) {
+
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
             boolean isNotAvailable = true;
@@ -333,6 +336,25 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 mposOrderUpdate(orderAdapterPos, "2");
             }
         }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+            pickupProcessBinding.pendingCount.setText(String.valueOf(partialCount));
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+            pickupProcessBinding.notAvailableCount.setText(String.valueOf(notAvailableCount));
+        }
+
     }
 
 
@@ -896,6 +918,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
+            pickupProcessBinding.orders.setText(String.valueOf(selectedOmsHeaderList.size()));
+
+
+
+
+
+
             pickupProcessBinding.selectedFullfillment.setText("Selected Fulfilment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + selectedOmsHeaderList.size());
             pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
@@ -1080,10 +1109,23 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         }
                     }
                 }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+                    pickupProcessBinding.pendingCount.setText(String.valueOf(partialCount));
+                }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                    pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
+                }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+                    pickupProcessBinding.notAvailableCount.setText(String.valueOf(notAvailableCount));
+                }
                 if (statusCount == overallProductCount) {
                     pickupProcessBinding.continueBtn.setBackgroundColor(getResources().getColor(R.color.continue_select_color));
 //                    pickupProcessBinding.continueBtn.setTextColor(getResources().getColor(R.color.black));
                 }
+
             }
         }
 
@@ -1381,6 +1423,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickContinue() {
+
         if (isAllOnHold) {
             Intent intent = PickerNavigationActivity.getStartIntent(this, "PICKER");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
