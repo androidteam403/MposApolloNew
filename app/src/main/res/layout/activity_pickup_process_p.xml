@@ -161,20 +161,20 @@
                 android:layout_height="@dimen/dimen50dp"
                 android:layout_marginTop="@dimen/dimen2dp"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="5.3">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".8"
+                    android:layout_weight="1"
                     android:layout_marginEnd="@dimen/dimen2dp"
                     android:background="#3fa9f5"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen5dp">
 
                     <ImageView
-                        android:layout_width="@dimen/dimen25dp"
-                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="19dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/ic_artboard_30"
                         android:tint="@color/white" />
@@ -191,16 +191,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Orders"
+                            android:fontFamily="@font/price_bold"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen_11sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/orders"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5"
+                            android:text="0"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -208,15 +209,15 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".9"
+                    android:layout_weight="1"
                     android:layout_marginEnd="@dimen/dimen2dp"
                     android:background="#999999"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen7dp">
 
                     <ImageView
-                        android:layout_width="@dimen/dimen25dp"
-                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="18dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/ic_artboard_35"
                         android:tint="@color/white" />
@@ -233,15 +234,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pending"
+                            android:fontFamily="@font/price_bold"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen_11sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4"
+                            android:text="0"
+                            android:id="@+id/pendingCount"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -249,15 +252,15 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.2"
                     android:layout_marginEnd="@dimen/dimen2dp"
                     android:background="#009245"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen7dp">
 
                     <ImageView
-                        android:layout_width="@dimen/dimen25dp"
-                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/ic_artboard_26"
                         android:tint="@color/white" />
@@ -265,7 +268,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4dp"
+                        android:layout_marginStart="2dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -273,15 +276,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Completed"
+                            android:fontFamily="@font/price_bold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"
+                            android:text="0"
+                            android:id="@+id/completedCount"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -292,11 +297,11 @@
                     android:layout_weight="1.2"
                     android:background="@color/red"
                     android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen7dp">
+                    android:paddingStart="5dp">
 
                     <ImageView
-                        android:layout_width="@dimen/dimen25dp"
-                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/ic_baseline_block_24"
                         android:tint="@color/white" />
@@ -304,7 +309,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4dp"
+                        android:layout_marginStart="2dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -312,18 +317,61 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Not Available"
+                            android:fontFamily="@font/price_bold"
                             android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:id="@+id/notAvailableCount"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".9"
+                    android:background="@color/yellow"
+                    android:gravity="center_vertical"
+                    android:paddingStart="2dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="19dp"
+                        android:src="@drawable/baseline_back_hand_24"
+                        android:contentDescription="@string/app_name"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="2dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="On Hold"
+                            android:fontFamily="@font/price_bold"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dimen16sp"
+                            android:text="0"
+                            android:id="@+id/onHoldCount"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
