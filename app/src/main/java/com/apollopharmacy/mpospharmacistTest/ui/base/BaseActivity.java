@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
 
     private ProgressDialog mProgressDialog;
-    private static final long IDLE_TIME_MILLIS = 5000; // 5 minute idle time
+    private static final long IDLE_TIME_MILLIS = 300000; // 5 minute idle time
     private Handler idleHandler;
     private Runnable idleRunnable;
     private ActivityComponent mActivityComponent;
