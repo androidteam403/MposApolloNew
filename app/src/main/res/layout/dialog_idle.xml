@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/twenty_five_dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:tint="@color/black"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_close" />
+
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Your app has been idle\n from 5 minutes."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:background="@color/yellow"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingStart="@dimen/dimen10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="OK"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>
