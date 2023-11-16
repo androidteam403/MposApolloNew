@@ -24,6 +24,7 @@
             android:id="@+id/scanner_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context=".activity.ScannerActivity"
             tools:showIn="@layout/activity_scanner">
@@ -428,7 +429,7 @@
                     android:scrollingCache="true"
                     android:smoothScrollbar="true"
                     android:visibility="visible"
-                    tools:itemCount="10"
+                    tools:itemCount="3"
                     tools:listitem="@layout/adapter_batchlist" />
 
                 <LinearLayout
@@ -445,7 +446,8 @@
                         android:layout_height="@dimen/dimen30dp"
                         android:layout_marginBottom="@dimen/dimen10dp"
                         android:src="@drawable/notallocated"
-                        android:tint="@color/red" />
+                        android:tint="@color/red"
+                        android:contentDescription="@string/app_name" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -464,11 +466,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:onClick="@{() -> callback.onClickReferToAdmin()}"
                         android:padding="@dimen/dimen4dp"
-                        android:visibility="gone"
                         android:text="Refer to Admin"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:textSize="@dimen/dimen10sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/product_info"
@@ -482,7 +484,8 @@
                         android:text="Product Info"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:textSize="@dimen/dimen10sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="80dp"
@@ -495,7 +498,8 @@
                         android:text="On Hold"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:textSize="@dimen/dimen10sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout

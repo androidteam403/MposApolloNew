@@ -69,7 +69,8 @@ public class PreferencesManager implements PreferencesHelper {
 
     private static final String PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST = "PREF_KEY_GLOBAL_TOTAL_OMS_HEADER_LIST";
     private static final String PREF_KEY_MAX_MIN_ORDERS = "PREF_KEY_MAX_MIN_ORDERS";
-
+    private static final String PREF_KEY_IS_V_ONE_FLOW = "PREF_KEY_IS_V_ONE_FLOW";
+    private static final String PREF_KEY_LAST_TRANSACTION_ID = "PREF_KEY_LAST_TRANSACTION_ID";
     private final SharedPreferences mPrefs;
     private final SharedPreferences mAdminPrefs;
     private Context mAppContext;
@@ -468,5 +469,24 @@ public class PreferencesManager implements PreferencesHelper {
         }.getType();
         return gson.fromJson(json, type);
     }
+    @Override
+    public void setV1Flow(boolean isV1Flow) {
+        mPrefs.edit().putBoolean(PREF_KEY_IS_V_ONE_FLOW, isV1Flow).apply();
 
+    }
+
+    @Override
+    public boolean isV1Flow() {
+        return mPrefs.getBoolean(PREF_KEY_IS_V_ONE_FLOW, false);
+    }
+
+    @Override
+    public void setLastTransactionId(String lastTransactionId) {
+        mPrefs.edit().putString(PREF_KEY_LAST_TRANSACTION_ID, lastTransactionId).apply();
+    }
+
+    @Override
+    public String getLastTransactionId() {
+        return mPrefs.getString(PREF_KEY_LAST_TRANSACTION_ID, "");
+    }
 }
