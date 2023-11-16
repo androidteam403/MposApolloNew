@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -45,6 +46,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     TextView fulfilmentId;
     ActivityScannerBinding activityScannerBinding;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
 
 //         activityScannerBinding = DataBindingUtil.setContentView(this, R.layout.activity_scanner_p);
 
-        ImageView imageView = findViewById(R.id.close_btn_w);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imageView = findViewById(R.id.close_btn_w);
 
         imageView.setOnClickListener(v -> onBackPressed());
 
@@ -82,7 +84,10 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         } else {
             scannedText.setTextColor(getResources().getColor(R.color.white));
         }
-        barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
+        if (ReadyForPickUpActivity.selectedOmsHeaderListTest!=null){
+            barcodeCount.setText(scannedOrdersCount + "/" + ReadyForPickUpActivity.selectedOmsHeaderListTest.size());
+
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }

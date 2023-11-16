@@ -122,6 +122,7 @@ public class PickUpSummaryPresenter<V extends PickUpSummaryMvpView> extends Base
 
     @Override
     public void onClickUpdateOMSOrder_pickingconfirmation() {
+
         getMvpView().onClickUpdateOMSOrder_pickingconfirmation();
     }
 

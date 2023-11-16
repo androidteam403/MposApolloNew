@@ -550,6 +550,10 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //                                break;
 //                            }
                         }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+                        }
                         if (orderAdapter != null) {
                             orderAdapter.setSelectedOmsHeaderList(selectedOmsHeaderList);
                             orderAdapter.notifyDataSetChanged();
@@ -921,12 +925,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.orders.setText(String.valueOf(selectedOmsHeaderList.size()));
-
-
-
-
-
-
             pickupProcessBinding.selectedFullfillment.setText("Selected Fulfilment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + selectedOmsHeaderList.size());
             pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
