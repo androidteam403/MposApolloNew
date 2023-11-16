@@ -146,7 +146,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
     private boolean isActivityFinished;
     private int pageBreakCount = 0;
     private int shippingChargePackingCount = 0;
-    private boolean duplicateCheckboxChecked = false;
+    private boolean duplicateCheckboxChecked = true;
     public static final String cambria = "src/main/res/font/cambriab.ttf";
     private final static int ITEXT_FONT_SIZE_EIGHT = 10;
     private final static int ITEXT_FONT_SIZE_TEN = 12;
@@ -199,7 +199,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         transactionRes = (SaveRetailsTransactionRes) getIntent().getSerializableExtra("transaction_details");
 
         transactionId = transactionRes.getTransactionId();
-
+        if (mPresenter.getGlobalConfing().isISHBPStore() && mPresenter.isV1Flow()) {
+            orderSummaryBinding.printDuplicateCheckbox.setChecked(true);
+        } else {
+            orderSummaryBinding.printDuplicateCheckbox.setChecked(false);
+        }
         orderSummaryBinding.printDuplicateCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -212,6 +216,7 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         });
         if (transactionRes != null) {
             orderSummaryBinding.setOrderDetails(transactionRes);
+            mPresenter.setTransactionId(transactionRes.getTransactionId());
         }
         if (getIntent() != null) {
             corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");

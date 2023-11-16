@@ -704,10 +704,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginStart="@dimen/fifteen_dp"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginStart="@dimen/fifteen_dp"
                         android:orientation="horizontal">
 
                         <CheckBox
@@ -715,6 +715,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:buttonTint="@color/colorPrimary"
+                            android:checked="true"
                             android:text="Print with Duplicate copy"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
@@ -2009,7 +2010,7 @@
             android:paddingTop="@dimen/pdf_margin_vertical"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/pdf_margin_vertical"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </LinearLayout>
 
     <!--    </ScrollView>-->

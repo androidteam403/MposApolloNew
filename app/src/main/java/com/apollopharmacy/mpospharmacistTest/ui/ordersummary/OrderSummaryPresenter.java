@@ -15,6 +15,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -216,6 +217,21 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     public void onClickBillPrint() {
         getMvpView().onClickBillPrint();
     }
+    @Override
+    public GetGlobalConfingRes getGlobalConfing() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public boolean isV1Flow() {
+        return getDataManager().isV1Flow();
+    }
+
+    @Override
+    public void setTransactionId(String transactionId) {
+        getDataManager().setLastTransactionId(transactionId);
+    }
+
 
     @Override
     public void onDownloadApiCall(String filePath, String fileName, int pos) {

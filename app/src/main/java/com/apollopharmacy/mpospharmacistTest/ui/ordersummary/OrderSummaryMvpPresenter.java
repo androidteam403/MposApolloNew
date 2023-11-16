@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.ordersummary;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -34,4 +35,10 @@ public interface OrderSummaryMvpPresenter<V extends OrderSummaryMvpView> extends
     void downloadPdf(String transactionId);
 
     void onClickBillPrint();
+
+    GetGlobalConfingRes getGlobalConfing();
+
+    boolean isV1Flow();
+
+    void setTransactionId(String transactionId);
 }

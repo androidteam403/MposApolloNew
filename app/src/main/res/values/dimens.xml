@@ -261,4 +261,5 @@
     <dimen name="margin_normal">8dp</dimen>
     <dimen name="fifty_two_dp">52dp</dimen>
     <dimen name="two_hundred_thirty">230dp</dimen>
+    <dimen name="dimen120dp">120dp</dimen>
 </resources>

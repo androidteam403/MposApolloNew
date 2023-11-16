@@ -413,4 +413,25 @@ public class BaseDataManager implements DataManager {
     public List<UserModel._DropdownValueBean> getMaxMinOrders() {
         return mPreferencesHelper.getMaxMinOrders();
     }
+
+
+    @Override
+    public void setV1Flow(boolean isV1Flow) {
+        mPreferencesHelper.setV1Flow(isV1Flow);
+    }
+
+    @Override
+    public boolean isV1Flow() {
+        return mPreferencesHelper.isV1Flow();
+    }
+
+    @Override
+    public void setLastTransactionId(String lastTransactionId) {
+        mPreferencesHelper.setLastTransactionId(lastTransactionId);
+    }
+
+    @Override
+    public String getLastTransactionId() {
+        return mPreferencesHelper.getLastTransactionId();
+    }
 }

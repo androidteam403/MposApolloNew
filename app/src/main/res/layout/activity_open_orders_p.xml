@@ -105,6 +105,7 @@
                 android:layout_height="@dimen/dimen50dp"
                 android:layout_marginTop="@dimen/dimen3dp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="4">
 
                 <LinearLayout

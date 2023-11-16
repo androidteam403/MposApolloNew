@@ -173,7 +173,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         getDataManager().setUserName(getMvpView().getUserId());
                         getDataManager().setUserLogin(true);
                         getGlobalConfigration();*/
-                         if (response.body().getRequestStatus() == 0) {
+                        if (response.body().getRequestStatus() == 0) {
                             getDataManager().setUserId(response.body().getUserId());
                             getDataManager().setUserName(response.body().getUserName());
                             getDataManager().setUserLogin(true);
@@ -255,7 +255,7 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 //                            response.body().getOMSVendorWiseConfigration().get(3).setAllowMultiBatch(false);
 //                            response.body().getOMSVendorWiseConfigration().get(3).setAllowChangeQTY(false);
 //                            response.body().setISHBPStore(true);
-
+                            response.body().setISHBPStore(true);
                             getDataManager().setDataAreaId(response.body().getDataAreaID());
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());
@@ -661,5 +661,10 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
         } else {
             getMvpView().onError("Internet Connection Not Available");
         }
+    }
+
+    @Override
+    public void setIsV1Flow(boolean isV1Flow) {
+        getDataManager().setV1Flow(isV1Flow);
     }
 }

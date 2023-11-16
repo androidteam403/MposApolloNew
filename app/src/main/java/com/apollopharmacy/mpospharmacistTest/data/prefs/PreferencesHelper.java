@@ -156,5 +156,11 @@ public interface PreferencesHelper {
     void setMaxMinOrders(ArrayList<UserModel._DropdownValueBean> dropdownValue);
 
     List<UserModel._DropdownValueBean> getMaxMinOrders();
+    void setV1Flow(boolean isV1Flow);
 
+    boolean isV1Flow();
+
+    void setLastTransactionId(String lastTransactionId);
+
+    String getLastTransactionId();
 }

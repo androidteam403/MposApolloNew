@@ -51,6 +51,6 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
 
     void updatePatchApiCAll();
 
-
+    void setIsV1Flow(boolean isV1Flow);
 
 }
