@@ -358,7 +358,7 @@
                             android:layout_height="wrap_content"
                             android:text="On Hold"
                             android:fontFamily="@font/price_bold"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/dimen_11sp" />
 
                         <TextView
@@ -366,7 +366,7 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:id="@+id/onHoldCount"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>

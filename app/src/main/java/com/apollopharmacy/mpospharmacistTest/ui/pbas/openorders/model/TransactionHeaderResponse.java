@@ -149,6 +149,9 @@ public class TransactionHeaderResponse implements Serializable {
         private String scannedBarcode;
         private boolean isPickupReserved;
         private boolean isExpanded;
+
+        private boolean isScanned;
+
         private GetOMSTransactionResponse getOMSTransactionResponse;
         private boolean isOnHold = false;
 
@@ -466,6 +469,13 @@ public class TransactionHeaderResponse implements Serializable {
 
         public void setExpanded(boolean expanded) {
             isExpanded = expanded;
+        }
+        public boolean isScanned() {
+            return isScanned;
+        }
+
+        public void setScanned(boolean scanned) {
+            isScanned = scanned;
         }
 
         public boolean isOnHold() {

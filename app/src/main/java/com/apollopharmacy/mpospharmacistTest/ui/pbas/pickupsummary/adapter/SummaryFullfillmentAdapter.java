@@ -92,7 +92,12 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         }
         holder.itemView.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.onClickItem(position);
+                for (int i=0;i<selectedOmsHeaderList.size();i++){
+                    if (!selectedOmsHeaderList.get(i).isScanned()){
+                        pickupProcessMvpView.onClickItem(i,selectedOmsHeaderList);
+
+                    }
+                }
             }
         });
 
