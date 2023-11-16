@@ -119,7 +119,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private ArrayList<String> filterTypeList = new ArrayList<>();
     private boolean isBackFromReadyforPickupScreen = false;
 
-    int maxOrdersAllowed = 0;
+    int maxOrdersAllowed = 10;
     int minOrdersAllowed = 3;
 
     public static Intent getStartActivity(Context context) {
@@ -1482,6 +1482,16 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            for (int i = 0; i <= studlistGrouped.size(); i++){
 //                omsHeaderList.addAll(studlistGrouped.get(i))
 //            }
+            Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                    .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
+                    .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
+            omsHeaderList.clear();
+            for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
+                omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
+            }
+            if (omsHeaderList.size() > 0 && omsHeaderList.size() > maxOrdersAllowed) {
+                omsHeaderList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+            }
 
 
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
@@ -2435,7 +2445,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
             onContinueBtnEnable();
         } else {
-            maxOrdersAllowed = 5;
+//            maxOrdersAllowed = 5;
             if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
                 mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
             } else {
