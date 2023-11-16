@@ -1333,10 +1333,6 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onSucessfullFulfilmentIdList(TransactionHeaderResponse omsHeader) {
         if (omsHeader != null && omsHeader.getOMSHeader() != null && omsHeader.getOMSHeader().size() > 0) {
-            openOrdersBinding.total.setText(String.valueOf(omsHeader.getOMSHeader().size()));
-            openOrdersBinding.assigned.setText(String.valueOf(omsHeader.getOMSHeader().size()));
-            long pendingCount = omsHeader.getOMSHeader().stream().filter(e -> e.getPickPackStatus().equalsIgnoreCase("1") && mPresenter.getUserId().equalsIgnoreCase(e.getPickPackUser())).count();
-            openOrdersBinding.pending.setText(String.valueOf(pendingCount));
             omsHeaderListTotal = omsHeader.getOMSHeader().stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             if (omsHeaderListTotal != null && omsHeaderListTotal.size() >= 5000) {
                 startIndex = 0;
@@ -1398,6 +1394,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             mPresenter.setTotalOmsHeaderList(omsHeaderList);
             PickerNavigationActivity.mInstance.setWelcome("Total " + omsHeaderList.size() + " orders");
             openOrdersBinding.headerOrdersCount.setText("Total " + omsHeaderList.size() + " orders");
+            openOrdersBinding.total.setText(String.valueOf(omsHeader.getOMSHeader().size()));
+            openOrdersBinding.assigned.setText(String.valueOf(omsHeader.getOMSHeader().size()));
+            long pendingCount = omsHeader.getOMSHeader().stream().filter(e -> e.getPickPackStatus().equalsIgnoreCase("1") && mPresenter.getUserId().equalsIgnoreCase(e.getPickPackUser())).count();
+            openOrdersBinding.pending.setText(String.valueOf(pendingCount));
 
             Collections.sort(omsHeaderList, new Comparator<TransactionHeaderResponse.OMSHeader>() {
                 public int compare(TransactionHeaderResponse.OMSHeader o1, TransactionHeaderResponse.OMSHeader o2) {
