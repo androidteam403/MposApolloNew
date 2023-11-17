@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -16,6 +17,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/rounded_corners_white.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_batchlist_p.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_batchlist_scanner.xml" value="0.264" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_navigation3_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_open_orders_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_pharmacist_login.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.264" />
@@ -34,6 +36,8 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_summary_fullfillment_p.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_summary_products_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/app_bar_main_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/content_main.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/content_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/custom_batchlist_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/custom_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/dialog_add_batch_details.xml" value="0.264" />
@@ -52,6 +56,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/dialog_update_status_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/fragment_admin.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/item_row.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/nav_header_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/skip_order_layout.xml" value="0.24895833333333334" />
       </map>
     </option>

@@ -102,6 +102,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/five_dp"
                             android:gravity="end"
                             android:orientation="vertical">
 
@@ -117,8 +118,8 @@
                                 android:textSize="11sp" />
                             <ImageView
                                 android:id="@+id/refresh_picker_packer_biller"
-                                android:layout_width="@dimen/dimen20dp"
-                                android:layout_height="@dimen/dimen20dp"
+                                android:layout_width="@dimen/dimen30dp"
+                                android:layout_height="@dimen/dimen30dp"
                                 android:layout_marginEnd="@dimen/five_dp"
                                 android:contentDescription="@string/app_name"
                                 android:src="@drawable/refresh" />
