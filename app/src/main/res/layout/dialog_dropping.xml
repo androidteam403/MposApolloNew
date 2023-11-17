@@ -10,11 +10,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/twenty_five_dp"
-            android:background="@color/white"
+            android:background="@drawable/dialog_background"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-           >
+            android:paddingTop="10dp">
 
             <ImageView
                 android:id="@+id/close"
@@ -60,7 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen_dp"
-                android:background="@color/yellow"
+                android:background="@drawable/dialog_background_new"
+                android:backgroundTint="@color/yellow"
                 android:gravity="center"
                 android:layout_gravity="bottom"
                 android:fontFamily="@font/roboto_bold"
