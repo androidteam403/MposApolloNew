@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOpenOrdersPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogBoxidAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
@@ -35,9 +39,11 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderspicking.StartPickingActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -120,7 +126,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private boolean isBackFromReadyforPickupScreen = false;
 
     int maxOrdersAllowed = 10;
-    int minOrdersAllowed = 3;
+    int minOrdersAllowed = 1;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -1352,6 +1358,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    List<TransactionHeaderResponse.OMSHeader> maxOrdersList = new ArrayList<>();
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onSucessfullFulfilmentIdListText(TransactionHeaderResponse omsHeader) {
 //        this.customerTypeFilterList.clear();
@@ -1500,6 +1507,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+            mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
             if (endIndex % 100 == 0) {
                 PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + (endIndex / 100));
             } else {
@@ -2343,6 +2352,18 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
+        if (requestType == 1 && mposPickPackOrderReservationResponse.getReturnMessage().equalsIgnoreCase("")) {
+            if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
+                if (maxOrdersList != null && maxOrdersList.size() > 0) {
+                    for (int i = 0; i < maxOrdersList.size(); i++) {
+                        maxOrdersList.get(i).setPickupReserved(true);
+                    }
+                }
+            }
+        }
+    }
     boolean isScanerBack;
 
     @Override
@@ -2460,10 +2481,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //        super.onResume();
 //    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickContinue() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList), READYFORPICKUP);
+            startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList, omsHeaderList), READYFORPICKUP);
             getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             Toast.makeText(getContext(), "No Orders Selected.", Toast.LENGTH_SHORT).show();

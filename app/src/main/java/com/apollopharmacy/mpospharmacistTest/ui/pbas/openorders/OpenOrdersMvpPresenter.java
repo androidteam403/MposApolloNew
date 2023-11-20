@@ -40,4 +40,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     String getTerminalId();
 
     List<UserModel._DropdownValueBean> getMaxMinOrdersList();
+
+    void mposPickPackOrderReservationApiCall(int requestStatus, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 }
