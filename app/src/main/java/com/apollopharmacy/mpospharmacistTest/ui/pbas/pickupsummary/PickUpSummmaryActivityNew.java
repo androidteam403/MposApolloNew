@@ -28,6 +28,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickUpSummaryPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogDeleteBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogDroppingBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFarwardtoPackerPBinding;
@@ -340,6 +341,30 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         //        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString(), selectedOmsHeaderList.get(pos).getScannedBarcode()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
+    }
+
+    @Override
+    public void ondeleteItem(int pos, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
+
+        Dialog dialog = new Dialog(this);
+        DialogDeleteBinding dialogDeleteBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                R.layout.dialog_delete, null, false);
+
+        dialog.setContentView(dialogDeleteBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogDeleteBinding.dialogButtonNO.setOnClickListener(view -> dialog.dismiss());
+        dialogDeleteBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedOmsHeaderList.get(position).setScanned(false);
+                summaryFullfillmentAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
+        dialogDeleteBinding.close.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
     }
 
     @Override

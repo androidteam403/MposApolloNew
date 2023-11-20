@@ -283,6 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen20dp"
                 android:id="@+id/scanner_layout"
+                android:visibility="gone"
                 android:layout_weight=".3"
                 android:gravity="end">
 
@@ -312,7 +313,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.7"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -372,7 +373,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.3"
                     android:gravity="center_vertical|end">
 
                     <TextView
@@ -391,6 +392,38 @@
                         android:layout_marginEnd="@dimen/dimen10dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/rounded_background" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/scanIcon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="@dimen/dimen10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_artboard_36" />
+                        <ImageView
+                            android:id="@+id/scannedTick"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@string/app_name"
+                            android:padding="3dp"
+                            android:visibility="gone"
+                            android:src="@drawable/action_accept"
+                            />
+                    </RelativeLayout>
+
+
+                    <ImageView
+                        android:id="@+id/deleteIcon"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:visibility="gone"
+
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/deletenew" />
                 </LinearLayout>
             </LinearLayout>
 
