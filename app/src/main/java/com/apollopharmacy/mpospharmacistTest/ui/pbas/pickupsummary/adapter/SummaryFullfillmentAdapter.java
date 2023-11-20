@@ -90,14 +90,35 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         } else {
 //            holder.orderBinding.taggedboxnumber.setText("-");
         }
-        holder.itemView.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null) {
-                for (int i=0;i<selectedOmsHeaderList.size();i++){
-                    if (!selectedOmsHeaderList.get(i).isScanned()){
-                        pickupProcessMvpView.onClickItem(i,selectedOmsHeaderList);
 
-                    }
+        if (omsHeader.isScanned()){
+            holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
+            holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.orderBinding.deleteIcon.setVisibility(View.GONE);
+            holder.orderBinding.scannedTick.setVisibility(View.GONE);
+        }
+        holder.orderBinding.deleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pickupProcessMvpView != null) {
+                    pickupProcessMvpView.ondeleteItem(position,selectedOmsHeaderList);
                 }
+
+                }
+        });
+
+        holder.orderBinding.scanIcon.setOnClickListener(view -> {
+            if (pickupProcessMvpView != null) {
+                pickupProcessMvpView.onClickItem(position,selectedOmsHeaderList);
+
+//                for (int i=0;i<selectedOmsHeaderList.size();i++){
+//                    if (!selectedOmsHeaderList.get(i).isScanned()){
+//                        pickupProcessMvpView.onClickItem(i,selectedOmsHeaderList);
+//
+//                    }
+//                }
             }
         });
 
