@@ -11,10 +11,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -243,6 +246,68 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     @Override
     public List<UserModel._DropdownValueBean> getMaxMinOrdersList() {
         return getDataManager().getMaxMinOrders();
+    }
+
+    @Override
+    public void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
+            mposPickPackOrderReservationRequest.setRequestType(requestType);
+            mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
+            List<MPOSPickPackOrderReservationRequest.Order> ordersList = new ArrayList<>();
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                    MPOSPickPackOrderReservationRequest.Order order = new MPOSPickPackOrderReservationRequest.Order();
+                    order.setDataAreaID("AHEL");
+                    order.setStoreID(getDataManager().getStoreId());
+                    order.setTerminalID(getDataManager().getTerminalId());
+                    order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
+                    if (requestType == 2) {
+                        order.setRefID("");
+                    } else {
+                        order.setRefID(selectedOmsHeaderList.get(i).getScannedBarcode());
+                    }
+                    ordersList.add(order);
+                }
+            }
+            mposPickPackOrderReservationRequest.setOrderList(ordersList);
+            String check_epos = getDataManager().getEposURL();
+            String replace_url = getDataManager().getEposURL();
+            if (check_epos.contains("MPOS/")) {
+                replace_url = check_epos.replace("MPOS/", "");
+            }
+            if (check_epos.contains("9880")) {
+                replace_url = check_epos.replace("9880", "9887");
+            }
+            ApiInterface api = ApiClient.getApiService(replace_url);
+            String url = "";
+            if (getDataManager().getEposURL().equalsIgnoreCase("http://online.apollopharmacy.org:51/MPOS/")) {
+                url = "OMSSERVICE/OMSService.svc/MPOSPickPackOrderReservation";
+            } else {
+                url = "OMSService.svc/MPOSPickPackOrderReservation";
+            }
+            Call<MPOSPickPackOrderReservationResponse> call = api.OMS_PICKER_PACKER_ORDER_RESERVATION(url, mposPickPackOrderReservationRequest);
+            call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
+                @Override
+                public void onResponse(Call<MPOSPickPackOrderReservationResponse> call, Response<MPOSPickPackOrderReservationResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+                        } else {
+                            getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MPOSPickPackOrderReservationResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        }
     }
 }
 

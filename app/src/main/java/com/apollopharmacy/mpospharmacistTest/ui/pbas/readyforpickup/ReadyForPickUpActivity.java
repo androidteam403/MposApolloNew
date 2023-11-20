@@ -76,13 +76,15 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
 
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
+    private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
 
     int taggedCount = 0;
 
 
-    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
+        intent.putExtra(CommonUtils.ALL_ORDERS, (Serializable) omsHeaderList);
         return intent;
     }
 
@@ -123,6 +125,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            totalOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.ALL_ORDERS);
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+                    if (!totalOmsHeaderList.get(i).isSelected()) {
+                        totalOmsHeaderList.get(i).setPickupReserved(false);
+                    }
+                }
+            }
             if (selectedOmsHeaderList != null) {
                 activityReadyForPickupBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
                 activityReadyForPickupBinding.baskets.setText(Integer.toString(selectedOmsHeaderList.size()));

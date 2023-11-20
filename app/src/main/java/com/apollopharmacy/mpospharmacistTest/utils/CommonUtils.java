@@ -35,6 +35,7 @@ public class CommonUtils {
     public static final String DATE_FORMAT_DD_MMM_YYYY = "dd-MMM-YYYY";
     public static final String SELECTED_ORDERS_LIST = "SELECTED_ORDERS_LIST";
     public static final String SELECTED_ORDER = "SELECTED_ORDER";
+    public static final String ALL_ORDERS = "ALL_ORDERS";
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
