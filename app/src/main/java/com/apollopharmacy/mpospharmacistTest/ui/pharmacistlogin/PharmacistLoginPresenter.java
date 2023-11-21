@@ -98,6 +98,8 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
                         if (response.body() != null && response.body().getGetLoginUserResult().getRequestStatus() == 0) {
                             getMvpView().getUserIds(response.body());
                             getDataManager().storeEposUrl(true);
+                            response.body().getGetLoginUserResult().get_DropdownValue().get(0).setMaximumOrders("10");
+                            response.body().getGetLoginUserResult().get_DropdownValue().get(0).setMinimumOrders("3");
                             getDataManager().setMaxMinOrders(response.body().getGetLoginUserResult().get_DropdownValue());
                         } else {
                             if (response.body() != null) {
