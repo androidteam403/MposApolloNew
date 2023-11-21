@@ -125,8 +125,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private ArrayList<String> filterTypeList = new ArrayList<>();
     private boolean isBackFromReadyforPickupScreen = false;
 
-    int maxOrdersAllowed = 10;
-    int minOrdersAllowed = 1;
+    int maxOrdersAllowed = 0;
+    int minOrdersAllowed = 0;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -1490,15 +1490,17 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            for (int i = 0; i <= studlistGrouped.size(); i++){
 //                omsHeaderList.addAll(studlistGrouped.get(i))
 //            }
-            Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
-                    .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
-                    .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
-            omsHeaderList.clear();
-            for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
-                omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
-            }
-            if (omsHeaderList.size() > 0 && omsHeaderList.size() > maxOrdersAllowed) {
-                omsHeaderList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+            if (minOrdersAllowed > 0 && maxOrdersAllowed > 0) {
+                Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                        .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
+                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
+                omsHeaderList.clear();
+                for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
+                    omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
+                }
+                if (omsHeaderList.size() > 0 && omsHeaderList.size() > maxOrdersAllowed) {
+                    omsHeaderList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+                }
             }
 
 
@@ -1507,7 +1509,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-            maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+            if (maxOrdersAllowed > 0) {
+                maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+            } else {
+                maxOrdersList = omsHeaderList;
+            }
             mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
             if (endIndex % 100 == 0) {
                 PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + (endIndex / 100));
@@ -2468,10 +2474,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             onContinueBtnEnable();
         } else {
 //            maxOrdersAllowed = 5;
-            if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
-                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
+            if (minOrdersAllowed > 0 && maxOrdersAllowed > 0) {
+                if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
+                } else {
+                    Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
+                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
             }
         }
     }

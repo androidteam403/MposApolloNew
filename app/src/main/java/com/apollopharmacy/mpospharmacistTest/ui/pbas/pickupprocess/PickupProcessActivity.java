@@ -13,13 +13,16 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,12 +31,15 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickupProcessPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrderPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -87,6 +93,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     OMSOrderForwardRequest omsOrderForwardRequest;
     OMSOrderForwardRequest.ReservedSalesLine reservedSalesLine;
     private boolean isAllOnHold;
+    private DialogSkipOrderBinding dialogSkipOrderBinding;
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
@@ -904,6 +911,74 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             mPresenter.mposPickPackOrderReservationApiCall(10, selectedOmsHeaderList);
             dialog.dismiss();
         });
+    }
+
+    int selectedReasonPos = 0;
+//    int selectedOrderAdapterPos = 0;
+    @Override
+    public void onClickOnHoldBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position) {
+        this.orderAdapterPos = position;
+        mPresenter.getReasonList();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse) {
+        List<String> reasons = reasonListResponse.getData().stream()
+                .map(ReasonListResponse.Datum::getReasonDesc).collect(Collectors.toList());
+        if (reasonListResponse != null && reasonListResponse.getData().size() > 0) {
+            Dialog dialog = new Dialog(this);
+            dialogSkipOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_skip_order, null, false);
+            dialog.setContentView(dialogSkipOrderBinding.getRoot());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogSkipOrderBinding.close.setOnClickListener(v1 -> dialog.dismiss());
+            dialogSkipOrderBinding.notAvailable.setOnClickListener(v -> {
+                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+                omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
+                mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+            });
+            selectedReasonPos = 0;
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasons);//reasonListResponse.getData()
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            dialogSkipOrderBinding.selectReaon.setAdapter(arrayAdapter);
+
+            dialogSkipOrderBinding.selectReaon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedReasonPos = position;
+                    TextView textView = (TextView) view;
+                    textView.setText(reasonListResponse.getData().get(selectedReasonPos).getReasonDesc());
+                    textView.setTextSize(12);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
+        if (dialog1 != null && dialog1.isShowing()) {
+            dialog1.dismiss();
+        }
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(orderAdapterPos).setOnHold(true);
+        Dialog dialog = new Dialog(this);
+        DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
+        dialog.setContentView(dialogOnHoldBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
+        dialogOnHoldBinding.saveButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            onSuccessMposPickPackOrderReservationApiCall(requestType, mposPickPackOrderReservationResponse);
+//            onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist, false, false, true);
+        });
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
 //    private void checkAllFalse() {

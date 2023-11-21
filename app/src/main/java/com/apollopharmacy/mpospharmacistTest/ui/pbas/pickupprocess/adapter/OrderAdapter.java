@@ -75,6 +75,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        holder.orderBinding.onHold.setOnClickListener(v -> {
+            pickupProcessMvpView.onClickOnHoldBtn(omsHeader, position);
+        });
         if (omsHeader.getScannedBarcode() != null) {
 //            if (omsHeader.getScannedBarcode().length() > 5)
 //                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
@@ -84,11 +87,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.boxNumber.setText("-");
         }
         if (omsHeader.isOnHold()) {
-//            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
-//            holder.orderBinding.onHold.setEnabled(false);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
         } else {
-//            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
-//            holder.orderBinding.onHold.setEnabled(true);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            holder.orderBinding.onHold.setEnabled(true);
         }
 //        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 //        holder.orderBinding.rightArrow.setOnClickListener(v -> {

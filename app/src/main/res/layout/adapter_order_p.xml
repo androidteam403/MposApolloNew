@@ -1054,7 +1054,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen8dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="-90"
                     android:src="@drawable/partialcirculargreeenorange" />
@@ -1063,8 +1063,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_marginBottom="@dimen/dimen5dp"
+                    android:layout_marginTop="@dimen/dimen8dp"
+                    android:layout_marginBottom="@dimen/dimen8dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -1305,6 +1305,7 @@
                     </LinearLayout>-->
 
                     <LinearLayout
+                        android:id="@+id/timerLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -1325,6 +1326,24 @@
                             android:layout_marginStart="@dimen/dimen2dp"
                             android:tint="#7d8282" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/onHold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/timerLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_marginTop="@dimen/dimen5dp"
+                        android:layout_marginEnd="@dimen/dimen1dp"
+                        android:background="@drawable/bg_onhold_enable_btn"
+                        android:paddingStart="@dimen/dimen7dp"
+                        android:paddingTop="@dimen/dimen2dp"
+                        android:paddingEnd="@dimen/dimen7dp"
+                        android:paddingBottom="@dimen/dimen2dp"
+                        android:text="On Hold"
+                        android:textColor="@color/white"
+                        android:textSize="9sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

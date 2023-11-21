@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -5,6 +6,8 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable-v24/search_bg.xml" value="0.2125" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable-v24/spinner_border.xml" value="0.219" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/batch_list_edittext_bg.xml" value="0.1695" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/bg_onhold_disable_btn.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/bg_onhold_enable_btn.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/bottom_rounded_btn_bg.xml" value="0.2125" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/dialog_background.xml" value="0.2125" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/left_rounded_bg.xml" value="0.1695" />

@@ -1,10 +1,12 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess;
 
+import android.app.Dialog;
 import android.widget.Spinner;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.OrderAdapter;
@@ -98,5 +100,11 @@ public interface PickupProcessMvpView extends MvpView {
     void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
 
     void onClickOnHoldAll();
+
+    void onClickOnHoldBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position);
+
+    void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse);
+
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog);
 
 }

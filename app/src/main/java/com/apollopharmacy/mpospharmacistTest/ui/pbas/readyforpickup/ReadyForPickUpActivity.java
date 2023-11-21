@@ -126,13 +126,13 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             totalOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.ALL_ORDERS);
-            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                for (int i = 0; i < totalOmsHeaderList.size(); i++) {
-                    if (!totalOmsHeaderList.get(i).isSelected()) {
-                        totalOmsHeaderList.get(i).setPickupReserved(false);
-                    }
-                }
-            }
+//            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+//                for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+//                    if (!totalOmsHeaderList.get(i).isSelected()) {
+//                        totalOmsHeaderList.get(i).setPickupReserved(false);
+//                    }
+//                }
+//            }
             if (selectedOmsHeaderList != null) {
                 activityReadyForPickupBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
                 activityReadyForPickupBinding.baskets.setText(Integer.toString(selectedOmsHeaderList.size()));
@@ -442,6 +442,13 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            // return;
 //        } else {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+                if (!totalOmsHeaderList.get(i).isSelected()) {
+                    totalOmsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+        }
         boolean isAlltagBox = true;
         for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
             if (!omsHeader.isTagBox())
@@ -544,6 +551,13 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 ////        } else {
 
 
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+                if (!totalOmsHeaderList.get(i).isSelected()) {
+                    totalOmsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+        }
         boolean isAlltagBox = true;
         for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
             if (!omsHeader.isTagBox())
