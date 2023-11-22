@@ -669,4 +669,6 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
     public void setIsV1Flow(boolean isV1Flow) {
         getDataManager().setV1Flow(isV1Flow);
     }
+
+
 }
