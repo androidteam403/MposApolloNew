@@ -47,6 +47,11 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     }
 
     @Override
+    public void onAddItemsClicked() {
+        getMvpView().onAddItemsClicked(false);
+    }
+
+    @Override
     public void getBatchDetailsByBarCode(String barcode, String itemId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();

@@ -1,8 +1,12 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist;
 
+import android.app.Dialog;
+
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 
 import java.util.List;
 
@@ -39,6 +43,8 @@ public interface BatchListMvpView extends MvpView {
     void onClickNotAvailable();
 
     void onClickSkip();
+    void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse);
+    void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog);
 
     void onClickAutoUpdate();
 

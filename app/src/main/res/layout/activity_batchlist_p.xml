@@ -14,16 +14,103 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen40dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/dimen10dp"
+                android:weightSum="1"
+                android:background="#5E9865">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tablet_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="DOLO-650MG"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <TextView
+                        android:id="@+id/fullfillment_id1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="FL201102829199192"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".4"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="@dimen/_8dp"
+
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Required Qty:  "
+                        android:textAlignment="viewEnd"
+                        android:paddingEnd="@dimen/dimen10dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <TextView
+                        android:id="@+id/available_qty1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:textAlignment="viewEnd"
+                        android:paddingEnd="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="@dimen/dimen10dp"
                 android:weightSum="1">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/red"
+                    android:paddingStart="@dimen/dimen10dp"
+                    android:paddingEnd="10dp"
+                    android:onClick="@{()-> callback.onClickSkip()}"
+
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/red"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:text="Refer to Admin"
+                    android:textColor="@color/white" />
+
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight=".5"
                     android:background="@color/red"
@@ -32,7 +119,24 @@
                     android:gravity="center"
                     android:onClick="@{()-> callback.onClickNotAvailableBtn()}"
                     android:text="Not Available"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dimen15dp"
+                    android:paddingStart="@dimen/dimen10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/yellow"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onAddItemsClicked()}"
+
+                    android:text="Save"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -45,8 +149,9 @@
                     android:gravity="center"
                     android:onClick="@{()-> callback.onAddItemsClicked()}"
                     android:text="Add Batch Items"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="150dp"
@@ -162,6 +267,17 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen14sp" />
 
+                    <TextView
+                        android:id="@+id/fullfillment_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="FL201102829199192"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textStyle="bold" />
+
                     <!--<LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -221,6 +337,23 @@
                     android:gravity="end"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Required Qty:  "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen_11sp" />
+
+                    <TextView
+                        android:id="@+id/available_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="5"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -229,7 +362,8 @@
                         android:paddingStart="@dimen/dimen7dp"
                         android:paddingTop="@dimen/_4dp"
                         android:paddingEnd="@dimen/dimen7dp"
-                        android:paddingBottom="@dimen/_4dp">
+                        android:paddingBottom="@dimen/_4dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="18dp"
@@ -262,7 +396,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
                     <TextView
                         android:id="@+id/tablet_name"
@@ -273,20 +408,11 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_11sp" />
 
-                    <TextView
-                        android:id="@+id/fullfillment_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dimen5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="FL201102829199192"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen12sp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
@@ -306,26 +432,24 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="FL201102829199192"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Required Qty:  "
-                            android:textSize="@dimen/dimen_11sp" />
 
-                        <TextView
-                            android:id="@+id/available_qty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="5"
-                            android:textColor="@color/black"
-                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <!--<TextView
@@ -832,7 +956,7 @@
                     android:layout_marginTop="@dimen/ten_dp"
                     android:orientation="horizontal"
                     android:padding="@dimen/ten_dp"
-                    tools:ignore="UselessParent">
+                    tools:ignore="UnknownIdInLayout,UselessParent">
 
                     <TextView
                         android:layout_width="0dp"
@@ -848,8 +972,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
                         android:layout_marginStart="@dimen/five_dp"
+                        android:layout_weight="0.9"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="start"
                         android:maxLines="2"

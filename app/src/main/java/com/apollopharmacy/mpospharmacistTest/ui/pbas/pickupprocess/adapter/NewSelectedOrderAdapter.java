@@ -120,19 +120,21 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                Dialog dialog = new Dialog(context);
-                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
-                dialog.setContentView(dialogUpdateBinding.getRoot());
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
-                    dialog.dismiss();
-                });
-                dialogUpdateBinding.postButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
-                });
-                dialog.setCancelable(false);
-                dialog.show();
+                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+
+//                Dialog dialog = new Dialog(context);
+//                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
+//                dialog.setContentView(dialogUpdateBinding.getRoot());
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
+//                    dialog.dismiss();
+//                });
+//                dialogUpdateBinding.postButton.setOnClickListener(v -> {
+//                    dialog.dismiss();
+//                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+//                });
+//                dialog.setCancelable(false);
+//                dialog.show();
 //                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
             }
 //            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
@@ -178,19 +180,21 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
         holder.pickupSummaryDetailsProductsBinding.done.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                Dialog dialog = new Dialog(context);
-                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
-                dialog.setContentView(dialogUpdateBinding.getRoot());
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
-                    dialog.dismiss();
-                });
-                dialogUpdateBinding.postButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
-                });
-                dialog.setCancelable(false);
-                dialog.show();
+                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+
+//                Dialog dialog = new Dialog(context);
+//                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
+//                dialog.setContentView(dialogUpdateBinding.getRoot());
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
+//                    dialog.dismiss();
+//                });
+//                dialogUpdateBinding.postButton.setOnClickListener(v -> {
+//                    dialog.dismiss();
+//                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+//                });
+//                dialog.setCancelable(false);
+//                dialog.show();
 //                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
             }
 //            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
