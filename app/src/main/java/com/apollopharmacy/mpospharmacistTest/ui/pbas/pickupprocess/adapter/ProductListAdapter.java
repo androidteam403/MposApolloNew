@@ -51,18 +51,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
-            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+//            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
-            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+//            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
             holder.productListBinding.productStatus.setRotation(0);
             holder.productListBinding.productStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.productListBinding.start.setVisibility(View.GONE);
             holder.productListBinding.productStatus.setVisibility(View.VISIBLE);
-            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+//            holder.productListBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else {
             holder.productListBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }

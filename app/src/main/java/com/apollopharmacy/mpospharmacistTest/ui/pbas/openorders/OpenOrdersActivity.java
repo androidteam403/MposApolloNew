@@ -1511,10 +1511,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
             if (maxOrdersAllowed > 0) {
                 maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
-            } else {
-                maxOrdersList = omsHeaderList;
+                mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
             }
-            mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
             if (endIndex % 100 == 0) {
                 PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + (endIndex / 100));
             } else {

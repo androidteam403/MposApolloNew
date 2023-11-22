@@ -299,11 +299,11 @@
                 android:layout_marginEnd="@dimen/five_dp"
                 android:visibility="gone" />
 
-            <View
+            <!--<View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen1dp"
                 android:layout_marginBottom="@dimen/two_dp"
-                android:background="@color/light_grey" />
+                android:background="@color/light_grey" />-->
         </LinearLayout>
 
 
