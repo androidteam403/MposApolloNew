@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -1009,6 +1010,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PickupProcessActivity.this);
             pickupProcessBinding.orderRecycler.setLayoutManager(mLayoutManager);
             pickupProcessBinding.orderRecycler.setAdapter(orderAdapter);
+            pickupProcessBinding.ordersCount.setText("(" + selectedOmsHeaderList.size() + ")");
             rackDataSet();
             pickupProcessBinding.continueOrder.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Please select all the orders", Toast.LENGTH_LONG).show());
 
@@ -1065,7 +1067,23 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     private void rackOrderCheckedListener() {
-        pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        pickupProcessBinding.racksLayout.setOnClickListener(v -> {
+            pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
+            pickupProcessBinding.orderRecycler.setVisibility(View.GONE);
+
+            pickupProcessBinding.continueButtonLayout.setVisibility(View.GONE);
+            pickupProcessBinding.farwarToPackerBtn.setVisibility(View.VISIBLE);
+            enableRacks();
+        });
+        pickupProcessBinding.ordersLayout.setOnClickListener(v -> {
+            pickupProcessBinding.rackRecycler.setVisibility(View.GONE);
+            pickupProcessBinding.orderRecycler.setVisibility(View.VISIBLE);
+
+            pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
+            pickupProcessBinding.continueButtonLayout.setVisibility(View.VISIBLE);
+            enableOrders();
+        });
+        /*pickupProcessBinding.rackOrderToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
                 pickupProcessBinding.orderRecycler.setVisibility(View.GONE);
@@ -1079,7 +1097,25 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 pickupProcessBinding.farwarToPackerBtn.setVisibility(View.GONE);
                 pickupProcessBinding.continueButtonLayout.setVisibility(View.VISIBLE);
             }
-        });
+        });*/
+    }
+
+    private void enableRacks() {
+        pickupProcessBinding.racksLayout.setBackgroundResource(R.drawable.selected_bg);
+        pickupProcessBinding.racksText.setTextColor(ContextCompat.getColor(this, R.color.white));
+        pickupProcessBinding.racksCount.setTextColor(ContextCompat.getColor(this, R.color.white));
+        pickupProcessBinding.ordersLayout.setBackgroundResource(R.drawable.unselected_bg);
+        pickupProcessBinding.ordersText.setTextColor(Color.parseColor("#989898"));
+        pickupProcessBinding.ordersCount.setTextColor(Color.parseColor("#989898"));
+    }
+
+    private void enableOrders() {
+        pickupProcessBinding.ordersLayout.setBackgroundResource(R.drawable.selected_bg);
+        pickupProcessBinding.ordersText.setTextColor(ContextCompat.getColor(this, R.color.white));
+        pickupProcessBinding.ordersCount.setTextColor(ContextCompat.getColor(this, R.color.white));
+        pickupProcessBinding.racksLayout.setBackgroundResource(R.drawable.unselected_bg);
+        pickupProcessBinding.racksText.setTextColor(Color.parseColor("#989898"));
+        pickupProcessBinding.racksCount.setTextColor(Color.parseColor("#989898"));
     }
 
     private void rackDataSet() {
@@ -1151,6 +1187,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         pickupProcessBinding.rackRecycler.setLayoutManager(mLayoutManager);
         pickupProcessBinding.rackRecycler.setAdapter(rackAdapter);
+        pickupProcessBinding.racksCount.setText("(" + rackWiseSortedDataList.size() + ")");
     }
 
     List<List<RackAdapter.RackBoxModel.ProductData>> rackListOfListFiltered;
