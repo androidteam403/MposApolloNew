@@ -26,6 +26,7 @@ public interface BatchlistScannerMvpView extends MvpView {
     void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel, boolean isBarcodeScannedItem);
 
     void checkBatchInventorySuccess(CheckBatchInventoryRes body);
+    void onAddItemsClicked(boolean isBarcodeScannerItem);
 
     void onClickSearchTextClear();
 

@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,13 +25,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -37,6 +44,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -45,6 +53,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     BatchListMvpPresenter<BatchListMvpView> mPresenter;
     private ActivityBatchlistPBinding batchlistBinding;
     private BatchListAdapter batchListAdapter;
+    DialogSkipOrderBinding dialogSkipOrderBinding;
+    int selectedReasonPos = 0;
 
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     int orderAdapterPos, newSelectedOrderAdapterPos;
@@ -91,6 +101,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
         noBatchDetails = intent.getExtras().getBoolean("noBatchDetails");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
+        batchlistBinding.fullfillmentId1.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
+
         for (GetGlobalConfingRes.OMSVendorWiseConfigration omsVendorWiseConfigration : mPresenter.getGlobalConfigRes().getOMSVendorWiseConfigration()) {
             if (omsVendorWiseConfigration.getCorpCode().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getVendorId())) {
                 this.allowChangeQty = omsVendorWiseConfigration.getAllowChangeQTY();
@@ -124,6 +136,10 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchlistBinding.qtyEdit.setText(String.valueOf(salesLine.getQty()));
         mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         batchlistBinding.tabletName.setText(salesLine.getItemName());
+        batchlistBinding.tabletName1.setText(salesLine.getItemName());
+
+        batchlistBinding.availableQty1.setText(String.valueOf(salesLine.getQty()));
+
 //        batchlistBinding.availableQty.setText("Required Quantity : " + (salesLine.getQty()));
 //        batchlistBinding.apolloMrp.setText("Apollo 24/7 Mrp : " + (salesLine.getMrp()));
         batchlistBinding.availableQty.setText(String.valueOf(salesLine.getQty()));
@@ -759,7 +775,74 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onClickSkip() {
+        mPresenter.getReasonList();
 
+    }
+
+    @Override
+    public void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse) {
+        List<String> reasons = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            reasons = reasonListResponse.getData().stream()
+                    .map(ReasonListResponse.Datum::getReasonDesc).collect(Collectors.toList());
+        }
+        if (reasonListResponse != null && reasonListResponse.getData().size() > 0) {
+            Dialog dialog = new Dialog(this);
+            dialogSkipOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_skip_order, null, false);
+            dialog.setContentView(dialogSkipOrderBinding.getRoot());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogSkipOrderBinding.close.setOnClickListener(v1 -> dialog.dismiss());
+            dialogSkipOrderBinding.notAvailable.setOnClickListener(v -> {
+                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+                omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
+                mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+            });
+            selectedReasonPos = 0;
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasons);//reasonListResponse.getData()
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            dialogSkipOrderBinding.selectReaon.setAdapter(arrayAdapter);
+
+            dialogSkipOrderBinding.selectReaon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedReasonPos = position;
+//                    ((TextView) parent.getChildAt(0)).setTextSize(12);
+                    TextView textView = (TextView) view;
+                    textView.setText(reasonListResponse.getData().get(selectedReasonPos).getReasonDesc());
+                    textView.setTextSize(12);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
+        if (dialog1 != null && dialog1.isShowing()) {
+            dialog1.dismiss();
+        }
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setOnHold(true);
+        Dialog dialog = new Dialog(this);
+        DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
+        dialog.setContentView(dialogOnHoldBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
+        dialogOnHoldBinding.saveButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent i = new Intent();
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("IS_BATCH_HOLD", true);
+            setResult(RESULT_OK, i);
+            finish();
+        });
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     @Override

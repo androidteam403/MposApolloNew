@@ -108,7 +108,9 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen16sp" />
                 </LinearLayout>
+
             </LinearLayout>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -555,6 +557,49 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="35dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/red"
+                        android:paddingStart="@dimen/dimen10dp"
+                        android:paddingEnd="10dp"
+                        android:onClick="@{()-> callback.onClickSkip()}"
+
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/red"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Refer to Admin"
+                        android:textColor="@color/white" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/dimen15dp"
+                        android:paddingStart="@dimen/dimen10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@color/yellow"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> callback.onAddItemsClicked()}"
+
+                        android:text="Save"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

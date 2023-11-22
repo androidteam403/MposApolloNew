@@ -315,6 +315,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         int pixels = (int) (320 * scale + 0.5f);
         activityBatchlistScannerBinding.scannerLayout.getLayoutParams().height = pixels;
         activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
+        activityBatchlistScannerBinding.btnLayout2.setVisibility(View.VISIBLE);
         if (getBatchInfoRes != null && getBatchInfoRes.getBatchList() != null && getBatchInfoRes.getBatchList().size() > 0) {
            /* scanSearch = true;
             this.body = getBatchInfoRes.getBatchList();

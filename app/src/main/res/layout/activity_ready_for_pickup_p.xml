@@ -64,9 +64,18 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/dimen30dp"
+                    android:layout_height="@dimen/dimen30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:id="@+id/take_print"
+                    android:onClick="@{()-> callback.onClickPrint()}"
+
+                    android:src="@drawable/printer"/>
 
                 <TextView
-                    android:id="@+id/take_print"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -74,7 +83,7 @@
                     android:background="@drawable/rounde_corner_takeprint_bg"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.onClickPrint()}"
+                    android:visibility="gone"
                     android:paddingStart="@dimen/seven_dp"
                     android:paddingEnd="@dimen/seven_dp"
                     android:text="take print"
