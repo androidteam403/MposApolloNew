@@ -3,6 +3,9 @@ package com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
 
 import java.util.List;
 
@@ -28,6 +31,8 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
 
     void getGlobalConfigration();
 
+    void getHBPConfigration();
+
     void onMposPosiflexApiCall();
 
     List<RowsEntity> getPosiflextDataListEntity();
@@ -41,5 +46,11 @@ public interface PharmacistLoginMvpPresenter<V extends PharmacistLoginMvpView> e
     void secondTimeTrue();
 
     boolean enablescreens();
+
+    GetGlobalConfingRes getGlobalConfigurationObj();
+
+    void updatePatchApiCAll();
+
+    void setIsV1Flow(boolean isV1Flow);
 
 }

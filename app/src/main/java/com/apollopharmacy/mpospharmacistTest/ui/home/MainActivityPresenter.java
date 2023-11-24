@@ -6,6 +6,9 @@ import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 import com.google.gson.JsonObject;
 
@@ -27,12 +30,14 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
 
     @Override
     public String getLoginUserName() {
-        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
+        return getDataManager().getUserName();
+//        return getDataManager().getUserName() + "\n" + getDataManager().getUserId();
     }
 
     @Override
     public String getLoinStoreLocation() {
-        return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
+
+       return getDataManager().getGlobalJson().getStoreName() + "\n" + getDataManager().getStoreId();
     }
 
     @Override
@@ -84,6 +89,8 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             if (response.body().getSalesLine() != null && response.body().getSalesLine().size() > 0)
                                 getMvpView().onSuccessGetUnPostedPOSTransaction(response.body());
+                            else
+                                getMvpView().hideLoading();
                         } else
                             getMvpView().hideLoading();
                     }
@@ -112,18 +119,69 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
     }
 
     @Override
-    public  void enableopenscreens()
-    {
+    public void enableopenscreens() {
         getDataManager().setOpenScreens(true);
 
     }
 
     @Override
-    public  void disablescreens()
-    {
+    public void disablescreens() {
         getDataManager().setOpenScreens(false);
 
     }
 
+    @Override
+    public void getGlobalConfig() {
+        getMvpView().getGlobalConfig(getDataManager().getGlobalJson());
+    }
+    @Override
+    public GetGlobalConfingRes getGlobalConfing() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public String getLastTransactionId() {
+        return getDataManager().getLastTransactionId();
+    }
+
+    @Override
+    public void downloadPdf(String transactionId) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
+            PdfModelRequest reqModel = new PdfModelRequest();
+            reqModel.setStoreCode(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            reqModel.setRequestStatus(0);
+            reqModel.setReturnMessage("");
+            reqModel.setTransactionId(transactionId);
+            reqModel.setBillingType(5);
+            reqModel.setDigitalReceiptRequired(false);
+            Call<PdfModelResponse> call = apiInterface.DOWNLOAD_PDF(reqModel);
+            call.enqueue(new Callback<PdfModelResponse>() {
+                @Override
+                public void onResponse(Call<PdfModelResponse> call, Response<PdfModelResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            getMvpView().onSuccessPdfResponse(response.body());
+                        }
+                    } else {
+                        getMvpView().onFailurePdfResponse(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PdfModelResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+
+
+        }
+    }
 
 }

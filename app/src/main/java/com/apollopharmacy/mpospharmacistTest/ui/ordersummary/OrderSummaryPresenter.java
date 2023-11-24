@@ -13,6 +13,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ListData
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Media_libraryEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.Playlist_mediaEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -51,6 +54,11 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     @Override
     public void onNewPlaceOrderClicked() {
         getMvpView().onNewPlaceOrderClicked();
+    }
+
+    @Override
+    public void onDownloadPdfButton() {
+        getMvpView().onDownloadPdfButton();
     }
 
     @Override
@@ -160,10 +168,71 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
     }
 
     @Override
-    public boolean enablescreens()
-    {
+    public boolean enablescreens() {
         return getDataManager().isOpenScreens();
     }
+
+    @Override
+    public void downloadPdf(String transactionId) {
+
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
+            PdfModelRequest reqModel = new PdfModelRequest();
+            reqModel.setStoreCode(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            reqModel.setRequestStatus(0);
+            reqModel.setReturnMessage("");
+            reqModel.setTransactionId(transactionId);
+            reqModel.setBillingType(5);
+            reqModel.setDigitalReceiptRequired(false);
+            Call<PdfModelResponse> call = apiInterface.DOWNLOAD_PDF(reqModel);
+            call.enqueue(new Callback<PdfModelResponse>() {
+                @Override
+                public void onResponse(Call<PdfModelResponse> call, Response<PdfModelResponse> response) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            getMvpView().onSuccessPdfResponse(response.body());
+                        }
+                    } else {
+                        getMvpView().onFailurePdfResponse(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PdfModelResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+
+
+        }
+    }
+
+    @Override
+    public void onClickBillPrint() {
+        getMvpView().onClickBillPrint();
+    }
+    @Override
+    public GetGlobalConfingRes getGlobalConfing() {
+        return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public boolean isV1Flow() {
+        return getDataManager().isV1Flow();
+    }
+
+    @Override
+    public void setTransactionId(String transactionId) {
+        getDataManager().setLastTransactionId(transactionId);
+    }
+
+
     @Override
     public void onDownloadApiCall(String filePath, String fileName, int pos) {
         if (getMvpView().isNetworkConnected()) {
@@ -207,26 +276,26 @@ public class OrderSummaryPresenter<V extends OrderSummaryMvpView> extends BasePr
                 int count;
                 int progress = 0;
                 long fileSize = body.contentLength();
-              //  Log.d(TAG, "File Size=" + fileSize);
+                //  Log.d(TAG, "File Size=" + fileSize);
                 while ((count = inputStream.read(data)) != -1) {
                     outputStream.write(data, 0, count);
                     progress += count;
                 }
                 outputStream.flush();
-              //  Log.d(TAG, destinationFile.getParent());
+                //  Log.d(TAG, destinationFile.getParent());
 //                getMvpView().checkFileAvailability();
                 getMvpView().onSucessPlayList();
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
-               // Log.d(TAG, "Failed to save the file!");
+                // Log.d(TAG, "Failed to save the file!");
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-          //  Log.d(TAG, "Failed to save the file!");
+            //  Log.d(TAG, "Failed to save the file!");
         }
     }
 

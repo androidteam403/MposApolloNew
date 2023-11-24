@@ -1,13 +1,19 @@
 package com.apollopharmacy.mpospharmacistTest.ui.base;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -18,8 +24,11 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogDroppingBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogIdleBinding;
 import com.apollopharmacy.mpospharmacistTest.di.component.ActivityComponent;
 import com.apollopharmacy.mpospharmacistTest.di.component.DaggerActivityComponent;
 import com.apollopharmacy.mpospharmacistTest.di.module.ActivityModule;
@@ -39,7 +48,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
 
     private ProgressDialog mProgressDialog;
-
+    private static final long IDLE_TIME_MILLIS = 300000; // 5 minute idle time
+    private Handler idleHandler;
+    private Runnable idleRunnable;
     private ActivityComponent mActivityComponent;
     // private Unbinder mUnBinder;
 
@@ -51,7 +62,14 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
                 .activityModule(new ActivityModule(this))
                 .applicationComponent(((ApolloMposApp) getApplication()).getComponent())
                 .build();
-
+        idleHandler = new Handler();
+        idleRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Show your dialog here
+                showDialog();
+            }
+        };
 //        if (getResources().getBoolean(R.bool.portrait_only)) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        } else {
@@ -62,6 +80,65 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     public ActivityComponent getActivityComponent() {
         return mActivityComponent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Start the idle timer when the activity is resumed
+        startIdleTimer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Stop the idle timer when the activity is paused
+        stopIdleTimer();
+    }
+
+    private void startIdleTimer() {
+        // Post a delayed task to run the idleRunnable after the specified idle time
+        idleHandler.postDelayed(idleRunnable, IDLE_TIME_MILLIS);
+    }
+
+    private void stopIdleTimer() {
+        // Remove the callbacks to stop the idle timer
+        idleHandler.removeCallbacks(idleRunnable);
+    }
+
+    private void resetIdleTimer() {
+        // Reset the idle timer when user interacts with the activity
+        stopIdleTimer();
+        startIdleTimer();
+    }
+
+    // Override relevant event listeners to reset the idle timer
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetIdleTimer();
+    }
+
+    private void showDialog() {
+        Dialog dialog = new Dialog(this);
+        DialogIdleBinding dialogIdleBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                R.layout.dialog_idle, null, false);
+
+        dialog.setContentView(dialogIdleBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogIdleBinding.ok.setOnClickListener(view -> {
+            dialog.dismiss();
+            resetIdleTimer();
+        }
+        );
+
+        dialogIdleBinding.close.setOnClickListener(view -> {
+                    dialog.dismiss();
+                    resetIdleTimer();
+                }
+        );
+        dialog.show();
     }
 
 
@@ -177,6 +254,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     protected abstract void setUp();
 
+    @SuppressLint("NewApi")
     public boolean isAppInLockTaskMode() {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         // When SDK version is 23
