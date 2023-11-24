@@ -27,6 +27,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/yellow_background_stroke_bg.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_batchlist_p.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_batchlist_scanner.xml" value="0.264" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_navigation3_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_open_orders_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_pharmacist_login.xml" value="0.264" />
@@ -36,15 +37,19 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_pickup_summary_details_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_ready_for_pickup_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_scanner.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_select_app_flow_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/activity_selected_order_pickup_process_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_batchlist.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_batchlist_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_filter_type.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_fullfilment_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_fullfilment_p_header.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_order_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_product_list_p.xml" value="0.4" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_rack.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_rack_row_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_ready_for_pickup_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_select_app_flow_list_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_selected_batches.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_selected_pickup_process_products_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/adapter_summary_fullfillment_p.xml" value="0.264" />
