@@ -2561,6 +2561,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
                     if (entity.getISEMPBilling() == 1) {
                         mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
+                    } else if (entity.getISEMPBilling() == 0 && entity.getOTPTenderType().equalsIgnoreCase("2")) {
+                        mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else {
                         getPaymentMethod().setCreditMode(true);
                         mPresenter.generateTenterLineService(amount, null);
@@ -2639,6 +2641,16 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSucessStaffListData(PharmacyStaffApiRes staffApiRes) {
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
         addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+        if (customerEntity != null) {
+            customerEntity.setCardName(staffApiRes.getEmpName());
+            customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
+            addItemBinding.setCustomer(customerEntity);
+        } else {
+            customerEntity = new GetCustomerResponse.CustomerEntity();
+            customerEntity.setCardName(staffApiRes.getEmpName());
+            customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
+            addItemBinding.setCustomer(customerEntity);
+        }
     }
 
     int itemPosition = 0;

@@ -301,6 +301,20 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         newstaffApiRes = staffApiRes;
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
         fragmentBillingBinding.availablePoints.setText(String.valueOf(availableAmount));
+        if (customerResult != null) {
+            customerResult.setCardName(staffApiRes.getEmpName());
+            customerResult.setMobileNo(staffApiRes.getRegMobileNo());
+            fragmentBillingBinding.setCustomer(customerResult);
+            fragmentBillingBinding.continueBtn.setAlpha(1);
+            fragmentBillingBinding.continueBtn.setClickable(true);
+        } else {
+            customerResult = new GetCustomerResponse.CustomerEntity();
+            customerResult.setCardName(staffApiRes.getEmpName());
+            customerResult.setMobileNo(staffApiRes.getRegMobileNo());
+            fragmentBillingBinding.setCustomer(customerResult);
+            fragmentBillingBinding.continueBtn.setAlpha(1);
+            fragmentBillingBinding.continueBtn.setClickable(true);
+        }
 
     }
 

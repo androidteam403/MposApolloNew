@@ -438,8 +438,7 @@
                         android:paddingTop="@dimen/three_dp"
                         android:text="GO"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
