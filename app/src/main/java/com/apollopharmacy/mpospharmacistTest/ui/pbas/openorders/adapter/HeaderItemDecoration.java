@@ -1,5 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,9 +15,12 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 
     private StickyHeaderInterface mListener;
     private int mStickyHeaderHeight;
+    Context contexts;
+    ;
 
-    public HeaderItemDecoration(RecyclerView recyclerView, @NonNull StickyHeaderInterface listener) {
+    public HeaderItemDecoration(RecyclerView recyclerView, @NonNull StickyHeaderInterface listener, Context context) {
         mListener = listener;
+        contexts=context;
 
         // On Sticky Header Click
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -37,6 +42,10 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
         });
     }
 
+
+
+
+
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
@@ -50,17 +59,30 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 //        }
 
         int topChildPosition = parent.getChildAdapterPosition(topChild);
+        View currentHeader = getHeaderViewForItem(topChildPosition, parent);
         if (topChildPosition == RecyclerView.NO_POSITION) {
             return;
         }
 
-        View currentHeader = getHeaderViewForItem(topChildPosition, parent);
+
         fixLayoutSize(parent, currentHeader);
         int contactPoint = currentHeader.getBottom();
         View childInContact = getChildInContact(parent, contactPoint);
-        if (topChild == null) {
+
+        if (childInContact == null) {
             return;
         }
+//        if (Util.isNull(childInContact)) {
+//            return;
+//        }
+
+//        if (childInContact != null) {
+//            if (mListener.isHeader(parent.getChildAdapterPosition(childInContact))) {
+//                moveHeader(c, currentHeader, childInContact);
+//            } else {
+//                drawHeader(c, currentHeader);
+//            }
+//        }
 
         if (mListener.isHeader(parent.getChildAdapterPosition(childInContact))) {
             moveHeader(c, currentHeader, childInContact);
@@ -68,14 +90,18 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         drawHeader(c, currentHeader);
-    }
 
+    }
+    View headers;
+    @SuppressLint("ResourceType")
     private View getHeaderViewForItem(int itemPosition, RecyclerView parent) {
         int headerPosition = mListener.getHeaderPositionForItem(itemPosition);
         int layoutResId = mListener.getHeaderLayout(headerPosition);
-        View header = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
-        mListener.bindHeaderData(header, headerPosition);
-        return header;
+
+         headers = LayoutInflater.from(contexts).inflate(layoutResId, parent, false);
+
+        mListener.bindHeaderData(headers, headerPosition, itemPosition);
+        return headers;
     }
 
     private void drawHeader(Canvas c, View header) {
@@ -109,6 +135,7 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * Properly measures and layouts the top sticky header.
+     *
      * @param parent ViewGroup: RecyclerView in this case.
      */
     private void fixLayoutSize(ViewGroup parent, View view) {
@@ -131,6 +158,7 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
         /**
          * This method gets called by {@link HeaderItemDecoration} to fetch the position of the header item in the adapter
          * that is used for (represents) item at specified position.
+         *
          * @param itemPosition int. Adapter's position of the item for which to do the search of the position of the header item.
          * @return int. Position of the header item in the adapter.
          */
@@ -138,6 +166,7 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to get layout resource id for the header item at specified adapter's position.
+         *
          * @param headerPosition int. Position of the header item in the adapter.
          * @return int. Layout resource id.
          */
@@ -145,13 +174,16 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to setup the header View.
-         * @param header View. Header to set the data on.
+         *
+         * @param header         View. Header to set the data on.
          * @param headerPosition int. Position of the header item in the adapter.
+         * @param itemPosition
          */
-        void bindHeaderData(View header, int headerPosition);
+        void bindHeaderData(View header, int headerPosition, int itemPosition);
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to verify whether the item represents a header.
+         *
          * @param itemPosition int.
          * @return true, if item at the specified adapter's position represents a header.
          */

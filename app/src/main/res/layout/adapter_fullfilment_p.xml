@@ -3,19 +3,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dimen4dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:layout_marginBottom="@dimen/_4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:id="@+id/shipment_date_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen4dp"
+                android:layout_marginBottom="@dimen/dimen2dp"
                 android:background="#fff0cf"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dimen3dp"

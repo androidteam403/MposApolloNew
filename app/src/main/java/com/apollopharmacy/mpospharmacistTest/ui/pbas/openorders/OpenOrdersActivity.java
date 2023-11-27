@@ -1504,7 +1504,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter));
+            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter, getContext()));
             if (maxOrdersAllowed > 0) {
                 maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
                 mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
