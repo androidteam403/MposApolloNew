@@ -409,9 +409,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen7dp"
-                android:layout_marginTop="@dimen/dimen7dp"
+                android:layout_marginTop="@dimen/dimen4dp"
                 android:layout_marginEnd="@dimen/dimen7dp"
-                android:layout_marginBottom="@dimen/dimen5dp"
+                android:layout_marginBottom="@dimen/dimen4dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -459,7 +459,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginEnd="@dimen/dimen10dp"
                 android:layout_marginBottom="@dimen/five_dp" />
             <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
