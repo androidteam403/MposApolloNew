@@ -247,6 +247,11 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
 
     }
 
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateModule() {
+        return null;
+    }
+
 //    @Override
 //    public void updateUHIDDetails(Uhid_details uhid_details) {
 //

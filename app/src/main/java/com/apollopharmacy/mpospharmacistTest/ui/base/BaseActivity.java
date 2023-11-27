@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
             @Override
             public void run() {
                 // Show your dialog here
-                showDialog();
+//                showDialog();
             }
         };
 //        if (getResources().getBoolean(R.bool.portrait_only)) {

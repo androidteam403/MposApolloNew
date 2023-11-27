@@ -24,6 +24,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.payadapter.PayActivityAd
 import com.apollopharmacy.mpospharmacistTest.ui.additem.payadapter.PayAdapterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
@@ -257,4 +258,6 @@ public interface AddItemMvpView extends MvpView {
     CalculatePosTransactionRes getUnPostedTransactionResponseBody();
 
     Boolean isCameFromOrderDetailsScreenActivity();
+
+    void SuccessOnlineorderCorporatelist(GetOnlineCorporateListApiResponse response, double amount);
 }

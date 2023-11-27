@@ -61,6 +61,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.circleplan.CircleMembershipCashbackPlan;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsActivity;
@@ -339,7 +341,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     protected void setUp() {
-
+        if (mPresenter.isMposV1Flow()) {
+            addItemBinding.detailsLayout.uploadApi.setVisibility(View.VISIBLE);
+        } else {
+            addItemBinding.detailsLayout.uploadApi.setVisibility(View.GONE);
+        }
         addItemBinding.siteName.setText(mPresenter.getStoreName());
         addItemBinding.siteId.setText(mPresenter.getStoreId());
         addItemBinding.terminalId.setText(mPresenter.getTerminalId());
@@ -2558,15 +2564,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             public void onClick(View view) {
                 if (dialogView.validateQuantity()) {
                     dialogView.dismiss();
-
-                    if (entity.getISEMPBilling() == 1) {
+                    GetOnlineCorporateListApiRequest request = new GetOnlineCorporateListApiRequest();
+                    request.setStoreId(mPresenter.getStoreId());
+                    request.setTerminalId("");
+                    request.setType("GETSTAFFBILLINGCODE");
+                    request.setValue(corporateEntity.getCode());
+                    request.setISFMCGReturn(false);
+                    request.setISPharmaReturn(false);
+                    mPresenter.getOnlineOrderCorporateList(request, amount);
+                    /*if (entity.getISEMPBilling() == 1) {
                         mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else if (entity.getISEMPBilling() == 0 && entity.getOTPTenderType().equalsIgnoreCase("2")) {
                         mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else {
                         getPaymentMethod().setCreditMode(true);
                         mPresenter.generateTenterLineService(amount, null);
-                    }
+                    }*/
                 }
             }
         });
@@ -2872,6 +2885,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public Boolean isCameFromOrderDetailsScreenActivity() {
         return isCameFromOrderDetailsScreenActivity;
+    }
+
+    @Override
+    public void SuccessOnlineorderCorporatelist(GetOnlineCorporateListApiResponse response, double amount) {
+        if (response != null
+                && response.getDropDownLineList() != null
+                && response.getDropDownLineList().size() > 0) {
+            mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
+        } else {
+            getPaymentMethod().setCreditMode(true);
+            mPresenter.generateTenterLineService(amount, null);
+        }
     }
 
     private void noStockAlertDialog() {

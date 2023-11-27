@@ -55,6 +55,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.Wallet;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceReq;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.WalletServiceRes;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
@@ -1078,7 +1080,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             String url = getDataManager().getGlobalJson().getSMSAPI();
             String otp = String.valueOf(CommonUtils.generatorOTP(8));
-            String message = "Dear Customer, Your Smart Saver Offer OTP is " + otp + ",Use the OTP to avail the Offer";
+            String message = "Dear Customer, Your Smart Saver Offer OTP is " + otp + ",Use the OTP to avail the Offer.APLPHR";
             Call<OTPRes> call = api.GENERATE_OTP_RES_CALL(url.replace("{0}", getMvpView().getCustomerModule().getMobileNo()).replace("{1}", message));
             call.enqueue(new Callback<OTPRes>() {
                 @Override
@@ -4129,4 +4131,38 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         return getDataManager().getTenderTypeResultEntity();
     }
 
+    @Override
+    public void getOnlineOrderCorporateList(GetOnlineCorporateListApiRequest request, double amount) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<GetOnlineCorporateListApiResponse> call = api.GET_ONLINE_CORPORATELIST(request);
+            call.enqueue(new Callback<GetOnlineCorporateListApiResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<GetOnlineCorporateListApiResponse> call, @NotNull Response<GetOnlineCorporateListApiResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        getMvpView().hideLoading();
+                        getMvpView().SuccessOnlineorderCorporatelist(response.body(), amount);
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetOnlineCorporateListApiResponse> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public boolean isMposV1Flow() {
+        return getDataManager().isV1Flow();
+    }
 }

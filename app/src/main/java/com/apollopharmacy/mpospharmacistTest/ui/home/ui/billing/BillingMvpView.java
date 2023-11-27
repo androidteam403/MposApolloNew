@@ -54,4 +54,6 @@ public interface BillingMvpView extends MvpView {
 
     void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse);
 
+    CorporateModel.DropdownValueBean getCorporateModule();
+
 }

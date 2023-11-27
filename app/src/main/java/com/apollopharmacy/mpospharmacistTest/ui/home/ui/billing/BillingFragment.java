@@ -198,9 +198,12 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     if (editable != null && editable.toString() != null && editable.toString().length() == 15) {
                         fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
                         if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                            fragmentBillingBinding.uploadApi.setVisibility(View.GONE);
                             mPresenter.getUHIDDetails(editable.toString());
                         }
                     }
+                } else {
+                    fragmentBillingBinding.uploadApi.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -574,6 +577,11 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                 dialogView.show();
             }
         }
+    }
+
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateModule() {
+        return fragmentBillingBinding.getCorporate();
     }
 
     private boolean stopLooping;

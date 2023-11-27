@@ -275,6 +275,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             staffAPIReq.setRegion(getDataManager().getGlobalJson().getRegion());
             staffAPIReq.setSiteId(getDataManager().getGlobalJson().getStoreID());
             staffAPIReq.setSiteName(getDataManager().getGlobalJson().getStoreName());
+            staffAPIReq.setCorpCode(getMvpView().getCorporateModule().getCode());
             staffAPIReq.setUrl(getDataManager().getGlobalJson().getDSBillingURL());
             Call<PharmacyStaffApiRes> call = api.PHARMACY_STAFF_API_RES_CALL(staffAPIReq);
             call.enqueue(new Callback<PharmacyStaffApiRes>() {
