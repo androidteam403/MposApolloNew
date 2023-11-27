@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,22 +27,21 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOM
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {
+public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable, HeaderItemDecoration.StickyHeaderInterface {
     private final Context context;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> filteredList = new ArrayList<>();
     private final OpenOrdersMvpView mvpView;
     private String userId;
+    private LayoutInflater inflater;
 //    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
     private boolean isDispatchCutoffTime = false;
@@ -52,6 +52,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         this.filteredOmsHeaderList = omsHeaderList;
         this.mvpView = mvpView;
         this.userId = userId;
+        this.inflater = LayoutInflater.from(context);
 //        this.getOMSTransactionResponseList = getOMSTransactionResponseList;
     }
 
@@ -68,6 +69,21 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     }
 
 //    @Override
+//    public long getItemId(int position) {
+//        return super.getItemId(position);
+//    }
+//
+//    @Override
+//    public void setHasStableIds(boolean hasStableIds) {
+//        super.setHasStableIds(hasStableIds);
+//    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    //    @Override
 //    public int getItemViewType(int position) {
 //        if (position == 0) {
 //            return 0;
@@ -87,23 +103,23 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
                 holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
 //                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
-                Map<String, Long> groupByShipmentTat = filteredOmsHeaderList.stream()
-                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
-                groupByShipmentTat.forEach((k, v) -> {
-                    if (omsHeader.getShipmentTat().equalsIgnoreCase(k)) {
-                        holder.fullfilmentBinding.shipmentCount.setText("(" + v + ")");
-                    }
-                });
-                try {
-                    Date date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(omsHeader.getShipmentTat());
-                    String shipmentDate = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss").format(date);
-                    holder.fullfilmentBinding.shipmentDate.setText(shipmentDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+            Map<String, Long> groupByShipmentTat = filteredOmsHeaderList.stream()
+                    .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
+            groupByShipmentTat.forEach((k, v) -> {
+                if (omsHeader.getShipmentTat().equalsIgnoreCase(k)) {
+                    holder.fullfilmentBinding.shipmentCount.setText("(" + v + ")");
                 }
-            } else {
-                holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+            });
+            try {
+                Date date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(omsHeader.getShipmentTat());
+                String shipmentDate = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss").format(date);
+                holder.fullfilmentBinding.shipmentDate.setText(shipmentDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+        } else {
+            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
+        }
 //        } else {
 //            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.GONE);
 //        }
@@ -237,13 +253,13 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 /*if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
                 } else {*/
-                    if (mvpView != null)
-                        for (int i = 0; i < omsHeaderList.size(); i++) {
-                            if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                                mvpView.onFullfillmentItemClick(i, position, omsHeader);
-                                break;
-                            }
+                if (mvpView != null)
+                    for (int i = 0; i < omsHeaderList.size(); i++) {
+                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
+                            break;
                         }
+                    }
 
                 /*}*/
             } else {
@@ -256,12 +272,12 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
 
                 } else {*/
-                    for (int i = 0; i < omsHeaderList.size(); i++) {
-                        if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
-                            mvpView.onFullfillmentItemClick(i, position, omsHeader);
-                            break;
-                        }
-                    }
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equals(omsHeader.getRefno())) {
+                    mvpView.onFullfillmentItemClick(i, position, omsHeader);
+                    break;
+                }
+            }
 
                /* }
             } else {
@@ -330,6 +346,71 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 }
             }
         };
+    }
+
+    @Override
+    public int getHeaderPositionForItem(int itemPosition) {
+        int headerPosition = 0;
+        do {
+            if (this.isHeader(itemPosition)) {
+                headerPosition = itemPosition;
+                break;
+            }
+            itemPosition -= 1;
+        } while (itemPosition >= 0);
+        return headerPosition;
+    }
+
+    @Override
+    public int getHeaderLayout(int headerPosition) {
+       return R.layout.adapter_fullfilment_p_header;
+//        return inflater.inflate(R.layout.adapter_fullfilment_p_header, null).getId();
+//        return LayoutInflater.from(context).inflate(R.layout.adapter_fullfilment_p_header, null).getId();
+    }
+
+    @Override
+    public void bindHeaderData(View headerView, int headerPosition, int itemPosition) {
+        if(filteredOmsHeaderList!=null && filteredOmsHeaderList.size()>0){
+            TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(headerPosition);
+            TextView shipmentCount = headerView.findViewById(R.id.shipment_count_n);
+            TextView shipmentDateN = headerView.findViewById(R.id.shipment_date_n);
+//        holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
+            Map<String, Long> groupByShipmentTat = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                groupByShipmentTat = filteredOmsHeaderList.stream()
+                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                groupByShipmentTat.forEach((k, v) -> {
+                    if (omsHeader.getShipmentTat().equalsIgnoreCase(k)) {
+                        shipmentCount.setText("(" + v + ")");
+                    }
+                });
+            }
+            try {
+                Date date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(omsHeader.getShipmentTat());
+                String shipmentDate = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss").format(date);
+                shipmentDateN.setText(String.valueOf(shipmentDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+    }
+
+    @Override
+    public boolean isHeader(int itemPosition) {
+        if (itemPosition == 0) {
+            return true;
+        } else if(filteredOmsHeaderList!=null && filteredOmsHeaderList.size()>0) {
+            if (filteredOmsHeaderList.get(itemPosition) != null && !filteredOmsHeaderList.get(itemPosition).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(itemPosition - 1).getShipmentTat())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -376,6 +376,7 @@
                 android:layout_height="@dimen/dimen25dp"
                 android:layout_marginStart="@dimen/dimen7dp"
                 android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginBottom="2dp"
                 android:background="#fff1d0"
                 android:gravity="center_vertical">
 
@@ -409,9 +410,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen7dp"
-                android:layout_marginTop="@dimen/dimen7dp"
                 android:layout_marginEnd="@dimen/dimen7dp"
-                android:layout_marginBottom="@dimen/dimen5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -425,9 +424,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
-                    tools:listitem="@layout/adapter_filter_type"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    tools:listitem="@layout/adapter_filter_type" />
             </LinearLayout>
 
             <RelativeLayout
@@ -459,7 +458,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
-                android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginEnd="@dimen/dimen10dp"
                 android:layout_marginBottom="@dimen/five_dp" />
             <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
