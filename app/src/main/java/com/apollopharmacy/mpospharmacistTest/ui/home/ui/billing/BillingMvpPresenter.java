@@ -63,4 +63,6 @@ public interface BillingMvpPresenter<V extends BillingMvpView> extends MvpPresen
 
     GetGlobalConfingRes getGlobalCDonfiguration();
 
+    void getPatientMasterApiCall();
+
 }

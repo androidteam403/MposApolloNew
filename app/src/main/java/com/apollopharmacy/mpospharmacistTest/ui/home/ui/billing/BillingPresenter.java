@@ -17,6 +17,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearch
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.PatientMasterResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.FileEntity;
@@ -275,6 +276,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             staffAPIReq.setRegion(getDataManager().getGlobalJson().getRegion());
             staffAPIReq.setSiteId(getDataManager().getGlobalJson().getStoreID());
             staffAPIReq.setSiteName(getDataManager().getGlobalJson().getStoreName());
+            staffAPIReq.setCorpCode(getMvpView().getCorporateModule().getCode());
             staffAPIReq.setUrl(getDataManager().getGlobalJson().getDSBillingURL());
             Call<PharmacyStaffApiRes> call = api.PHARMACY_STAFF_API_RES_CALL(staffAPIReq);
             call.enqueue(new Callback<PharmacyStaffApiRes>() {
@@ -288,7 +290,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
                                 getMvpView().onSucessStaffListData(response.body());
                             }
                         } else {
-                            getMvpView().onFaliureStaffListData();
+                            getMvpView().onFaliureStaffListData(response.body());
                         }
 
                     }
@@ -454,6 +456,38 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
     @Override
     public GetGlobalConfingRes getGlobalCDonfiguration() {
         return getDataManager().getGlobalJson();
+    }
+
+    @Override
+    public void getPatientMasterApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<PatientMasterResponse> call = api.PATIENT_MASTER_API_CALL();
+            call.enqueue(new Callback<PatientMasterResponse>() {
+                @Override
+                public void onResponse(@NotNull Call<PatientMasterResponse> call, @NotNull Response<PatientMasterResponse> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().onSuccessPatientMaster(response.body());
+                        } else {
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<PatientMasterResponse> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
     }
 
     @Override

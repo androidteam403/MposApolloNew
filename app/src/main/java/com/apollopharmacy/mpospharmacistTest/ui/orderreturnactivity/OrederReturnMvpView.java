@@ -16,7 +16,7 @@ public interface OrederReturnMvpView extends MvpView {
 
     void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll, String terminalId);
 
-    void showCancelOrderSuccess(String title, String message);
+    void showCancelOrderSuccess(String title, String message, boolean isShowPdf);
 
     void partialReturnOrder(String terminalId);
 

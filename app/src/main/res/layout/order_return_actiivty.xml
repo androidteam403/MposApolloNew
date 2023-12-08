@@ -387,6 +387,7 @@
                     android:visibility="visible">
 
                     <LinearLayout
+                        android:id="@+id/dupicate_check_box_layout"
 
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"

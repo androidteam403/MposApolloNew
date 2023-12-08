@@ -61,6 +61,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.circleplan.CircleMembershipCashbackPlan;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.CorporateDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.GetOnlineCorporateListApiResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.CustomerDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.DoctorDetailsActivity;
@@ -143,6 +145,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     // boolean isomsorder = false;
 
 
+    private String selectedPatient;
     private ArrayList<CircleMemebershipCashbackPlanResponse.Category> circlecashbackplan = null;
 
     private Boolean isCameFromOrderDetailsScreenActivity;
@@ -154,6 +157,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     private String onlineTransactionId;
     private CalculatePosTransactionRes unPostedTransactionResponseBody;
     private boolean isPrescription;
+    private boolean isCorporatePayment = false;
     /*public static Intent getStartIntent(Context context,List<CircleMemebershipCashbackPlanResponse.Category> circlecashbackmodel)
     {
         Intent intent = new Intent(context, AddItemActivity.class);
@@ -187,7 +191,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData, boolean isUhidSelected) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String trackingData, String saleslistData, boolean isUhidSelected, boolean isCorporatePayment, String selectedPatient) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -199,6 +203,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("prg_track", trackingData);
         intent.putExtra("sales_list_data", saleslistData);
         intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
+        intent.putExtra("IS_CORPORATE_PAYMENT", isCorporatePayment);
+        intent.putExtra("SELECTED_PATIENT", selectedPatient);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -237,7 +243,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
-    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData, boolean isUhidSelected) {
+    public static Intent getStartIntent(Context context, boolean isBack, GetCustomerResponse.CustomerEntity customerEntity, DoctorSearchResModel.DropdownValueBean doctor, CorporateModel.DropdownValueBean corporate, TransactionIDResModel transactionID, CorporateModel corporateModel, PharmacyStaffApiRes staffApiRes, String availableAmt, String prgTrackingData, String saleslistData, boolean isUhidSelected, boolean isCorporatePayment, String selectedPatient) {
         Intent intent = new Intent(context, AddItemActivity.class);
         intent.putExtra("is_back", isBack);
         intent.putExtra("customer_info", customerEntity);
@@ -249,6 +255,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         intent.putExtra("prg_track", prgTrackingData);
         intent.putExtra("sales_list_data", saleslistData);
         intent.putExtra("IS_UHID_SELECTED", isUhidSelected);
+        intent.putExtra("IS_CORPORATE_PAYMENT", isCorporatePayment);
+        intent.putExtra("SELECTED_PATIENT", selectedPatient);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -339,7 +347,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     protected void setUp() {
-
+        if (mPresenter.isMposV1Flow()) {
+            addItemBinding.detailsLayout.uploadApi.setVisibility(View.VISIBLE);
+        } else {
+            addItemBinding.detailsLayout.uploadApi.setVisibility(View.GONE);
+        }
         addItemBinding.siteName.setText(mPresenter.getStoreName());
         addItemBinding.siteId.setText(mPresenter.getStoreId());
         addItemBinding.terminalId.setText(mPresenter.getTerminalId());
@@ -354,6 +366,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         mPresenter.getHBPConfig();
         customerDataResBean = new CustomerDataResBean();
         if (getIntent() != null) {
+            selectedPatient = (String) getIntent().getStringExtra("SELECTED_PATIENT");
+            isCorporatePayment = (Boolean) getIntent().getBooleanExtra("IS_CORPORATE_PAYMENT", false);
+            clearallBtnVisibilitybyCorpPayment(isCorporatePayment);
             isPrescription = (Boolean) getIntent().getBooleanExtra("E-PRESCRIPTION_SCREEN", false);
             if (isPrescription) {
                 ePrescriptionModelClassResponse = (EPrescriptionModelClassResponse) getIntent().getSerializableExtra("ePrescription_model_class_response");
@@ -402,6 +417,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             }
             corporateEntity = (CorporateModel.DropdownValueBean) getIntent().getSerializableExtra("corporate_info");
             if (corporateEntity != null) {
+                if (corporateEntity.getPrg_Tracking() != null && !corporateEntity.getPrg_Tracking().isEmpty()) {
+                    prgData = corporateEntity.getPrg_Tracking();
+                }
                 addItemBinding.setCorporate(corporateEntity);
             }
 
@@ -1036,6 +1054,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 //        } else {
         calculatePosTransactionRes.setIsMPOSBill(1);
 //        }
+
+        if (selectedPatient != null) {
+            if (selectedPatient.contains("-")) {
+                String[] selecetdPatientCode = selectedPatient.split("-");
+                calculatePosTransactionRes.setPatientID(selecetdPatientCode[0]);
+            }
+        }
         return calculatePosTransactionRes;
     }
 
@@ -2558,15 +2583,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             public void onClick(View view) {
                 if (dialogView.validateQuantity()) {
                     dialogView.dismiss();
-
-                    if (entity.getISEMPBilling() == 1) {
+                    GetOnlineCorporateListApiRequest request = new GetOnlineCorporateListApiRequest();
+                    request.setStoreId(mPresenter.getStoreId());
+                    request.setTerminalId("");
+                    request.setType("GETSTAFFBILLINGCODE");
+                    request.setValue(corporateEntity.getCode());
+                    request.setISFMCGReturn(false);
+                    request.setISPharmaReturn(false);
+                    mPresenter.getOnlineOrderCorporateList(request, amount);
+                    /*if (entity.getISEMPBilling() == 1) {
                         mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else if (entity.getISEMPBilling() == 0 && entity.getOTPTenderType().equalsIgnoreCase("2")) {
                         mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
                     } else {
                         getPaymentMethod().setCreditMode(true);
                         mPresenter.generateTenterLineService(amount, null);
-                    }
+                    }*/
                 }
             }
         });
@@ -2624,16 +2656,25 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     }
 
     @Override
-    public void onFaliureStaffListData() {
+    public void onFaliureStaffListData(PharmacyStaffApiRes pharmacyStaffApiRes) {
         if (customerEntity != null) {
             String availableData = customerEntity.getAvailablePoints();
             if (customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
+                isCorporatePayment = false;
                 addItemBinding.detailsLayout.availablePoints.setText("--");
+                if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+                    Toast.makeText(this, pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             } else {
+                isCorporatePayment = true;
                 addItemBinding.detailsLayout.availablePoints.setText(availableData);
             }
         } else {
+            isCorporatePayment = false;
             addItemBinding.detailsLayout.availablePoints.setText("--");
+            if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+                Toast.makeText(this, pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -2641,6 +2682,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSucessStaffListData(PharmacyStaffApiRes staffApiRes) {
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
         addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+        isCorporatePayment = true;
+        clearallBtnVisibilitybyCorpPayment(isCorporatePayment);
         if (customerEntity != null) {
             customerEntity.setCardName(staffApiRes.getEmpName());
             customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
@@ -2874,6 +2917,23 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return isCameFromOrderDetailsScreenActivity;
     }
 
+    @Override
+    public void SuccessOnlineorderCorporatelist(GetOnlineCorporateListApiResponse response, double amount) {
+        if (response != null
+                && response.getDropDownLineList() != null
+                && response.getDropDownLineList().size() > 0) {
+            mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
+        } else {
+            getPaymentMethod().setCreditMode(true);
+            mPresenter.generateTenterLineService(amount, null);
+        }
+    }
+
+    @Override
+    public String getPatientType() {
+        return selectedPatient;
+    }
+
     private void noStockAlertDialog() {
         Dialog dialog = new Dialog(this);
         DialogNoStockAvailableBinding dialogNoStockAvailableBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_no_stock_available, null, false);
@@ -3049,6 +3109,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                         break;
                     case CORPORATE_SEARCH_ACTIVITY_CODE:
                         corporateEntity = (CorporateModel.DropdownValueBean) data.getSerializableExtra("corporate_info");
+                        corporateEntity.setPrg_Tracking(addItemBinding.detailsLayout.prgTrackingEdit.getText().toString());
                         addItemBinding.setCorporate(corporateEntity);
                         mPresenter.checkAllowedPaymentMode(paymentMethodModel);
                         mPresenter.checkProductTrackingWise();
@@ -3261,6 +3322,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         paymentMethodModel.setPaymentDone(false);
         paymentMethodModel.setGenerateBill(false);
         isGeneratedBill = false;
+
+        addItemBinding.detailsLayout.availablePoints.setText("--");
+        addItemBinding.detailsLayout.prgTrackingEdit.setText("");
+        isCorporatePayment = false;
+        clearallBtnVisibilitybyCorpPayment(isCorporatePayment);
     }
 
 
@@ -3516,4 +3582,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     }
 
+    private void clearallBtnVisibilitybyCorpPayment(boolean isCorporatePayment) {
+        if (isCorporatePayment) {
+            addItemBinding.clearAllImgTwo.setVisibility(View.VISIBLE);
+            addItemBinding.detailsLayout.customereditclick.setEnabled(false);
+            addItemBinding.detailsLayout.doctoreditclick.setEnabled(false);
+            addItemBinding.detailsLayout.corpoEdit.setEnabled(false);
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
+        } else {
+            addItemBinding.clearAllImgTwo.setVisibility(View.GONE);
+            addItemBinding.detailsLayout.customereditclick.setEnabled(true);
+            addItemBinding.detailsLayout.doctoreditclick.setEnabled(true);
+            addItemBinding.detailsLayout.corpoEdit.setEnabled(true);
+            addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(true);
+        }
+    }
 }

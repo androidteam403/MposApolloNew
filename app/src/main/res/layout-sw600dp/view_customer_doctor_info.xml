@@ -210,13 +210,16 @@
                             tools:ignore="RelativeOverlap" />
 
                         <ImageView
+                            android:id="@+id/doctoreditclick"
                             android:layout_width="@dimen/forty_dp"
                             android:layout_height="@dimen/thirty_five_dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="0dp"
                             android:contentDescription="@string/app_name"
+
                             android:onClick="@{()->call.onDoctorEditClick()}"
                             android:padding="@dimen/three_dp"
-
                             android:src="@drawable/ic_edit_view"
                             android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.GONE : View.VISIBLE}" />
                     </RelativeLayout>

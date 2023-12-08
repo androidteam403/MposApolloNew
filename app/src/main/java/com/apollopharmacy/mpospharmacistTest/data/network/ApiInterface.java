@@ -61,6 +61,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrder
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.OMSOrderUpdateResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.PatientMasterResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.customermaster.model.ModelMobileNumVerify;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.ADSPlayListResponse;
@@ -479,5 +480,7 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetRemarkMaster")
     Call<ReasonListResponse> GET_REASON_LIST_API_CALL(@Body ReasonListRequest reasonListRequest);
 
+    @POST("SalesTransactionService.svc/GetPatientMaster")
+    Call<PatientMasterResponse> PATIENT_MASTER_API_CALL();
 
 }

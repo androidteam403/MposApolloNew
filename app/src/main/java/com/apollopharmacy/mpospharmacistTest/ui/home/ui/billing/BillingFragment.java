@@ -26,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearch
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.PatientMasterResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -77,6 +79,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
     private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
     private CorporateModel corporateModel;
     private CorporateModel.DropdownValueBean corporateEntity;
+    private List<PatientMasterResponse.DropdownValue> patientMasterList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentBillingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_billing, container, false);
@@ -89,9 +92,14 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
     @Override
     protected void setUp(View view) {
+        mPresenter.getPatientMasterApiCall();
+    }
+
+    private void setUp() {
         fragmentBillingBinding.siteName.setText(mPresenter.getStoreName());
         fragmentBillingBinding.siteId.setText(mPresenter.getStoreId());
         fragmentBillingBinding.terminalId.setText(mPresenter.getTerminalId());
+        getPatientMasterDropdown(patientMasterList);
         mPresenter.getTransactionID();
         fragmentBillingBinding.setCallbacks(mPresenter);
         if (mPresenter.getGlobalCDonfiguration() != null
@@ -101,7 +109,11 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.VISIBLE);
         } else
             fragmentBillingBinding.uhidCheckBox.setVisibility(View.GONE);
-
+        if (mPresenter.getGlobalCDonfiguration().isISHBPStore()) {
+            fragmentBillingBinding.patientType.setVisibility(View.VISIBLE);
+        } else {
+            fragmentBillingBinding.patientType.setVisibility(View.GONE);
+        }
         fragmentBillingBinding.uhidCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -198,9 +210,12 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     if (editable != null && editable.toString() != null && editable.toString().length() == 15) {
                         fragmentBillingBinding.getCorporate().setPrg_Tracking(editable.toString());
                         if (fragmentBillingBinding.uhidCheckBox.isChecked()) {
+                            fragmentBillingBinding.uploadApi.setVisibility(View.GONE);
                             mPresenter.getUHIDDetails(editable.toString());
                         }
                     }
+                } else {
+                    fragmentBillingBinding.uploadApi.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -294,6 +309,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
     private PharmacyStaffApiRes newstaffApiRes;
 
+    boolean isCorporatePayment = false;
 
     @Override
     public void onSucessStaffListData(PharmacyStaffApiRes staffApiRes) {
@@ -301,6 +317,12 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         newstaffApiRes = staffApiRes;
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
         fragmentBillingBinding.availablePoints.setText(String.valueOf(availableAmount));
+        fragmentBillingBinding.getCorporate().setPrg_Tracking(fragmentBillingBinding.prgTrackingEdit.getText().toString());
+        fragmentBillingBinding.customerDetailsArrow.setEnabled(false);
+        fragmentBillingBinding.doctorDetailsArrow.setEnabled(false);
+        fragmentBillingBinding.corporateDetailsArrow.setEnabled(false);
+        fragmentBillingBinding.prgTrackingEdit.setEnabled(false);
+        isCorporatePayment = true;
         if (customerResult != null) {
             customerResult.setCardName(staffApiRes.getEmpName());
             customerResult.setMobileNo(staffApiRes.getRegMobileNo());
@@ -320,16 +342,25 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
 
 
     @Override
-    public void onFaliureStaffListData() {
+    public void onFaliureStaffListData(PharmacyStaffApiRes pharmacyStaffApiRes) {
         if (customerResult != null) {
             String availableData = customerResult.getAvailablePoints();
-            if (customerResult.getAvailablePoints().equalsIgnoreCase("")) {
+            if (customerResult.getAvailablePoints() != null && customerResult.getAvailablePoints().equalsIgnoreCase("")) {
+                isCorporatePayment = false;
                 fragmentBillingBinding.availablePoints.setText("--");
+                if (pharmacyStaffApiRes != null && pharmacyStaffApiRes.getMessage() != null) {
+                    Toast.makeText(getContext(), pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 fragmentBillingBinding.availablePoints.setText(availableData);
             }
         } else {
+            isCorporatePayment = false;
             fragmentBillingBinding.availablePoints.setText("--");
+            if (pharmacyStaffApiRes != null && pharmacyStaffApiRes.getMessage() != null) {
+                Toast.makeText(getContext(), pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -359,8 +390,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                 isUhidSelected = true;
             }
 
-
-            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode, isUhidSelected));
+            String selectedPatientCodeDes = fragmentBillingBinding.patientType.getSelectedItem().toString();
+            startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, fragmentBillingBinding.getCustomer(), fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.availablePoints.getText().toString(), fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode, isUhidSelected, isCorporatePayment, selectedPatientCodeDes));
             getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         } else {
             if (fragmentBillingBinding.customerName.getText().toString().isEmpty()) {
@@ -380,8 +411,8 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                     isUhidSelected = true;
                 }
 
-
-                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1, isUhidSelected));
+                String selectedPatientCodeDes = fragmentBillingBinding.patientType.getSelectedItem().toString();
+                startActivity(AddItemActivity.getStartIntent(getBaseActivity(), true, entity, fragmentBillingBinding.getDoctor(), fragmentBillingBinding.getCorporate(), transactionIdItem, corporateModel, newstaffApiRes, fragmentBillingBinding.prgTrackingEdit.getText().toString(), salesCode1, isUhidSelected, isCorporatePayment, selectedPatientCodeDes));
                 getBaseActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         }
@@ -508,6 +539,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         } else if (requestCode == CORPORATE_SEARCH_ACTIVITY_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 CorporateModel.DropdownValueBean result = (CorporateModel.DropdownValueBean) data.getSerializableExtra("corporate_info");
+                result.setPrg_Tracking(fragmentBillingBinding.prgTrackingEdit.getText().toString());
                 fragmentBillingBinding.setCorporate(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -574,6 +606,17 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
                 dialogView.show();
             }
         }
+    }
+
+    @Override
+    public CorporateModel.DropdownValueBean getCorporateModule() {
+        return fragmentBillingBinding.getCorporate();
+    }
+
+    @Override
+    public void onSuccessPatientMaster(PatientMasterResponse patientMasterResponse) {
+        this.patientMasterList = patientMasterResponse.getDropdownValue();
+        setUp();
     }
 
     private boolean stopLooping;
@@ -725,5 +768,42 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
             stopLooping = true;
         });
         dialog.show();
+    }
+
+    public void getPatientMasterDropdown(List<PatientMasterResponse.DropdownValue> patientMasterDropdown) {
+        fragmentBillingBinding.patientType.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf"));
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < patientMasterDropdown.size(); i++) {
+            String getPatientMasterCode = patientMasterDropdown.get(i).getCode();
+            String getPatientMasterDescription = patientMasterDropdown.get(i).getDisplayText();
+            data.add(getPatientMasterCode + "-" + getPatientMasterDescription);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, data) {
+
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fragmentBillingBinding.patientType.setAdapter(adapter);
+        fragmentBillingBinding.patientType.setSelection(0);
+        fragmentBillingBinding.patientType.getEditText().setTypeface(Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf"));
+        fragmentBillingBinding.patientType.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf"));
+        fragmentBillingBinding.patientType.setOnItemClickListener((materialSpinner, view, i, l) -> {
+            materialSpinner.focusSearch(View.FOCUS_DOWN);
+        });
     }
 }

@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
             @Override
             public void run() {
                 // Show your dialog here
-                showDialog();
+//                showDialog();
             }
         };
 //        if (getResources().getBoolean(R.bool.portrait_only)) {
@@ -94,6 +94,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         super.onPause();
         // Stop the idle timer when the activity is paused
         stopIdleTimer();
+        if(mProgressDialog!=null && mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
     }
 
     private void startIdleTimer() {
@@ -161,6 +164,16 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         hideKeyboard();
         mProgressDialog = CommonUtils.showLoadingDialog(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mProgressDialog!=null && mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
+    }
+
+
 
     @Override
     public void hideLoading() {
