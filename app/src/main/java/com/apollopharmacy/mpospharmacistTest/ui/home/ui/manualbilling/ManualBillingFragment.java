@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginR
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.BillingMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.PatientMasterResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.SpinnerPojo;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
@@ -252,22 +254,33 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
         return null;
     }
 
+    @Override
+    public void onSuccessPatientMaster(PatientMasterResponse patientMasterResponse) {
+
+    }
+
 //    @Override
 //    public void updateUHIDDetails(Uhid_details uhid_details) {
 //
 //    }
 
     @Override
-    public void onFaliureStaffListData() {
+    public void onFaliureStaffListData(PharmacyStaffApiRes pharmacyStaffApiRes) {
         if (customerResult != null) {
             String availableData = customerResult.getAvailablePoints();
             if (customerResult.getAvailablePoints().equalsIgnoreCase("")) {
                 fragmentBillingBinding.availablePoints.setText("--");
+                if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+                    Toast.makeText(getContext(), pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             } else {
                 fragmentBillingBinding.availablePoints.setText(availableData);
             }
         } else {
             fragmentBillingBinding.availablePoints.setText("--");
+            if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+                Toast.makeText(getContext(), pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

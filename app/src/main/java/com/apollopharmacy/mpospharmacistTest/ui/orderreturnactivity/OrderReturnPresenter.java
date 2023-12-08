@@ -166,11 +166,11 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
                         }
                     }
                 }
@@ -301,11 +301,11 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage());
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
                             getMvpView().onAlreadyItemReturnedColor();
                         }
                     }

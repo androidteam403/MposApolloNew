@@ -192,7 +192,7 @@ public interface AddItemMvpView extends MvpView {
 
     void onUploadApiCall();
 
-    void onFaliureStaffListData();
+    void onFaliureStaffListData(PharmacyStaffApiRes pharmacyStaffApiRes);
 
     void onSucessStaffListData(PharmacyStaffApiRes res);
 
@@ -260,4 +260,6 @@ public interface AddItemMvpView extends MvpView {
     Boolean isCameFromOrderDetailsScreenActivity();
 
     void SuccessOnlineorderCorporatelist(GetOnlineCorporateListApiResponse response, double amount);
+
+    String getPatientType();
 }

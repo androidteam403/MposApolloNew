@@ -175,6 +175,12 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     protected void setUp() {
         orderReturnActiivtyBinding.setCallback(mvpPresenter);
         orderReturnActiivtyBinding.setIsReturn(false);
+        boolean isHbpStore = mvpPresenter.getGlobalConfing().isISHBPStore();
+        if (isHbpStore) {
+            orderReturnActiivtyBinding.dupicateCheckBoxLayout.setVisibility(View.GONE);
+        } else {
+            orderReturnActiivtyBinding.dupicateCheckBoxLayout.setVisibility(View.VISIBLE);
+        }
         orderReturnModelList = new ArrayList<>();
         if (getIntent() != null) {
             orderHistoryItem = (CalculatePosTransactionRes) getIntent().getSerializableExtra("order_history_info");
@@ -473,7 +479,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 //        }
         if (pdfModelResponse != null) {
             try {
-                createPdf();
+                createPdf(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -539,7 +545,10 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         }
     }
 
-    private void openPdf() {
+    private boolean isOriginalPrintOnly = false;
+
+    private void openPdf(boolean isOriginalPrintOnly) {
+        this.isOriginalPrintOnly = isOriginalPrintOnly;
         String fileName = pdfTransactionId + ".pdf";
         File file = FileUtil.getFilePath(fileName, this, "mposprintbill");
 
@@ -614,6 +623,16 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             callback.onLayoutFinished(pdi, true);
         }
 
+        @Override
+        public void onFinish() {
+            if (isOriginalPrintOnly) {
+                Intent intent = getIntent();
+                intent.putExtra("isUpdated", true);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+            super.onFinish();
+        }
     };
 
     @Override
@@ -642,17 +661,17 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                                     orderHistoryItem.setReturn(true);
                                     mvpPresenter.cancelDSBilling(orderHistoryItem);
                                 } else {
-                                    showCancelOrderSuccess("", "Card Cancellation Not Allowed!!");
+                                    showCancelOrderSuccess("", "Card Cancellation Not Allowed!!", false);
                                 }
                             } else if (isSmapay) {
-                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!");
+                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false);
                             } else if (isHdfcPayment) {
-                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!");
+                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false);
                             } else {
                                 if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
-                                    showCancelOrderSuccess("", "Cancellation Not Allowed!!");
+                                    showCancelOrderSuccess("", "Cancellation Not Allowed!!", false);
                                 } else if (!mvpPresenter.isAllowOrNot(orderHistoryItem)) {
-                                    showCancelOrderSuccess("", "Transaction Already Cancelled!!");
+                                    showCancelOrderSuccess("", "Transaction Already Cancelled!!", false);
                                 } else {
                                     orderHistoryItem.setReturnType(0);
                                     orderHistoryItem.setReturn(true);
@@ -690,7 +709,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 //                                mvpPresenter.orderReturnAll(orderHistoryItem);
 //                            }
                         } else {
-                            showCancelOrderSuccess("", "Transaction Already Return!!");
+                            showCancelOrderSuccess("", "Transaction Already Return!!", false);
                         }
                     }
                 }
@@ -709,7 +728,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     }
 
     @Override
-    public void showCancelOrderSuccess(String title, String message) {
+    public void showCancelOrderSuccess(String title, String message, boolean isShowPdf) {
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle(title);
         dialogView.setPositiveLabel("OK");
@@ -719,10 +738,20 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                Intent intent = getIntent();
-                intent.putExtra("isUpdated", true);
-                setResult(RESULT_OK, intent);
-                finish();
+                if (isShowPdf) {
+                    if (pdfModelResponse != null) {
+                        try {
+                            createPdf(true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    Intent intent = getIntent();
+                    intent.putExtra("isUpdated", true);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
         dialogView.show();
@@ -1494,7 +1523,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         return bitmap;
     }
 
-    private void createPdf() throws IOException {
+    private void createPdf(boolean isOriginalPrintOnly) throws IOException {
 //        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 
 //        File file = new File(pdfPath, "pdfdoc.pdf");
@@ -1510,17 +1539,21 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         document.setMargins(15, 15, 15, 15);
         pageBreakCount = 0;
         shippingChargePackingCount = 0;
-        createPdfPageWise(pdfDocument, document, false);
+        //        if (isCancelOrReturn) {
+//            createPdfPageWise(pdfDocument, document, true);
+//        } else {
+        createPdfPageWise(pdfDocument, document, mvpPresenter.getGlobalConfing().isISHBPStore(), isOriginalPrintOnly);
+//        }
         document.close();
         if (isStoragePermissionGranted()) {
-            openPdf();
+            openPdf(isOriginalPrintOnly);
         }
     }
 
     public static final String REGULAR = "res/font/gothic_regular.TTF";
     public static final String BOLD = "res/font/gothic_bold.TTF";
 
-    private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate) throws IOException {
+    private void createPdfPageWise(PdfDocument pdfDocument, Document document, boolean isDuplicate, boolean isOriginalBillOnly) throws IOException {
         // declaring variables for loading the fonts from asset
         byte[] fontByte, boldByte;
         AssetManager am;
@@ -1572,7 +1605,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 
 
         table1.addCell(new Cell(4, 1).add(new Paragraph(new Text("Registered Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("No.19 Bishop Gerden, Raja Annamalaipuram, Chennai-600028").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("Admin Office: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("(For all correspondence) All towers, Floor No 55, Greams Road, Chennai-600006").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).add(new Paragraph(new Text("CIN : ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("U52500TN2016PLC111328").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
-        String duplicate = isDuplicate ? "Duplicate Copy of Invoice" : "";
+        String duplicate = isOriginalBillOnly ? "" : isDuplicate ? "Duplicate Copy of Invoice" : "";
         table1.addCell(new Cell(1, 2).add(new Paragraph(new Text(duplicate).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
 
         table1.addCell(new Cell(1, 2).add(new Paragraph(new Text("INVOICE").setFontSize(ITEXT_FONT_SIZE_EIGHT).setFont(bold)).setMarginLeft(10)).setBorder(Border.NO_BORDER));
@@ -1626,9 +1659,9 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             } else {
                 PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
                 pageBreakCount++;
-                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length()>7){
-                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0,5)+"..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-                }else{
+                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length() > 7) {
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0, 5) + "..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                } else {
                     table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
                 }
                 table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1684,7 +1717,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                 }
             }
         }
-        tableEShippingPacking.addCell(new Cell(1,1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
+        tableEShippingPacking.addCell(new Cell(1, 1).add(new Paragraph(new Text(eShippingPacking).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font)).setTextAlignment(TextAlignment.CENTER)).setBorder(border4));
 
         float[] columnWidth5 = {144, 170, 122, 144};//580
 //        float columnWidth5[] = {140, 160, 120, 140};
@@ -1730,8 +1763,10 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         table6.setBorder(border6);
 //        table6.setBorder(new SolidBorder(1));
         table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+        table6.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
+        //table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+        //table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
 
 
         float[] columnWidth7 = {290, 290};//580
@@ -1797,10 +1832,10 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         document.add(table2);
         document.add(table3);
         document.add(table4);
-        if (!eShippingPacking.isEmpty()) {
-            document.add(tableEShippingPacking);
-        }
         if ((pageBreakCount + shippingChargePackingCount) == pdfModelResponse.getSalesLine().size()) {
+            if (!eShippingPacking.isEmpty()) {
+                document.add(tableEShippingPacking);
+            }
             document.add(table5);
             document.add(table6);
             document.add(table7);
@@ -1810,13 +1845,13 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 
         if ((pageBreakCount + shippingChargePackingCount) != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-            createPdfPageWise(pdfDocument, document, isDuplicate);
+            createPdfPageWise(pdfDocument, document, isDuplicate, false);
         } else {
-            if (!isDuplicate && duplicateCheckboxChecked) {
+            if (!isOriginalBillOnly && !isDuplicate && duplicateCheckboxChecked) {
                 document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 pageBreakCount = 0;
                 shippingChargePackingCount = 0;
-                createPdfPageWise(pdfDocument, document, true);
+                createPdfPageWise(pdfDocument, document, true, false);
             }
         }
     }

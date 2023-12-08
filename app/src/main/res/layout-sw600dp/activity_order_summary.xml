@@ -775,8 +775,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen45dp"
                 android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/place_new_order_btn"

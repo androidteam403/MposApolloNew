@@ -388,6 +388,7 @@
                     android:weightSum="1">
 
                     <LinearLayout
+                        android:id="@+id/dupicate_check_box_layout"
                         android:background="@color/light_grey"
                         android:layout_marginStart="@dimen/fifteen_dp"
                         android:layout_width="match_parent"

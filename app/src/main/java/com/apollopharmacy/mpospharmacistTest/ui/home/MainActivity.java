@@ -127,7 +127,7 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView userName, userStoreLocation, rePrint;
+    private TextView userName, userStoreLocation;
     private CorporateModel corporateModel;
     private NavigationView navigationView;
     private ImageView imageView;
@@ -170,8 +170,6 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rePrint = (TextView) findViewById(R.id.reprint);
-        onClickrePrint();
         double diagonalInches = UiUtils.displaymetrics(this);
         if (diagonalInches >= 10) {
             Log.i("Tab inches-->", "10 inches");
@@ -189,11 +187,11 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         toolbar.setTitleTextAppearance(this, R.style.RobotoBoldTextAppearance);
         getActivityComponent().inject(this);
         mvpPresenter.onAttach(MainActivity.this);
-        if (mvpPresenter.getGlobalConfing().isISHBPStore()) {
+        /*if (mvpPresenter.getGlobalConfing().isISHBPStore()) {
             rePrint.setVisibility(View.VISIBLE);
         } else {
             rePrint.setVisibility(View.GONE);
-        }
+        }*/
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         imageView = findViewById(R.id.image_view);
@@ -284,6 +282,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 } else if (menuItem.getItemId() == R.id.nav_ePrescription_vOne) {
                     navController.navigate(R.id.nav_ePrescription_vOne, null, navOptions, null);
                     Constant.getInstance().Orders_type = "E-Prescription";
+                } else if (menuItem.getItemId() == R.id.nav_reprint) {
+                    onClickrePrint();
                 }
                 /*else if (menuItem.getItemId() == R.id.nav_exit_kiosk) {
                     KioskExitDialog adminPwdDialog = new KioskExitDialog(MainActivity.this, mvpPresenter);
@@ -325,15 +325,15 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         Constant.getInstance().ordersource = "";
         setUp();
     }
+
     private void onClickrePrint() {
-        rePrint.setOnClickListener(v -> {
-            if (!mvpPresenter.getLastTransactionId().isEmpty()) {
-                mvpPresenter.downloadPdf(mvpPresenter.getLastTransactionId());
-            } else {
-                Toast.makeText(this, "No Transaction ID Available.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (mvpPresenter.getLastTransactionId() != null && !mvpPresenter.getLastTransactionId().isEmpty()) {
+            mvpPresenter.downloadPdf(mvpPresenter.getLastTransactionId());
+        } else {
+            Toast.makeText(this, "No Transaction ID Available.", Toast.LENGTH_SHORT).show();
+        }
     }
+
     private void hideItem(GetGlobalConfingRes getGlobalConfingRes) {
         Menu nav_Menu = navigationView.getMenu();
         if (getGlobalConfingRes != null) {
@@ -343,6 +343,8 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
                 nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
                 nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(true);
+                nav_Menu.findItem(R.id.nav_reprint).setVisible(true);
+
             } else {
 //                nav_Menu.findItem(R.id.nav_eprescription).setVisible(true);
 //                nav_Menu.findItem(R.id.nav_Picking).setVisible(true);
@@ -353,6 +355,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
                 nav_Menu.findItem(R.id.nav_Packing).setVisible(false);
                 nav_Menu.findItem(R.id.nav_Invoice).setVisible(false);
                 nav_Menu.findItem(R.id.nav_ePrescription_vOne).setVisible(false);
+                nav_Menu.findItem(R.id.nav_reprint).setVisible(false);
             }
         }
     }
@@ -375,7 +378,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
         userStoreLocation.setText(mvpPresenter.getLoinStoreLocation());
         mvpPresenter.getCorporateList();
 
-       // bixolonprinterinitilisation();
+        // bixolonprinterinitilisation();
     }
 
     public void bixolonprinterinitilisation() {
@@ -824,6 +827,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     public void getGlobalConfig(GetGlobalConfingRes getGlobalConfingRes) {
         hideItem(getGlobalConfingRes);
     }
+
     @Override
     public void onSuccessPdfResponse(PdfModelResponse pdfModelResponse) {
         if (pdfModelResponse != null) {
@@ -1181,7 +1185,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
 
         if ((pageBreakCount + shippingChargePackingCount) != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-            createPdfPageWise(pdfModelResponse,pdfDocument, document, isDuplicate);
+            createPdfPageWise(pdfModelResponse, pdfDocument, document, isDuplicate);
         }
         /*else {
             if (!isDuplicate && duplicateCheckboxChecked) {
@@ -1192,6 +1196,7 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
             }
         }*/
     }
+
     private Bitmap QrCodeGeneration(PdfModelResponse pdfModelResponse, Context context) {
         String qrCodeData = "CUSTOMERNAME: " + pdfModelResponse.getSalesHeader().get(0).getCustName() + "\nPHONE: " + pdfModelResponse.getSalesHeader().get(0).getCustMobile() + "\nBILL NO: " + pdfModelResponse.getSalesHeader().get(0).getReceiptId();
         for (PdfModelResponse.SalesLine salesLine : pdfModelResponse.getSalesLine()) {
@@ -1336,12 +1341,9 @@ public class MainActivity extends BaseActivity implements MainActivityMvpView {
     }
 
 
-
     public void closeDrawer() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(Gravity.LEFT);
         }
     }
-
-
 }

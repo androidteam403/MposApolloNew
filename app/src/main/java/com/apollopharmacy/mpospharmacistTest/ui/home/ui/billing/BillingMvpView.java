@@ -9,6 +9,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustome
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.SalesOriginResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.GetHBPUHIDDetailsResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.PatientMasterResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.billing.model.Uhid_details;
 import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
@@ -44,7 +45,7 @@ public interface BillingMvpView extends MvpView {
 
     void onUploadApiCall();
 
-    void onFaliureStaffListData();
+    void onFaliureStaffListData(PharmacyStaffApiRes pharmacyStaffApiRes);
 
     void onSucessStaffListData(PharmacyStaffApiRes res);
 
@@ -55,5 +56,7 @@ public interface BillingMvpView extends MvpView {
     void updateUHIDDetails(GetHBPUHIDDetailsResponse getHBPUHIDDetailsResponse);
 
     CorporateModel.DropdownValueBean getCorporateModule();
+
+    void onSuccessPatientMaster(PatientMasterResponse patientMasterResponse);
 
 }

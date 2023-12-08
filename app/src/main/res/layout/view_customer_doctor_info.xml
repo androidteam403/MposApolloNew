@@ -211,6 +211,7 @@
                             tools:ignore="RelativeOverlap" />
 
                         <ImageView
+                            android:id="@+id/doctoreditclick"
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="@dimen/twenty_five_dp"
                             android:layout_alignParentEnd="true"

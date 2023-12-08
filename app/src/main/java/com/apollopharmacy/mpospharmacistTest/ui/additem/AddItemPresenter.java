@@ -2096,7 +2096,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                             }
                         } else {
-                            getMvpView().onFaliureStaffListData();
+                            getMvpView().onFaliureStaffListData(response.body());
                         }
 
                     }

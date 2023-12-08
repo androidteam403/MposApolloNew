@@ -164,4 +164,5 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
     void getOnlineOrderCorporateList(GetOnlineCorporateListApiRequest request, double amnt);
 
     boolean isMposV1Flow();
+
 }

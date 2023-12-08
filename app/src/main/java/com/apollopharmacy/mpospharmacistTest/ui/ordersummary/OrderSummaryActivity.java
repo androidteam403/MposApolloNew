@@ -726,6 +726,11 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             callback.onLayoutFinished(pdi, true);
         }
 
+        @Override
+        public void onFinish() {
+            orderSummaryBinding.printBill.setVisibility(View.GONE);
+            super.onFinish();
+        }
     };
 
     @Override
@@ -1536,9 +1541,9 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
             } else {
                 PdfModelResponse.SalesLine salesLine = pdfModelResponse.getSalesLine().get(i);
                 pageBreakCount++;
-                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length()>7){
-                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0,5)+"..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
-                }else{
+                if (pdfModelResponse.getSalesLine().get(i).getRackId() != null && pdfModelResponse.getSalesLine().get(i).getRackId().length() > 7) {
+                    table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId().substring(0, 5) + "..").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
+                } else {
                     table4.addCell(new Cell().add(new Paragraph(new Text(pdfModelResponse.getSalesLine().get(i).getRackId()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
                 }
                 table4.addCell(new Cell().add(new Paragraph(new Text(salesLine.getQty()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(border4));
@@ -1641,8 +1646,10 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         table6.setBorder(border6);
 //        table6.setBorder(new SolidBorder(1));
         table6.addCell(new Cell().add(new Paragraph(new Text("Donation: ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold)).add(new Text("0.00").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(font))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
-        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+        table6.addCell(new Cell().add(new Paragraph(new Text("").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
+        //table6.addCell(new Cell().add(new Paragraph(new Text("*1 HC equal to 1 Rupee").setFontSize(ITEXT_FONT_SIZE_SIX))).setBorder(Border.NO_BORDER));
+        table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount()).setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
+        //table6.addCell(new Cell(1, 2).add(new Paragraph(new Text("* You Saved Rs. " + pdfModelResponse.getSalesHeader().get(0).getDiscount() + "& Earned 50.35 HC's ").setFontSize(ITEXT_FONT_SIZE_SIX).setFont(bold))).setBorder(new DashedBorder(1)));
 
 
         float[] columnWidth7 = {290, 290};//580
@@ -1708,16 +1715,15 @@ public class OrderSummaryActivity extends PDFCreatorActivity implements OrderSum
         document.add(table2);
         document.add(table3);
         document.add(table4);
-        if (!eShippingPacking.isEmpty()) {
-            document.add(tableEShippingPacking);
-        }
         if ((pageBreakCount + shippingChargePackingCount) == pdfModelResponse.getSalesLine().size()) {
+            if (!eShippingPacking.isEmpty()) {
+                document.add(tableEShippingPacking);
+            }
             document.add(table5);
             document.add(table6);
             document.add(table7);
             document.add(table8);
         }
-
 
         if ((pageBreakCount + shippingChargePackingCount) != pdfModelResponse.getSalesLine().size()) {
             document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
