@@ -170,7 +170,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false);
                         }
                     }
                 }
@@ -305,7 +305,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false);
                             getMvpView().onAlreadyItemReturnedColor();
                         }
                     }

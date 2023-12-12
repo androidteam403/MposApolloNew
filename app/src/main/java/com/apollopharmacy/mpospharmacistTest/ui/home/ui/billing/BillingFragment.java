@@ -319,7 +319,7 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         fragmentBillingBinding.availablePoints.setText(String.valueOf(availableAmount));
         fragmentBillingBinding.getCorporate().setPrg_Tracking(fragmentBillingBinding.prgTrackingEdit.getText().toString());
         fragmentBillingBinding.customerDetailsArrow.setEnabled(false);
-        fragmentBillingBinding.doctorDetailsArrow.setEnabled(false);
+//        fragmentBillingBinding.doctorDetailsArrow.setEnabled(false);
         fragmentBillingBinding.corporateDetailsArrow.setEnabled(false);
         fragmentBillingBinding.prgTrackingEdit.setEnabled(false);
         isCorporatePayment = true;
