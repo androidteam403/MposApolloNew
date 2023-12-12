@@ -122,6 +122,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
     int maxOrdersAllowed = 0;
     int minOrdersAllowed = 0;
+    boolean isSelectAllIconChecked = false;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -366,7 +367,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                         fullfilmentAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false, false);
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(i).getRefno(), false, false, false);
                 }
                 break;
             }
@@ -1354,6 +1355,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     }
 
     List<TransactionHeaderResponse.OMSHeader> maxOrdersList = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onSucessfullFulfilmentIdListText(TransactionHeaderResponse omsHeader) {
 //        this.customerTypeFilterList.clear();
@@ -1546,7 +1548,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     hideLoading();
                     onContinueBtnEnable();
                 } else {
-                    mPresenter.onGetOmsTransaction(omsHeaderList.get(autoAssignPos).getRefno(), true, true);
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(autoAssignPos).getRefno(), true, true, false);
                 }
             } else {
                 autoAssignPos++;
@@ -2364,6 +2366,95 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
         }
     }
+
+    List<TransactionHeaderResponse.OMSHeader> availableOmsHeaderList = new ArrayList<>();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onClickSelectAll() {
+        isSelectAllIconChecked = !isSelectAllIconChecked;
+        if (isSelectAllIconChecked) {
+            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+        } else {
+            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+        }
+        if (availableOmsHeaderList != null && availableOmsHeaderList.size() > 0) {
+            availableOmsHeaderList = omsHeaderList.stream()
+                    .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE") && !e.isSelected())
+                    .collect(Collectors.toList());
+        } else {
+            availableOmsHeaderList = omsHeaderList.stream()
+                    .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE"))
+                    .collect(Collectors.toList());
+        }
+        if (isSelectAllIconChecked) {
+            callGetOmsTransactionApi(availableOmsHeaderList, 0);
+        } else {
+            availableOmsHeaderList.clear();
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                omsHeaderList.get(i).setSelected(false);
+                omsHeaderList.get(i).setShipmentTatSelected(false);
+            }
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                selectedOmsHeaderList.clear();
+            }
+            fullfilmentAdapter.notifyDataSetChanged();
+            onContinueBtnEnable();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onShipmentTatSelect(String shipmentTat, boolean isSelected, int position) {
+        availableOmsHeaderList = omsHeaderList.stream()
+                .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE") && e.getShipmentTat().equalsIgnoreCase(shipmentTat))
+                .collect(Collectors.toList());
+        if (!omsHeaderList.get(position).isShipmentTatSelected()) {
+            if (availableOmsHeaderList != null && availableOmsHeaderList.size() > 0) {
+                callGetOmsTransactionApi(availableOmsHeaderList, 0);
+            }
+        } else {
+            for (int i = 0; i < availableOmsHeaderList.size(); i++) {
+                availableOmsHeaderList.get(i).setSelected(false);
+                availableOmsHeaderList.get(i).setShipmentTatSelected(false);
+            }
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                selectedOmsHeaderList.removeIf(omsHeader -> omsHeader.getShipmentTat().equalsIgnoreCase(shipmentTat));
+            }
+            fullfilmentAdapter.isBulkSelected(false, shipmentTat);
+            fullfilmentAdapter.notifyDataSetChanged();
+            onContinueBtnEnable();
+        }
+    }
+
+    int index;
+
+    private void callGetOmsTransactionApi(List<TransactionHeaderResponse.OMSHeader> availableOmsHeaderList, int currentIndex) {
+        index = currentIndex;
+        if (currentIndex >= availableOmsHeaderList.size()) {
+            return;
+        }
+        TransactionHeaderResponse.OMSHeader omsHeader = availableOmsHeaderList.get(currentIndex);
+        omsHeader.setSelected(true);
+        omsHeader.setShipmentTatSelected(true);
+        mPresenter.onGetOmsTransaction(omsHeader.getRefno(), false, false, true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onSuccessGetOmsTransactionBulkSelection(List<GetOMSTransactionResponse> body) {
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).getRefno().equalsIgnoreCase(body.get(0).getRefno())) {
+                    omsHeaderList.get(i).setGetOMSTransactionResponse(body.get(0));
+                    selectedOmsHeaderList.add(omsHeaderList.get(i));
+                }
+            }
+        }
+        selectedOmsHeaderList = selectedOmsHeaderList.stream().distinct().collect(Collectors.toList());
+        fullfilmentAdapter.notifyDataSetChanged();
+        onContinueBtnEnable();
+        callGetOmsTransactionApi(availableOmsHeaderList, index + 1);
+    }
     boolean isScanerBack;
 
     @Override
@@ -2470,12 +2561,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            maxOrdersAllowed = 5;
             if (minOrdersAllowed > 0 && maxOrdersAllowed > 0) {
                 if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
-                    mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
+                    mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false, false);
                 } else {
                     Toast.makeText(getContext(), "You have selected max allowed orders", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false);
+                mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false, false);
             }
         }
     }

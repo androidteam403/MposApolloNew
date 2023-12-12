@@ -292,6 +292,18 @@
                 android:weightSum="1">
 
                 <ImageView
+                    android:id="@+id/select_all_icon"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/dimen7dp"
+                    android:layout_marginEnd="@dimen/dimen7dp"
+                    android:clickable="false"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->callback.onClickSelectAll()}"
+                    android:src="@drawable/ic_artboard_39" />
+
+                <ImageView
                     android:id="@+id/searchIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/thirty_five_dp"

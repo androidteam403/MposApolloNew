@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable, HeaderItemDecoration.StickyHeaderInterface {
@@ -45,6 +46,9 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 //    public List<GetOMSTransactionResponse> getOMSTransactionResponseList;
 
     private boolean isDispatchCutoffTime = false;
+    private boolean isSelectIconChecked = false;
+    private String shipmentTat = "";
+    private List<TransactionHeaderResponse.OMSHeader> selectedList = new ArrayList<>();
 
     public FullfilmentAdapter(Context context, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, OpenOrdersMvpView mvpView, List<GetOMSTransactionResponse> getOMSTransactionResponseList, String userId) {
         this.context = context;
@@ -99,12 +103,26 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(position);
+        AtomicReference<String> selectedShipmentTat = new AtomicReference<>("");
+        Map<String, Long> groupByShipmentTat = filteredOmsHeaderList.stream()
+                .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
 //        if (isDispatchCutoffTime) {
-            if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
-                holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
+        if (position == 0 || !filteredOmsHeaderList.get(position).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(position - 1).getShipmentTat())) {
+            holder.fullfilmentBinding.shipmentDateHeader.setVisibility(View.VISIBLE);
 //                holder.fullfilmentBinding.shipmentDateHeader.setText("Shipping  TAT : " + omsHeader.getShipmentTat());
-            Map<String, Long> groupByShipmentTat = filteredOmsHeaderList.stream()
-                    .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat, Collectors.counting()));
+            if (filteredOmsHeaderList.get(position).isShipmentTatSelected()) {
+                holder.fullfilmentBinding.selectIcon.setImageDrawable(context.getDrawable(R.drawable.ic_artboard_40));
+            } else {
+                holder.fullfilmentBinding.selectIcon.setImageDrawable(context.getDrawable(R.drawable.ic_artboard_39));
+            }
+            holder.fullfilmentBinding.selectIcon.setOnClickListener(view -> {
+                for (Map.Entry<String, Long> entry : groupByShipmentTat.entrySet()) {
+                    if (omsHeader.getShipmentTat().equalsIgnoreCase(entry.getKey())) {
+                        selectedShipmentTat.set(entry.getKey());
+                    }
+                }
+                mvpView.onShipmentTatSelect(selectedShipmentTat.get(), isSelectIconChecked, position);
+            });
             groupByShipmentTat.forEach((k, v) -> {
                 if (omsHeader.getShipmentTat().equalsIgnoreCase(k)) {
                     holder.fullfilmentBinding.shipmentCount.setText("(" + v + ")");
@@ -363,14 +381,14 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
 
     @Override
     public int getHeaderLayout(int headerPosition) {
-       return R.layout.adapter_fullfilment_p_header;
+        return R.layout.adapter_fullfilment_p_header;
 //        return inflater.inflate(R.layout.adapter_fullfilment_p_header, null).getId();
 //        return LayoutInflater.from(context).inflate(R.layout.adapter_fullfilment_p_header, null).getId();
     }
 
     @Override
     public void bindHeaderData(View headerView, int headerPosition, int itemPosition) {
-        if(filteredOmsHeaderList!=null && filteredOmsHeaderList.size()>0){
+        if (filteredOmsHeaderList != null && filteredOmsHeaderList.size() > 0) {
             TransactionHeaderResponse.OMSHeader omsHeader = filteredOmsHeaderList.get(headerPosition);
             TextView shipmentCount = headerView.findViewById(R.id.shipment_count_n);
             TextView shipmentDateN = headerView.findViewById(R.id.shipment_date_n);
@@ -397,20 +415,23 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         }
 
 
-
-
     }
 
     @Override
     public boolean isHeader(int itemPosition) {
         if (itemPosition == 0) {
             return true;
-        } else if(filteredOmsHeaderList!=null && filteredOmsHeaderList.size()>0) {
+        } else if (filteredOmsHeaderList != null && filteredOmsHeaderList.size() > 0) {
             if (filteredOmsHeaderList.get(itemPosition) != null && !filteredOmsHeaderList.get(itemPosition).getShipmentTat().equalsIgnoreCase(filteredOmsHeaderList.get(itemPosition - 1).getShipmentTat())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void isBulkSelected(boolean isBulkSelection, String selectedShipmentTat) {
+        this.isSelectIconChecked = isBulkSelection;
+        this.shipmentTat = selectedShipmentTat;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

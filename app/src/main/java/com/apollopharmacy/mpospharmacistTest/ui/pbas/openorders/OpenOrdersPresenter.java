@@ -158,7 +158,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
     }
 
     @Override
-    public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign) {
+    public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign, boolean isBulkSelection) {
         if (getMvpView().isNetworkConnected()) {
             if (!isAutoAssign)
                 getMvpView().showLoading();
@@ -183,6 +183,8 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                         } else {
                             if (isItemClick)
                                 getMvpView().onSuccessGetOmsTransactionItemClick(response.body());
+                            else if (isBulkSelection)
+                                getMvpView().onSuccessGetOmsTransactionBulkSelection(response.body());
                             else
                                 getMvpView().onSucessGetOmsTransaction(response.body());
                         }
@@ -308,6 +310,11 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 }
             });
         }
+    }
+
+    @Override
+    public void onClickSelectAll() {
+        getMvpView().onClickSelectAll();
     }
 }
 
