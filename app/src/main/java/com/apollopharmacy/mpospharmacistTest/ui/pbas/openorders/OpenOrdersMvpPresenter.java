@@ -19,7 +19,7 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     void onClickScanCode();
 
 
-    void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign);
+    void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign, boolean isBulkSelection);
 
     void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
 
@@ -42,4 +42,6 @@ public interface OpenOrdersMvpPresenter<V extends OpenOrdersMvpView> extends Mvp
     List<UserModel._DropdownValueBean> getMaxMinOrdersList();
 
     void mposPickPackOrderReservationApiCall(int requestStatus, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
+
+    void onClickSelectAll();
 }

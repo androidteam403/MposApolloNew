@@ -50,4 +50,10 @@ public interface OpenOrdersMvpView extends MvpView {
     void onSuccessGetOmsTransactionAutoAssign(List<GetOMSTransactionResponse> getOMSTransactionResponseList);
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
+
+    void onClickSelectAll();
+
+    void onShipmentTatSelect(String shipmentTat, boolean isSelected, int position);
+
+    void onSuccessGetOmsTransactionBulkSelection(List<GetOMSTransactionResponse> body);
 }

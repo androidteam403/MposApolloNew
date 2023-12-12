@@ -151,6 +151,15 @@ public class TransactionHeaderResponse implements Serializable {
         private boolean isExpanded;
 
         private boolean isScanned;
+        private boolean isShipmentTatSelected;
+
+        public boolean isShipmentTatSelected() {
+            return isShipmentTatSelected;
+        }
+
+        public void setShipmentTatSelected(boolean shipmentTatSelected) {
+            isShipmentTatSelected = shipmentTatSelected;
+        }
 
         private GetOMSTransactionResponse getOMSTransactionResponse;
         private boolean isOnHold = false;
