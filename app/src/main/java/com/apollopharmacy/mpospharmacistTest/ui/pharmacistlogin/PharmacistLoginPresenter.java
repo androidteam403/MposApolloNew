@@ -257,7 +257,6 @@ public class PharmacistLoginPresenter<V extends PharmacistLoginMvpView> extends 
 //                            response.body().getOMSVendorWiseConfigration().get(3).setAllowMultiBatch(false);
 //                            response.body().getOMSVendorWiseConfigration().get(3).setAllowChangeQTY(false);
 //                            response.body().setISHBPStore(true);
-                            response.body().setISHBPStore(true);
                             getDataManager().setDataAreaId(response.body().getDataAreaID());
                             Gson gson = new Gson();
                             String json = gson.toJson(response.body());

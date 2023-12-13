@@ -2076,13 +2076,16 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                 getMvpView().corpPrgTrackingError();
                 getMvpView().hideLoading();
                 return;
-            } else staffAPIReq.setEmpId(getMvpView().getCorporateModule().getPrg_Tracking());
+            } else {
+                staffAPIReq.setEmpId(getMvpView().getCorporateModule().getPrg_Tracking());
+            }
 
             staffAPIReq.setMobileNum(getMvpView().getCustomerModule().getMobileNo());
             staffAPIReq.setOTP("");
             staffAPIReq.setRegion(getDataManager().getGlobalJson().getRegion());
             staffAPIReq.setSiteId(getDataManager().getGlobalJson().getStoreID());
             staffAPIReq.setSiteName(getDataManager().getGlobalJson().getStoreName());
+            staffAPIReq.setCorpCode(getMvpView().getCorporateModule().getCode());
             staffAPIReq.setUrl(getDataManager().getGlobalJson().getDSBillingURL());
             Call<PharmacyStaffApiRes> call = api.PHARMACY_STAFF_API_RES_CALL(staffAPIReq);
             call.enqueue(new Callback<PharmacyStaffApiRes>() {

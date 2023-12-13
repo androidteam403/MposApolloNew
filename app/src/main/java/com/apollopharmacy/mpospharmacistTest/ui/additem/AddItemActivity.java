@@ -386,6 +386,8 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                     addItemBinding.detailsLayout.prgTrackingEdit.setText("");
                 } else {
                     addItemBinding.detailsLayout.prgTrackingEdit.setText(customerEntity.getCardNo());
+                    prgData = customerEntity.getCardNo();
+
                 }
                 if (customerEntity.getTier() == null || customerEntity.getTier().equalsIgnoreCase("")) {
                     addItemBinding.detailsLayout.tier.setText("--");
@@ -2662,7 +2664,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             if (customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
                 isCorporatePayment = false;
                 addItemBinding.detailsLayout.availablePoints.setText("--");
-                if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+                if (pharmacyStaffApiRes != null && pharmacyStaffApiRes.getMessage() != null) {
                     Toast.makeText(this, pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -2672,7 +2674,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         } else {
             isCorporatePayment = false;
             addItemBinding.detailsLayout.availablePoints.setText("--");
-            if (pharmacyStaffApiRes !=  null && pharmacyStaffApiRes.getMessage() != null){
+            if (pharmacyStaffApiRes != null && pharmacyStaffApiRes.getMessage() != null) {
                 Toast.makeText(this, pharmacyStaffApiRes.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -3586,13 +3588,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (isCorporatePayment) {
             addItemBinding.clearAllImgTwo.setVisibility(View.VISIBLE);
             addItemBinding.detailsLayout.customereditclick.setEnabled(false);
-            addItemBinding.detailsLayout.doctoreditclick.setEnabled(false);
+//            addItemBinding.detailsLayout.doctoreditclick.setEnabled(false);
             addItemBinding.detailsLayout.corpoEdit.setEnabled(false);
             addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(false);
         } else {
             addItemBinding.clearAllImgTwo.setVisibility(View.GONE);
             addItemBinding.detailsLayout.customereditclick.setEnabled(true);
-            addItemBinding.detailsLayout.doctoreditclick.setEnabled(true);
+//            addItemBinding.detailsLayout.doctoreditclick.setEnabled(true);
             addItemBinding.detailsLayout.corpoEdit.setEnabled(true);
             addItemBinding.detailsLayout.prgTrackingEdit.setEnabled(true);
         }
