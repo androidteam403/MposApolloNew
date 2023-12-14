@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable, HeaderItemDecoration.StickyHeaderInterface {
+public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {//, HeaderItemDecoration.StickyHeaderInterface
     private final Context context;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
@@ -366,6 +366,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         };
     }
 
+    /* sticky header
     @Override
     public int getHeaderPositionForItem(int itemPosition) {
         int headerPosition = 0;
@@ -427,7 +428,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             }
         }
         return false;
-    }
+    }*/
 
     public void isBulkSelected(boolean isBulkSelection, String selectedShipmentTat) {
         this.isSelectIconChecked = isBulkSelection;
