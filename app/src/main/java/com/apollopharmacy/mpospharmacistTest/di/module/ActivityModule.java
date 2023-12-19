@@ -72,6 +72,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.manualbilling.ManualBill
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3Presenter;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginPresenter;
@@ -578,6 +584,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     StockInwardProcessDetailsMvpPresenter<StockInwardProcessDetailsMvpView> stockInwardProcessDetailsPresenter(StockInwardProcessDetailsPresenter<StockInwardProcessDetailsMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    V3NavigationMvpPresenter<V3NavigationMvpView> provideV3NavigationPresenter(V3NavigationPresenter<V3NavigationMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OpenOrdersV3MvpPresenter<OpenOrdersV3MvpView> provideOpenOrdersV3Presenter(OpenOrdersV3Presenter<OpenOrdersV3MvpView> presenter) {
         return presenter;
     }
 

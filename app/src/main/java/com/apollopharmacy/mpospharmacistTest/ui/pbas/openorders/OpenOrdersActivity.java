@@ -174,6 +174,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         openOrdersBinding.terminalId.setText("Terminal ID : " + mPresenter.getTerminalId());
+        openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         mPresenter.fetchFulfilmentOrderList(false);
         searchByFulfilmentId();
 
@@ -202,6 +203,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
         }
 
+        if (minOrdersAllowed == 0) {
+            minOrdersAllowed = 1;
+        }
     }
 
     private void pulltoRrefresh() {
@@ -1487,7 +1491,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            for (int i = 0; i <= studlistGrouped.size(); i++){
 //                omsHeaderList.addAll(studlistGrouped.get(i))
 //            }
-            if (minOrdersAllowed > 0 && maxOrdersAllowed > 0) {
+            if (maxOrdersAllowed > 0) {
                 Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
                         .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
                         .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
@@ -1498,6 +1502,17 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 if (omsHeaderList.size() > 0 && omsHeaderList.size() > maxOrdersAllowed) {
                     omsHeaderList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
                 }
+            } else {
+                Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                        .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
+                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
+                omsHeaderList.clear();
+                for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
+                    omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
+                }
+                if (omsHeaderList.size() > 0 && omsHeaderList.size() > mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed()) {
+                    omsHeaderList = omsHeaderList.stream().limit(mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed()).collect(Collectors.toList());
+                }
             }
 
 
@@ -1506,7 +1521,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
-            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter, getContext()));
+//            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter, getContext()));
             if (maxOrdersAllowed > 0) {
                 maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
                 mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
@@ -2064,9 +2079,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             if (fullfilmentAdapter != null) {
                 fullfilmentAdapter.notifyItemChanged(itemPos);
             }
-            if (selectedOmsHeaderList.size() >= minOrdersAllowed) {
-                onContinueBtnEnable();
-            }
+//            if (selectedOmsHeaderList.size() >= minOrdersAllowed) {
+//                onContinueBtnEnable();
+//            }
+            onContinueBtnEnable();
         }
     }
 
@@ -2371,6 +2387,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickSelectAll() {
+        OpenOrdersPresenter.isFirstTime = true;
         isSelectAllIconChecked = !isSelectAllIconChecked;
         if (isSelectAllIconChecked) {
             openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
@@ -2405,6 +2422,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onShipmentTatSelect(String shipmentTat, boolean isSelected, int position) {
+        OpenOrdersPresenter.isFirstTime = true;
         availableOmsHeaderList = omsHeaderList.stream()
                 .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE") && e.getShipmentTat().equalsIgnoreCase(shipmentTat))
                 .collect(Collectors.toList());
@@ -2423,14 +2441,32 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             fullfilmentAdapter.isBulkSelected(false, shipmentTat);
             fullfilmentAdapter.notifyDataSetChanged();
             onContinueBtnEnable();
+            enableSelectAllCheckBox();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void enableSelectAllCheckBox() {
+        boolean isAllSelected = omsHeaderList.stream()
+                .filter(omsHeader -> !omsHeader.getStockStatus().equalsIgnoreCase("NOT AVAILABLE"))
+                .allMatch(TransactionHeaderResponse.OMSHeader::isSelected);
+        if (isAllSelected) {
+            isSelectAllIconChecked = true;
+            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+        } else {
+            isSelectAllIconChecked = false;
+            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
         }
     }
 
     int index;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void callGetOmsTransactionApi(List<TransactionHeaderResponse.OMSHeader> availableOmsHeaderList, int currentIndex) {
+        enableSelectAllCheckBox();
         index = currentIndex;
         if (currentIndex >= availableOmsHeaderList.size()) {
+            hideLoading();
             return;
         }
         TransactionHeaderResponse.OMSHeader omsHeader = availableOmsHeaderList.get(currentIndex);
@@ -2559,7 +2595,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             onContinueBtnEnable();
         } else {
 //            maxOrdersAllowed = 5;
-            if (minOrdersAllowed > 0 && maxOrdersAllowed > 0) {
+            if (maxOrdersAllowed > 0) {
                 if (maxOrdersAllowed > selectedOmsHeaderList.size()) {
                     mPresenter.onGetOmsTransaction(omsHeaderList.get(pos).getRefno(), true, false, false);
                 } else {
@@ -2580,8 +2616,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onClickContinue() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList, omsHeaderList), READYFORPICKUP);
-            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            if (selectedOmsHeaderList.size() >= minOrdersAllowed) {
+                startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList, omsHeaderList, maxOrdersAllowed), READYFORPICKUP);
+                getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            } else {
+                Toast.makeText(getContext(), "Please select minimum allowed orders.", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(getContext(), "No Orders Selected.", Toast.LENGTH_SHORT).show();
         }
@@ -2812,10 +2852,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
             openOrdersBinding.setIsContinueSelect(true);
             openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            openOrdersBinding.selectedItemCount.setBackground(getContext().getResources().getDrawable(R.drawable.ic_circle_lite_yellow_bg));
+            openOrdersBinding.selectedItemCount.setTextColor(getContext().getResources().getColor(R.color.black));
         } else {
             openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pickup process.");
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
             openOrdersBinding.setIsContinueSelect(false);
+            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            openOrdersBinding.selectedItemCount.setBackground(getContext().getResources().getDrawable(R.drawable.ic_circle_gray_bg));
+            openOrdersBinding.selectedItemCount.setTextColor(getContext().getResources().getColor(R.color.white));
         }
     }
 

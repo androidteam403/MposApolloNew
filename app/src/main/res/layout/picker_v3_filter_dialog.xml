@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
 
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -137,8 +137,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="Stock Availabilty"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen14sp"
-                    android:visibility="gone" />
+                    android:textSize="@dimen/dimen14sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stock_available_filter"
@@ -146,8 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/five_dp"
-                    android:visibility="gone" />
+                    android:layout_marginEnd="@dimen/five_dp" />
 
                 <View
                     android:layout_width="match_parent"

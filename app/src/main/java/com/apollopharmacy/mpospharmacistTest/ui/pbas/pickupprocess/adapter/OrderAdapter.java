@@ -79,12 +79,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             pickupProcessMvpView.onClickOnHoldBtn(omsHeader, position);
         });
         if (omsHeader.getScannedBarcode() != null) {
-//            if (omsHeader.getScannedBarcode().length() > 5)
-//                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
-//            else
-//            holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
+            if (omsHeader.getScannedBarcode().length() > 5)
+                holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
+            else
+            holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode());
         } else {
-//            holder.orderBinding.boxNumber.setText("-");
+            holder.orderBinding.boxId.setText("-");
         }
         if (omsHeader.isOnHold()) {
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);

@@ -28,6 +28,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPharmacistLogin
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.MainActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.dashboard.model.RowsEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.CampaignDetailsRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UpdatePatchResponse;
@@ -292,6 +293,11 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
+        /*mPresenter.setIsV1Flow(false);
+        Intent intent = new Intent(PharmacistLoginActivity.this, V3NavigationActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        finish();*/
 //        } else {
 //            Toast.makeText(this, "MPOS version other than verion 1 & 2", Toast.LENGTH_SHORT).show();
 //        }
