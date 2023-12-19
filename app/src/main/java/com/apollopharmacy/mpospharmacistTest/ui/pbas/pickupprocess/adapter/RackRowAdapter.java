@@ -35,11 +35,14 @@ public class RackRowAdapter extends RecyclerView.Adapter<RackRowAdapter.ViewHold
     public void onBindViewHolder(@NonNull RackRowAdapter.ViewHolder holder, int position) {
         RackWiseSortedData.BoxIdModel boxIdModel = boxIdModelList.get(position);
         holder.rackRowBinding.orderItemNo.setText(boxIdModel.getOrderItemNo());
-        if (boxIdModel.getBoxId() != null)
+        if (boxIdModel.getBoxId() != null) {
             if (boxIdModel.getBoxId().length() > 5)
                 holder.rackRowBinding.rackBoxId.setText(boxIdModel.getBoxId().substring(boxIdModel.getBoxId().length() - 5));
             else
                 holder.rackRowBinding.rackBoxId.setText(boxIdModel.getBoxId());
+        } else {
+            holder.rackRowBinding.rackBoxId.setText("---");
+        }
     }
 
     @Override

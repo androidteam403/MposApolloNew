@@ -697,13 +697,14 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginEnd="@dimen/dimen5dp"
-                    android:background="@drawable/ic_circle_lite_yellow_bg"
+                    android:background="@drawable/ic_circle_gray_bg"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_9"
-                    android:visibility="@{isContinueSelect ? view.VISIBLE : view.GONE}" />
+                    android:visibility="visible" />
+<!--                @{isContinueSelect ? view.VISIBLE : view.GONE}-->
 
                 <TextView
                     android:layout_width="wrap_content"

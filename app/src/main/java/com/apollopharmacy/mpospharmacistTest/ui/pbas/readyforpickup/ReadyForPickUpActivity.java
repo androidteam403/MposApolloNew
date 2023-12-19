@@ -79,12 +79,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
 
     int taggedCount = 0;
+    int maxAllowedOrder = 0;
 
 
-    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, int maxAllowedOrder) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
         intent.putExtra(CommonUtils.ALL_ORDERS, (Serializable) omsHeaderList);
+        intent.putExtra(CommonUtils.MAX_ALLOWED_ORDER, maxAllowedOrder);
         return intent;
     }
 
@@ -126,6 +128,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             totalOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.ALL_ORDERS);
+            maxAllowedOrder = getIntent().getIntExtra(CommonUtils.MAX_ALLOWED_ORDER, 0);
 //            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
 //                for (int i = 0; i < totalOmsHeaderList.size(); i++) {
 //                    if (!totalOmsHeaderList.get(i).isSelected()) {
@@ -442,26 +445,27 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            // return;
 //        } else {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && maxAllowedOrder > 0) {
             for (int i = 0; i < totalOmsHeaderList.size(); i++) {
                 if (!totalOmsHeaderList.get(i).isSelected()) {
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
             }
-        }
-        boolean isAlltagBox = true;
-        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-            if (!omsHeader.isTagBox())
-                isAlltagBox = false;
-        if (isAlltagBox) {
-            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+        } else {
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                if (!omsHeader.isTagBox())
+                    isAlltagBox = false;
+            if (isAlltagBox) {
+                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
 ////            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
 ////            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-        } else {
+            } else {
 //            Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
-        }
+            }
 //        }
 //    }
+        }
     }
 
     @Override
@@ -551,19 +555,20 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 ////        } else {
 
 
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && maxAllowedOrder > 0) {
             for (int i = 0; i < totalOmsHeaderList.size(); i++) {
                 if (!totalOmsHeaderList.get(i).isSelected()) {
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
             }
-        }
-        boolean isAlltagBox = true;
-        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-            if (!omsHeader.isTagBox())
-                isAlltagBox = false;
-        if (!isAlltagBox) {
-            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+        } else {
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                if (!omsHeader.isTagBox())
+                    isAlltagBox = false;
+            if (!isAlltagBox) {
+                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+            }
         }
 
 

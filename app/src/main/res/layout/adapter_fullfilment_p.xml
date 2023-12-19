@@ -1175,7 +1175,8 @@
                     android:background="@color/yellow"
                     android:fontFamily="@font/roboto_medium"
                     android:text="SELECT"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
 
 
                 <Button

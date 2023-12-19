@@ -36,6 +36,7 @@ public class CommonUtils {
     public static final String SELECTED_ORDERS_LIST = "SELECTED_ORDERS_LIST";
     public static final String SELECTED_ORDER = "SELECTED_ORDER";
     public static final String ALL_ORDERS = "ALL_ORDERS";
+    public static final String MAX_ALLOWED_ORDER = "MAX_ALLOWED_ORDER";
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
