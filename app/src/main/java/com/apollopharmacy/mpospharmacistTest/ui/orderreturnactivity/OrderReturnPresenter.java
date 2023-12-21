@@ -128,7 +128,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
                     getMvpView().hideLoading();
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
-                        getMvpView().setTransactionId(response.body().getTransactionID());
+                        getMvpView().setTransactionId(response.body().getTransactionID(), false);
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
@@ -166,11 +166,12 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
+                        getDataManager().setLastTransactionId(response.body().getTransactionId());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true, response.body());
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false);
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false, response.body());
                         }
                     }
                 }
@@ -301,11 +302,12 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
                 public void onResponse(@NotNull Call<CalculatePosTransactionRes> call, @NotNull Response<CalculatePosTransactionRes> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().getRequestStatus() == 0) {
                         getMvpView().hideLoading();
-                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true);
+                        getDataManager().setLastTransactionId(response.body().getTransactionId());
+                        getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), true, response.body());
                     } else {
                         getMvpView().hideLoading();
                         if (response.body() != null) {
-                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false);
+                            getMvpView().showCancelOrderSuccess("", response.body().getReturnMessage(), false, response.body());
                             getMvpView().onAlreadyItemReturnedColor();
                         }
                     }
@@ -738,7 +740,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
     }
 
     @Override
-    public void downloadPdf(String transactionId) {
+    public void downloadPdf(String transactionId, boolean isModifiedTransactionId) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
@@ -759,7 +761,7 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
-                            getMvpView().onSuccessBillPrintResponse(response.body());
+                            getMvpView().onSuccessBillPrintResponse(response.body(), isModifiedTransactionId);
                         }
                     } else {
                         getMvpView().hideLoading();
@@ -776,6 +778,11 @@ public class OrderReturnPresenter<V extends OrederReturnMvpView> extends BasePre
 
 
         }
+    }
+
+    @Override
+    public String getLastTransactionId() {
+        return getDataManager().getLastTransactionId();
     }
 
     @Override

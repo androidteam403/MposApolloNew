@@ -1965,7 +1965,31 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if (action.equalsIgnoreCase("ENQUIRY")) {
                                 double availableAmount = Double.parseDouble(response.body().getTotalBalance()) - Double.parseDouble(response.body().getUsedBalance());
                                 if (amount <= availableAmount) {
-                                    getPharmacyStaffApiDetails(otp, "GENOTP", amount);
+                                    if (getMvpView().getCustomerModule() != null
+                                            && getMvpView().getCustomerModule().getMobileNo() != null
+                                            && getMvpView().getCustomerModule().getMobileNo().equals(response.body().getRegMobileNo())
+                                            && getMvpView().getCustomerModule().getCustomerName() != null
+                                            && getMvpView().getCustomerModule().getCustomerName().equals(response.body().getEmpName())
+                                    ) {
+                                        getPharmacyStaffApiDetails(otp, "GENOTP", amount);
+                                    } else {
+                                        if (getMvpView().getCustomerModule() != null
+                                                && getMvpView().getCustomerModule().getMobileNo() != null
+                                                && !getMvpView().getCustomerModule().getMobileNo().equals(response.body().getRegMobileNo())
+                                                && getMvpView().getCustomerModule().getCardName() != null
+                                                && !getMvpView().getCustomerModule().getCardName().equals(response.body().getEmpName())
+                                        ) {
+                                            getMvpView().partialPaymentDialog("", "Name and Mobile number not matched.");
+                                        } else if (getMvpView().getCustomerModule().getMobileNo() != null
+                                                && !getMvpView().getCustomerModule().getMobileNo().equals(response.body().getRegMobileNo())) {
+                                            getMvpView().partialPaymentDialog("", "Mobile number not matched.");
+                                        } else if (getMvpView().getCustomerModule().getCardName() != null
+                                                && !getMvpView().getCustomerModule().getCardName().equals(response.body().getEmpName())) {
+                                            getMvpView().partialPaymentDialog("", "Name not matched.");
+                                        } else {
+                                            getMvpView().partialPaymentDialog("", "Customer details not matched");
+                                        }
+                                    }
                                 } else {
                                     getMvpView().partialPaymentDialog("", "Balance Not Available");
                                 }

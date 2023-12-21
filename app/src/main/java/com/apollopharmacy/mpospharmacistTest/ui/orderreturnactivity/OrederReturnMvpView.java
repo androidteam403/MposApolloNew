@@ -12,11 +12,11 @@ public interface OrederReturnMvpView extends MvpView {
 
     void isCorpAllowedReturn(boolean isAllowed);
 
-    void setTransactionId(String transactionId);
+    void setTransactionId(String transactionId, boolean isModifiedTransactionId);
 
     void showInfoPopup(String title, String message, boolean isCancelOrder, boolean isReturnAll, String terminalId);
 
-    void showCancelOrderSuccess(String title, String message, boolean isShowPdf);
+    void showCancelOrderSuccess(String title, String message, boolean isShowPdf, CalculatePosTransactionRes calculatePosTransactionRes);
 
     void partialReturnOrder(String terminalId);
 
@@ -32,7 +32,7 @@ public interface OrederReturnMvpView extends MvpView {
 
     void onClickBillReprint();
 
-    void onSuccessBillPrintResponse(PdfModelResponse body);
+    void onSuccessBillPrintResponse(PdfModelResponse body, boolean isModifiedTransactionId);
 
     void onFailureBillPrintResponse(PdfModelResponse body);
 

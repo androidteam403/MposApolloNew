@@ -637,5 +637,6 @@
     <string name="label_skip_order">Skip Order</string>
     <string name="label_i_confirm_and_submit">I confirm and submit</string>
     <string name="label_reprint">Reprint</string>
+    <string name="label_recent_bill">Recent bill</string>
 
 </resources>

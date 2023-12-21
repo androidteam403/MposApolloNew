@@ -74,6 +74,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.headings.setVisibility(View.VISIBLE);
             holder.productListBinding.selectedbatchesRecycler.setVisibility(View.VISIBLE);
         }
+
+        if (salesLine.isOrderItemNoSelected()) {
+            holder.productListBinding.itemLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_green));
+        }else {
+            holder.productListBinding.itemLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
+        }
         holder.productListBinding.start.setOnClickListener(view -> {
             if (!salesLine.isOnHold()) {
                 if (mvpView != null) {

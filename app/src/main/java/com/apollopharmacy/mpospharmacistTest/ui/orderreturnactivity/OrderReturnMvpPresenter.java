@@ -55,5 +55,6 @@ public interface OrderReturnMvpPresenter<V extends OrederReturnMvpView> extends 
 
     void onClickBillReprint();
 
-    void downloadPdf(String transactionId);
+    void downloadPdf(String transactionId, boolean isModifiedTransactionId);
+    String getLastTransactionId();
 }

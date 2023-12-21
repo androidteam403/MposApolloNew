@@ -453,13 +453,13 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     }
 
     @Override
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(String transactionId, boolean isModifiedTransactionId) {
         orderHistoryItem.setReturnStore(mvpPresenter.getGlobalConfing().getStoreID());
         orderHistoryItem.setReturnTerminal(mvpPresenter.terminalId());
         orderHistoryItem.setReturnTransactionId(orderHistoryItem.getTransactionId());
         orderHistoryItem.setReturnReceiptId(orderHistoryItem.getReciptId());
         orderHistoryItem.setTransactionId(transactionId);
-        mvpPresenter.downloadPdf(pdfTransactionId);
+        mvpPresenter.downloadPdf(isModifiedTransactionId ? transactionId : pdfTransactionId, isModifiedTransactionId);
     }
 
     //feedback form diolg functionality....
@@ -487,9 +487,19 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     }
 
     @Override
-    public void onSuccessBillPrintResponse(PdfModelResponse pdfModelResponse) {
+    public void onSuccessBillPrintResponse(PdfModelResponse pdfModelResponse, boolean isModifiedTransactionId) {
         this.pdfModelResponse = pdfModelResponse;
         hideLoading();
+        if (isModifiedTransactionId) {
+            if (pdfModelResponse != null) {
+                try {
+                    this.duplicateCheckboxChecked = true;
+                    createPdf(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 //        if (pdfModelResponse != null) {
 //            if (orderReturnActiivtyBinding.layoutPdfPreview != null) {
@@ -539,7 +549,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //            openPdf();
-            onSuccessBillPrintResponse(pdfModelResponse);
+            onSuccessBillPrintResponse(pdfModelResponse, false);
 //            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
         }
@@ -661,17 +671,17 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
                                     orderHistoryItem.setReturn(true);
                                     mvpPresenter.cancelDSBilling(orderHistoryItem);
                                 } else {
-                                    showCancelOrderSuccess("", "Card Cancellation Not Allowed!!", false);
+                                    showCancelOrderSuccess("", "Card Cancellation Not Allowed!!", false, null);
                                 }
                             } else if (isSmapay) {
-                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false);
+                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false, null);
                             } else if (isHdfcPayment) {
-                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false);
+                                showCancelOrderSuccess("", "Sms Pay Cancellation Not Allowed!!", false, null);
                             } else {
                                 if (CommonUtils.checkCancelledDateTime(orderHistoryItem.getBusinessDate()) != 0) {
-                                    showCancelOrderSuccess("", "Cancellation Not Allowed!!", false);
+                                    showCancelOrderSuccess("", "Cancellation Not Allowed!!", false, null);
                                 } else if (!mvpPresenter.isAllowOrNot(orderHistoryItem)) {
-                                    showCancelOrderSuccess("", "Transaction Already Cancelled!!", false);
+                                    showCancelOrderSuccess("", "Transaction Already Cancelled!!", false, null);
                                 } else {
                                     orderHistoryItem.setReturnType(0);
                                     orderHistoryItem.setReturn(true);
@@ -709,7 +719,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
 //                                mvpPresenter.orderReturnAll(orderHistoryItem);
 //                            }
                         } else {
-                            showCancelOrderSuccess("", "Transaction Already Return!!", false);
+                            showCancelOrderSuccess("", "Transaction Already Return!!", false, null);
                         }
                     }
                 }
@@ -728,7 +738,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
     }
 
     @Override
-    public void showCancelOrderSuccess(String title, String message, boolean isShowPdf) {
+    public void showCancelOrderSuccess(String title, String message, boolean isShowPdf, CalculatePosTransactionRes calculatePosTransactionRes) {
         ExitInfoDialog dialogView = new ExitInfoDialog(this);
         dialogView.setTitle(title);
         dialogView.setPositiveLabel("OK");
@@ -739,13 +749,7 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
             public void onClick(View view) {
                 dialogView.dismiss();
                 if (isShowPdf) {
-                    if (pdfModelResponse != null) {
-                        try {
-                            createPdf(true);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    setTransactionId(mvpPresenter.getLastTransactionId(), true);
                 } else {
                     Intent intent = getIntent();
                     intent.putExtra("isUpdated", true);
@@ -1542,7 +1546,8 @@ public class OrderReturnActivity extends PDFCreatorActivity implements OrederRet
         //        if (isCancelOrReturn) {
 //            createPdfPageWise(pdfDocument, document, true);
 //        } else {
-        createPdfPageWise(pdfDocument, document, mvpPresenter.getGlobalConfing().isISHBPStore(), isOriginalPrintOnly);
+        boolean isModifiedTransactionId = isOriginalPrintOnly ? false : mvpPresenter.getGlobalConfing().isISHBPStore();
+        createPdfPageWise(pdfDocument, document, isModifiedTransactionId, false);
 //        }
         document.close();
         if (isStoragePermissionGranted()) {

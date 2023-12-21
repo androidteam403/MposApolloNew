@@ -713,6 +713,7 @@ public class GetOMSTransactionResponse implements Serializable {
         private GetBatchInfoRes getBatchInfoRes;
         private String fullfillmentId;
         private String orderItemNo;
+        private boolean isOrderItemNoSelected;
         private String pickedQty;
         private String pickerStatus;
         private boolean isOnHold;
@@ -1518,6 +1519,14 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setOrderItemNo(String orderItemNo) {
             this.orderItemNo = orderItemNo;
+        }
+
+        public boolean isOrderItemNoSelected() {
+            return isOrderItemNoSelected;
+        }
+
+        public void setOrderItemNoSelected(boolean isOrderItemNoSelected) {
+            this.isOrderItemNoSelected = isOrderItemNoSelected;
         }
 
         public String getPickedQty() {

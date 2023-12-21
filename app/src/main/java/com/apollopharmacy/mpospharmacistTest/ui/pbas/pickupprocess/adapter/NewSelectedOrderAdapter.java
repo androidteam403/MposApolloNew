@@ -242,13 +242,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
 
 
-        /*if (salesLine.getGetBatchInfoRes() != null) {
+        if (salesLine.getGetBatchInfoRes() != null) {
             holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
             SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList(), salesLine);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
-        }*/
+        }
     }
 
     @Override

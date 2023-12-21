@@ -284,15 +284,15 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
     @Override
     public void onSuccessUpdatePatchApiCAll(UpdatePatchResponse updatePatchResponse) {
         //        if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("1")) {
-        /*mPresenter.setIsV1Flow(true);
+        mPresenter.setIsV1Flow(true);
         startActivity(MainActivity.getStartIntent(PharmacistLoginActivity.this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();*/
+        finish();
 //        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
-        mPresenter.setIsV1Flow(false);
+        /*mPresenter.setIsV1Flow(false);
         startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        finish();
+        finish();*/
         /*mPresenter.setIsV1Flow(false);
         Intent intent = new Intent(PharmacistLoginActivity.this, V3NavigationActivity.class);
         startActivity(intent);
