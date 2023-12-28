@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,6 +71,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     List<GetBatchInfoRes.BatchListObj> dataRestore;
 
     public static final int BATCHLIST_SCANNER_ACTIVITY = 1008;
+    private List<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -112,9 +116,13 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
             batchlistBinding.batchlayout.setVisibility(View.GONE);
             batchlistBinding.scanBatchId.setVisibility(View.VISIBLE);
+            batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
         } else {
             batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
-            batchlistBinding.scanBatchId.setVisibility(View.VISIBLE);
+            batchlistBinding.scanBatchId.setVisibility(View.GONE);
+            batchlistBinding.batchDetails.setVisibility(View.GONE);
+            batchlistBinding.batchListRecycler.setVisibility(View.GONE);
             batchlistBinding.searchbybatchId.requestFocus();
         }
 
@@ -680,6 +688,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void noOrderFound(int count) {
         if (count > 0) {
+            batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
             batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine, batchListObjsList);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
@@ -727,6 +736,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchListAdapter.notifyItemChanged(Constant.getInstance().selected_position);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickSelectedBatch(GetBatchInfoRes.BatchListObj batchListModel, boolean isBarcodeScannedItem) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -755,6 +765,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             if (batchListAdapter != null) {
                 batchListAdapter.notifyDataSetChanged();
             }
+        }
+        boolean isAnySelected = body.stream().anyMatch(GetBatchInfoRes.BatchListObj::isSelected);
+        if (isAnySelected) {
+            batchlistBinding.save.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow));
+        } else {
+            batchlistBinding.save.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
         }
     }
 

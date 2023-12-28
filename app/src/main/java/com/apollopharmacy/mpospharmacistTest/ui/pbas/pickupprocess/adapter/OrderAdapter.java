@@ -2,12 +2,14 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +73,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
@@ -153,7 +156,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.statusandicon.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
         }
-
+        boolean isAllOnHold =
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(GetOMSTransactionResponse.SalesLine::isOnHold);
+        if (isAllOnHold) {
+            holder.orderBinding.notAvailable.setVisibility(View.VISIBLE);
+        }
+        boolean isPicked = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null);
+        if (isPicked) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+        }
 
         NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);

@@ -21,11 +21,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummaryMvpView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFullfillmentAdapter.ViewHolder> {
@@ -59,15 +58,24 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
     public void onBindViewHolder(@NonNull SummaryFullfillmentAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        AtomicReference<List<TransactionHeaderResponse.OMSHeader>> omsHeaderList = new AtomicReference<>();
+        Map<String, Long> groupByItemStatus = selectedOmsHeaderList.stream().collect(
+                Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getItemStatus, Collectors.counting())
+        );
         if (position == 0 || !selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(selectedOmsHeaderList.get(position - 1).getItemStatus())) {
             holder.orderBinding.statusHeader.setVisibility(View.VISIBLE);
-            Map<String, Long> groupByItemStatus = selectedOmsHeaderList.stream().collect(
-                    Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getItemStatus, Collectors.counting())
-            );
             groupByItemStatus.forEach((k, v) -> {
                 if (omsHeader.getItemStatus().equalsIgnoreCase(k)) {
                     holder.orderBinding.itemCount.setText("(" + v + ")");
                 }
+            });
+            holder.orderBinding.scannerLayout.setOnClickListener(view -> {
+                for (Map.Entry<String, Long> entry : groupByItemStatus.entrySet()) {
+                    if (omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())) {
+                       omsHeaderList.set(selectedOmsHeaderList.stream().filter(omsHeader1 -> omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())).collect(Collectors.toList()));
+                    }
+                }
+                pickupProcessMvpView.onClickItem(position,omsHeaderList.get());
             });
             if (omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
                 holder.orderBinding.status.setText("Fully Available");
@@ -91,14 +99,14 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 //            holder.orderBinding.taggedboxnumber.setText("-");
         }
 
-        if (omsHeader.isScanned()){
-            holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
-            holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.orderBinding.deleteIcon.setVisibility(View.GONE);
-            holder.orderBinding.scannedTick.setVisibility(View.GONE);
-        }
+//        if (omsHeader.isScanned()){
+//            holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            holder.orderBinding.deleteIcon.setVisibility(View.GONE);
+//            holder.orderBinding.scannedTick.setVisibility(View.GONE);
+//        }
         holder.orderBinding.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,6 +156,16 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
             omsHeader.setOverallOrderStatus("2");
 
+        }
+        if (omsHeader.isScanned()){
+            holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
+            holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
+        else {
+            holder.orderBinding.deleteIcon.setVisibility(View.GONE);
+            holder.orderBinding.scannedTick.setVisibility(View.GONE);
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.grey));
         }
 
 //        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {

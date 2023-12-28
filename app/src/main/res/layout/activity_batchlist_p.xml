@@ -123,6 +123,7 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/save"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -130,7 +131,7 @@
                     android:layout_marginEnd="@dimen/dimen15dp"
                     android:paddingStart="@dimen/dimen10dp"
                     android:paddingEnd="10dp"
-                    android:background="@color/yellow"
+                    android:background="@color/grey"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
                     android:onClick="@{()-> callback.onAddItemsClicked()}"
@@ -956,6 +957,7 @@
                     android:layout_marginTop="@dimen/ten_dp"
                     android:orientation="horizontal"
                     android:padding="@dimen/ten_dp"
+                    android:visibility="gone"
                     tools:ignore="UnknownIdInLayout,UselessParent">
 
                     <TextView
@@ -1100,7 +1102,7 @@
         <TextView
             android:id="@+id/no_order_found_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="400dp"
             android:fontFamily="@font/roboto_bold"
