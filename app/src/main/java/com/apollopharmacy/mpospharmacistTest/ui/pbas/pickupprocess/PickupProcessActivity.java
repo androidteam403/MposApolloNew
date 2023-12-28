@@ -915,17 +915,18 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     int selectedReasonPos = 0;
+    GetOMSTransactionResponse.SalesLine salesLine;
 //    int selectedOrderAdapterPos = 0;
     @Override
     public void onClickOnHoldBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position) {
         this.orderAdapterPos = position;
-        mPresenter.getReasonList();
+        mPresenter.getReasonList(false, false);
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse) {
+    public void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse, boolean isItemLevelOnHold, boolean isSKipItem) {
         List<String> reasons = reasonListResponse.getData().stream()
                 .map(ReasonListResponse.Datum::getReasonDesc).collect(Collectors.toList());
         if (reasonListResponse != null && reasonListResponse.getData().size() > 0) {
@@ -935,9 +936,21 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialogSkipOrderBinding.close.setOnClickListener(v1 -> dialog.dismiss());
             dialogSkipOrderBinding.notAvailable.setOnClickListener(v -> {
-                List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
-                omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
-                mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+                if (isItemLevelOnHold) {
+                    dialog.dismiss();
+                    salesLine.setReason(reasonListResponse.getData().get(selectedReasonPos).getReasonCode());
+                    salesLine.setOnHold(true);
+                    orderAdapter.notifyDataSetChanged();
+                } else if (isSKipItem) {
+                    dialog.dismiss();
+                    salesLine.setReason(reasonListResponse.getData().get(selectedReasonPos).getReasonCode());
+                    salesLine.setSkip(true);
+                    orderAdapter.notifyDataSetChanged();
+                } else {
+                    List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+                    omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
+                    mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+                }
             });
             selectedReasonPos = 0;
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reasons);//reasonListResponse.getData()
@@ -982,7 +995,19 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         dialog.show();
     }
 
-//    private void checkAllFalse() {
+    @Override
+    public void onClickOnHoldItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+        this.salesLine = salesLine;
+        mPresenter.getReasonList(true, false);
+    }
+
+    @Override
+    public void onClickSkipItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+        this.salesLine = salesLine;
+        mPresenter.getReasonList(false, true);
+    }
+
+    //    private void checkAllFalse() {
 //        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
 //        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
 //        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);

@@ -366,6 +366,15 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 //            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
 //            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
         } else {
+            Dialog dialog = new Dialog(this);
+            DialogBatchAlertBinding batchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_batch_alert, null, false);
+            dialog.setContentView(batchAlertBinding.getRoot());
+            batchAlertBinding.dialogMessage.setText("Batch not found");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            batchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+            batchAlertBinding.dialogButtonOK.setOnClickListener(view -> dialog.dismiss());
             activityBatchlistScannerBinding.batchDetails.setVisibility(View.GONE);
             activityBatchlistScannerBinding.noListFound.setVisibility(View.VISIBLE);
             activityBatchlistScannerBinding.batchListRcv.setVisibility(View.GONE);

@@ -409,11 +409,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    batchListModelListl = omsHeaderList;
+                    batchListModelListl.clear();
                 } else {
                     filteredList.clear();
                     for (GetBatchInfoRes.BatchListObj row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getBatchNo().toLowerCase().contains(charString.toLowerCase()))) {
+                        if (!filteredList.contains(row) && (row.getBatchNo().substring(0, 3).equalsIgnoreCase(charString))) {
                             filteredList.add(row);
                         }
 

@@ -442,6 +442,16 @@ public class GetOMSTransactionResponse implements Serializable {
         @Expose
         private String PreferredBatch;
 
+        public String getReason() {
+            return reason;
+        }
+
+        public void setReason(String reason) {
+            this.reason = reason;
+        }
+
+        private String reason;
+
         public String getPackerStatus() {
             return packerStatus;
         }
@@ -717,6 +727,7 @@ public class GetOMSTransactionResponse implements Serializable {
         private String pickedQty;
         private String pickerStatus;
         private boolean isOnHold;
+        private boolean isSkip;
 
 
         public GetBatchInfoRes getGetBatchInfoRes() {
@@ -1551,6 +1562,14 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setOnHold(boolean onHold) {
             isOnHold = onHold;
+        }
+
+        public boolean isSkip() {
+            return isSkip;
+        }
+
+        public void setSkip(boolean skip) {
+            isSkip = skip;
         }
     }
 

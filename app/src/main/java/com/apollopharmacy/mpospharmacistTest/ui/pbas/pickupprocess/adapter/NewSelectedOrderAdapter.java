@@ -85,6 +85,19 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         this.reqqty = salesLine.getQty();
 
 
+        if (salesLine.isOnHold() || salesLine.isSkip()) {
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
+            holder.pickupSummaryDetailsProductsBinding.skip.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.skip.setEnabled(false);
+            holder.pickupSummaryDetailsProductsBinding.statusLayout.setVisibility(View.GONE);
+        } else {
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);
+            holder.pickupSummaryDetailsProductsBinding.skip.setBackgroundResource(R.drawable.bg_red_btn);
+            holder.pickupSummaryDetailsProductsBinding.skip.setEnabled(true);
+            holder.pickupSummaryDetailsProductsBinding.statusLayout.setVisibility(View.VISIBLE);
+        }
         if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
@@ -116,6 +129,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
                     pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
                 }
             }
+        });
+
+        holder.pickupSummaryDetailsProductsBinding.onHold.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickOnHoldItem(salesLine, position);
+        });
+        holder.pickupSummaryDetailsProductsBinding.skip.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickSkipItem(salesLine, position);
         });
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
