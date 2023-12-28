@@ -262,4 +262,6 @@ public interface AddItemMvpView extends MvpView {
     void SuccessOnlineorderCorporatelist(GetOnlineCorporateListApiResponse response, double amount);
 
     String getPatientType();
+
+    String getTransactionId();
 }

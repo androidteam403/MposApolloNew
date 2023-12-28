@@ -59,4 +59,6 @@ public interface BillingMvpView extends MvpView {
 
     void onSuccessPatientMaster(PatientMasterResponse patientMasterResponse);
 
+    String getTransactionId();
+
 }

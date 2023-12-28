@@ -67,7 +67,7 @@
         <item
             android:id="@+id/nav_reprint"
             android:icon="@drawable/ic_menu_manual_billing"
-            android:title="@string/label_recent_bill"
+            android:title="@string/label_reprint_recent_bill"
             android:checkable="false"
             android:visible="true" />
     </group>

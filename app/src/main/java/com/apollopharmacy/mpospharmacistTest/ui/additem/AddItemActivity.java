@@ -2690,11 +2690,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             customerEntity.setCardName(staffApiRes.getEmpName());
             customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
             addItemBinding.setCustomer(customerEntity);
+            getCalculatedPosTransactionRes().setCustomerName(staffApiRes.getEmpName());
         } else {
             customerEntity = new GetCustomerResponse.CustomerEntity();
             customerEntity.setCardName(staffApiRes.getEmpName());
             customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
             addItemBinding.setCustomer(customerEntity);
+            getCalculatedPosTransactionRes().setCustomerName(staffApiRes.getEmpName());
         }
     }
 
@@ -2934,6 +2936,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     @Override
     public String getPatientType() {
         return selectedPatient;
+    }
+
+    @Override
+    public String getTransactionId() {
+        return addItemBinding.getTransaction().getTransactionID();
     }
 
     private void noStockAlertDialog() {

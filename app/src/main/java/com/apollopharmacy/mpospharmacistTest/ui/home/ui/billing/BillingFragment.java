@@ -619,6 +619,11 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         setUp();
     }
 
+    @Override
+    public String getTransactionId() {
+        return transactionIdItem.getTransactionID();
+    }
+
     private boolean stopLooping;
 
     public void handelPlayList() {

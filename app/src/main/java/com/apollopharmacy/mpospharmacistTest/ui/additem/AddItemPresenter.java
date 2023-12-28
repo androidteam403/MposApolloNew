@@ -1938,7 +1938,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             PharmacyStaffAPIReq staffAPIReq = new PharmacyStaffAPIReq();
             staffAPIReq.setAction(action);
             staffAPIReq.setAmount(amount);
-            staffAPIReq.setDocNum(getMvpView().getDoctorModule().getCode());
+            staffAPIReq.setDocNum(getMvpView().getTransactionId());
+            //staffAPIReq.setDocNum(getMvpView().getDoctorModule().getCode());
 
             if (TextUtils.isEmpty(getMvpView().getCorporateModule().getPrg_Tracking())) {
                 getMvpView().corpPrgTrackingError();
@@ -1968,8 +1969,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     if (getMvpView().getCustomerModule() != null
                                             && getMvpView().getCustomerModule().getMobileNo() != null
                                             && getMvpView().getCustomerModule().getMobileNo().equals(response.body().getRegMobileNo())
-                                            && getMvpView().getCustomerModule().getCustomerName() != null
-                                            && getMvpView().getCustomerModule().getCustomerName().equals(response.body().getEmpName())
+                                            && getMvpView().getCustomerModule().getCardName() != null
+                                            && getMvpView().getCustomerModule().getCardName().equals(response.body().getEmpName())
                                     ) {
                                         getPharmacyStaffApiDetails(otp, "GENOTP", amount);
                                     } else {
@@ -2094,7 +2095,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             PharmacyStaffAPIReq staffAPIReq = new PharmacyStaffAPIReq();
             staffAPIReq.setAction(action);
             staffAPIReq.setAmount(0.0);
-            staffAPIReq.setDocNum(getMvpView().getDoctorModule().getCode());
+            staffAPIReq.setDocNum(getMvpView().getTransactionId());
+            //staffAPIReq.setDocNum(getMvpView().getDoctorModule().getCode());
 
             if (TextUtils.isEmpty(getMvpView().getCorporateModule().getPrg_Tracking())) {
                 getMvpView().corpPrgTrackingError();
