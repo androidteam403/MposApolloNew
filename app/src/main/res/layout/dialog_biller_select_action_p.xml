@@ -400,7 +400,7 @@
                 android:onClick="@{()-> callback.onClickProceedAction()}"
                 android:text="@string/proceed_action"
                 android:textAllCaps="true"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </RelativeLayout>

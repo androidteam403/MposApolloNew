@@ -5,6 +5,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     void onClickScanCode();
 
     void fetchOMSOrderList();
+    GetGlobalConfingRes getGlobalConfigRes();
 
     void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList);
 

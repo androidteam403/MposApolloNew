@@ -90,7 +90,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
         }
         mPresenter.getTransactionID();
         mPresenter.getDoctorsList();
-
+//        onClickContinueBill();
         activityOrderDetailsScreenBinding.menuIcon.setOnClickListener(v -> {
             onBackPressed();
             overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -304,7 +304,7 @@ public class OrderDetailsScreenActivity extends BaseActivity implements OrderDet
                     Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
                     boolean is_omsorder = true;
 
-                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+//                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     finish();
                     break;
