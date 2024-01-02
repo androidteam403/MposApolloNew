@@ -75,7 +75,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
                        omsHeaderList.set(selectedOmsHeaderList.stream().filter(omsHeader1 -> omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())).collect(Collectors.toList()));
                     }
                 }
-                pickupProcessMvpView.onClickItem(position,omsHeaderList.get());
+                pickupProcessMvpView.onClickEnableBtn(omsHeaderList.get());
             });
             if (omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
                 holder.orderBinding.status.setText("Fully Available");
@@ -119,7 +119,9 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
 
         holder.orderBinding.scanIcon.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.onClickItem(position,selectedOmsHeaderList);
+                if (omsHeader.isEnabled()) {
+                    pickupProcessMvpView.onClickItem(position,selectedOmsHeaderList);
+                }
 
 //                for (int i=0;i<selectedOmsHeaderList.size();i++){
 //                    if (!selectedOmsHeaderList.get(i).isScanned()){
@@ -157,15 +159,18 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             omsHeader.setOverallOrderStatus("2");
 
         }
+        if (omsHeader.isEnabled()) {
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
+        } else {
+            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.grey));
+        }
         if (omsHeader.isScanned()){
             holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
             holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
-            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         else {
             holder.orderBinding.deleteIcon.setVisibility(View.GONE);
             holder.orderBinding.scannedTick.setVisibility(View.GONE);
-            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.grey));
         }
 
 //        if (holder.orderBinding.statusText.getText().toString().equalsIgnoreCase("FULL")) {

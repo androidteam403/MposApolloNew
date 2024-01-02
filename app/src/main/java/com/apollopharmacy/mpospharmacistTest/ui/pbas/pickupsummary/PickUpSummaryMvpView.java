@@ -45,4 +45,6 @@ public interface PickUpSummaryMvpView extends MvpView {
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
     void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onClickEnableBtn(List<TransactionHeaderResponse.OMSHeader> omsHeaderList);
 }

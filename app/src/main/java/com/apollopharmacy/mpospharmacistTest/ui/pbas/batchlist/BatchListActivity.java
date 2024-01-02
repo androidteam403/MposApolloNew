@@ -114,16 +114,17 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
         }
         if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
-            batchlistBinding.batchlayout.setVisibility(View.GONE);
-            batchlistBinding.scanBatchId.setVisibility(View.VISIBLE);
-            batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
-            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
-        } else {
-            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
-            batchlistBinding.scanBatchId.setVisibility(View.GONE);
+//            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
+//            batchlistBinding.scanBatchId.setVisibility(View.VISIBLE);
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
-            batchlistBinding.searchbybatchId.requestFocus();
+        } else {
+//            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
+//            batchlistBinding.scanBatchId.setVisibility(View.GONE);
+//            batchlistBinding.batchDetails.setVisibility(View.GONE);
+//            batchlistBinding.batchListRecycler.setVisibility(View.GONE);
+//            batchlistBinding.searchbybatchId.requestFocus();
+            onClickScanBatchId();
         }
 
         if (noBatchDetails) {
@@ -171,13 +172,21 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() >= 2) {
+                if (editable.length() >= 3) {
                     if (batchListAdapter != null) {
-                        batchListAdapter.getFilter().filter(editable);
+                        filteredList.clear();
+                        for (GetBatchInfoRes.BatchListObj row : body) {
+                            if (row.getBatchNo().substring(0, 3).equalsIgnoreCase(editable.toString())) {
+                                filteredList.add(row);
+                            }
+                        }
+                        noOrderFound(filteredList.size());
+//                        batchListAdapter.getFilter().filter(editable);
                     }
                 } else {
                     if (batchListAdapter != null) {
-                        batchListAdapter.getFilter().filter("");
+                        noOrderFound(0);
+//                        batchListAdapter.getFilter().filter("");
                     }
                 }
             }
@@ -688,7 +697,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     public void noOrderFound(int count) {
         if (count > 0) {
-            batchlistBinding.batchDetails.setVisibility(View.GONE);
+            batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
             batchListAdapter = new BatchListAdapter(this, dataRestore, this, salesLine, batchListObjsList);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
@@ -697,6 +706,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
             batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
         } else {
+            batchlistBinding.batchDetails.setVisibility(View.GONE);
+            batchlistBinding.batchListRecycler.setVisibility(View.GONE);
             batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
         }
     }

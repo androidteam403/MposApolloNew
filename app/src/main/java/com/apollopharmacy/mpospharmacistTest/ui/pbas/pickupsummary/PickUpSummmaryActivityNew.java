@@ -684,6 +684,14 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         });
     }
 
+    @Override
+    public void onClickEnableBtn(List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
+        for (TransactionHeaderResponse.OMSHeader omsHeader : omsHeaderList) {
+            omsHeader.setEnabled(true);
+        }
+        summaryFullfillmentAdapter.notifyDataSetChanged();
+    }
+
     private void gotoOpenOrder(String status) {
         Dialog dialog = new Dialog(this);
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
