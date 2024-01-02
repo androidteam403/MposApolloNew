@@ -109,6 +109,24 @@
                         android:textSize="@dimen/dimen16sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen8dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:background="#05a8f1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/dimen10dp"
+                        android:text="Complete Box"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>

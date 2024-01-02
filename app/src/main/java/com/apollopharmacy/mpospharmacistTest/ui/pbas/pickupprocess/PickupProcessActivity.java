@@ -141,6 +141,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                             eShopCharge = true;
                             this.salesLinessEshopCharge = salesLine;
                             this.newwAdapterposition = selectedOmsHeaderList.get(pos).getGetOMSTransactionResponse().getSalesLine().indexOf(salesLine);
+                            Calendar calendar = Calendar.getInstance();
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+                            salesLine.setStartTime(timeFormat.format(calendar.getTime()));
                             mPresenter.getBatchDetailsApi(salesLine, false);
                             return;
                         }
@@ -189,10 +192,20 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickItemStatusUpdate(int orderAdapterPos, int newSelectedOrderAdapterPos, String status, boolean isComeFromAuto, boolean isRackAdapterClick, boolean isBatchOnHold) {
 
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setEndTime(timeFormat.format(calendar.getTime()));
+            boolean isAllCompleted = selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine()
+                    .stream()
+                    .allMatch(salesLine1 -> salesLine1.getEndTime() != null);
+            if (isAllCompleted) {
+                selectedOmsHeaderList.get(orderAdapterPos).setEndTime(timeFormat.format(calendar.getTime()));
+            }
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setStatus(status);
             boolean isNotAvailable = true;
             boolean isFull = true;
@@ -1529,6 +1542,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void getBatchDetailsApiCall(GetOMSTransactionResponse.SalesLine salesLine, String refNo, int orderAdapterPos, int position, TransactionHeaderResponse.OMSHeader omsHeader) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        salesLine.setStartTime(timeFormat.format(calendar.getTime()));
+        if (selectedOmsHeaderList.get(orderAdapterPos).getStartTime() == null) {
+            selectedOmsHeaderList.get(orderAdapterPos).setStartTime(timeFormat.format(calendar.getTime()));
+        }
         mPresenter.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
 
     }

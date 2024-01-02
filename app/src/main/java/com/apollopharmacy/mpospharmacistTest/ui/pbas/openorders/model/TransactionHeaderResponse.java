@@ -152,6 +152,33 @@ public class TransactionHeaderResponse implements Serializable {
 
         private boolean isScanned;
         private boolean isShipmentTatSelected;
+        private boolean isEnabled;
+        private String startTime;
+        private String endTime;
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
+
+        public boolean isEnabled() {
+            return isEnabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            isEnabled = enabled;
+        }
 
         public boolean isShipmentTatSelected() {
             return isShipmentTatSelected;

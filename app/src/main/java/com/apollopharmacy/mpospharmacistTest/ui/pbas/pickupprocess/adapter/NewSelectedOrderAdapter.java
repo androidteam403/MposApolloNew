@@ -1,6 +1,7 @@
 
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -67,6 +68,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
     int adapterPosition;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
@@ -83,6 +85,12 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 //        holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
         this.reqqty = salesLine.getQty();
+        holder.pickupSummaryDetailsProductsBinding.requiredQty.setText(Integer.toString(salesLine.getQty()));
+        if (salesLine.getPickedQty() != null) {
+            holder.pickupSummaryDetailsProductsBinding.pickedQty.setText(salesLine.getPickedQty());
+        } else {
+            holder.pickupSummaryDetailsProductsBinding.pickedQty.setText("0");
+        }
 
 
         if (salesLine.isOnHold() || salesLine.isSkip()) {

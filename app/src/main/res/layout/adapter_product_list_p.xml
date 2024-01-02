@@ -113,14 +113,14 @@
                         android:backgroundTint="@color/green"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:paddingStart="@dimen/dimen6dp"
+                        android:paddingStart="@dimen/dimen5dp"
                         android:paddingTop="@dimen/dimen1dp"
-                        android:paddingEnd="@dimen/dimen6dp"
+                        android:paddingEnd="@dimen/dimen5dp"
                         android:paddingBottom="@dimen/dimen1dp"
-                        android:text="start"
+                        android:text="update"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/dimen10sp" />
+                        android:textSize="@dimen/text_dimen_8" />
 
 
                 </RelativeLayout>
