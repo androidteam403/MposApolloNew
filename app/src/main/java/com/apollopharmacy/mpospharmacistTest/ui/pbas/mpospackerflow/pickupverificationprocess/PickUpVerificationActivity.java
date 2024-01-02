@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -29,14 +28,18 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogConnectPrinterBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogVerificationStatusBillerBinding;
+import com.apollopharmacy.mpospharmacistTest.ui.additem.AddItemActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.PickPackReservation;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
 import com.apollopharmacy.mpospharmacistTest.ui.customerdetails.model.GetCustomerResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineInfoEntity;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.adapter.PickUpVerificationAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.dialog.VerificationStatusDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -47,7 +50,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
+import com.apollopharmacy.mpospharmacistTest.utils.Singletone;
 import com.printf.manager.BluetoothManager;
 import com.printf.manager.PrintfTSPLManager;
 
@@ -70,7 +75,11 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     private String status;
     private int position;
     CustomerDataResBean customerDataResBean;
-    private GetCustomerResponse.CustomerEntity customerEntity;
+    private DoctorSearchResModel doctorSearchResModel;
+    private final int ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE = 122;
+    private OMSTransactionHeaderResModel.OMSHeaderObj orderInfoItem;
+    private GetCustomerResponse.CustomerEntity customerEntity = new GetCustomerResponse.CustomerEntity();
+
     String eprescription_corpcode = "0";
     List<PickPackReservation> globalpickupreservation = new ArrayList<>();
 
@@ -84,7 +93,13 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     TransactionHeaderResponse.OMSHeader omsHeader;
     private final int ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151;
     private String boxId;
+
+    private ArrayList<CorporateModel.DropdownValueBean> corporateList = new ArrayList<>();
+    private CorporateModel corporateModel;
+    private TransactionIDResModel transactionIDResModel;
+
     private int salesLineCount = 0;
+    private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
 
     private int isPackingVerified = 0;
 
@@ -318,6 +333,27 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
         overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
     }
 
+    @Override
+    public void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader) {
+        omsHeaderList = omsHeader.getOMSHeaderArr();
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            for (OMSTransactionHeaderResModel.OMSHeaderObj omsHeaderObj : omsHeaderList) {
+                if (omsHeaderObj.getREFNO().equals(fId)) {
+                    orderInfoItem=omsHeaderObj;
+
+//                    Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
+//                    i.putExtra("fullfillmentDetails", omsHeaderObj);
+//                    startActivity(i);
+//                    overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//                    break;
+                }
+            }
+        }
+
+        showLoading();
+        onClickContinueBill();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickReVerificatio() {
@@ -338,83 +374,12 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
         int partial = 0;
         int notavailable = 0;
 
-//        for (int i = 0; i < customerDataList.size(); i++) {
-//            if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
-//                full++;
-//            } else if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("Partial AVAILABLE")) {
-//                partial++;
-//            } else if (customerDataList.get(i).getSalesLine().get(i).getPackerStatus().equalsIgnoreCase("Not AVAILABLE")) {
-//                notavailable++;
-//            }
-//        }
-//        if (full > partial && full > notavailable) {
-//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_circle_tick));
-//
-//        } else if (partial > full && partial > notavailable) {
-//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_partial));
-//
-//        } else if (notavailable > full && notavailable > partial) {
-//            activityPickupVerificationBinding.fullStatusColor.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_not_available));
-//
-//        }
+
 
     }
 
 
-//       Dialog statusUpdateDialog = new Dialog(this, R.style.fadeinandoutcustomDialog);
-//        dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
-//        statusUpdateDialog.setContentView(dialogUpdateStatusBinding.getRoot());
-//        statusUpdateDialog.setCancelable(false);
-//        dialogUpdateStatusBinding.fullfillmentId.setText(customerDataList.get(pos).getREFNO());
-//        dialogUpdateStatusBinding.productName.setText(customerDataList.get(pos).getSalesLine().get(pos).getItemName());
-//
-//dialogUpdateStatusBinding.fullPickedRadio.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(true);
-//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-//    }
-//});
-//
-//dialogUpdateStatusBinding.partiallyPickedRadio.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(true);
-//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-//    }
-//});
-//
-//dialogUpdateStatusBinding.notAvailableRadio.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//        dialogUpdateStatusBinding.fullPickedRadio.setChecked(false);
-//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(true);
-//    }
-//});
-//dialogUpdateStatusBinding.update.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//        statusUpdateDialog.dismiss();
-//
-//    }
-//});
-//
-//        dialogUpdateStatusBinding.dismissDialog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                statusUpdateDialog.dismiss();
-//            }
-//        });
-//        statusUpdateDialog.show();
 
-//        dialogUpdateStatusBinding.fullPickedRadio.setClickable(true);
-//        dialogUpdateStatusBinding.notAvailableRadio.setChecked(false);
-//        dialogUpdateStatusBinding.partiallyPickedRadio.setChecked(false);
-//        dialogUpdateStatusBinding.notAvailableRadio.setClickable(false);
-//        dialogUpdateStatusBinding.partiallyPickedRadio.setClickable(false);
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -427,6 +392,166 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //        });
 //        verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
         verificationStatusDialog.show();
+    }
+
+    @Override
+    public void CheckBatchStockSuccess(CustomerDataResBean response) {
+        if (response != null) {
+            customerDataResBean = response;
+//            if (orderInfoItem.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE")) {
+
+            GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
+            boolean isAlloMSOrderDeliveryItem = false;
+            for (int o = 0; o < customerDataResBean.getSalesLine().size(); o++) {
+                boolean isAlloMSOrderDeliveryItemOne = false;
+                for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                    if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(customerDataResBean.getSalesLine().get(o).getItemId())) {
+                        isAlloMSOrderDeliveryItemOne = true;
+                    }
+                }
+                if (!isAlloMSOrderDeliveryItemOne) {
+                    isAlloMSOrderDeliveryItem = true;
+                }
+            }
+            if (isAlloMSOrderDeliveryItem) {
+                mpresenter.onLoadOmsOrder(customerDataResBean);
+            } else {
+                Dialog dialog = new Dialog(this);// R.style.Theme_AppCompat_DayNight_NoActionBar
+                DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
+                dialog.setContentView(dialogCancelBinding.getRoot());
+                dialogCancelBinding.dialogMessage.setText("The Order must contain other than OMSOrderDeliveryItem.");
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                dialogCancelBinding.dialogButtonNO.setVisibility(View.GONE);
+                dialogCancelBinding.dialogButtonOK.setText("OK");
+                dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+                dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+                    dialog.dismiss();
+                });
+            }
+
+
+
+        }
+
+    }
+
+    @Override
+    public void LoadOmsOrderSuccess(CustomerDataResBean response) {
+        CorporateModel.DropdownValueBean item = new CorporateModel.DropdownValueBean();
+        CustomerDataResBean customerDataResBean_pass;
+        customerDataResBean_pass = response;
+
+        eprescription_corpcode = response.getCorpCode();
+
+        customerEntity.setLastName(response.getCustomerName());
+        customerEntity.setMiddleName(response.getCustomerName());
+        customerEntity.setMobileNo(response.getMobileNO());
+        customerEntity.setCardName(response.getCustomerName());
+        customerEntity.setCorpId(response.getCorpCode());
+        customerEntity.setCustId(response.getCustomerID());
+        customerEntity.setGender(String.valueOf(response.getGender()));
+
+        DoctorSearchResModel.DropdownValueBean doctorentyty = new DoctorSearchResModel.DropdownValueBean();
+
+        if (!response.getDoctorName().isEmpty()) {
+            doctorentyty.setDisplayText(response.getDoctorName());
+            doctorentyty.setCode("0");
+        } else {
+            if (!isTherePharmaItem(customerDataResBean_pass)) {
+                if (doctorSearchResModel != null && doctorSearchResModel.get_DropdownValue() != null && doctorSearchResModel.get_DropdownValue().size() > 0) {
+                    doctorentyty.setDisplayText(doctorSearchResModel.get_DropdownValue().get(0).getDisplayText());
+                    doctorentyty.setCode(doctorSearchResModel.get_DropdownValue().get(0).getCode());
+                } else {
+                    doctorentyty.setDisplayText("");
+                    doctorentyty.setCode("0");
+                }
+            } else {
+                doctorentyty.setDisplayText("Apollo");
+                doctorentyty.setCode("0");
+            }
+        }
+
+
+        ArrayList<SalesLineEntity> saleslineentity = new ArrayList<>();
+        for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
+            if (salesLineEntity.getTotalTax() == 0) {
+                salesLineEntity.setTotalTax(salesLineEntity.getTax());
+            }
+            saleslineentity.add(salesLineEntity);
+        }
+        customerDataResBean_pass.setSalesLine(saleslineentity);
+
+//        List<CorporateModel.DropdownValueBean> selectedCorporateList = corporateList.stream().filter(o -> o.getCode().equalsIgnoreCase(eprescription_corpcode)).collect(Collectors.toList());
+//        if (selectedCorporateList.size() > 0) {
+//            item = selectedCorporateList.get(0);
+//
+//        }
+
+
+        int position = 0;
+        int tempposition = 0;
+        if (corporateList != null) {
+            for (CorporateModel.DropdownValueBean row : corporateList) {
+                if (row.getCode().contains(eprescription_corpcode)) {
+                    position = tempposition;
+                    item = corporateList.get(position);
+                    Singletone.getInstance().itemsArrayList.clear();
+                    Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
+                    boolean is_omsorder = true;
+
+                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    finish();
+                    break;
+                }
+                tempposition++;
+            }
+//            if (corporateList != null && corporateList.size() > 0)
+//                item = corporateList.get(position);
+        }
+
+
+    }
+    private boolean isTherePharmaItem(CustomerDataResBean customerDataResBean_pass) {
+        boolean isTherePharmaItem = false;
+        if (customerDataResBean_pass != null && customerDataResBean_pass.getSalesLine() != null && customerDataResBean_pass.getSalesLine().size() > 0) {
+            for (SalesLineEntity salesLineEntity : customerDataResBean_pass.getSalesLine()) {
+                if (salesLineEntity.getCategoryCode().equalsIgnoreCase("P")) {
+                    isTherePharmaItem = true;
+                    break;
+                }
+            }
+        }
+        return isTherePharmaItem;
+    }
+
+    @Override
+    public void LoadOmsOrderFailure(CustomerDataResBean response) {
+        Toast.makeText(this, response.getReturnMessage(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void CheckBatchStockFailure(CustomerDataResBean response) {
+        String message = response.getReturnMessage();
+        message = message + "is not available! \nThe Stock status is Partially Available\n Do you still need to continue to Billing.";
+
+        Dialog dialog = new Dialog(this);// , R.style.Theme_AppCompat_DayNight_NoActionBar
+        DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cancel, null, false);
+        dialog.setContentView(dialogCancelBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogCancelBinding.dialogMessage.setText(message);
+        dialogCancelBinding.dialogButtonNO.setText("Cancel");
+        dialogCancelBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+        dialogCancelBinding.dialogButtonOK.setText("Proceed");
+        dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            customerDataResBean = response;
+            mpresenter.onLoadOmsOrder(customerDataResBean);
+        });
+        dialog.show();
     }
 
     private void mposOrderUpdate(String requestType) {
@@ -608,7 +733,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                     }
                 }
 
-
+fId=getOMSTransactionResponses.get(0).getRefno();
                 activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
                 activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
                 activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
@@ -618,27 +743,25 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                         for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
                             if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId())) {
 //                                if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("PAC0237")) {
-                                    String itemId = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId();
-                                    int qty = 0;
-                                    for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
+                                String itemId = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId();
+                                int qty = 0;
+                                for (int j = 0; j < omsHeader.getGetOMSTransactionResponse().getPickPackReservation().size(); j++) {
 
-                                        if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals(itemId)) {
-                                            qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
-                                        }
+                                    if (omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupItemId().equals(itemId)) {
+                                        qty = qty + omsHeader.getGetOMSTransactionResponse().getPickPackReservation().get(j).getPickupQty();
                                     }
-                                    if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
-                                    } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
-                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
-                                    } else if (qty <= 0) {
-                                        omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
-                                    }
+                                }
+                                if (qty >= omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("FULL");
+                                } else if (qty < omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getQty()) {
+                                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("PARTIAL");
+                                } else if (qty <= 0) {
+                                    omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).setPackerStatus("NOT AVAILABLE");
+                                }
 
 //                                }
                             }
                         }
-
-
 
 
 //                        if (omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("ESH0002") || omsHeader.getGetOMSTransactionResponse().getSalesLine().get(i).getItemId().equals("PAC0237")) {
@@ -814,6 +937,21 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     }
 
     @Override
+    public void onSuccessGetOMSTransactionBiller(ArrayList<CustomerDataResBean> response) {
+        for (int i = 0; i < response.size(); i++) {
+            if (response != null && response.get(i).getPickPackReservation() != null) {
+                this.customerDataResBean = response.get(0);
+            } else {
+                hideLoading();
+                Toast.makeText(this, "Pick Pack Reservation is null", Toast.LENGTH_SHORT).show();
+                finish();
+                overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+            }
+        }
+
+    }
+
+    @Override
     public void onSuccessGetOMSPhysicalBatch(MedicineBatchResBean response) {
 
     }
@@ -897,8 +1035,14 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             finish();
             overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
         } else if (requestType == 6) {
-            finish();
-            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+            mpresenter.fetchOMSCustomerInfoBiller(fId);
+
+            mpresenter.getTransactionID();
+            mpresenter.getDoctorsList();
+            mpresenter.fetchFulfilmentOrderList();
+
+
+
         }
     }
 
@@ -982,22 +1126,31 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     @Override
     public void onClickPackerStatusUpdate() {
         if (isPackingVerified == 1) {
-            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
+//            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
 //            verificationStatusDialog.setPositiveListener(v -> {
 //                verificationStatusDialog.dismiss();
 //                mposOrderUpdate("3");
 //            });
 //            verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
-            verificationStatusDialog.show();
+//            verificationStatusDialog.show();
+            mposOrderUpdate("3");
 
-            new Handler().postDelayed(() -> {
-                if (verificationStatusDialog != null && verificationStatusDialog.isShowing()) {
-                    verificationStatusDialog.dismiss();
-                    mposOrderUpdate("3");
-                }
-            }, 3000);
+//            Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
+//            i.putExtra("fullfillmentDetails", omsHeader);
+//            startActivity(i);
+//            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+//            new Handler().postDelayed(() -> {
+//
+////                if (verificationStatusDialog != null && verificationStatusDialog.isShowing()) {
+////                    verificationStatusDialog.dismiss();
+////                }
+//
+//
+//
+//            }, 3000);
 
         } else if (isPackingVerified == 2) {
+
             Dialog dialog = new Dialog(this);
             DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
             dialogVerificationStatusBillerBinding.title.setText("Push to Re-verification");
@@ -1095,5 +1248,261 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             dialog.dismiss();
         });
 //        dialogCancelBinding.dialogButtonNot.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    @Override
+    public void getDoctorSearchList(DoctorSearchResModel doctorSearchResModel) {
+        this.doctorSearchResModel = doctorSearchResModel;
+
+    }
+
+    @Override
+    public void showTransactionID(TransactionIDResModel model) {
+        this.transactionIDResModel = model;
+
+    }
+    public void onClickContinueBill() {
+        if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() > 0) {
+            for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
+                if (customerDataResBean.getSalesLine().get(i).getInventBatchId() == null || customerDataResBean.getSalesLine().get(i).getInventBatchId().isEmpty()) {
+                    boolean isItemHaveMoreThanOneBatch = false;
+                    for (int j = 0; j < customerDataResBean.getPickPackReservation().size(); j++) {
+                        if (!customerDataResBean.getPickPackReservation().get(j).isPickPackSelected()) {
+                            if (customerDataResBean.getSalesLine().get(i).getItemId().equals(customerDataResBean.getPickPackReservation().get(j).getPickupItemId())) {
+                                customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
+                                if (!isItemHaveMoreThanOneBatch) {
+                                    isItemHaveMoreThanOneBatch = true;
+                                    customerDataResBean.getSalesLine().get(i).setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
+                                    customerDataResBean.getSalesLine().get(i).setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+
+                                    GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
+                                    boolean isoMSOrderDeliveryItem = false;
+                                    for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                                        if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(customerDataResBean.getSalesLine().get(i).getItemId())) {
+                                            isoMSOrderDeliveryItem = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isoMSOrderDeliveryItem) {
+                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+                                    if (isoMSOrderDeliveryItem) {
+                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+//                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002") || customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getSalesLine().get(i).getMRP());
+//                                    } else {
+//                                        customerDataResBean.getSalesLine().get(i).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//
+//                                    }
+//                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002") || customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+//                                    } else {
+//                                        customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//
+//                                    }
+//                                customerDataResBean.getSalesLine().get(i).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    customerDataResBean.getSalesLine().get(i).setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+
+                                    if (isoMSOrderDeliveryItem) {
+                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+                                    } else {
+                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+                                    }
+
+//                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002") || customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getSalesLine().get(i).getMRP());
+//                                    } else {
+//                                        customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//
+//                                    }
+//                                customerDataResBean.getSalesLine().get(i).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    customerDataResBean.getSalesLine().get(i).setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
+                                } else {
+                                    customerDataResBean.getPickPackReservation().get(j).setPickPackSelected(true);
+//                                customerDataResBean.getSalesLine().add(i + 1, customerDataResBean.getSalesLine().get(i));
+//
+//                                customerDataResBean.getSalesLine().get(i+1).setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
+//                                customerDataResBean.getSalesLine().get(i+1).setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+//                                customerDataResBean.getSalesLine().get(i+1).setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                customerDataResBean.getSalesLine().get(i+1).setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                customerDataResBean.getSalesLine().get(i+1).setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+//                                customerDataResBean.getSalesLine().get(i+1).setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+
+
+                                    SalesLineEntity salesLineEntityTemp = new SalesLineEntity();
+                                    salesLineEntityTemp.setAdditionaltax(customerDataResBean.getSalesLine().get(i).getAdditionaltax());
+                                    salesLineEntityTemp.setApplyDiscount(customerDataResBean.getSalesLine().get(i).getApplyDiscount());
+                                    salesLineEntityTemp.setBarcode(customerDataResBean.getSalesLine().get(i).getBarcode());
+                                    salesLineEntityTemp.setBaseAmount(customerDataResBean.getSalesLine().get(i).getBaseAmount());
+                                    salesLineEntityTemp.setCESSPerc(customerDataResBean.getSalesLine().get(i).getCESSPerc());
+                                    salesLineEntityTemp.setCESSTaxCode(customerDataResBean.getSalesLine().get(i).getCESSTaxCode());
+                                    salesLineEntityTemp.setCGSTPerc(customerDataResBean.getSalesLine().get(i).getCGSTPerc());
+                                    salesLineEntityTemp.setCGSTTaxCode(customerDataResBean.getSalesLine().get(i).getCGSTTaxCode());
+                                    salesLineEntityTemp.setCategory(customerDataResBean.getSalesLine().get(i).getCategory());
+                                    salesLineEntityTemp.setCategoryCode(customerDataResBean.getSalesLine().get(i).getCategoryCode());
+                                    salesLineEntityTemp.setCategoryReference(customerDataResBean.getSalesLine().get(i).getCategoryReference());
+                                    salesLineEntityTemp.setComment(customerDataResBean.getSalesLine().get(i).getComment());
+                                    salesLineEntityTemp.setDPCO(customerDataResBean.getSalesLine().get(i).getDPCO());
+                                    salesLineEntityTemp.setDiscAmount(customerDataResBean.getSalesLine().get(i).getDiscAmount());
+                                    salesLineEntityTemp.setDiscId(customerDataResBean.getSalesLine().get(i).getDiscId());
+                                    salesLineEntityTemp.setDiscOfferId(customerDataResBean.getSalesLine().get(i).getDiscOfferId());
+                                    salesLineEntityTemp.setDiscountStructureType(customerDataResBean.getSalesLine().get(i).getDiscountStructureType());
+                                    salesLineEntityTemp.setDiscountType(customerDataResBean.getSalesLine().get(i).getDiscountType());
+                                    salesLineEntityTemp.setDiseaseType(customerDataResBean.getSalesLine().get(i).getDiseaseType());
+                                    salesLineEntityTemp.setExpiry(customerDataResBean.getSalesLine().get(i).getExpiry());
+                                    salesLineEntityTemp.setHsncode_In(customerDataResBean.getSalesLine().get(i).getHsncode_In());
+                                    salesLineEntityTemp.setIGSTPerc(customerDataResBean.getSalesLine().get(i).getIGSTPerc());
+                                    salesLineEntityTemp.setIGSTTaxCode(customerDataResBean.getSalesLine().get(i).getIGSTTaxCode());
+                                    salesLineEntityTemp.setISPrescribed(customerDataResBean.getSalesLine().get(i).getISPrescribed());
+                                    salesLineEntityTemp.setISReserved(customerDataResBean.getSalesLine().get(i).getISReserved());
+                                    salesLineEntityTemp.setISStockAvailable(customerDataResBean.getSalesLine().get(i).getISStockAvailable());
+                                    salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+                                    salesLineEntityTemp.setChecked(customerDataResBean.getSalesLine().get(i).getIsChecked());
+                                    salesLineEntityTemp.setGeneric(customerDataResBean.getSalesLine().get(i).getIsGeneric());
+                                    salesLineEntityTemp.setPriceOverride(customerDataResBean.getSalesLine().get(i).getIsPriceOverride());
+                                    salesLineEntityTemp.setSubsitute(customerDataResBean.getSalesLine().get(i).getIsSubsitute());
+                                    salesLineEntityTemp.setVoid(customerDataResBean.getSalesLine().get(i).getIsVoid());
+                                    salesLineEntityTemp.setItemId(customerDataResBean.getSalesLine().get(i).getItemId());
+                                    salesLineEntityTemp.setItemName(customerDataResBean.getSalesLine().get(i).getItemName());
+                                    salesLineEntityTemp.setLineDiscPercentage(customerDataResBean.getSalesLine().get(i).getLineDiscPercentage());
+                                    salesLineEntityTemp.setLineManualDiscountAmount(customerDataResBean.getSalesLine().get(i).getLineManualDiscountAmount());
+                                    salesLineEntityTemp.setLineManualDiscountPercentage(customerDataResBean.getSalesLine().get(i).getLineManualDiscountPercentage());
+                                    salesLineEntityTemp.setLineNo(customerDataResBean.getSalesLine().get(i).getLineNo());
+                                    salesLineEntityTemp.setLinedscAmount(customerDataResBean.getSalesLine().get(i).getLinedscAmount());
+                                    salesLineEntityTemp.setMMGroupId(customerDataResBean.getSalesLine().get(i).getMMGroupId());
+
+                                    GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
+                                    boolean isoMSOrderDeliveryItem = false;
+                                    for (int n = 0; n < getGlobalConfingRes.getoMSOrderDeliveryItemId().size(); n++) {
+                                        if (getGlobalConfingRes.getoMSOrderDeliveryItemId().get(n).equalsIgnoreCase(customerDataResBean.getSalesLine().get(i).getItemId())) {
+                                            isoMSOrderDeliveryItem = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isoMSOrderDeliveryItem) {
+                                        salesLineEntityTemp.setMRP(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
+//                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002") || customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        salesLineEntityTemp.setMRP(salesLineEntityTemp.getMRP());
+//                                    } else {
+//                                        salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                    }
+                                    salesLineEntityTemp.setManufacturerCode(customerDataResBean.getSalesLine().get(i).getManufacturerCode());
+                                    salesLineEntityTemp.setManufacturerName(customerDataResBean.getSalesLine().get(i).getManufacturerName());
+                                    salesLineEntityTemp.setMixMode(customerDataResBean.getSalesLine().get(i).getMixMode());
+                                    salesLineEntityTemp.setModifyBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupPhysicalInventBatchId());
+                                    salesLineEntityTemp.setNetAmount(customerDataResBean.getSalesLine().get(i).getNetAmount());
+                                    salesLineEntityTemp.setNetAmountInclTax(customerDataResBean.getSalesLine().get(i).getNetAmountInclTax());
+                                    salesLineEntityTemp.setOfferAmount(customerDataResBean.getSalesLine().get(i).getOfferAmount());
+                                    salesLineEntityTemp.setOfferDiscountType(customerDataResBean.getSalesLine().get(i).getOfferDiscountType());
+                                    salesLineEntityTemp.setOfferDiscountValue(customerDataResBean.getSalesLine().get(i).getOfferDiscountValue());
+                                    salesLineEntityTemp.setOfferQty(customerDataResBean.getSalesLine().get(i).getOfferQty());
+                                    salesLineEntityTemp.setOfferType(customerDataResBean.getSalesLine().get(i).getOfferType());
+                                    salesLineEntityTemp.setOmsLineID(customerDataResBean.getSalesLine().get(i).getOmsLineID());
+                                    salesLineEntityTemp.setOmsLineRECID(customerDataResBean.getSalesLine().get(i).getOmsLineRECID());
+                                    salesLineEntityTemp.setOrderStatus(customerDataResBean.getSalesLine().get(i).getOrderStatus());
+                                    salesLineEntityTemp.setOriginalPrice(customerDataResBean.getSalesLine().get(i).getOriginalPrice());
+                                    salesLineEntityTemp.setPeriodicDiscAmount(customerDataResBean.getSalesLine().get(i).getPeriodicDiscAmount());
+                                    salesLineEntityTemp.setPhysicalMRP(customerDataResBean.getSalesLine().get(i).getPhysicalMRP());
+                                    salesLineEntityTemp.setPreviewText(customerDataResBean.getSalesLine().get(i).getPreviewText());
+                                    if (isoMSOrderDeliveryItem) {
+                                        salesLineEntityTemp.setPrice(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
+//                                salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    salesLineEntityTemp.setProductRecID(customerDataResBean.getSalesLine().get(i).getProductRecID());
+                                    salesLineEntityTemp.setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+                                    salesLineEntityTemp.setRackId(customerDataResBean.getSalesLine().get(i).getRackId());
+                                    salesLineEntityTemp.setRemainderDays(customerDataResBean.getSalesLine().get(i).getRemainderDays());
+                                    salesLineEntityTemp.setRemainingQty(customerDataResBean.getSalesLine().get(i).getRemainingQty());
+                                    salesLineEntityTemp.setResqty(customerDataResBean.getSalesLine().get(i).getResqtyflag());
+                                    salesLineEntityTemp.setRetailCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailCategoryRecID());
+                                    salesLineEntityTemp.setRetailMainCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailMainCategoryRecID());
+                                    salesLineEntityTemp.setRetailSubCategoryRecID(customerDataResBean.getSalesLine().get(i).getRetailSubCategoryRecID());
+                                    salesLineEntityTemp.setReturnQty(customerDataResBean.getSalesLine().get(i).getReturnQty());
+                                    salesLineEntityTemp.setSGSTPerc(customerDataResBean.getSalesLine().get(i).getSGSTPerc());
+                                    salesLineEntityTemp.setSGSTTaxCode(customerDataResBean.getSalesLine().get(i).getSGSTTaxCode());
+                                    salesLineEntityTemp.setScheduleCategory(customerDataResBean.getSalesLine().get(i).getScheduleCategory());
+                                    salesLineEntityTemp.setScheduleCategoryCode(customerDataResBean.getSalesLine().get(i).getScheduleCategoryCode());
+                                    salesLineEntityTemp.setStockQty(customerDataResBean.getSalesLine().get(i).getStockQty());
+                                    salesLineEntityTemp.setSubCategory(customerDataResBean.getSalesLine().get(i).getSubCategory());
+                                    salesLineEntityTemp.setSubCategoryCode(customerDataResBean.getSalesLine().get(i).getSubCategoryCode());
+                                    salesLineEntityTemp.setSubClassification(customerDataResBean.getSalesLine().get(i).getSubClassification());
+                                    salesLineEntityTemp.setSubstitudeItemId(customerDataResBean.getSalesLine().get(i).getSubstitudeItemId());
+                                    salesLineEntityTemp.setTax(customerDataResBean.getSalesLine().get(i).getTax());
+                                    salesLineEntityTemp.setTaxAmount(customerDataResBean.getSalesLine().get(i).getTaxAmount());
+                                    salesLineEntityTemp.setTotal(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalDiscAmount());
+                                    salesLineEntityTemp.setTotalDiscPct(customerDataResBean.getSalesLine().get(i).getTotalDiscPct());
+                                    salesLineEntityTemp.setTotalDiscAmount(customerDataResBean.getSalesLine().get(i).getTotalRoundedAmount());
+                                    salesLineEntityTemp.setTotalTax(customerDataResBean.getSalesLine().get(i).getTotalTax());
+                                    salesLineEntityTemp.setUnit(customerDataResBean.getSalesLine().get(i).getUnit());
+                                    if (isoMSOrderDeliveryItem) {
+                                        salesLineEntityTemp.setUnitPrice(salesLineEntityTemp.getMRP());
+                                    } else {
+                                        salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    }
+//                                    if (customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("ESH0002") || customerDataResBean.getSalesLine().get(i).getItemId().equalsIgnoreCase("PAC0237")) {
+//                                        salesLineEntityTemp.setUnitPrice(salesLineEntityTemp.getMRP());
+//                                    } else {
+//                                        salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                    }
+//                                salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    salesLineEntityTemp.setUnitQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+                                    salesLineEntityTemp.setVariantId(customerDataResBean.getSalesLine().get(i).getVariantId());
+                                    salesLineEntityTemp.setReturnClick(false);
+                                    salesLineEntityTemp.setSelectedReturnItem(false);
+                                    salesLineEntityTemp.setPriceVariation(customerDataResBean.getSalesLine().get(i).getPriceVariation());
+                                    salesLineEntityTemp.setqCDate(customerDataResBean.getSalesLine().get(i).getqCDate());
+                                    salesLineEntityTemp.setqCRemarks(customerDataResBean.getSalesLine().get(i).getqCRemarks());
+                                    salesLineEntityTemp.setqCStatus(customerDataResBean.getSalesLine().get(i).getqCStatus());
+
+//                                salesLineEntityTemp.setExpiry(customerDataResBean.getPickPackReservation().get(j).getExpiry());
+//                                salesLineEntityTemp.setInventBatchId(customerDataResBean.getPickPackReservation().get(j).getPickupInventBatchId());
+//                                salesLineEntityTemp.setMRP(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                salesLineEntityTemp.setPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+//                                salesLineEntityTemp.setQty(customerDataResBean.getPickPackReservation().get(j).getPickupQty());
+//                                salesLineEntityTemp.setUnitPrice(customerDataResBean.getPickPackReservation().get(j).getPrice());
+                                    customerDataResBean.getSalesLine().add(salesLineEntityTemp);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (customerDataResBean != null && customerDataResBean.getSalesLine() != null && customerDataResBean.getSalesLine().size() > 0) {
+                for (int i = 0; i < customerDataResBean.getSalesLine().size(); i++) {
+                    if (customerDataResBean.getSalesLine().get(i).getItemStatus() == 1) {
+                        customerDataResBean.getSalesLine().remove(i);
+                        i--;
+                    }
+                }
+            }
+            mpresenter.onCheckBatchStock(customerDataResBean);
+
+
+        } else {
+            Toast.makeText(this, "No item available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void getCorporateList(CorporateModel corporateModel) {
+        this.corporateModel = corporateModel;
+        if (corporateModel.get_DropdownValue()!=null){
+            corporateList.addAll(corporateModel.get_DropdownValue());
+
+        }
     }
 }

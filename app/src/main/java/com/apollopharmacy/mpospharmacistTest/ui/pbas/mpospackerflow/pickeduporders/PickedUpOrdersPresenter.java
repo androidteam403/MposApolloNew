@@ -10,6 +10,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackA
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +52,11 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
     @Override
     public void fetchOMSOrderList() {
 
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfigRes() {
+        return null;
     }
 
     @Override
