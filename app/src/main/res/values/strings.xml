@@ -561,6 +561,7 @@
     <string name="label_dashboards">Dashboard</string>
     <string name="label_picker">Picker</string>
     <string name="label_packer">Packer</string>
+    <string name="label_checker">Checker</string>
     <string name="label_uhid">UHID</string>
     <string name="proceed_action">Proceed Action</string>
     <string name="label_biller">Biller</string>
