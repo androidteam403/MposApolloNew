@@ -399,14 +399,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 if (customerEntity.getAvailablePoints() == null || customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
                     addItemBinding.detailsLayout.availablePoints.setText("--");
                 } else {
-                    addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
+                    DecimalFormat d = new DecimalFormat("#.##");
+                    if (customerEntity.getAvailablePoints() != null && !customerEntity.getAvailablePoints().isEmpty()) {
+                        double availableAmount = Double.parseDouble(customerEntity.getAvailablePoints());
+                        addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                    }
+//                    addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
                 }
             }
 
             pharmacyStaffApiRes = (PharmacyStaffApiRes) getIntent().getSerializableExtra("staff_avail_amt");
             if (pharmacyStaffApiRes != null) {
                 double availableAmount = Double.parseDouble(pharmacyStaffApiRes.getTotalBalance()) - Double.parseDouble(pharmacyStaffApiRes.getUsedBalance());
-                addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+                DecimalFormat d = new DecimalFormat("#.##");
+                addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+
+//                addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
             }
             if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
                 prgData = getIntent().getStringExtra("prg_track");
@@ -2671,7 +2679,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 }
             } else {
                 isCorporatePayment = true;
-                addItemBinding.detailsLayout.availablePoints.setText(availableData);
+                DecimalFormat d = new DecimalFormat("#.##");
+                if (availableData != null && !availableData.isEmpty()) {
+                    double availableAmount = Double.parseDouble(availableData);
+                    addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                }
+//                addItemBinding.detailsLayout.availablePoints.setText(availableData);
             }
         } else {
             isCorporatePayment = false;
@@ -2684,8 +2697,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onSucessStaffListData(PharmacyStaffApiRes staffApiRes) {
+        DecimalFormat d = new DecimalFormat("#.##");
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
-        addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+        addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+
+
+        /*double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
+        addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));*/
         isCorporatePayment = true;
         clearallBtnVisibilitybyCorpPayment(isCorporatePayment);
         if (customerEntity != null) {
@@ -3088,7 +3106,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             if (customerEntity.getAvailablePoints() == null || customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
                                 addItemBinding.detailsLayout.availablePoints.setText("--");
                             } else {
-                                addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
+                                DecimalFormat d = new DecimalFormat("#.##");
+                                if (customerEntity.getAvailablePoints() != null && !customerEntity.getAvailablePoints().isEmpty()) {
+                                    double availableAmount = Double.parseDouble(customerEntity.getAvailablePoints());
+                                    addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                                }
                             }
                             if (calculatePosTransactionRes != null) {
                                 calculatePosTransactionRes.setCustomerID(customerEntity.getCustId());
