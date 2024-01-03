@@ -361,8 +361,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
-            pickupProcessBinding.pendingCount.setText(String.valueOf(partialCount));
+//            long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+            long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
@@ -1031,6 +1032,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
 //    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint({"WrongViewCast", "SetTextI18n"})
     @Override
     protected void setUp() {
@@ -1039,6 +1041,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.orders.setText(String.valueOf(selectedOmsHeaderList.size()));
+            long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
             pickupProcessBinding.selectedFullfillment.setText("Selected Fulfilment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + selectedOmsHeaderList.size());
             pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
@@ -1260,8 +1264,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     }
                 }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
-                    pickupProcessBinding.pendingCount.setText(String.valueOf(partialCount));
+//                    long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+                    long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                    pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
                 }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();

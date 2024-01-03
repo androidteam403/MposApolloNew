@@ -315,6 +315,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         int pixels = (int) (320 * scale + 0.5f);
         activityBatchlistScannerBinding.scannerLayout.getLayoutParams().height = pixels;
         activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
+        activityBatchlistScannerBinding.completeBox.setVisibility(View.GONE);
         activityBatchlistScannerBinding.btnLayout2.setVisibility(View.VISIBLE);
         if (getBatchInfoRes != null && getBatchInfoRes.getBatchList() != null && getBatchInfoRes.getBatchList().size() > 0) {
            /* scanSearch = true;
@@ -587,7 +588,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                         i.putExtra("finalStatus", (String) statusBatchlist);
                         i.putExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", true);
                         setResult(RESULT_OK, i);
-                        /*finish();*/
+                        finish();
                         dialog.dismiss();
                     });
                     dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(v1 -> dialog.dismiss());
@@ -633,7 +634,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                     i.putExtra("finalStatus", (String) statusBatchlist);
                     i.putExtra("IS_BATCH_SELECTED_THROUGH_BARCODE", true);
                     setResult(RESULT_OK, i);
-                    /*finish();*/
+                    finish();
                 } catch (Exception e) {
                     System.out.println("===============================================" + e.getMessage());
                 }

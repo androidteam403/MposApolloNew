@@ -61,14 +61,14 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModelList.add(selectAppFlowModel);
 
         selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Packer");
+        selectAppFlowModel.setAppFlowName("Checker");
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
+        /*selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Biller");
         selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+        selectAppFlowModelList.add(selectAppFlowModel);*/
 
         selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Shipping Label");
@@ -110,7 +110,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PICKER"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
-                    case "Packer":
+                    case "Checker":
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PACKER"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
