@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -81,6 +82,16 @@ public class PickerNavigationPresenter<V extends PickerNavigationMvpView> extend
     public void logoutUser() {
         getDataManager().logoutUser();
         getMvpView().navigateLoginActivity();
+    }
+
+    @Override
+    public List<UserModel._DropdownValueBean> getLoginUserResult() {
+        return getDataManager().getMaxMinOrders();
+    }
+
+    @Override
+    public String getUserId() {
+        return getDataManager().getUserId();
     }
 
 

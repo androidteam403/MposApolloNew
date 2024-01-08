@@ -33,6 +33,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnA
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
@@ -205,4 +206,6 @@ public interface ActivityComponent {
     void inject(V3NavigationActivity v3NavigationActivity);
 
     void inject(OpenOrdersV3Activity openOrdersV3Activity);
+
+    void inject(ShelfIdScannerActivity shelfIdScannerActivity);
 }

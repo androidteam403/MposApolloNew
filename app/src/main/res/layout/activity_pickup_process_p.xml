@@ -94,6 +94,7 @@
                     android:visibility="gone" />
 
                 <LinearLayout
+                    android:id="@+id/orders_racks_layout"
                     android:layout_width="160dp"
                     android:layout_height="32dp"
                     android:layout_alignParentEnd="true"

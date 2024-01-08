@@ -93,6 +93,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListPresente
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersPresenter;
@@ -596,6 +599,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     OpenOrdersV3MvpPresenter<OpenOrdersV3MvpView> provideOpenOrdersV3Presenter(OpenOrdersV3Presenter<OpenOrdersV3MvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ShelfIdScannerMvpPresenter<ShelfIdScannerMvpView> provideShelfIdScannerPresenter(ShelfIdScannerPresenter<ShelfIdScannerMvpView> presenter) {
         return presenter;
     }
 

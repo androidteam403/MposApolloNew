@@ -15,6 +15,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.adapter.SelectAppFlowListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.model.SelectAppFlowModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
     private ActivitySelectAppFlowPBinding selectAppFlowBinding;
     private SelectAppFlowListAdapter selectAppFlowListAdapter;
     private final List<SelectAppFlowModel> selectAppFlowModelList = new ArrayList<>();
+    private String userType;
 
     public static Intent getStartActivity(Context mContext) {
         Intent intent = new Intent(mContext, SelectAppFlowActivity.class);
@@ -46,6 +48,12 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
 
     @Override
     protected void setUp() {
+        List<UserModel._DropdownValueBean> loginUserResult = mPresenter.getLoginUserResult();
+        for (int i = 0; i < loginUserResult.size(); i++) {
+            if (mPresenter.getUserId().equalsIgnoreCase(loginUserResult.get(i).getCode())) {
+                userType = loginUserResult.get(i).getUserType();
+            }
+        }
         getSelectAppFlowModelList();
         selectAppFlowBinding.setCallback(mPresenter);
         selectAppFlowListAdapter = new SelectAppFlowListAdapter(this, selectAppFlowModelList, this);
@@ -75,10 +83,12 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Admin");
-        selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+        if (userType.equalsIgnoreCase("1")) {
+            selectAppFlowModel = new SelectAppFlowModel();
+            selectAppFlowModel.setAppFlowName("Admin");
+            selectAppFlowModel.setSelected(false);
+            selectAppFlowModelList.add(selectAppFlowModel);
+        }
 
         selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Orders");
