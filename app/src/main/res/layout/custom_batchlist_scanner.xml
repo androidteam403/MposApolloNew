@@ -58,15 +58,16 @@
                 android:gravity="center"
                 android:text="@string/label_scan_barcode"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimen14sp" />
+                android:textSize="@dimen/dimen14sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/squarebox"
                 android:layout_width="@dimen/one_hundred_fifty_dp"
                 android:layout_height="@dimen/one_hundred_dp"
                 android:contentDescription="@string/app_name"
-                android:visibility="gone"
-                android:src="@drawable/bg_cancel_btn" />
+                android:src="@drawable/bg_cancel_btn"
+                android:visibility="gone" />
         </LinearLayout>
     </merge>
 </layout><!--    #322100c8-->

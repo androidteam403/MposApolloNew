@@ -85,7 +85,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         return new Intent(context, BatchlistScannerActivity.class);
     }
 
-    @SuppressLint("LongLogTag")
+    @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +123,23 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
         barcodeScannerView.initializeFromIntent(getIntent());
         String finalItemId = itemId;
+        activityBatchlistScannerBinding.flid.setText(salesLine.getFullfillmentId());
+        if (salesLine.getBarcode() != null) {
+            if (!salesLine.getBarcode().isEmpty()) {
+                activityBatchlistScannerBinding.boxNumber.setText(salesLine.getBarcode());
+            } else {
+                activityBatchlistScannerBinding.boxNumber.setText("-");
+            }
+        } else {
+            activityBatchlistScannerBinding.boxNumber.setText("-");
+        }
+        if (salesLine.getPickedQty() != null) {
+            activityBatchlistScannerBinding.pickedQty.setText(salesLine.getPickedQty());
+        } else {
+            activityBatchlistScannerBinding.pickedQty.setText("0");
+        }
+        activityBatchlistScannerBinding.reqQty.setText(Integer.toString(salesLine.getQty()));
+        activityBatchlistScannerBinding.rackId.setText(salesLine.getRackId());
         barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -26,7 +27,10 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pickup_process_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_ready_for_pickup_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_select_app_flow_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_self_id_scanner.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_shelf_id_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_v3_navigation.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_batchlist_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_filter_item.xml" value="0.25" />
@@ -53,6 +57,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/app_bar_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/content_main.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/content_main_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/custom_batchlist_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/custom_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/custom_scanner_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_batch_alert.xml" value="0.25" />

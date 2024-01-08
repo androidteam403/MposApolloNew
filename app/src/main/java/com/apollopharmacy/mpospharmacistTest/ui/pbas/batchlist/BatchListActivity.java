@@ -36,6 +36,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
@@ -124,7 +125,17 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //            batchlistBinding.batchDetails.setVisibility(View.GONE);
 //            batchlistBinding.batchListRecycler.setVisibility(View.GONE);
 //            batchlistBinding.searchbybatchId.requestFocus();
-            onClickScanBatchId();
+//            onClickScanBatchId();
+            Intent intent1 = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
+            intent1.putExtra("ITEM_ID", salesLine.getItemId());
+            intent1.putExtra("SALESLINE", salesLine);
+            intent1.putExtra("BATCH_LIST", (Serializable) body);
+            intent1.putExtra("SELECTED_OMS_HEADER_LIST", (Serializable) selectedOmsHeaderList);
+            intent1.putExtra("ORDER_ADAPTER_POS", orderAdapterPos);
+            intent1.putExtra("NEW_SELECTED_ORDER_ADAPTER_POS", newSelectedOrderAdapterPos);
+            intent1.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
+            intent1.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
+            startActivity(intent1);
         }
 
         if (noBatchDetails) {

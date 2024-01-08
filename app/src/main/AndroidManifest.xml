@@ -34,6 +34,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:roundIcon,android:theme,android:allowBackup">
         <activity
+            android:name=".ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.mposvthree.home.V3NavigationActivity"
             android:exported="false" />
         <activity
