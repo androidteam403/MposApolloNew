@@ -26,6 +26,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +42,7 @@ public class CaptureManager implements CallbackCaptureManager {
     private InactivityTimer inactivityTimer;
     private boolean returnBarcodeImagePath = false;
     CaptureManagerCallback mCallback;
-    int scannedQuantity = 0;
+    double scannedQuantity = 0.0;
     GetOMSTransactionResponse.SalesLine salesLine;
     Context applicationContext;
     Activity activity;
@@ -187,6 +188,7 @@ public class CaptureManager implements CallbackCaptureManager {
 
     List<GetBatchInfoRes.BatchListObj> batchList;
     GetBatchInfoRes.BatchListObj batchListObj;
+    List<GetBatchInfoRes.BatchListObj> salesLineBatchList = new ArrayList<>();
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
         batchList = getBatchDetailsByBarcodeResponse.getBatchList();
@@ -209,7 +211,23 @@ public class CaptureManager implements CallbackCaptureManager {
             return date1.compareTo(date2);
         });
         for (int i = 0; i < batchList.size(); i++) {
-            if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchId())) {
+            if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchNo())) {
+                // if qoh available add batch to sales line and increase req qty of batch item
+                if (batchList.get(i).getQ_O_H() != null) {
+                    if (salesLineBatchList.size() > 0) {
+                        for (int j = 0; j < salesLineBatchList.size(); j++) {
+                            if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                                salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
+                            } else {
+                                batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
+                                salesLineBatchList.add(this.batchList.get(j));
+                            }
+                        }
+                    } else {
+                        batchList.get(i).setREQQTY(batchList.get(i).getREQQTY() + 1);
+                        salesLineBatchList.add(batchList.get(i));
+                    }
+                }
                 batchListObj = batchList.get(i);
             }
         }
@@ -228,19 +246,35 @@ public class CaptureManager implements CallbackCaptureManager {
                 return Long.compare(diff1, diff2);
             });
             batchListObj = batchList.get(0);
+            if (salesLineBatchList.size() > 0) {
+                for (int j = 0; j < salesLineBatchList.size(); j++) {
+                    if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                        salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
+                    } else {
+                        batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
+                        salesLineBatchList.add(this.batchList.get(j));
+                    }
+                }
+            } else {
+                batchListObj.setREQQTY(batchListObj.getREQQTY() + 1);
+                salesLineBatchList.add(batchListObj);
+            }
         }
-        if (batchListObj.getREQQTY() == salesLine.getQty()) {
-            mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
-            returnResult(batchListObj);
+        for (int i = 0; i < salesLineBatchList.size(); i++) {
+            scannedQuantity = scannedQuantity + salesLineBatchList.get(i).getREQQTY();
+        }
+        if (scannedQuantity == salesLine.getQty()) {
+            mCallback.dialogShow(Double.toString(scannedQuantity));
+            returnResult(salesLineBatchList);
         } else {
-            mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
+            mCallback.dialogShow(Double.toString(scannedQuantity));
         }
     }
 
-    private void returnResult(GetBatchInfoRes.BatchListObj batchListObj) {
+    private void returnResult(List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
         Intent intent = new Intent(Intents.Scan.ACTION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        intent.putExtra("batchlistobj", (Serializable) batchListObj);
+        intent.putExtra("salesLineBatchList", (Serializable) salesLineBatchList);
         activity.setResult(Activity.RESULT_OK, intent);
         closeAndFinish();
     }
