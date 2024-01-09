@@ -289,7 +289,7 @@ public class PharmacistLoginActivity extends BaseActivity implements PharmacistL
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();
 //        } else if (mPresenter.getGlobalConfigurationObj() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion() != null && mPresenter.getGlobalConfigurationObj().getMPOSVersion().equals("2")) {
-        /*mPresenter.setIsV1Flow(false);
+       /* mPresenter.setIsV1Flow(false);
         startActivity(SelectAppFlowActivity.getStartActivity(PharmacistLoginActivity.this));
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         finish();*/
