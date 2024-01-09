@@ -46,6 +46,7 @@ public class CaptureManager implements CallbackCaptureManager {
     Context applicationContext;
     Activity activity;
     DecoratedBarcodeView barcodeView;
+
     public CaptureManager(Activity activity, DecoratedBarcodeView barcodeView, Context applicationContext) {
         this.activity = activity;
         this.barcodeView = barcodeView;
@@ -62,6 +63,7 @@ public class CaptureManager implements CallbackCaptureManager {
 
         beepManager = new BeepManager(activity);
     }
+
     private BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
@@ -187,53 +189,56 @@ public class CaptureManager implements CallbackCaptureManager {
 
     List<GetBatchInfoRes.BatchListObj> batchList;
     GetBatchInfoRes.BatchListObj batchListObj;
+
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
-        batchList = getBatchDetailsByBarcodeResponse.getBatchList();
-        for (int i = 0; i < batchList.size(); i++) {
-            if (batchList.get(i).isNearByExpiry()) {
-                batchList.remove(i);
-                i--;
+        if (getBatchDetailsByBarcodeResponse.getBatchList() != null && getBatchDetailsByBarcodeResponse.getBatchList().size() > 0) {
+            batchList = getBatchDetailsByBarcodeResponse.getBatchList();
+            for (int i = 0; i < batchList.size(); i++) {
+                if (batchList.get(i).isNearByExpiry()) {
+                    batchList.remove(i);
+                    i--;
+                }
             }
-        }
-        Collections.sort(batchList, (o1, o2) -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy"); // 31-Jan-2024
-            Date date1 = null;
-            Date date2 = null;
-            try {
-                date1 = dateFormat.parse(o1.getExpDate());
-                date2 = dateFormat.parse(o2.getExpDate());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return date1.compareTo(date2);
-        });
-        for (int i = 0; i < batchList.size(); i++) {
-            if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchId())) {
-                batchListObj = batchList.get(i);
-            }
-        }
-        if (batchListObj == null) {
             Collections.sort(batchList, (o1, o2) -> {
-                Date currentDate = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-                long diff1 = 0;
-                long diff2 = 0;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH); // 31-Jan-2024
+                Date date1 = null;
+                Date date2 = null;
                 try {
-                    diff1 = Math.abs(dateFormat.parse(o1.getExpDate()).getTime() - currentDate.getTime());
-                    diff2 = Math.abs(dateFormat.parse(o2.getExpDate()).getTime() - currentDate.getTime());
+                    date1 = dateFormat.parse(o1.getExpDate());
+                    date2 = dateFormat.parse(o2.getExpDate());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return Long.compare(diff1, diff2);
+                return date1.compareTo(date2);
             });
-            batchListObj = batchList.get(0);
-        }
-        if (batchListObj.getREQQTY() == salesLine.getQty()) {
-            mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
-            returnResult(batchListObj);
-        } else {
-            mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
+            for (int i = 0; i < batchList.size(); i++) {
+                if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchId())) {
+                    batchListObj = batchList.get(i);
+                }
+            }
+            if (batchListObj == null) {
+                Collections.sort(batchList, (o1, o2) -> {
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                    long diff1 = 0;
+                    long diff2 = 0;
+                    try {
+                        diff1 = Math.abs(dateFormat.parse(o1.getExpDate()).getTime() - currentDate.getTime());
+                        diff2 = Math.abs(dateFormat.parse(o2.getExpDate()).getTime() - currentDate.getTime());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return Long.compare(diff1, diff2);
+                });
+                batchListObj = batchList.get(0);
+            }
+            if (batchListObj.getREQQTY() == salesLine.getQty()) {
+                mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
+                returnResult(batchListObj);
+            } else {
+                mCallback.dialogShow(Double.toString(batchListObj.getREQQTY()));
+            }
         }
     }
 
