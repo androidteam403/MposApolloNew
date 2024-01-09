@@ -126,16 +126,16 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //            batchlistBinding.batchListRecycler.setVisibility(View.GONE);
 //            batchlistBinding.searchbybatchId.requestFocus();
 //            onClickScanBatchId();
-            Intent intent1 = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
-            intent1.putExtra("ITEM_ID", salesLine.getItemId());
-            intent1.putExtra("SALESLINE", salesLine);
-            intent1.putExtra("BATCH_LIST", (Serializable) body);
-            intent1.putExtra("SELECTED_OMS_HEADER_LIST", (Serializable) selectedOmsHeaderList);
-            intent1.putExtra("ORDER_ADAPTER_POS", orderAdapterPos);
-            intent1.putExtra("NEW_SELECTED_ORDER_ADAPTER_POS", newSelectedOrderAdapterPos);
-            intent1.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
-            intent1.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
-            startActivity(intent1);
+//            Intent intent1 = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
+//            intent1.putExtra("ITEM_ID", salesLine.getItemId());
+//            intent1.putExtra("SALESLINE", salesLine);
+//            intent1.putExtra("BATCH_LIST", (Serializable) body);
+//            intent1.putExtra("SELECTED_OMS_HEADER_LIST", (Serializable) selectedOmsHeaderList);
+//            intent1.putExtra("ORDER_ADAPTER_POS", orderAdapterPos);
+//            intent1.putExtra("NEW_SELECTED_ORDER_ADAPTER_POS", newSelectedOrderAdapterPos);
+//            intent1.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
+//            intent1.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
+//            startActivity(intent1);
         }
 
         if (noBatchDetails) {
@@ -522,16 +522,36 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     dialogBatchAlertBinding.dialogButtonNO.setText("Cancel");
                     dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
                     dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                        GetBatchInfoRes o = new GetBatchInfoRes();
-                        if (batchListObjsList != null && batchListObjsList.size() > 0)
-                            o.setBatchList(batchListObjsList);
-                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                        Intent i = new Intent();
-                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                        i.putExtra("finalStatus", (String) statusBatchlist);
-                        setResult(RESULT_OK, i);
-                        finish();
-                        dialog.dismiss();
+                        if (salesLine.getBarcode() != null) {
+                            if (!salesLine.getBarcode().isEmpty()) {
+                                Intent i = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
+                                i.putExtra("box_id", salesLine.getBarcode());
+                                i.putExtra("salesLine", (Serializable) salesLine);
+                                startActivity(i);
+                            } else {
+                                GetBatchInfoRes o = new GetBatchInfoRes();
+                                if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                    o.setBatchList(batchListObjsList);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                Intent i = new Intent();
+                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                i.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, i);
+                                finish();
+                                dialog.dismiss();
+                            }
+                        } else {
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                o.setBatchList(batchListObjsList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            Intent i = new Intent();
+                            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                            i.putExtra("finalStatus", (String) statusBatchlist);
+                            setResult(RESULT_OK, i);
+                            finish();
+                            dialog.dismiss();
+                        }
                     });
                     dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(v1 -> dialog.dismiss());
 //                dialogBatchAlertBinding.dialogButtonNot.setOnClickListener(v1 -> dialog.dismiss());
@@ -567,15 +587,34 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             } else if (selectedBatchesQty == salesLine.getQty()) {
                 statusBatchlist = "FULL";
                 try {
-                    GetBatchInfoRes o = new GetBatchInfoRes();
-                    if (batchListObjsList != null && batchListObjsList.size() > 0)
-                        o.setBatchList(batchListObjsList);
-                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                    Intent i = new Intent();
-                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                    i.putExtra("finalStatus", (String) statusBatchlist);
-                    setResult(RESULT_OK, i);
-                    finish();
+                    if (salesLine.getBarcode() != null) {
+                        if (!salesLine.getBarcode().isEmpty()) {
+                            Intent i = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
+                            i.putExtra("box_id", salesLine.getBarcode());
+                            i.putExtra("salesLine", (Serializable) salesLine);
+                            startActivity(i);
+                        } else {
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                o.setBatchList(batchListObjsList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            Intent i = new Intent();
+                            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                            i.putExtra("finalStatus", (String) statusBatchlist);
+                            setResult(RESULT_OK, i);
+                            finish();
+                        }
+                    } else {
+                        GetBatchInfoRes o = new GetBatchInfoRes();
+                        if (batchListObjsList != null && batchListObjsList.size() > 0)
+                            o.setBatchList(batchListObjsList);
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                        i.putExtra("finalStatus", (String) statusBatchlist);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }
                 } catch (Exception e) {
                     System.out.println("===============================================" + e.getMessage());
                 }

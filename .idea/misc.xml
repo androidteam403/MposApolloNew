@@ -64,6 +64,9 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_filter_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_filter_p_v3.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_physical_batch_id.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_scan.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_scan_continue.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_skip_order.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_admin.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_dashboard_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/ic_circle_gray_bg.xml" value="0.25" />

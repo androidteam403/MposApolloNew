@@ -41,6 +41,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -1571,7 +1572,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine salesLine, int adapterPosition) {
-        Intent i = new Intent(PickupProcessActivity.this, BatchListActivity.class);
+//        Intent i = new Intent(PickupProcessActivity.this, BatchListActivity.class);
+        Intent i = new Intent(PickupProcessActivity.this, ShelfIdScannerActivity.class);
         i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
         i.putExtra("omsHeader", (Serializable) omsHeaderObj);
         i.putExtra("salesLine", (Serializable) salesLinee);

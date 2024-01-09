@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,6 +39,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogAddBatchDetailsBi
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogReferToAdminBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogScanBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
@@ -47,10 +49,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
-import com.google.zxing.ResultPoint;
-import com.journeyapps.barcodescanner.BarcodeCallback;
-import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.CaptureManager;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.io.Serializable;
@@ -60,7 +59,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-public class BatchlistScannerActivity extends BaseActivity implements BatchlistScannerMvpView, DecoratedBarcodeView.TorchListener {
+public class BatchlistScannerActivity extends BaseActivity implements BatchlistScannerMvpView, DecoratedBarcodeView.TorchListener, CaptureManagerCallback {
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
     private boolean isFlashLightOn = false;
@@ -78,6 +77,14 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     private boolean allowChangeQty;
     private boolean allowMultiBatch;
     String statusBatchlist;
+    Bundle savedInstanceState;
+    Dialog dialog;
+    public static String userName;
+    public static String storeId;
+    public static String terminalId;
+    public static String eposUrl;
+    public static String dataAreaId;
+    public static String stateCode;
     @Inject
     BatchlistScannerMvpPresenter<BatchlistScannerMvpView> mPresenter;
 
@@ -106,16 +113,22 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
         String itemId = "";
         if (getIntent() != null) {
-            itemId = getIntent().getStringExtra("ITEM_ID");
-            salesLine = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("SALESLINE");
-            body = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("BATCH_LIST");
-            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("SELECTED_OMS_HEADER_LIST");
-            orderAdapterPos = (int) getIntent().getSerializableExtra("ORDER_ADAPTER_POS");
-            newSelectedOrderAdapterPos = (int) getIntent().getSerializableExtra("NEW_SELECTED_ORDER_ADAPTER_POS");
-            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
-            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
+//            itemId = getIntent().getStringExtra("ITEM_ID");
+            salesLine = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
+//            body = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("BATCH_LIST");
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
+            orderAdapterPos = (int) getIntent().getSerializableExtra("orderAdapterPos");
+            newSelectedOrderAdapterPos = (int) getIntent().getSerializableExtra("newSelectedOrderAdapterPos1");
+//            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
+//            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
 
         }
+        userName = mPresenter.userName();
+        storeId = mPresenter.storeId();
+        terminalId = mPresenter.terminalId();
+        eposUrl = mPresenter.eposUrl();
+        dataAreaId = mPresenter.dataAreaId();
+        stateCode = mPresenter.stateCode();
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
         ImageView imageView = findViewById(R.id.squarebox);
@@ -140,7 +153,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         }
         activityBatchlistScannerBinding.reqQty.setText(Integer.toString(salesLine.getQty()));
         activityBatchlistScannerBinding.rackId.setText(salesLine.getRackId());
-        barcodeScannerView.decodeContinuous(new BarcodeCallback() {
+        /*barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
                 mPresenter.getBatchDetailsByBarCode(result.getText(), finalItemId);
@@ -150,14 +163,17 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             public void possibleResultPoints(List<ResultPoint> resultPoints) {
 
             }
-        });
+        });*/
 
 //
 
 //        activityBatchlistScannerBinding.switchFlashlight.setVisibility(View.VISIBLE);
-//        capture = new CaptureManager(this, barcodeScannerView);
-//        capture.initializeFromIntent(getIntent(), savedInstanceState);
-//        capture.decode();
+        capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
+        this.savedInstanceState = savedInstanceState;
+        capture.setCaptureManagerCallback(this);
+        capture.setSalesLine(salesLine);
+        capture.initializeFromIntent(getIntent(), savedInstanceState);
+        capture.decode();
 
         /*ArrayList<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
         activityBatchlistScannerBinding.search.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -269,6 +285,9 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
 //        capture.onDestroy();
     }
 
@@ -923,5 +942,38 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         });
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void dialogShow(String scannedQty) {
+        activityBatchlistScannerBinding.pickedQty.setText(scannedQty);
+        dialog = new Dialog(this);
+        DialogScanBinding dialogScanBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(this),
+                R.layout.dialog_scan,
+                null,
+                false
+        );
+        dialogScanBinding.requestedQty.setText("Requested Qty - " + salesLine.getQty());
+        dialogScanBinding.scannedQty.setText("Scanned Qty - " + scannedQty);
+        dialog.setContentView(dialogScanBinding.getRoot());
+        dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        new Handler().postDelayed(() -> {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+                initiateScanner();
+            }
+        }, 2000);
+        dialog.show();
+    }
+
+    public void initiateScanner() {
+        new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
+        capture.setCaptureManagerCallback(this);
+        capture.setSalesLine(salesLine);
+        capture.initializeFromIntent(getIntent(), savedInstanceState);
+        capture.decode();
     }
 }
