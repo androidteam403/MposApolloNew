@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
+import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
@@ -137,9 +139,9 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         barcodeScannerView.initializeFromIntent(getIntent());
         String finalItemId = itemId;
         activityBatchlistScannerBinding.flid.setText(salesLine.getFullfillmentId());
-        if (salesLine.getBarcode() != null) {
-            if (!salesLine.getBarcode().isEmpty()) {
-                activityBatchlistScannerBinding.boxNumber.setText(salesLine.getBarcode());
+        if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
+            if (!selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
+                activityBatchlistScannerBinding.boxNumber.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode());
             } else {
                 activityBatchlistScannerBinding.boxNumber.setText("-");
             }
@@ -172,6 +174,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         this.savedInstanceState = savedInstanceState;
         capture.setCaptureManagerCallback(this);
         capture.setSalesLine(salesLine);
+        capture.setSelectedOmsHeaderList(selectedOmsHeaderList);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
 
@@ -967,6 +970,40 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             }
         }, 2000);
         dialog.show();
+    }
+
+    @Override
+    public void onCompleteScan(String tryId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
+        if (tryId.equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
+            GetBatchInfoRes o = new GetBatchInfoRes();
+            o.setBatchList(salesLineBatchList);
+            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+            Intent intent = new Intent(Intents.Scan.ACTION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            intent.putExtra("finalStatus", "FULL");
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        } else {
+            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+            DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_batch_alert, null, false);
+            dialog.setContentView(dialogBatchAlertBinding.getRoot());
+            dialogBatchAlertBinding.dialogMessage.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
+            dialogBatchAlertBinding.dialogButtonOK.setText("Ok");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
+            dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v -> {
+                dialog.dismiss();
+                initiateScanner();
+            });
+        }
+    }
+
+    @Override
+    public void enableCompleteBoxBtn() {
+        activityBatchlistScannerBinding.completeBox.setVisibility(View.VISIBLE);
     }
 
     public void initiateScanner() {
