@@ -451,6 +451,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
             }
+            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             boolean isAlltagBox = true;
             for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
@@ -561,6 +563,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
             }
+            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         } else {
             boolean isAlltagBox = true;
             for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)

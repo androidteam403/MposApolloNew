@@ -522,12 +522,18 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     dialogBatchAlertBinding.dialogButtonNO.setText("Cancel");
                     dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
                     dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                        if (salesLine.getBarcode() != null) {
-                            if (!salesLine.getBarcode().isEmpty()) {
-                                Intent i = new Intent(BatchListActivity.this, ShelfIdScannerActivity.class);
-                                i.putExtra("box_id", salesLine.getBarcode());
-                                i.putExtra("salesLine", (Serializable) salesLine);
-                                startActivity(i);
+                        if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
+                            if (!selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
+                                GetBatchInfoRes o = new GetBatchInfoRes();
+                                if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                    o.setBatchList(batchListObjsList);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                Intent i = new Intent();
+                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                i.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, i);
+                                finish();
+                                dialog.dismiss();
                             } else {
                                 GetBatchInfoRes o = new GetBatchInfoRes();
                                 if (batchListObjsList != null && batchListObjsList.size() > 0)

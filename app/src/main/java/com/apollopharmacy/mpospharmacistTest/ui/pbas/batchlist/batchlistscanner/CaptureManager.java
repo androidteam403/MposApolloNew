@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -44,6 +45,10 @@ public class CaptureManager implements CallbackCaptureManager {
     CaptureManagerCallback mCallback;
     double scannedQuantity = 0.0;
     GetOMSTransactionResponse.SalesLine salesLine;
+    List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
+    List<GetBatchInfoRes.BatchListObj> batchList;
+    GetBatchInfoRes.BatchListObj batchListObj;
+    List<GetBatchInfoRes.BatchListObj> salesLineBatchList = new ArrayList<>();
     Context applicationContext;
     Activity activity;
     DecoratedBarcodeView barcodeView;
@@ -68,7 +73,11 @@ public class CaptureManager implements CallbackCaptureManager {
     private BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
-            new CaptureManagerController(activity, CaptureManager.this).getBatchDetailsByBarCode(result.getText(), salesLine.getItemId(), BatchlistScannerActivity.eposUrl, BatchlistScannerActivity.storeId, BatchlistScannerActivity.dataAreaId, BatchlistScannerActivity.terminalId, BatchlistScannerActivity.stateCode);
+            if (scannedQuantity == salesLine.getQty()) {
+                mCallback.onCompleteScan(result.getText(), salesLineBatchList);
+            } else {
+                new CaptureManagerController(activity, CaptureManager.this).getBatchDetailsByBarCode(result.getText(), salesLine.getItemId(), BatchlistScannerActivity.eposUrl, BatchlistScannerActivity.storeId, BatchlistScannerActivity.dataAreaId, BatchlistScannerActivity.terminalId, BatchlistScannerActivity.stateCode);
+            }
             /*if (salesLine.getItemId().equalsIgnoreCase(result.getText())) {
                 scannedQuantity++;
                 mCallback.dialogShow(scannedQuantity);
@@ -188,9 +197,6 @@ public class CaptureManager implements CallbackCaptureManager {
         this.salesLine = salesLine;
     }
 
-    List<GetBatchInfoRes.BatchListObj> batchList;
-    GetBatchInfoRes.BatchListObj batchListObj;
-    List<GetBatchInfoRes.BatchListObj> salesLineBatchList = new ArrayList<>();
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
         batchList = getBatchDetailsByBarcodeResponse.getBatchList();
@@ -267,16 +273,17 @@ public class CaptureManager implements CallbackCaptureManager {
         }
         if (scannedQuantity == salesLine.getQty()) {
             mCallback.dialogShow(Double.toString(scannedQuantity));
-            returnResult(salesLineBatchList);
+            mCallback.enableCompleteBoxBtn();
+//            returnResult();
         } else {
             mCallback.dialogShow(Double.toString(scannedQuantity));
         }
     }
 
-    private void returnResult(List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
+    private void returnResult() {
         Intent intent = new Intent(Intents.Scan.ACTION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        intent.putExtra("salesLineBatchList", (Serializable) salesLineBatchList);
+        intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
         activity.setResult(Activity.RESULT_OK, intent);
         closeAndFinish();
     }
@@ -284,5 +291,9 @@ public class CaptureManager implements CallbackCaptureManager {
     @Override
     public void onFailure(String message) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setSelectedOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+        this.selectedOmsHeaderList = selectedOmsHeaderList;
     }
 }

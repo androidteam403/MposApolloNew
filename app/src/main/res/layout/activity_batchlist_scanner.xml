@@ -251,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen8dp"
                     android:layout_gravity="center"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="200dp"

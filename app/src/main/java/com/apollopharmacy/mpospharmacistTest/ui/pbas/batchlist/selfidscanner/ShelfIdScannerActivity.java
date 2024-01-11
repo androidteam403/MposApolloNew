@@ -32,12 +32,14 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScannerMvpView, DecoratedBarcodeView.TorchListener {
     private static final int BATCH_LIST_SCANNER = 2004;
+    private static final int BATCH_LIST_ACTIVITY = 2005;
     private ActivityShelfIdScannerBinding shelfIdScannerBinding;
     @Inject
     ShelfIdScannerMvpPresenter<ShelfIdScannerMvpView> mPresenter;
@@ -52,6 +54,9 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
     IntentResult result;
 
     private DecoratedBarcodeView barcodeScannerView;
+
+    List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderListResult = new ArrayList<>();
+    String statusBatchlist;
 
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
@@ -87,9 +92,9 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         barcodeScannerView.setTorchListener(this);
         barcodeScannerView.initializeFromIntent(getIntent());
         shelfIdScannerBinding.flid.setText(salesLine.getFullfillmentId());
-        if (salesLine.getBarcode() != null) {
-            if (!salesLine.getBarcode().isEmpty()) {
-                shelfIdScannerBinding.boxNumber.setText(salesLine.getBarcode());
+        if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
+            if (!selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
+                shelfIdScannerBinding.boxNumber.setText(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode());
             } else {
                 shelfIdScannerBinding.boxNumber.setText("-");
             }
@@ -121,7 +126,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                             intent.putExtra("orderAdapterPos", orderAdapterPos);
                             intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
                             intent.putExtra("noBatchDetails", noBatchDetails);
-                            startActivity(intent);
+                            startActivityForResult(intent, BATCH_LIST_ACTIVITY);
                         } else {
                             Intent intent = new Intent(ShelfIdScannerActivity.this, BatchlistScannerActivity.class);
                             intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
@@ -145,7 +150,11 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
                     }
                 } else {
-                    if (result.getText().equalsIgnoreCase(salesLine.getBarcode())) {
+                    if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
+                        Intent i = new Intent();
+                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                        i.putExtra("finalStatus", (String) statusBatchlist);
+                        setResult(RESULT_OK, i);
                         finish();
                     } else {
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
@@ -210,7 +219,16 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         super.onActivityResult(requestCode, resultCode, data);
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_SCANNER && resultCode == RESULT_OK) {
-            GetBatchInfoRes.BatchListObj batchListObj = (GetBatchInfoRes.BatchListObj) data.getSerializableExtra("batchlistobj");
+            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+            String statusBatchlist = data.getStringExtra("finalStatus");
+            Intent i = new Intent();
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("finalStatus", (String) statusBatchlist);
+            setResult(RESULT_OK, i);
+            finish();
+        } else if (requestCode == BATCH_LIST_ACTIVITY && resultCode == RESULT_OK) {
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+            statusBatchlist = data.getStringExtra("finalStatus");
         }
     }
 }
