@@ -12,6 +12,9 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
     void onClickClose();
 
     void onClickSkip();
+
+    void onClickBarcodeProblem();
+
     void onAddItemsClicked();
 
     void getBatchDetailsByBarCode(String s, String itemId);

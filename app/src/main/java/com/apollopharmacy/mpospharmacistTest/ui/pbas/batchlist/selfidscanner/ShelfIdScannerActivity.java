@@ -9,14 +9,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityShelfIdScannerBinding;
-import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogRackAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
@@ -88,6 +87,26 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
 //            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
 //            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
         }
+        boolean isRackIdScanAllowed = mPresenter.getGlobalConfiguration().isRackidScanAllowed();
+        if (!isRackIdScanAllowed) {
+            if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
+                Intent intent = new Intent(ShelfIdScannerActivity.this, BatchListActivity.class);
+                intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                intent.putExtra("salesLine", (Serializable) salesLine);
+                intent.putExtra("orderAdapterPos", orderAdapterPos);
+                intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+                intent.putExtra("noBatchDetails", noBatchDetails);
+                startActivityForResult(intent, BATCH_LIST_ACTIVITY);
+            } else {
+                Intent intent = new Intent(ShelfIdScannerActivity.this, BatchlistScannerActivity.class);
+                intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                intent.putExtra("salesLine", (Serializable) salesLine);
+                intent.putExtra("orderAdapterPos", orderAdapterPos);
+                intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+                intent.putExtra("noBatchDetails", noBatchDetails);
+                startActivityForResult(intent, BATCH_LIST_SCANNER);
+            }
+        }
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
         barcodeScannerView.setTorchListener(this);
         barcodeScannerView.initializeFromIntent(getIntent());
@@ -135,19 +154,18 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                             intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
                             intent.putExtra("noBatchDetails", noBatchDetails);
                             startActivityForResult(intent, BATCH_LIST_SCANNER);
+                            //finish();
                         }
                     } else {
                         isRackIdScanned = false;
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
-                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_batch_alert, null, false);
-                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("Please enter valid rack ID");
-                        dialogBatchAlertBinding.dialogButtonOK.setText("Ok");
+                        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                        dialog.setContentView(dialogRackAlertBinding.getRoot());
+                        dialogRackAlertBinding.message.setText("Please enter valid rack ID");
                         dialog.setCancelable(false);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
-                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
+                        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
                     }
                 } else {
                     if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
@@ -158,15 +176,13 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         finish();
                     } else {
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
-                        DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_batch_alert, null, false);
-                        dialog.setContentView(dialogBatchAlertBinding.getRoot());
-                        dialogBatchAlertBinding.dialogMessage.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
-                        dialogBatchAlertBinding.dialogButtonOK.setText("Ok");
+                        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                        dialog.setContentView(dialogRackAlertBinding.getRoot());
+                        dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
                         dialog.setCancelable(false);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
-                        dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-                        dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
+                        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
                     }
                 }
             }
@@ -176,6 +192,8 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
 
             }
         });
+
+        shelfIdScannerBinding.close.setOnClickListener(view -> onClickClose());
     }
 
     @Override

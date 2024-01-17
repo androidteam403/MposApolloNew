@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
@@ -39,18 +40,20 @@ import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistScanne
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogAddBatchDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogRackAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogReferToAdminBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogScanBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
-import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
@@ -62,6 +65,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 public class BatchlistScannerActivity extends BaseActivity implements BatchlistScannerMvpView, DecoratedBarcodeView.TorchListener, CaptureManagerCallback {
+    private static final int BATCH_LIST_DETAILS = 888;
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
     private boolean isFlashLightOn = false;
@@ -346,6 +350,20 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @Override
     public void onClickSkip() {
         mPresenter.getReasonList();
+    }
+
+    @Override
+    public void onClickBarcodeProblem() {
+        if (batchList != null && batchList.size() > 0) {
+            Intent intent = new Intent(BatchlistScannerActivity.this, BatchListActivity.class);
+            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            intent.putExtra("orderAdapterPos", orderAdapterPos);
+            intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+            intent.putExtra("salesLine", salesLine);
+            intent.putExtra("scannedBatchList", (Serializable) batchList);
+            startActivityForResult(intent, BATCH_LIST_DETAILS);
+//            finish();
+        }
     }
 
     @Override
@@ -961,24 +979,43 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         dialogScanBinding.requestedQty.setText("Requested Qty - " + salesLine.getQty());
         dialogScanBinding.scannedQty.setText("Scanned Qty - " + scannedQty);
         dialog.setContentView(dialogScanBinding.getRoot());
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         new Handler().postDelayed(() -> {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
                 initiateScanner();
+                if (Double.parseDouble(scannedQty) == salesLine.getQty()) {
+                    showCompleteDialog();
+                }
             }
         }, 2000);
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
+    private void showCompleteDialog() {
+        Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+        dialog.setContentView(dialogRackAlertBinding.getRoot());
+        dialogRackAlertBinding.message.setText("Product Scanning is completed! Kindly Scan the Tray ID");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            initiateScanner();
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCompleteScan(String tryId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
         if (tryId.equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
             GetBatchInfoRes o = new GetBatchInfoRes();
             o.setBatchList(salesLineBatchList);
             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-            Intent intent = new Intent(Intents.Scan.ACTION);
+            Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             intent.putExtra("finalStatus", "FULL");
@@ -986,15 +1023,13 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             finish();
         } else {
             Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-            DialogBatchAlertBinding dialogBatchAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_batch_alert, null, false);
-            dialog.setContentView(dialogBatchAlertBinding.getRoot());
-            dialogBatchAlertBinding.dialogMessage.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
-            dialogBatchAlertBinding.dialogButtonOK.setText("Ok");
+            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+            dialog.setContentView(dialogRackAlertBinding.getRoot());
+            dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-            dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.GONE);
-            dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
                 dialog.dismiss();
                 initiateScanner();
             });
@@ -1006,11 +1041,46 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         activityBatchlistScannerBinding.completeBox.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onScanned(List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
+        this.batchList = salesLineBatchList;
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void invalidBarcode() {
+        Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+        dialog.setContentView(dialogRackAlertBinding.getRoot());
+        dialogRackAlertBinding.message.setText("Product Barcode Doesn’t Match with the Requested Item");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            initiateScanner();
+        });
+    }
+
     public void initiateScanner() {
         new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
         capture.setCaptureManagerCallback(this);
         capture.setSalesLine(salesLine);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BATCH_LIST_DETAILS && resultCode == RESULT_OK) {
+            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            String statusBatchlist = data.getStringExtra("finalStatus");
+            Intent i = new Intent();
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("finalStatus", (String) statusBatchlist);
+            setResult(RESULT_OK, i);
+            finish();
+        }
     }
 }

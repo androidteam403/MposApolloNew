@@ -13,6 +13,8 @@ public interface BatchlistScannerMvpView extends MvpView {
 
     void onClickSkip();
 
+    void onClickBarcodeProblem();
+
     void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse);
 
     void onClickReferToAdmin();

@@ -42,7 +42,6 @@
                 android:layout_marginTop="@dimen/dimen15dp"
                 android:layout_marginEnd="@dimen/dimen15dp"
                 android:contentDescription="@string/app_name"
-                android:onClick="@{()->callback.onClickClose()}"
                 android:src="@drawable/icon_close" />
 
             <LinearLayout

@@ -10,4 +10,8 @@ public interface CaptureManagerCallback {
     void onCompleteScan(String trayId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList);
 
     void enableCompleteBoxBtn();
+
+    void onScanned(List<GetBatchInfoRes.BatchListObj> salesLineBatchList);
+
+    void invalidBarcode();
 }
