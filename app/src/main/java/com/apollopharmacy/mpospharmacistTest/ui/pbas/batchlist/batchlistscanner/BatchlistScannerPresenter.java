@@ -47,6 +47,11 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     }
 
     @Override
+    public void onClickBarcodeProblem() {
+        getMvpView().onClickBarcodeProblem();
+    }
+
+    @Override
     public void onAddItemsClicked() {
         getMvpView().onAddItemsClicked(false);
     }

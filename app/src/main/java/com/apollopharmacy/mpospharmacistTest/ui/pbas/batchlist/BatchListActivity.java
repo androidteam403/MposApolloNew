@@ -39,8 +39,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.Constant;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -73,6 +75,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     public static final int BATCHLIST_SCANNER_ACTIVITY = 1008;
     private List<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
+    List<GetBatchInfoRes.BatchListObj> scannedBatchList;
+    String status;
+    List<GetBatchInfoRes.BatchListObj> body;
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -105,6 +110,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         newSelectedOrderAdapterPos = intent.getExtras().getInt("newSelectedOrderAdapterPos1");
         salesLine = (GetOMSTransactionResponse.SalesLine) intent.getSerializableExtra("salesLine");
         noBatchDetails = intent.getExtras().getBoolean("noBatchDetails");
+        scannedBatchList = (List<GetBatchInfoRes.BatchListObj>) intent.getSerializableExtra("scannedBatchList");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
         batchlistBinding.fullfillmentId1.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
 
@@ -154,7 +160,18 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchlistBinding.availableQuantity.setText(String.valueOf(totalBatchDetailsQuantity).contains(".") ? String.valueOf(totalBatchDetailsQuantity).substring(0, String.valueOf(totalBatchDetailsQuantity).indexOf(".")) : String.valueOf(totalBatchDetailsQuantity));
         batchlistBinding.requiredQty.setText(String.valueOf(salesLine.getQty()));
         batchlistBinding.qtyEdit.setText(String.valueOf(salesLine.getQty()));
-        mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
+        if (scannedBatchList == null) {
+            mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
+        } else {
+            this.body = scannedBatchList;
+            batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
+            batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+            BatchListAdapter batchListAdapter = new BatchListAdapter(this, scannedBatchList, this, salesLine, (ArrayList<GetBatchInfoRes.BatchListObj>) scannedBatchList);
+            batchListAdapter.setAllowChangeQty(allowChangeQty);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
+            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+        }
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.tabletName1.setText(salesLine.getItemName());
 
@@ -233,9 +250,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //
 //        return batchListModelList;
 //    }
-
-    String status;
-    List<GetBatchInfoRes.BatchListObj> body;
 
 
     @Override
@@ -522,18 +536,43 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     dialogBatchAlertBinding.dialogButtonNO.setText("Cancel");
                     dialogBatchAlertBinding.dialogButtonNO.setVisibility(View.VISIBLE);
                     dialogBatchAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                        if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
-                            if (!selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
-                                GetBatchInfoRes o = new GetBatchInfoRes();
-                                if (batchListObjsList != null && batchListObjsList.size() > 0)
-                                    o.setBatchList(batchListObjsList);
-                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                                Intent i = new Intent();
-                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                                i.putExtra("finalStatus", (String) statusBatchlist);
-                                setResult(RESULT_OK, i);
-                                finish();
-                                dialog.dismiss();
+                        if (scannedBatchList != null && scannedBatchList.size() > 0) {
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            o.setBatchList(scannedBatchList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            Intent intent = new Intent();
+//                            Intent intent = new Intent(BatchListActivity.this, PickupProcessActivity.class);
+                            intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
+                            intent.putExtra("finalStatus", (String) statusBatchlist);
+//                            startActivity(intent);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                            dialog.dismiss();
+                        } else {
+                            if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
+                                if (!selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode().isEmpty()) {
+                                    GetBatchInfoRes o = new GetBatchInfoRes();
+                                    if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                        o.setBatchList(batchListObjsList);
+                                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                    Intent i = new Intent();
+                                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                    i.putExtra("finalStatus", (String) statusBatchlist);
+                                    setResult(RESULT_OK, i);
+                                    finish();
+                                    dialog.dismiss();
+                                } else {
+                                    GetBatchInfoRes o = new GetBatchInfoRes();
+                                    if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                        o.setBatchList(batchListObjsList);
+                                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                    Intent i = new Intent();
+                                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                    i.putExtra("finalStatus", (String) statusBatchlist);
+                                    setResult(RESULT_OK, i);
+                                    finish();
+                                    dialog.dismiss();
+                                }
                             } else {
                                 GetBatchInfoRes o = new GetBatchInfoRes();
                                 if (batchListObjsList != null && batchListObjsList.size() > 0)
@@ -546,17 +585,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                                 finish();
                                 dialog.dismiss();
                             }
-                        } else {
-                            GetBatchInfoRes o = new GetBatchInfoRes();
-                            if (batchListObjsList != null && batchListObjsList.size() > 0)
-                                o.setBatchList(batchListObjsList);
-                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                            Intent i = new Intent();
-                            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                            i.putExtra("finalStatus", (String) statusBatchlist);
-                            setResult(RESULT_OK, i);
-                            finish();
-                            dialog.dismiss();
                         }
                     });
                     dialogBatchAlertBinding.dialogButtonNO.setOnClickListener(v1 -> dialog.dismiss());

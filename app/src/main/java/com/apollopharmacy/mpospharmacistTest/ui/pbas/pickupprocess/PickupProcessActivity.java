@@ -1056,16 +1056,21 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.ordersCount.setText("(" + selectedOmsHeaderList.size() + ")");
             rackDataSet();
             pickupProcessBinding.continueOrder.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Please select all the orders", Toast.LENGTH_LONG).show());
+            String finalStatus = getIntent().getStringExtra("finalStatus");
+            if (finalStatus != null) {
+                onClickItemStatusUpdate(orderAdapterPos, position, finalStatus, false, false, false);
+            }
 
         }
-        String mPOSPickupJourney = "0";
-        if (mPOSPickupJourney.equalsIgnoreCase("0")) {
+        int mPOSPickupJourney = 0;
+//        int mPOSPickupJourney = mPresenter.getGlobalConfigRes().getMposPickupJourney();
+        if (mPOSPickupJourney == 0) {
             pickupProcessBinding.ordersRacksLayout.setVisibility(View.VISIBLE);
-        } else if (mPOSPickupJourney.equalsIgnoreCase("1")) {
+        } else if (mPOSPickupJourney == 1) {
             pickupProcessBinding.ordersRacksLayout.setVisibility(View.GONE);
             pickupProcessBinding.orderRecycler.setVisibility(View.GONE);
             pickupProcessBinding.rackRecycler.setVisibility(View.VISIBLE);
-        } else if (mPOSPickupJourney.equalsIgnoreCase("2")) {
+        } else if (mPOSPickupJourney == 2) {
             pickupProcessBinding.ordersRacksLayout.setVisibility(View.GONE);
             pickupProcessBinding.orderRecycler.setVisibility(View.VISIBLE);
             pickupProcessBinding.rackRecycler.setVisibility(View.GONE);

@@ -286,7 +286,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                 } else {
                                     Toast.makeText(mContext, "Batch list mvp view is null", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
+                            } else if (!holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().equalsIgnoreCase(batchListModelListl.get(position).getBatchNo())) {
                                 Dialog physicalBatchIdDialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                                 DialogPhysicalBatchIdBinding dialogPhysicalBatchIdBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_physical_batch_id, null, false);
                                 physicalBatchIdDialog.setContentView(dialogPhysicalBatchIdBinding.getRoot());
@@ -318,6 +318,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                 });
 //                            dialogPhysicalBatchIdBinding.dialogButtonNot.setOnClickListener(v3 -> physicalBatchIdDialog.dismiss());
                                 physicalBatchIdDialog.show();
+                            } else {
+                                batchListModel.setSelected(true);
+                                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                                batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
+                                batchListMvpView.onClickSelectedBatch(batchListModel, false);
                             }
 
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) > Double.parseDouble(batchListModel.getQ_O_H())) {

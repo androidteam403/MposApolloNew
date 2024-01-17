@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner;
 
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;
@@ -18,5 +19,10 @@ public class ShelfIdScannerPresenter<V extends ShelfIdScannerMvpView> extends Ba
     @Override
     public void onClickClose() {
         getMvpView().onClickClose();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfiguration() {
+        return getDataManager().getGlobalJson();
     }
 }
