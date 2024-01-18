@@ -270,7 +270,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/dimen10sp" />
 
-                            <TextView
+                            <!--<TextView
                                 android:id="@+id/onHold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -282,7 +282,7 @@
                                 android:paddingBottom="@dimen/dimen2dp"
                                 android:text="On Hold"
                                 android:textColor="@color/white"
-                                android:textSize="7sp" />
+                                android:textSize="7sp" />-->
                         </RelativeLayout>
 
 
@@ -382,16 +382,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/skip"
+                            android:id="@+id/onHold"
                             android:layout_marginStart="@dimen/dimen7dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_red_btn"
+                            android:background="@drawable/bg_onhold_enable_btn"
                             android:paddingStart="@dimen/dimen4dp"
                             android:paddingTop="@dimen/dimen2dp"
                             android:paddingEnd="@dimen/dimen4dp"
                             android:paddingBottom="@dimen/dimen2dp"
-                            android:text="Skip"
+                            android:text="On Hold"
                             android:textColor="@color/white"
                             android:textSize="7sp" />
 

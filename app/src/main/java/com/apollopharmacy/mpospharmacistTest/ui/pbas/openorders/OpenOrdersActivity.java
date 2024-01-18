@@ -199,7 +199,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (int i = 0; i < maxMinOrdersList.size(); i++) {
             if (mPresenter.getUserId().equalsIgnoreCase(maxMinOrdersList.get(i).getCode())) {
                 maxOrdersAllowed =  10; // Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
-                minOrdersAllowed = 3; // Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
+                minOrdersAllowed = 1; // Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
             }
         }
 

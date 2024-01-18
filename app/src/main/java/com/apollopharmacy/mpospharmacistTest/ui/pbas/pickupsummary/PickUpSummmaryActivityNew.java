@@ -45,10 +45,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummarydetails.PickupSummaryDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -89,6 +88,8 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     int partialOrdersCount = 0;
     int notAvailableOrdersCount = 0;
     int updateOmsOrderCount = 0;
+    List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
+    String selectedStatus = "";
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch, TransactionHeaderResponse.OMSHeader omsHeader, GetOMSTransactionResponse.SalesLine salesLine, int orderAdapterPos, int position) {
         Intent intent = new Intent(context, PickUpSummmaryActivityNew.class);
@@ -333,11 +334,16 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
-    public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
+    public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus) {
 
         position=pos;
+        this.omsHeaderList = selectedOmsHeaderList;
+        this.selectedStatus = selectedStatus;
 
-        new IntentIntegrator(this).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
+//        new IntentIntegrator(this).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
+        Intent intent = new Intent(PickUpSummmaryActivityNew.this, ScannerActivity.class);
+        intent.putExtra("selectedStatus", selectedStatus);
+        startActivityForResult(intent, 222);
         this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
         //        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString(), selectedOmsHeaderList.get(pos).getScannedBarcode()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
@@ -837,37 +843,46 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (Result != null) {
-            if (Result.getContents() == null) {
-                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
-            } else {
-               if (selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(Result.getContents())){
-                   selectedOmsHeaderList.get(position).setScanned(true);
-                   summaryFullfillmentAdapter.notifyDataSetChanged();
+        if (data != null) {
+            boolean isBarcodeMatched = data.getBooleanExtra("isBarcodeMatched", false);
+            String result = data.getStringExtra("result");
+            if (result != null) {
+                if (selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(result)) {
+                    selectedOmsHeaderList.get(position).setScanned(true);
+                    summaryFullfillmentAdapter.notifyDataSetChanged();
 
-                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                       if (selectedOmsHeaderList.size() == selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isScanned).collect(Collectors.toList()).size()) {
-                           activityPickUpSummaryBinding.forwardToPacker.setBackgroundColor(Color.parseColor("#fdb813"));
-                       }
-                   }
-                   Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (selectedOmsHeaderList.size() == selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isScanned).collect(Collectors.toList()).size()) {
+                            activityPickUpSummaryBinding.forwardToPacker.setBackgroundColor(Color.parseColor("#fdb813"));
+                        }
+                    }
+//                   Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
-               }
-               else {
-                   Dialog dialog = new Dialog(this);
-                   DialogDroppingBinding dialogDroppingBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
-                           R.layout.dialog_dropping, null, false);
+                } else {
+                    Dialog dialog = new Dialog(this);
+                    DialogDroppingBinding dialogDroppingBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                            R.layout.dialog_dropping, null, false);
 
-                   dialog.setContentView(dialogDroppingBinding.getRoot());
-                   dialog.setCancelable(false);
-                   dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                   dialogDroppingBinding.ok.setOnClickListener(view -> dialog.dismiss());
+                    dialog.setContentView(dialogDroppingBinding.getRoot());
+                    dialog.setCancelable(false);
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogDroppingBinding.ok.setOnClickListener(view -> dialog.dismiss());
 
-                   dialogDroppingBinding.close.setOnClickListener(view -> dialog.dismiss());
-                   dialog.show();
-               }
+                    dialogDroppingBinding.close.setOnClickListener(view -> dialog.dismiss());
+                    dialog.show();
+                }
 
                 BillerOrdersActivity.isBillerActivity = false;
+//                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+            } else if (isBarcodeMatched) {
+                for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+                    if (selectedOmsHeaderList.get(i).getItemStatus().equalsIgnoreCase(selectedStatus)) {
+                        selectedOmsHeaderList.get(i).setEnabled(true);
+                    }
+                }
+                summaryFullfillmentAdapter.notifyDataSetChanged();
+            } else {
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

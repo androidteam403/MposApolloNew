@@ -958,6 +958,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             i.putExtra("IS_BATCH_HOLD", true);
+            i.putExtra("finalStatus", "NOT AVAILABLE");
             setResult(RESULT_OK, i);
             finish();
         });
@@ -968,7 +969,8 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @SuppressLint("SetTextI18n")
     @Override
     public void dialogShow(String scannedQty) {
-        activityBatchlistScannerBinding.pickedQty.setText(scannedQty);
+        activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQty.substring(0, scannedQty.indexOf(".")));
         dialog = new Dialog(this);
         DialogScanBinding dialogScanBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(this),
@@ -977,7 +979,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                 false
         );
         dialogScanBinding.requestedQty.setText("Requested Qty - " + salesLine.getQty());
-        dialogScanBinding.scannedQty.setText("Scanned Qty - " + scannedQty);
+        dialogScanBinding.scannedQty.setText("Scanned Qty - " + scannedQty.substring(0, scannedQty.indexOf(".")));
         dialog.setContentView(dialogScanBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

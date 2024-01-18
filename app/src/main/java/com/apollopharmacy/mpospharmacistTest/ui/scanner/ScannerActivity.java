@@ -28,8 +28,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHold
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
+import com.google.zxing.ResultPoint;
+import com.journeyapps.barcodescanner.BarcodeCallback;
+import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,6 +44,7 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     private TextView textView;
     private boolean isFlashLightOn = false;
     private ActivityScannerBinding activityScannerBinding;
+    String selectedStatus = "";
 
 
     @Inject
@@ -73,6 +79,9 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
         mPresenter.onAttach(ScannerActivity.this);
 
 
+        if (getIntent() != null) {
+            selectedStatus = getIntent().getStringExtra("selectedStatus");
+        }
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
         ImageView imageView = findViewById(R.id.squarebox);
@@ -113,9 +122,29 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
 //
 
         activityScannerBinding.switchFlashlight.setVisibility(View.VISIBLE);
-        capture = new CaptureManager(this, barcodeScannerView);
-        capture.initializeFromIntent(getIntent(), savedInstanceState);
-        capture.decode();
+        barcodeScannerView.initializeFromIntent(getIntent());
+        barcodeScannerView.decodeContinuous(new BarcodeCallback() {
+            @Override
+            public void barcodeResult(BarcodeResult result) {
+                Intent intent = new Intent();
+                if (!selectedStatus.isEmpty()) {
+                    boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(result.getText());
+                    intent.putExtra("isBarcodeMatched", isBarcodeMatched);
+                } else {
+                    intent.putExtra("result", result.getText());
+                }
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public void possibleResultPoints(List<ResultPoint> resultPoints) {
+
+            }
+        });
+//        capture = new CaptureManager(this, barcodeScannerView);
+//        capture.initializeFromIntent(getIntent(), savedInstanceState);
+//        capture.decode();
     }
 
     @Override
@@ -136,25 +165,25 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     @Override
     protected void onResume() {
         super.onResume();
-        capture.onResume();
+        barcodeScannerView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        capture.onPause();
+        barcodeScannerView.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        capture.onDestroy();
+//        capture.onDestroy();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        capture.onSaveInstanceState(outState);
+//        capture.onSaveInstanceState(outState);
     }
 
     @Override

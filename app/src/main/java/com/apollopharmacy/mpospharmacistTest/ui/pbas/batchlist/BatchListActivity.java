@@ -555,6 +555,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                                     if (batchListObjsList != null && batchListObjsList.size() > 0)
                                         o.setBatchList(batchListObjsList);
                                     selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                    double totalPickedQty = 0.0;
+                                    for (int i = 0; i < batchListObjsList.size(); i++) {
+                                        totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                                    }
+                                    String pickedQty = Double.toString(totalPickedQty);
+                                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                                     Intent i = new Intent();
                                     i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                                     i.putExtra("finalStatus", (String) statusBatchlist);
@@ -566,6 +572,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                                     if (batchListObjsList != null && batchListObjsList.size() > 0)
                                         o.setBatchList(batchListObjsList);
                                     selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                    double totalPickedQty = 0.0;
+                                    for (int i = 0; i < batchListObjsList.size(); i++) {
+                                        totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                                    }
+                                    String pickedQty = Double.toString(totalPickedQty);
+                                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                                     Intent i = new Intent();
                                     i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                                     i.putExtra("finalStatus", (String) statusBatchlist);
@@ -578,6 +590,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                                 if (batchListObjsList != null && batchListObjsList.size() > 0)
                                     o.setBatchList(batchListObjsList);
                                 selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                double totalPickedQty = 0.0;
+                                for (int i = 0; i < batchListObjsList.size(); i++) {
+                                    totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                                }
+                                String pickedQty = Double.toString(totalPickedQty);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                                 Intent i = new Intent();
                                 i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                                 i.putExtra("finalStatus", (String) statusBatchlist);
@@ -632,6 +650,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                             if (batchListObjsList != null && batchListObjsList.size() > 0)
                                 o.setBatchList(batchListObjsList);
                             selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            double totalPickedQty = 0.0;
+                            for (int i = 0; i < batchListObjsList.size(); i++) {
+                                totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                            }
+                            String pickedQty = Double.toString(totalPickedQty);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                             Intent i = new Intent();
                             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                             i.putExtra("finalStatus", (String) statusBatchlist);
@@ -643,6 +667,12 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                         if (batchListObjsList != null && batchListObjsList.size() > 0)
                             o.setBatchList(batchListObjsList);
                         selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                        double totalPickedQty = 0.0;
+                        for (int i = 0; i < batchListObjsList.size(); i++) {
+                            totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                        }
+                        String pickedQty = Double.toString(totalPickedQty);
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                         Intent i = new Intent();
                         i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                         i.putExtra("finalStatus", (String) statusBatchlist);
