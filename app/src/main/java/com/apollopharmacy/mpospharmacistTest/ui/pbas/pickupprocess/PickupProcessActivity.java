@@ -363,11 +363,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 //            long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
-            long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            long completed = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty()).count();
             pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            long fullCount = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty()).count();
             pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
         }
 
@@ -855,6 +855,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     GetBatchInfoRes o = new GetBatchInfoRes();
                     o.setBatchList(batchListObjsList);
                     selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setGetBatchInfoRes(o);
+                    double totalPickedQty = 0.0;
+                    for (int j = 0; j < batchListObjsList.size(); j++) {
+                        totalPickedQty = totalPickedQty + batchListObjsList.get(j).getREQQTY();
+                    }
+                    String pickedQty = Double.toString(totalPickedQty);
+                    selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                     mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus, isRackAdapterClick);
                     break;
                 } else if (Double.parseDouble(body.get(i).getQ_O_H()) < requiredQty) {
@@ -868,6 +874,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         GetBatchInfoRes o = new GetBatchInfoRes();
                         o.setBatchList(batchListObjsList);
                         selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setGetBatchInfoRes(o);
+                        double totalPickedQty = 0.0;
+                        for (int j = 0; j < batchListObjsList.size(); j++) {
+                            totalPickedQty = totalPickedQty + batchListObjsList.get(j).getREQQTY();
+                        }
+                        String pickedQty = Double.toString(totalPickedQty);
+                        selectedOmsHeaderList.get(getOrderPos).getGetOMSTransactionResponse().getSalesLine().get(newwAdapterposition).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
                         mPresenter.checkBatchInventory(body.get(i), requiredQty, finalStatus, isRackAdapterClick);
                         requiredQty = (int) (requiredQty - Double.parseDouble(body.get(i).getQ_O_H()));
                     } else {
@@ -1042,7 +1054,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             pickupProcessBinding.headerOrdersCount.setText("Total " + selectedOmsHeaderList.size() + " Orders");
             pickupProcessBinding.orders.setText(String.valueOf(selectedOmsHeaderList.size()));
-            long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+            long completed = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty()).count();
             pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
             pickupProcessBinding.selectedFullfillment.setText("Selected Fulfilment: " + selectedOmsHeaderList.size() + "/" + OpenOrdersActivity.TOTAL_ORDERS);
             pickupProcessBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + selectedOmsHeaderList.size());
@@ -1283,11 +1295,11 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 //                    long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
-                    long completed = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                    long completed = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty()).count();
                     pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
                 }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                    long fullCount = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty()).count();
                     pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
                 }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
