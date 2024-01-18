@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -239,14 +240,19 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         if (requestCode == BATCH_LIST_SCANNER && resultCode == RESULT_OK) {
             List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             String statusBatchlist = data.getStringExtra("finalStatus");
+            boolean isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             i.putExtra("finalStatus", (String) statusBatchlist);
+            i.putExtra("IS_BATCH_HOLD", isBatchHold);
             setResult(RESULT_OK, i);
             finish();
         } else if (requestCode == BATCH_LIST_ACTIVITY && resultCode == RESULT_OK) {
+            shelfIdScannerBinding.completeBox.setVisibility(View.VISIBLE);
+            shelfIdScannerBinding.message.setText("Scan the Box ID");
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             statusBatchlist = data.getStringExtra("finalStatus");
+            shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
         }
     }
 }
