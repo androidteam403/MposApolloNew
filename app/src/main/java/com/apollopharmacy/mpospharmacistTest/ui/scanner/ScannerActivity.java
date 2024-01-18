@@ -127,11 +127,22 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
             @Override
             public void barcodeResult(BarcodeResult result) {
                 Intent intent = new Intent();
+                String status = "";
                 if (!selectedStatus.isEmpty()) {
-                    boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(result.getText());
+                    if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                        status = "PARTIAL";
+                    } else {
+                        status = result.getText();
+                    }
+                    boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(status);
                     intent.putExtra("isBarcodeMatched", isBarcodeMatched);
                 } else {
-                    intent.putExtra("result", result.getText());
+                    if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                        status = "PARTIAL";
+                    } else {
+                        status = result.getText();
+                    }
+                    intent.putExtra("result", status);
                 }
                 setResult(RESULT_OK, intent);
                 finish();
