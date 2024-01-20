@@ -209,6 +209,11 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
         return getDataManager().getTerminalId();
     }
 
+    @Override
+    public void onClickScanBarCode() {
+        getMvpView().onClickScanBarCode();
+    }
+
 
     @Override
     public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {

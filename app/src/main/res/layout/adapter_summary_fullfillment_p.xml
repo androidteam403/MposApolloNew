@@ -348,6 +348,7 @@
                             android:src="@drawable/cart" />
 
                         <TextView
+                            android:id="@+id/boxId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="001"
@@ -380,6 +381,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen7dp"
+                        android:visibility="gone"
                         android:fontFamily="@font/roboto_bold"
                         android:text="1/2"
                         android:textColor="@color/black"

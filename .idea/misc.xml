@@ -6,6 +6,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/banners_rounded_corners.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/bg_onhold_disable_btn.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/bg_onhold_enable_btn.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_barcode.xml" value="0.193" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_bg.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_gray_bg.xml" value="0.193" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_lite_yellow_bg.xml" value="0.2555" />
@@ -25,7 +26,9 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_order_detailss_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pharmacist_login.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_picked_up_orders_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pickup_process_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pickup_verification_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_ready_for_pickup_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_select_app_flow_p.xml" value="0.25" />

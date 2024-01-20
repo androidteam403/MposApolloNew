@@ -123,6 +123,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int maxOrdersAllowed = 0;
     int minOrdersAllowed = 0;
     boolean isSelectAllIconChecked = false;
+    private boolean isFiltersListSet;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -174,7 +175,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.pickerNavigationActivityCallback = this;
         openOrdersBinding.setCallback(mPresenter);
         openOrdersBinding.terminalId.setText("Terminal ID : " + mPresenter.getTerminalId());
-        openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+//        openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         mPresenter.fetchFulfilmentOrderList(false);
         searchByFulfilmentId();
 
@@ -198,13 +199,18 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         List<UserModel._DropdownValueBean> maxMinOrdersList = mPresenter.getMaxMinOrdersList();
         for (int i = 0; i < maxMinOrdersList.size(); i++) {
             if (mPresenter.getUserId().equalsIgnoreCase(maxMinOrdersList.get(i).getCode())) {
-                maxOrdersAllowed =  10; // Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
+                maxOrdersAllowed =  Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
                 minOrdersAllowed = 1; // Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
             }
         }
 
         if (minOrdersAllowed == 0) {
             minOrdersAllowed = 1;
+        }
+        if (maxOrdersAllowed > 0) {
+            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + maxOrdersAllowed);
+        } else {
+            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         }
     }
 
@@ -1516,6 +1522,20 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
 
 
+            // If the orders contains user id and it mismatched then dont show
+            omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
+            if (!isFiltersListSet) {
+                setFiltersList(omsHeaderList, false);
+            }
+            /*if (isBackFromReadyforPickupScreen) {
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    TransactionHeaderResponse.OMSHeader omsHeader1 = omsHeaderList.get(i);
+                    boolean isAvailable = selectedOmsHeaderList.contains(omsHeader1);
+                    if (isAvailable) {
+                        omsHeaderList.get(i).setSelected(true);
+                    }
+                }
+            }*/
             fullfilmentAdapter = new FullfilmentAdapter(getContext(), omsHeaderList, this, null, mPresenter.getUserId());
             fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -1551,6 +1571,187 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //                showLoading();
 //                autoAssign();
             }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setFiltersList(List<TransactionHeaderResponse.OMSHeader> omsHeaderListlus, boolean isRefresh) {
+//        isRefreshScreen = isRefresh;
+        isFiltersListSet = true;
+        if (omsHeaderListlus != null && omsHeaderListlus.size() > 0) {
+            startIndex = 0;
+            if (!isRefresh) {
+                this.customerTypeFilterList.clear();
+                this.customerTypeFilterListTemp.clear();
+                this.orderTypeFilterList.clear();
+                this.orderTypeFilterListTemp.clear();
+                this.orderCategoryFilterList.clear();
+                this.orderCategoryFilterListTemp.clear();
+                this.paymentTypeFilterList.clear();
+                this.paymentTypeFilterListTemp.clear();
+                this.orderSourceFilterList.clear();
+                this.orderSourceFilterListTemp.clear();
+                this.stockAvailabilityFilterList.clear();
+                this.stockAvailabilityFilterListTemp.clear();
+                this.reverificationList.clear();
+                this.reverificationListTemp.clear();
+                this.shippmentTatFilterList.clear();
+                this.shippmentTatFilterListTemp.clear();
+                this.billDateTatFilterList.clear();
+                this.billDateTatFilterListTemp.clear();
+                PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
+            }
+
+            List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu;
+            omsHeaderListlu = omsHeaderListlus.stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
+            if (omsHeaderListlu != null && omsHeaderListlu.size() > 0) {
+                for (int i = 0; i < omsHeaderListlu.size(); i++) {
+
+                    boolean isCustomerTypeContain = false;
+                    boolean isOrderTypeContain = false;
+                    boolean isOrderCategoryContain = false;
+                    boolean isPaymentTypeContain = false;
+                    boolean isOrderSourceContain = false;
+                    boolean isStockAvailabilityContain = false;
+                    boolean isPickUpStatusContain = false;
+                    boolean isReverification = false;
+                    boolean isShippmentTatContain = false;
+                    boolean isBillDateTatContain = false;
+
+
+                    // customer type filter list.
+                    FilterModel filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getCustomerType());
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < customerTypeFilterList.size(); j++) {
+                        if (customerTypeFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isCustomerTypeContain = true;
+                        }
+                    }
+                    if (!isCustomerTypeContain) {
+                        customerTypeFilterList.add(filterModel);
+                    }
+
+                    // order type filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getOrderType());
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < orderTypeFilterList.size(); j++) {
+                        if (orderTypeFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isOrderTypeContain = true;
+                        }
+                    }
+                    if (!isOrderTypeContain) {
+                        orderTypeFilterList.add(filterModel);
+                    }
+
+                    // order category filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getCategoryType());
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < orderCategoryFilterList.size(); j++) {
+                        if (orderCategoryFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isOrderCategoryContain = true;
+                        }
+                    }
+                    if (!isOrderCategoryContain) {
+                        orderCategoryFilterList.add(filterModel);
+                    }
+
+                    // payment type filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getPaymentSource());
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < paymentTypeFilterList.size(); j++) {
+                        if (paymentTypeFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isPaymentTypeContain = true;
+                        }
+                    }
+                    if (!isPaymentTypeContain) {
+                        paymentTypeFilterList.add(filterModel);
+                    }
+
+                    // order source filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getOrderSource());
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < orderSourceFilterList.size(); j++) {
+                        if (orderSourceFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isOrderSourceContain = true;
+                        }
+                    }
+                    if (!isOrderSourceContain) {
+                        orderSourceFilterList.add(filterModel);
+                    }
+
+                    // stock availability filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getStockStatus());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < stockAvailabilityFilterList.size(); j++) {
+                        if (stockAvailabilityFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isStockAvailabilityContain = true;
+                        }
+                    }
+                    if (!isStockAvailabilityContain) {
+                        stockAvailabilityFilterList.add(filterModel);
+                    }
+
+                    // shipping tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getShipmentTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < shippmentTatFilterList.size(); j++) {
+                        if (shippmentTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isShippmentTatContain = true;
+                        }
+                    }
+                    if (!isShippmentTatContain) {
+                        shippmentTatFilterList.add(filterModel);
+                    }
+
+                    // Bill Date tat filter list.
+                    filterModel = new FilterModel();
+                    filterModel.setName(omsHeaderListlu.get(i).getBillingTat());
+
+                    filterModel.setSelected(false);
+                    for (int j = 0; j < billDateTatFilterList.size(); j++) {
+                        if (billDateTatFilterList.get(j).getName().equals(filterModel.getName())) {
+                            isBillDateTatContain = true;
+                        }
+                    }
+                    if (!isBillDateTatContain) {
+                        billDateTatFilterList.add(filterModel);
+                    }
+                }
+                boolean isReverificationContain = false;
+                // reverification filter list.
+                FilterModel filterModel = new FilterModel();
+                filterModel.setName("Reverification");
+                filterModel.setSelected(false);
+                for (int j = 0; j < reverificationList.size(); j++) {
+                    if (reverificationList.get(j).getName().equals(filterModel.getName())) {
+                        isReverificationContain = true;
+                    }
+                }
+                if (!isReverificationContain) {
+                    reverificationList.add(filterModel);
+                }
+                omsHeaderListFileredStaticList = omsHeaderListlu;
+                startIndex = 0;
+//                TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
+//                omsHeader.setOMSHeader(omsHeaderListlu);
+//                onSucessfullFulfilmentIdList(omsHeader);
+
+            } else {
+                omsHeaderListFileredStaticList.clear();
+                noOrderFound(0);
+            }
+        } else {
+            omsHeaderListFileredStaticList.clear();
+            noOrderFound(0);
         }
     }
 
@@ -2647,6 +2848,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int gotId;
     boolean isAnyoneSelect = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 999 && resultCode == getActivity().RESULT_OK) {
@@ -2682,14 +2884,14 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         } else if (resultCode == Activity.RESULT_OK && requestCode == READYFORPICKUP) {
             isBackFromReadyforPickupScreen = true;
             openOrdersBinding.searchByfulfimentid.setText("");
-            selectedOmsHeaderList.clear();
-            omsHeaderList.clear();
+//            selectedOmsHeaderList.clear();
+//            omsHeaderList.clear();
             if (fullfilmentAdapter != null) {
                 fullfilmentAdapter.setDispatchCutoffTime(isShiipimentDateFiltered);
                 fullfilmentAdapter.notifyDataSetChanged();
             }
             onContinueBtnEnable();
-            mPresenter.fetchFulfilmentOrderList(false);
+//            mPresenter.fetchFulfilmentOrderList(false);
 
         } else {
             IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -2851,14 +3053,22 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             openOrdersBinding.selectedFullfillment.setText("Selected fulfilment " + selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_select_color));
             openOrdersBinding.setIsContinueSelect(true);
-            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            if (maxOrdersAllowed > 0) {
+                openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + maxOrdersAllowed);
+            } else {
+                openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            }
             openOrdersBinding.selectedItemCount.setBackground(getContext().getResources().getDrawable(R.drawable.ic_circle_lite_yellow_bg));
             openOrdersBinding.selectedItemCount.setTextColor(getContext().getResources().getColor(R.color.black));
         } else {
             openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pickup process.");
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
             openOrdersBinding.setIsContinueSelect(false);
-            openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            if (maxOrdersAllowed > 0) {
+                openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + maxOrdersAllowed);
+            } else {
+                openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
+            }
             openOrdersBinding.selectedItemCount.setBackground(getContext().getResources().getDrawable(R.drawable.ic_circle_gray_bg));
             openOrdersBinding.selectedItemCount.setTextColor(getContext().getResources().getColor(R.color.white));
         }

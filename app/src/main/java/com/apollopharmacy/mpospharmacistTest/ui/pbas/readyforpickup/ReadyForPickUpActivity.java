@@ -193,7 +193,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
 //                    activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                 }
-                takePrintEnableHandled(isAlltagBox);
+//                takePrintEnableHandled(isAlltagBox);
 
             }
         }
@@ -286,7 +286,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
 //                        activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                     }
-                    takePrintEnableHandled(isAlltagBox);
+//                    takePrintEnableHandled(isAlltagBox);
                 }
             } else {
                 BillerOrdersActivity.isBillerActivity = false;
@@ -364,7 +364,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
 //                            activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                         }
-                        takePrintEnableHandled(isAlltagBox);
+//                        takePrintEnableHandled(isAlltagBox);
                     }
                 } else {
                     BillerOrdersActivity.isBillerActivity = false;
@@ -419,7 +419,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
 
             }
-            takePrintEnableHandled(isAlltagBox);
+//            takePrintEnableHandled(isAlltagBox);
         });
         unTagQrCodeDialog.setNegativeListener(v -> unTagQrCodeDialog.dismiss());
         unTagQrCodeDialog.show();
@@ -680,7 +680,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
 //                                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                             }
-                            takePrintEnableHandled(isAlltagBox);
+//                            takePrintEnableHandled(isAlltagBox);
                         }
 
                     }
@@ -744,7 +744,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 }
             }
         } else if (requestType == 2) {
-            totalOmsHeaderList.forEach(omsHeader -> omsHeader.setPickupReserved(false));
+//            totalOmsHeaderList.forEach(omsHeader -> omsHeader.setPickupReserved(false));
             doBackPressed();
         }
     }
@@ -793,8 +793,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onBackPressed() {
+        mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
 //        doBackPressed();
-        Dialog dialog = new Dialog(this);//R.style.Theme_AppCompat_DayNight_NoActionBar
+        /*Dialog dialog = new Dialog(this);//R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
         dialogCancelBinding.dialogMessage.setText("The Changes made will be discarded and you'll be directed to Open Orders Page.\n Do you still want to Continue?");
         dialog.setContentView(dialogCancelBinding.getRoot());
@@ -807,7 +808,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
             mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
             dialog.dismiss();
-        });
+        });*/
     }
 
     private void doBackPressed() {

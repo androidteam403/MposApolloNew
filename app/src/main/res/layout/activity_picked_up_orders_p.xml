@@ -86,6 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen25dp"
                 android:background="@color/yellow"
+                android:visibility="gone"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -116,6 +117,130 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/seven_dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/search_icon" />
+
+                <EditText
+                    android:id="@+id/search_text"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Search by Fulfilment ID, Box ID"
+                    android:imeOptions="actionDone"
+                    android:padding="@dimen/five_dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:gravity="center"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:backgroundTint="@color/green"
+                    android:orientation="horizontal">
+
+                    <!--<ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/tag_box"
+                        android:tint="@color/white" />-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_rectangular_shape"
+                        android:backgroundTint="@color/green"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Search"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/ten_sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/scanBarcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickScanBarCode()}"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen150dp"
+                        android:layout_height="@dimen/dimen150dp"
+                        android:src="@drawable/ic_barcode"/>
+
+                    <!--<ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/dimen3dp"
+                        android:src="@drawable/tag_box"
+                        android:tint="@color/white" />-->
+
+                    <!--<TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_rectangular_shape"
+                        android:backgroundTint="@color/green"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Scan BarCode"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/ten_sp" />-->
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/seven_dp"
+                android:visibility="gone"
                 android:weightSum="1">
 
                 <EditText
@@ -187,21 +312,22 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+            <!--                android:id="@+id/fullfilment_recycler_pull_to_refresh"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fullfilment_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginEnd="@dimen/dimen10dp"
-                    android:layout_marginBottom="@dimen/five_dp" />
-<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fullfilment_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:visibility="gone" />
+            <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
             <TextView
                 android:id="@+id/no_order_found_text"

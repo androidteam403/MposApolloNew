@@ -363,7 +363,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         dialogDeleteBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedOmsHeaderList.get(position).setScanned(false);
+                selectedOmsHeaderList.get(pos).setScanned(false);
                 summaryFullfillmentAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -882,7 +882,17 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 }
                 summaryFullfillmentAdapter.notifyDataSetChanged();
             } else {
+                Dialog dialog = new Dialog(this);
+                DialogDroppingBinding dialogDroppingBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                        R.layout.dialog_dropping, null, false);
 
+                dialog.setContentView(dialogDroppingBinding.getRoot());
+                dialog.setCancelable(false);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogDroppingBinding.ok.setOnClickListener(view -> dialog.dismiss());
+
+                dialogDroppingBinding.close.setOnClickListener(view -> dialog.dismiss());
+                dialog.show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

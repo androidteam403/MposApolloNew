@@ -46,4 +46,6 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     List<TransactionHeaderResponse.OMSHeader> getGlobalTotalOmsHeaderList();
 
     String getTerminalId();
+
+    void onClickScanBarCode();
 }
