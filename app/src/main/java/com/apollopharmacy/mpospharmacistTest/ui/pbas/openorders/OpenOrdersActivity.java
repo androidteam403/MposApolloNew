@@ -198,8 +198,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         List<UserModel._DropdownValueBean> maxMinOrdersList = mPresenter.getMaxMinOrdersList();
         for (int i = 0; i < maxMinOrdersList.size(); i++) {
             if (mPresenter.getUserId().equalsIgnoreCase(maxMinOrdersList.get(i).getCode())) {
-                maxOrdersAllowed =  10; // Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
-                minOrdersAllowed = 1; // Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
+                maxOrdersAllowed =   Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());//10; //
+                minOrdersAllowed = Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders()); //1; //
             }
         }
 
