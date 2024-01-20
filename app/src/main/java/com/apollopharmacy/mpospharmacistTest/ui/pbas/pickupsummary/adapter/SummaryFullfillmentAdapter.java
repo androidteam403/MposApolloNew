@@ -57,6 +57,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
     public void onBindViewHolder(@NonNull SummaryFullfillmentAdapter.ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
         holder.orderBinding.fullfillmentID.setText(omsHeader.getRefno());
+        holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode());
         AtomicReference<List<TransactionHeaderResponse.OMSHeader>> omsHeaderList = new AtomicReference<>();
         AtomicReference<String> selectedStatus = new AtomicReference<>("");
         Map<String, Long> groupByItemStatus = selectedOmsHeaderList.stream().collect(

@@ -39,7 +39,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
@@ -189,8 +188,6 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 //        if (orderAdapter != null)
 //            orderAdapter.notifyDataSetChanged();
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -943,7 +940,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     int selectedReasonPos = 0;
     GetOMSTransactionResponse.SalesLine salesLine;
-//    int selectedOrderAdapterPos = 0;
+
+    //    int selectedOrderAdapterPos = 0;
     @Override
     public void onClickOnHoldBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position) {
         this.orderAdapterPos = position;
@@ -976,7 +974,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                 } else {
                     List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
                     omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
-                    mPresenter.mposPickPackOrderReservationApiCall(10, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+                    mPresenter.mposPickPackOrderReservationApiCall(11, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
                 }
             });
             selectedReasonPos = 0;

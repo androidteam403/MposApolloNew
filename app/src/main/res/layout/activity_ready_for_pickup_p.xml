@@ -64,16 +64,18 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <ImageView
+                    android:id="@+id/take_print"
                     android:layout_width="@dimen/dimen30dp"
                     android:layout_height="@dimen/dimen30dp"
+                    android:visibility="gone"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:id="@+id/take_print"
                     android:onClick="@{()-> callback.onClickPrint()}"
 
-                    android:src="@drawable/printer"/>
+                    android:src="@drawable/printer" />
 
                 <TextView
                     android:layout_width="wrap_content"

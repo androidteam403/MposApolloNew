@@ -48,7 +48,7 @@
                             android:src="@drawable/ic_menu"
                             android:visibility="gone" />
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
@@ -66,10 +66,11 @@
                                 android:id="@+id/welcome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/title"
                                 android:fontFamily="@font/roboto_regular"
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </LinearLayout>
 

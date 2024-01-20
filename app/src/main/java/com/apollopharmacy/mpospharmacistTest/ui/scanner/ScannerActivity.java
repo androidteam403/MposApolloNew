@@ -45,6 +45,7 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     private boolean isFlashLightOn = false;
     private ActivityScannerBinding activityScannerBinding;
     String selectedStatus = "";
+    boolean isPickedUpOrdersActivity;
 
 
     @Inject
@@ -81,6 +82,7 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
 
         if (getIntent() != null) {
             selectedStatus = getIntent().getStringExtra("selectedStatus");
+            isPickedUpOrdersActivity = getIntent().getBooleanExtra("isPickedUpOrdersActivity", false);
         }
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
@@ -128,21 +130,25 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
             public void barcodeResult(BarcodeResult result) {
                 Intent intent = new Intent();
                 String status = "";
-                if (!selectedStatus.isEmpty()) {
-                    if (result.getText().equalsIgnoreCase("PARTIALLY")) {
-                        status = "PARTIAL";
-                    } else {
-                        status = result.getText();
-                    }
-                    boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(status);
-                    intent.putExtra("isBarcodeMatched", isBarcodeMatched);
+                if (isPickedUpOrdersActivity) {
+                    intent.putExtra("result", result.getText());
                 } else {
-                    if (result.getText().equalsIgnoreCase("PARTIALLY")) {
-                        status = "PARTIAL";
+                    if (!selectedStatus.isEmpty()) {
+                        if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                            status = "PARTIAL";
+                        } else {
+                            status = result.getText();
+                        }
+                        boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(status);
+                        intent.putExtra("isBarcodeMatched", isBarcodeMatched);
                     } else {
-                        status = result.getText();
+                        if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                            status = "PARTIAL";
+                        } else {
+                            status = result.getText();
+                        }
+                        intent.putExtra("result", status);
                     }
-                    intent.putExtra("result", status);
                 }
                 setResult(RESULT_OK, intent);
                 finish();

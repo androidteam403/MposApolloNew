@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
-                android:text="forward to packer"
+                android:text="forward to checker"
                 android:textAllCaps="true"
                 android:layout_marginStart="@dimen/five_dp"
                 android:textColor="@color/black"

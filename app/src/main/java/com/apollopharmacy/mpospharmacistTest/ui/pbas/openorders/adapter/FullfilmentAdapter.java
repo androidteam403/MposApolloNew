@@ -261,12 +261,12 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_artboard_39));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
-        holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             if (mvpView != null) {
                 mvpView.ondownArrowClicked(omsHeader.getRefno(), position);
             }
         });
-        holder.itemView.setOnClickListener(v -> {
+        holder.fullfilmentBinding.fullfillmentSelectIcon.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
                 /*if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
