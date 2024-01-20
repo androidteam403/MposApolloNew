@@ -3171,4 +3171,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).isPickupReserved()) {
+                    omsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+        }
+    }
 }
