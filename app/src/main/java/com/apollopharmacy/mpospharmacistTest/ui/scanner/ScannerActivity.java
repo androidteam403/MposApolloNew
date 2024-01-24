@@ -46,6 +46,7 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     private ActivityScannerBinding activityScannerBinding;
     String selectedStatus = "";
     boolean isPickedUpOrdersActivity;
+    boolean isOpenOrdersActivity;
 
 
     @Inject
@@ -83,6 +84,7 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
         if (getIntent() != null) {
             selectedStatus = getIntent().getStringExtra("selectedStatus");
             isPickedUpOrdersActivity = getIntent().getBooleanExtra("isPickedUpOrdersActivity", false);
+            isOpenOrdersActivity = getIntent().getBooleanExtra("isOpenOrderActivity", false);
         }
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
@@ -131,6 +133,8 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
                 Intent intent = new Intent();
                 String status = "";
                 if (isPickedUpOrdersActivity) {
+                    intent.putExtra("result", result.getText());
+                } else if (isOpenOrdersActivity) {
                     intent.putExtra("result", result.getText());
                 } else {
                     if (!selectedStatus.isEmpty()) {

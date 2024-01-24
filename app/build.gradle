@@ -8,11 +8,11 @@ android {
     dataBinding {
         enabled = true
     }
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.apollopharmacy.mpospharmacistTest"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 7
         versionName '2.9.4'//mPOS V1 VERSION - '2.9.4'   //picker packer version - '2.8.4'
         vectorDrawables.useSupportLibrary = true

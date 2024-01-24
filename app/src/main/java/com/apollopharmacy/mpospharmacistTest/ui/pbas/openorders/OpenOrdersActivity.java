@@ -2700,8 +2700,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         isopenOrderActivity = true;
-        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
-        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        Intent intent = new Intent(getContext(), ScannerActivity.class);
+        intent.putExtra("isOpenOrderActivity", isopenOrderActivity);
+        startActivityForResult(intent, 555);
+//        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+//        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 
 //        Intent intent = new Intent(OpenOrdersActivity.this, ScannerActivity.class);
 //        startActivity(intent);
@@ -2895,15 +2898,19 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            mPresenter.fetchFulfilmentOrderList(false);
 
         } else {
-            IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            if (Result != null) {
-                if (Result.getContents() == null) {
+//            IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            String result = data.getStringExtra("result");
+            if (result != null) {
+                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+                openOrdersBinding.searchByfulfimentid.setText(result);
+                BillerOrdersActivity.isBillerActivity = false;
+                /*if (Result.getContents() == null) {
 //                    Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
                     openOrdersBinding.searchByfulfimentid.setText(Result.getContents());
                     BillerOrdersActivity.isBillerActivity = false;
-                }
+                }*/
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
@@ -3172,4 +3179,15 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            for (int i = 0; i < omsHeaderList.size(); i++) {
+                if (omsHeaderList.get(i).isPickupReserved()) {
+                    omsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+        }
+    }
 }

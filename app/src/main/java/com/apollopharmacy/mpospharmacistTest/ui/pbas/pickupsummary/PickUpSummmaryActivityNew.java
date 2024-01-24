@@ -45,6 +45,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.SummaryFullfillmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.scanner.PickupSummaryScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
@@ -69,7 +70,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     ActivityPickUpSummaryPBinding activityPickUpSummaryBinding;
     long startTime;
     long countUp;
-    int position;
+    public static int position;
     Chronometer stopWatchs;
     private SummaryFullfillmentAdapter summaryFullfillmentAdapter;
     private List<RacksDataResponse.FullfillmentDetail> racksDataResponse;
@@ -88,7 +89,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     int partialOrdersCount = 0;
     int notAvailableOrdersCount = 0;
     int updateOmsOrderCount = 0;
-    List<TransactionHeaderResponse.OMSHeader> omsHeaderList;
+    public static List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     String selectedStatus = "";
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch, TransactionHeaderResponse.OMSHeader omsHeader, GetOMSTransactionResponse.SalesLine salesLine, int orderAdapterPos, int position) {
@@ -334,14 +335,19 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     }
 
     @Override
-    public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus) {
+    public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus, String itemStatus) {
 
         position=pos;
-        this.omsHeaderList = selectedOmsHeaderList;
+        omsHeaderList.clear();
+        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+            if (selectedOmsHeaderList.get(i).isEnabled() && selectedOmsHeaderList.get(i).getItemStatus().equalsIgnoreCase(itemStatus)) {
+                omsHeaderList.add(selectedOmsHeaderList.get(i));
+            }
+        }
         this.selectedStatus = selectedStatus;
 
 //        new IntentIntegrator(this).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
-        Intent intent = new Intent(PickUpSummmaryActivityNew.this, ScannerActivity.class);
+        Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickupSummaryScannerActivity.class);
         intent.putExtra("selectedStatus", selectedStatus);
         startActivityForResult(intent, 222);
         this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
@@ -842,12 +848,20 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        ReadyForPickUpActivity.fullfillmentDetailList.clear();
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+//        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (data != null) {
             boolean isBarcodeMatched = data.getBooleanExtra("isBarcodeMatched", false);
-            String result = data.getStringExtra("result");
-            if (result != null) {
-                if (selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(result)) {
+            boolean isBackPressed = data.getBooleanExtra("IS_BACK_PRESSED", false);
+            boolean isAllCompleted = data.getBooleanExtra("allCompleted", false);
+//            String result = data.getStringExtra("result");
+            if (isAllCompleted || isBackPressed) {
+                summaryFullfillmentAdapter.notifyDataSetChanged();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (selectedOmsHeaderList.size() == selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isScanned).collect(Collectors.toList()).size()) {
+                        activityPickUpSummaryBinding.forwardToPacker.setBackgroundColor(Color.parseColor("#fdb813"));
+                    }
+                }
+                /*if (selectedOmsHeaderList.get(position).getItemStatus().equalsIgnoreCase(result)) {
                     selectedOmsHeaderList.get(position).setScanned(true);
                     summaryFullfillmentAdapter.notifyDataSetChanged();
 
@@ -858,7 +872,8 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                     }
 //                   Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
 
-                } else {
+                }*/
+                /*else {
                     Dialog dialog = new Dialog(this);
                     DialogDroppingBinding dialogDroppingBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                             R.layout.dialog_dropping, null, false);
@@ -870,7 +885,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
                     dialogDroppingBinding.close.setOnClickListener(view -> dialog.dismiss());
                     dialog.show();
-                }
+                }*/
 
                 BillerOrdersActivity.isBillerActivity = false;
 //                Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();

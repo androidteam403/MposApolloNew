@@ -78,7 +78,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
                     }
                 }
 //                pickupProcessMvpView.onClickEnableBtn(omsHeaderList.get());
-                pickupProcessMvpView.onClickItem(position, omsHeaderList.get(), selectedStatus.get());
+                pickupProcessMvpView.onClickItem(position, omsHeaderList.get(), selectedStatus.get(), "");
             });
             if (omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
                 holder.orderBinding.status.setText("Fully Available");
@@ -123,7 +123,7 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         holder.orderBinding.scanIcon.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
                 if (omsHeader.isEnabled()) {
-                    pickupProcessMvpView.onClickItem(position,selectedOmsHeaderList, "");
+                    pickupProcessMvpView.onClickItem(position,selectedOmsHeaderList, "", selectedOmsHeaderList.get(position).getItemStatus());
                 }
 
 //                for (int i=0;i<selectedOmsHeaderList.size();i++){
