@@ -307,12 +307,14 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL() != null
                 && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL().size() > 0) {
             holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.VISIBLE);
+            holder.fullfilmentBinding.prescriptionsParentLayout.setVisibility(View.VISIBLE);
             PrescriptionsAdapter prescriptionsAdapter = new PrescriptionsAdapter(context, mvpView, omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             holder.fullfilmentBinding.prescriptionsRecycler.setLayoutManager(mLayoutManager);
             holder.fullfilmentBinding.prescriptionsRecycler.setAdapter(prescriptionsAdapter);
         } else {
             holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.GONE);
+            holder.fullfilmentBinding.prescriptionsParentLayout.setVisibility(View.GONE);
         }
     }
 

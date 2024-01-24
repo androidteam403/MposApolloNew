@@ -500,7 +500,7 @@ Do you want to proceed with Packing?"
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/roboto_bold"
                     android:onClick="@{()-> callback.onClickPackerStatusUpdate()}"
-                    android:text="@string/label_packer_status_update"
+                    android:text="@string/label_checker_status_update"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_14"
                     tools:ignore="ButtonStyle" />

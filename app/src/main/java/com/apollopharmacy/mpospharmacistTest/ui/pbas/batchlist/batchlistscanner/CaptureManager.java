@@ -198,6 +198,7 @@ public class CaptureManager implements CallbackCaptureManager {
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
         batchList = getBatchDetailsByBarcodeResponse.getBatchList();
+        boolean isMatched = false;
         if (batchList != null && batchList.size() > 0) {
             for (int i = 0; i < batchList.size(); i++) {
                 if (batchList.get(i).isNearByExpiry()) {
@@ -221,6 +222,7 @@ public class CaptureManager implements CallbackCaptureManager {
                 if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchNo())) {
                     // if qoh available add batch to sales line and increase req qty of batch item
                     if (batchList.get(i).getQ_O_H() != null) {
+                        isMatched = true;
                         if (salesLineBatchList.size() > 0) {
                             for (int j = 0; j < salesLineBatchList.size(); j++) {
                                 if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
@@ -238,7 +240,7 @@ public class CaptureManager implements CallbackCaptureManager {
                     batchListObj = batchList.get(i);
                 }
             }
-            if (batchListObj == null) {
+            if (!isMatched) {
                 Collections.sort(batchList, (o1, o2) -> {
                     Date currentDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
