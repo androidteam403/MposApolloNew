@@ -30,7 +30,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScre
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterTypeAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.HeaderItemDecoration;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -199,8 +198,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         List<UserModel._DropdownValueBean> maxMinOrdersList = mPresenter.getMaxMinOrdersList();
         for (int i = 0; i < maxMinOrdersList.size(); i++) {
             if (mPresenter.getUserId().equalsIgnoreCase(maxMinOrdersList.get(i).getCode())) {
-                maxOrdersAllowed =  Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
-                minOrdersAllowed = 1; // Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
+                maxOrdersAllowed = Integer.parseInt(maxMinOrdersList.get(i).getMaximumOrders());
+                minOrdersAllowed = 1; //Integer.parseInt(maxMinOrdersList.get(i).getMinimumOrders());
             }
         }
 
@@ -1523,7 +1522,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
 
             // If the orders contains user id and it mismatched then dont show
-            omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
+            omsHeaderList.removeIf(omsHeader1 -> omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
             if (!isFiltersListSet) {
                 setFiltersList(omsHeaderList, false);
             }
@@ -2585,6 +2584,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     }
 
     List<TransactionHeaderResponse.OMSHeader> availableOmsHeaderList = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickSelectAll() {
@@ -2692,6 +2692,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         onContinueBtnEnable();
         callGetOmsTransactionApi(availableOmsHeaderList, index + 1);
     }
+
     boolean isScanerBack;
 
     @Override
