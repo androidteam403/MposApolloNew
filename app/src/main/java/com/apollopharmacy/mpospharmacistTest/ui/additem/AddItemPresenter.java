@@ -476,7 +476,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void sendSmsservice(String mobilenumber) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if (!getMvpView().isCameFromOrderDetailsScreenActivity())
+                getMvpView().showLoading();
             String URl = getDataManager().getGlobalJson().getSMSAPI();
 
             //randaom Otp Number---->
@@ -605,7 +606,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             }
         });
         showMessagePopup.show();
-
     }
 
     @Override
@@ -1324,7 +1324,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void validateOmsOrder(double totalamount, CalculatePosTransactionRes calculatePosTransactionRes, CustomerDataResBean customerDataResBean) {
         if (calculatePosTransactionRes.getISOMSOrder()) {
             if (getMvpView().isNetworkConnected()) {
-                getMvpView().showLoading();
+                if (!getMvpView().isCameFromOrderDetailsScreenActivity())
+                    getMvpView().showLoading();
 
 
            /* CalculatePosTransactionRes OMScalculatepostransactionres=new CalculatePosTransactionRes();
@@ -2819,7 +2820,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     private void saveRetailTransaction() {
         CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if (!getMvpView().isCameFromOrderDetailsScreenActivity())
+                getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 //            CalculatePosTransactionRes posTransactionRes = getMvpView().getCalculatedPosTransactionRes();
@@ -4049,7 +4051,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     @Override
     public void getPostOnlineOrderApiCall(EPrescriptionModelClassResponse ePrescriptionModelClassResponse, List<EPrescriptionMedicineResponse> ePrescriptionMedicineResponseList, SaveRetailsTransactionRes saveRetailsTransactionRes, CustomerDataResBean customerDataResBean) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if (!getMvpView().isCameFromOrderDetailsScreenActivity())
+                getMvpView().showLoading();
             //Creating an object of our api interface
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
 
