@@ -1464,6 +1464,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
                 return Long.compare(diff1, diff2);
             });
+            // If the order contains User ID but it is not matched with the login user then don't show the order.
+            omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
 
             if (isShiipimentDateFiltered) {
 
@@ -1522,7 +1524,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
 
             // If the orders contains user id and it mismatched then dont show
-            omsHeaderList.removeIf(omsHeader1 -> omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
+//            omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
             if (!isFiltersListSet) {
                 setFiltersList(omsHeaderList, false);
             }
