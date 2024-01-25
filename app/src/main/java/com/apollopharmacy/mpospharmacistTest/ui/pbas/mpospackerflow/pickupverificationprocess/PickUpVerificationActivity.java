@@ -500,9 +500,9 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
                     Singletone.getInstance().itemsArrayList.addAll(new ArrayList<>(saleslineentity));
                     boolean is_omsorder = true;
 
-                    /*startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
+                    startActivityForResult(AddItemActivity.getStartIntent(getContext(), saleslineentity, customerEntity, orderInfoItem, customerDataResBean_pass, transactionIDResModel, is_omsorder, item, doctorentyty, true), ACTIVITY_EPRESCRIPTIONBILLING_DETAILS_CODE);
                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                    finish();*/
+                    finish();
                     break;
                 }
                 tempposition++;

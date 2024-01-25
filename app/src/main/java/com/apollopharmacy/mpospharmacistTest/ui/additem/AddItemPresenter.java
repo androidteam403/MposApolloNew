@@ -581,7 +581,6 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
         } else {
             showMessagePopup("No Items available");
         }
-
     }
 
     private void showMessagePopup(String message) {

@@ -349,6 +349,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     protected void setUp() {
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                addItemBinding.setIsCameFromOrderDetailsScreenActivity(isCameFromOrderDetailsScreenActivity);
+            }
+        }
         if (mPresenter.isMposV1Flow()) {
             addItemBinding.detailsLayout.uploadApi.setVisibility(View.VISIBLE);
         } else {
@@ -922,6 +928,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 updatePayedAmount(calculatePosTransactionRes);
                 addItemBinding.setIsPaymentMode(true);
                 setEnableEditTextChange();
+
+                //To generate bill directly
+                if (getIntent() != null) {
+                    isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+                    if (isCameFromOrderDetailsScreenActivity) {
+                        mPresenter.onClickVendorPayMode();
+                    }
+                }
             } else {
                 alertQuantityError("Please Enter Remainder Days!!");
             }
@@ -1252,6 +1266,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSucessOMSOrderValidate(CalculatePosTransactionRes calculatePosTransactionRes) {
         //  addItemBinding.cashPayButtonLayout.setVisibility(View.VISIBLE);
         addItemBinding.CODPayButtonLayout.setVisibility(View.VISIBLE);
+
+        //To generate bill directly
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                mPresenter.onClickCodPayMode();
+            }
+        }
 
     }
 
@@ -2248,7 +2270,13 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             tenderAddList.add(tenderLineEntity);
             calculatePosTransactionRes.setTenderLine(tenderAddList);
         }
-
+//To generate bill directly
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                mPresenter.onClickGenerateBill();
+            }
+        }
     }
 
     @Override
