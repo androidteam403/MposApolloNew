@@ -59,6 +59,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
 
     List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderListResult = new ArrayList<>();
     String statusBatchlist;
+    boolean isReferToAdmin;
 
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
@@ -275,6 +276,15 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             statusBatchlist = data.getStringExtra("finalStatus");
             shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+            isReferToAdmin = data.getBooleanExtra("isReferToAdmin", false);
+            boolean isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
+            if (isReferToAdmin) {
+                Intent i = new Intent();
+                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                i.putExtra("IS_BATCH_HOLD", isBatchHold);
+                setResult(RESULT_OK, i);
+                finish();
+            }
         }
     }
 }
