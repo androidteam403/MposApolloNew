@@ -1017,6 +1017,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             i.putExtra("IS_BATCH_HOLD", true);
+            i.putExtra("isReferToAdmin", true);
             setResult(RESULT_OK, i);
             finish();
         });
