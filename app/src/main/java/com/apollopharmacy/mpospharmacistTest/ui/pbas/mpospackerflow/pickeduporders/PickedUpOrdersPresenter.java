@@ -214,6 +214,11 @@ public class PickedUpOrdersPresenter<V extends PickedUpOrdersMvpView> extends Ba
         getMvpView().onClickScanBarCode();
     }
 
+    @Override
+    public void onClickSearchBtn() {
+        getMvpView().onClickSearchBtn();
+    }
+
 
     @Override
     public void setTotalOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList) {

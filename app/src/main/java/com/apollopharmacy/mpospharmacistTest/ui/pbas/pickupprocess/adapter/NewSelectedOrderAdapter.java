@@ -110,12 +110,16 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
@@ -123,6 +127,8 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else {
@@ -130,14 +136,14 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         }
 
 
-        holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
+        /*holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (pickupProcessMvpView != null) {
                     pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
                 }
             }
-        });
+        });*/
 
         holder.pickupSummaryDetailsProductsBinding.onHold.setOnClickListener(view -> {
             pickupProcessMvpView.onClickOnHoldItem(salesLine, position);
@@ -208,7 +214,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
         holder.pickupSummaryDetailsProductsBinding.done.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+//                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
 
 //                Dialog dialog = new Dialog(context);
 //                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);

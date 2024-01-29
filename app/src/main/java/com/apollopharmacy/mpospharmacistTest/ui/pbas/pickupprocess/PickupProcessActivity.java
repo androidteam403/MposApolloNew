@@ -1010,6 +1010,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
         dialog.setContentView(dialogOnHoldBinding.getRoot());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogOnHoldBinding.message.setText("Order is On-Hold");
         dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
         dialogOnHoldBinding.saveButton.setOnClickListener(v -> {
             dialog.dismiss();

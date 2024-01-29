@@ -355,16 +355,17 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
     @Override
     public void onClickBarcodeProblem() {
-        if (batchList != null && batchList.size() > 0) {
+//        if (batchList != null && batchList.size() > 0) {
             Intent intent = new Intent(BatchlistScannerActivity.this, BatchListActivity.class);
             intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             intent.putExtra("orderAdapterPos", orderAdapterPos);
             intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
             intent.putExtra("salesLine", salesLine);
             intent.putExtra("scannedBatchList", (Serializable) batchList);
+            intent.putExtra("isBarCodeProblem", true);
             startActivityForResult(intent, BATCH_LIST_DETAILS);
 //            finish();
-        }
+//        }
     }
 
     @Override
@@ -1085,7 +1086,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_DETAILS && resultCode == RESULT_OK) {
-            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
+            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             String statusBatchlist = data.getStringExtra("finalStatus");
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
