@@ -1072,8 +1072,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             }
 
         }
-//        int mPOSPickupJourney = 0;
-        int mPOSPickupJourney = mPresenter.getGlobalConfigRes().getMposPickupJourney();
+        int mPOSPickupJourney = 0;
+//        int mPOSPickupJourney = mPresenter.getGlobalConfigRes().getMposPickupJourney();
         if (mPOSPickupJourney == 0) {
             pickupProcessBinding.ordersRacksLayout.setVisibility(View.VISIBLE);
         } else if (mPOSPickupJourney == 1) {

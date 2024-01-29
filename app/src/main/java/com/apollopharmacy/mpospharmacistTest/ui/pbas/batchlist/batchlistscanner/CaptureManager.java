@@ -73,7 +73,9 @@ public class CaptureManager implements CallbackCaptureManager {
     private BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
-            if (scannedQuantity == salesLine.getQty()) {
+            if (BatchlistScannerActivity.isBatchListScanner) {
+                mCallback.onBarcodeScan(result.getText());
+            } else if (scannedQuantity == salesLine.getQty()) {
                 mCallback.onCompleteScan(result.getText(), salesLineBatchList);
             } else {
                 new CaptureManagerController(activity, CaptureManager.this).getBatchDetailsByBarCode(result.getText(), salesLine.getItemId(), BatchlistScannerActivity.eposUrl, BatchlistScannerActivity.storeId, BatchlistScannerActivity.dataAreaId, BatchlistScannerActivity.terminalId, BatchlistScannerActivity.stateCode);

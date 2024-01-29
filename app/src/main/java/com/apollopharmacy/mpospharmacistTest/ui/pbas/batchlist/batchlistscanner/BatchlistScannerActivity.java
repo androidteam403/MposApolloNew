@@ -82,6 +82,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     ArrayList<GetBatchInfoRes.BatchListObj> batchListObjsList = new ArrayList<>();
     private boolean allowChangeQty;
     private boolean allowMultiBatch;
+    public static boolean isBatchListScanner;
     String statusBatchlist;
     Bundle savedInstanceState;
     Dialog dialog;
@@ -119,15 +120,15 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
         String itemId = "";
         if (getIntent() != null) {
-//            itemId = getIntent().getStringExtra("ITEM_ID");
+            itemId = getIntent().getStringExtra("ITEM_ID");
             salesLine = (GetOMSTransactionResponse.SalesLine) getIntent().getSerializableExtra("salesLine");
-//            body = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("BATCH_LIST");
+            body = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("BATCH_LIST");
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
             orderAdapterPos = (int) getIntent().getSerializableExtra("orderAdapterPos");
             newSelectedOrderAdapterPos = (int) getIntent().getSerializableExtra("newSelectedOrderAdapterPos1");
-//            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
-//            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
-
+            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
+            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
+            isBatchListScanner = getIntent().getBooleanExtra("isBatchListScanner", false);
         }
         userName = mPresenter.userName();
         storeId = mPresenter.storeId();
@@ -1062,6 +1063,14 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             dialog.dismiss();
             initiateScanner();
         });
+    }
+
+    @Override
+    public void onBarcodeScan(String resultText) {
+        Intent intent = new Intent();
+        intent.putExtra("result", resultText);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public void initiateScanner() {
