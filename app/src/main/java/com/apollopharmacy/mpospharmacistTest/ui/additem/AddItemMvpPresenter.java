@@ -90,7 +90,7 @@ public interface AddItemMvpPresenter<V extends AddItemMvpView> extends MvpPresen
 
     void generateOTP();
 
-    void generateTenterLineService(double amount, WalletServiceRes walletServiceRes);
+    void generateTenterLineService(double amount, WalletServiceRes walletServiceRes, boolean isBillGenerate);
 
     void validateOmsOrder(double totalamount, CalculatePosTransactionRes calculatePosTransactionRes, CustomerDataResBean customerDataResBean);
 

@@ -925,7 +925,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
                     paymentMethodModel.setGenerateBill(true);
                 }
-                updatePayedAmount(calculatePosTransactionRes);
+                updatePayedAmount(calculatePosTransactionRes, false);
                 addItemBinding.setIsPaymentMode(true);
                 setEnableEditTextChange();
 
@@ -1323,10 +1323,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 calculatePosTransactionRes.setReturnMessage("");
 
                 if (Constant.getInstance().vendorcredit) {
-                    mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null);
+                    mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null, true);
 
                 } else {
-                    mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
+                    mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null, true);
                 }
 
                 // mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
@@ -1346,10 +1346,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setCodPayMode(true);
 
             if (Constant.getInstance().vendorcredit) {
-                mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null);
+                mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null, true);
 
             } else {
-                mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
+                mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null, true);
             }
 
             // mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
@@ -1753,7 +1753,17 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 onClickGenerateBill();
             }
         } else {
-            showMessage(body.getReturnMessage());
+            if (getIntent() != null) {
+                isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+                if (isCameFromOrderDetailsScreenActivity) {
+//                    showMessage(body.getReturnMessage());
+                } else {
+                    showMessage(body.getReturnMessage());
+                }
+            } else {
+                showMessage(body.getReturnMessage());
+            }
+
         }
         ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
         anim.setDuration(500);
@@ -1892,7 +1902,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         rotationAngle += 180;
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
-        updatePayedAmount(calculatePosTransactionRes);
+        updatePayedAmount(calculatePosTransactionRes, false);
 
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
@@ -1936,7 +1946,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()), null);
+        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()), null, false);
     }
 
     @Override
@@ -2075,7 +2085,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     PayAdapterModel payAdapterModel;
 
     @Override
-    public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+    public void updatePayedAmount(CalculatePosTransactionRes transactionRes, boolean isBillGenerate) {
         if (clearItems) {
             transactionRes.getTenderLine().clear();
             clearItems = false;
@@ -2274,7 +2284,9 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
             if (isCameFromOrderDetailsScreenActivity) {
-                mPresenter.onClickGenerateBill();
+                if (isBillGenerate) {
+                    mPresenter.onClickGenerateBill();
+                }
             }
         }
     }
@@ -2313,7 +2325,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 tenderLineEntities.add(tenderLineEntity);
             }
             calculatePosTransactionRes.setTenderLine(tenderLineEntities);
-            updatePayedAmount(calculatePosTransactionRes);
+            updatePayedAmount(calculatePosTransactionRes, false);
         }
     }
 
@@ -2977,7 +2989,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
         } else {
             getPaymentMethod().setCreditMode(true);
-            mPresenter.generateTenterLineService(amount, null);
+            mPresenter.generateTenterLineService(amount, null, false);
         }
     }
 

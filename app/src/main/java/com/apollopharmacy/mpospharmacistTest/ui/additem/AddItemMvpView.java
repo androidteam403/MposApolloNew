@@ -164,7 +164,7 @@ public interface AddItemMvpView extends MvpView {
 
     double orderRemainingAmount();
 
-    void updatePayedAmount(CalculatePosTransactionRes posTransactionRes);
+    void updatePayedAmount(CalculatePosTransactionRes posTransactionRes, boolean isBillGenerate);
 
     void toRemovePayedAmount(int position, PayActivityAdapter.ViewHolder holder);
 

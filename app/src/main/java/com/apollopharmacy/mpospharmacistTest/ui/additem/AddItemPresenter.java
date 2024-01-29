@@ -630,7 +630,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
             if (getDataManager().getGlobalJson().isISCardBilling() && getDataManager().getGlobalJson().isISEzetapActive()) {
                 doInitializeEzeTap();
             } else if (getDataManager().getGlobalJson().isISCardBilling() && !getDataManager().getGlobalJson().isISEzetapActive() || getDataManager().getGlobalJson().isISHBPStore()) {
-                generateTenterLineService(Double.parseDouble(getMvpView().getCardPaymentAmount()), null);
+                generateTenterLineService(Double.parseDouble(getMvpView().getCardPaymentAmount()), null, false);
             } else {
                 getMvpView().showMessage("Card Payment not available");
             }
@@ -660,13 +660,13 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         if (getGlobalConfiguration().isISOneApolloCardCreationAllowed()) {
                             checkCustomerExistOrNot(getMvpView().getCustomerModule());
                         } else {
-                            generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
+                            generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null, false);
                         }
                     } else {
-                        generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
+                        generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null, false);
                     }
                 } else {
-                    generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null);
+                    generateTenterLineService(Double.parseDouble(getMvpView().getCashPaymentAmount()), null, false);
                 }
             }
         } else {
@@ -954,7 +954,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     public void onSuccessCardPayment(double amount) {
         //  getMvpView().updatePayedAmount(Double.parseDouble(getMvpView().getCardPaymentAmount()),2);
 
-        generateTenterLineService(amount, null);
+        generateTenterLineService(amount, null, false);
     }
 
     @Override
@@ -1255,7 +1255,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
     private CalculatePosTransactionRes tenderLineEntities = new CalculatePosTransactionRes();
 
     @Override
-    public void generateTenterLineService(double amount, WalletServiceRes walletServiceRes) {
+    public void generateTenterLineService(double amount, WalletServiceRes walletServiceRes, boolean isBillGenerate) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
 
@@ -1282,7 +1282,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                         if (response.body() != null && response.body().getGenerateTenderLineResult().getRequestStatus() == 0) {
                             tenderLineEntities = response.body().getGenerateTenderLineResult();
                             // tenderLineEntities.addAll(response.body().getGenerateTenderLineResult().getTenderLine());
-                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult());
+                            getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult(), isBillGenerate);
                             //  saveRetailTransaction(response.body());
                         } else {
                             getMvpView().onFailedGenerateTenderLine(response.body());
@@ -1420,7 +1420,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
 
                                 tenderLineEntities = response.body().getValidateOMSOrderResult();
                                 if (tenderLineEntities.getTenderLine().size() > 0) {
-                                    getMvpView().updatePayedAmount(response.body().getValidateOMSOrderResult());
+                                    getMvpView().updatePayedAmount(response.body().getValidateOMSOrderResult(), false);
 
                                     if (Constant.getInstance().remainamount > 0) {
                                         getMvpView().omsremainamount(Constant.getInstance().remainamount);
@@ -1999,15 +1999,15 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     getMvpView().showOTPPopUp(amount, response.body().getOTP());
                                 } else {
                                     getMvpView().getPaymentMethod().setCreditMode(true);
-                                    generateTenterLineService(amount, null);
+                                    generateTenterLineService(amount, null, false);
                                 }
                             } else if (action.equalsIgnoreCase("VALOTP")) {
                                 if (response.body().getStatus().equalsIgnoreCase("true")) {
                                     getMvpView().getPaymentMethod().setCreditMode(true);
-                                    generateTenterLineService(amount, null);
+                                    generateTenterLineService(amount, null, false);
                                 } else {
                                     getMvpView().getPaymentMethod().setCreditMode(true);
-                                    generateTenterLineService(amount, null);
+                                    generateTenterLineService(amount, null, false);
                                 }
                             }
                         }
@@ -2044,7 +2044,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                             if (response.body().getCouponEnquiryDetailsResult() != null && response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult() != null && response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getRequestStatus()) {
                                 getMvpView().getCalculatedPosTransactionRes().setCouponCode(couponCode);
                                 getMvpView().getPaymentMethod().setCreditMode(true);
-                                generateTenterLineService(Double.parseDouble(response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getCreditAmount()), null);
+                                generateTenterLineService(Double.parseDouble(response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getCreditAmount()), null, false);
                             } else {
                                 getMvpView().partialPaymentDialog("", response.body().getCouponEnquiryDetailsResult().getCoupenDetailsResult().getRequestMessage());
                             }
@@ -2262,7 +2262,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         getMvpView().onSuccessSmsPayValidateTransaction(response.body());
                                         if (response.body().getStatus() == true && response.body().getMessage().equalsIgnoreCase("SUCCESS")) {
                                             smsPaymentDialog.dismiss();
-                                            generateTenterLineService(Double.parseDouble(smsPaymentDialog.getWalletAmount()), null);
+                                            generateTenterLineService(Double.parseDouble(smsPaymentDialog.getWalletAmount()), null, false);
                                         } else {
                                             getMvpView().onFailedSmsPayTransaction(response.body());
                                         }
@@ -2474,7 +2474,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                         getMvpView().onSuccessHdfcPaymentListGenerateApi(response.body());
                                         if (response.body().getErrorCode().equals("0")) {
                                             hdfcPaymentDialog.dismiss();
-                                            generateTenterLineService(Double.parseDouble(hdfcPaymentDialog.getWalletAmount()), null);
+                                            generateTenterLineService(Double.parseDouble(hdfcPaymentDialog.getWalletAmount()), null, false);
                                         }
                                     }
                                 }
@@ -2654,7 +2654,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                             Constant.getInstance().PhonepeQrcode_transactionid = (String) response.body().getProviderReferenceId();
                                             walletServiceReq.setWalletOrderID((String) response.body().getProviderReferenceId());
 //                                            generateWalletOTP(walletServiceReq);
-                                            generateTenterLineService(phonepeQrPaymentDialog.getWalletAmount(), null);
+                                            generateTenterLineService(phonepeQrPaymentDialog.getWalletAmount(), null, false);
                                             phonepeQrPaymentDialog.dismiss();
 
                                         } else {
@@ -3609,7 +3609,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     walletServiceReq.setWalletOrderID(response.body().getWalletOrderID());
                                     walletServiceReq.setWalletRefundId(response.body().getWalletRefundId());
                                     walletServiceReq.setWalletTransactionID(response.body().getWalletTransactionID());
-                                    generateTenterLineService(response.body().getWalletAmount(), response.body());
+                                    generateTenterLineService(response.body().getWalletAmount(), response.body(), false);
                                 } else if (response.body().getWalletRequestType() == 4) {
                                     walletPaymentDialog.dismiss();
                                 }
@@ -3619,7 +3619,7 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                 walletServiceReq.setWalletOrderID(response.body().getWalletOrderID());
                                 walletServiceReq.setWalletRefundId(response.body().getWalletRefundId());
                                 walletServiceReq.setWalletTransactionID(response.body().getWalletTransactionID());
-                                generateTenterLineService(response.body().getWalletAmount(), response.body());
+                                generateTenterLineService(response.body().getWalletAmount(), response.body(), false);
                             }
                         } else {
                             if (response.body() != null) {

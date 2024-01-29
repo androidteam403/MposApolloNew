@@ -73,7 +73,8 @@
                         android:paddingEnd="@dimen/seven_dp"
                         android:text="Print FLID"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/dimen14sp" />
+                        android:textSize="@dimen/dimen14sp"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
