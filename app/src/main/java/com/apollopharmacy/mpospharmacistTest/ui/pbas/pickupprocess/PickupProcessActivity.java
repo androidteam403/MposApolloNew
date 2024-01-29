@@ -543,7 +543,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
         } else if (requestType == 1) {
 
-        } else if (requestType == 10) {
+        } else if (requestType == 11) {
             if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
                 if (mposPickPackOrderReservationResponse.getOrderList() != null && mposPickPackOrderReservationResponse.getOrderList().size() > 0) {
                     if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -1072,8 +1072,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             }
 
         }
-        int mPOSPickupJourney = 0;
-//        int mPOSPickupJourney = mPresenter.getGlobalConfigRes().getMposPickupJourney();
+//        int mPOSPickupJourney = 0;
+        int mPOSPickupJourney = mPresenter.getGlobalConfigRes().getMposPickupJourney();
         if (mPOSPickupJourney == 0) {
             pickupProcessBinding.ordersRacksLayout.setVisibility(View.VISIBLE);
         } else if (mPOSPickupJourney == 1) {

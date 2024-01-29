@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -11,6 +12,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_bg.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_gray_bg.xml" value="0.193" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_circle_lite_yellow_bg.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/ic_menu_billing.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/rack_row_bg.xml" value="0.193" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/rack_row_order_item_bg.xml" value="0.193" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/rounded_corners_bg.xml" value="0.2555" />
@@ -27,6 +29,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_open_orders_v3.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_order_details_screen_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_order_detailss_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_order_return_print_bill.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_order_summary.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pharmacist_login.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.25" />
@@ -41,6 +44,7 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_select_app_flow_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_self_id_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_shelf_id_scanner.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_start_picking.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/activity_v3_navigation.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_batchlist_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_filter_item.xml" value="0.25" />
@@ -76,15 +80,19 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_farwardto_packer_alert.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_filter_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_filter_p_v3.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_on_hold.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_physical_batch_id.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_rack_alert.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_scan.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_scan_continue.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_shelf_scan.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_shelf_scan_success.xml" value="0.4" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/dialog_skip_order.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/exit_info_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_admin.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_dashboard_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_dialog_circle_benefit.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/fragment_orders.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/ic_circle_gray_bg.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/picker_v3_filter_dialog.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/view_customer_doctor_info.xml" value="0.25" />

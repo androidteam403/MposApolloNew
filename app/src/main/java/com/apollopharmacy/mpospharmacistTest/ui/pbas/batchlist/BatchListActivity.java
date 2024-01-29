@@ -204,7 +204,13 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     if (batchListAdapter != null) {
                         filteredList.clear();
                         for (GetBatchInfoRes.BatchListObj row : body) {
-                            if (row.getBatchNo().substring(0, 3).equalsIgnoreCase(editable.toString())) {
+                            String lastThreeDigits = "";
+                            if (row.getBatchNo().length() > 3) {
+                                lastThreeDigits = row.getBatchNo().substring(row.getBatchNo().length() - 3);
+                            } else {
+                                lastThreeDigits = row.getBatchNo();
+                            }
+                            if (lastThreeDigits.equalsIgnoreCase(editable.toString())) {
                                 filteredList.add(row);
                             }
                         }
@@ -646,6 +652,44 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                             i.putExtra("salesLine", (Serializable) salesLine);
                             startActivity(i);
                         } else {
+                            if (scannedBatchList != null && scannedBatchList.size() > 0) {
+                                GetBatchInfoRes o = new GetBatchInfoRes();
+                                o.setBatchList(scannedBatchList);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                Intent intent = new Intent();
+                                intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
+                                intent.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            } else {
+                                GetBatchInfoRes o = new GetBatchInfoRes();
+                                if (batchListObjsList != null && batchListObjsList.size() > 0)
+                                    o.setBatchList(batchListObjsList);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                                double totalPickedQty = 0.0;
+                                for (int i = 0; i < batchListObjsList.size(); i++) {
+                                    totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
+                                }
+                                String pickedQty = Double.toString(totalPickedQty);
+                                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
+                                Intent i = new Intent();
+                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                i.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, i);
+                                finish();
+                            }
+                        }
+                    } else {
+                        if (scannedBatchList != null && scannedBatchList.size() > 0) {
+                            GetBatchInfoRes o = new GetBatchInfoRes();
+                            o.setBatchList(scannedBatchList);
+                            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                            Intent intent = new Intent();
+                            intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
+                            intent.putExtra("finalStatus", (String) statusBatchlist);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        } else {
                             GetBatchInfoRes o = new GetBatchInfoRes();
                             if (batchListObjsList != null && batchListObjsList.size() > 0)
                                 o.setBatchList(batchListObjsList);
@@ -662,22 +706,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                             setResult(RESULT_OK, i);
                             finish();
                         }
-                    } else {
-                        GetBatchInfoRes o = new GetBatchInfoRes();
-                        if (batchListObjsList != null && batchListObjsList.size() > 0)
-                            o.setBatchList(batchListObjsList);
-                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-                        double totalPickedQty = 0.0;
-                        for (int i = 0; i < batchListObjsList.size(); i++) {
-                            totalPickedQty = totalPickedQty + batchListObjsList.get(i).getREQQTY();
-                        }
-                        String pickedQty = Double.toString(totalPickedQty);
-                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(pickedQty.substring(0, pickedQty.indexOf(".")));
-                        Intent i = new Intent();
-                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                        i.putExtra("finalStatus", (String) statusBatchlist);
-                        setResult(RESULT_OK, i);
-                        finish();
                     }
                 } catch (Exception e) {
                     System.out.println("===============================================" + e.getMessage());

@@ -1466,6 +1466,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
             // If the order contains User ID but it is not matched with the login user then don't show the order.
             omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
+//            omsHeaderList.removeIf(item -> item.getPickPackUser().equalsIgnoreCase("") ||
+//                    !item.getPickPackUser().equalsIgnoreCase("091"));
 
             if (isShiipimentDateFiltered) {
 
@@ -2349,7 +2351,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             List<TransactionHeaderResponse.OMSHeader> omsHeaderListlu;
             omsHeaderListlu = omsHeaderListlus.stream().filter(e -> !e.getOrderPickup()).collect(Collectors.toList());
             if (omsHeaderListlu != null && omsHeaderListlu.size() > 0) {
-                for (int i = 0; i < omsHeaderListlu.size(); i++) {
+                /*for (int i = 0; i < omsHeaderListlu.size(); i++) {
 
                     boolean isCustomerTypeContain = false;
                     boolean isOrderTypeContain = false;
@@ -2472,8 +2474,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     if (!isBillDateTatContain) {
                         billDateTatFilterList.add(filterModel);
                     }
-                }
-                boolean isReverificationContain = false;
+                }*/
+               /* boolean isReverificationContain = false;
                 // reverification filter list.
                 FilterModel filterModel = new FilterModel();
                 filterModel.setName("Reverification");
@@ -2485,7 +2487,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
                 if (!isReverificationContain) {
                     reverificationList.add(filterModel);
-                }
+                }*/
                 omsHeaderListFileredStaticList = omsHeaderListlu;
                 startIndex = 0;
                 TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
