@@ -126,8 +126,8 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra("selectedOmsHeaderList");
             orderAdapterPos = (int) getIntent().getSerializableExtra("orderAdapterPos");
             newSelectedOrderAdapterPos = (int) getIntent().getSerializableExtra("newSelectedOrderAdapterPos1");
-            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
-            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
+            allowChangeQty = getIntent().getBooleanExtra("ALLOW_CHANGE_QTY", false);
+            allowMultiBatch = getIntent().getBooleanExtra("ALLOW_MULTI_BATCH", false);
             isBatchListScanner = getIntent().getBooleanExtra("isBatchListScanner", false);
         }
         userName = mPresenter.userName();
