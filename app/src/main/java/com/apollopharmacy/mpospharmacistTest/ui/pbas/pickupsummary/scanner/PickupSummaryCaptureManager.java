@@ -85,7 +85,7 @@ public class PickupSummaryCaptureManager {
             if (!selectedStatus.isEmpty()) {
                 mCallback.onHeaderBarcodeScanned(selectedStatus.equalsIgnoreCase(scannedResult));
             } else {
-                if (PickUpSummmaryActivityNew.omsHeaderList.get(orderPos).getItemStatus().equalsIgnoreCase(scannedResult)) {
+                if (PickUpSummmaryActivityNew.omsHeaderList.get(orderPos).getScannedBarcode().equalsIgnoreCase(scannedResult)) {
                     PickUpSummmaryActivityNew.omsHeaderList.get(orderPos).setScanned(true);
                     boolean isAllBarcodeScanned = true;
                     if (PickUpSummmaryActivityNew.omsHeaderList != null) {

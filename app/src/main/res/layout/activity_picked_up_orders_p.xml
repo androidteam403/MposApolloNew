@@ -161,6 +161,7 @@
                     android:layout_marginStart="@dimen/five_dp"
                     android:gravity="center"
                     android:layout_weight="0.3"
+                    android:onClick="@{()->callback.onClickSearchBtn()}"
                     android:background="@drawable/ic_rectangular_shape"
                     android:backgroundTint="@color/green"
                     android:orientation="horizontal">

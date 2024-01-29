@@ -155,7 +155,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 //        mvpPresenter.fetchFulfilmentOrderList();
         pulltoRrefresh();
-        searchByFulfilmentId();
+//        searchByFulfilmentId();
         activityPickedUpOrdersBinding.setFilter(mvpPresenter);
         activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 
@@ -1811,6 +1811,33 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         intent.putExtra("isPickedUpOrdersActivity", true);
         startActivityForResult(intent, 444);
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onClickSearchBtn() {
+        String matchedBoxId = "";
+        TransactionHeaderResponse.OMSHeader omsHeader = new TransactionHeaderResponse.OMSHeader();
+        String searchText = activityPickedUpOrdersBinding.searchText.getText().toString();
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
+            if (boxId.equalsIgnoreCase(searchText)) {
+                matchedBoxId = boxId;
+                omsHeader = omsHeaderList.get(i);
+            }
+        }
+        if (!matchedBoxId.isEmpty()) {
+            startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        } else {
+            Dialog dialog = new Dialog(getContext());
+            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
+            dialog.setContentView(dialogRackAlertBinding.getRoot());
+            dialogRackAlertBinding.message.setText("Please scan valid Box Id");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
+        }
     }
 
 

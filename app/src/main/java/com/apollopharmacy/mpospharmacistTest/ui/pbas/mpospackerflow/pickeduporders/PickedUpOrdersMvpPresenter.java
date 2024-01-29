@@ -48,4 +48,6 @@ public interface PickedUpOrdersMvpPresenter<V extends PickedUpOrdersMvpView> ext
     String getTerminalId();
 
     void onClickScanBarCode();
+
+    void onClickSearchBtn();
 }

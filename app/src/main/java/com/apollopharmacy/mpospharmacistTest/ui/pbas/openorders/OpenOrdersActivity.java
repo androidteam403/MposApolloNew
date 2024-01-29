@@ -324,19 +324,21 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     omsHeader.setOMSHeader(omsHeaderListFileredStaticList);
                     onSucessfullFulfilmentIdList(omsHeader);
                 } else {
-                    List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotalFilterTemp = new ArrayList<>();
-                    for (TransactionHeaderResponse.OMSHeader row : omsHeaderListFileredStaticList) {
-                        if (!omsHeaderListTotalFilterTemp.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
-                            omsHeaderListTotalFilterTemp.add(row);
-                        }
+                    if (charString.length() > 4) {
+                        List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotalFilterTemp = new ArrayList<>();
+                        for (TransactionHeaderResponse.OMSHeader row : omsHeaderListFileredStaticList) {
+                            if (!omsHeaderListTotalFilterTemp.contains(row) && (row.getRefno().toLowerCase().contains(charString.toLowerCase()) || row.getOverallOrderStatus().toLowerCase().contains(charString.toLowerCase()))) {
+                                omsHeaderListTotalFilterTemp.add(row);
+                            }
 
-                    }
+                        }
 //                    List<TransactionHeaderResponse.OMSHeader> omsHeaderListTotalFilteredTemp = new ArrayList<>();
 //                    omsHeaderListTotal = omsHeaderListTotalFilterTemp;
-                    startIndex = 0;
-                    TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
-                    omsHeader.setOMSHeader(omsHeaderListTotalFilterTemp);
-                    onSucessfullFulfilmentIdList(omsHeader);
+                        startIndex = 0;
+                        TransactionHeaderResponse omsHeader = new TransactionHeaderResponse();
+                        omsHeader.setOMSHeader(omsHeaderListTotalFilterTemp);
+                        onSucessfullFulfilmentIdList(omsHeader);
+                    }
                 }
 
 
@@ -2903,11 +2905,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
         } else {
 //            IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            String result = data.getStringExtra("result");
-            if (result != null) {
-                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
-                openOrdersBinding.searchByfulfimentid.setText(result);
-                BillerOrdersActivity.isBillerActivity = false;
+            if (data != null) {
+                String result = data.getStringExtra("result");
+                if (result != null) {
+                    Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+                    openOrdersBinding.searchByfulfimentid.setText(result);
+                    BillerOrdersActivity.isBillerActivity = false;
                 /*if (Result.getContents() == null) {
 //                    Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
                 } else {
@@ -2915,8 +2918,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     openOrdersBinding.searchByfulfimentid.setText(Result.getContents());
                     BillerOrdersActivity.isBillerActivity = false;
                 }*/
-            } else {
-                super.onActivityResult(requestCode, resultCode, data);
+                } else {
+                    super.onActivityResult(requestCode, resultCode, data);
+                }
             }
         }
     }
