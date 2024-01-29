@@ -204,16 +204,17 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                     if (batchListAdapter != null) {
                         filteredList.clear();
                         for (GetBatchInfoRes.BatchListObj row : body) {
-                            String lastThreeDigits = "";
+                            /*String lastThreeDigits = "";
                             if (row.getBatchNo().length() > 3) {
                                 lastThreeDigits = row.getBatchNo().substring(row.getBatchNo().length() - 3);
                             } else {
                                 lastThreeDigits = row.getBatchNo();
-                            }
-                            if (lastThreeDigits.equalsIgnoreCase(editable.toString())) {
+                            }*/
+                            if (row.getBatchNo().contains(editable.toString())) {
                                 filteredList.add(row);
                             }
                         }
+                        dataRestore = filteredList;
                         noOrderFound(filteredList.size());
 //                        batchListAdapter.getFilter().filter(editable);
                     }
@@ -1075,13 +1076,14 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //            new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
             Intent intent = new Intent(BatchListActivity.this, BatchlistScannerActivity.class);
             intent.putExtra("ITEM_ID", salesLine.getItemId());
-            intent.putExtra("SALESLINE", salesLine);
+            intent.putExtra("salesLine", salesLine);
             intent.putExtra("BATCH_LIST", (Serializable) body);
-            intent.putExtra("SELECTED_OMS_HEADER_LIST", (Serializable) selectedOmsHeaderList);
-            intent.putExtra("ORDER_ADAPTER_POS", orderAdapterPos);
-            intent.putExtra("NEW_SELECTED_ORDER_ADAPTER_POS", newSelectedOrderAdapterPos);
+            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            intent.putExtra("orderAdapterPos", orderAdapterPos);
+            intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
             intent.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
             intent.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
+            intent.putExtra("isBatchListScanner", true);
             //allowChangeQty, allowMultiBatch
             //orderAdapterPos, newSelectedOrderAdapterPos
 
@@ -1207,15 +1209,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (Result != null) {
-            if (Result.getContents() == null) {
+//        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            String result = data.getStringExtra("result");
+            if (result == null) {
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
-                batchlistBinding.searchbybatchId.setText(Result.getContents());
-//                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
-//                Toast.makeText(this, "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-
+                batchlistBinding.searchbybatchId.setText(result);
+                mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
+                Toast.makeText(this, "Scanned -> " + result, Toast.LENGTH_SHORT).show();
             }
         } else {
             if (requestCode == BATCHLIST_SCANNER_ACTIVITY) {

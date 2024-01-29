@@ -14,4 +14,6 @@ public interface CaptureManagerCallback {
     void onScanned(List<GetBatchInfoRes.BatchListObj> salesLineBatchList);
 
     void invalidBarcode();
+
+    void onBarcodeScan(String resultText);
 }
