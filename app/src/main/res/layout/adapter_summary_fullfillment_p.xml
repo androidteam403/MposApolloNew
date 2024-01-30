@@ -374,8 +374,10 @@
                             android:id="@+id/boxId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/price_bold"
+                            android:textColor="@color/black"
                             android:text="001"
-                            android:textSize="8sp" />
+                            android:textSize="@dimen/dimen_11sp" />
                     </LinearLayout>
 
                     <LinearLayout
