@@ -422,7 +422,10 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
         isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         isShippingLabelFragment = true;
-        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+//        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+        Intent intent = new Intent(getActivity(), ScannerActivity.class);
+        intent.putExtra("isShippingLabelFragment", isShippingLabelFragment);
+        startActivityForResult(intent, 888);
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
@@ -1342,11 +1345,12 @@ public class ShippingLabelFragment extends BaseFragment implements ShippingLabel
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (Result != null) {
-            if (Result.getContents() != null) {
-                Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-                shippingLabelBinding.searchText.setText(Result.getContents());
+//        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            String result = data.getStringExtra("result");
+            if (result != null) {
+                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+                shippingLabelBinding.searchText.setText(result);
                 BillerOrdersActivity.isBillerActivity = false;
             }
         } else {

@@ -21,17 +21,17 @@
             android:tint="@color/white" />-->
 
         <TextView
-            android:id="@+id/rack_box_id"
+            android:id="@+id/order_item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="001014"
+            android:text="B1"
             android:layout_marginStart="@dimen/dimen10dp"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dimen10sp" />
+            android:textSize="@dimen/dimen16sp" />
 
         <TextView
-            android:id="@+id/order_item_no"
+            android:id="@+id/rack_box_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/dimen10dp"
@@ -39,9 +39,9 @@
             android:gravity="center"
             android:background="@drawable/rack_row_order_item_bg"
             android:layout_marginStart="@dimen/dimen8dp"
-            android:text="B1"
+            android:text="001014"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dimen14sp" />
+            android:textSize="@dimen/dimen12sp" />
     </LinearLayout>
 </layout>

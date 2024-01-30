@@ -350,7 +350,7 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             }
         }
 
-        showLoading();
+//        showLoading();
         onClickContinueBill();
     }
 

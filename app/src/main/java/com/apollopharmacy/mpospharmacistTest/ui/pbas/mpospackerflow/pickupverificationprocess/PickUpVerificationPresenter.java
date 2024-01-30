@@ -68,7 +68,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void fetchFulfilmentOrderList() {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             OMSTransactionHeaderReqModel reqModel = new OMSTransactionHeaderReqModel();
             reqModel.setTransactionID("");
@@ -84,7 +84,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<OMSTransactionHeaderResModel>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getOMSHeaderArr() != null && response.body().getOMSHeaderArr().size()>1) {
                             Collections.sort(response.body().getOMSHeaderArr(), new Comparator<OMSTransactionHeaderResModel.OMSHeaderObj>() {
@@ -127,7 +127,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void getTransactionID() {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             TransactionIDReqModel transactionIDModel = new TransactionIDReqModel();
             transactionIDModel.setRequestStatus(0);
@@ -169,7 +169,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void fetchOMSCustomerInfoBiller(String refNumber) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             CustomerDataReqBean reqModel = new CustomerDataReqBean();
             reqModel.setTransactionID(refNumber);
@@ -205,7 +205,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(requestType);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
@@ -250,7 +250,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
@@ -308,7 +308,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void getDoctorsList() {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
             doctorSearchModel.setISAX(false);
@@ -321,7 +321,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
                 @Override
                 public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
                     if (response.isSuccessful()) {
-                        getMvpView().hideLoading();
+//                        getMvpView().hideLoading();
                         getMvpView().hideKeyboard();
                         getMvpView().getDoctorSearchList(response.body());
                     }
@@ -347,7 +347,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<CorporateModel>() {
                 @Override
                 public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful() && response.body() != null) {
                         getMvpView().getCorporateList(response.body());
                     } else {
@@ -409,12 +409,13 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().OmsOrderUpdateSuccess(response.body(), omsOrderForwardRequest.getRequestType());
 
                         } else {
+                            getMvpView().hideLoading();
                             getMvpView().OmsOrderUpdateFailure(response.body());
                         }
 
@@ -479,17 +480,18 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void onCheckBatchStock(CustomerDataResBean customerDataResBean) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
             Call<CustomerDataResBean> call = api.omscheckbatchstock(customerDataResBean);
             call.enqueue(new Callback<CustomerDataResBean>() {
                 @Override
                 public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().CheckBatchStockSuccess(response.body());
                         } else {
+                            getMvpView().hideLoading();
                             getMvpView().CheckBatchStockFailure(response.body());
                         }
                     }
@@ -511,7 +513,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     @Override
     public void onLoadOmsOrder(CustomerDataResBean customerDataResBean) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             customerDataResBean.setTerminal(getDataManager().getTerminalId());
             customerDataResBean.setCreatedonPosTerminal(getDataManager().getTerminalId());
             customerDataResBean.setIsMPOSBill(1);
@@ -523,11 +525,13 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<CustomerDataResBean>() {
                 @Override
                 public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().hideLoading();
                             getMvpView().LoadOmsOrderSuccess(response.body());
                         } else {
+                            getMvpView().hideLoading();
                             getMvpView().LoadOmsOrderFailure(response.body());
                         }
 

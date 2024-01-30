@@ -1832,7 +1832,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             Dialog dialog = new Dialog(getContext());
             DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
             dialog.setContentView(dialogRackAlertBinding.getRoot());
-            dialogRackAlertBinding.message.setText("Please scan valid Box Id");
+            dialogRackAlertBinding.message.setText("The Box ID is Not Available \nKindly Check Again");
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();

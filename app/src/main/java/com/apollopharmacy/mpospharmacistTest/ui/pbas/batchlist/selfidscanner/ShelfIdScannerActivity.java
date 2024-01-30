@@ -60,6 +60,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
     List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderListResult = new ArrayList<>();
     String statusBatchlist;
     boolean isReferToAdmin;
+    boolean isBatchHold;
 
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
@@ -261,15 +262,19 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         super.onActivityResult(requestCode, resultCode, data);
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_SCANNER && resultCode == RESULT_OK) {
-            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
-            String statusBatchlist = data.getStringExtra("finalStatus");
-            boolean isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
-            Intent i = new Intent();
-            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-            i.putExtra("finalStatus", (String) statusBatchlist);
-            i.putExtra("IS_BATCH_HOLD", isBatchHold);
-            setResult(RESULT_OK, i);
-            finish();
+            shelfIdScannerBinding.message.setText("Scan the Box ID");
+            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+            statusBatchlist = data.getStringExtra("finalStatus");
+            isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
+            boolean isBarCodeProblem = data.getBooleanExtra("isBarCodeProblem", false);
+            if (!isBarCodeProblem) {
+                Intent i = new Intent();
+                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                i.putExtra("finalStatus", (String) statusBatchlist);
+                i.putExtra("IS_BATCH_HOLD", isBatchHold);
+                setResult(RESULT_OK, i);
+                finish();
+            }
         } else if (requestCode == BATCH_LIST_ACTIVITY && resultCode == RESULT_OK) {
 //            shelfIdScannerBinding.completeBox.setVisibility(View.VISIBLE);
             shelfIdScannerBinding.message.setText("Scan the Box ID");
