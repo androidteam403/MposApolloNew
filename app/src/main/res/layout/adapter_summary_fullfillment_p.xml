@@ -288,9 +288,32 @@
                 android:gravity="end">
 
                 <ImageView
+                    android:id="@+id/header_scanner"
                     android:layout_width="@dimen/dimen20dp"
                     android:layout_height="@dimen/dimen20dp"
                     android:src="@drawable/ic_artboard_36" />
+
+                <RelativeLayout
+                    android:id="@+id/header_scanner_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_36" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="3dp"
+                        android:src="@drawable/action_accept"
+                        android:visibility="visible" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 

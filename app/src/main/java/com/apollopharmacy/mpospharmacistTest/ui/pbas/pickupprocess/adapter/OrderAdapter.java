@@ -163,6 +163,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
         boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null);
         boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null);
+        boolean isAnyOnHold = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.isOnHold());
+        if (isAnyOnHold) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
         if (isAnyCompleted) {
             holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
@@ -172,6 +178,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
         }
 
         NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);

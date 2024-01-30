@@ -31,12 +31,13 @@
                     <TextView
                         android:id="@+id/order_item_no"
                         android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="@dimen/thirty_dp"
-                        android:background="@drawable/ic_circle_lite_yellow_bg"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:background="@color/yellow"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
+                        android:text="1987"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/ten_sp" />
+                        android:textSize="8sp" />
                 </RelativeLayout>
 
                 <LinearLayout

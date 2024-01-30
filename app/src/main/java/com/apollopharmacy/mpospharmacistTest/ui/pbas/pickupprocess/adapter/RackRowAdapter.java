@@ -55,12 +55,12 @@ public class RackRowAdapter extends RecyclerView.Adapter<RackRowAdapter.ViewHold
 
         if (boxIdModel.isSelected()) {
             holder.rackRowBinding.parentLayout.setBackgroundResource(R.drawable.rack_row_bg_selected);
-            holder.rackRowBinding.orderItemNo.setBackgroundResource(R.drawable.rack_row_order_iten_bg_selected);
-            holder.rackRowBinding.orderItemNo.setTextColor(Color.parseColor("#00a99e"));
+//            holder.rackRowBinding.orderItemNo.setBackgroundResource(R.drawable.rack_row_order_iten_bg_selected);
+//            holder.rackRowBinding.orderItemNo.setTextColor(Color.parseColor("#00a99e"));
         } else {
             holder.rackRowBinding.parentLayout.setBackgroundResource(R.drawable.rack_row_bg);
-            holder.rackRowBinding.orderItemNo.setBackgroundResource(R.drawable.rack_row_order_item_bg);
-            holder.rackRowBinding.orderItemNo.setTextColor(context.getResources().getColor(R.color.white));
+//            holder.rackRowBinding.orderItemNo.setBackgroundResource(R.drawable.rack_row_order_item_bg);
+//            holder.rackRowBinding.orderItemNo.setTextColor(context.getResources().getColor(R.color.white));
 
         }
         holder.itemView.setOnClickListener(v -> {

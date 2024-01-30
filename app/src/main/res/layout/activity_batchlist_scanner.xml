@@ -247,7 +247,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/complete_box"
+                    android:id="@+id/scan_box_id_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen8dp"
@@ -257,10 +257,9 @@
                     <TextView
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:background="#05a8f1"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="@dimen/dimen10dp"
-                        android:text="Complete Box"
+                        android:text="Scan the Box ID"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen16sp" />

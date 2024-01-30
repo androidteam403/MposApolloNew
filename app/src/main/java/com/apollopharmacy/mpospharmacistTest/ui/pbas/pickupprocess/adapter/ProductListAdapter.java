@@ -41,7 +41,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
-        holder.productListBinding.orderItemNo.setText(salesLine.getOrderItemNo());
+        if (salesLine.getBarcode() != null) {
+            if (!salesLine.getBarcode().isEmpty()) {
+                holder.productListBinding.orderItemNo.setText(salesLine.getBarcode());
+            } else {
+                holder.productListBinding.orderItemNo.setText("---");
+            }
+        } else {
+            holder.productListBinding.orderItemNo.setText("---");
+        }
         holder.productListBinding.productName.setText(salesLine.getItemName());
         holder.productListBinding.productMrp.setText(String.valueOf(salesLine.getMrp()));
         holder.productListBinding.productQty.setText(String.valueOf(salesLine.getQty()));

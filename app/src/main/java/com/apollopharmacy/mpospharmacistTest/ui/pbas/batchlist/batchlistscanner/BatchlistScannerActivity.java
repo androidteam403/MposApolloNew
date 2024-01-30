@@ -43,6 +43,7 @@ import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogRackAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogReferToAdminBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogScanBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogShelfScanSuccessBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogSkipOrderBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInventoryRes;
@@ -94,6 +95,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     public static String stateCode;
     @Inject
     BatchlistScannerMvpPresenter<BatchlistScannerMvpView> mPresenter;
+    private boolean isBarCodeProblem;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, BatchlistScannerActivity.class);
@@ -356,14 +358,15 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @Override
     public void onClickBarcodeProblem() {
 //        if (batchList != null && batchList.size() > 0) {
-            Intent intent = new Intent(BatchlistScannerActivity.this, BatchListActivity.class);
-            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-            intent.putExtra("orderAdapterPos", orderAdapterPos);
-            intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
-            intent.putExtra("salesLine", salesLine);
-            intent.putExtra("scannedBatchList", (Serializable) batchList);
-            intent.putExtra("isBarCodeProblem", true);
-            startActivityForResult(intent, BATCH_LIST_DETAILS);
+        isBarCodeProblem = true;
+        Intent intent = new Intent(BatchlistScannerActivity.this, BatchListActivity.class);
+        intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+        intent.putExtra("orderAdapterPos", orderAdapterPos);
+        intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+        intent.putExtra("salesLine", salesLine);
+        intent.putExtra("scannedBatchList", (Serializable) batchList);
+        intent.putExtra("isBarCodeProblem", isBarCodeProblem);
+        startActivityForResult(intent, BATCH_LIST_DETAILS);
 //            finish();
 //        }
     }
@@ -374,7 +377,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         int pixels = (int) (320 * scale + 0.5f);
         activityBatchlistScannerBinding.scannerLayout.getLayoutParams().height = pixels;
         activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
-        activityBatchlistScannerBinding.completeBox.setVisibility(View.GONE);
+//        activityBatchlistScannerBinding.completeBox.setVisibility(View.GONE);
         activityBatchlistScannerBinding.btnLayout2.setVisibility(View.VISIBLE);
         if (getBatchInfoRes != null && getBatchInfoRes.getBatchList() != null && getBatchInfoRes.getBatchList().size() > 0) {
            /* scanSearch = true;
@@ -1000,6 +1003,17 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @SuppressLint("SetTextI18n")
     private void showCompleteDialog() {
         Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+        DialogShelfScanSuccessBinding dialogShelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+        dialog.setContentView(dialogShelfScanSuccessBinding.getRoot());
+        dialogShelfScanSuccessBinding.message.setText("Product Scanned Successfully");
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        new Handler().postDelayed(() -> {
+            dialog.dismiss();
+            initiateScanner();
+        }, 1000);
+        dialog.show();
+        /*Dialog dialog = new Dialog(BatchlistScannerActivity.this);
         DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
         dialog.setContentView(dialogRackAlertBinding.getRoot());
         dialogRackAlertBinding.message.setText("Product Scanning is completed! Kindly Scan the Tray ID");
@@ -1009,7 +1023,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
             dialog.dismiss();
             initiateScanner();
-        });
+        });*/
     }
 
     @SuppressLint("SetTextI18n")
@@ -1040,9 +1054,11 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void enableCompleteBoxBtn() {
-        activityBatchlistScannerBinding.completeBox.setVisibility(View.VISIBLE);
+        activityBatchlistScannerBinding.scanBoxIdText.setVisibility(View.VISIBLE);
+        activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -1091,6 +1107,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
             i.putExtra("finalStatus", (String) statusBatchlist);
+            i.putExtra("isBarCodeProblem", isBarCodeProblem);
             setResult(RESULT_OK, i);
             finish();
         }

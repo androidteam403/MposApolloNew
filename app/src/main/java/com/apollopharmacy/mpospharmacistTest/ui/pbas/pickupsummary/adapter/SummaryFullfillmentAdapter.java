@@ -68,9 +68,17 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             groupByItemStatus.forEach((k, v) -> {
                 if (omsHeader.getItemStatus().equalsIgnoreCase(k)) {
                     holder.orderBinding.itemCount.setText("(" + v + ")");
+                    boolean isAllEnabled = selectedOmsHeaderList.stream().filter(omsHeader1 -> omsHeader.getItemStatus().equalsIgnoreCase(k)).allMatch(omsHeader1 -> omsHeader1.isEnabled());
+                    if (isAllEnabled) {
+                        holder.orderBinding.headerScanner.setVisibility(View.GONE);
+                        holder.orderBinding.headerScannerComplete.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.orderBinding.headerScanner.setVisibility(View.VISIBLE);
+                        holder.orderBinding.headerScannerComplete.setVisibility(View.GONE);
+                    }
                 }
             });
-            holder.orderBinding.scannerLayout.setOnClickListener(view -> {
+            holder.orderBinding.headerScanner.setOnClickListener(view -> {
                 for (Map.Entry<String, Long> entry : groupByItemStatus.entrySet()) {
                     if (omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())) {
                        omsHeaderList.set(selectedOmsHeaderList.stream().filter(omsHeader1 -> omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())).collect(Collectors.toList()));
