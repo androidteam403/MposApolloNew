@@ -61,7 +61,7 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
         } else {
             holder.rackBinding.rackStatus.setVisibility(View.GONE);
         }
-        ProductListAdapter productListAdapter = new ProductListAdapter(mContext, rackWiseSortedData.getGetOMSTransactionResponse().getSalesLine(), mvpView);
+        ProductListAdapter productListAdapter = new ProductListAdapter(mContext, rackWiseSortedData.getGetOMSTransactionResponse().getSalesLine(), mvpView, rackWiseSortedData.getBoxIdList());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         holder.rackBinding.productListRecycler.setLayoutManager(mLayoutManager);
         holder.rackBinding.productListRecycler.setAdapter(productListAdapter);
