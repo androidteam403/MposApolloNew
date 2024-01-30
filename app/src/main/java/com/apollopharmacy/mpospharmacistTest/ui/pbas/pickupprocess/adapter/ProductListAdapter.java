@@ -16,6 +16,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterProductListPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RackWiseSortedData;
 
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     private PickupProcessMvpView mvpView;
+    List<RackWiseSortedData.BoxIdModel> boxIdList;
 
-    public ProductListAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView mvpView) {
+    public ProductListAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView mvpView, List<RackWiseSortedData.BoxIdModel> boxIdList) {
         this.context = context;
         this.salesLineList = salesLineList;
         this.mvpView = mvpView;
+        this.boxIdList = boxIdList;
     }
 
     @NonNull
@@ -41,12 +44,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
-        if (salesLine.getBarcode() != null) {
-            if (!salesLine.getBarcode().isEmpty()) {
-                holder.productListBinding.orderItemNo.setText(salesLine.getBarcode());
-            } else {
-                holder.productListBinding.orderItemNo.setText("---");
-            }
+        if (boxIdList.get(position).getBoxId() != null) {
+            if (boxIdList.get(position).getBoxId().length() > 5)
+                holder.productListBinding.orderItemNo.setText(boxIdList.get(position).getBoxId().substring(boxIdList.get(position).getBoxId().length() - 5));
+            else
+                holder.productListBinding.orderItemNo.setText(boxIdList.get(position).getBoxId());
         } else {
             holder.productListBinding.orderItemNo.setText("---");
         }
