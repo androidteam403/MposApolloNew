@@ -1088,7 +1088,7 @@
                             android:id="@+id/boxId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="001"
+                            android:text="BOX099"
                             android:textColor="#01576f"
                             android:textSize="@dimen/dimen12sp" />
                     </LinearLayout>

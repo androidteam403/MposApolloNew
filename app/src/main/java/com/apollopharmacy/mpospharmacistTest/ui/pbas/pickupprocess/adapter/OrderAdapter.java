@@ -82,9 +82,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             pickupProcessMvpView.onClickOnHoldBtn(omsHeader, position);
         });
         if (omsHeader.getScannedBarcode() != null) {
-            if (omsHeader.getScannedBarcode().length() > 5)
+            /*if (omsHeader.getScannedBarcode().length() > 5)
                 holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
-            else
+            else*/
             holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode());
         } else {
             holder.orderBinding.boxId.setText("-");
