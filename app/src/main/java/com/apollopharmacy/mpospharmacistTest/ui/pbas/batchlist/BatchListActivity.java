@@ -80,6 +80,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     List<GetBatchInfoRes.BatchListObj> body;
     boolean isBarCodeProblem;
     List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
+    private String scannedQty;
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -114,6 +115,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         noBatchDetails = intent.getExtras().getBoolean("noBatchDetails");
         scannedBatchList = (List<GetBatchInfoRes.BatchListObj>) intent.getSerializableExtra("scannedBatchList");
         isBarCodeProblem = intent.getBooleanExtra("isBarCodeProblem", false);
+        scannedQty = intent.getStringExtra("scannedQty");
         batchlistBinding.fullfillmentId.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
         batchlistBinding.fullfillmentId1.setText(selectedOmsHeaderList.get(orderAdapterPos).getRefno());
 
@@ -174,14 +176,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             }
             mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         } else {
-            this.body = scannedBatchList;
+            mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
+            /*this.body = scannedBatchList;
             batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
             batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
             BatchListAdapter batchListAdapter = new BatchListAdapter(this, scannedBatchList, this, salesLine, (ArrayList<GetBatchInfoRes.BatchListObj>) scannedBatchList);
             batchListAdapter.setAllowChangeQty(allowChangeQty);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
-            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
+            batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);*/
         }
         batchlistBinding.tabletName.setText(salesLine.getItemName());
         batchlistBinding.tabletName1.setText(salesLine.getItemName());
@@ -286,6 +289,15 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         this.body = bodys;
+        for (int i = 0; i < scannedBatchList.size(); i++) {
+            String batchNo = scannedBatchList.get(i).getBatchNo();
+            GetBatchInfoRes.BatchListObj batchListObj = scannedBatchList.get(i);
+            for (int j = 0; j < body.size(); j++) {
+                if (!body.get(j).getBatchNo().equalsIgnoreCase(batchNo)) {
+                    this.body.add(batchListObj);
+                }
+            }
+        }
         if (batchList.size() == 0) {
             this.batchList = bodys;
         }
@@ -1099,6 +1111,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             intent.putExtra("ALLOW_CHANGE_QTY", allowChangeQty);
             intent.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
             intent.putExtra("isBatchListScanner", true);
+            intent.putExtra("scannedQty", scannedQty);
             //allowChangeQty, allowMultiBatch
             //orderAdapterPos, newSelectedOrderAdapterPos
 
