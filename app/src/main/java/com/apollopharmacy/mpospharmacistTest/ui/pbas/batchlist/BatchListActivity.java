@@ -79,6 +79,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     String status;
     List<GetBatchInfoRes.BatchListObj> body;
     boolean isBarCodeProblem;
+    List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -212,7 +213,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                 if (editable.length() >= 3) {
                     if (batchListAdapter != null) {
                         filteredList.clear();
-                        for (GetBatchInfoRes.BatchListObj row : body) {
+                        for (GetBatchInfoRes.BatchListObj row : batchList) {
                             /*String lastThreeDigits = "";
                             if (row.getBatchNo().length() > 3) {
                                 lastThreeDigits = row.getBatchNo().substring(row.getBatchNo().length() - 3);
@@ -284,6 +285,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         this.body = bodys;
+        if (batchList.size() == 0) {
+            this.batchList = bodys;
+        }
         if (body != null && body.size() > 0) {
             double totalBatchDetailsQuantity = 0.0;
             for (int i = 0; i < body.size(); i++) {
