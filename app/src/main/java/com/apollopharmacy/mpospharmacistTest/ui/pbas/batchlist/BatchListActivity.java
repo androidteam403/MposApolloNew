@@ -102,7 +102,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         setUp();
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceType"})
     @Override
     protected void setUp() {
         batchlistBinding.setCallback(mPresenter);
@@ -125,7 +125,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
         if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
 //            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
-//            batchlistBinding.scanBatchId.setVisibility(View.VISIBLE);
+            batchlistBinding.scanBatchId.setBackgroundColor(Color.parseColor("#bbbbbb"));
+            batchlistBinding.scanBatchId.setClickable(false);
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
         } else {
