@@ -125,7 +125,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
         if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
 //            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
-            batchlistBinding.scanBatchId.setBackgroundResource(ContextCompat.getColor(this, R.color.grey));
+            batchlistBinding.scanBatchId.setBackgroundColor(Color.parseColor("BBBBBB"));
             batchlistBinding.scanBatchId.setClickable(false);
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
