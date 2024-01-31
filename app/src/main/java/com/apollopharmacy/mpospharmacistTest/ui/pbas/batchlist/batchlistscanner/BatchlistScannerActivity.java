@@ -96,6 +96,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @Inject
     BatchlistScannerMvpPresenter<BatchlistScannerMvpView> mPresenter;
     private boolean isBarCodeProblem;
+    private String scannedQty;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, BatchlistScannerActivity.class);
@@ -131,6 +132,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             allowChangeQty = getIntent().getBooleanExtra("ALLOW_CHANGE_QTY", false);
             allowMultiBatch = getIntent().getBooleanExtra("ALLOW_MULTI_BATCH", false);
             isBatchListScanner = getIntent().getBooleanExtra("isBatchListScanner", false);
+            scannedQty = getIntent().getStringExtra("scannedQty");
         }
         userName = mPresenter.userName();
         storeId = mPresenter.storeId();
@@ -162,6 +164,13 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         }
         activityBatchlistScannerBinding.reqQty.setText(Integer.toString(salesLine.getQty()));
         activityBatchlistScannerBinding.rackId.setText(salesLine.getRackId());
+        if (isBatchListScanner) {
+            if (scannedQty != null && !scannedQty.isEmpty()) {
+                activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
+            } else {
+                activityBatchlistScannerBinding.pickedQty.setText("0");
+            }
+        }
         /*barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
@@ -366,6 +375,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         intent.putExtra("salesLine", salesLine);
         intent.putExtra("scannedBatchList", (Serializable) batchList);
         intent.putExtra("isBarCodeProblem", isBarCodeProblem);
+        intent.putExtra("scannedQty", scannedQty);
         startActivityForResult(intent, BATCH_LIST_DETAILS);
 //            finish();
 //        }
@@ -974,6 +984,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @SuppressLint("SetTextI18n")
     @Override
     public void dialogShow(String scannedQty) {
+        this.scannedQty = scannedQty;
         activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
         selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQty.substring(0, scannedQty.indexOf(".")));
         Toast.makeText(this, "Requested Qty - " + salesLine.getQty() + "\n" + "Scanned Qty - " + scannedQty.substring(0, scannedQty.indexOf(".")), Toast.LENGTH_SHORT).show();
@@ -1110,12 +1121,18 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         if (requestCode == BATCH_LIST_DETAILS && resultCode == RESULT_OK) {
             List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             String statusBatchlist = data.getStringExtra("finalStatus");
-            Intent i = new Intent();
-            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-            i.putExtra("finalStatus", (String) statusBatchlist);
-            i.putExtra("isBarCodeProblem", isBarCodeProblem);
-            setResult(RESULT_OK, i);
-            finish();
+            boolean isBackPressed = data.getBooleanExtra("isBackPressed", false);
+            if (isBackPressed) {
+                activityBatchlistScannerBinding.btnLayout.setVisibility(View.VISIBLE);
+                activityBatchlistScannerBinding.scanBoxIdText.setVisibility(View.GONE);
+            } else {
+                Intent i = new Intent();
+                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                i.putExtra("finalStatus", (String) statusBatchlist);
+                i.putExtra("isBarCodeProblem", isBarCodeProblem);
+                setResult(RESULT_OK, i);
+                finish();
+            }
         }
     }
 }
