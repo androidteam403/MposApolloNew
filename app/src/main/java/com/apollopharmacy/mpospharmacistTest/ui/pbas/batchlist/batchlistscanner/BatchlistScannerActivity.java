@@ -95,7 +95,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     public static String stateCode;
     @Inject
     BatchlistScannerMvpPresenter<BatchlistScannerMvpView> mPresenter;
-    private boolean isBarCodeProblem;
+    public static boolean isBarCodeProblem;
     private String scannedQty;
 
     public static Intent getStartIntent(Context context) {
@@ -133,6 +133,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             allowMultiBatch = getIntent().getBooleanExtra("ALLOW_MULTI_BATCH", false);
             isBatchListScanner = getIntent().getBooleanExtra("isBatchListScanner", false);
             scannedQty = getIntent().getStringExtra("scannedQty");
+            batchList = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("scannedBatchList");
         }
         userName = mPresenter.userName();
         storeId = mPresenter.storeId();

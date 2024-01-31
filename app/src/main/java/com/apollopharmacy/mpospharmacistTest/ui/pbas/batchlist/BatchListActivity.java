@@ -1112,6 +1112,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             intent.putExtra("ALLOW_MULTI_BATCH", allowMultiBatch);
             intent.putExtra("isBatchListScanner", true);
             intent.putExtra("scannedQty", scannedQty);
+            intent.putExtra("scannedBatchList", (Serializable) scannedBatchList);
             //allowChangeQty, allowMultiBatch
             //orderAdapterPos, newSelectedOrderAdapterPos
 
