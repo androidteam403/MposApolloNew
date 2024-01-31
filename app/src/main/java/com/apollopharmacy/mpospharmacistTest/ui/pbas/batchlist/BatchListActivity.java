@@ -1102,8 +1102,10 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             //allowChangeQty, allowMultiBatch
             //orderAdapterPos, newSelectedOrderAdapterPos
 
-            startActivityForResult(intent, BATCHLIST_SCANNER_ACTIVITY);
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            if (!salesLine.getCategoryCode().equalsIgnoreCase("P")) {
+                startActivityForResult(intent, BATCHLIST_SCANNER_ACTIVITY);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            }
         } else {
             Toast.makeText(this, "Required Qty selected already.", Toast.LENGTH_SHORT).show();
         }
